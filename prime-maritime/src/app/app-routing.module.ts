@@ -4,27 +4,35 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { AgentDashboardComponent } from './modules/agent-dashboard/agent-dashboard.component';
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
+import { QuotationDetailsComponent } from './modules/quotation-details/quotation-details.component';
 
-const routes: Routes = [{
-  path:'',
-  component:MainLayoutComponent,
-  children:[{
-    path:'',
-    component:HomeComponent
-  },
+const routes: Routes = [
   {
-    path:'login',
-    component:LoginComponent
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: HomeComponent,
+      },
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'agent-dashboard',
+        component: AgentDashboardComponent,
+      },
+      {
+        path: 'quotation-details/:SRR_NO',
+        component: QuotationDetailsComponent,
+      },
+    ],
   },
-  {
-    path:'agent-dashboard',
-    component:AgentDashboardComponent
-  }
-]
-}];
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

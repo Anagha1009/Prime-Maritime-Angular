@@ -53,7 +53,7 @@
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active">
             <a href="#home" aria-controls="home" role="tab" data-toggle="tab"
-              >Quotations</a
+              >Quotations ({{ srrList.length }})</a
             >
           </li>
           <li role="presentation">
@@ -70,96 +70,50 @@
         <!-- Tab panes -->
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane fade in active" id="home">
-            <div class="card-list" *ngFor="let item of srrList">
-              <div class="card-list-body">
-                <div class="row">
-                  <div class="col-md-5">
-                    <h4>{{ item.SRR_NO }}</h4>
-                    <h5>{{ item.CUSTOMER_NAME }}</h5>
-                    <h5>
-                      No of Containers :
-                      {{ item.NO_OF_CONTAINERS }}
-                    </h5>
-                  </div>
-                  <div class="col-md-4">
-                    <label
-                      >{{ item.EFFECT_FROM | date: "mediumDate" }} -
-                      {{ item.EFFECT_TO | date: "mediumDate" }}</label
-                    >
-                    <br />
-                    <label>{{ item.CREATED_DATE | date: "mediumDate" }}</label>
-                  </div>
-                  <div class="col-md-3 text-right">
-                    <span
-                      *ngIf="item.STATUS == 'Approved'"
-                      class="badge badge-success"
-                      >{{ item.STATUS }}</span
-                    >
-                    <span
-                      *ngIf="item.STATUS == 'Drafted'"
-                      class="badge badge-secondary"
-                      >{{ item.STATUS }}</span
-                    >
+            <div class="scrollbar" id="style-3">
+              <div class="force-overflow">
+                <div class="card-list" *ngFor="let item of srrList">
+                  <div
+                    (click)="redirectToQuotation(item.SRR_NO)"
+                    class="card-list-body"
+                  >
+                    <div class="row">
+                      <div class="col-md-5">
+                        <h4>{{ item.SRR_NO }}</h4>
+                        <h5>{{ item.CUSTOMER_NAME }}</h5>
+                        <h5>
+                          No of Containers :
+                          {{ item.NO_OF_CONTAINERS }}
+                        </h5>
+                      </div>
+                      <div class="col-md-4">
+                        <label
+                          >{{ item.EFFECT_FROM | date: "mediumDate" }} -
+                          {{ item.EFFECT_TO | date: "mediumDate" }}</label
+                        >
+                        <br />
+                        <label
+                          >Date :
+                          {{ item.CREATED_DATE | date: "mediumDate" }}</label
+                        >
+                      </div>
+                      <div class="col-md-3 text-right">
+                        <span
+                          *ngIf="item.STATUS == 'Approved'"
+                          class="badge badge-success"
+                          >{{ item.STATUS }}</span
+                        >
+                        <span
+                          *ngIf="item.STATUS == 'Drafted'"
+                          class="badge badge-secondary"
+                          >{{ item.STATUS }}</span
+                        >
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <!-- <table>
-              <tr>
-                <th>SRR No</th>
-                <th>Date</th>
-                <th>Customer Name</th>
-                <th>Valid From</th>
-                <th>Valid To</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-              <tr>
-                <td>RR/HA01/AEAUH/BHBAH/22/09/0001</td>
-                <td>09-09-2022</td>
-                <td>MASDAR TECHNICAL SUPPLIES TRADING CO.</td>
-                <td>31-08-2022</td>
-                <td>25-09-2022</td>
-                <td>Pending</td>
-                <td><i class="fa fa-edit"></i></td>
-              </tr>
-              <tr>
-                <td>RR/HA01/SADMM/INMUN/22/08/0005</td>
-                <td>18-08-2022</td>
-                <td>JITEX</td>
-                <td>01-08-2022</td>
-                <td>31-08-2022</td>
-                <td>Approved</td>
-                <td><i class="fa fa-edit"></i></td>
-              </tr>
-              <tr>
-                <td>RR/HA01/SADMM/INVTZ6/22/08/0001</td>
-                <td>09-09-2022</td>
-                <td>NATIONAL EST FOR AGRICULTURAL AND INDUSTRIAL</td>
-                <td>31-08-2022</td>
-                <td>25-09-2022</td>
-                <td>Pending</td>
-                <td><i class="fa fa-edit"></i></td>
-              </tr>
-              <tr>
-                <td>RR/HA01/AEAUH/BHBAH/22/09/0001</td>
-                <td>09-09-2022</td>
-                <td>MASDAR TECHNICAL SUPPLIES TRADING CO.</td>
-                <td>31-08-2022</td>
-                <td>25-09-2022</td>
-                <td>Pending</td>
-                <td><i class="fa fa-edit"></i></td>
-              </tr>
-              <tr>
-                <td>RR/HA01/AEAUH/BHBAH/22/09/0001</td>
-                <td>09-09-2022</td>
-                <td>National Company for Sulphur Sales</td>
-                <td>31-08-2022</td>
-                <td>25-09-2022</td>
-                <td>Pending</td>
-                <td><i class="fa fa-edit"></i></td>
-              </tr>
-            </table> -->
           </div>
           <div role="tabpanel" class="tab-pane fade" id="profile">
             <table>
