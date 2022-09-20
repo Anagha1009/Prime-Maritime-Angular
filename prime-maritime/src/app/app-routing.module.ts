@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { AgentDashboardComponent } from './modules/agent-dashboard/agent-dashboard.component';
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
 
@@ -14,6 +15,10 @@ const routes: Routes = [{
   {
     path:'login',
     component:LoginComponent
+  },
+  {
+    path:'agent-dashboard',
+    component:AgentDashboardComponent
   }
 ]
 }];

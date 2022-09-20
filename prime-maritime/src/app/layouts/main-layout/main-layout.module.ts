@@ -7,6 +7,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LoginComponent } from 'src/app/modules/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AgentDashboardComponent } from 'src/app/modules/agent-dashboard/agent-dashboard.component';
 
 
 
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     MainLayoutComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,    
+    AgentDashboardComponent
   ],
   imports: [
     CommonModule,
