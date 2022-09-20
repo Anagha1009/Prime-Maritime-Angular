@@ -19,7 +19,6 @@ export class AgentDashboardComponent implements OnInit {
   getSRRList() {
     this.SrrService.getSRRList().subscribe(
       (res) => {
-        debugger;
         if (res.hasOwnProperty('Data')) {
           if (res.Data.length > 0) {
             this.srrList = res.Data;
