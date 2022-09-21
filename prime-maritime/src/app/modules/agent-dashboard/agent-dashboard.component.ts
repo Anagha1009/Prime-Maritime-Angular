@@ -35,6 +35,6 @@ export class AgentDashboardComponent implements OnInit {
   }
 
   redirectToQuotation(SRR_NO) {
-    this.router.navigateByUrl('quotation-details/' + SRR_NO);
+    this.router.navigateByUrl('home/quotation-details/' + SRR_NO);
   }
 }

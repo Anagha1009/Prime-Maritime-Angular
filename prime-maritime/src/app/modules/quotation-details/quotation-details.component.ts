@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SrrService } from 'src/app/services/srr.service';
 
 @Component({
@@ -10,14 +10,19 @@ import { SrrService } from 'src/app/services/srr.service';
 export class QuotationDetailsComponent implements OnInit {
   srrDetails: any;
 
-  constructor(private SrrService: SrrService, private router: Router) {}
+  constructor(
+    private SrrService: SrrService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.getSRRDetails();
+    var SRR_NO = this.activatedRoute.snapshot.paramMap.get('SRR_NO');
+    this.getSRRDetails(SRR_NO);
   }
 
-  getSRRDetails() {
-    this.SrrService.getSRRDetails('AA').subscribe(
+  getSRRDetails(SRR_NO) {
+    this.SrrService.getSRRDetails(SRR_NO).subscribe(
       (res) => {
         if (res.hasOwnProperty('Data')) {
           this.srrDetails = res.Data;

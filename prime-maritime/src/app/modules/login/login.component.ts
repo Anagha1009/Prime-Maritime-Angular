@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       .subscribe((res) => {
         localStorage.clear();
         localStorage.setItem('token', res.token);
-        this.router.navigateByUrl('agent-dashboard');
+        this.router.navigateByUrl('home/agent-dashboard');
       });
   }
 }
