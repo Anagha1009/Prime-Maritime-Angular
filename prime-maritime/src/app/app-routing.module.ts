@@ -4,6 +4,7 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { AgentDashboardComponent } from './modules/agent-dashboard/agent-dashboard.component';
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
+import { NewQuotationComponent } from './modules/new-quotation/new-quotation.component';
 import { QuotationDetailsComponent } from './modules/quotation-details/quotation-details.component';
 
 const routes: Routes = [
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: 'quotation-details',
         component: QuotationDetailsComponent,
+      },
+      {
+        path: 'new-quotation',
+        component: NewQuotationComponent,
       },
     ],
   },

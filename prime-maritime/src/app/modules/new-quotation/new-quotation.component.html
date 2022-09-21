@@ -1,0 +1,265 @@
+<section class="sections">
+  <div class="container">
+    <div class="row content-row">
+      <div class="col-md-12">
+        <div class="css-tab" role="tabpanel">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+              <a
+                href="#secure"
+                aria-controls="secure"
+                role="tab"
+                data-toggle="tab"
+                ><i class="flaticon-logistics15"></i>SRR Creation</a
+              >
+            </li>
+            <li role="presentation">
+              <a
+                href="#trackable"
+                aria-controls="trackable"
+                role="tab"
+                data-toggle="tab"
+                ><i class="flaticon-logistics18"></i>Add Commodities</a
+              >
+            </li>
+            <li role="presentation">
+              <a href="#fast" aria-controls="fast" role="tab" data-toggle="tab"
+                ><i class="flaticon-logistics16"></i>Add Rates</a
+              >
+            </li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active fade in" id="secure">
+              <div class="css-tab-content">
+                <div class="content-text">
+                  <form id="mainContact">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="name">Port Of Loading</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option
+                              *ngFor="let item of portList"
+                              value="item.CODE"
+                            >
+                              {{ item.CODE_DESC }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Port Of Discharge</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option
+                              *ngFor="let item of portList"
+                              value="item.CODE"
+                            >
+                              {{ item.CODE_DESC }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Origin ICD</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option
+                              *ngFor="let item of icdList"
+                              value="item.CODE"
+                            >
+                              {{ item.CODE_DESC }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="email">Container Size</label>
+                          <input
+                            name="email"
+                            type="password"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="email">Service Mode</label>
+                          <input
+                            name="email"
+                            type="password"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="email">POD Free Days</label>
+                          <input
+                            name="email"
+                            type="password"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="email">POL Free Days</label>
+                          <input
+                            name="email"
+                            type="password"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-6"></div>
+                    </div>
+
+                    <a href="agent-dashboard.html" class="btn btn-primary"
+                      >Save</a
+                    >
+                  </form>
+                </div>
+              </div>
+              <!-- /.css-tab-content -->
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="trackable">
+              <div class="css-tab-content">
+                <div class="row">
+                  <div class="col-md-6 col-md-offset-3 content-text">
+                    <form id="mainContact">
+                      <div class="form-group">
+                        <label for="name">Commodity</label>
+                        <input
+                          name="name"
+                          type="text"
+                          class="form-control"
+                          required=""
+                          placeholder=""
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="email">Length</label>
+                        <input
+                          name="email"
+                          type="password"
+                          class="form-control"
+                          required=""
+                          placeholder=""
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="email">Width</label>
+                        <input
+                          name="email"
+                          type="password"
+                          class="form-control"
+                          required=""
+                          placeholder=""
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="email">Height</label>
+                        <input
+                          name="email"
+                          type="password"
+                          class="form-control"
+                          required=""
+                          placeholder=""
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="email">Weight</label>
+                        <input
+                          name="email"
+                          type="password"
+                          class="form-control"
+                          required=""
+                          placeholder=""
+                        />
+                      </div>
+                      <a href="agent-dashboard.html" class="btn btn-primary"
+                        >Save</a
+                      >
+                    </form>
+                  </div>
+                </div>
+                <!-- /.row -->
+              </div>
+              <!-- /.css-tab-content -->
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="fast">
+              <div class="css-tab-content">
+                <div class="row">
+                  <!-- /.col-md-6 -->
+
+                  <div class="col-md-6 content-text"></div>
+                  <!-- /.col-md-6 -->
+                </div>
+                <!-- /.row -->
+              </div>
+              <!-- /.css-tab-content -->
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="reliable">
+              <div class="css-tab-content">
+                <div class="row">
+                  <div class="col-md-6">
+                    <img src="img/reliable.png" alt="" />
+                  </div>
+                  <!-- /.col-md-6 -->
+
+                  <div class="col-md-6 content-text">
+                    <h3>Continually disintermediate</h3>
+
+                    <p>
+                      Credibly build virtual materials for fully researched
+                      paradigms. Authoritatively plagiarize long-term
+                      high-impact infomediaries with goal-oriented core
+                      competencies. Conveniently visualize process-centric
+                      applications through leading-edge testing procedures.
+                      Quickly build backend customer service for real-time
+                      metrics.
+                    </p>
+
+                    <p>
+                      Efficiently transform an expanded array of methodologies
+                      rather than customized infomediaries.
+                    </p>
+                  </div>
+                  <!-- /.col-md-6 -->
+                </div>
+                <!-- /.row -->
+              </div>
+              <!-- /.css-tab-content -->
+            </div>
+          </div>
+        </div>
+        <!-- /.css-tab -->
+      </div>
+      <!-- /.col-md-12 -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+</section>

@@ -9,6 +9,7 @@ import { LoginComponent } from 'src/app/modules/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgentDashboardComponent } from 'src/app/modules/agent-dashboard/agent-dashboard.component';
 import { QuotationDetailsComponent } from 'src/app/modules/quotation-details/quotation-details.component';
+import { NewQuotationComponent } from 'src/app/modules/new-quotation/new-quotation.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { QuotationDetailsComponent } from 'src/app/modules/quotation-details/quo
     LoginComponent,
     AgentDashboardComponent,
     QuotationDetailsComponent,
+    NewQuotationComponent,
   ],
   imports: [
     CommonModule,
