@@ -158,87 +158,18 @@
               <table class="fl-table">
                 <thead>
                   <tr>
-                    <th>Header 1</th>
-                    <th>Header 2</th>
-                    <th>Header 3</th>
-                    <th>Header 4</th>
-                    <th>Header 5</th>
+                    <th>SRR No</th>
+                    <th>Commodity</th>
+                    <th>Type</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Content 1</td>
-                    <td>Content 1</td>
-                    <td>Content 1</td>
-                    <td>Content 1</td>
-                    <td>Content 1</td>
-                  </tr>
-                  <tr>
-                    <td>Content 2</td>
-                    <td>Content 2</td>
-                    <td>Content 2</td>
-                    <td>Content 2</td>
-                    <td>Content 2</td>
-                  </tr>
-                  <tr>
-                    <td>Content 3</td>
-                    <td>Content 3</td>
-                    <td>Content 3</td>
-                    <td>Content 3</td>
-                    <td>Content 3</td>
-                  </tr>
-                  <tr>
-                    <td>Content 4</td>
-                    <td>Content 4</td>
-                    <td>Content 4</td>
-                    <td>Content 4</td>
-                    <td>Content 4</td>
-                  </tr>
-                  <tr>
-                    <td>Content 5</td>
-                    <td>Content 5</td>
-                    <td>Content 5</td>
-                    <td>Content 5</td>
-                    <td>Content 5</td>
-                  </tr>
-                  <tr>
-                    <td>Content 6</td>
-                    <td>Content 6</td>
-                    <td>Content 6</td>
-                    <td>Content 6</td>
-                    <td>Content 6</td>
-                  </tr>
-                  <tr>
-                    <td>Content 7</td>
-                    <td>Content 7</td>
-                    <td>Content 7</td>
-                    <td>Content 7</td>
-                    <td>Content 7</td>
-                  </tr>
-                  <tr>
-                    <td>Content 8</td>
-                    <td>Content 8</td>
-                    <td>Content 8</td>
-                    <td>Content 8</td>
-                    <td>Content 8</td>
-                  </tr>
-                  <tr>
-                    <td>Content 9</td>
-                    <td>Content 9</td>
-                    <td>Content 9</td>
-                    <td>Content 9</td>
-                    <td>Content 9</td>
-                  </tr>
-                  <tr>
-                    <td>Content 10</td>
-                    <td>Content 10</td>
-                    <td>Content 10</td>
-                    <td>Content 10</td>
-                    <td>Content 10</td>
+                  <tr *ngFor="let item of srrDetails?.SRR_COMMODITIES">
+                    <td>{{ item.SRR_NO }}</td>
+                    <td>{{ item.COMMODITY_NAME }}</td>
+                    <td>{{ item.COMMODITY_TYPE }}</td>
                   </tr>
                 </tbody>
-
-                <tbody></tbody>
               </table>
             </div>
           </div>
@@ -260,13 +191,34 @@
         </div>
         <div id="collapseThree" class="panel-collapse show">
           <div class="panel-body">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+            <div class="table-wrapper">
+              <table class="fl-table">
+                <thead>
+                  <tr>
+                    <th>SRR No</th>
+                    <th>Charge Code</th>
+                    <th>Transport Type</th>
+                    <th>Currency</th>
+                    <th>Payment Term</th>
+                    <th>Standard Rate</th>
+                    <th>Requested Rate</th>
+                    <th>Remarks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of srrDetails?.SRR_RATES">
+                    <td>{{ item.SRR_NO }}</td>
+                    <td>{{ item.CHARGE_CODE }}</td>
+                    <td>{{ item.TRANSPORT_TYPE }}</td>
+                    <td>{{ item.CURRENCY }}</td>
+                    <td>{{ item.PAYMENT_TERM }}</td>
+                    <td>{{ item.STANDARD_RATE }}</td>
+                    <td>{{ item.RATE_REQUESTED }}</td>
+                    <td>{{ item.REMARKS }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

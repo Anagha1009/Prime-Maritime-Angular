@@ -51,12 +51,7 @@ a:focus {
 .fl-table thead th {
   color: #000;
   /* background: #4fc3a1; */
-  background: #aeaeae;
-}
-
-.fl-table thead th:nth-child(odd) {
-  color: #000;
-  background: #aeaeae;
+  background: #e6e6e6;
 }
 
 .fl-table tr:nth-child(even) {
