@@ -17,7 +17,8 @@ export class QuotationDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    var SRR_NO = this.activatedRoute.snapshot.paramMap.get('SRR_NO');
+    //var SRR_NO = this.activatedRoute.snapshot.paramMap.get('SRR_NO');
+    var SRR_NO = localStorage.getItem('SRRNO');
     this.getSRRDetails(SRR_NO);
   }
 

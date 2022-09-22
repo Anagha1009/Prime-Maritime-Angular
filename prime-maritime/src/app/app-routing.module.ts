@@ -27,7 +27,7 @@ const routes: Routes = [
         component: AgentDashboardComponent,
       },
       {
-        path: 'home/quotation-details/:SRR_NO',
+        path: 'home/quotation-details',
         component: QuotationDetailsComponent,
       },
       {

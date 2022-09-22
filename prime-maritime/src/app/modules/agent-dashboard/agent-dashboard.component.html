@@ -8,8 +8,10 @@
               <i class="flaticon-international34"></i>
 
               <div class="number-info">
-                <strong><span class="timer">60</span></strong>
-                <span class="facts-description">SRR Raised</span>
+                <strong
+                  ><span class="timer">{{ srrList.length }}</span></strong
+                >
+                <span class="facts-description">Quotations Raised</span>
               </div>
             </div>
             <!-- /.col-sm-3 -->
@@ -18,7 +20,7 @@
               <i class="flaticon-logistics31"></i>
 
               <div class="number-info">
-                <strong><span class="timer">15</span></strong>
+                <strong><span class="timer">0</span></strong>
                 <span class="facts-description">Booking Pending</span>
               </div>
             </div>
@@ -28,7 +30,7 @@
               <i class="flaticon-logistics20"></i>
 
               <div class="number-info">
-                <strong><span class="timer">25</span></strong>
+                <strong><span class="timer">0</span></strong>
                 <span class="facts-description">Booking Confirmed</span>
               </div>
             </div>
@@ -79,12 +81,14 @@
                   >
                     <div class="row">
                       <div class="col-md-5">
-                        <h4>{{ item.SRR_NO }}</h4>
-                        <h5>{{ item.CUSTOMER_NAME }}</h5>
-                        <h5>
+                        <h5 class="text-info">{{ item.SRR_NO }}</h5>
+                        <h6>{{ item.CUSTOMER_NAME }}</h6>
+                        <h6>
                           No of Containers :
-                          {{ item.NO_OF_CONTAINERS }}
-                        </h5>
+                          <span class="text-danger">{{
+                            item.NO_OF_CONTAINERS
+                          }}</span>
+                        </h6>
                       </div>
                       <div class="col-md-4">
                         <label

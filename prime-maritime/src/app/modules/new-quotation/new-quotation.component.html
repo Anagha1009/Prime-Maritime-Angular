@@ -6,25 +6,34 @@
           <!-- Nav tabs -->
           <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-              <a
-                href="#secure"
-                aria-controls="secure"
-                role="tab"
-                data-toggle="tab"
-                ><i class="flaticon-logistics15"></i>SRR Creation</a
+              <a href="#srr" aria-controls="srr" role="tab" data-toggle="tab"
+                ><i class="flaticon-logistics15"></i>SRR Details</a
               >
             </li>
             <li role="presentation">
               <a
-                href="#trackable"
-                aria-controls="trackable"
+                href="#container"
+                aria-controls="container"
+                role="tab"
+                data-toggle="tab"
+                ><i class="flaticon-logistics15"></i>Add Container</a
+              >
+            </li>
+            <li role="presentation">
+              <a
+                href="#commodities"
+                aria-controls="commodities"
                 role="tab"
                 data-toggle="tab"
                 ><i class="flaticon-logistics18"></i>Add Commodities</a
               >
             </li>
             <li role="presentation">
-              <a href="#fast" aria-controls="fast" role="tab" data-toggle="tab"
+              <a
+                href="#rates"
+                aria-controls="rates"
+                role="tab"
+                data-toggle="tab"
                 ><i class="flaticon-logistics16"></i>Add Rates</a
               >
             </li>
@@ -32,7 +41,7 @@
 
           <!-- Tab panes -->
           <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active fade in" id="secure">
+            <div role="tabpanel" class="tab-pane active fade in" id="srr">
               <div class="css-tab-content">
                 <div class="content-text">
                   <form id="mainContact">
@@ -85,171 +94,642 @@
                           </select>
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Container Size</label>
+                          <label for="email">Destination ICD</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option
+                              *ngFor="let item of icdList"
+                              value="item.CODE"
+                            >
+                              {{ item.CODE_DESC }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Service Name</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option
+                              *ngFor="let item of icdList"
+                              value="item.CODE"
+                            >
+                              {{ item.CODE_DESC }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Effect From</label>
                           <input
                             name="email"
-                            type="password"
+                            type="date"
                             class="form-control"
                             required=""
                             placeholder=""
                           />
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Service Mode</label>
+                          <label for="email">Effect To</label>
                           <input
                             name="email"
-                            type="password"
+                            type="date"
                             class="form-control"
                             required=""
                             placeholder=""
                           />
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">POD Free Days</label>
+                          <label for="email">MTY Repo</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Customer Name</label>
                           <input
                             name="email"
-                            type="password"
+                            type="text"
                             class="form-control"
                             required=""
                             placeholder=""
                           />
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">POL Free Days</label>
+                          <label for="email">Select Address</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Thane">Thane</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Address</label>
                           <input
                             name="email"
-                            type="password"
+                            type="text"
                             class="form-control"
                             required=""
                             placeholder=""
                           />
                         </div>
                       </div>
-                      <div class="col-md-6"></div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Email</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Contact</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Shipper</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Consignee</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Notify Party</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Brokerage Party</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Forwarder</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
                     </div>
-
-                    <a href="agent-dashboard.html" class="btn btn-primary"
-                      >Save</a
-                    >
+                    <br />
+                    <div class="text-right">
+                      <a href="agent-dashboard.html" class="btn btn-primary"
+                        >Next</a
+                      >
+                    </div>
                   </form>
                 </div>
               </div>
               <!-- /.css-tab-content -->
             </div>
-            <div role="tabpanel" class="tab-pane fade" id="trackable">
+            <div role="tabpanel" class="tab-pane fade" id="container">
               <div class="css-tab-content">
-                <div class="row">
-                  <div class="col-md-6 col-md-offset-3 content-text">
-                    <form id="mainContact">
-                      <div class="form-group">
-                        <label for="name">Commodity</label>
-                        <input
-                          name="name"
-                          type="text"
-                          class="form-control"
-                          required=""
-                          placeholder=""
-                        />
+                <div class="content-text">
+                  <form id="mainContact">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="name">Place Of Receipt</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option
+                              *ngFor="let item of portList"
+                              value="item.CODE"
+                            >
+                              {{ item.CODE_DESC }}
+                            </option>
+                          </select>
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label for="email">Length</label>
-                        <input
-                          name="email"
-                          type="password"
-                          class="form-control"
-                          required=""
-                          placeholder=""
-                        />
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Place Of Delivery</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option
+                              *ngFor="let item of portList"
+                              value="item.CODE"
+                            >
+                              {{ item.CODE_DESC }}
+                            </option>
+                          </select>
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label for="email">Width</label>
-                        <input
-                          name="email"
-                          type="password"
-                          class="form-control"
-                          required=""
-                          placeholder=""
-                        />
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">TSP 1</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option
+                              *ngFor="let item of icdList"
+                              value="item.CODE"
+                            >
+                              {{ item.CODE_DESC }}
+                            </option>
+                          </select>
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label for="email">Height</label>
-                        <input
-                          name="email"
-                          type="password"
-                          class="form-control"
-                          required=""
-                          placeholder=""
-                        />
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">TSP 2</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option
+                              *ngFor="let item of icdList"
+                              value="item.CODE"
+                            >
+                              {{ item.CODE_DESC }}
+                            </option>
+                          </select>
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label for="email">Weight</label>
-                        <input
-                          name="email"
-                          type="password"
-                          class="form-control"
-                          required=""
-                          placeholder=""
-                        />
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Container Type</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option
+                              *ngFor="let item of icdList"
+                              value="item.CODE"
+                            >
+                              {{ item.CODE_DESC }}
+                            </option>
+                          </select>
+                        </div>
                       </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Container Size</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option
+                              *ngFor="let item of icdList"
+                              value="item.CODE"
+                            >
+                              {{ item.CODE_DESC }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Service Mode</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option
+                              *ngFor="let item of icdList"
+                              value="item.CODE"
+                            >
+                              {{ item.CODE_DESC }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">POL Free Days</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">POD Free Days</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Imm Volume Expected</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Total Volume Expected</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="text-right">
                       <a href="agent-dashboard.html" class="btn btn-primary"
-                        >Save</a
+                        >Add</a
                       >
-                    </form>
-                  </div>
+                    </div>
+                    <br />
+                    <div class="table-wrapper">
+                      <table class="fl-table">
+                        <thead>
+                          <tr>
+                            <th>Place Of Receipt</th>
+                            <th>Place Of Delivery</th>
+                            <th>Container Type</th>
+                            <th>Service Mode</th>
+                            <th>Imm Volume Expected</th>
+                            <th>Total Volume Expected</th>
+                          </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+                    </div>
+                    <br />
+                    <div class="text-right">
+                      <a href="agent-dashboard.html" class="btn btn-primary"
+                        >Next</a
+                      >
+                    </div>
+                  </form>
                 </div>
-                <!-- /.row -->
               </div>
               <!-- /.css-tab-content -->
             </div>
-            <div role="tabpanel" class="tab-pane fade" id="fast">
+            <div role="tabpanel" class="tab-pane fade" id="commodities">
               <div class="css-tab-content">
-                <div class="row">
-                  <!-- /.col-md-6 -->
-
-                  <div class="col-md-6 content-text"></div>
-                  <!-- /.col-md-6 -->
+                <div class="content-text">
+                  <form id="mainContact">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="name">Commodity</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option
+                              *ngFor="let item of portList"
+                              value="item.CODE"
+                            >
+                              {{ item.CODE_DESC }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label for="email">Length</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label for="email">Width</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label for="email">Height</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Commodity Type</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option value="Normal">Normal</option>
+                            <option value="Haz">Hazardous</option>
+                            <option value="FlexiBag">Flexi Bag</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Remarks</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="text-right">
+                      <a href="agent-dashboard.html" class="btn btn-primary"
+                        >Add</a
+                      >
+                    </div>
+                    <br />
+                    <div class="table-wrapper">
+                      <table class="fl-table">
+                        <thead>
+                          <tr>
+                            <th>Commodity</th>
+                            <th>Length-Width-Height</th>
+                            <th>Commodity Type</th>
+                            <th>Remarks</th>
+                          </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+                    </div>
+                    <br />
+                    <div class="text-right">
+                      <a href="agent-dashboard.html" class="btn btn-primary"
+                        >Next</a
+                      >
+                    </div>
+                  </form>
                 </div>
-                <!-- /.row -->
               </div>
               <!-- /.css-tab-content -->
             </div>
-            <div role="tabpanel" class="tab-pane fade" id="reliable">
+            <div role="tabpanel" class="tab-pane fade" id="rates">
               <div class="css-tab-content">
-                <div class="row">
-                  <div class="col-md-6">
-                    <img src="img/reliable.png" alt="" />
-                  </div>
-                  <!-- /.col-md-6 -->
-
-                  <div class="col-md-6 content-text">
-                    <h3>Continually disintermediate</h3>
-
-                    <p>
-                      Credibly build virtual materials for fully researched
-                      paradigms. Authoritatively plagiarize long-term
-                      high-impact infomediaries with goal-oriented core
-                      competencies. Conveniently visualize process-centric
-                      applications through leading-edge testing procedures.
-                      Quickly build backend customer service for real-time
-                      metrics.
-                    </p>
-
-                    <p>
-                      Efficiently transform an expanded array of methodologies
-                      rather than customized infomediaries.
-                    </p>
-                  </div>
-                  <!-- /.col-md-6 -->
+                <div class="content-text">
+                  <form id="mainContact">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="name">Charge Code</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option
+                              *ngFor="let item of portList"
+                              value="item.CODE"
+                            >
+                              {{ item.CODE_DESC }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">POL/POD</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option value="POL">POL</option>
+                            <option value="POD">POD</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Currency</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option value="INR">INR</option>
+                            <option value="USD">USD</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Payment Term</label>
+                          <select class="form-control">
+                            <option selected="true" disabled="true">
+                              --Select--
+                            </option>
+                            <option value="Prepaid">Prepaid</option>
+                            <option value="Collect">Collect</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Standard Rate</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Requested Rate</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Remarks</label>
+                          <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            required=""
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="text-right">
+                      <a href="agent-dashboard.html" class="btn btn-primary"
+                        >Add</a
+                      >
+                    </div>
+                    <br />
+                    <div class="table-wrapper">
+                      <table class="fl-table">
+                        <thead>
+                          <tr>
+                            <th>Charge Code</th>
+                            <th>Currency</th>
+                            <th>Payment Term</th>
+                            <th>Standard Rate</th>
+                            <th>Requested Rate</th>
+                          </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+                    </div>
+                    <br />
+                    <div class="text-right">
+                      <a href="agent-dashboard.html" class="btn btn-primary"
+                        >Next</a
+                      >
+                    </div>
+                  </form>
                 </div>
-                <!-- /.row -->
               </div>
               <!-- /.css-tab-content -->
             </div>
