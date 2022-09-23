@@ -32,7 +32,7 @@ export class QuotationDetailsComponent implements OnInit {
       (error) => {
         if (error.status == 401) {
           alert('You are not authorized to access this page, please login');
-          this.router.navigateByUrl('login');
+          this.router.navigateByUrl('home/login');
         }
       }
     );

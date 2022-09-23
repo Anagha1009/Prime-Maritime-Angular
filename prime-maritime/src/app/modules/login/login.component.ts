@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
     this.loginservice
       .validateLogin(JSON.stringify(rootobject))
       .subscribe((res) => {
-        localStorage.clear();
         localStorage.setItem('token', res.token);
         this.router.navigateByUrl('home/agent-dashboard');
       });
