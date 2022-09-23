@@ -30,4 +30,12 @@ export class SrrService {
       this.httpOptions
     );
   }
+
+  insertSRR(rootobject) {
+    return this._http.post<any>(
+      this.BASE_URL + 'SRR/InsertSRR',
+      rootobject,
+      this.httpOptions
+    );
+  }
 }
