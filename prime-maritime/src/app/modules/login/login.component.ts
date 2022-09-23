@@ -33,8 +33,13 @@ export class LoginComponent implements OnInit {
     this.loginservice
       .validateLogin(JSON.stringify(rootobject))
       .subscribe((res) => {
+        debugger;
+        localStorage.removeItem('token');
         localStorage.setItem('token', res.token);
-        this.router.navigateByUrl('home/agent-dashboard');
+        var token = localStorage.getItem('token');
+        if (token != undefined) {
+          this.router.navigateByUrl('home/agent-dashboard');
+        }
       });
   }
 }

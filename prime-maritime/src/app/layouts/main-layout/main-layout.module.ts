@@ -10,6 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgentDashboardComponent } from 'src/app/modules/agent-dashboard/agent-dashboard.component';
 import { QuotationDetailsComponent } from 'src/app/modules/quotation-details/quotation-details.component';
 import { NewQuotationComponent } from 'src/app/modules/new-quotation/new-quotation.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from 'src/app/helpers/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,9 @@ import { NewQuotationComponent } from 'src/app/modules/new-quotation/new-quotati
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
 })
 export class MainLayoutModule {}
