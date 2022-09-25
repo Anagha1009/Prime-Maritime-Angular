@@ -1,0 +1,227 @@
+<section class="sections">
+  <div class="container">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a
+              class="accordion-toggle"
+              data-toggle="collapse"
+              data-parent="#accordion"
+              href="#collapseOne"
+            >
+              <span class="glyphicon glyphicon-minus"></span>
+              SRR Details
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-2" style="word-wrap: break-word">
+                <label>SRR No</label>
+                <h6>{{ srrDetails?.SRR_NO }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Customer Name</label>
+                <h6>{{ srrDetails?.CUSTOMER_NAME }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>POL</label>
+                <h6>{{ srrDetails?.POL }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>POD</label>
+                <h6>{{ srrDetails?.POD }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Origin ICD</label>
+                <h6>{{ srrDetails?.ORIGIN_ICD }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Destination ICD</label>
+                <h6>{{ srrDetails?.DESTINATION_ICD }}</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label>Service Name</label>
+                <h6>{{ srrDetails?.SERVICE_NAME }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Valid From</label>
+                <h6>{{ srrDetails?.EFFECT_FROM }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Valid To</label>
+                <h6>{{ srrDetails?.EFFECT_TO }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>MTY Repo</label>
+                <h6>{{ srrDetails?.MTY_REPO }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Address</label>
+                <h6>{{ srrDetails?.ADDRESS }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Email</label>
+                <h6>{{ srrDetails?.EMAIL }}</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label>Contact</label>
+                <h6>{{ srrDetails?.CONTACT }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Shipper</label>
+                <h6>{{ srrDetails?.SHIPPER }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Consignee</label>
+                <h6>{{ srrDetails?.CONSIGNEE }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Notify Party</label>
+                <h6>{{ srrDetails?.NOTIFY_PARTY }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Brokerage Party</label>
+                <h6>{{ srrDetails?.BROKERAGE_PARTY }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Forwarder</label>
+                <h6>{{ srrDetails?.FORWARDER }}</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label>Container Type</label>
+                <h6>{{ srrDetails?.CONTAINER_TYPE }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Container Size</label>
+                <h6>{{ srrDetails?.CONTAINER_SIZE }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Service Mode</label>
+                <h6>{{ srrDetails?.SERVICE_MODE }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>POL Free Days</label>
+                <h6>{{ srrDetails?.POL_FREE_DAYS }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>POD Free Days</label>
+                <h6>{{ srrDetails?.POD_FREE_DAYS }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Imm Volume Expected</label>
+                <h6>{{ srrDetails?.IMM_VOLUME_EXPECTED }}</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label>Total Volume Expected</label>
+                <h6>{{ srrDetails?.TOTAL_VOLUME_EXPECTED }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Status</label>
+                <h6>{{ srrDetails?.STATUS }}</h6>
+              </div>
+              <div class="col-md-2">
+                <label>Created Date</label>
+                <h6>{{ srrDetails?.CREATED_DATE }}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a
+              class="accordion-toggle"
+              data-toggle="collapse"
+              data-parent="#accordion"
+              href="#collapseTwo"
+            >
+              <span class="glyphicon glyphicon-plus"></span>
+              Commodity Details
+            </a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse show">
+          <div class="panel-body">
+            <div class="table-wrapper">
+              <table class="fl-table text-left">
+                <thead>
+                  <tr>
+                    <th>SRR No</th>
+                    <th>Commodity</th>
+                    <th>Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of srrDetails?.SRR_COMMODITIES">
+                    <td>{{ item.SRR_NO }}</td>
+                    <td>{{ item.COMMODITY_NAME }}</td>
+                    <td>{{ item.COMMODITY_TYPE }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a
+              class="accordion-toggle"
+              data-toggle="collapse"
+              data-parent="#accordion"
+              href="#collapseThree"
+            >
+              <span class="glyphicon glyphicon-plus"></span>
+              Rate Details
+            </a>
+          </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse show">
+          <div class="panel-body">
+            <div class="table-wrapper">
+              <table class="fl-table">
+                <thead>
+                  <tr>
+                    <th>SRR No</th>
+                    <th>Charge Code</th>
+                    <th>Transport Type</th>
+                    <th>Currency</th>
+                    <th>Payment Term</th>
+                    <th>Standard Rate</th>
+                    <th>Requested Rate</th>
+                    <th>Remarks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of srrDetails?.SRR_RATES">
+                    <td>{{ item.SRR_NO }}</td>
+                    <td>{{ item.CHARGE_CODE }}</td>
+                    <td>{{ item.TRANSPORT_TYPE }}</td>
+                    <td>{{ item.CURRENCY }}</td>
+                    <td>{{ item.PAYMENT_TERM }}</td>
+                    <td>{{ item.STANDARD_RATE }}</td>
+                    <td>{{ item.RATE_REQUESTED }}</td>
+                    <td>{{ item.REMARKS }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

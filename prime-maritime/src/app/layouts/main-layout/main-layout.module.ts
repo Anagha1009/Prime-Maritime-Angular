@@ -6,20 +6,32 @@ import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LoginComponent } from 'src/app/modules/login/login.component';
-
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AgentDashboardComponent } from 'src/app/modules/agent-dashboard/agent-dashboard.component';
+import { QuotationDetailsComponent } from 'src/app/modules/quotation-details/quotation-details.component';
+import { NewQuotationComponent } from 'src/app/modules/new-quotation/new-quotation.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from 'src/app/helpers/jwt.interceptor';
 
 @NgModule({
   declarations: [
     MainLayoutComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    AgentDashboardComponent,
+    QuotationDetailsComponent,
+    NewQuotationComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     FlexLayoutModule,
-    SharedModule
-  ]
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
 })
-export class MainLayoutModule { }
+export class MainLayoutModule {}
