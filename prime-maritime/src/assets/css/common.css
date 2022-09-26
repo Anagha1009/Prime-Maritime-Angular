@@ -1,3 +1,10 @@
+.invalid {
+  border-bottom: 1px solid #d00;
+}
+.invalid:focus {
+  border-bottom: 1px solid #d00;
+}
+
 .sections {
   padding: 2rem 0rem 5rem 0rem;
 }
