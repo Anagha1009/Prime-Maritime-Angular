@@ -37,8 +37,15 @@
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="name">Port Of Loading <span class="text-danger"> *</span></label>
-                          <select formControlName="POL" [ngClass]="{'invalid': submitted && f.POL.errors}"
+                          <label>Port Of Loading <span class="text-danger"> *</span></label>
+                          <ng-select formControlName="POL" [ngClass]="{'invalid': submitted && f.POL.errors}"
+                            class="form-control" bindLabel="name" dropdownPosition="bottom" appendTo="body"
+                            [searchable]="true" [clearable]="true">
+                            <ng-option [value]="item.CODE" *ngFor="let item of portList">
+                              {{item.CODE_DESC}} ( {{item.CODE}})
+                            </ng-option>
+                          </ng-select>
+                          <!-- <select formControlName="POL" [ngClass]="{'invalid': submitted && f.POL.errors}"
                             class="form-control">
                             <option selected="true" value="" disabled="true">
                               --Select--
@@ -46,7 +53,7 @@
                             <option *ngFor="let item of portList" value="{{ item.CODE }}">
                               {{ item.CODE_DESC }}
                             </option>
-                          </select>
+                          </select> -->
                           <small *ngIf="submitted && f.POL.errors" class="text-danger">
                             POL is required
                           </small>
@@ -54,16 +61,14 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Port Of Discharge</label>
-                          <select formControlName="POD" [ngClass]="{'invalid': submitted && f.POD.errors}"
-                            class="form-control">
-                            <option selected="true" value="" disabled="true">
-                              --Select--
-                            </option>
-                            <option *ngFor="let item of portList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }}
-                            </option>
-                          </select>
+                          <label>Port Of Discharge <span class="text-danger"> *</span></label>
+                          <ng-select formControlName="POD" [ngClass]="{'invalid': submitted && f.POD.errors}"
+                            class="form-control" bindLabel="name" dropdownPosition="bottom" appendTo="body"
+                            [searchable]="true" [clearable]="true">
+                            <ng-option [value]="item.CODE" *ngFor="let item of portList">
+                              {{item.CODE_DESC}}( {{item.CODE}})
+                            </ng-option>
+                          </ng-select>
                           <small *ngIf="submitted && f.POD.errors" class="text-danger">
                             POD is required
                           </small>
@@ -71,36 +76,33 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Origin ICD</label>
-                          <select [ngClass]="{'invalid': submitted && f.ORIGIN_ICD.errors}" formControlName="ORIGIN_ICD"
-                            class="form-control">
-                            <option selected="true" value="" disabled="true">
-                              --Select--
-                            </option>
-                            <option *ngFor="let item of icdList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }}
-                            </option>
-                          </select>
+                          <label>Origin ICD <span class="text-danger"> *</span></label>
+                          <ng-select formControlName="ORIGIN_ICD"
+                            [ngClass]="{'invalid': submitted && f.ORIGIN_ICD.errors}" class="form-control"
+                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                            [clearable]="true">
+                            <ng-option [value]="item.CODE" *ngFor="let item of icdList">
+                              {{item.CODE_DESC}}
+                            </ng-option>
+                          </ng-select>
                           <small *ngIf="submitted && f.ORIGIN_ICD.errors" class="text-danger">
                             Origin ICD is required
                           </small>
                         </div>
-
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Destination ICD</label>
-                          <select formControlName="DESTINATION_ICD"
-                            [ngClass]="{'invalid': submitted && f.DESTINATION_ICD.errors}" class="form-control">
-                            <option selected="true" value="" disabled="true">
-                              --Select--
-                            </option>
-                            <option *ngFor="let item of icdList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }}
-                            </option>
-                          </select>
+                          <label>Destination ICD <span class="text-danger"> *</span></label>
+                          <ng-select formControlName="DESTINATION_ICD"
+                            [ngClass]="{'invalid': submitted && f.DESTINATION_ICD.errors}" class="form-control"
+                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                            [clearable]="true">
+                            <ng-option [value]="item.CODE" *ngFor="let item of icdList">
+                              {{item.CODE_DESC}}
+                            </ng-option>
+                          </ng-select>
                           <small *ngIf="submitted && f.DESTINATION_ICD.errors" class="text-danger">
                             Destination ICD is required
                           </small>
@@ -108,16 +110,14 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Service Name</label>
-                          <select formControlName="SERVICE_NAME"
-                            [ngClass]="{'invalid': submitted && f.SERVICE_NAME.errors}" class="form-control">
-                            <option selected="true" value="" disabled="true">
-                              --Select--
-                            </option>
-                            <option *ngFor="let item of icdList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }}
-                            </option>
-                          </select>
+                          <label>Service Name <span class="text-danger"> *</span></label>
+                          <ng-select formControlName="SERVICE_NAME"
+                            [ngClass]="{'invalid': submitted && f.SERVICE_NAME.errors}" class="form-control"
+                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                            [clearable]="true">
+                            <ng-option value="abc">abc</ng-option>
+                            <ng-option value="xyz">xyz</ng-option>
+                          </ng-select>
                           <small *ngIf="submitted && f.SERVICE_NAME.errors" class="text-danger">
                             Service Name is required
                           </small>
@@ -125,10 +125,10 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Effect From</label>
-                          <input formControlName="EFFECT_FROM"
-                            [ngClass]="{'invalid': submitted && f.EFFECT_FROM.errors}" name="email" type="date"
-                            class="form-control" required="" placeholder="" />
+                          <label>Effect From <span class="text-danger"> *</span></label>
+                          <input formControlName="EFFECT_FROM" onkeydown="return false"
+                            [ngClass]="{'invalid': submitted && f.EFFECT_FROM.errors}" type="date" class="form-control"
+                            placeholder="" />
                           <small *ngIf="submitted && f.EFFECT_FROM.errors" class="text-danger">
                             Effect From is required
                           </small>
@@ -138,9 +138,10 @@
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Effect To</label>
-                          <input formControlName="EFFECT_TO" [ngClass]="{'invalid': submitted && f.EFFECT_TO.errors}"
-                            name="email" type="date" class="form-control" required="" placeholder="" />
+                          <label>Effect To <span class="text-danger"> *</span></label>
+                          <input formControlName="EFFECT_TO" onkeydown="return false"
+                            [ngClass]="{'invalid': submitted && f.EFFECT_TO.errors}" type="date" class="form-control"
+                            placeholder="" />
                           <small *ngIf="submitted && f.EFFECT_TO.errors" class="text-danger">
                             Effect To is required
                           </small>
@@ -148,38 +149,20 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">MTY Repo</label>
-                          <select formControlName="MTY_REPO" [ngClass]="{'invalid': submitted && f.MTY_REPO.errors}"
-                            class="form-control">
-                            <option selected="true" value="" disabled="true">
-                              --Select--
-                            </option>
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                          </select>
-                          <small *ngIf="submitted && f.MTY_REPO.errors" class="text-danger">
-                            MTY Repo is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label for="email">Customer Name</label>
-                          <input formControlName="CUSTOMER_NAME"
-                            [ngClass]="{'invalid': submitted && f.CUSTOMER_NAME.errors}" name="email" type="text"
-                            class="form-control" required="" placeholder="" />
+                          <label>Customer Name <span class="text-danger"> *</span></label>
+                          <input formControlName="CUSTOMER_NAME" autocomplete="false"
+                            [ngClass]="{'invalid': submitted && f.CUSTOMER_NAME.errors}" type="text"
+                            class="form-control" placeholder="" />
                           <small *ngIf="submitted && f.CUSTOMER_NAME.errors" class="text-danger">
                             Customer Name is required
                           </small>
                         </div>
                       </div>
-                    </div>
-                    <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Select Address</label>
-                          <select formControlName="ADDRESS" [ngClass]="{'invalid': submitted && f.ADDRESS.errors}"
-                            class="form-control">
+                          <label>Select Address <span class="text-danger"> *</span></label>
+                          <select formControlName="ADDRESS" (change)="getAddress($event)"
+                            [ngClass]="{'invalid': submitted && f.ADDRESS.errors}" class="form-control">
                             <option selected="true" value="" disabled="true">
                               --Select--
                             </option>
@@ -191,20 +174,33 @@
                           </small>
                         </div>
                       </div>
+                    </div>
+                    <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Address</label>
-                          <input name="email" type="text" class="form-control" required="" placeholder="" />
+                          <label>Address</label>
+                          <input formControlName="ADDRESS1" readonly type="text" class="form-control" placeholder="" />
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Email</label>
-                          <input formControlName="EMAIL" name="email"
+                          <label>Email <span class="text-danger"> *</span></label>
+                          <input formControlName="EMAIL" autocomplete="false"
                             [ngClass]="{'invalid': submitted && f.EMAIL.errors}" type="text" class="form-control"
-                            required="" placeholder="" />
+                            placeholder="" />
                           <small *ngIf="submitted && f.EMAIL.errors" class="text-danger">
                             Email is required
+                          </small>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Contact <span class="text-danger"> *</span></label>
+                          <input formControlName="CONTACT" autocomplete="false"
+                            [ngClass]="{'invalid': submitted && f.CONTACT.errors}" type="text" class="form-control"
+                            placeholder="" />
+                          <small *ngIf="submitted && f.CONTACT.errors" class="text-danger">
+                            Contact is required
                           </small>
                         </div>
                       </div>
@@ -212,20 +208,10 @@
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Contact</label>
-                          <input formControlName="CONTACT" name="email"
-                            [ngClass]="{'invalid': submitted && f.CONTACT.errors}" type="text" class="form-control"
-                            required="" placeholder="" />
-                          <small *ngIf="submitted && f.CONTACT.errors" class="text-danger">
-                            Contact is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label for="email">Shipper</label>
-                          <input formControlName="SHIPPER" [ngClass]="{'invalid': submitted && f.SHIPPER.errors}"
-                            name="email" type="text" class="form-control" required="" placeholder="" />
+                          <label>Shipper <span class="text-danger"> *</span></label>
+                          <input formControlName="SHIPPER" autocomplete="false"
+                            [ngClass]="{'invalid': submitted && f.SHIPPER.errors}" type="text" class="form-control"
+                            placeholder="" />
                           <small *ngIf="submitted && f.SHIPPER.errors" class="text-danger">
                             Shipper is required
                           </small>
@@ -233,45 +219,56 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Consignee</label>
-                          <input formControlName="CONSIGNEE" [ngClass]="{'invalid': submitted && f.CONSIGNEE.errors}"
-                            name="email" type="text" class="form-control" required="" placeholder="" />
+                          <label>Consignee <span class="text-danger"> *</span></label>
+                          <input formControlName="CONSIGNEE" autocomplete="false"
+                            [ngClass]="{'invalid': submitted && f.CONSIGNEE.errors}" type="text" class="form-control"
+                            placeholder="" />
                           <small *ngIf="submitted && f.CONSIGNEE.errors" class="text-danger">
                             Consignee is required
                           </small>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Notify Party</label>
+                          <input formControlName="NOTIFY_PARTY" autocomplete="false" type="text" class="form-control"
+                            placeholder="" />
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Notify Party</label>
-                          <input formControlName="NOTIFY_PARTY"
-                            [ngClass]="{'invalid': submitted && f.NOTIFY_PARTY.errors}" name="email" type="text"
-                            class="form-control" required="" placeholder="" />
-                          <small *ngIf="submitted && f.NOTIFY_PARTY.errors" class="text-danger">
-                            Notify Party is required
-                          </small>
+                          <label>Brokerage Party</label>
+                          <input formControlName="BROKERAGE_PARTY" autocomplete="false" type="text" class="form-control"
+                            placeholder="" />
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Brokerage Party</label>
-                          <input formControlName="BROKERAGE_PARTY"
-                            [ngClass]="{'invalid': submitted && f.BROKERAGE_PARTY.errors}" name="email" type="text"
-                            class="form-control" required="" placeholder="" />
-                          <small *ngIf="submitted && f.BROKERAGE_PARTY.errors" class="text-danger">
-                            Brokerage Party is required
-                          </small>
+                          <label>Forwarder</label>
+                          <input formControlName="FORWARDER" autocomplete="false" type="text" class="form-control"
+                            placeholder="" />
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Forwarder</label>
-                          <input formControlName="FORWARDER" [ngClass]="{'invalid': submitted && f.FORWARDER.errors}"
-                            name="email" type="text" class="form-control" required="" placeholder="" />
-                          <small *ngIf="submitted && f.FORWARDER.errors" class="text-danger">
-                            Forwarder is required
+                          <label>MTY Repo <span class="text-danger"> *</span></label>
+                          <!-- <select formControlName="MTY_REPO" [ngClass]="{'invalid': submitted && f.MTY_REPO.errors}"
+                            class="form-control">
+                            <option selected="true" value="" disabled="true">
+                              --Select--
+                            </option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                          </select> -->
+                          <div class="switch">
+                            <input id="cmn-toggle-4" formControlName="MTY_REPO" class="cmn-toggle cmn-toggle-round-flat"
+                              type="checkbox">
+                            <label for="cmn-toggle-4"></label>
+                          </div>
+                          <small *ngIf="submitted && f.MTY_REPO.errors" class="text-danger">
+                            MTY Repo is required
                           </small>
                         </div>
                       </div>
@@ -296,78 +293,53 @@
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="name">Place Of Receipt</label>
-                          <select formControlName="PLACE_OF_RECEIPT"
-                            [ngClass]="{'invalid': submitted1 && f1.PLACE_OF_RECEIPT.errors}" class="form-control">
-                            <option selected="true" disabled="true">
-                              --Select--
-                            </option>
-                            <option *ngFor="let item of portList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }}
-                            </option>
-                          </select>
-                          <small *ngIf="submitted1 && f1.PLACE_OF_RECEIPT.errors" class="text-danger">
-                            Place Of Receipt is required
-                          </small>
+                          <label>Place Of Receipt</label>
+                          <input type="text" autocomplete="false" formControlName="PLACE_OF_RECEIPT"
+                            class="form-control" />
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Place Of Delivery</label>
-                          <select formControlName="PLACE_OF_DELIVERY"
-                            [ngClass]="{'invalid': submitted1 && f1.PLACE_OF_DELIVERY.errors}" class="form-control">
-                            <option selected="true" disabled="true">
-                              --Select--
-                            </option>
-                            <option *ngFor="let item of portList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }}
-                            </option>
-                          </select>
-                          <small *ngIf="submitted1 && f1.PLACE_OF_DELIVERY.errors" class="text-danger">
-                            Place Of Delivery is required
-                          </small>
+                          <label>Place Of Delivery</label>
+                          <input type="text" autocomplete="false" formControlName="PLACE_OF_DELIVERY"
+                            class="form-control" />
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">TSP 1</label>
-                          <select formControlName="TSP_1" class="form-control">
-                            <option selected="true" disabled="true">
-                              --Select--
-                            </option>
-                            <option *ngFor="let item of icdList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }}
-                            </option>
-                          </select>
+                          <label>TSP 1</label>
+                          <ng-select formControlName="TSP_1" class="form-control" bindLabel="name"
+                            dropdownPosition="bottom" appendTo="body" [searchable]="true" [clearable]="true">
+                            <ng-option [value]="item.CODE" *ngFor="let item of icdList">
+                              {{item.CODE_DESC}}
+                            </ng-option>
+                          </ng-select>
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">TSP 2</label>
-                          <select formControlName="TSP_2" class="form-control">
-                            <option selected="true" disabled="true">
-                              --Select--
-                            </option>
-                            <option *ngFor="let item of icdList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }}
-                            </option>
-                          </select>
+                          <label>TSP 2</label>
+                          <ng-select formControlName="TSP_2" class="form-control" bindLabel="name"
+                            dropdownPosition="bottom" appendTo="body" [searchable]="true" [clearable]="true">
+                            <ng-option [value]="item.CODE" *ngFor="let item of icdList">
+                              {{item.CODE_DESC}}
+                            </ng-option>
+                          </ng-select>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Container Type</label>
-                          <select formControlName="CONTAINER_TYPE"
-                            [ngClass]="{'invalid': submitted1 && f1.CONTAINER_TYPE.errors}" class="form-control">
-                            <option selected="true" disabled="true">
-                              --Select--
-                            </option>
-                            <option *ngFor="let item of icdList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }}
-                            </option>
-                          </select>
+                          <label>Container Type <span class="text-danger"> *</span></label>
+                          <ng-select formControlName="CONTAINER_TYPE"
+                            [ngClass]="{'invalid': submitted1 && f1.CONTAINER_TYPE.errors}" class="form-control"
+                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                            [clearable]="true">
+                            <ng-option value="Dry storage">Dry storage</ng-option>
+                            <ng-option value="Open top">Open top</ng-option>
+                            <ng-option value="Reefer">Reefer</ng-option>
+                          </ng-select>
                           <small *ngIf="submitted1 && f1.CONTAINER_TYPE.errors" class="text-danger">
                             Container Type is required
                           </small>
@@ -375,16 +347,15 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Container Size</label>
-                          <select formControlName="CONTAINER_SIZE"
-                            [ngClass]="{'invalid': submitted1 && f1.CONTAINER_SIZE.errors}" class="form-control">
-                            <option selected="true" disabled="true">
-                              --Select--
-                            </option>
-                            <option *ngFor="let item of icdList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }}
-                            </option>
-                          </select>
+                          <label>Container Size <span class="text-danger"> *</span></label>
+                          <ng-select formControlName="CONTAINER_SIZE"
+                            [ngClass]="{'invalid': submitted1 && f1.CONTAINER_SIZE.errors}" class="form-control"
+                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                            [clearable]="true">
+                            <ng-option *ngFor="let item of containersizeList" value="{{ item.CODE }}">
+                              {{ item.CODE_DESC }} ({{ item.CODE }})
+                            </ng-option>
+                          </ng-select>
                           <small *ngIf="submitted1 && f1.CONTAINER_SIZE.errors" class="text-danger">
                             Container Size is required
                           </small>
@@ -394,16 +365,15 @@
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Service Mode</label>
-                          <select formControlName="SERVICE_MODE"
-                            [ngClass]="{'invalid': submitted1 && f1.SERVICE_MODE.errors}" class="form-control">
-                            <option selected="true" disabled="true">
-                              --Select--
-                            </option>
-                            <option *ngFor="let item of icdList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }}
-                            </option>
-                          </select>
+                          <label>Service Mode <span class="text-danger"> *</span></label>
+                          <ng-select formControlName="SERVICE_MODE"
+                            [ngClass]="{'invalid': submitted1 && f1.SERVICE_MODE.errors}" class="form-control"
+                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                            [clearable]="true">
+                            <ng-option *ngFor="let item of servicemodeList" value="{{ item.CODE }}">
+                              {{ item.CODE }}
+                            </ng-option>
+                          </ng-select>
                           <small *ngIf="submitted1 && f1.SERVICE_MODE.errors" class="text-danger">
                             Service Mode is required
                           </small>
@@ -411,10 +381,10 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">POL Free Days</label>
-                          <input formControlName="POL_FREE_DAYS"
-                            [ngClass]="{'invalid': submitted1 && f1.POL_FREE_DAYS.errors}" name="email" type="text"
-                            class="form-control" required="" placeholder="" />
+                          <label>POL Free Days <span class="text-danger"> *</span></label>
+                          <input formControlName="POL_FREE_DAYS" autocomplete="false"
+                            [ngClass]="{'invalid': submitted1 && f1.POL_FREE_DAYS.errors}" type="text"
+                            class="form-control" placeholder="" />
                           <small *ngIf="submitted1 && f1.POL_FREE_DAYS.errors" class="text-danger">
                             POL Free Days is required
                           </small>
@@ -422,10 +392,10 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">POD Free Days</label>
-                          <input formControlName="POD_FREE_DAYS"
-                            [ngClass]="{'invalid': submitted1 && f1.POD_FREE_DAYS.errors}" name="email" type="text"
-                            class="form-control" required="" placeholder="" />
+                          <label>POD Free Days <span class="text-danger"> *</span></label>
+                          <input formControlName="POD_FREE_DAYS" autocomplete="false"
+                            [ngClass]="{'invalid': submitted1 && f1.POD_FREE_DAYS.errors}" type="text"
+                            class="form-control" placeholder="" />
                           <small *ngIf="submitted1 && f1.POD_FREE_DAYS.errors" class="text-danger">
                             POD Free Days is required
                           </small>
@@ -435,10 +405,10 @@
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Imm Volume Expected</label>
-                          <input formControlName="IMM_VOLUME_EXPECTED"
-                            [ngClass]="{'invalid': submitted1 && f1.IMM_VOLUME_EXPECTED.errors}" name="email"
-                            type="text" class="form-control" required="" placeholder="" />
+                          <label>Imm Volume Expected <span class="text-danger"> *</span></label>
+                          <input formControlName="IMM_VOLUME_EXPECTED" autocomplete="false"
+                            [ngClass]="{'invalid': submitted1 && f1.IMM_VOLUME_EXPECTED.errors}" type="text"
+                            class="form-control" placeholder="" />
                           <small *ngIf="submitted1 && f1.IMM_VOLUME_EXPECTED.errors" class="text-danger">
                             Imm Volume Expected is required
                           </small>
@@ -446,10 +416,10 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Total Volume Expected</label>
-                          <input formControlName="TOTAL_VOLUME_EXPECTED"
-                            [ngClass]="{'invalid': submitted1 && f1.TOTAL_VOLUME_EXPECTED.errors}" name="email"
-                            type="text" class="form-control" required="" placeholder="" />
+                          <label>Total Volume Expected <span class="text-danger"> *</span></label>
+                          <input formControlName="TOTAL_VOLUME_EXPECTED" autocomplete="false"
+                            [ngClass]="{'invalid': submitted1 && f1.TOTAL_VOLUME_EXPECTED.errors}" type="text"
+                            class="form-control" placeholder="" />
                           <small *ngIf="submitted1 && f1.TOTAL_VOLUME_EXPECTED.errors" class="text-danger">
                             Total Volume Expected is required
                           </small>
@@ -476,16 +446,15 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label for="name">Commodity</label>
-                          <select formControlName="COMMODITY_NAME"
-                            [ngClass]="{'invalid': submitted2 && f2.COMMODITY_NAME.errors}" class="form-control">
-                            <option selected="true" disabled="true">
-                              --Select--
-                            </option>
-                            <option *ngFor="let item of portList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }}
-                            </option>
-                          </select>
+                          <label>Commodity <span class="text-danger"> *</span></label>
+                          <ng-select formControlName="COMMODITY_NAME"
+                            [ngClass]="{'invalid': submitted2 && f2.COMMODITY_NAME.errors}" class="form-control"
+                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                            [clearable]="true">
+                            <ng-option value="Aluminium Caps">Aluminium Caps</ng-option>
+                            <ng-option value="Steel">Steel</ng-option>
+                            <ng-option value="Fabrics">Fabrics</ng-option>
+                          </ng-select>
                           <small *ngIf="submitted2 && f2.COMMODITY_NAME.errors" class="text-danger">
                             Commodity is required
                           </small>
@@ -493,56 +462,64 @@
                       </div>
                       <div class="col-md-2">
                         <div class="form-group">
-                          <label for="email">Length</label>
-                          <input formControlName="LENGTH" [ngClass]="{'invalid': submitted2 && f2.LENGTH.errors}"
-                            name="email" type="text" class="form-control" required="" placeholder="" />
-                          <small *ngIf="submitted2 && f2.LENGTH.errors" class="text-danger">
-                            Length is required
-                          </small>
+                          <label>Length</label>
+                          <input formControlName="LENGTH" type="text" class="form-control" />
                         </div>
                       </div>
                       <div class="col-md-2">
                         <div class="form-group">
-                          <label for="email">Width</label>
-                          <input formControlName="WIDTH" [ngClass]="{'invalid': submitted2 && f2.WIDTH.errors}"
-                            name="email" type="text" class="form-control" required="" placeholder="" />
-                          <small *ngIf="submitted2 && f2.WIDTH.errors" class="text-danger">
-                            Width is required
-                          </small>
+                          <label>Width</label>
+                          <input formControlName="WIDTH" type="text" class="form-control" />
                         </div>
                       </div>
                       <div class="col-md-2">
                         <div class="form-group">
-                          <label for="email">Height</label>
-                          <input formControlName="HEIGHT" [ngClass]="{'invalid': submitted2 && f2.HEIGHT.errors}"
-                            name="email" type="text" class="form-control" required="" placeholder="" />
-                          <small *ngIf="submitted2 && f2.HEIGHT.errors" class="text-danger">
-                            Height is required
-                          </small>
+                          <label>Height</label>
+                          <input formControlName="HEIGHT" type="text" class="form-control" />
                         </div>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-4">
+                      <div class="col-md-6">
                         <div class="form-group">
-                          <label for="email">Commodity Type</label>
-                          <select (change)="onChangeCommodityType($event)" formControlName="COMMODITY_TYPE"
-                            [ngClass]="{'invalid': submitted2 && f2.COMMODITY_TYPE.errors}" class="form-control">
-                            <option selected="true" disabled="true">
-                              --Select--
-                            </option>
-                            <option value="NORMAL">Normal</option>
-                            <option value="HAZ">Hazardous</option>
-                            <option value="FLEXIBAG">Flexi Bag</option>
-                          </select>
+                          <label>Commodity Type <span class="text-danger"> *</span></label>
+                          <br>
+                          <label class="radio-inline">
+                            <input type="radio" (change)="onChangeCommodityType($event)"
+                              formControlName="COMMODITY_TYPE" name="COMMODITY_TYPE" id="inlineRadio1"
+                              value="NORMAL"><span class="indicator"></span> Normal
+                          </label>
+                          <label class="radio-inline">
+                            <input type="radio" (change)="onChangeCommodityType($event)"
+                              formControlName="COMMODITY_TYPE" name="COMMODITY_TYPE" id="inlineRadio2" value="HAZ"><span
+                              class="indicator"></span>Hazardous
+                          </label>
+                          <label class="radio-inline">
+                            <input type="radio" (change)="onChangeCommodityType($event)"
+                              formControlName="COMMODITY_TYPE" name="COMMODITY_TYPE" id="inlineRadio3"
+                              value="FLEXIBAG"><span class="indicator"></span>Flexi Bag
+                          </label>
+                          <br>
                           <small *ngIf="submitted2 && f2.COMMODITY_TYPE.errors" class="text-danger">
                             Commodity Type is required
                           </small>
                         </div>
                       </div>
-                      <div class="col-md-4" *ngIf="commodityType == 'HAZ'">
+                      <div class="col-md-6">
                         <div class="form-group">
-                          <label for="email">IMO Class Name</label>
+                          <label>Remarks</label>
+                          <input formControlName="REMARKS" [ngClass]="{'invalid': submitted2 && f2.REMARKS.errors}"
+                            type="text" class="form-control" placeholder="" />
+                          <small *ngIf="submitted2 && f2.REMARKS.errors" class="text-danger">
+                            Remarks is required
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" *ngIf="commodityType == 'HAZ'">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>IMO Class Name</label>
                           <input type="text" formControlName="IMO_CLASS"
                             [ngClass]="{'invalid': submitted2 && f2.IMO_CLASS.errors}" class="form-control" />
                           <small *ngIf="submitted2 && f2.IMO_CLASS.errors" class="text-danger">
@@ -550,9 +527,9 @@
                           </small>
                         </div>
                       </div>
-                      <div class="col-md-4" *ngIf="commodityType == 'HAZ'">
+                      <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">UN No</label>
+                          <label>UN No</label>
                           <input type="text" formControlName="UN_NO"
                             [ngClass]="{'invalid': submitted2 && f2.UN_NO.errors}" class="form-control" />
                           <small *ngIf="submitted2 && f2.UN_NO.errors" class="text-danger">
@@ -560,31 +537,9 @@
                           </small>
                         </div>
                       </div>
-                      <div class="col-md-4" *ngIf="commodityType == 'FLEXIBAG'">
+                      <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Flash Point</label>
-                          <input type="text" formControlName="FLASH_POINT"
-                            [ngClass]="{'invalid': submitted2 && f2.FLASH_POINT.errors}" class="form-control" />
-                          <small *ngIf="submitted2 && f2.FLASH_POINT.errors" class="text-danger">
-                            Flash Point is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4" *ngIf="commodityType == 'FLEXIBAG'">
-                        <div class="form-group">
-                          <label for="email">CAS No</label>
-                          <input type="text" formControlName="CAS_NO"
-                            [ngClass]="{'invalid': submitted2 && f2.CAS_NO.errors}" class="form-control" />
-                          <small *ngIf="submitted2 && f2.CAS_NO.errors" class="text-danger">
-                            CAS No is required
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4" *ngIf="commodityType == 'HAZ'">
-                        <div class="form-group">
-                          <label for="email">HAZ Approval Ref</label>
+                          <label>HAZ Approval Ref</label>
                           <input type="text" formControlName="HAZ_APPROVAL_REF"
                             [ngClass]="{'invalid': submitted2 && f2.HAZ_APPROVAL_REF.errors}" class="form-control" />
                           <small *ngIf="submitted2 && f2.HAZ_APPROVAL_REF.errors" class="text-danger">
@@ -592,13 +547,25 @@
                           </small>
                         </div>
                       </div>
+                    </div>
+                    <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Remarks</label>
-                          <input formControlName="REMARKS" [ngClass]="{'invalid': submitted2 && f2.REMARKS.errors}"
-                            name="email" type="text" class="form-control" required="" placeholder="" />
-                          <small *ngIf="submitted2 && f2.REMARKS.errors" class="text-danger">
-                            Remarks is required
+                          <label>Flash Point</label>
+                          <input type="text" formControlName="FLASH_POINT"
+                            [ngClass]="{'invalid': submitted2 && f2.FLASH_POINT.errors}" class="form-control" />
+                          <small *ngIf="submitted2 && f2.FLASH_POINT.errors" class="text-danger">
+                            Flash Point is required
+                          </small>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>CAS No</label>
+                          <input type="text" formControlName="CAS_NO"
+                            [ngClass]="{'invalid': submitted2 && f2.CAS_NO.errors}" class="form-control" />
+                          <small *ngIf="submitted2 && f2.CAS_NO.errors" class="text-danger">
+                            CAS No is required
                           </small>
                         </div>
                       </div>
@@ -702,7 +669,8 @@
                   </form>
                   <br />
                   <div class="text-right">
-                    <a (click)="onAddCommodities()" class="btn btn-primary">Add</a>
+                    <a (click)="onAddCommodities()" class="btn btn-default">
+                      <i class="fa fa-plus"></i> Add Commodity</a>
                   </div>
                   <br />
                   <div class="table-wrapper" *ngIf="commodityList.length > 0">
@@ -711,8 +679,11 @@
                         <tr>
                           <th>Sr. No</th>
                           <th>Commodity</th>
-                          <th>Length-Width-Height</th>
                           <th>Commodity Type</th>
+                          <th *ngIf="commodityType == 'HAZ'">IMO Class</th>
+                          <th *ngIf="commodityType == 'HAZ'">UN No</th>
+                          <th *ngIf="commodityType == 'FLEXIBAG'">Flash Point</th>
+                          <th *ngIf="commodityType == 'FLEXIBAG'">CAS No</th>
                           <th>Remarks</th>
                         </tr>
                       </thead>
@@ -720,11 +691,12 @@
                         <tr *ngFor="let item of commodityList; let i = index">
                           <td>{{ i + 1 }}</td>
                           <td>{{ item.COMMODITY_NAME }}</td>
-                          <td>
-                            {{ item.LENGTH }} - {{ item.WIDTH }} -
-                            {{ item.HEIGHT }}
-                          </td>
-                          <td>{{ item.COMMODITY_TYPE }}</td>
+                          <td>{{ item.COMMODITY_TYPE == 'HAZ' ? 'Hazardous' : item.COMMODITY_TYPE == 'FLEXIBAG' ? 'Flexi
+                            Bag' : 'Normal' }}</td>
+                          <td *ngIf="commodityType == 'HAZ'">{{ item.IMO_CLASS }}</td>
+                          <td *ngIf="commodityType == 'HAZ'">{{ item.UN_NO }}</td>
+                          <td *ngIf="commodityType == 'FLEXIBAG'">{{ item.FLASH_POINT }}</td>
+                          <td *ngIf="commodityType == 'FLEXIBAG'">{{ item.CAS_NO }}</td>
                           <td>{{ item.REMARKS }}</td>
                         </tr>
                       </tbody>
@@ -749,79 +721,112 @@
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="name">Charge Code</label>
-                          <select formControlName="CHARGE_CODE" class="form-control">
-                            <option selected="true" disabled="true">
-                              --Select--
-                            </option>
-                            <option *ngFor="let item of portList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }}
-                            </option>
-                          </select>
+                          <label>Charge Code <span class="text-danger"> *</span></label>
+                          <ng-select formControlName="CHARGE_CODE" (change)="onchangeChargeCode($event)"
+                            [ngClass]="{'invalid': submitted3 && f3.CHARGE_CODE.errors}" class="form-control"
+                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                            [clearable]="true">
+                            <ng-option value="Gross Freight">Gross Freight</ng-option>
+                            <ng-option value="THC">THC</ng-option>
+                            <ng-option value="EWRI">EWRI</ng-option>
+                            <ng-option value="TERMINAL REBATE">TERMINAL REBATE</ng-option>
+                          </ng-select>
+                          <small *ngIf="submitted3 && f3.CHARGE_CODE.errors" class="text-danger">
+                            Charge Code is required
+                          </small>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">POL/POD</label>
-                          <select formControlName="TRANSPORT_TYPE" class="form-control">
-                            <option selected="true" disabled="true">
-                              --Select--
-                            </option>
-                            <option value="POL">POL</option>
-                            <option value="POD">POD</option>
-                          </select>
+                          <label>Currency <span class="text-danger"> *</span></label>
+                          <ng-select formControlName="CURRENCY"
+                            [ngClass]="{'invalid': submitted3 && f3.CURRENCY.errors}" class="form-control"
+                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                            [clearable]="true">
+                            <ng-option value="USD">USD</ng-option>
+                            <ng-option value="INR">INR</ng-option>
+                            <ng-option value="AUD">AUD</ng-option>
+                          </ng-select>
+                          <small *ngIf="submitted3 && f3.CURRENCY.errors" class="text-danger">
+                            Currency is required
+                          </small>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Currency</label>
-                          <select formControlName="CURRENCY" class="form-control">
-                            <option selected="true" disabled="true">
-                              --Select--
-                            </option>
-                            <option value="INR">INR</option>
-                            <option value="USD">USD</option>
-                          </select>
+                          <label>Remarks</label>
+                          <input formControlName="REMARKS" type="text" class="form-control" placeholder="" />
                         </div>
                       </div>
+                    </div>
+                    <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="email">Payment Term</label>
-                          <select formControlName="PAYMENT_TERM" class="form-control">
-                            <option selected="true" disabled="true">
-                              --Select--
-                            </option>
-                            <option value="Prepaid">Prepaid</option>
-                            <option value="Collect">Collect</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label for="email">Standard Rate</label>
-                          <input formControlName="STANDARD_RATE" name="email" type="text" class="form-control"
-                            required="" placeholder="" />
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label for="email">Requested Rate</label>
-                          <input formControlName="RATE_REQUESTED" name="email" type="text" class="form-control"
-                            required="" placeholder="" />
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label for="email">Remarks</label>
-                          <input formControlName="REMARKS" name="email" type="text" class="form-control" required=""
+                          <label>Standard Rate</label>
+                          <input formControlName="STANDARD_RATE" readonly type="text" class="form-control"
                             placeholder="" />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Requested Rate <span class="text-danger"> *</span></label>
+                          <input formControlName="RATE_REQUESTED"
+                            [ngClass]="{'invalid': submitted3 && f3.RATE_REQUESTED.errors}" type="text"
+                            class="form-control" placeholder="" />
+                          <select (change)="onChangeRatePer($event)" class="form-control">
+                            <option value="0" selected="true">--Select--</option>
+                            <option value="10">- 10 %</option>
+                            <option value="20">- 20 %</option>
+                            <option value="30">- 30 %</option>
+                          </select>
+                          <small *ngIf="submitted3 && f3.RATE_REQUESTED.errors" class="text-danger">
+                            Requested Rate is required
+                          </small>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Payment Term <span class="text-danger"> *</span></label>
+                          <br>
+                          <label class="radio-inline">
+                            <input type="radio" formControlName="PAYMENT_TERM" name="PAYMENT_TERM" id="inlineRadio03"
+                              value="Prepaid"><span class="indicator"></span> Prepaid
+                          </label>
+                          <label class="radio-inline">
+                            <input type="radio" formControlName="PAYMENT_TERM" name="PAYMENT_TERM" id="inlineRadio04"
+                              value="Collect"><span class="indicator"></span>Collect
+                          </label>
+                          <br>
+                          <small *ngIf="submitted3 && f3.PAYMENT_TERM.errors" class="text-danger">
+                            Payment Term is required
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>POL/POD <span class="text-danger"> *</span></label>
+                          <br>
+                          <label class="radio-inline">
+                            <input type="radio" formControlName="TRANSPORT_TYPE" name="TRANSPORT_TYPE"
+                              id="inlineRadio01" value="NORMAL"><span class="indicator"></span> POL
+                          </label>
+                          <label class="radio-inline">
+                            <input type="radio" formControlName="TRANSPORT_TYPE" name="TRANSPORT_TYPE"
+                              id="inlineRadio02" value="HAZ"><span class="indicator"></span>POD
+                          </label>
+                          <br>
+                          <small *ngIf="submitted3 && f3.TRANSPORT_TYPE.errors" class="text-danger">
+                            POL/POD is required
+                          </small>
                         </div>
                       </div>
                     </div>
                   </form>
                   <br />
                   <div class="text-right">
-                    <a (click)="onAddRates()" class="btn btn-primary">Add</a>
+                    <a (click)="onAddRates()" class="btn btn-default"><i class="fa fa-plus"></i> Add Rate</a>
                   </div>
                   <br />
                   <div class="table-wrapper" *ngIf="rateList.length > 0">
