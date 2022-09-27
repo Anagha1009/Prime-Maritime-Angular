@@ -9,11 +9,13 @@ import { SrrService } from 'src/app/services/srr.service';
 })
 export class AgentDashboardComponent implements OnInit {
   srrList: any[] = [];
+  selectedAttribute: string = '';
 
   constructor(private SrrService: SrrService, private router: Router) {}
 
   ngOnInit(): void {
     this.getSRRList();
+    this.selectedAttribute = '--Select--';
   }
 
   getSRRList() {

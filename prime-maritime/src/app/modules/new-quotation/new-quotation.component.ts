@@ -191,11 +191,20 @@ export class NewQuotationComponent implements OnInit {
       return;
     }
 
+    var length = this.commoditiesForm.get('LENGTH')?.value;
+    this.commoditiesForm.get('LENGTH')?.setValue(length == '' ? 0 : +length);
+
+    var width = this.commoditiesForm.get('WIDTH')?.value;
+    this.commoditiesForm.get('WIDTH')?.setValue(width == '' ? 0 : +width);
+
+    var height = this.commoditiesForm.get('HEIGHT')?.value;
+    this.commoditiesForm.get('HEIGHT')?.setValue(height == '' ? 0 : +height);
+
     var commodities = this.quotationForm.get('SRR_COMMODITIES') as FormArray;
     commodities.push(this.commoditiesForm);
     this.commodityList.push(this.commoditiesForm.value);
 
-    this.commoditiesForm.reset();
+    // this.commoditiesForm.reset();
     this.submitted2 = false;
   }
 
@@ -213,28 +222,26 @@ export class NewQuotationComponent implements OnInit {
   }
 
   activeTabs(tab) {
-    // if (tab == 'Container') {
-    //   if (this.quotationForm.invalid) {
-    //     alert('Please complete SRR Details');
-    //     this.tabActive = 'SRR';
-    //   } else {
-    //     this.tabActive = tab;
-    //   }
-    // } else if (tab == 'Commodities') {
-    //   if (this.quotationForm.invalid) {
-    //     alert('Please complete SRR Details');
-    //     this.tabActive = 'SRR';
-    //   } else if (this.containerForm.invalid) {
-    //     alert('Please complete add Container');
-    //     this.tabActive = 'Container';
-    //   } else {
-    //     this.tabActive = tab;
-    //   }
-    // } else {
-    //   this.tabActive = tab;
-    // }
-
-    this.tabActive = tab;
+    if (tab == 'Container') {
+      if (this.quotationForm.invalid) {
+        alert('Please complete SRR Details');
+        this.tabActive = 'SRR';
+      } else {
+        this.tabActive = tab;
+      }
+    } else if (tab == 'Commodities') {
+      if (this.quotationForm.invalid) {
+        alert('Please complete SRR Details');
+        this.tabActive = 'SRR';
+      } else if (this.containerForm.invalid) {
+        alert('Please complete add Container');
+        this.tabActive = 'Container';
+      } else {
+        this.tabActive = tab;
+      }
+    } else {
+      this.tabActive = tab;
+    }
   }
 
   insertQuotation() {
@@ -307,8 +314,6 @@ export class NewQuotationComponent implements OnInit {
     if (this.quotationForm.invalid) {
       return;
     }
-
-    console.log('Quotation ' + JSON.stringify(this.quotationForm.value));
 
     this.activeTabs('Container');
   }
@@ -404,6 +409,6 @@ export class NewQuotationComponent implements OnInit {
     var sr = +this.ratesForm.get('STANDARD_RATE')?.value;
     var pr = (sr * percentage) / 100;
     var value = sr - pr;
-    this.ratesForm.get('RATE_REQUESTED')?.setValue(value);
+    this.ratesForm.get('RATE_REQUESTED')?.setValue(value.toString());
   }
 }

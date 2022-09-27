@@ -1,4 +1,4 @@
-<section class="sections">
+<section class="sections" style="padding-bottom: 0px;">
   <div class="container">
     <div class="card">
       <div class="card-body">
@@ -8,9 +8,7 @@
               <i class="flaticon-international34"></i>
 
               <div class="number-info">
-                <strong
-                  ><span class="timer">{{ srrList.length }}</span></strong
-                >
+                <strong><span class="timer">{{ srrList.length }}</span></strong>
                 <span class="facts-description">Quotations Raised</span>
               </div>
             </div>
@@ -46,39 +44,52 @@
   <div class="container">
     <div class="col-md-12 tab-style">
       <div class="col-12 text-right">
-        <a routerLink="/home/new-quotation" class="btn btn-primary"
-          >New Quotation</a
-        >
+        <a routerLink="/home/new-quotation" class="btn btn-primary">New Quotation</a>
       </div>
       <div class="typography-page-tab widget" role="tabpanel">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active">
-            <a href="#home" aria-controls="home" role="tab" data-toggle="tab"
-              >Quotations ({{ srrList.length }})</a
-            >
+            <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Quotations ({{ srrList.length }})</a>
           </li>
           <li role="presentation">
-            <a
-              href="#profile"
-              aria-controls="profile"
-              role="tab"
-              data-toggle="tab"
-              >Bookings</a
-            >
+            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Bookings</a>
           </li>
         </ul>
 
         <!-- Tab panes -->
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane fade in active" id="home">
+            <div class="row">
+              <div class="col-md-3 form-group">
+                <label class="form-label">SRR No</label>
+                <input type="text" class="form-control" placeholder="" />
+              </div>
+              <div class="col-md-3 form-group">
+                <label class="form-label">Customer Name</label>
+                <ng-select class="form-control select2" [(ngModel)]="selectedAttribute">
+                  <ng-option>JITEX</ng-option>
+                  <ng-option>MASDAR TECHNICAL SUPPLIES TRADING CO.</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-md-3 form-group">
+                <label class="form-label">Status</label>
+                <ng-select class="form-control select2">
+                  <ng-option>Requested</ng-option>
+                  <ng-option>Approved</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-md-3">
+                <div class="mt-4">
+                  <button class="btn btn-outline info">Search</button>
+                </div>
+              </div>
+            </div>
+            <br>
             <div class="scrollbar" id="style-3">
               <div class="force-overflow">
                 <div class="card-list" *ngFor="let item of srrList">
-                  <div
-                    (click)="redirectToQuotation(item.SRR_NO)"
-                    class="card-list-body"
-                  >
+                  <div (click)="redirectToQuotation(item.SRR_NO)" class="card-list-body">
                     <div class="row">
                       <div class="col-md-5">
                         <h5 class="text-info">{{ item.SRR_NO }}</h5>
@@ -87,31 +98,19 @@
                           No of Containers :
                           <span class="text-danger">{{
                             item.NO_OF_CONTAINERS
-                          }}</span>
+                            }}</span>
                         </h6>
                       </div>
                       <div class="col-md-4">
-                        <label
-                          >{{ item.EFFECT_FROM | date: "mediumDate" }} -
-                          {{ item.EFFECT_TO | date: "mediumDate" }}</label
-                        >
+                        <label>{{ item.EFFECT_FROM | date: "mediumDate" }} -
+                          {{ item.EFFECT_TO | date: "mediumDate" }}</label>
                         <br />
-                        <label
-                          >Date :
-                          {{ item.CREATED_DATE | date: "mediumDate" }}</label
-                        >
+                        <label>Date :
+                          {{ item.CREATED_DATE | date: "mediumDate" }}</label>
                       </div>
                       <div class="col-md-3 text-right">
-                        <span
-                          *ngIf="item.STATUS == 'Approved'"
-                          class="badge badge-success"
-                          >{{ item.STATUS }}</span
-                        >
-                        <span
-                          *ngIf="item.STATUS == 'Drafted'"
-                          class="badge badge-secondary"
-                          >{{ item.STATUS }}</span
-                        >
+                        <span *ngIf="item.STATUS == 'Approved'" class="badge badge-success">{{ item.STATUS }}</span>
+                        <span *ngIf="item.STATUS == 'Drafted'" class="badge badge-secondary">{{ item.STATUS }}</span>
                       </div>
                     </div>
                   </div>

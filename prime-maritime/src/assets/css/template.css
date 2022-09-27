@@ -248,6 +248,27 @@ button:focus {
   border-radius: 30px;
 }
 
+.btn-outline {
+  border: 2px solid black;
+  background-color: white;
+  color: black;
+  padding: 8px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+/* Green */
+.info {
+  border-color: #70b9c5;
+  color: #70b9c5;
+}
+
+.info:hover {
+  background-color: #70b9c5;
+  color: white;
+}
+
 /* --------------------------------------------------
 LIST STYLE
 ----------------------------------------------------- */

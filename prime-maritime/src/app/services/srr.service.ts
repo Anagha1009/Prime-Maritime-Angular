@@ -26,7 +26,7 @@ export class SrrService {
 
   getSRRDetails(SRR_NO) {
     return this._http.get<any>(
-      this.BASE_URL + 'SRR?SRR_NO=' + SRR_NO,
+      this.BASE_URL + 'SRR/GetSRRBySRRNO?SRR_NO=' + SRR_NO,
       this.httpOptions
     );
   }

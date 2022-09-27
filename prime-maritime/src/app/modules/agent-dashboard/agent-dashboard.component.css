@@ -1,0 +1,31 @@
+.form-label {
+  position: relative;
+  top: 15px;
+  left: 8px;
+  background: #fff;
+  padding: 0px 5px;
+  color: #000000;
+  font-weight: 500;
+  z-index: 1030;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 11.5px 0.75rem;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+.select2 {
+  font-size: 15px;
+  padding: 6px 5px;
+  height: calc(1.7em + 0.75rem + 2px);
+}

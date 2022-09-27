@@ -770,15 +770,21 @@
                       <div class="col-md-4">
                         <div class="form-group">
                           <label>Requested Rate <span class="text-danger"> *</span></label>
-                          <input formControlName="RATE_REQUESTED"
-                            [ngClass]="{'invalid': submitted3 && f3.RATE_REQUESTED.errors}" type="text"
-                            class="form-control" placeholder="" />
-                          <select (change)="onChangeRatePer($event)" class="form-control">
-                            <option value="0" selected="true">--Select--</option>
-                            <option value="10">- 10 %</option>
-                            <option value="20">- 20 %</option>
-                            <option value="30">- 30 %</option>
-                          </select>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <input formControlName="RATE_REQUESTED"
+                                [ngClass]="{'invalid': submitted3 && f3.RATE_REQUESTED.errors}" type="text"
+                                class="form-control" placeholder="" />
+                            </div>
+                            <div class="col-md-6">
+                              <select (change)="onChangeRatePer($event)" class="form-control">
+                                <option value="0" selected="true">--Select--</option>
+                                <option value="10">- 10 %</option>
+                                <option value="20">- 20 %</option>
+                                <option value="30">- 30 %</option>
+                              </select>
+                            </div>
+                          </div>
                           <small *ngIf="submitted3 && f3.RATE_REQUESTED.errors" class="text-danger">
                             Requested Rate is required
                           </small>

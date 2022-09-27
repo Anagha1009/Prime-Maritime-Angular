@@ -66,6 +66,7 @@
 .widget .nav-tabs > li.active > a:focus {
   background-color: transparent;
   color: black !important;
+  /* border-bottom: 2px solid; */
 }
 
 .widget .tab-content {
@@ -416,6 +417,56 @@ input.cmn-toggle-round-flat:checked + label:after {
   border-top: none;
   padding-left: 8px;
 }
+
+.select2 > .ng-dropdown-panel .scroll-host {
+  background-color: #fff;
+  margin-left: -6px;
+  border: 1px solid #d6c7c7;
+  padding-left: 7px;
+  top: 8px;
+  margin-right: 5px;
+}
+
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
   padding: 4px 0px;
+}
+
+.mt-1 {
+  margin-top: 1.25rem;
+}
+
+.mt-2 {
+  margin-top: 1.5rem;
+}
+
+.mt-3 {
+  margin-top: 2rem;
+}
+
+.mt-4 {
+  margin-top: 2.5rem;
+}
+
+.mt-5 {
+  margin-top: 6rem;
+}
+
+.mb-1 {
+  margin-bottom: 1.25rem;
+}
+
+.mb-2 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 2rem;
+}
+
+.mb-4 {
+  margin-bottom: 2.5rem;
+}
+
+.mb-5 {
+  margin-bottom: 6rem;
 }
