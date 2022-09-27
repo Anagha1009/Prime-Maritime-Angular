@@ -20,7 +20,6 @@ export class JwtInterceptor implements HttpInterceptor {
    */
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     var isApiUrl = request.url.startsWith(environment.BASE_URL);
-    debugger;
     if (
       window.location.href.includes('agent-dashboard') ||
       window.location.href.includes('quotation')

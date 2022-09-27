@@ -12,6 +12,7 @@ import { QuotationDetailsComponent } from 'src/app/modules/quotation-details/quo
 import { NewQuotationComponent } from 'src/app/modules/new-quotation/new-quotation.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from 'src/app/helpers/jwt.interceptor';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { JwtInterceptor } from 'src/app/helpers/jwt.interceptor';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    NgSelectModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

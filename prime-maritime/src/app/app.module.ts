@@ -5,8 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainLayoutModule } from './layouts/main-layout/main-layout.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NewQuotationComponent } from './modules/new-quotation/new-quotation.component';
-import { Routes } from '@angular/router';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 
 @NgModule({

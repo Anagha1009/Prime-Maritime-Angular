@@ -12,7 +12,6 @@ export class SrrService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json;charset=UTF-8',
-      //Authorization: 'Bearer ' + localStorage.getItem('token'),
     }),
   };
 
@@ -38,5 +37,9 @@ export class SrrService {
       rootobject,
       this.httpOptions
     );
+  }
+
+  uploadFiles(file) {
+    return this._http.post<any>(this.BASE_URL + 'SRR/UploadFiles', file);
   }
 }

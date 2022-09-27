@@ -1,3 +1,10 @@
+.invalid {
+  border-bottom: 1px solid #d00;
+}
+.invalid:focus {
+  border-bottom: 1px solid #d00;
+}
+
 .sections {
   padding: 2rem 0rem 5rem 0rem;
 }
@@ -252,4 +259,163 @@ input:-webkit-autofill:focus {
     display: block;
     text-align: center;
   }
+}
+
+.cmn-toggle {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+
+.cmn-toggle + label {
+  /* display: block; */
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input.cmn-toggle-round-flat + label {
+  padding: 2px;
+  width: 75px;
+  height: 30px;
+  background-color: #dddddd;
+  -webkit-border-radius: 60px;
+  -moz-border-radius: 60px;
+  -ms-border-radius: 60px;
+  -o-border-radius: 60px;
+  border-radius: 60px;
+  -webkit-transition: background 0.4s;
+  -moz-transition: background 0.4s;
+  -o-transition: background 0.4s;
+  transition: background 0.4s;
+}
+
+input.cmn-toggle-round-flat + label:before,
+input.cmn-toggle-round-flat + label:after {
+  display: block;
+  position: absolute;
+  content: "";
+}
+
+input.cmn-toggle-round-flat + label:before {
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
+  right: 2px;
+  background-color: #fff;
+  -webkit-border-radius: 60px;
+  -moz-border-radius: 60px;
+  -ms-border-radius: 60px;
+  -o-border-radius: 60px;
+  border-radius: 60px;
+  -webkit-transition: background 0.4s;
+  -moz-transition: background 0.4s;
+  -o-transition: background 0.4s;
+  transition: background 0.4s;
+}
+
+input.cmn-toggle-round-flat + label:after {
+  top: 4px;
+  left: 4px;
+  bottom: 4px;
+  width: 22px;
+  background-color: #dddddd;
+  -webkit-border-radius: 52px;
+  -moz-border-radius: 52px;
+  -ms-border-radius: 52px;
+  -o-border-radius: 52px;
+  border-radius: 52px;
+  -webkit-transition: margin 0.4s, background 0.4s;
+  -moz-transition: margin 0.4s, background 0.4s;
+  -o-transition: margin 0.4s, background 0.4s;
+  transition: margin 0.4s, background 0.4s;
+}
+
+input.cmn-toggle-round-flat:checked + label {
+  background-color: black;
+}
+
+input.cmn-toggle-round-flat:checked + label:after {
+  margin-left: 45px;
+  background-color: black;
+}
+
+.form-control[readonly] {
+  background: none;
+  cursor: not-allowed;
+}
+
+.radio input,
+.radio-inline input {
+  opacity: 0;
+  position: absolute;
+}
+
+.radio > label {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.radio .indicator,
+.radio-inline .indicator {
+  position: relative;
+}
+
+.radio .indicator:before,
+.radio-inline .indicator:before {
+  content: "";
+  border: 2px solid #888;
+  display: inline-block;
+  vertical-align: middle;
+  width: 23px;
+  height: 23px;
+  padding: 2px;
+  margin-top: -5px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.radio input + .indicator:before,
+.radio-inline input + .indicator:before {
+  border-radius: 50%;
+}
+
+.radio input:checked + .indicator:before,
+.radio-inline input:checked + .indicator:before {
+  border-color: black;
+  background: black;
+  box-shadow: inset 0px 0px 0px 5px #fff;
+}
+
+.radio input:disabled + .indicator:before,
+.radio-inline input:disabled + .indicator:before {
+  border-color: #ccc;
+  box-shadow: inset 0px 0px 0px 5px #fff;
+}
+
+.radio input:checked:disabled + .indicator:before,
+.radio-inline input:checked:disabled + .indicator:before {
+  border-color: #ccc;
+  background: #ccc;
+  box-shadow: inset 0px 0px 0px 5px #fff;
+}
+
+.radio input:focus + .indicator,
+.radio-inline input:focus + .indicator {
+  outline: 0px solid #ddd;
+  /* focus style */
+}
+.ng-dropdown-panel .scroll-host {
+  background-color: #fff;
+  margin-left: -3px;
+  border: 1px solid #d6c7c7;
+  border-top: none;
+  padding-left: 8px;
+}
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  padding: 4px 0px;
 }
