@@ -42,6 +42,13 @@ export class AgentDashboardComponent implements OnInit {
     this.getSRRList(SRR_NO, CUSTOMER_NAME, STATUS);
   }
 
+  clearSRRList() {
+    this.quotationForm.get('SRR_NO')?.setValue('');
+    this.quotationForm.get('CUSTOMER_NAME')?.setValue('--Select--');
+    this.quotationForm.get('STATUS')?.setValue('');
+    this.getSRRList('', '', '');
+  }
+
   getSRRList(SRR_NO, CUSTOMER_NAME, STATUS) {
     this.SrrService.getSRRList(SRR_NO, CUSTOMER_NAME, STATUS).subscribe(
       (res) => {

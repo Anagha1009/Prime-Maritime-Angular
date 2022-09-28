@@ -222,26 +222,28 @@ export class NewQuotationComponent implements OnInit {
   }
 
   activeTabs(tab) {
-    if (tab == 'Container') {
-      if (this.quotationForm.invalid) {
-        alert('Please complete SRR Details');
-        this.tabActive = 'SRR';
-      } else {
-        this.tabActive = tab;
-      }
-    } else if (tab == 'Commodities') {
-      if (this.quotationForm.invalid) {
-        alert('Please complete SRR Details');
-        this.tabActive = 'SRR';
-      } else if (this.containerForm.invalid) {
-        alert('Please complete add Container');
-        this.tabActive = 'Container';
-      } else {
-        this.tabActive = tab;
-      }
-    } else {
-      this.tabActive = tab;
-    }
+    // if (tab == 'Container') {
+    //   if (this.quotationForm.invalid) {
+    //     alert('Please complete SRR Details');
+    //     this.tabActive = 'SRR';
+    //   } else {
+    //     this.tabActive = tab;
+    //   }
+    // } else if (tab == 'Commodities') {
+    //   if (this.quotationForm.invalid) {
+    //     alert('Please complete SRR Details');
+    //     this.tabActive = 'SRR';
+    //   } else if (this.containerForm.invalid) {
+    //     alert('Please complete add Container');
+    //     this.tabActive = 'Container';
+    //   } else {
+    //     this.tabActive = tab;
+    //   }
+    // } else {
+    //   this.tabActive = tab;
+    // }
+
+    this.tabActive = tab;
   }
 
   insertQuotation() {
