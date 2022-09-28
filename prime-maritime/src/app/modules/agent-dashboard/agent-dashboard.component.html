@@ -60,34 +60,43 @@
         <!-- Tab panes -->
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane fade in active" id="home">
-            <div class="row">
-              <div class="col-md-3 form-group">
-                <label class="form-label">SRR No</label>
-                <input type="text" class="form-control" placeholder="" />
-              </div>
-              <div class="col-md-3 form-group">
-                <label class="form-label">Customer Name</label>
-                <ng-select class="form-control select2" [(ngModel)]="selectedAttribute">
-                  <ng-option>JITEX</ng-option>
-                  <ng-option>MASDAR TECHNICAL SUPPLIES TRADING CO.</ng-option>
-                </ng-select>
-              </div>
-              <div class="col-md-3 form-group">
-                <label class="form-label">Status</label>
-                <ng-select class="form-control select2">
-                  <ng-option>Requested</ng-option>
-                  <ng-option>Approved</ng-option>
-                </ng-select>
-              </div>
-              <div class="col-md-3">
-                <div class="mt-4">
-                  <button class="btn btn-outline info">Search</button>
+            <form [formGroup]="quotationForm">
+              <div class="row">
+                <div class="col-md-3 form-group">
+                  <label class="form-label">SRR No</label>
+                  <input type="text" formControlName="SRR_NO" class="form-control" placeholder="" />
+                </div>
+                <div class="col-md-3 form-group">
+                  <label class="form-label">Customer Name</label>
+                  <ng-select formControlName="CUSTOMER_NAME" class="form-control select2"
+                    [(ngModel)]="selectedAttribute">
+                    <ng-option value="JITEX">JITEX</ng-option>
+                    <ng-option value="MASDAR TECHNICAL SUPPLIES TRADING CO.">MASDAR TECHNICAL SUPPLIES TRADING CO.
+                    </ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-md-2 form-group">
+                  <label class="form-label">Status</label>
+                  <ng-select formControlName="STATUS" class="form-control select2">
+                    <ng-option value="Requested">Requested</ng-option>
+                    <ng-option value="Approved">Approved</ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-md-4">
+                  <div class="mt-5 row">
+                    <div class="col-md-6 text-right">
+                      <button (click)="searchSRRList()" class="btn btn-outline info">Search</button>
+                    </div>
+                    <div class="col-md-6">
+                      <button (click)="getSRRList('','','')" class="btn btn-outline light">Clear</button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </form>
             <br>
-            <div class="scrollbar" id="style-3">
-              <div class="force-overflow">
+            <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
+              <div [class]="isScroll ? 'force-overflow' : ''">
                 <div class="card-list" *ngFor="let item of srrList">
                   <div (click)="redirectToQuotation(item.SRR_NO)" class="card-list-body">
                     <div class="row">

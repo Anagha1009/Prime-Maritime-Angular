@@ -448,7 +448,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 .mt-5 {
-  margin-top: 6rem;
+  margin-top: 3rem;
 }
 
 .mb-1 {
@@ -468,5 +468,5 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 .mb-5 {
-  margin-bottom: 6rem;
+  margin-bottom: 3rem;
 }

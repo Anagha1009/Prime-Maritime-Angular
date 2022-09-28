@@ -310,7 +310,7 @@
                           <label>TSP 1</label>
                           <ng-select formControlName="TSP_1" class="form-control" bindLabel="name"
                             dropdownPosition="bottom" appendTo="body" [searchable]="true" [clearable]="true">
-                            <ng-option [value]="item.CODE" *ngFor="let item of icdList">
+                            <ng-option [value]="item.CODE" *ngFor="let item of portList">
                               {{item.CODE_DESC}}
                             </ng-option>
                           </ng-select>
@@ -323,7 +323,7 @@
                           <label>TSP 2</label>
                           <ng-select formControlName="TSP_2" class="form-control" bindLabel="name"
                             dropdownPosition="bottom" appendTo="body" [searchable]="true" [clearable]="true">
-                            <ng-option [value]="item.CODE" *ngFor="let item of icdList">
+                            <ng-option [value]="item.CODE" *ngFor="let item of portList">
                               {{item.CODE_DESC}}
                             </ng-option>
                           </ng-select>
