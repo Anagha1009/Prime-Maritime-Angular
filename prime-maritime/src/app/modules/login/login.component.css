@@ -1,0 +1,19 @@
+.css-tab .nav-tabs > li > a:hover,
+.css-tab .nav-tabs > li > a:focus,
+.css-tab .nav-tabs > li.active > a,
+.css-tab .nav-tabs > li.active > a:hover,
+.css-tab .nav-tabs > li.active > a:focus {
+  color: #ffffff;
+  background: black;
+  border: 0;
+}
+
+.icon {
+  font-size: 10px;
+}
+
+.card {
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
+}
