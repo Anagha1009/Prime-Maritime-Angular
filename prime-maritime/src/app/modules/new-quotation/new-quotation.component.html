@@ -38,6 +38,13 @@
                       <div class="row">
                         <div class="col-md-4">
                           <div class="form-group">
+                            <label>Place Of Receipt</label>
+                            <input type="text" autocomplete="false" formControlName="PLACE_OF_RECEIPT"
+                              class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
                             <label>Port Of Loading <span class="text-danger"> *</span></label>
                             <ng-select formControlName="POL" [ngClass]="{'invalid': submitted && f.POL.errors}"
                               class="form-control" bindLabel="name" dropdownPosition="bottom" appendTo="body"
@@ -66,9 +73,18 @@
                             </small>
                           </div>
                         </div>
+                      </div>
+                      <div class="row">
                         <div class="col-md-4">
                           <div class="form-group">
-                            <label>Origin ICD <span class="text-danger"> *</span></label>
+                            <label>Place Of Delivery</label>
+                            <input type="text" autocomplete="false" formControlName="PLACE_OF_DELIVERY"
+                              class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Final Destination <span class="text-danger"> *</span></label>
                             <ng-select formControlName="ORIGIN_ICD"
                               [ngClass]="{'invalid': submitted && f.ORIGIN_ICD.errors}" class="form-control"
                               bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
@@ -78,26 +94,32 @@
                               </ng-option>
                             </ng-select>
                             <small *ngIf="submitted && f.ORIGIN_ICD.errors" class="text-danger">
-                              Origin ICD is required
+                              Final Destination is required
                             </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>TSP 1</label>
+                            <ng-select formControlName="TSP_1" class="form-control" bindLabel="name"
+                              dropdownPosition="bottom" appendTo="body" [searchable]="true" [clearable]="true">
+                              <ng-option [value]="item.CODE" *ngFor="let item of portList">
+                                {{item.CODE_DESC}}
+                              </ng-option>
+                            </ng-select>
                           </div>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-md-4">
                           <div class="form-group">
-                            <label>Destination ICD <span class="text-danger"> *</span></label>
-                            <ng-select formControlName="DESTINATION_ICD"
-                              [ngClass]="{'invalid': submitted && f.DESTINATION_ICD.errors}" class="form-control"
-                              bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
-                              [clearable]="true">
-                              <ng-option [value]="item.CODE" *ngFor="let item of icdList">
+                            <label>TSP 2</label>
+                            <ng-select formControlName="TSP_2" class="form-control" bindLabel="name"
+                              dropdownPosition="bottom" appendTo="body" [searchable]="true" [clearable]="true">
+                              <ng-option [value]="item.CODE" *ngFor="let item of portList">
                                 {{item.CODE_DESC}}
                               </ng-option>
                             </ng-select>
-                            <small *ngIf="submitted && f.DESTINATION_ICD.errors" class="text-danger">
-                              Destination ICD is required
-                            </small>
                           </div>
                         </div>
                         <div class="col-md-4">
@@ -139,6 +161,10 @@
                             </small>
                           </div>
                         </div>
+                      </div>
+                      <hr>
+                      <h3>Customer Details</h3>
+                      <div class="row">
                         <div class="col-md-4">
                           <div class="form-group">
                             <label>Customer Name <span class="text-danger"> *</span></label>
@@ -212,6 +238,13 @@
                         </div>
                         <div class="col-md-4">
                           <div class="form-group">
+                            <label>Notify Party</label>
+                            <input formControlName="NOTIFY_PARTY" autocomplete="false" type="text" class="form-control"
+                              placeholder="" />
+                          </div>
+                        </div>
+                        <!-- <div class="col-md-4">
+                          <div class="form-group">
                             <label>Consignee <span class="text-danger"> *</span></label>
                             <input formControlName="CONSIGNEE" autocomplete="false"
                               [ngClass]="{'invalid': submitted && f.CONSIGNEE.errors}" type="text" class="form-control"
@@ -220,41 +253,43 @@
                               Consignee is required
                             </small>
                           </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="form-group">
-                            <label>Notify Party</label>
-                            <input formControlName="NOTIFY_PARTY" autocomplete="false" type="text" class="form-control"
-                              placeholder="" />
-                          </div>
-                        </div>
+                        </div> -->
                       </div>
                       <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
+                          <label>Other Parties</label>
+                          <br>
+                          <label class="radio-inline">
+                            <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES" id="inlineRadio1"
+                              value="Brokerage Party"><span class="indicator"></span>
+                            Brokerage Party
+                          </label>
+                          <label class="radio-inline">
+                            <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES" id="inlineRadio2"
+                              value="Consignee"><span class="indicator"></span>Consignee
+                          </label>
+                          <label class="radio-inline">
+                            <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES" id="inlineRadio3"
+                              value="Forwarder"><span class="indicator"></span>Forwarder
+                          </label>
+                        </div>
+                        <!-- <div class="col-md-4">
                           <div class="form-group">
                             <label>Brokerage Party</label>
                             <input formControlName="BROKERAGE_PARTY" autocomplete="false" type="text"
                               class="form-control" placeholder="" />
                           </div>
-                        </div>
-                        <div class="col-md-4">
+                        </div> -->
+                        <!-- <div class="col-md-4">
                           <div class="form-group">
                             <label>Forwarder</label>
                             <input formControlName="FORWARDER" autocomplete="false" type="text" class="form-control"
                               placeholder="" />
                           </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-4">
                           <div class="form-group">
                             <label>MTY Repo <span class="text-danger"> *</span></label>
-                            <!-- <select formControlName="MTY_REPO" [ngClass]="{'invalid': submitted && f.MTY_REPO.errors}"
-                          class="form-control">
-                          <option selected="true" value="" disabled="true">
-                            --Select--
-                          </option>
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
-                        </select> -->
                             <div class="switch">
                               <input id="cmn-toggle-4" formControlName="MTY_REPO"
                                 class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
@@ -287,44 +322,6 @@
                       <div class="row">
                         <div class="col-md-4">
                           <div class="form-group">
-                            <label>Place Of Receipt</label>
-                            <input type="text" autocomplete="false" formControlName="PLACE_OF_RECEIPT"
-                              class="form-control" />
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="form-group">
-                            <label>Place Of Delivery</label>
-                            <input type="text" autocomplete="false" formControlName="PLACE_OF_DELIVERY"
-                              class="form-control" />
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="form-group">
-                            <label>TSP 1</label>
-                            <ng-select formControlName="TSP_1" class="form-control" bindLabel="name"
-                              dropdownPosition="bottom" appendTo="body" [searchable]="true" [clearable]="true">
-                              <ng-option [value]="item.CODE" *ngFor="let item of portList">
-                                {{item.CODE_DESC}}
-                              </ng-option>
-                            </ng-select>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-4">
-                          <div class="form-group">
-                            <label>TSP 2</label>
-                            <ng-select formControlName="TSP_2" class="form-control" bindLabel="name"
-                              dropdownPosition="bottom" appendTo="body" [searchable]="true" [clearable]="true">
-                              <ng-option [value]="item.CODE" *ngFor="let item of portList">
-                                {{item.CODE_DESC}}
-                              </ng-option>
-                            </ng-select>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="form-group">
                             <label>Container Type <span class="text-danger"> *</span></label>
                             <ng-select formControlName="CONTAINER_TYPE"
                               [ngClass]="{'invalid': submitted1 && f1.CONTAINER_TYPE.errors}" class="form-control"
@@ -355,8 +352,6 @@
                             </small>
                           </div>
                         </div>
-                      </div>
-                      <div class="row">
                         <div class="col-md-4">
                           <div class="form-group">
                             <label>Service Mode <span class="text-danger"> *</span></label>
@@ -373,6 +368,8 @@
                             </small>
                           </div>
                         </div>
+                      </div>
+                      <div class="row">
                         <div class="col-md-4">
                           <div class="form-group">
                             <label>POL Free Days <span class="text-danger"> *</span></label>
@@ -395,8 +392,6 @@
                             </small>
                           </div>
                         </div>
-                      </div>
-                      <div class="row">
                         <div class="col-md-4">
                           <div class="form-group">
                             <label>Imm Volume Expected <span class="text-danger"> *</span></label>
@@ -408,6 +403,8 @@
                             </small>
                           </div>
                         </div>
+                      </div>
+                      <div class="row">
                         <div class="col-md-4">
                           <div class="form-group">
                             <label>Total Volume Expected <span class="text-danger"> *</span></label>
@@ -767,21 +764,9 @@
                         <div class="col-md-4">
                           <div class="form-group">
                             <label>Requested Rate <span class="text-danger"> *</span></label>
-                            <div class="row">
-                              <div class="col-md-6">
-                                <input formControlName="RATE_REQUESTED"
-                                  [ngClass]="{'invalid': submitted3 && f3.RATE_REQUESTED.errors}" type="text"
-                                  class="form-control" placeholder="" />
-                              </div>
-                              <div class="col-md-6">
-                                <select (change)="onChangeRatePer($event)" class="form-control">
-                                  <option value="0" selected="true">--Select--</option>
-                                  <option value="10">- 10 %</option>
-                                  <option value="20">- 20 %</option>
-                                  <option value="30">- 30 %</option>
-                                </select>
-                              </div>
-                            </div>
+                            <input formControlName="RATE_REQUESTED"
+                              [ngClass]="{'invalid': submitted3 && f3.RATE_REQUESTED.errors}" type="text"
+                              class="form-control" placeholder="" />
                             <small *ngIf="submitted3 && f3.RATE_REQUESTED.errors" class="text-danger">
                               Requested Rate is required
                             </small>

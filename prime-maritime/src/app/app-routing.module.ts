@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { MainLayoutModule } from './layouts/main-layout/main-layout.module';
 import { AgentDashboardComponent } from './modules/agent-dashboard/agent-dashboard.component';
+import { ContainerTrackingComponent } from './modules/container-tracking/container-tracking.component';
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
 import { NewQuotationComponent } from './modules/new-quotation/new-quotation.component';
@@ -33,6 +34,10 @@ const routes: Routes = [
       {
         path: 'home/new-quotation',
         component: NewQuotationComponent,
+      },
+      {
+        path: 'home/tracking',
+        component: ContainerTrackingComponent,
       },
     ],
   },

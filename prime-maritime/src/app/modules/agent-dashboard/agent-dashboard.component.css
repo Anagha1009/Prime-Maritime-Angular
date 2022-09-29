@@ -29,3 +29,7 @@
   padding: 6px 5px;
   height: calc(1.7em + 0.75rem + 2px);
 }
+
+.widget .tab-content {
+  padding: 0px;
+}

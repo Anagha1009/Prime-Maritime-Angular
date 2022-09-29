@@ -13,6 +13,7 @@ import { NewQuotationComponent } from 'src/app/modules/new-quotation/new-quotati
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from 'src/app/helpers/jwt.interceptor';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ContainerTrackingComponent } from 'src/app/modules/container-tracking/container-tracking.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     AgentDashboardComponent,
     QuotationDetailsComponent,
     NewQuotationComponent,
+    ContainerTrackingComponent,
   ],
   imports: [
     CommonModule,
