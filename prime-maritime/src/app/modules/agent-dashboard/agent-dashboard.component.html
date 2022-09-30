@@ -9,7 +9,7 @@
 
               <div class="number-info">
                 <strong><span class="timer">{{ srrList.length }}</span></strong>
-                <span class="facts-description">Quotations Raised</span>
+                <span class="facts-description">Quotations Requested</span>
               </div>
             </div>
             <!-- /.col-sm-3 -->
@@ -118,8 +118,9 @@
                           {{ item.CREATED_DATE | date: "mediumDate" }}</label>
                       </div>
                       <div class="col-md-3 text-right">
+
                         <span *ngIf="item.STATUS == 'Approved'" class="badge badge-success">{{ item.STATUS }}</span>
-                        <span *ngIf="item.STATUS == 'Drafted'" class="badge badge-secondary">{{ item.STATUS }}</span>
+                        <span *ngIf="item.STATUS == 'Requested'" class="badge badge-secondary">{{ item.STATUS }}</span>
                       </div>
                     </div>
                   </div>
