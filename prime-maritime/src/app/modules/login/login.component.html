@@ -1,34 +1,44 @@
 <section class="sections">
+  <div class="css-tab" role="tabpanel">
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active">
+        <a href="#secure" aria-controls="secure" role="tab" data-toggle="tab"><i class="icon fa fa-male"></i>
+          Agent</a>
+      </li>
+      <li role="presentation">
+        <a href="#trackable" aria-controls="trackable" role="tab" data-toggle="tab"><i class="icon fa fa-user"></i>
+          Principal</a>
+      </li>
+      <li role="presentation">
+        <a href="#reliable" aria-controls="reliable" role="tab" data-toggle="tab"><i class="icon fa fa-laptop"></i>
+          Depot</a>
+      </li>
+    </ul>
+  </div>
+
   <div class="container">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-      <div class="contact-map">
-        <h3>Login</h3>
-        <form id="mainContact" [formGroup]="loginForm" autocomplete="off">
-          <div class="form-group">
-            <label for="name">Username</label>
-            <input
-              formControlName="USERNAME"
-              name="name"
-              type="text"
-              class="form-control"
-              required=""
-              placeholder=""
-            />
-          </div>
-          <div class="form-group">
-            <label for="email">Password</label>
-            <input
-              formControlName="PASSWORD"
-              name="email"
-              type="password"
-              class="form-control"
-              required=""
-              placeholder=""
-            />
-          </div>
-          <a (click)="validateLogin()" class="btn btn-primary">Login</a>
-        </form>
+    <div class="">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="text-center">Login</h3>
+          <form id="mainContact" [formGroup]="loginForm" autocomplete="off">
+            <div class="form-group">
+              <label for="name">Username</label>
+              <input formControlName="USERNAME" name="name" type="text" class="form-control" required=""
+                placeholder="" />
+            </div>
+            <div class="form-group">
+              <label for="email">Password</label>
+              <input formControlName="PASSWORD" name="email" type="password" class="form-control" required=""
+                placeholder="" />
+            </div>
+            <div class="form-group">
+              <input type="checkbox" class="mr-1" /><label>Remember Me</label>
+            </div>
+            <a (click)="validateLogin()" class="btn btn-primary mr-1">Login</a>
+            <label><a href="#">Forgot Password ? </a></label>
+          </form>
+        </div>
       </div>
     </div>
   </div>

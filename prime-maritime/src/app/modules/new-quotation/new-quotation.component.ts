@@ -91,7 +91,7 @@ export class NewQuotationComponent implements OnInit {
       POL: ['', Validators.required],
       POD: ['', Validators.required],
       ORIGIN_ICD: ['', Validators.required],
-      DESTINATION_ICD: ['', Validators.required],
+      // DESTINATION_ICD: ['', Validators.required],
       SERVICE_NAME: ['', Validators.required],
       EFFECT_FROM: ['', Validators.required],
       EFFECT_TO: ['', Validators.required],
@@ -102,7 +102,8 @@ export class NewQuotationComponent implements OnInit {
       EMAIL: ['', Validators.required],
       CONTACT: ['', Validators.required],
       SHIPPER: ['', Validators.required],
-      CONSIGNEE: ['', Validators.required],
+      CONSIGNEE: [''],
+      OTHER_PARTIES: [''],
       NOTIFY_PARTY: [''],
       BROKERAGE_PARTY: [''],
       FORWARDER: [''],
@@ -118,7 +119,7 @@ export class NewQuotationComponent implements OnInit {
       IMM_VOLUME_EXPECTED: [''],
       TOTAL_VOLUME_EXPECTED: [''],
       CREATED_BY: [''],
-      STATUS: ['Drafted'],
+      STATUS: ['Requested'],
       SRR_CONTAINERS: new FormArray([]),
       SRR_COMMODITIES: new FormArray([]),
       SRR_RATES: new FormArray([]),
@@ -127,10 +128,6 @@ export class NewQuotationComponent implements OnInit {
 
   getContainerForm() {
     this.containerForm = this.FormBuilder.group({
-      PLACE_OF_RECEIPT: [''],
-      PLACE_OF_DELIVERY: [''],
-      TSP_1: [''],
-      TSP_2: [''],
       CONTAINER_TYPE: ['', Validators.required],
       CONTAINER_SIZE: ['', Validators.required],
       SERVICE_MODE: ['', Validators.required],
@@ -191,11 +188,20 @@ export class NewQuotationComponent implements OnInit {
       return;
     }
 
+    var length = this.commoditiesForm.get('LENGTH')?.value;
+    this.commoditiesForm.get('LENGTH')?.setValue(length == '' ? 0 : +length);
+
+    var width = this.commoditiesForm.get('WIDTH')?.value;
+    this.commoditiesForm.get('WIDTH')?.setValue(width == '' ? 0 : +width);
+
+    var height = this.commoditiesForm.get('HEIGHT')?.value;
+    this.commoditiesForm.get('HEIGHT')?.setValue(height == '' ? 0 : +height);
+
     var commodities = this.quotationForm.get('SRR_COMMODITIES') as FormArray;
     commodities.push(this.commoditiesForm);
     this.commodityList.push(this.commoditiesForm.value);
 
-    this.commoditiesForm.reset();
+    // this.commoditiesForm.reset();
     this.submitted2 = false;
   }
 
@@ -242,6 +248,19 @@ export class NewQuotationComponent implements OnInit {
     var POD = this.quotationForm.value.POD;
 
     this.quotationForm.get('SRR_NO')?.setValue(this.getRandomNumber(POL, POD));
+
+    var otherparties = this.quotationForm.get('OTHER_PARTIES')?.value;
+
+    this.quotationForm
+      .get('BROKERAGE_PARTY')
+      ?.setValue(otherparties == 'Brokerage Party' ? 'Yes' : 'No');
+    this.quotationForm
+      .get('CONSIGNEE')
+      ?.setValue(otherparties == 'Consignee' ? 'Yes' : 'No');
+    this.quotationForm
+      .get('FORWARDER')
+      ?.setValue(otherparties == 'Forwarder' ? 'Yes' : 'No');
+
     console.log(JSON.stringify(this.quotationForm.value));
     this._srrService
       .insertSRR(JSON.stringify(this.quotationForm.value))
@@ -250,7 +269,7 @@ export class NewQuotationComponent implements OnInit {
           if (this.commodityType == 'HAZ' || this.commodityType == 'FLEXIBAG') {
             this.uploadFilestoDB();
           }
-          alert(res.responseMessage);
+          alert('Your quotation has been submitted successfully !');
           this._router.navigateByUrl('home/agent-dashboard');
         }
       });
@@ -307,8 +326,6 @@ export class NewQuotationComponent implements OnInit {
     if (this.quotationForm.invalid) {
       return;
     }
-
-    console.log('Quotation ' + JSON.stringify(this.quotationForm.value));
 
     this.activeTabs('Container');
   }
@@ -399,11 +416,11 @@ export class NewQuotationComponent implements OnInit {
     }
   }
 
-  onChangeRatePer(event) {
-    var percentage = +event.target.value;
-    var sr = +this.ratesForm.get('STANDARD_RATE')?.value;
-    var pr = (sr * percentage) / 100;
-    var value = sr - pr;
-    this.ratesForm.get('RATE_REQUESTED')?.setValue(value);
-  }
+  // onChangeRatePer(event) {
+  //   var percentage = +event.target.value;
+  //   var sr = +this.ratesForm.get('STANDARD_RATE')?.value;
+  //   var pr = (sr * percentage) / 100;
+  //   var value = sr - pr;
+  //   this.ratesForm.get('RATE_REQUESTED')?.setValue(value.toString());
+  // }
 }

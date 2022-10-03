@@ -28,846 +28,830 @@
 
           <!-- Tab panes -->
           <div class="tab-content">
-            <div role="tabpanel" [class]="
-                tabActive == 'SRR' ? 'tab-pane active fade in' : 'tab-pane fade'
-              " id="srr">
-              <div class="css-tab-content">
-                <div class="content-text">
-                  <form id="mainContact" [formGroup]="quotationForm">
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Port Of Loading <span class="text-danger"> *</span></label>
-                          <ng-select formControlName="POL" [ngClass]="{'invalid': submitted && f.POL.errors}"
-                            class="form-control" bindLabel="name" dropdownPosition="bottom" appendTo="body"
-                            [searchable]="true" [clearable]="true">
-                            <ng-option [value]="item.CODE" *ngFor="let item of portList">
-                              {{item.CODE_DESC}} ( {{item.CODE}})
-                            </ng-option>
-                          </ng-select>
-                          <!-- <select formControlName="POL" [ngClass]="{'invalid': submitted && f.POL.errors}"
-                            class="form-control">
-                            <option selected="true" value="" disabled="true">
-                              --Select--
-                            </option>
-                            <option *ngFor="let item of portList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }}
-                            </option>
-                          </select> -->
-                          <small *ngIf="submitted && f.POL.errors" class="text-danger">
-                            POL is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Port Of Discharge <span class="text-danger"> *</span></label>
-                          <ng-select formControlName="POD" [ngClass]="{'invalid': submitted && f.POD.errors}"
-                            class="form-control" bindLabel="name" dropdownPosition="bottom" appendTo="body"
-                            [searchable]="true" [clearable]="true">
-                            <ng-option [value]="item.CODE" *ngFor="let item of portList">
-                              {{item.CODE_DESC}}( {{item.CODE}})
-                            </ng-option>
-                          </ng-select>
-                          <small *ngIf="submitted && f.POD.errors" class="text-danger">
-                            POD is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Origin ICD <span class="text-danger"> *</span></label>
-                          <ng-select formControlName="ORIGIN_ICD"
-                            [ngClass]="{'invalid': submitted && f.ORIGIN_ICD.errors}" class="form-control"
-                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
-                            [clearable]="true">
-                            <ng-option [value]="item.CODE" *ngFor="let item of icdList">
-                              {{item.CODE_DESC}}
-                            </ng-option>
-                          </ng-select>
-                          <small *ngIf="submitted && f.ORIGIN_ICD.errors" class="text-danger">
-                            Origin ICD is required
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Destination ICD <span class="text-danger"> *</span></label>
-                          <ng-select formControlName="DESTINATION_ICD"
-                            [ngClass]="{'invalid': submitted && f.DESTINATION_ICD.errors}" class="form-control"
-                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
-                            [clearable]="true">
-                            <ng-option [value]="item.CODE" *ngFor="let item of icdList">
-                              {{item.CODE_DESC}}
-                            </ng-option>
-                          </ng-select>
-                          <small *ngIf="submitted && f.DESTINATION_ICD.errors" class="text-danger">
-                            Destination ICD is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Service Name <span class="text-danger"> *</span></label>
-                          <ng-select formControlName="SERVICE_NAME"
-                            [ngClass]="{'invalid': submitted && f.SERVICE_NAME.errors}" class="form-control"
-                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
-                            [clearable]="true">
-                            <ng-option value="abc">abc</ng-option>
-                            <ng-option value="xyz">xyz</ng-option>
-                          </ng-select>
-                          <small *ngIf="submitted && f.SERVICE_NAME.errors" class="text-danger">
-                            Service Name is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Effect From <span class="text-danger"> *</span></label>
-                          <input formControlName="EFFECT_FROM" onkeydown="return false"
-                            [ngClass]="{'invalid': submitted && f.EFFECT_FROM.errors}" type="date" class="form-control"
-                            placeholder="" />
-                          <small *ngIf="submitted && f.EFFECT_FROM.errors" class="text-danger">
-                            Effect From is required
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Effect To <span class="text-danger"> *</span></label>
-                          <input formControlName="EFFECT_TO" onkeydown="return false"
-                            [ngClass]="{'invalid': submitted && f.EFFECT_TO.errors}" type="date" class="form-control"
-                            placeholder="" />
-                          <small *ngIf="submitted && f.EFFECT_TO.errors" class="text-danger">
-                            Effect To is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Customer Name <span class="text-danger"> *</span></label>
-                          <input formControlName="CUSTOMER_NAME" autocomplete="false"
-                            [ngClass]="{'invalid': submitted && f.CUSTOMER_NAME.errors}" type="text"
-                            class="form-control" placeholder="" />
-                          <small *ngIf="submitted && f.CUSTOMER_NAME.errors" class="text-danger">
-                            Customer Name is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Select Address <span class="text-danger"> *</span></label>
-                          <select formControlName="ADDRESS" (change)="getAddress($event)"
-                            [ngClass]="{'invalid': submitted && f.ADDRESS.errors}" class="form-control">
-                            <option selected="true" value="" disabled="true">
-                              --Select--
-                            </option>
-                            <option value="Mumbai">Mumbai</option>
-                            <option value="Thane">Thane</option>
-                          </select>
-                          <small *ngIf="submitted && f.ADDRESS.errors" class="text-danger">
-                            Address is required
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Address</label>
-                          <input formControlName="ADDRESS1" readonly type="text" class="form-control" placeholder="" />
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Email <span class="text-danger"> *</span></label>
-                          <input formControlName="EMAIL" autocomplete="false"
-                            [ngClass]="{'invalid': submitted && f.EMAIL.errors}" type="text" class="form-control"
-                            placeholder="" />
-                          <small *ngIf="submitted && f.EMAIL.errors" class="text-danger">
-                            Email is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Contact <span class="text-danger"> *</span></label>
-                          <input formControlName="CONTACT" autocomplete="false"
-                            [ngClass]="{'invalid': submitted && f.CONTACT.errors}" type="text" class="form-control"
-                            placeholder="" />
-                          <small *ngIf="submitted && f.CONTACT.errors" class="text-danger">
-                            Contact is required
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Shipper <span class="text-danger"> *</span></label>
-                          <input formControlName="SHIPPER" autocomplete="false"
-                            [ngClass]="{'invalid': submitted && f.SHIPPER.errors}" type="text" class="form-control"
-                            placeholder="" />
-                          <small *ngIf="submitted && f.SHIPPER.errors" class="text-danger">
-                            Shipper is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Consignee <span class="text-danger"> *</span></label>
-                          <input formControlName="CONSIGNEE" autocomplete="false"
-                            [ngClass]="{'invalid': submitted && f.CONSIGNEE.errors}" type="text" class="form-control"
-                            placeholder="" />
-                          <small *ngIf="submitted && f.CONSIGNEE.errors" class="text-danger">
-                            Consignee is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Notify Party</label>
-                          <input formControlName="NOTIFY_PARTY" autocomplete="false" type="text" class="form-control"
-                            placeholder="" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Brokerage Party</label>
-                          <input formControlName="BROKERAGE_PARTY" autocomplete="false" type="text" class="form-control"
-                            placeholder="" />
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Forwarder</label>
-                          <input formControlName="FORWARDER" autocomplete="false" type="text" class="form-control"
-                            placeholder="" />
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>MTY Repo <span class="text-danger"> *</span></label>
-                          <!-- <select formControlName="MTY_REPO" [ngClass]="{'invalid': submitted && f.MTY_REPO.errors}"
-                            class="form-control">
-                            <option selected="true" value="" disabled="true">
-                              --Select--
-                            </option>
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                          </select> -->
-                          <div class="switch">
-                            <input id="cmn-toggle-4" formControlName="MTY_REPO" class="cmn-toggle cmn-toggle-round-flat"
-                              type="checkbox">
-                            <label for="cmn-toggle-4"></label>
+            <div class="card" [class]="
+            tabActive == 'SRR' ? 'tab-pane active fade in' : 'tab-pane fade'
+          ">
+              <div class="card-body">
+                <div class="css-tab-content">
+                  <div class="content-text">
+                    <form id="mainContact" [formGroup]="quotationForm">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Place Of Receipt</label>
+                            <input type="text" autocomplete="false" formControlName="PLACE_OF_RECEIPT"
+                              class="form-control" />
                           </div>
-                          <small *ngIf="submitted && f.MTY_REPO.errors" class="text-danger">
-                            MTY Repo is required
-                          </small>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Port Of Loading <span class="text-danger"> *</span></label>
+                            <ng-select formControlName="POL" [ngClass]="{'invalid': submitted && f.POL.errors}"
+                              class="form-control" bindLabel="name" dropdownPosition="bottom" appendTo="body"
+                              [searchable]="true" [clearable]="true">
+                              <ng-option [value]="item.CODE" *ngFor="let item of portList">
+                                {{item.CODE_DESC}} ( {{item.CODE}})
+                              </ng-option>
+                            </ng-select>
+                            <small *ngIf="submitted && f.POL.errors" class="text-danger">
+                              POL is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Port Of Discharge <span class="text-danger"> *</span></label>
+                            <ng-select formControlName="POD" [ngClass]="{'invalid': submitted && f.POD.errors}"
+                              class="form-control" bindLabel="name" dropdownPosition="bottom" appendTo="body"
+                              [searchable]="true" [clearable]="true">
+                              <ng-option [value]="item.CODE" *ngFor="let item of portList">
+                                {{item.CODE_DESC}}( {{item.CODE}})
+                              </ng-option>
+                            </ng-select>
+                            <small *ngIf="submitted && f.POD.errors" class="text-danger">
+                              POD is required
+                            </small>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Place Of Delivery</label>
+                            <input type="text" autocomplete="false" formControlName="PLACE_OF_DELIVERY"
+                              class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Final Destination <span class="text-danger"> *</span></label>
+                            <ng-select formControlName="ORIGIN_ICD"
+                              [ngClass]="{'invalid': submitted && f.ORIGIN_ICD.errors}" class="form-control"
+                              bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                              [clearable]="true">
+                              <ng-option [value]="item.CODE" *ngFor="let item of icdList">
+                                {{item.CODE_DESC}}
+                              </ng-option>
+                            </ng-select>
+                            <small *ngIf="submitted && f.ORIGIN_ICD.errors" class="text-danger">
+                              Final Destination is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>TSP 1</label>
+                            <ng-select formControlName="TSP_1" class="form-control" bindLabel="name"
+                              dropdownPosition="bottom" appendTo="body" [searchable]="true" [clearable]="true">
+                              <ng-option [value]="item.CODE" *ngFor="let item of portList">
+                                {{item.CODE_DESC}}
+                              </ng-option>
+                            </ng-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>TSP 2</label>
+                            <ng-select formControlName="TSP_2" class="form-control" bindLabel="name"
+                              dropdownPosition="bottom" appendTo="body" [searchable]="true" [clearable]="true">
+                              <ng-option [value]="item.CODE" *ngFor="let item of portList">
+                                {{item.CODE_DESC}}
+                              </ng-option>
+                            </ng-select>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Service Name <span class="text-danger"> *</span></label>
+                            <ng-select formControlName="SERVICE_NAME"
+                              [ngClass]="{'invalid': submitted && f.SERVICE_NAME.errors}" class="form-control"
+                              bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                              [clearable]="true">
+                              <ng-option value="abc">abc</ng-option>
+                              <ng-option value="xyz">xyz</ng-option>
+                            </ng-select>
+                            <small *ngIf="submitted && f.SERVICE_NAME.errors" class="text-danger">
+                              Service Name is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Effect From <span class="text-danger"> *</span></label>
+                            <input formControlName="EFFECT_FROM" onkeydown="return false"
+                              [ngClass]="{'invalid': submitted && f.EFFECT_FROM.errors}" type="date"
+                              class="form-control" placeholder="" />
+                            <small *ngIf="submitted && f.EFFECT_FROM.errors" class="text-danger">
+                              Effect From is required
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Effect To <span class="text-danger"> *</span></label>
+                            <input formControlName="EFFECT_TO" onkeydown="return false"
+                              [ngClass]="{'invalid': submitted && f.EFFECT_TO.errors}" type="date" class="form-control"
+                              placeholder="" />
+                            <small *ngIf="submitted && f.EFFECT_TO.errors" class="text-danger">
+                              Effect To is required
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                      <hr>
+                      <h3>Customer Details</h3>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Customer Name <span class="text-danger"> *</span></label>
+                            <input formControlName="CUSTOMER_NAME" autocomplete="false"
+                              [ngClass]="{'invalid': submitted && f.CUSTOMER_NAME.errors}" type="text"
+                              class="form-control" placeholder="" />
+                            <small *ngIf="submitted && f.CUSTOMER_NAME.errors" class="text-danger">
+                              Customer Name is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Select Address <span class="text-danger"> *</span></label>
+                            <select formControlName="ADDRESS" (change)="getAddress($event)"
+                              [ngClass]="{'invalid': submitted && f.ADDRESS.errors}" class="form-control">
+                              <option selected="true" value="" disabled="true">
+                                --Select--
+                              </option>
+                              <option value="Mumbai">Mumbai</option>
+                              <option value="Thane">Thane</option>
+                            </select>
+                            <small *ngIf="submitted && f.ADDRESS.errors" class="text-danger">
+                              Address is required
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Address</label>
+                            <input formControlName="ADDRESS1" readonly type="text" class="form-control"
+                              placeholder="" />
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Email <span class="text-danger"> *</span></label>
+                            <input formControlName="EMAIL" autocomplete="false"
+                              [ngClass]="{'invalid': submitted && f.EMAIL.errors}" type="text" class="form-control"
+                              placeholder="" />
+                            <small *ngIf="submitted && f.EMAIL.errors" class="text-danger">
+                              Email is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Contact <span class="text-danger"> *</span></label>
+                            <input formControlName="CONTACT" autocomplete="false"
+                              [ngClass]="{'invalid': submitted && f.CONTACT.errors}" type="text" class="form-control"
+                              placeholder="" />
+                            <small *ngIf="submitted && f.CONTACT.errors" class="text-danger">
+                              Contact is required
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Shipper <span class="text-danger"> *</span></label>
+                            <input formControlName="SHIPPER" autocomplete="false"
+                              [ngClass]="{'invalid': submitted && f.SHIPPER.errors}" type="text" class="form-control"
+                              placeholder="" />
+                            <small *ngIf="submitted && f.SHIPPER.errors" class="text-danger">
+                              Shipper is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Notify Party</label>
+                            <input formControlName="NOTIFY_PARTY" autocomplete="false" type="text" class="form-control"
+                              placeholder="" />
+                          </div>
+                        </div>
+                        <!-- <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Consignee <span class="text-danger"> *</span></label>
+                            <input formControlName="CONSIGNEE" autocomplete="false"
+                              [ngClass]="{'invalid': submitted && f.CONSIGNEE.errors}" type="text" class="form-control"
+                              placeholder="" />
+                            <small *ngIf="submitted && f.CONSIGNEE.errors" class="text-danger">
+                              Consignee is required
+                            </small>
+                          </div>
+                        </div> -->
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <label>Other Parties</label>
+                          <br>
+                          <label class="radio-inline">
+                            <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES" id="inlineRadio1"
+                              value="Brokerage Party"><span class="indicator"></span>
+                            Brokerage Party
+                          </label>
+                          <label class="radio-inline">
+                            <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES" id="inlineRadio2"
+                              value="Consignee"><span class="indicator"></span>Consignee
+                          </label>
+                          <label class="radio-inline">
+                            <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES" id="inlineRadio3"
+                              value="Forwarder"><span class="indicator"></span>Forwarder
+                          </label>
+                        </div>
+                        <!-- <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Brokerage Party</label>
+                            <input formControlName="BROKERAGE_PARTY" autocomplete="false" type="text"
+                              class="form-control" placeholder="" />
+                          </div>
+                        </div> -->
+                        <!-- <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Forwarder</label>
+                            <input formControlName="FORWARDER" autocomplete="false" type="text" class="form-control"
+                              placeholder="" />
+                          </div>
+                        </div> -->
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>MTY Repo <span class="text-danger"> *</span></label>
+                            <div class="switch">
+                              <input id="cmn-toggle-4" formControlName="MTY_REPO"
+                                class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                              <label for="cmn-toggle-4"></label>
+                            </div>
+                            <small *ngIf="submitted && f.MTY_REPO.errors" class="text-danger">
+                              MTY Repo is required
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+                      <div class="text-right">
+                        <a (click)="onNextSRR()" class="btn btn-primary">Next</a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" [class]="
+            tabActive == 'Container'
+              ? 'tab-pane active fade in'
+              : 'tab-pane fade'
+          ">
+              <div class="card-body">
+                <div class="css-tab-content">
+                  <div class="content-text">
+                    <form id="mainContact" [formGroup]="containerForm">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Container Type <span class="text-danger"> *</span></label>
+                            <ng-select formControlName="CONTAINER_TYPE"
+                              [ngClass]="{'invalid': submitted1 && f1.CONTAINER_TYPE.errors}" class="form-control"
+                              bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                              [clearable]="true">
+                              <ng-option value="Dry storage">Dry storage</ng-option>
+                              <ng-option value="Open top">Open top</ng-option>
+                              <ng-option value="Reefer">Reefer</ng-option>
+                            </ng-select>
+                            <small *ngIf="submitted1 && f1.CONTAINER_TYPE.errors" class="text-danger">
+                              Container Type is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Container Size <span class="text-danger"> *</span></label>
+                            <ng-select formControlName="CONTAINER_SIZE"
+                              [ngClass]="{'invalid': submitted1 && f1.CONTAINER_SIZE.errors}" class="form-control"
+                              bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                              [clearable]="true">
+                              <ng-option *ngFor="let item of containersizeList" value="{{ item.CODE }}">
+                                {{ item.CODE_DESC }} ({{ item.CODE }})
+                              </ng-option>
+                            </ng-select>
+                            <small *ngIf="submitted1 && f1.CONTAINER_SIZE.errors" class="text-danger">
+                              Container Size is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Service Mode <span class="text-danger"> *</span></label>
+                            <ng-select formControlName="SERVICE_MODE"
+                              [ngClass]="{'invalid': submitted1 && f1.SERVICE_MODE.errors}" class="form-control"
+                              bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                              [clearable]="true">
+                              <ng-option *ngFor="let item of servicemodeList" value="{{ item.CODE }}">
+                                {{ item.CODE }}
+                              </ng-option>
+                            </ng-select>
+                            <small *ngIf="submitted1 && f1.SERVICE_MODE.errors" class="text-danger">
+                              Service Mode is required
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>POL Free Days <span class="text-danger"> *</span></label>
+                            <input formControlName="POL_FREE_DAYS" autocomplete="false"
+                              [ngClass]="{'invalid': submitted1 && f1.POL_FREE_DAYS.errors}" type="text"
+                              class="form-control" placeholder="" />
+                            <small *ngIf="submitted1 && f1.POL_FREE_DAYS.errors" class="text-danger">
+                              POL Free Days is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>POD Free Days <span class="text-danger"> *</span></label>
+                            <input formControlName="POD_FREE_DAYS" autocomplete="false"
+                              [ngClass]="{'invalid': submitted1 && f1.POD_FREE_DAYS.errors}" type="text"
+                              class="form-control" placeholder="" />
+                            <small *ngIf="submitted1 && f1.POD_FREE_DAYS.errors" class="text-danger">
+                              POD Free Days is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Imm Volume Expected <span class="text-danger"> *</span></label>
+                            <input formControlName="IMM_VOLUME_EXPECTED" autocomplete="false"
+                              [ngClass]="{'invalid': submitted1 && f1.IMM_VOLUME_EXPECTED.errors}" type="text"
+                              class="form-control" placeholder="" />
+                            <small *ngIf="submitted1 && f1.IMM_VOLUME_EXPECTED.errors" class="text-danger">
+                              Imm Volume Expected is required
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Total Volume Expected <span class="text-danger"> *</span></label>
+                            <input formControlName="TOTAL_VOLUME_EXPECTED" autocomplete="false"
+                              [ngClass]="{'invalid': submitted1 && f1.TOTAL_VOLUME_EXPECTED.errors}" type="text"
+                              class="form-control" placeholder="" />
+                            <small *ngIf="submitted1 && f1.TOTAL_VOLUME_EXPECTED.errors" class="text-danger">
+                              Total Volume Expected is required
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
                     <br />
                     <div class="text-right">
-                      <a (click)="onNextSRR()" class="btn btn-primary">Next</a>
+                      <a (click)="onNextContainers()" class="btn btn-primary">Next</a>
                     </div>
-                  </form>
+                  </div>
                 </div>
               </div>
-              <!-- /.css-tab-content -->
             </div>
-            <div role="tabpanel" [class]="
-                tabActive == 'Container'
-                  ? 'tab-pane active fade in'
-                  : 'tab-pane fade'
-              " id="container">
-              <div class="css-tab-content">
-                <div class="content-text">
-                  <form id="mainContact" [formGroup]="containerForm">
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Place Of Receipt</label>
-                          <input type="text" autocomplete="false" formControlName="PLACE_OF_RECEIPT"
-                            class="form-control" />
+            <div class="card" [class]="
+            tabActive == 'Commodities'
+              ? 'tab-pane active fade in'
+              : 'tab-pane fade'
+          ">
+              <div class="card-body">
+                <div class="css-tab-content">
+                  <div class="content-text">
+                    <form id="mainContact" [formGroup]="commoditiesForm">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Commodity <span class="text-danger"> *</span></label>
+                            <ng-select formControlName="COMMODITY_NAME"
+                              [ngClass]="{'invalid': submitted2 && f2.COMMODITY_NAME.errors}" class="form-control"
+                              bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                              [clearable]="true">
+                              <ng-option value="Aluminium Caps">Aluminium Caps</ng-option>
+                              <ng-option value="Steel">Steel</ng-option>
+                              <ng-option value="Fabrics">Fabrics</ng-option>
+                            </ng-select>
+                            <small *ngIf="submitted2 && f2.COMMODITY_NAME.errors" class="text-danger">
+                              Commodity is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Length</label>
+                            <input formControlName="LENGTH" type="text" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Width</label>
+                            <input formControlName="WIDTH" type="text" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Height</label>
+                            <input formControlName="HEIGHT" type="text" class="form-control" />
+                          </div>
                         </div>
                       </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Place Of Delivery</label>
-                          <input type="text" autocomplete="false" formControlName="PLACE_OF_DELIVERY"
-                            class="form-control" />
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Commodity Type <span class="text-danger"> *</span></label>
+                            <br>
+                            <label class="radio-inline">
+                              <input type="radio" (change)="onChangeCommodityType($event)"
+                                formControlName="COMMODITY_TYPE" name="COMMODITY_TYPE" id="inlineRadio1"
+                                value="NORMAL"><span class="indicator"></span> Normal
+                            </label>
+                            <label class="radio-inline">
+                              <input type="radio" (change)="onChangeCommodityType($event)"
+                                formControlName="COMMODITY_TYPE" name="COMMODITY_TYPE" id="inlineRadio2"
+                                value="HAZ"><span class="indicator"></span>Hazardous
+                            </label>
+                            <label class="radio-inline">
+                              <input type="radio" (change)="onChangeCommodityType($event)"
+                                formControlName="COMMODITY_TYPE" name="COMMODITY_TYPE" id="inlineRadio3"
+                                value="FLEXIBAG"><span class="indicator"></span>Flexi Bag
+                            </label>
+                            <br>
+                            <small *ngIf="submitted2 && f2.COMMODITY_TYPE.errors" class="text-danger">
+                              Commodity Type is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Remarks</label>
+                            <input formControlName="REMARKS" [ngClass]="{'invalid': submitted2 && f2.REMARKS.errors}"
+                              type="text" class="form-control" placeholder="" />
+                            <small *ngIf="submitted2 && f2.REMARKS.errors" class="text-danger">
+                              Remarks is required
+                            </small>
+                          </div>
                         </div>
                       </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>TSP 1</label>
-                          <ng-select formControlName="TSP_1" class="form-control" bindLabel="name"
-                            dropdownPosition="bottom" appendTo="body" [searchable]="true" [clearable]="true">
-                            <ng-option [value]="item.CODE" *ngFor="let item of icdList">
-                              {{item.CODE_DESC}}
-                            </ng-option>
-                          </ng-select>
+                      <div class="row" *ngIf="commodityType == 'HAZ'">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>IMO Class Name</label>
+                            <input type="text" formControlName="IMO_CLASS"
+                              [ngClass]="{'invalid': submitted2 && f2.IMO_CLASS.errors}" class="form-control" />
+                            <small *ngIf="submitted2 && f2.IMO_CLASS.errors" class="text-danger">
+                              IMO Class Name is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>UN No</label>
+                            <input type="text" formControlName="UN_NO"
+                              [ngClass]="{'invalid': submitted2 && f2.UN_NO.errors}" class="form-control" />
+                            <small *ngIf="submitted2 && f2.UN_NO.errors" class="text-danger">
+                              UN No is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>HAZ Approval Ref</label>
+                            <input type="text" formControlName="HAZ_APPROVAL_REF"
+                              [ngClass]="{'invalid': submitted2 && f2.HAZ_APPROVAL_REF.errors}" class="form-control" />
+                            <small *ngIf="submitted2 && f2.HAZ_APPROVAL_REF.errors" class="text-danger">
+                              HAZ Approval Ref is required
+                            </small>
+                          </div>
                         </div>
                       </div>
+                      <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Flash Point</label>
+                            <input type="text" formControlName="FLASH_POINT"
+                              [ngClass]="{'invalid': submitted2 && f2.FLASH_POINT.errors}" class="form-control" />
+                            <small *ngIf="submitted2 && f2.FLASH_POINT.errors" class="text-danger">
+                              Flash Point is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>CAS No</label>
+                            <input type="text" formControlName="CAS_NO"
+                              [ngClass]="{'invalid': submitted2 && f2.CAS_NO.errors}" class="form-control" />
+                            <small *ngIf="submitted2 && f2.CAS_NO.errors" class="text-danger">
+                              CAS No is required
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <h4 *ngIf="commodityType == 'HAZ' || commodityType == 'FLEXIBAG'">Upload Files</h4>
+                      <div class="row" *ngIf="commodityType == 'HAZ'">
+                        <div class="col-md-4">
+                          <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOL">
+                            <input type="file" (change)="fileUpload($event,'POL')" name="file" id="file" />
+                            <label for="file">
+                              <div>
+                                <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                <span class="formbold-drop-file">Upload</span>
+                                <small>POL Acceptance</small>
+                              </div>
+                            </label>
+                          </div>
+                          <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOL">
+                            <div class="formbold-file-item">
+                              <span class="formbold-file-name">{{POLAcceptanceFile}}</span>
+                              <button (click)="isUploadedPOL = false"><span class="fa fa-times"></span></button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOD">
+                            <input type="file" (change)="fileUpload($event,'POD')" name="file1" id="file1" />
+                            <label for="file1">
+                              <div>
+                                <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                <span class="formbold-drop-file">Upload</span>
+                                <small>POD Acceptance</small>
+                              </div>
+                            </label>
+                          </div>
+                          <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOD">
+                            <div class="formbold-file-item">
+                              <span class="formbold-file-name">{{PODAcceptanceFile}}</span>
+                              <button (click)="isUploadedPOD = false"><span class="fa fa-times"></span></button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOp">
+                            <input type="file" (change)="fileUpload($event,'VslOp')" name="file3" id="file3" />
+                            <label for="file3">
+                              <div>
+                                <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                <span class="formbold-drop-file">Upload</span>
+                                <small>Vessel Operator Acceptance</small>
+                              </div>
+                            </label>
+                          </div>
+                          <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOp">
+                            <div class="formbold-file-item">
+                              <span class="formbold-file-name">{{VslOpAcceptanceFile}}</span>
+                              <button (click)="isUploadedVslOp = false"><span class="fa fa-times"></span></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
+                        <div class="col-md-4">
+                          <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedShpLOY">
+                            <input type="file" (change)="fileUpload($event,'ShpLOY')" name="file4" id="file4" />
+                            <label for="file4">
+                              <div>
+                                <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                <span class="formbold-drop-file">Upload</span>
+                                <small>Shipper LOY</small>
+                              </div>
+                            </label>
+                          </div>
+                          <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedShpLOY">
+                            <div class="formbold-file-item">
+                              <span class="formbold-file-name">{{ShpLOYAcceptanceFile}}</span>
+                              <button (click)="isUploadedShpLOY = false"><span class="fa fa-times"></span></button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOpAp">
+                            <input type="file" (change)="fileUpload($event,'VslOpAp')" name="file5" id="file5" />
+                            <label for="file5">
+                              <div>
+                                <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                <span class="formbold-drop-file">Upload</span>
+                                <small>POD Acceptance</small>
+                              </div>
+                            </label>
+                          </div>
+                          <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOpAp">
+                            <div class="formbold-file-item">
+                              <span class="formbold-file-name">{{VslOpApAcceptanceFile}}</span>
+                              <button (click)="isUploadedVslOpAp = false"><span class="fa fa-times"></span></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                    <br />
+                    <div class="text-right">
+                      <a (click)="onAddCommodities()" class="btn btn-default">
+                        <i class="fa fa-plus"></i> Add Commodity</a>
                     </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>TSP 2</label>
-                          <ng-select formControlName="TSP_2" class="form-control" bindLabel="name"
-                            dropdownPosition="bottom" appendTo="body" [searchable]="true" [clearable]="true">
-                            <ng-option [value]="item.CODE" *ngFor="let item of icdList">
-                              {{item.CODE_DESC}}
-                            </ng-option>
-                          </ng-select>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Container Type <span class="text-danger"> *</span></label>
-                          <ng-select formControlName="CONTAINER_TYPE"
-                            [ngClass]="{'invalid': submitted1 && f1.CONTAINER_TYPE.errors}" class="form-control"
-                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
-                            [clearable]="true">
-                            <ng-option value="Dry storage">Dry storage</ng-option>
-                            <ng-option value="Open top">Open top</ng-option>
-                            <ng-option value="Reefer">Reefer</ng-option>
-                          </ng-select>
-                          <small *ngIf="submitted1 && f1.CONTAINER_TYPE.errors" class="text-danger">
-                            Container Type is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Container Size <span class="text-danger"> *</span></label>
-                          <ng-select formControlName="CONTAINER_SIZE"
-                            [ngClass]="{'invalid': submitted1 && f1.CONTAINER_SIZE.errors}" class="form-control"
-                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
-                            [clearable]="true">
-                            <ng-option *ngFor="let item of containersizeList" value="{{ item.CODE }}">
-                              {{ item.CODE_DESC }} ({{ item.CODE }})
-                            </ng-option>
-                          </ng-select>
-                          <small *ngIf="submitted1 && f1.CONTAINER_SIZE.errors" class="text-danger">
-                            Container Size is required
-                          </small>
-                        </div>
-                      </div>
+                    <br />
+                    <div class="table-wrapper" *ngIf="commodityList.length > 0">
+                      <table class="fl-table">
+                        <thead>
+                          <tr>
+                            <th>Sr. No</th>
+                            <th>Commodity</th>
+                            <th>Commodity Type</th>
+                            <th *ngIf="commodityType == 'HAZ'">IMO Class</th>
+                            <th *ngIf="commodityType == 'HAZ'">UN No</th>
+                            <th *ngIf="commodityType == 'FLEXIBAG'">Flash Point</th>
+                            <th *ngIf="commodityType == 'FLEXIBAG'">CAS No</th>
+                            <th>Remarks</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of commodityList; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ item.COMMODITY_NAME }}</td>
+                            <td>{{ item.COMMODITY_TYPE == 'HAZ' ? 'Hazardous' : item.COMMODITY_TYPE == 'FLEXIBAG' ?
+                              'Flexi
+                              Bag' : 'Normal' }}</td>
+                            <td *ngIf="commodityType == 'HAZ'">{{ item.IMO_CLASS }}</td>
+                            <td *ngIf="commodityType == 'HAZ'">{{ item.UN_NO }}</td>
+                            <td *ngIf="commodityType == 'FLEXIBAG'">{{ item.FLASH_POINT }}</td>
+                            <td *ngIf="commodityType == 'FLEXIBAG'">{{ item.CAS_NO }}</td>
+                            <td>{{ item.REMARKS }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Service Mode <span class="text-danger"> *</span></label>
-                          <ng-select formControlName="SERVICE_MODE"
-                            [ngClass]="{'invalid': submitted1 && f1.SERVICE_MODE.errors}" class="form-control"
-                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
-                            [clearable]="true">
-                            <ng-option *ngFor="let item of servicemodeList" value="{{ item.CODE }}">
-                              {{ item.CODE }}
-                            </ng-option>
-                          </ng-select>
-                          <small *ngIf="submitted1 && f1.SERVICE_MODE.errors" class="text-danger">
-                            Service Mode is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>POL Free Days <span class="text-danger"> *</span></label>
-                          <input formControlName="POL_FREE_DAYS" autocomplete="false"
-                            [ngClass]="{'invalid': submitted1 && f1.POL_FREE_DAYS.errors}" type="text"
-                            class="form-control" placeholder="" />
-                          <small *ngIf="submitted1 && f1.POL_FREE_DAYS.errors" class="text-danger">
-                            POL Free Days is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>POD Free Days <span class="text-danger"> *</span></label>
-                          <input formControlName="POD_FREE_DAYS" autocomplete="false"
-                            [ngClass]="{'invalid': submitted1 && f1.POD_FREE_DAYS.errors}" type="text"
-                            class="form-control" placeholder="" />
-                          <small *ngIf="submitted1 && f1.POD_FREE_DAYS.errors" class="text-danger">
-                            POD Free Days is required
-                          </small>
-                        </div>
-                      </div>
+                    <br />
+                    <div class="text-right" *ngIf="commodityList.length > 0">
+                      <a (click)="activeTabs('Rates')" class="btn btn-primary">Next</a>
                     </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Imm Volume Expected <span class="text-danger"> *</span></label>
-                          <input formControlName="IMM_VOLUME_EXPECTED" autocomplete="false"
-                            [ngClass]="{'invalid': submitted1 && f1.IMM_VOLUME_EXPECTED.errors}" type="text"
-                            class="form-control" placeholder="" />
-                          <small *ngIf="submitted1 && f1.IMM_VOLUME_EXPECTED.errors" class="text-danger">
-                            Imm Volume Expected is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Total Volume Expected <span class="text-danger"> *</span></label>
-                          <input formControlName="TOTAL_VOLUME_EXPECTED" autocomplete="false"
-                            [ngClass]="{'invalid': submitted1 && f1.TOTAL_VOLUME_EXPECTED.errors}" type="text"
-                            class="form-control" placeholder="" />
-                          <small *ngIf="submitted1 && f1.TOTAL_VOLUME_EXPECTED.errors" class="text-danger">
-                            Total Volume Expected is required
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                  <br />
-                  <div class="text-right">
-                    <a (click)="onNextContainers()" class="btn btn-primary">Next</a>
                   </div>
                 </div>
               </div>
-              <!-- /.css-tab-content -->
             </div>
-            <div role="tabpanel" [class]="
-                tabActive == 'Commodities'
-                  ? 'tab-pane active fade in'
-                  : 'tab-pane fade'
-              " id="commodities">
-              <div class="css-tab-content">
-                <div class="content-text">
-                  <form id="mainContact" [formGroup]="commoditiesForm">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>Commodity <span class="text-danger"> *</span></label>
-                          <ng-select formControlName="COMMODITY_NAME"
-                            [ngClass]="{'invalid': submitted2 && f2.COMMODITY_NAME.errors}" class="form-control"
-                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
-                            [clearable]="true">
-                            <ng-option value="Aluminium Caps">Aluminium Caps</ng-option>
-                            <ng-option value="Steel">Steel</ng-option>
-                            <ng-option value="Fabrics">Fabrics</ng-option>
-                          </ng-select>
-                          <small *ngIf="submitted2 && f2.COMMODITY_NAME.errors" class="text-danger">
-                            Commodity is required
-                          </small>
+            <div class="card" [class]="
+            tabActive == 'Rates'
+              ? 'tab-pane active fade in'
+              : 'tab-pane fade'
+          ">
+              <div class="card-body">
+                <div class="css-tab-content">
+                  <div class="content-text">
+                    <form id="mainContact" [formGroup]="ratesForm">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Charge Code <span class="text-danger"> *</span></label>
+                            <ng-select formControlName="CHARGE_CODE" (change)="onchangeChargeCode($event)"
+                              [ngClass]="{'invalid': submitted3 && f3.CHARGE_CODE.errors}" class="form-control"
+                              bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                              [clearable]="true">
+                              <ng-option value="Gross Freight">Gross Freight</ng-option>
+                              <ng-option value="THC">THC</ng-option>
+                              <ng-option value="EWRI">EWRI</ng-option>
+                              <ng-option value="TERMINAL REBATE">TERMINAL REBATE</ng-option>
+                            </ng-select>
+                            <small *ngIf="submitted3 && f3.CHARGE_CODE.errors" class="text-danger">
+                              Charge Code is required
+                            </small>
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label>Length</label>
-                          <input formControlName="LENGTH" type="text" class="form-control" />
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Currency <span class="text-danger"> *</span></label>
+                            <ng-select formControlName="CURRENCY"
+                              [ngClass]="{'invalid': submitted3 && f3.CURRENCY.errors}" class="form-control"
+                              bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
+                              [clearable]="true">
+                              <ng-option value="USD">USD</ng-option>
+                              <ng-option value="INR">INR</ng-option>
+                              <ng-option value="AUD">AUD</ng-option>
+                            </ng-select>
+                            <small *ngIf="submitted3 && f3.CURRENCY.errors" class="text-danger">
+                              Currency is required
+                            </small>
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label>Width</label>
-                          <input formControlName="WIDTH" type="text" class="form-control" />
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label>Height</label>
-                          <input formControlName="HEIGHT" type="text" class="form-control" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>Commodity Type <span class="text-danger"> *</span></label>
-                          <br>
-                          <label class="radio-inline">
-                            <input type="radio" (change)="onChangeCommodityType($event)"
-                              formControlName="COMMODITY_TYPE" name="COMMODITY_TYPE" id="inlineRadio1"
-                              value="NORMAL"><span class="indicator"></span> Normal
-                          </label>
-                          <label class="radio-inline">
-                            <input type="radio" (change)="onChangeCommodityType($event)"
-                              formControlName="COMMODITY_TYPE" name="COMMODITY_TYPE" id="inlineRadio2" value="HAZ"><span
-                              class="indicator"></span>Hazardous
-                          </label>
-                          <label class="radio-inline">
-                            <input type="radio" (change)="onChangeCommodityType($event)"
-                              formControlName="COMMODITY_TYPE" name="COMMODITY_TYPE" id="inlineRadio3"
-                              value="FLEXIBAG"><span class="indicator"></span>Flexi Bag
-                          </label>
-                          <br>
-                          <small *ngIf="submitted2 && f2.COMMODITY_TYPE.errors" class="text-danger">
-                            Commodity Type is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>Remarks</label>
-                          <input formControlName="REMARKS" [ngClass]="{'invalid': submitted2 && f2.REMARKS.errors}"
-                            type="text" class="form-control" placeholder="" />
-                          <small *ngIf="submitted2 && f2.REMARKS.errors" class="text-danger">
-                            Remarks is required
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row" *ngIf="commodityType == 'HAZ'">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>IMO Class Name</label>
-                          <input type="text" formControlName="IMO_CLASS"
-                            [ngClass]="{'invalid': submitted2 && f2.IMO_CLASS.errors}" class="form-control" />
-                          <small *ngIf="submitted2 && f2.IMO_CLASS.errors" class="text-danger">
-                            IMO Class Name is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>UN No</label>
-                          <input type="text" formControlName="UN_NO"
-                            [ngClass]="{'invalid': submitted2 && f2.UN_NO.errors}" class="form-control" />
-                          <small *ngIf="submitted2 && f2.UN_NO.errors" class="text-danger">
-                            UN No is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>HAZ Approval Ref</label>
-                          <input type="text" formControlName="HAZ_APPROVAL_REF"
-                            [ngClass]="{'invalid': submitted2 && f2.HAZ_APPROVAL_REF.errors}" class="form-control" />
-                          <small *ngIf="submitted2 && f2.HAZ_APPROVAL_REF.errors" class="text-danger">
-                            HAZ Approval Ref is required
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Flash Point</label>
-                          <input type="text" formControlName="FLASH_POINT"
-                            [ngClass]="{'invalid': submitted2 && f2.FLASH_POINT.errors}" class="form-control" />
-                          <small *ngIf="submitted2 && f2.FLASH_POINT.errors" class="text-danger">
-                            Flash Point is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>CAS No</label>
-                          <input type="text" formControlName="CAS_NO"
-                            [ngClass]="{'invalid': submitted2 && f2.CAS_NO.errors}" class="form-control" />
-                          <small *ngIf="submitted2 && f2.CAS_NO.errors" class="text-danger">
-                            CAS No is required
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <h4 *ngIf="commodityType == 'HAZ' || commodityType == 'FLEXIBAG'">Upload Files</h4>
-                    <div class="row" *ngIf="commodityType == 'HAZ'">
-                      <div class="col-md-4">
-                        <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOL">
-                          <input type="file" (change)="fileUpload($event,'POL')" name="file" id="file" />
-                          <label for="file">
-                            <div>
-                              <h3><i class="fa fa-file-pdf-o"></i></h3>
-                              <span class="formbold-drop-file">Upload</span>
-                              <small>POL Acceptance</small>
-                            </div>
-                          </label>
-                        </div>
-                        <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOL">
-                          <div class="formbold-file-item">
-                            <span class="formbold-file-name">{{POLAcceptanceFile}}</span>
-                            <button (click)="isUploadedPOL = false"><span class="fa fa-times"></span></button>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Remarks</label>
+                            <input formControlName="REMARKS" type="text" class="form-control" placeholder="" />
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-4">
-                        <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOD">
-                          <input type="file" (change)="fileUpload($event,'POD')" name="file1" id="file1" />
-                          <label for="file1">
-                            <div>
-                              <h3><i class="fa fa-file-pdf-o"></i></h3>
-                              <span class="formbold-drop-file">Upload</span>
-                              <small>POD Acceptance</small>
-                            </div>
-                          </label>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Standard Rate</label>
+                            <input formControlName="STANDARD_RATE" readonly type="text" class="form-control"
+                              placeholder="" />
+                          </div>
                         </div>
-                        <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOD">
-                          <div class="formbold-file-item">
-                            <span class="formbold-file-name">{{PODAcceptanceFile}}</span>
-                            <button (click)="isUploadedPOD = false"><span class="fa fa-times"></span></button>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Requested Rate <span class="text-danger"> *</span></label>
+                            <input formControlName="RATE_REQUESTED"
+                              [ngClass]="{'invalid': submitted3 && f3.RATE_REQUESTED.errors}" type="text"
+                              class="form-control" placeholder="" />
+                            <small *ngIf="submitted3 && f3.RATE_REQUESTED.errors" class="text-danger">
+                              Requested Rate is required
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Payment Term <span class="text-danger"> *</span></label>
+                            <br>
+                            <label class="radio-inline">
+                              <input type="radio" formControlName="PAYMENT_TERM" name="PAYMENT_TERM" id="inlineRadio03"
+                                value="Prepaid"><span class="indicator"></span> Prepaid
+                            </label>
+                            <label class="radio-inline">
+                              <input type="radio" formControlName="PAYMENT_TERM" name="PAYMENT_TERM" id="inlineRadio04"
+                                value="Collect"><span class="indicator"></span>Collect
+                            </label>
+                            <br>
+                            <small *ngIf="submitted3 && f3.PAYMENT_TERM.errors" class="text-danger">
+                              Payment Term is required
+                            </small>
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-4">
-                        <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOp">
-                          <input type="file" (change)="fileUpload($event,'VslOp')" name="file3" id="file3" />
-                          <label for="file3">
-                            <div>
-                              <h3><i class="fa fa-file-pdf-o"></i></h3>
-                              <span class="formbold-drop-file">Upload</span>
-                              <small>Vessel Operator Acceptance</small>
-                            </div>
-                          </label>
-                        </div>
-                        <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOp">
-                          <div class="formbold-file-item">
-                            <span class="formbold-file-name">{{VslOpAcceptanceFile}}</span>
-                            <button (click)="isUploadedVslOp = false"><span class="fa fa-times"></span></button>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>POL/POD <span class="text-danger"> *</span></label>
+                            <br>
+                            <label class="radio-inline">
+                              <input type="radio" formControlName="TRANSPORT_TYPE" name="TRANSPORT_TYPE"
+                                id="inlineRadio01" value="NORMAL"><span class="indicator"></span> POL
+                            </label>
+                            <label class="radio-inline">
+                              <input type="radio" formControlName="TRANSPORT_TYPE" name="TRANSPORT_TYPE"
+                                id="inlineRadio02" value="HAZ"><span class="indicator"></span>POD
+                            </label>
+                            <br>
+                            <small *ngIf="submitted3 && f3.TRANSPORT_TYPE.errors" class="text-danger">
+                              POL/POD is required
+                            </small>
                           </div>
                         </div>
                       </div>
+                    </form>
+                    <br />
+                    <div class="text-right">
+                      <a (click)="onAddRates()" class="btn btn-default"><i class="fa fa-plus"></i> Add Rate</a>
                     </div>
-                    <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
-                      <div class="col-md-4">
-                        <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedShpLOY">
-                          <input type="file" (change)="fileUpload($event,'ShpLOY')" name="file4" id="file4" />
-                          <label for="file4">
-                            <div>
-                              <h3><i class="fa fa-file-pdf-o"></i></h3>
-                              <span class="formbold-drop-file">Upload</span>
-                              <small>Shipper LOY</small>
-                            </div>
-                          </label>
-                        </div>
-                        <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedShpLOY">
-                          <div class="formbold-file-item">
-                            <span class="formbold-file-name">{{ShpLOYAcceptanceFile}}</span>
-                            <button (click)="isUploadedShpLOY = false"><span class="fa fa-times"></span></button>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOpAp">
-                          <input type="file" (change)="fileUpload($event,'VslOpAp')" name="file5" id="file5" />
-                          <label for="file5">
-                            <div>
-                              <h3><i class="fa fa-file-pdf-o"></i></h3>
-                              <span class="formbold-drop-file">Upload</span>
-                              <small>POD Acceptance</small>
-                            </div>
-                          </label>
-                        </div>
-                        <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOpAp">
-                          <div class="formbold-file-item">
-                            <span class="formbold-file-name">{{VslOpApAcceptanceFile}}</span>
-                            <button (click)="isUploadedVslOpAp = false"><span class="fa fa-times"></span></button>
-                          </div>
-                        </div>
-                      </div>
+                    <br />
+                    <div class="table-wrapper" *ngIf="rateList.length > 0">
+                      <table class="fl-table">
+                        <thead>
+                          <tr>
+                            <th>Sr. No</th>
+                            <th>Charge Code</th>
+                            <th>Currency</th>
+                            <th>Payment Term</th>
+                            <th>Standard Rate</th>
+                            <th>Requested Rate</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of rateList; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ item.CHARGE_CODE }}</td>
+                            <td>{{ item.CURRENCY }}</td>
+                            <td>{{ item.PAYMENT_TERM }}</td>
+                            <td>{{ item.STANDARD_RATE }}</td>
+                            <td>{{ item.RATE_REQUESTED }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
-                  </form>
-                  <br />
-                  <div class="text-right">
-                    <a (click)="onAddCommodities()" class="btn btn-default">
-                      <i class="fa fa-plus"></i> Add Commodity</a>
-                  </div>
-                  <br />
-                  <div class="table-wrapper" *ngIf="commodityList.length > 0">
-                    <table class="fl-table">
-                      <thead>
-                        <tr>
-                          <th>Sr. No</th>
-                          <th>Commodity</th>
-                          <th>Commodity Type</th>
-                          <th *ngIf="commodityType == 'HAZ'">IMO Class</th>
-                          <th *ngIf="commodityType == 'HAZ'">UN No</th>
-                          <th *ngIf="commodityType == 'FLEXIBAG'">Flash Point</th>
-                          <th *ngIf="commodityType == 'FLEXIBAG'">CAS No</th>
-                          <th>Remarks</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let item of commodityList; let i = index">
-                          <td>{{ i + 1 }}</td>
-                          <td>{{ item.COMMODITY_NAME }}</td>
-                          <td>{{ item.COMMODITY_TYPE == 'HAZ' ? 'Hazardous' : item.COMMODITY_TYPE == 'FLEXIBAG' ? 'Flexi
-                            Bag' : 'Normal' }}</td>
-                          <td *ngIf="commodityType == 'HAZ'">{{ item.IMO_CLASS }}</td>
-                          <td *ngIf="commodityType == 'HAZ'">{{ item.UN_NO }}</td>
-                          <td *ngIf="commodityType == 'FLEXIBAG'">{{ item.FLASH_POINT }}</td>
-                          <td *ngIf="commodityType == 'FLEXIBAG'">{{ item.CAS_NO }}</td>
-                          <td>{{ item.REMARKS }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <br />
-                  <div class="text-right" *ngIf="commodityList.length > 0">
-                    <a (click)="activeTabs('Rates')" class="btn btn-primary">Next</a>
+                    <br />
+                    <div class="text-right" *ngIf="rateList.length > 0">
+                      <a (click)="insertQuotation()" class="btn btn-primary">Save</a>
+                    </div>
                   </div>
                 </div>
               </div>
-              <!-- /.css-tab-content -->
-            </div>
-            <div role="tabpanel" [class]="
-                tabActive == 'Rates'
-                  ? 'tab-pane active fade in'
-                  : 'tab-pane fade'
-              " id="rates">
-              <div class="css-tab-content">
-                <div class="content-text">
-                  <form id="mainContact" [formGroup]="ratesForm">
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Charge Code <span class="text-danger"> *</span></label>
-                          <ng-select formControlName="CHARGE_CODE" (change)="onchangeChargeCode($event)"
-                            [ngClass]="{'invalid': submitted3 && f3.CHARGE_CODE.errors}" class="form-control"
-                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
-                            [clearable]="true">
-                            <ng-option value="Gross Freight">Gross Freight</ng-option>
-                            <ng-option value="THC">THC</ng-option>
-                            <ng-option value="EWRI">EWRI</ng-option>
-                            <ng-option value="TERMINAL REBATE">TERMINAL REBATE</ng-option>
-                          </ng-select>
-                          <small *ngIf="submitted3 && f3.CHARGE_CODE.errors" class="text-danger">
-                            Charge Code is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Currency <span class="text-danger"> *</span></label>
-                          <ng-select formControlName="CURRENCY"
-                            [ngClass]="{'invalid': submitted3 && f3.CURRENCY.errors}" class="form-control"
-                            bindLabel="name" dropdownPosition="bottom" appendTo="body" [searchable]="true"
-                            [clearable]="true">
-                            <ng-option value="USD">USD</ng-option>
-                            <ng-option value="INR">INR</ng-option>
-                            <ng-option value="AUD">AUD</ng-option>
-                          </ng-select>
-                          <small *ngIf="submitted3 && f3.CURRENCY.errors" class="text-danger">
-                            Currency is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Remarks</label>
-                          <input formControlName="REMARKS" type="text" class="form-control" placeholder="" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Standard Rate</label>
-                          <input formControlName="STANDARD_RATE" readonly type="text" class="form-control"
-                            placeholder="" />
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Requested Rate <span class="text-danger"> *</span></label>
-                          <input formControlName="RATE_REQUESTED"
-                            [ngClass]="{'invalid': submitted3 && f3.RATE_REQUESTED.errors}" type="text"
-                            class="form-control" placeholder="" />
-                          <select (change)="onChangeRatePer($event)" class="form-control">
-                            <option value="0" selected="true">--Select--</option>
-                            <option value="10">- 10 %</option>
-                            <option value="20">- 20 %</option>
-                            <option value="30">- 30 %</option>
-                          </select>
-                          <small *ngIf="submitted3 && f3.RATE_REQUESTED.errors" class="text-danger">
-                            Requested Rate is required
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Payment Term <span class="text-danger"> *</span></label>
-                          <br>
-                          <label class="radio-inline">
-                            <input type="radio" formControlName="PAYMENT_TERM" name="PAYMENT_TERM" id="inlineRadio03"
-                              value="Prepaid"><span class="indicator"></span> Prepaid
-                          </label>
-                          <label class="radio-inline">
-                            <input type="radio" formControlName="PAYMENT_TERM" name="PAYMENT_TERM" id="inlineRadio04"
-                              value="Collect"><span class="indicator"></span>Collect
-                          </label>
-                          <br>
-                          <small *ngIf="submitted3 && f3.PAYMENT_TERM.errors" class="text-danger">
-                            Payment Term is required
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>POL/POD <span class="text-danger"> *</span></label>
-                          <br>
-                          <label class="radio-inline">
-                            <input type="radio" formControlName="TRANSPORT_TYPE" name="TRANSPORT_TYPE"
-                              id="inlineRadio01" value="NORMAL"><span class="indicator"></span> POL
-                          </label>
-                          <label class="radio-inline">
-                            <input type="radio" formControlName="TRANSPORT_TYPE" name="TRANSPORT_TYPE"
-                              id="inlineRadio02" value="HAZ"><span class="indicator"></span>POD
-                          </label>
-                          <br>
-                          <small *ngIf="submitted3 && f3.TRANSPORT_TYPE.errors" class="text-danger">
-                            POL/POD is required
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                  <br />
-                  <div class="text-right">
-                    <a (click)="onAddRates()" class="btn btn-default"><i class="fa fa-plus"></i> Add Rate</a>
-                  </div>
-                  <br />
-                  <div class="table-wrapper" *ngIf="rateList.length > 0">
-                    <table class="fl-table">
-                      <thead>
-                        <tr>
-                          <th>Sr. No</th>
-                          <th>Charge Code</th>
-                          <th>Currency</th>
-                          <th>Payment Term</th>
-                          <th>Standard Rate</th>
-                          <th>Requested Rate</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let item of rateList; let i = index">
-                          <td>{{ i + 1 }}</td>
-                          <td>{{ item.CHARGE_CODE }}</td>
-                          <td>{{ item.CURRENCY }}</td>
-                          <td>{{ item.PAYMENT_TERM }}</td>
-                          <td>{{ item.STANDARD_RATE }}</td>
-                          <td>{{ item.RATE_REQUESTED }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <br />
-                  <div class="text-right" *ngIf="rateList.length > 0">
-                    <a (click)="insertQuotation()" class="btn btn-primary">Save</a>
-                  </div>
-                </div>
-              </div>
-              <!-- /.css-tab-content -->
             </div>
           </div>
         </div>
-        <!-- /.css-tab -->
       </div>
-      <!-- /.col-md-12 -->
     </div>
-    <!-- /.row -->
   </div>
-  <!-- /.container -->
 </section>

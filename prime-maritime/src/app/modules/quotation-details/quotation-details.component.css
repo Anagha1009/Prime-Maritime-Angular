@@ -1,7 +1,7 @@
 .panel-default > .panel-heading {
-  color: white;
+  color: black;
   /* background-color: #324960; */
-  background-color: #c3c2c2;
+  background-color: #f7f7f7;
   border-color: #f5f5f5;
 }
 
@@ -15,7 +15,7 @@
 
 a:hover,
 a:focus {
-  color: white;
+  color: black;
   text-decoration: none;
 }
 

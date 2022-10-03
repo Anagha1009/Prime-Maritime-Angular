@@ -17,16 +17,22 @@ export class SrrService {
 
   constructor(private _http: HttpClient) {}
 
-  getSRRList() {
+  getSRRList(SRR_NO, CUSTOMER_NAME, STATUS) {
     return this._http.get<any>(
-      this.BASE_URL + 'SRR/GetSRRList',
+      this.BASE_URL +
+        'SRR/GetSRRList?SRR_NO=' +
+        SRR_NO +
+        '&CUSTOMER_NAME=' +
+        CUSTOMER_NAME +
+        '&STATUS=' +
+        STATUS,
       this.httpOptions
     );
   }
 
   getSRRDetails(SRR_NO) {
     return this._http.get<any>(
-      this.BASE_URL + 'SRR?SRR_NO=' + SRR_NO,
+      this.BASE_URL + 'SRR/GetSRRBySRRNO?SRR_NO=' + SRR_NO,
       this.httpOptions
     );
   }

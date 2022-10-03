@@ -4,12 +4,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <a
-              class="accordion-toggle"
-              data-toggle="collapse"
-              data-parent="#accordion"
-              href="#collapseOne"
-            >
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
               <span class="glyphicon glyphicon-minus"></span>
               SRR Details
             </a>
@@ -50,11 +45,11 @@
               </div>
               <div class="col-md-2">
                 <label>Valid From</label>
-                <h6>{{ srrDetails?.EFFECT_FROM }}</h6>
+                <h6>{{ srrDetails?.EFFECT_FROM | date:'mediumDate' }}</h6>
               </div>
               <div class="col-md-2">
                 <label>Valid To</label>
-                <h6>{{ srrDetails?.EFFECT_TO }}</h6>
+                <h6>{{ srrDetails?.EFFECT_TO | date:'mediumDate' }}</h6>
               </div>
               <div class="col-md-2">
                 <label>MTY Repo</label>
@@ -132,7 +127,7 @@
               </div>
               <div class="col-md-2">
                 <label>Created Date</label>
-                <h6>{{ srrDetails?.CREATED_DATE }}</h6>
+                <h6>{{ srrDetails?.CREATED_DATE | date:'mediumDate' }}</h6>
               </div>
             </div>
           </div>
@@ -141,12 +136,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <a
-              class="accordion-toggle"
-              data-toggle="collapse"
-              data-parent="#accordion"
-              href="#collapseTwo"
-            >
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
               <span class="glyphicon glyphicon-plus"></span>
               Commodity Details
             </a>
@@ -178,12 +168,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <a
-              class="accordion-toggle"
-              data-toggle="collapse"
-              data-parent="#accordion"
-              href="#collapseThree"
-            >
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
               <span class="glyphicon glyphicon-plus"></span>
               Rate Details
             </a>
@@ -223,5 +208,8 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="text-center">
+    <button class="btn btn-default">Booking</button>
   </div>
 </section>
