@@ -1,0 +1,376 @@
+<div class="mt-4 ps-4 pt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white">
+            <li class="breadcrumb-item"><a routerLink="/home/agent-dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">New Quotation</li>
+        </ol>
+    </nav>
+</div>
+<div class="container">
+    <div class="col-md-10 mx-auto">
+        <div class="tabs">
+            <input type="radio" class="d-none" (change)="onchangeTab($event,'1')" id="radio-1" name="tabs" checked />
+            <label class="tab" for="radio-1">Quotation Details</label>
+            <input type="radio" class="d-none" (change)="onchangeTab($event,'2')" id="radio-2" name="tabs" />
+            <label class="tab" for="radio-2">Add Container</label>
+            <input type="radio" class="d-none" (change)="onchangeTab($event,'3')" id="radio-3" name="tabs" />
+            <label class="tab" for="radio-3">Add Commodities</label>
+            <input type="radio" class="d-none" (change)="onchangeTab($event,'4')" id="radio-4" name="tabs" />
+            <label class="tab" for="radio-4">Add Rates</label>
+            <span class="glider"></span>
+        </div>
+    </div>
+    <div class="col-md-10 mx-auto">
+        <form [formGroup]="quotationForm">
+            <div class="card mt-2" *ngIf="tabs == '1'">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <input type="text" formControlName="PLACE_OF_RECEIPT"
+                                    class="form-control form-control-lg" />
+                                <label class="form-label">Place Of Receipt</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <ng-select formControlName="POL">
+                                    <ng-option value="" selected="true" disabled>--Select POL--</ng-option>
+                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <ng-select formControlName="POD">
+                                    <ng-option value="" selected="true" disabled>--Select POD--</ng-option>
+                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <input type="text" formControlName="PLACE_OF_DELIVERY"
+                                    class="form-control form-control-lg" />
+                                <label class="form-label">Place Of Delivery</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <ng-select formControlName="ORIGIN_ICD">
+                                    <ng-option value="" selected="true" disabled>--Select Final Destination--
+                                    </ng-option>
+                                    <ng-option *ngFor="let item of icdList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <ng-select formControlName="TSP_1">
+                                    <ng-option value="" selected="true" disabled>--Select TSP 1--</ng-option>
+                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <ng-select formControlName="TSP_2">
+                                    <ng-option value="" selected="true" disabled>--Select TSP 2--</ng-option>
+                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <ng-select formControlName="SERVICE_NAME">
+                                    <ng-option value="" selected="true" disabled>--Select Service--</ng-option>
+                                    <ng-option value="xx">xx</ng-option>
+                                    <ng-option value="yy">yy</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <input type="date" (change)="getEffectToDate($event.target.value)" min={{currentDate}}
+                                    formControlName="EFFECT_FROM" onkeypress="return false"
+                                    class="form-control form-control-lg active" />
+                                <label class="form-label">Effect From</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <input type="date" formControlName="EFFECT_TO" min={{currentDate}}
+                                    onkeypress="return false" class="form-control form-control-lg active" />
+                                <label class="form-label">Effect To</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <h5 class="mb-4">Customer Details</h5>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <ng-select formControlName="CUSTOMER_NAME">
+                                    <ng-option value="" selected="true" disabled>--Select Customer--</ng-option>
+                                    <ng-option value="JITEX">JITEX</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <ng-select formControlName="ADDRESS">
+                                    <ng-option value="" selected="true" disabled>--Select Address--</ng-option>
+                                    <ng-option value="Address 1">Address 1</ng-option>
+                                    <ng-option value="Address 2">Address 2</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <input type="text" class="form-control form-control-lg" />
+                                <label class="form-label">Address</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <input type="text" formControlName="EMAIL" class="form-control form-control-lg" />
+                                <label class="form-label">Email</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <input type="text" formControlName="CONTACT" class="form-control form-control-lg" />
+                                <label class="form-label">Contact</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <input type="text" formControlName="SHIPPER" class="form-control form-control-lg" />
+                                <label class="form-label">Shipper</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <input type="text" formControlName="NOTIFY_PARTY"
+                                    class="form-control form-control-lg" />
+                                <label class="form-label">Notify Party</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4 mt-md-3">
+                            <div class="form-outline">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" />
+                                    <label class="form-check-label">MTY Repo</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label">Other Parties</label>
+                                <br>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                        id="inlineRadio1" value="option1" />
+                                    <label class="form-check-label" for="inlineRadio1">Brokerage Party</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                        id="inlineRadio2" value="option2" />
+                                    <label class="form-check-label" for="inlineRadio2">Consignee</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                        id="inlineRadio3" value="option3" />
+                                    <label class="form-check-label" for="inlineRadio3">Forwarder</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form [formGroup]="containerForm">
+            <div class="card mt-2" *ngIf="tabs == '2'">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <ng-select formControlName="CONTAINER_TYPE">
+                                    <ng-option value="" selected="true" disabled>--Select Container--</ng-option>
+                                    <ng-option value="Dry storage">Dry storage</ng-option>
+                                    <ng-option value="Open top">Open top</ng-option>
+                                    <ng-option value="Reefer">Reefer</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <ng-select formControlName="CONTAINER_SIZE">
+                                    <ng-option value="" selected="true" disabled>--Select Container Size--</ng-option>
+                                    <ng-option *ngFor="let item of containersizeList" value="{{ item.CODE }}">
+                                        {{ item.CODE_DESC }} ({{ item.CODE }})
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <ng-select formControlName="SERVICE_MODE">
+                                    <ng-option value="" selected="true" disabled>--Select Service Mode--</ng-option>
+                                    <ng-option *ngFor="let item of servicemodeList" value="{{ item.CODE }}">
+                                        {{ item.CODE }}
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <input type="text" class="form-control form-control-lg" />
+                                <label class="form-label">POL Free Days</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <input type="text" class="form-control form-control-lg" />
+                                <label class="form-label">POD Free Days</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <input type="text" class="form-control form-control-lg" />
+                                <label class="form-label">Imm Volume Expected</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <input type="text" class="form-control form-control-lg" />
+                                <label class="form-label">Total Volume Expected</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form [formGroup]="commoditiesForm">
+            <div class="card mt-2" *ngIf="tabs == '3'">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <ng-select formControlName="COMMODITY_NAME">
+                                    <ng-option value="" selected="true" disabled>--Select Commodity--</ng-option>
+                                    <ng-option value="Aluminium Caps">Aluminium Caps</ng-option>
+                                    <ng-option value="Steel">Steel</ng-option>
+                                    <ng-option value="Fabrics">Fabrics</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label">Commodity Type</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                        id="inlineRadio1" value="option1" />
+                                    <label class="form-check-label" for="inlineRadio1">Brokerage Party</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                        id="inlineRadio2" value="option2" />
+                                    <label class="form-check-label" for="inlineRadio2">Consignee</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                        id="inlineRadio3" value="option3" />
+                                    <label class="form-check-label" for="inlineRadio3">Forwarder</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-outline">
+                                <input type="text" class="form-control form-control-lg" />
+                                <label class="form-label">Remarks</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card mt-2" *ngIf="tabs == '4'">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="form-outline">
+                            <input type="text" class="form-control form-control-lg" />
+                            <label class="form-label">Charge Code</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="form-outline">
+                            <input type="text" class="form-control form-control-lg" />
+                            <label class="form-label">Currency</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="form-outline">
+                            <input type="text" class="form-control form-control-lg" />
+                            <label class="form-label">Remarks</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="form-outline">
+                            <input type="text" class="form-control form-control-lg" />
+                            <label class="form-label">Standard Rate</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="form-outline">
+                            <input type="text" class="form-control form-control-lg" />
+                            <label class="form-label">Requested Rate</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="form-outline">
+                            <input type="text" class="form-control form-control-lg" />
+                            <label class="form-label">Payment Term</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="form-outline">
+                            <input type="text" class="form-control form-control-lg" />
+                            <label class="form-label">POL/POD</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
