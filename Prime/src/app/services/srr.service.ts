@@ -48,7 +48,7 @@ export class SRRService {
 
   insertContainer(rootobject) {
     return this._http.post<any>(
-      this.BASE_URL + 'SRR/InsertSRR',
+      this.BASE_URL + 'SRR/InsertContainer',
       rootobject,
       this.httpOptions
     );

@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debug } from 'console';
 import { CONTAINER, QUOTATION } from 'src/app/models/quotation';
@@ -23,6 +23,7 @@ export class AgentDashboardComponent implements OnInit {
   slotNo: any;
   currentDate: string = '';
   quotation = new QUOTATION();
+  submitted: boolean = false;
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
@@ -52,10 +53,7 @@ export class AgentDashboardComponent implements OnInit {
     });
 
     this.containerForm = this.FormBuilder.group({
-      SRR_ID: [''],
-      SRR_NO: [''],
-      NO_OF_CONTAINERS: [''],
-      CREATED_BY: ['Agent'],
+      NO_OF_CONTAINERS: ['', Validators.required],
     });
 
     this.quotation.AGENT_CODE = +localStorage.getItem('rolecode');
@@ -84,7 +82,6 @@ export class AgentDashboardComponent implements OnInit {
   }
 
   getSRRList() {
-    debugger;
     this.SrrService.getSRRList(this.quotation).subscribe(
       (res) => {
         this.srrList = [];
@@ -92,6 +89,7 @@ export class AgentDashboardComponent implements OnInit {
         if (res.hasOwnProperty('Data')) {
           if (res.Data.length > 0) {
             this.srrList = res.Data;
+
             if (this.srrList.length >= 4) {
               this.isScroll = true;
             } else {
@@ -110,6 +108,12 @@ export class AgentDashboardComponent implements OnInit {
   }
 
   addContainer(i) {
+    this.submitted = true;
+
+    if (this.containerForm.invalid) {
+      return;
+    }
+
     debugger;
     var srrdata = this.srrList[i];
     var rootobject = new CONTAINER();
@@ -117,13 +121,15 @@ export class AgentDashboardComponent implements OnInit {
     rootobject.SRR_NO = srrdata.SRR_NO;
     rootobject.NO_OF_CONTAINERS =
       +this.containerForm.get('NO_OF_CONTAINERS')?.value;
-    rootobject.CREATED_BY = this.containerForm.get('CREATED_BY')?.value;
-    console.log(JSON.stringify(rootobject));
+    rootobject.CREATED_BY = localStorage.getItem('username');
+
     this.SrrService.insertContainer(JSON.stringify(rootobject)).subscribe(
       (res) => {
         debugger;
         if (res.responseCode == 200) {
+          this.getSRRList();
           alert('Container added successfully');
+          this.closeModal();
         }
       }
     );
@@ -153,6 +159,7 @@ export class AgentDashboardComponent implements OnInit {
 
   closeModal(): void {
     this.closeBtn.nativeElement.click();
+    //this.modal.nativeElement.removeClass('show');
   }
 
   getcurrentDate() {
@@ -180,4 +187,8 @@ export class AgentDashboardComponent implements OnInit {
   //     this.classActive = false;
   //   }
   // }
+
+  get f() {
+    return this.containerForm.controls;
+  }
 }

@@ -119,8 +119,8 @@
                                                     }} / {{
                                                     item.TOTAL_VOLUME_EXPECTED
                                                     }}</span> </h6>
-                                            <button type="button" data-mdb-toggle="modal"
-                                                [attr.data-mdb-target]="'#' + 'containermodal' + i"
+                                            <button type="button" data-toggle="modal"
+                                                [attr.data-target]="'#' + 'containermodal' + i"
                                                 class="btn btn-light me-2">Add
                                                 Containers</button>
                                         </div>
@@ -139,8 +139,8 @@
                                         </div>
                                         <div class="col-md-4" style="text-align: right;">
 
-                                            <button type="button" data-mdb-toggle="modal"
-                                                [attr.data-mdb-target]="'#' + 'modal' + i"
+                                            <button type="button" data-toggle="modal"
+                                                [attr.data-target]="'#' + 'modal' + i"
                                                 class="btn btn-default btn-rounded me-2">Add
                                                 Slots</button>
                                             <button type="button" class="btn btn-info btn-rounded">Book
@@ -186,7 +186,7 @@
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Slot Details</h5>
                                                     <button type="button" class="btn-close" data-mdb-dismiss="modal"
-                                                        aria-label="Close" #closeBtn></button>
+                                                        aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form [formGroup]="slotDetailsForm">
@@ -280,22 +280,27 @@
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Container Details
                                                     </h5>
-                                                    <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                                    <button type="button" class="btn-close" data-dismiss="modal"
                                                         aria-label="Close" #closeBtn></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form [formGroup]="containerForm">
-                                                        <div class="col-md-12 mb-4">
-                                                            <div class="form-outline">
-                                                                <label class="form-label">SRR No -
+                                                        <div class="row">
+                                                            <div class="form-group col-md-12">
+                                                                <label>SRR No -
                                                                     <b>{{srrList[i].SRR_NO}}</b></label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 mb-4">
-                                                            <div class="form-outline">
-                                                                <input type="text" formControlName="NO_OF_CONTAINERS"
-                                                                    class="form-control form-control-lg" />
+                                                        <div class="row">
+                                                            <div class="form-group col-md-6">
+                                                                <input type="text"
+                                                                    [ngClass]="{'invalid': submitted && f.NO_OF_CONTAINERS.errors}"
+                                                                    formControlName="NO_OF_CONTAINERS"
+                                                                    class="form-control" />
                                                                 <label class="form-label">No of Containers</label>
+                                                                <div *ngIf="submitted && f.NO_OF_CONTAINERS.errors"
+                                                                    class="invalid-feedback">Please enter
+                                                                    No of Containers</div>
                                                             </div>
                                                         </div>
                                                     </form>
