@@ -1,4 +1,9 @@
-export class Quotation {}
+export class QUOTATION {
+  SRR_NO: string = '';
+  CUSTOMER_NAME: string = '';
+  STATUS: string = '';
+  AGENT_CODE: number = 0;
+}
 
 export class CONTAINER {
   ID!: number;

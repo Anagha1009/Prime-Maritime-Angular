@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LOGIN } from 'src/app/models/login';
 import { LoginService } from 'src/app/services/login.service';
@@ -11,6 +11,7 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  submitted: boolean = false;
 
   constructor(
     private loginservice: LoginService,
@@ -20,12 +21,22 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.FormBuilder.group({
-      USERNAME: [''],
-      PASSWORD: [''],
+      USERNAME: ['', Validators.required],
+      PASSWORD: ['', Validators.required],
     });
   }
 
+  get f() {
+    return this.loginForm.controls;
+  }
+
   validateLogin() {
+    this.submitted = true;
+
+    if (this.loginForm.invalid) {
+      return;
+    }
+
     var rootobject = new LOGIN();
     rootobject.USERNAME = this.loginForm.get('USERNAME')?.value;
     rootobject.PASSWORD = this.loginForm.get('PASSWORD')?.value;
@@ -33,12 +44,15 @@ export class LoginComponent implements OnInit {
     this.loginservice
       .validateLogin(JSON.stringify(rootobject))
       .subscribe((res) => {
-        debugger;
-        localStorage.removeItem('token');
-        localStorage.setItem('token', res.token);
-        var token = localStorage.getItem('token');
-        if (token != '') {
+        if (res.isAuthenticated == true) {
+          localStorage.clear();
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('username', res.userName);
+          localStorage.setItem('rolecode', res.roleCode);
           this.router.navigateByUrl('home/agent-dashboard');
+        } else {
+          alert(res.message);
+          return;
         }
       });
   }

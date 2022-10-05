@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debug } from 'console';
-import { CONTAINER } from 'src/app/models/quotation';
+import { CONTAINER, QUOTATION } from 'src/app/models/quotation';
 import { SRRService } from 'src/app/services/srr.service';
 
 @Component({
@@ -22,6 +22,7 @@ export class AgentDashboardComponent implements OnInit {
   slotDetailsList: any[] = [];
   slotNo: any;
   currentDate: string = '';
+  quotation = new QUOTATION();
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
@@ -57,27 +58,34 @@ export class AgentDashboardComponent implements OnInit {
       CREATED_BY: ['Agent'],
     });
 
-    this.getSRRList('', '', '');
+    this.quotation.AGENT_CODE = +localStorage.getItem('rolecode');
+
+    this.getSRRList();
     this.currentDate = this.getcurrentDate();
   }
 
   searchSRRList() {
-    var SRR_NO = this.quotationForm.value.SRR_NO;
-    var CUSTOMER_NAME = this.quotationForm.value.CUSTOMER_NAME;
-    var STATUS = this.quotationForm.value.STATUS;
+    this.quotation.SRR_NO = this.quotationForm.value.SRR_NO;
+    this.quotation.CUSTOMER_NAME = this.quotationForm.value.CUSTOMER_NAME;
+    this.quotation.STATUS = this.quotationForm.value.STATUS;
 
-    this.getSRRList(SRR_NO, CUSTOMER_NAME, STATUS);
+    this.getSRRList();
   }
 
   clearSRRList() {
     this.quotationForm.get('SRR_NO')?.setValue('');
     this.quotationForm.get('CUSTOMER_NAME')?.setValue('');
     this.quotationForm.get('STATUS')?.setValue('');
-    this.getSRRList('', '', '');
+    this.quotation.SRR_NO = '';
+    this.quotation.CUSTOMER_NAME = '';
+    this.quotation.STATUS = '';
+
+    this.getSRRList();
   }
 
-  getSRRList(SRR_NO, CUSTOMER_NAME, STATUS) {
-    this.SrrService.getSRRList(SRR_NO, CUSTOMER_NAME, STATUS).subscribe(
+  getSRRList() {
+    debugger;
+    this.SrrService.getSRRList(this.quotation).subscribe(
       (res) => {
         this.srrList = [];
         this.isScroll = false;

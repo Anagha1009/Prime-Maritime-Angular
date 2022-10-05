@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
+import { QUOTATION } from '../models/quotation';
 
 @Injectable({
   providedIn: 'root',
@@ -15,15 +16,17 @@ export class SRRService {
   };
   constructor(private _http: HttpClient) {}
 
-  getSRRList(SRR_NO, CUSTOMER_NAME, STATUS) {
+  getSRRList(quotation: QUOTATION) {
     return this._http.get<any>(
       this.BASE_URL +
         'SRR/GetSRRList?SRR_NO=' +
-        SRR_NO +
+        quotation.SRR_NO +
         '&CUSTOMER_NAME=' +
-        CUSTOMER_NAME +
+        quotation.CUSTOMER_NAME +
         '&STATUS=' +
-        STATUS,
+        quotation.STATUS +
+        '&AGENT_CODE=' +
+        quotation.AGENT_CODE,
       this.httpOptions
     );
   }
