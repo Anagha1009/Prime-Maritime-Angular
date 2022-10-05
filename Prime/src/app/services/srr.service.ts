@@ -43,6 +43,14 @@ export class SRRService {
     );
   }
 
+  insertContainer(rootobject) {
+    return this._http.post<any>(
+      this.BASE_URL + 'SRR/InsertSRR',
+      rootobject,
+      this.httpOptions
+    );
+  }
+
   uploadFiles(file) {
     return this._http.post<any>(this.BASE_URL + 'SRR/UploadFiles', file);
   }

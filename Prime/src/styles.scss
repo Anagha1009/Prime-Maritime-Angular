@@ -88,3 +88,12 @@
 .form-check-input[type="radio"]:checked:after {
   left: 0%;
 }
+
+/*-BUTTONS-*/
+
+.btn-secondary,
+.btn-secondary:hover {
+  color: #fff;
+  background-color: #c3c3c3;
+  border-color: #545b62;
+}

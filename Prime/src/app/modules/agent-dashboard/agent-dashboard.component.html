@@ -7,8 +7,8 @@
     </nav>
 </div>
 <div class="container">
-    <div class="col-md-2 offset-md-10 mb-3" style="text-align: right;">
-        <button type="button" routerLink="/home/new-quotation" class="btn btn-block btn-info btn-rounded">New
+    <div class="col-md-2 mb-3">
+        <button type="button" routerLink="/home/new-quotation" class="btn btn-block btn-secondary btn-rounded">New
             Quotation</button>
     </div>
     <div class="row">
@@ -48,49 +48,8 @@
             </div>
         </div>
         <div class="col-md-10">
-            <form [formGroup]="quotationForm">
-                <div class="row">
-                    <div class="col-md-3 mt-4">
-                        <div class="form-outline">
-                            <input type="text" formControlName="SRR_NO" class="form-control" />
-                            <label class="form-label">Reference No</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-outline">
-                            <label class="form-label">Customer Name</label>
-                            <ng-select formControlName="CUSTOMER_NAME">
-                                <ng-option value="" disabled>--Select--</ng-option>
-                                <ng-option value="JITEX">JITEX</ng-option>
-                                <ng-option value="MASDAR TECHNICAL SUPPLIES TRADING CO.">MASDAR TECHNICAL SUPPLIES
-                                    TRADING CO.
-                                </ng-option>
-                            </ng-select>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-outline">
-                            <label class="form-label">Status</label>
-                            <ng-select formControlName="STATUS">
-                                <ng-option value="" disabled>--Select--</ng-option>
-                                <ng-option value="Requested">Requested</ng-option>
-                                <ng-option value="Approved">Approved
-                                </ng-option>
-                            </ng-select>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mt-4">
-
-                        <button type="button" (click)="searchSRRList()" class="btn btn-dark me-2"
-                            data-mdb-ripple-color="dark">Search</button>
-                        <button type="button" (click)="clearSRRList()" class="btn btn-outline-default"
-                            data-mdb-ripple-color="dark">Clear</button>
-                    </div>
-                </div>
-            </form>
-
             <!-- Tabs navs -->
-            <ul class="nav nav-tabs mb-3 mt-5" id="ex1" role="tablist">
+            <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active" id="ex2-tab-1" data-mdb-toggle="tab" href="#ex2-tabs-1" role="tab"
                         aria-controls="ex2-tabs-1" aria-selected="true">QUOTATIONS (20)</a>
@@ -105,6 +64,47 @@
             <!-- Tabs content -->
             <div class="tab-content" id="ex2-content">
                 <div class="tab-pane fade show active" id="ex2-tabs-1" role="tabpanel" aria-labelledby="ex2-tab-1">
+                    <form [formGroup]="quotationForm">
+                        <div class="row">
+                            <div class="col-md-3 mb-4">
+                                <div class="form-outline">
+                                    <input formControlName="SRR_NO" type="text" class="form-control form-control-lg" />
+                                    <label class="form-label">Reference No</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="form-outline">
+                                    <div class="form-outline">
+                                        <ng-select formControlName="CUSTOMER_NAME">
+                                            <ng-option value="" disabled>--Customer--</ng-option>
+                                            <ng-option value="JITEX">JITEX</ng-option>
+                                            <ng-option value="MASDAR TECHNICAL SUPPLIES TRADING CO.">MASDAR TECHNICAL
+                                                SUPPLIES
+                                                TRADING CO.
+                                            </ng-option>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-outline">
+                                    <ng-select formControlName="STATUS">
+                                        <ng-option value="" disabled>--Status--</ng-option>
+                                        <ng-option value="Requested">Requested</ng-option>
+                                        <ng-option value="Approved">Approved
+                                        </ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <button type="button" (click)="searchSRRList()" class="btn btn-outline-dark me-2"
+                                    data-mdb-ripple-color="dark">Search</button>
+                                <button type="button" (click)="clearSRRList()" class="btn btn-default"
+                                    data-mdb-ripple-color="dark">Clear</button>
+                            </div>
+                        </div>
+                    </form>
                     <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
                         <div [class]="isScroll ? 'force-overflow' : ''">
                             <div [class]="i == 0 ? 'card border me-2' : 'card border me-2 mt-2'"
@@ -141,9 +141,10 @@
 
                                             <button type="button" data-mdb-toggle="modal"
                                                 [attr.data-mdb-target]="'#' + 'modal' + i"
-                                                class="btn btn-danger btn-rounded me-2">Add
+                                                class="btn btn-default btn-rounded me-2">Add
                                                 Slots</button>
-                                            <button type="button" class="btn btn-info btn-rounded">Book Now</button>
+                                            <button type="button" class="btn btn-info btn-rounded">Book
+                                                Now</button>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -274,7 +275,7 @@
                                     <!--Add Container Modal-->
                                     <div class="modal fade" id="{{'containermodal' + i}}" tabindex="-1"
                                         aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
+                                        <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Container Details
@@ -283,69 +284,26 @@
                                                         aria-label="Close" #closeBtn></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form>
-                                                        <div class="row">
-                                                            <div class="col-md-4 mb-4">
-                                                                <div class="form-outline">
-                                                                    <input type="text"
-                                                                        class="form-control form-control-lg" />
-                                                                    <label class="form-label">Container Type</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4 mb-4">
-                                                                <div class="form-outline">
-                                                                    <input type="text"
-                                                                        class="form-control form-control-lg" />
-                                                                    <label class="form-label">Container Size</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4 mb-4">
-                                                                <div class="form-outline">
-                                                                    <input type="text"
-                                                                        class="form-control form-control-lg" />
-                                                                    <label class="form-label">Service Mode</label>
-                                                                </div>
+                                                    <form [formGroup]="containerForm">
+                                                        <div class="col-md-12 mb-4">
+                                                            <div class="form-outline">
+                                                                <label class="form-label">SRR No -
+                                                                    <b>{{srrList[i].SRR_NO}}</b></label>
                                                             </div>
                                                         </div>
-                                                        <div class="row">
-                                                            <div class="col-md-4 mb-4">
-                                                                <div class="form-outline">
-                                                                    <input type="text"
-                                                                        class="form-control form-control-lg" />
-                                                                    <label class="form-label">POL Free Days</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4 mb-4">
-                                                                <div class="form-outline">
-                                                                    <input type="text"
-                                                                        class="form-control form-control-lg" />
-                                                                    <label class="form-label">POD Free Days</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4 mb-4">
-                                                                <div class="form-outline">
-                                                                    <input type="text"
-                                                                        class="form-control form-control-lg" />
-                                                                    <label class="form-label">Imm Volume
-                                                                        Expected</label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-4 mb-4">
-                                                                <div class="form-outline">
-                                                                    <input type="text"
-                                                                        class="form-control form-control-lg" />
-                                                                    <label class="form-label">Total Volume
-                                                                        Expected</label>
-                                                                </div>
+                                                        <div class="col-md-6 mb-4">
+                                                            <div class="form-outline">
+                                                                <input type="text" formControlName="NO_OF_CONTAINERS"
+                                                                    class="form-control form-control-lg" />
+                                                                <label class="form-label">No of Containers</label>
                                                             </div>
                                                         </div>
                                                     </form>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary">Clear</button>
-                                                    <button type="button" class="btn btn-primary">Add Container</button>
+                                                    <button type="button" (click)="addContainer(i)"
+                                                        class="btn btn-primary">Add Container</button>
                                                 </div>
                                             </div>
                                         </div>

@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { debug } from 'console';
+import { CONTAINER } from 'src/app/models/quotation';
 import { SRRService } from 'src/app/services/srr.service';
 
 @Component({
@@ -14,6 +16,7 @@ export class AgentDashboardComponent implements OnInit {
   srrList: any[] = [];
   quotationForm: FormGroup;
   slotDetailsForm: FormGroup;
+  containerForm: FormGroup;
   isScroll: boolean = false;
   slotList: any[] = [];
   slotDetailsList: any[] = [];
@@ -45,6 +48,13 @@ export class AgentDashboardComponent implements OnInit {
       MOTHER_VOYAGE_NO: [''],
       SLOT_OPERATOR: [''],
       NO_OF_SLOTS: [''],
+    });
+
+    this.containerForm = this.FormBuilder.group({
+      SRR_ID: [''],
+      SRR_NO: [''],
+      NO_OF_CONTAINERS: [''],
+      CREATED_BY: ['Agent'],
     });
 
     this.getSRRList('', '', '');
@@ -86,6 +96,26 @@ export class AgentDashboardComponent implements OnInit {
         if (error.status == 401) {
           alert('You are not authorized to access this page, please login');
           this.router.navigateByUrl('login');
+        }
+      }
+    );
+  }
+
+  addContainer(i) {
+    debugger;
+    var srrdata = this.srrList[i];
+    var rootobject = new CONTAINER();
+    rootobject.SRR_ID = srrdata.SRR_ID;
+    rootobject.SRR_NO = srrdata.SRR_NO;
+    rootobject.NO_OF_CONTAINERS =
+      +this.containerForm.get('NO_OF_CONTAINERS')?.value;
+    rootobject.CREATED_BY = this.containerForm.get('CREATED_BY')?.value;
+    console.log(JSON.stringify(rootobject));
+    this.SrrService.insertContainer(JSON.stringify(rootobject)).subscribe(
+      (res) => {
+        debugger;
+        if (res.responseCode == 200) {
+          alert('Container added successfully');
         }
       }
     );
