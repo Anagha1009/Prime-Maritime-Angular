@@ -20,12 +20,12 @@ export class AgentDashboardComponent implements OnInit {
   isScroll: boolean = false;
   slotList: any[] = [];
   slotDetailsList: any[] = [];
-  slotNo: any;
   currentDate: string = '';
   quotation = new QUOTATION();
   submitted: boolean = false;
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
+  @ViewChild('closeBtn1') closeBtn1: ElementRef;
 
   constructor(
     private SrrService: SRRService,
@@ -41,15 +41,19 @@ export class AgentDashboardComponent implements OnInit {
     });
 
     this.slotDetailsForm = this.FormBuilder.group({
+      SRR_ID: [''],
       SRR_NO: [''],
       POL: [''],
       POD: [''],
-      VESSEL_NAME: [''],
-      VOYAGE_NO: [''],
+      VESSEL_NAME: ['', Validators.required],
+      VOYAGE_NO: ['', Validators.required],
       MOTHER_VESSEL_NAME: [''],
       MOTHER_VOYAGE_NO: [''],
-      SLOT_OPERATOR: [''],
-      NO_OF_SLOTS: [''],
+      SLOT_OPERATOR: ['', Validators.required],
+      NO_OF_SLOTS: ['', Validators.required],
+      AGENT_CODE: [''],
+      AGENT_NAME: [''],
+      CREATED_BY: [''],
     });
 
     this.containerForm = this.FormBuilder.group({
@@ -136,30 +140,59 @@ export class AgentDashboardComponent implements OnInit {
   }
 
   addSlots(i) {
-    let obj = {
-      Index: i,
-      Form: this.slotDetailsForm.value,
-    };
+    // let obj = {
+    //   Index: i,
+    //   Form: this.slotDetailsForm.value,
+    // };
 
-    this.slotList.push(obj);
+    // this.slotList.push(obj);
 
-    var x = this.slotList.filter((x) => x.Index == i);
+    // var x = this.slotList.filter((x) => x.Index == i);
 
-    x.forEach((element) => {
-      this.slotDetailsList.push(element.Form);
+    // x.forEach((element) => {
+    //   this.slotDetailsList.push(element.Form);
+    // });
+
+    this.slotDetailsForm.get('SRR_ID').setValue(this.srrList[i].SRR_ID);
+    this.slotDetailsForm.get('SRR_NO').setValue(this.srrList[i].SRR_NO);
+    this.slotDetailsForm.get('POL').setValue(this.srrList[i].POL);
+    this.slotDetailsForm.get('POD').setValue(this.srrList[i].POD);
+    this.slotDetailsForm
+      .get('AGENT_CODE')
+      .setValue(localStorage.getItem('rolecode'));
+    this.slotDetailsForm
+      .get('AGENT_NAME')
+      .setValue(localStorage.getItem('username'));
+    this.slotDetailsForm
+      .get('CREATED_BY')
+      .setValue(localStorage.getItem('username'));
+
+    this.SrrService.insertSlots(
+      JSON.stringify(this.slotDetailsForm.value)
+    ).subscribe((res) => {
+      if (res.responseCode == 200) {
+        alert('Your Slot has been booked successfully!');
+        this.closeModal();
+      }
     });
-
-    this.closeModal();
   }
 
-  getSlotDetails(i) {
-    this.slotNo = i;
+  getSlotDetails(SRR_NO) {
+    // this.slotNo = i;
     this.isSlotDetails = !this.isSlotDetails;
+
+    this.SrrService.getSlotList(
+      localStorage.getItem('rolecode'),
+      SRR_NO
+    ).subscribe((res) => {
+      debugger;
+      this.slotDetailsList = res.Data;
+    });
   }
 
   closeModal(): void {
     this.closeBtn.nativeElement.click();
-    //this.modal.nativeElement.removeClass('show');
+    this.closeBtn1.nativeElement.click();
   }
 
   getcurrentDate() {
@@ -179,14 +212,6 @@ export class AgentDashboardComponent implements OnInit {
     var year = date.getFullYear();
     return year + '-' + month + '-' + todate;
   }
-
-  // activeInput(e) {
-  //   if (e.length > 0) {
-  //     this.classActive = true;
-  //   } else if (e.length == 0) {
-  //     this.classActive = false;
-  //   }
-  // }
 
   get f() {
     return this.containerForm.controls;

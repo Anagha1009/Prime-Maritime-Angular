@@ -57,4 +57,23 @@ export class SRRService {
   uploadFiles(file) {
     return this._http.post<any>(this.BASE_URL + 'SRR/UploadFiles', file);
   }
+
+  insertSlots(rootobject) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Booking/InsertSlots',
+      rootobject,
+      this.httpOptions
+    );
+  }
+
+  getSlotList(AGENT_CODE, SRR_NO) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'Booking/GetSlotList?AGENT_CODE=' +
+        AGENT_CODE +
+        '&SRR_NO=' +
+        SRR_NO,
+      this.httpOptions
+    );
+  }
 }

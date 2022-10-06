@@ -149,12 +149,12 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 offset-md-6" style="text-align: right;">
-                                            <button type="button" (click)="getSlotDetails(i)"
+                                            <button type="button" (click)="getSlotDetails(item.SRR_NO)"
                                                 class="btn btn-outline-dark btn-sm">Slot
                                                 Details (1) <i class="fas fa-caret-down"></i></button>
                                         </div>
                                     </div>
-                                    <div class="row mt-2" *ngIf="isSlotDetails && slotNo == i">
+                                    <div class="row mt-2" *ngIf="isSlotDetails">
                                         <table class="table table-sm" *ngIf="slotDetailsList.length > 0">
                                             <thead>
                                                 <tr>
@@ -185,40 +185,40 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Slot Details</h5>
-                                                    <button type="button" class="btn-close" data-mdb-dismiss="modal"
-                                                        aria-label="Close"></button>
+                                                    <button type="button" class="btn-close" data-dismiss="modal"
+                                                        aria-label="Close" #closeBtn1></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form [formGroup]="slotDetailsForm">
-                                                        <div class="row">
+                                                        <div class="row mb-2">
                                                             <div class="col-md-6 mb-4">
-                                                                <div class="form-outline">
-                                                                    <input type="text" formControlName="POL"
-                                                                        class="form-control form-control-lg" />
-                                                                    <label class="form-label">POL</label>
+                                                                <div class="form-group">
+                                                                    <label class="form-label">POL :
+                                                                        <b>{{srrList[i].POL}}</b>
+                                                                    </label>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6 mb-4">
-                                                                <div class="form-outline">
-                                                                    <input type="text" formControlName="POD"
-                                                                        class="form-control form-control-lg" />
-                                                                    <label class="form-label">POD</label>
+                                                                <div class="form-group">
+                                                                    <label class="form-label">POD :
+                                                                        <b>{{srrList[i].POD}}</b>
+                                                                    </label>
                                                                 </div>
                                                             </div>
                                                         </div>
 
                                                         <div class="row">
                                                             <div class="col-md-6 mb-4">
-                                                                <div class="form-outline">
+                                                                <div class="form-group">
                                                                     <input type="text" formControlName="VESSEL_NAME"
-                                                                        class="form-control form-control-lg" />
+                                                                        class="form-control" />
                                                                     <label class="form-label">Vessel Name</label>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6 mb-4">
-                                                                <div class="form-outline">
+                                                                <div class="form-group">
                                                                     <input type="text" formControlName="VOYAGE_NO"
-                                                                        class="form-control form-control-lg" />
+                                                                        class="form-control" />
                                                                     <label class="form-label">Voyage No</label>
                                                                 </div>
                                                             </div>
@@ -226,17 +226,15 @@
 
                                                         <div class="row">
                                                             <div class="col-md-6 mb-4">
-                                                                <div class="form-outline">
-                                                                    <input type="text"
-                                                                        class="form-control form-control-lg"
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control"
                                                                         formControlName="MOTHER_VESSEL_NAME" />
                                                                     <label class="form-label">Mother Vessel</label>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6 mb-4">
-                                                                <div class="form-outline">
-                                                                    <input type="text"
-                                                                        class="form-control form-control-lg"
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control"
                                                                         formControlName="MOTHER_VOYAGE_NO" />
                                                                     <label class="form-label">Mother Voyage No</label>
                                                                 </div>
@@ -254,9 +252,9 @@
                                                                 </ng-select>
                                                             </div>
                                                             <div class="col-md-6 mb-4">
-                                                                <div class="form-outline">
+                                                                <div class="form-group">
                                                                     <input formControlName="NO_OF_SLOTS" type="text"
-                                                                        class="form-control form-control-lg" />
+                                                                        class="form-control" />
                                                                     <label class="form-label">No of Slots</label>
                                                                 </div>
                                                             </div>
