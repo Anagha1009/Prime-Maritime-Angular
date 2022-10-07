@@ -137,13 +137,6 @@ export class NewQuotationComponent implements OnInit {
       PLACE_OF_DELIVERY: [''],
       TSP_1: [''],
       TSP_2: [''],
-      CONTAINER_TYPE: [''],
-      CONTAINER_SIZE: [''],
-      SERVICE_MODE: [''],
-      POD_FREE_DAYS: [''],
-      POL_FREE_DAYS: [''],
-      IMM_VOLUME_EXPECTED: [''],
-      TOTAL_VOLUME_EXPECTED: [''],
       CREATED_BY: [''],
       AGENT_NAME: [''],
       AGENT_CODE: [''],
@@ -285,17 +278,8 @@ export class NewQuotationComponent implements OnInit {
       return;
     }
 
-    this.quotationForm.patchValue(this.containerForm.value);
-    var mty = this.quotationForm.get('MTY_REPO')?.value;
-    mty == 'true'
-      ? this.quotationForm.get('MTY_REPO')?.setValue(true)
-      : this.quotationForm.get('MTY_REPO')?.setValue(false);
     var containers = this.quotationForm.get('SRR_CONTAINERS') as FormArray;
-    containers.push(
-      this.FormBuilder.group({
-        NO_OF_CONTAINERS: [this.containerForm.value.IMM_VOLUME_EXPECTED],
-      })
-    );
+    containers.push(this.containerForm);
 
     this.onchangeTab('3');
   }
@@ -360,6 +344,12 @@ export class NewQuotationComponent implements OnInit {
     var POD = this.quotationForm.value.POD;
 
     this.quotationForm.get('SRR_NO')?.setValue(this.getRandomNumber(POL, POD));
+
+    var mty = this.quotationForm.get('MTY_REPO')?.value;
+    mty == 'true'
+      ? this.quotationForm.get('MTY_REPO')?.setValue(true)
+      : this.quotationForm.get('MTY_REPO')?.setValue(false);
+
     this.quotationForm
       .get('CREATED_BY')
       ?.setValue(localStorage.getItem('username'));
