@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
+import { QUOTATION } from '../models/quotation';
 
 @Injectable({
   providedIn: 'root',
@@ -15,15 +16,17 @@ export class SRRService {
   };
   constructor(private _http: HttpClient) {}
 
-  getSRRList(SRR_NO, CUSTOMER_NAME, STATUS) {
+  getSRRList(quotation: QUOTATION) {
     return this._http.get<any>(
       this.BASE_URL +
         'SRR/GetSRRList?SRR_NO=' +
-        SRR_NO +
+        quotation.SRR_NO +
         '&CUSTOMER_NAME=' +
-        CUSTOMER_NAME +
+        quotation.CUSTOMER_NAME +
         '&STATUS=' +
-        STATUS,
+        quotation.STATUS +
+        '&AGENT_CODE=' +
+        quotation.AGENT_CODE,
       this.httpOptions
     );
   }
@@ -43,7 +46,34 @@ export class SRRService {
     );
   }
 
+  insertContainer(rootobject) {
+    return this._http.post<any>(
+      this.BASE_URL + 'SRR/InsertContainer',
+      rootobject,
+      this.httpOptions
+    );
+  }
+
   uploadFiles(file) {
     return this._http.post<any>(this.BASE_URL + 'SRR/UploadFiles', file);
+  }
+
+  insertSlots(rootobject) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Booking/InsertSlots',
+      rootobject,
+      this.httpOptions
+    );
+  }
+
+  getSlotList(AGENT_CODE, SRR_NO) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'Booking/GetSlotList?AGENT_CODE=' +
+        AGENT_CODE +
+        '&SRR_NO=' +
+        SRR_NO,
+      this.httpOptions
+    );
   }
 }
