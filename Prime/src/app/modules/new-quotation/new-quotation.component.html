@@ -36,6 +36,7 @@
                                 <ng-select [ngClass]="{'invalid': submitted && f.POL.errors}" formControlName="POL">
                                     <ng-option value="" selected="true" disabled>--Select POL--</ng-option>
                                     <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
                                 <div *ngIf="submitted && f.POL.errors" class="invalid-feedback">Please select
@@ -46,7 +47,8 @@
                             <div class="form-group">
                                 <ng-select [ngClass]="{'invalid': submitted && f.POD.errors}" formControlName="POD">
                                     <ng-option value="" selected="true" disabled>--Select POD--</ng-option>
-                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">
+                                        {{item.CODE_DESC}} ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
                                 <div *ngIf="submitted && f.POD.errors" class="invalid-feedback">Please select

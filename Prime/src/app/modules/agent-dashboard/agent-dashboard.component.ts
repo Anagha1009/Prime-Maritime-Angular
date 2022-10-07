@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debug } from 'console';
-import { CONTAINER, QUOTATION } from 'src/app/models/quotation';
+import { BOOKING, CONTAINER, QUOTATION } from 'src/app/models/quotation';
 import { SRRService } from 'src/app/services/srr.service';
 
 @Component({
@@ -14,10 +14,12 @@ export class AgentDashboardComponent implements OnInit {
   // classActive: boolean = false;
   isSlotDetails: boolean = false;
   srrList: any[] = [];
+  bookingList: any[] = [];
   quotationForm: FormGroup;
   slotDetailsForm: FormGroup;
   containerForm: FormGroup;
   isScroll: boolean = false;
+  isScroll1: boolean = false;
   slotList: any[] = [];
   slotDetailsList: any[] = [];
   currentDate: string = '';
@@ -63,6 +65,7 @@ export class AgentDashboardComponent implements OnInit {
     this.quotation.AGENT_CODE = +localStorage.getItem('rolecode');
 
     this.getSRRList();
+    this.getBookingList();
     this.currentDate = this.getcurrentDate();
   }
 
@@ -86,6 +89,7 @@ export class AgentDashboardComponent implements OnInit {
   }
 
   getSRRList() {
+    this.quotation.OPERATION = 'GET_SRRLIST';
     this.SrrService.getSRRList(this.quotation).subscribe(
       (res) => {
         this.srrList = [];
@@ -98,6 +102,33 @@ export class AgentDashboardComponent implements OnInit {
               this.isScroll = true;
             } else {
               this.isScroll = false;
+            }
+          }
+        }
+      },
+      (error) => {
+        if (error.status == 401) {
+          alert('You are not authorized to access this page, please login');
+          this.router.navigateByUrl('login');
+        }
+      }
+    );
+  }
+
+  getBookingList() {
+    this.quotation.OPERATION = 'GET_BOOKINGLIST';
+    this.SrrService.getSRRList(this.quotation).subscribe(
+      (res) => {
+        this.bookingList = [];
+        this.isScroll1 = false;
+        if (res.hasOwnProperty('Data')) {
+          if (res.Data.length > 0) {
+            this.bookingList = res.Data;
+            console.log('bookinglist ' + JSON.stringify(this.bookingList));
+            if (this.bookingList.length >= 4) {
+              this.isScroll1 = true;
+            } else {
+              this.isScroll1 = false;
             }
           }
         }
@@ -173,6 +204,19 @@ export class AgentDashboardComponent implements OnInit {
       if (res.responseCode == 200) {
         alert('Your Slot has been booked successfully!');
         this.closeModal();
+      }
+    });
+  }
+
+  booking(i) {
+    var rootobject = new BOOKING();
+    rootobject.SRR_NO = this.srrList[i].SRR_NO;
+    rootobject.STATUS = 'Booked';
+    rootobject.AGENT_CODE = localStorage.getItem('rolecode');
+
+    this.SrrService.booking(JSON.stringify(rootobject)).subscribe((res) => {
+      if (res.responseCode == 200) {
+        alert('Your Booking has been confirmed');
       }
     });
   }
