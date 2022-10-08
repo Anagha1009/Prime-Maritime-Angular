@@ -56,7 +56,7 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="ex2-tab-2" data-toggle="tab" href="#ex2-tabs-2" role="tab"
-                        aria-controls="ex2-tabs-2" aria-selected="false">BOOKINGS (2)</a>
+                        aria-controls="ex2-tabs-2" aria-selected="false">BOOKINGS ({{bookingList?.length}})</a>
                 </li>
             </ul>
             <!-- Tabs navs -->
@@ -143,19 +143,27 @@
                                                 [attr.data-target]="'#' + 'modal' + i"
                                                 class="btn btn-default btn-rounded me-2">Add
                                                 Slots</button>
-                                            <button type="button" class="btn btn-info btn-rounded">Book
+                                            <button type="button" (click)="booking(i)"
+                                                class="btn btn-info btn-rounded">Book
                                                 Now</button>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6 offset-md-6" style="text-align: right;">
+                                        <div *ngIf="slotDetailsList?.length > 0" class="col-md-6 offset-md-6"
+                                            style="text-align: right;">
                                             <button type="button" (click)="getSlotDetails(item.SRR_NO)"
                                                 class="btn btn-outline-dark btn-sm">Slot
                                                 Details (1) <i class="fas fa-caret-down"></i></button>
                                         </div>
+                                        <div *ngIf="slotDetailsList?.length == 0" class="col-md-6 offset-md-6"
+                                            style="text-align: right;">
+                                            <span class="badge border rounded-pill text-dark p-2 badge-default mb-3">No
+                                                Slots
+                                                Booked</span>
+                                        </div>
                                     </div>
                                     <div class="row mt-2" *ngIf="isSlotDetails">
-                                        <table class="table table-sm" *ngIf="slotDetailsList.length > 0">
+                                        <table class="table table-sm" *ngIf="slotDetailsList?.length > 0">
                                             <thead>
                                                 <tr>
                                                     <td>Sr. No</td>
@@ -317,10 +325,32 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="ex2-tabs-2" role="tabpanel" aria-labelledby="ex2-tab-2">
-                    Tab 2 content
-                </div>
-                <div class="tab-pane fade" id="ex2-tabs-3" role="tabpanel" aria-labelledby="ex2-tab-3">
-                    Tab 3 content
+                    <div class="row">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sr. No</th>
+                                    <th scope="col">SRR No</th>
+                                    <th scope="col">Customer Name</th>
+                                    <th scope="col">POL - POD</th>
+                                    <th scope="col">No of Containers</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of bookingList;let i  = index;">
+                                    <th scope="row">{{i+1}}</th>
+                                    <td>{{item.SRR_NO}}</td>
+                                    <td>{{item.CUSTOMER_NAME}}</td>
+                                    <td>{{item.POL}} - {{item.POD}}</td>
+                                    <td>{{item.NO_OF_CONTAINERS}}</td>
+                                    <td><span class="badge border rounded-pill p-2 badge-success mb-3">{{
+                                            item.STATUS
+                                            }}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <!-- Tabs content -->

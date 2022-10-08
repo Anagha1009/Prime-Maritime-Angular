@@ -3,6 +3,7 @@ export class QUOTATION {
   CUSTOMER_NAME: string = '';
   STATUS: string = '';
   AGENT_CODE: number = 0;
+  OPERATION: string = '';
 }
 
 export class CONTAINER {
@@ -11,4 +12,10 @@ export class CONTAINER {
   SRR_NO!: string;
   NO_OF_CONTAINERS!: number;
   CREATED_BY!: string;
+}
+
+export class BOOKING {
+  SRR_NO: string;
+  STATUS: string;
+  AGENT_CODE: string;
 }
