@@ -26,7 +26,9 @@ export class SRRService {
         '&STATUS=' +
         quotation.STATUS +
         '&AGENT_CODE=' +
-        quotation.AGENT_CODE,
+        quotation.AGENT_CODE +
+        '&OPERATION=' +
+        quotation.OPERATION,
       this.httpOptions
     );
   }
@@ -49,6 +51,14 @@ export class SRRService {
   insertContainer(rootobject) {
     return this._http.post<any>(
       this.BASE_URL + 'SRR/InsertContainer',
+      rootobject,
+      this.httpOptions
+    );
+  }
+
+  booking(rootobject) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Booking/InsertBooking',
       rootobject,
       this.httpOptions
     );
