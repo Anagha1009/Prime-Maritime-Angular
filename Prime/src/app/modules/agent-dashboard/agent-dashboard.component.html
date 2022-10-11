@@ -6,6 +6,10 @@
         </ol>
     </nav>
 </div>
+<button data-target="#menuModal" data-toggle="modal" class="btn btn-info btn-lg btn-floating float-right"
+    style="right: 2rem;top: -2rem;">
+    <i class="fa fa-th"></i>
+</button>
 <div class="container">
     <div class="col-md-2 mb-3">
         <button type="button" routerLink="/home/new-quotation" class="btn btn-block btn-secondary btn-rounded">New
@@ -79,7 +83,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <button type="button" (click)="searchSRRList()" class="btn btn-outline-dark me-2"
+                        <button type="button" (click)="searchSRRList()" class="btn btn-dark me-2"
                             data-mdb-ripple-color="dark">Search</button>
                         <button type="button" (click)="clearSRRList()" class="btn btn-default"
                             data-mdb-ripple-color="dark">Clear</button>
@@ -116,7 +120,7 @@
                                         }}</span>
                                 </div>
                                 <div class="col-md-4" style="text-align: right;">
-                                    <button (click)="bookNow()" class="btn btn-info btn-rounded me-2">Book
+                                    <button (click)="bookNow()" class="btn btn-outline-dark btn-rounded me-2">Book
                                         Now</button>
                                     <button type="button" #openBtn data-toggle="modal"
                                         [attr.data-target]="'#' + 'modal' + i"
@@ -145,7 +149,7 @@
 
                                                     </div>
                                                     <div class="col-md-4 offset-md-4" style="text-align: right;">
-                                                        <button (click)="slotAllocation()" class="btn btn-info">
+                                                        <button (click)="slotAllocation()" class="btn btn-secondary">
                                                             <i class="fa fa-plus mr-1"></i>Slot
                                                             Allocation</button>
                                                     </div>
@@ -202,10 +206,7 @@
                                             </table>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary">Clear</button>
                                             <button type="button" class="btn btn-outline-dark">Book Now</button>
-                                            <!-- <button type="button" (click)="addSlots(i)"
-                                                class="btn btn-primary">Add Slot</button> -->
                                         </div>
                                     </div>
                                 </div>
@@ -249,6 +250,68 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal right fade" id="menuModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" style="width: 35rem; max-width: 35rem;">
+        <div class="modal-content">
+            <div class="modal-body" style="font-size: 14px;">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card menu-card">
+                            <div class="card-body">
+                                <i class="fas fa-file-invoice-dollar menu-icons"></i>
+                                <p>QUOTATIONS</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card menu-card">
+                            <div class="card-body">
+                                <i class="fas fa-clipboard-check menu-icons"></i>
+                                BOOKINGS
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card menu-card">
+                            <div class="card-body">
+                                <i class="fas fa-archive menu-icons"></i>
+                                CRO
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <div class="card menu-card">
+                            <div class="card-body">
+                                <i class="fas fa-file-signature menu-icons"></i>
+                                <p>BL</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card menu-card">
+                            <div class="card-body">
+                                <i class="far fa-file-alt menu-icons"></i>
+                                TDR
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card menu-card">
+                            <div class="card-body">
+                                <i class="fas fa-clipboard-list menu-icons"></i>
+                                DO
                             </div>
                         </div>
                     </div>
