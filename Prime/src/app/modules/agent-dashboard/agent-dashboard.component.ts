@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debug } from 'console';
 import { BOOKING, CONTAINER, QUOTATION } from 'src/app/models/quotation';
@@ -28,6 +28,7 @@ export class AgentDashboardComponent implements OnInit {
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('closeBtn1') closeBtn1: ElementRef;
+  @ViewChild('openBtn') openBtn: ElementRef;
 
   constructor(
     private SrrService: SRRService,
@@ -43,19 +44,7 @@ export class AgentDashboardComponent implements OnInit {
     });
 
     this.slotDetailsForm = this.FormBuilder.group({
-      SRR_ID: [''],
-      SRR_NO: [''],
-      POL: [''],
-      POD: [''],
-      VESSEL_NAME: ['', Validators.required],
-      VOYAGE_NO: ['', Validators.required],
-      MOTHER_VESSEL_NAME: [''],
-      MOTHER_VOYAGE_NO: [''],
-      SLOT_OPERATOR: ['', Validators.required],
-      NO_OF_SLOTS: ['', Validators.required],
-      AGENT_CODE: [''],
-      AGENT_NAME: [''],
-      CREATED_BY: [''],
+      SLOTDETAILS: new FormArray([]),
     });
 
     this.containerForm = this.FormBuilder.group({
@@ -95,10 +84,10 @@ export class AgentDashboardComponent implements OnInit {
         this.srrList = [];
         this.isScroll = false;
         if (res.hasOwnProperty('Data')) {
-          if (res.Data.length > 0) {
+          if (res.Data?.length > 0) {
             this.srrList = res.Data;
 
-            if (this.srrList.length >= 4) {
+            if (this.srrList?.length >= 4) {
               this.isScroll = true;
             } else {
               this.isScroll = false;
@@ -122,10 +111,10 @@ export class AgentDashboardComponent implements OnInit {
         this.bookingList = [];
         this.isScroll1 = false;
         if (res.hasOwnProperty('Data')) {
-          if (res.Data.length > 0) {
+          if (res.Data?.length > 0) {
             this.bookingList = res.Data;
             console.log('bookinglist ' + JSON.stringify(this.bookingList));
-            if (this.bookingList.length >= 4) {
+            if (this.bookingList?.length >= 4) {
               this.isScroll1 = true;
             } else {
               this.isScroll1 = false;
@@ -232,6 +221,57 @@ export class AgentDashboardComponent implements OnInit {
       debugger;
       this.slotDetailsList = res.Data;
     });
+  }
+
+  bookNow() {
+    var slotDetails = this.slotDetailsForm.get('SLOTDETAILS') as FormArray;
+
+    slotDetails.clear();
+
+    debugger;
+    var x = this.srrList;
+
+    slotDetails.push(
+      this.FormBuilder.group({
+        SRR_ID: [''],
+        SRR_NO: [''],
+        POL: [''],
+        POD: [''],
+        VESSEL_NAME: [''],
+        VOYAGE_NO: [''],
+        MOTHER_VESSEL_NAME: [''],
+        MOTHER_VOYAGE_NO: [''],
+        SLOT_OPERATOR: [''],
+        NO_OF_SLOTS: [''],
+        AGENT_CODE: [''],
+        AGENT_NAME: [''],
+        CREATED_BY: [''],
+      })
+    );
+
+    this.openBtn.nativeElement.click();
+  }
+
+  slotAllocation() {
+    var slotDetails = this.slotDetailsForm.get('SLOTDETAILS') as FormArray;
+
+    slotDetails.push(
+      this.FormBuilder.group({
+        SRR_ID: [''],
+        SRR_NO: [''],
+        POL: [''],
+        POD: [''],
+        VESSEL_NAME: [''],
+        VOYAGE_NO: [''],
+        MOTHER_VESSEL_NAME: [''],
+        MOTHER_VOYAGE_NO: [''],
+        SLOT_OPERATOR: [''],
+        NO_OF_SLOTS: [''],
+        AGENT_CODE: [''],
+        AGENT_NAME: [''],
+        CREATED_BY: [''],
+      })
+    );
   }
 
   closeModal(): void {

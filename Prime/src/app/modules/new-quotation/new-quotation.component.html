@@ -14,7 +14,7 @@
             <input type="radio" class="d-none" (change)="onchangeTab('2')" id="radio-2" name="tabs" />
             <label class="tab" for="radio-2">Add Commodities</label>
             <input type="radio" class="d-none" (change)="onchangeTab('3')" id="radio-3" name="tabs" />
-            <label class="tab" for="radio-3">Add Container</label>
+            <label class="tab" for="radio-3">Add Container & Rates</label>
             <!-- <input type="radio" class="d-none" (change)="onchangeTab('4')" id="radio-4" name="tabs" />
             <label class="tab" for="radio-4">Add Rates</label> -->
             <span class="glider d-none"></span>
@@ -214,29 +214,6 @@
                         </div>
                     </div>
                     <div class="row">
-                        <!-- <div class="col-md-6 mb-4">
-                            <div class="form-group">
-                                <label class="form-label">Other Parties</label>
-                                <br><br>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="OTHER_PARTIES"
-                                        id="inlineRadio1" value="Brokerage Party" />
-                                    <label class="form-check-label" for="inlineRadio1">Brokerage Party</label>
-                                </div>
-
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="OTHER_PARTIES"
-                                        id="inlineRadio2" value="Consignee" />
-                                    <label class="form-check-label" for="inlineRadio2">Consignee</label>
-                                </div>
-
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="OTHER_PARTIES"
-                                        id="inlineRadio3" value="Forwarder" />
-                                    <label class="form-check-label" for="inlineRadio3">Forwarder</label>
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="col-md-6 mb-4">
                             <label class="form-label">Other Parties</label>
                             <br><br>
@@ -252,6 +229,10 @@
                             <label class="radio-inline">
                                 <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES"
                                     id="inlineRadio3" value="Forwarder"><span class="indicator"></span>Forwarder
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES"
+                                    id="inlineRadio4" value="CHA"><span class="indicator"></span>CHA
                             </label>
                         </div>
                     </div>
@@ -743,92 +724,94 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="addContainer()" class="btn btn-secondary btn-block">Add Container</button>
-                        </div>
-                    </div>
-                    <div class="row my-3" style="font-size: 15px;" *ngIf="isContainer">
-                        <div class="card border mb-2" *ngFor="let item1 of containerList">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <p>Container : {{item1.CONTAINER_TYPE}} - {{item1.CONTAINER_SIZE}}</p>
-                                        <p>Service Mode : {{item1.SERVICE_MODE}}</p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <p>POL Free Days : {{item1.POL_FREE_DAYS}}</p>
-                                        <p>POD Free Days : {{item1.POD_FREE_DAYS}}</p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <p>Imm Volume Expected : {{item1.IMM_VOLUME_EXPECTED}}</p>
-                                        <p>Total Volume Expected : {{item1.TOTAL_VOLUME_EXPECTED}}</p>
-                                        <button (click)="addRate()" class="btn btn-outline-dark float-right">
-                                            <i class="fa fa-plus mr-1"></i>Add
-                                            Rates</button>
-                                    </div>
-                                </div>
-                                <div class="row mt-3" *ngIf="isRate">
-                                    <div class="table-responsive">
-                                        <table class="table align-middle">
-                                            <thead>
-                                                <tr class="bg-light">
-                                                    <th>Charge Code</th>
-                                                    <th>Currency</th>
-                                                    <th>Standard Rate</th>
-                                                    <th>Requested Rate</th>
-                                                    <th>Freight Payment Term</th>
-                                                    <th>Place of Payment</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let item of quotationForm.get('SRR_RATES').controls;let i = index;"
-                                                    [formGroup]="item">
-                                                    <td>
-                                                        <select formControlName="CHARGE_CODE">
-                                                            <option value="" selected>--Select--</option>
-                                                            <option value="Gross Freight">Gross Freight</option>
-                                                            <option value="THC">THC</option>
-                                                            <option value="EWRI">EWRI</option>
-                                                            <option value="TERMINAL REBATE">TERMINAL REBATE</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <select formControlName="CURRENCY">
-                                                            <option value="" selected>--Select--</option>
-                                                            <option value="USD">USD</option>
-                                                            <option value="INR">INR</option>
-                                                            <option value="AUD">AUD</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>{{item.value.STANDARD_RATE}}</td>
-                                                    <td><input type="text" formControlName="REQUESTED_RATE" /></td>
-                                                    <td>
-                                                        <select formControlName="PAYMENT_TERM">
-                                                            <option value="" selected>--Select--</option>
-                                                            <option value="Prepaid">Prepaid</option>
-                                                            <option value="Collect">Collect</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <select formControlName="TRANSPORT_TYPE">
-                                                            <option value="" selected>--Select--</option>
-                                                            <option value="POL">POL</option>
-                                                            <option value="POD">POD</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><i class="fa fa-trash"></i></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                            <button data-toggle="modal" data-target="#rateModal" class="btn btn-secondary btn-block">Add
+                                Container</button>
                         </div>
                     </div>
 
-                    <div class="row" *ngIf="isContainer">
+                    <div class="row" *ngIf="isRate">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
                             <button (click)="saveContainer()" class="btn btn-secondary btn-block">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Rate Details</h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"
+                                #closeBtn></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-12">
+                                <div class="row mb-2">
+                                    <div class="col-md-4">
+                                        <h6>Container : <small class="text-danger">Open Storage - 20HC</small></h6>
+                                    </div>
+                                    <div class="col-md-4 offset-md-4" style="text-align: right;">
+                                        <button class="btn btn-info">
+                                            <i class="fa fa-plus mr-1"></i>Add Rates</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table align-middle">
+                                    <thead>
+                                        <tr class="bg-light">
+                                            <th>Charge Code</th>
+                                            <th>Currency</th>
+                                            <th>Standard Rate</th>
+                                            <th>Requested Rate</th>
+                                            <th>Freight Payment Term</th>
+                                            <th>Place of Payment</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <select>
+                                                    <option value="" selected>--Select--</option>
+                                                    <option value="Gross Freight">Gross Freight</option>
+                                                    <option value="THC">THC</option>
+                                                    <option value="EWRI">EWRI</option>
+                                                    <option value="TERMINAL REBATE">TERMINAL REBATE</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select>
+                                                    <option value="" selected>--Select--</option>
+                                                    <option value="USD">USD</option>
+                                                    <option value="INR">INR</option>
+                                                    <option value="AUD">AUD</option>
+                                                </select>
+                                            </td>
+                                            <td>546546</td>
+                                            <td><input type="text" /></td>
+                                            <td>
+                                                <select>
+                                                    <option value="" selected>--Select--</option>
+                                                    <option value="Prepaid">Prepaid</option>
+                                                    <option value="Collect">Collect</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select>
+                                                    <option value="" selected>--Select--</option>
+                                                    <option value="POL">POL</option>
+                                                    <option value="POD">POD</option>
+                                                </select>
+                                            </td>
+                                            <td><i class="fa fa-trash"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary">Submit</button>
                         </div>
                     </div>
                 </div>
