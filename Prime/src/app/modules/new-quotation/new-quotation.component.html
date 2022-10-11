@@ -12,15 +12,15 @@
             <input type="radio" class="d-none" (change)="onchangeTab('1')" id="radio-1" name="tabs" checked />
             <label class="tab" for="radio-1">Quotation Details</label>
             <input type="radio" class="d-none" (change)="onchangeTab('2')" id="radio-2" name="tabs" />
-            <label class="tab" for="radio-2">Add Container</label>
+            <label class="tab" for="radio-2">Add Commodities</label>
             <input type="radio" class="d-none" (change)="onchangeTab('3')" id="radio-3" name="tabs" />
-            <label class="tab" for="radio-3">Add Commodities</label>
-            <input type="radio" class="d-none" (change)="onchangeTab('4')" id="radio-4" name="tabs" />
-            <label class="tab" for="radio-4">Add Rates</label>
-            <span class="glider"></span>
+            <label class="tab" for="radio-3">Add Container</label>
+            <!-- <input type="radio" class="d-none" (change)="onchangeTab('4')" id="radio-4" name="tabs" />
+            <label class="tab" for="radio-4">Add Rates</label> -->
+            <span class="glider d-none"></span>
         </div>
     </div>
-    <div class="col-md-11 mx-auto mb-4">
+    <div class="col-md-12 mb-4">
         <form [formGroup]="quotationForm">
             <div class="card mt-2" *ngIf="tabs == '1'">
                 <div class="card-body">
@@ -214,7 +214,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 mb-4">
+                        <!-- <div class="col-md-6 mb-4">
                             <div class="form-group">
                                 <label class="form-label">Other Parties</label>
                                 <br><br>
@@ -236,6 +236,23 @@
                                     <label class="form-check-label" for="inlineRadio3">Forwarder</label>
                                 </div>
                             </div>
+                        </div> -->
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">Other Parties</label>
+                            <br><br>
+                            <label class="radio-inline">
+                                <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES"
+                                    id="inlineRadio1" value="Brokerage Party"><span class="indicator"></span>
+                                Brokerage Party
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES"
+                                    id="inlineRadio2" value="Consignee"><span class="indicator"></span>Consignee
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES"
+                                    id="inlineRadio3" value="Forwarder"><span class="indicator"></span>Forwarder
+                            </label>
                         </div>
                     </div>
                     <div class="row">
@@ -246,8 +263,390 @@
                 </div>
             </div>
         </form>
-        <form [formGroup]="containerForm">
+        <form [formGroup]="commoditiesForm">
             <div class="card mt-2" *ngIf="tabs == '2'">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <ng-select formControlName="COMMODITY_NAME"
+                                    [ngClass]="{'invalid': submitted2 && f2.COMMODITY_NAME.errors}">
+                                    <ng-option value="" selected="true" disabled>--Select Commodity--</ng-option>
+                                    <ng-option value="Aluminium Caps">Aluminium Caps</ng-option>
+                                    <ng-option value="Steel">Steel</ng-option>
+                                    <ng-option value="Fabrics">Fabrics</ng-option>
+                                </ng-select>
+                                <div *ngIf="submitted2 && f2.COMMODITY_NAME.errors" class="invalid-feedback">
+                                    Please
+                                    select
+                                    Commodity</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <ng-select formControlName="COMMODITY_TYPE" (change)="onChangeCommodityType($event)"
+                                    [ngClass]="{'invalid': submitted2 && f2.COMMODITY_TYPE.errors}">
+                                    <ng-option value="" selected="true" disabled>--Select Commodity Type--</ng-option>
+                                    <ng-option value="NORMAL">Normal</ng-option>
+                                    <ng-option value="HAZ">Hazardous</ng-option>
+                                    <ng-option value="FLEXIBAG">Flexi Bag</ng-option>
+                                    <ng-option value="REEFER">Reefer</ng-option>
+                                    <ng-option value="SP">Special Equipment (OOG)</ng-option>
+                                </ng-select>
+                                <div *ngIf="submitted2 && f2.COMMODITY_TYPE.errors" class="invalid-feedback">
+                                    Please
+                                    select
+                                    Commodity Type</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4"
+                            *ngIf="commodityType == 'NORMAL'  || commodityType == 'HAZ'|| commodityType == 'SP'">
+                            <div class="form-group">
+                                <input type="text" class="form-control" />
+                                <label class="form-label">Weight</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4" *ngIf="commodityType == 'FLEXIBAG'">
+                            <div class="form-group">
+                                <input type="text" formControlName="FLASH_POINT"
+                                    [ngClass]="{'invalid': submitted2 && f2.FLASH_POINT.errors}" class="form-control" />
+                                <label class="form-label">Flash Point</label>
+                                <div *ngIf="submitted2 && f2.FLASH_POINT.errors" class="invalid-feedback">
+                                    Please enter Flash Point
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <div class="form-group">
+                                <label class="form-label">Commodity Type</label>
+                                <br><br>
+                                <label class="radio-inline">
+                                    <input type="radio" (change)="onChangeCommodityType($event)"
+                                        formControlName="COMMODITY_TYPE" id="inlineRadio01" value="NORMAL"><span
+                                        class="indicator"></span>
+                                    Normal
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" (change)="onChangeCommodityType($event)"
+                                        formControlName="COMMODITY_TYPE" id="inlineRadio02" value="HAZ"><span
+                                        class="indicator"></span>Hazardous
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" (change)="onChangeCommodityType($event)"
+                                        formControlName="COMMODITY_TYPE" id="inlineRadio03" value="FLEXIBAG"><span
+                                        class="indicator"></span>Flexi Bag
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" (change)="onChangeCommodityType($event)"
+                                        formControlName="COMMODITY_TYPE" id="inlineRadio04" value="REEFER"><span
+                                        class="indicator"></span>Reefer
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" (change)="onChangeCommodityType($event)"
+                                        formControlName="COMMODITY_TYPE" id="inlineRadio05" value="SP"><span
+                                        class="indicator"></span>Special Equipment (OOG)
+                                </label>
+                                <div *ngIf="submitted2 && f2.COMMODITY_TYPE.errors" class="invalid-feedback">
+                                    Please
+                                    select
+                                    Commodity Type</div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="row"
+                        *ngIf="commodityType == 'NORMAL'  || commodityType == 'HAZ'|| commodityType == 'SP'">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <label class="form-label">Remarks</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4" *ngIf="commodityType == 'HAZ'">
+                            <div class="form-group">
+                                <input type="text" formControlName="IMO_CLASS"
+                                    [ngClass]="{'invalid': submitted2 && f2.IMO_CLASS.errors}" class="form-control" />
+                                <label class="form-label">IMO Class Name</label>
+                                <div *ngIf="submitted2 && f2.IMO_CLASS.errors" class="invalid-feedback">
+                                    Please enter IMO Class Name
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4" *ngIf="commodityType == 'HAZ'">
+                            <div class="form-group">
+                                <input type="text" formControlName="UN_NO"
+                                    [ngClass]="{'invalid': submitted2 && f2.UN_NO.errors}" class="form-control" />
+                                <label class="form-label">UN No</label>
+                                <div *ngIf="submitted2 && f2.UN_NO.errors" class="invalid-feedback">
+                                    Please enter UN No
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4" *ngIf="commodityType == 'SP'">
+                            <div class="form-group">
+                                <input type="text" formControlName="LENGTH" class="form-control" />
+                                <label class="form-label">Length</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4" *ngIf="commodityType == 'SP'">
+                            <div class="form-group">
+                                <input type="text" formControlName="WIDTH" class="form-control" />
+                                <label class="form-label">Width</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="commodityType == 'HAZ'">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" formControlName="HAZ_APPROVAL_REF"
+                                    [ngClass]="{'invalid': submitted2 && f2.HAZ_APPROVAL_REF.errors}"
+                                    class="form-control" />
+                                <label class="form-label">HAZ Approval Ref</label>
+                                <div *ngIf="submitted2 && f2.HAZ_APPROVAL_REF.errors" class="invalid-feedback">
+                                    Please enter HAZ Approval Ref
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" formControlName="CAS_NO"
+                                    [ngClass]="{'invalid': submitted2 && f2.CAS_NO.errors}" class="form-control" />
+                                <label class="form-label">CAS No</label>
+                                <div *ngIf="submitted2 && f2.CAS_NO.errors" class="invalid-feedback">
+                                    Please enter CAS No
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="commodityType == 'REEFER'">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" />
+                                <label class="form-label">Temperature</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" />
+                                <label class="form-label">Ventilation</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" />
+                                <label class="form-label">Humidity</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="commodityType == 'SP'">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" formControlName="HEIGHT" class="form-control" />
+                                <label class="form-label">Height</label>
+                            </div>
+                        </div>
+                    </div>
+                    <h6 *ngIf="commodityType == 'HAZ' || commodityType == 'FLEXIBAG' || commodityType == 'SP'">Upload
+                        Files</h6>
+                    <div class="row" *ngIf="commodityType == 'HAZ'">
+                        <div class="col-md-4">
+                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOL">
+                                <input type="file" (change)="fileUpload($event,'POL')" name="file" id="file" />
+                                <label for="file">
+                                    <div>
+                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                        <span class="formbold-drop-file">Upload</span>
+                                        <small>POL Acceptance</small>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOL">
+                                <div class="formbold-file-item">
+                                    <span class="formbold-file-name">{{POLAcceptanceFile}}</span>
+                                    <button (click)="isUploadedPOL = false"><span class="fa fa-times"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOD">
+                                <input type="file" (change)="fileUpload($event,'POD')" name="file1" id="file1" />
+                                <label for="file1">
+                                    <div>
+                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                        <span class="formbold-drop-file">Upload</span>
+                                        <small>POD Acceptance</small>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOD">
+                                <div class="formbold-file-item">
+                                    <span class="formbold-file-name">{{PODAcceptanceFile}}</span>
+                                    <button (click)="isUploadedPOD = false"><span class="fa fa-times"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOp">
+                                <input type="file" (change)="fileUpload($event,'VslOp')" name="file3" id="file3" />
+                                <label for="file3">
+                                    <div>
+                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                        <span class="formbold-drop-file">Upload</span>
+                                        <small>Vessel Operator Acceptance</small>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOp">
+                                <div class="formbold-file-item">
+                                    <span class="formbold-file-name">{{VslOpAcceptanceFile}}</span>
+                                    <button (click)="isUploadedVslOp = false"><span class="fa fa-times"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedTS">
+                                <input type="file" (change)="fileUpload($event,'TS')" name="file4" id="file4" />
+                                <label for="file">
+                                    <div>
+                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                        <span class="formbold-drop-file">Upload</span>
+                                        <small>Transhipment Acceptance</small>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedTS">
+                                <div class="formbold-file-item">
+                                    <span class="formbold-file-name">{{TSAcceptanceFile}}</span>
+                                    <button (click)="isUploadedTS = false"><span class="fa fa-times"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
+                        <div class="col-md-4">
+                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedShpLOY">
+                                <input type="file" (change)="fileUpload($event,'ShpLOY')" name="file4" id="file4" />
+                                <label for="file4">
+                                    <div>
+                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                        <span class="formbold-drop-file">Upload</span>
+                                        <small>Shipper LOI</small>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedShpLOY">
+                                <div class="formbold-file-item">
+                                    <span class="formbold-file-name">{{ShpLOYAcceptanceFile}}</span>
+                                    <button (click)="isUploadedShpLOY = false"><span
+                                            class="fa fa-times"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOpAp">
+                                <input type="file" (change)="fileUpload($event,'VslOpAp')" name="file5" id="file5" />
+                                <label for="file5">
+                                    <div>
+                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                        <span class="formbold-drop-file">Upload</span>
+                                        <small>POD Acceptance</small>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOpAp">
+                                <div class="formbold-file-item">
+                                    <span class="formbold-file-name">{{VslOpApAcceptanceFile}}</span>
+                                    <button (click)="isUploadedVslOpAp = false"><span
+                                            class="fa fa-times"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="commodityType == 'SP'">
+                        <div class="col-md-4">
+                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOpAp2">
+                                <input type="file" (change)="fileUpload($event,'VslOpAp2')" name="file6" id="file6" />
+                                <label for="file6">
+                                    <div>
+                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                        <span class="formbold-drop-file">Upload</span>
+                                        <small>Vessel Operator Acceptance</small>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOpAp2">
+                                <div class="formbold-file-item">
+                                    <span class="formbold-file-name">{{VslOpAp2AcceptanceFile}}</span>
+                                    <button (click)="isUploadedVslOpAp2 = false"><span
+                                            class="fa fa-times"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedSur">
+                                <input type="file" (change)="fileUpload($event,'Sur')" name="file7" id="file7" />
+                                <label for="file7">
+                                    <div>
+                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                        <span class="formbold-drop-file">Upload</span>
+                                        <small>Surveyor File</small>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedSur">
+                                <div class="formbold-file-item">
+                                    <span class="formbold-file-name">{{SurAcceptanceFile}}</span>
+                                    <button (click)="isUploadedSur = false"><span class="fa fa-times"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 offset-md-9" style="text-align: right;">
+                            <button (click)="addCommodity()" class="btn btn-secondary btn-block">Add Commodity</button>
+                        </div>
+                    </div>
+                    <table class="table align-middle my-3 bg-white" *ngIf="commodityList.length > 0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Commodity</th>
+                                <th>Commodity Type</th>
+                                <th *ngIf="commodityType == 'HAZ'">IMO Class</th>
+                                <th *ngIf="commodityType == 'HAZ'">UN No</th>
+                                <th *ngIf="commodityType == 'FLEXIBAG'">Flash Point</th>
+                                <th *ngIf="commodityType == 'FLEXIBAG'">CAS No</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of commodityList; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ item.COMMODITY_NAME }}</td>
+                                <td>{{ item.COMMODITY_TYPE == 'HAZ' ? 'Hazardous' : item.COMMODITY_TYPE == 'FLEXIBAG' ?
+                                    'Flexi
+                                    Bag' : 'Normal' }}</td>
+                                <td *ngIf="commodityType == 'HAZ'">{{ item.IMO_CLASS }}</td>
+                                <td *ngIf="commodityType == 'HAZ'">{{ item.UN_NO }}</td>
+                                <td *ngIf="commodityType == 'FLEXIBAG'">{{ item.FLASH_POINT }}</td>
+                                <td *ngIf="commodityType == 'FLEXIBAG'">{{ item.CAS_NO }}</td>
+                                <td>{{ item.REMARKS }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row" *ngIf="commodityList.length > 0">
+                        <div class="col-md-2 offset-md-10" style="text-align: right;">
+                            <button (click)="saveCommodity()" class="btn btn-secondary btn-block">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form [formGroup]="containerForm">
+            <div class="card mt-2" *ngIf="tabs == '3'">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4 mb-4">
@@ -344,321 +743,98 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="saveContainer()" class="btn btn-secondary btn-block">Add Container</button>
+                            <button (click)="addContainer()" class="btn btn-secondary btn-block">Add Container</button>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-md-12">
-                            <table class="table align-middle">
-                                <thead>
-                                    <tr class="bg-light">
-                                        <th>Container Type</th>
-                                        <th>Container Size</th>
-                                        <th>Charge Code</th>
-                                        <th>Currency</th>
-                                        <!-- <th>Standard Rate</th> -->
-                                        <th>Requested Rate</th>
-                                        <th>Freight Payment Term</th>
-                                        <th>Place of Payment</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <select>
-                                                <option value="" selected>--Select--</option>
-                                                <option>fdsfsdfdsfds</option>
-                                                <option>dsfdsfgsd</option>
-                                            </select>
-                                        </td>
-                                        <td><select>
-                                                <option value="" selected>--Select--</option>
-                                                <option>fdsfsdfdsfds</option>
-                                                <option>dsfdsfgsd</option>
-                                            </select></td>
-                                        <td><select>
-                                                <option value="" selected>--Select--</option>
-                                                <option>fdsfsdfdsfds</option>
-                                                <option>dsfdsfgsd</option>
-                                            </select></td>
-                                        <td><select>
-                                                <option value="" selected>--Select--</option>
-                                                <option>fdsfsdfdsfds</option>
-                                                <option>dsfdsfgsd</option>
-                                            </select></td>
-                                        <!-- <td>AU 500</td> -->
-                                        <td><input type="text" /></td>
-                                        <td><select>
-                                                <option value="" selected>--Select--</option>
-                                                <option>fdsfsdfdsfds</option>
-                                                <option>dsfdsfgsd</option>
-                                            </select></td>
-                                        <td><select>
-                                                <option value="" selected>--Select--</option>
-                                                <option>fdsfsdfdsfds</option>
-                                                <option>dsfdsfgsd</option>
-                                            </select></td>
-                                        <!-- <td><input type="text" /></td>
-                                        <td><i class="fa fa-trash"></i></td> -->
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <form [formGroup]="commoditiesForm">
-            <div class="card mt-2" *ngIf="tabs == '3'">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <ng-select formControlName="COMMODITY_NAME"
-                                    [ngClass]="{'invalid': submitted2 && f2.COMMODITY_NAME.errors}">
-                                    <ng-option value="" selected="true" disabled>--Select Commodity--</ng-option>
-                                    <ng-option value="Aluminium Caps">Aluminium Caps</ng-option>
-                                    <ng-option value="Steel">Steel</ng-option>
-                                    <ng-option value="Fabrics">Fabrics</ng-option>
-                                </ng-select>
-                                <div *ngIf="submitted2 && f2.COMMODITY_NAME.errors" class="invalid-feedback">
-                                    Please
-                                    select
-                                    Commodity</div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <input type="text" formControlName="REMARKS" class="form-control" />
-                                <label class="form-label">Remarks</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-4">
-                            <div class="form-group">
-                                <label class="form-label">Commodity Type</label>
-                                <br><br>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" (change)="onChangeCommodityType($event)"
-                                        type="radio" formControlName="COMMODITY_TYPE" id="inlineRadio01"
-                                        value="NORMAL" />
-                                    <label class="form-check-label" for="inlineRadio01">Normal</label>
+                    <div class="row my-3" style="font-size: 15px;" *ngIf="isContainer">
+                        <div class="card border mb-2" *ngFor="let item1 of containerList">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p>Container : {{item1.CONTAINER_TYPE}} - {{item1.CONTAINER_SIZE}}</p>
+                                        <p>Service Mode : {{item1.SERVICE_MODE}}</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>POL Free Days : {{item1.POL_FREE_DAYS}}</p>
+                                        <p>POD Free Days : {{item1.POD_FREE_DAYS}}</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>Imm Volume Expected : {{item1.IMM_VOLUME_EXPECTED}}</p>
+                                        <p>Total Volume Expected : {{item1.TOTAL_VOLUME_EXPECTED}}</p>
+                                        <button (click)="addRate()" class="btn btn-outline-dark float-right">
+                                            <i class="fa fa-plus mr-1"></i>Add
+                                            Rates</button>
+                                    </div>
                                 </div>
+                                <div class="row mt-3" *ngIf="isRate">
+                                    <div class="table-responsive">
+                                        <table class="table align-middle">
+                                            <thead>
+                                                <tr class="bg-light">
+                                                    <th>Charge Code</th>
+                                                    <th>Currency</th>
+                                                    <th>Standard Rate</th>
+                                                    <th>Requested Rate</th>
+                                                    <th>Freight Payment Term</th>
+                                                    <th>Place of Payment</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of quotationForm.get('SRR_RATES').controls;let i = index;"
+                                                    [formGroup]="item">
+                                                    <td>
+                                                        <select formControlName="CHARGE_CODE">
+                                                            <option value="" selected>--Select--</option>
+                                                            <option value="Gross Freight">Gross Freight</option>
+                                                            <option value="THC">THC</option>
+                                                            <option value="EWRI">EWRI</option>
+                                                            <option value="TERMINAL REBATE">TERMINAL REBATE</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select formControlName="CURRENCY">
+                                                            <option value="" selected>--Select--</option>
+                                                            <option value="USD">USD</option>
+                                                            <option value="INR">INR</option>
+                                                            <option value="AUD">AUD</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>{{item.value.STANDARD_RATE}}</td>
+                                                    <td><input type="text" formControlName="REQUESTED_RATE" /></td>
+                                                    <td>
+                                                        <select formControlName="PAYMENT_TERM">
+                                                            <option value="" selected>--Select--</option>
+                                                            <option value="Prepaid">Prepaid</option>
+                                                            <option value="Collect">Collect</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select formControlName="TRANSPORT_TYPE">
+                                                            <option value="" selected>--Select--</option>
+                                                            <option value="POL">POL</option>
+                                                            <option value="POD">POD</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><i class="fa fa-trash"></i></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" (change)="onChangeCommodityType($event)"
-                                        type="radio" formControlName="COMMODITY_TYPE" id="inlineRadio02" value="HAZ" />
-                                    <label class="form-check-label" for="inlineRadio02">Hazardous</label>
-                                </div>
-
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" (change)="onChangeCommodityType($event)"
-                                        type="radio" formControlName="COMMODITY_TYPE" id="inlineRadio03"
-                                        value="FLEXIBAG" />
-                                    <label class="form-check-label" for="inlineRadio03">Flexi Bag</label>
-                                </div>
-                                <div *ngIf="submitted2 && f2.COMMODITY_TYPE.errors" class="invalid-feedback">
-                                    Please
-                                    select
-                                    Commodity Type</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="commodityType == 'HAZ'">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input type="text" formControlName="IMO_CLASS"
-                                    [ngClass]="{'invalid': submitted2 && f2.IMO_CLASS.errors}" class="form-control" />
-                                <label class="form-label">IMO Class Name</label>
-                                <div *ngIf="submitted2 && f2.IMO_CLASS.errors" class="invalid-feedback">
-                                    Please enter IMO Class Name
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input type="text" formControlName="UN_NO"
-                                    [ngClass]="{'invalid': submitted2 && f2.UN_NO.errors}" class="form-control" />
-                                <label class="form-label">UN No</label>
-                                <div *ngIf="submitted2 && f2.UN_NO.errors" class="invalid-feedback">
-                                    Please enter UN No
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input type="text" formControlName="HAZ_APPROVAL_REF"
-                                    [ngClass]="{'invalid': submitted2 && f2.HAZ_APPROVAL_REF.errors}"
-                                    class="form-control" />
-                                <label class="form-label">HAZ Approval Ref</label>
-                                <div *ngIf="submitted2 && f2.HAZ_APPROVAL_REF.errors" class="invalid-feedback">
-                                    Please enter HAZ Approval Ref
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input type="text" formControlName="FLASH_POINT"
-                                    [ngClass]="{'invalid': submitted2 && f2.FLASH_POINT.errors}" class="form-control" />
-                                <label class="form-label">Flash Point</label>
-                                <div *ngIf="submitted2 && f2.FLASH_POINT.errors" class="invalid-feedback">
-                                    Please enter Flash Point
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input type="text" formControlName="CAS_NO"
-                                    [ngClass]="{'invalid': submitted2 && f2.CAS_NO.errors}" class="form-control" />
-                                <label class="form-label">CAS No</label>
-                                <div *ngIf="submitted2 && f2.CAS_NO.errors" class="invalid-feedback">
-                                    Please enter CAS No
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <h6 *ngIf="commodityType == 'HAZ' || commodityType == 'FLEXIBAG'">Upload Files</h6>
-                    <div class="row" *ngIf="commodityType == 'HAZ'">
-                        <div class="col-md-4">
-                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOL">
-                                <input type="file" (change)="fileUpload($event,'POL')" name="file" id="file" />
-                                <label for="file">
-                                    <div>
-                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
-                                        <span class="formbold-drop-file">Upload</span>
-                                        <small>POL Acceptance</small>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOL">
-                                <div class="formbold-file-item">
-                                    <span class="formbold-file-name">{{POLAcceptanceFile}}</span>
-                                    <button (click)="isUploadedPOL = false"><span class="fa fa-times"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOD">
-                                <input type="file" (change)="fileUpload($event,'POD')" name="file1" id="file1" />
-                                <label for="file1">
-                                    <div>
-                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
-                                        <span class="formbold-drop-file">Upload</span>
-                                        <small>POD Acceptance</small>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOD">
-                                <div class="formbold-file-item">
-                                    <span class="formbold-file-name">{{PODAcceptanceFile}}</span>
-                                    <button (click)="isUploadedPOD = false"><span class="fa fa-times"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOp">
-                                <input type="file" (change)="fileUpload($event,'VslOp')" name="file3" id="file3" />
-                                <label for="file3">
-                                    <div>
-                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
-                                        <span class="formbold-drop-file">Upload</span>
-                                        <small>Vessel Operator Acceptance</small>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOp">
-                                <div class="formbold-file-item">
-                                    <span class="formbold-file-name">{{VslOpAcceptanceFile}}</span>
-                                    <button (click)="isUploadedVslOp = false"><span class="fa fa-times"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
-                        <div class="col-md-4">
-                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedShpLOY">
-                                <input type="file" (change)="fileUpload($event,'ShpLOY')" name="file4" id="file4" />
-                                <label for="file4">
-                                    <div>
-                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
-                                        <span class="formbold-drop-file">Upload</span>
-                                        <small>Shipper LOY</small>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedShpLOY">
-                                <div class="formbold-file-item">
-                                    <span class="formbold-file-name">{{ShpLOYAcceptanceFile}}</span>
-                                    <button (click)="isUploadedShpLOY = false"><span
-                                            class="fa fa-times"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOpAp">
-                                <input type="file" (change)="fileUpload($event,'VslOpAp')" name="file5" id="file5" />
-                                <label for="file5">
-                                    <div>
-                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
-                                        <span class="formbold-drop-file">Upload</span>
-                                        <small>POD Acceptance</small>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOpAp">
-                                <div class="formbold-file-item">
-                                    <span class="formbold-file-name">{{VslOpApAcceptanceFile}}</span>
-                                    <button (click)="isUploadedVslOpAp = false"><span
-                                            class="fa fa-times"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 offset-md-9" style="text-align: right;">
-                            <button (click)="addCommodity()" class="btn btn-secondary btn-block">Add Commodity</button>
-                        </div>
-                    </div>
-                    <table class="table align-middle my-3 bg-white" *ngIf="commodityList.length > 0">
-                        <thead class="bg-light">
-                            <tr>
-                                <th>Sr. No</th>
-                                <th>Commodity</th>
-                                <th>Commodity Type</th>
-                                <th *ngIf="commodityType == 'HAZ'">IMO Class</th>
-                                <th *ngIf="commodityType == 'HAZ'">UN No</th>
-                                <th *ngIf="commodityType == 'FLEXIBAG'">Flash Point</th>
-                                <th *ngIf="commodityType == 'FLEXIBAG'">CAS No</th>
-                                <th>Remarks</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of commodityList; let i = index">
-                                <td>{{ i + 1 }}</td>
-                                <td>{{ item.COMMODITY_NAME }}</td>
-                                <td>{{ item.COMMODITY_TYPE == 'HAZ' ? 'Hazardous' : item.COMMODITY_TYPE == 'FLEXIBAG' ?
-                                    'Flexi
-                                    Bag' : 'Normal' }}</td>
-                                <td *ngIf="commodityType == 'HAZ'">{{ item.IMO_CLASS }}</td>
-                                <td *ngIf="commodityType == 'HAZ'">{{ item.UN_NO }}</td>
-                                <td *ngIf="commodityType == 'FLEXIBAG'">{{ item.FLASH_POINT }}</td>
-                                <td *ngIf="commodityType == 'FLEXIBAG'">{{ item.CAS_NO }}</td>
-                                <td>{{ item.REMARKS }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="row" *ngIf="commodityList.length > 0">
+                    <div class="row" *ngIf="isContainer">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="saveCommodity()" class="btn btn-secondary btn-block">Save</button>
+                            <button (click)="saveContainer()" class="btn btn-secondary btn-block">Submit</button>
                         </div>
                     </div>
                 </div>
             </div>
         </form>
-        <form [formGroup]="ratesForm">
+        <!-- <form [formGroup]="ratesForm">
             <div class="card mt-2" *ngIf="tabs == '4'">
                 <div class="card-body">
                     <div class="row">
@@ -799,6 +975,6 @@
                     </div>
                 </div>
             </div>
-        </form>
+        </form> -->
     </div>
 </div>
