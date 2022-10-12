@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgentDashboardComponent } from 'src/app/modules/agent-dashboard/agent-dashboard.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NewQuotationComponent } from 'src/app/modules/new-quotation/new-quotation.component';
+import { NewCroComponent } from 'src/app/modules/new-cro/new-cro.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { NewQuotationComponent } from 'src/app/modules/new-quotation/new-quotati
     LoginComponent,
     AgentDashboardComponent,
     NewQuotationComponent,
+    NewCroComponent,
   ],
   imports: [
     CommonModule,
