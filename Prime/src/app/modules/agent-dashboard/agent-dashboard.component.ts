@@ -25,9 +25,12 @@ export class AgentDashboardComponent implements OnInit {
   currentDate: string = '';
   quotation = new QUOTATION();
   submitted: boolean = false;
+  requestedCount: any;
+  approvedCount: any;
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('closeBtn1') closeBtn1: ElementRef;
+  @ViewChild('closeBtn3') closeBtn3: ElementRef;
   @ViewChild('openBtn') openBtn: ElementRef;
 
   constructor(
@@ -86,6 +89,12 @@ export class AgentDashboardComponent implements OnInit {
         if (res.hasOwnProperty('Data')) {
           if (res.Data?.length > 0) {
             this.srrList = res.Data;
+
+            var req = this.srrList.filter((x) => x.STATUS == 'Requested');
+            this.requestedCount = req.length;
+
+            var app = this.srrList.filter((x) => x.STATUS == 'Approved');
+            this.approvedCount = app.length;
 
             if (this.srrList?.length >= 4) {
               this.isScroll = true;
@@ -277,6 +286,14 @@ export class AgentDashboardComponent implements OnInit {
   closeModal(): void {
     this.closeBtn.nativeElement.click();
     this.closeBtn1.nativeElement.click();
+    this.closeBtn3.nativeElement.click();
+  }
+
+  redirectToSubMenu(p) {
+    this.closeModal();
+    if (p == 'cro') {
+      this.router.navigateByUrl('/home/new-cro');
+    }
   }
 
   getcurrentDate() {
