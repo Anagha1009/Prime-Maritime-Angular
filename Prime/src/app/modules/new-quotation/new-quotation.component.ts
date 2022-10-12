@@ -29,6 +29,9 @@ export class NewQuotationComponent implements OnInit {
   fileList: File[] = [];
   commodityList: any[] = [];
   rateList: any[] = [];
+  containerList: any[] = [];
+  isContainer: boolean = false;
+  isRate: boolean = false;
 
   //Files
   isUploadedPOL: boolean = false;
@@ -45,6 +48,15 @@ export class NewQuotationComponent implements OnInit {
 
   isUploadedVslOpAp: boolean = false;
   VslOpApAcceptanceFile: string = '';
+
+  isUploadedTS: boolean = false;
+  TSAcceptanceFile: string = '';
+
+  isUploadedVslOpAp2: boolean = false;
+  VslOpAp2AcceptanceFile: string = '';
+
+  isUploadedSur: boolean = false;
+  SurAcceptanceFile: string = '';
 
   constructor(
     private _commonService: CommonService,
@@ -75,7 +87,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   onChangeCommodityType(event) {
-    this.commodityType = event.target.value;
+    this.commodityType = event;
 
     if (this.commodityType == 'HAZ') {
       this.commoditiesForm.get('FLASH_POINT')?.disable();
@@ -165,6 +177,7 @@ export class NewQuotationComponent implements OnInit {
       LENGTH: [''],
       WIDTH: [''],
       HEIGHT: [''],
+      WEIGHT: [''],
       COMMODITY_TYPE: ['', Validators.required],
       IMO_CLASS: ['', Validators.required],
       UN_NO: ['', Validators.required],
@@ -271,19 +284,6 @@ export class NewQuotationComponent implements OnInit {
     this.onchangeTab('2');
   }
 
-  saveContainer() {
-    this.submitted1 = true;
-
-    if (this.containerForm.invalid) {
-      return;
-    }
-
-    var containers = this.quotationForm.get('SRR_CONTAINERS') as FormArray;
-    containers.push(this.containerForm);
-
-    this.onchangeTab('3');
-  }
-
   addCommodity() {
     this.submitted2 = true;
 
@@ -300,6 +300,8 @@ export class NewQuotationComponent implements OnInit {
       this.commoditiesForm.get('IMO_CLASS')?.disable();
       this.commoditiesForm.get('UN_NO')?.disable();
       this.commoditiesForm.get('HAZ_APPROVAL_REF')?.disable();
+      this.commoditiesForm.get('WEIGHT')?.disable();
+      this.commoditiesForm.get('REMARKS')?.disable();
     }
 
     if (this.commoditiesForm.invalid) {
@@ -315,6 +317,9 @@ export class NewQuotationComponent implements OnInit {
     var height = this.commoditiesForm.get('HEIGHT')?.value;
     this.commoditiesForm.get('HEIGHT')?.setValue(height == '' ? 0 : +height);
 
+    var weight = this.commoditiesForm.get('WEIGHT')?.value;
+    this.commoditiesForm.get('WEIGHT')?.setValue(weight == '' ? 0 : +weight);
+
     var commodities = this.quotationForm.get('SRR_COMMODITIES') as FormArray;
     commodities.push(this.commoditiesForm);
     this.commodityList.push(this.commoditiesForm.value);
@@ -324,22 +329,26 @@ export class NewQuotationComponent implements OnInit {
   }
 
   saveCommodity() {
-    this.onchangeTab('4');
+    this.onchangeTab('3');
   }
 
-  addRate() {
-    this.submitted3 = true;
+  addContainer() {
+    this.submitted1 = true;
 
-    if (this.ratesForm.invalid) {
+    if (this.containerForm.invalid) {
       return;
     }
 
-    var rates = this.quotationForm.get('SRR_RATES') as FormArray;
-    rates.push(this.ratesForm);
-    this.rateList.push(this.ratesForm.value);
+    var containers = this.quotationForm.get('SRR_CONTAINERS') as FormArray;
+    containers.push(this.containerForm);
+
+    this.containerList.push(this.containerForm.value);
+
+    this.isContainer = true;
+    this.submitted1 = false;
   }
 
-  saveRate() {
+  saveContainer() {
     var POL = this.quotationForm.value.POL;
     var POD = this.quotationForm.value.POD;
 
@@ -377,7 +386,11 @@ export class NewQuotationComponent implements OnInit {
       .insertSRR(JSON.stringify(this.quotationForm.value))
       .subscribe((res) => {
         if (res.responseCode == 200) {
-          if (this.commodityType == 'HAZ' || this.commodityType == 'FLEXIBAG') {
+          if (
+            this.commodityType == 'HAZ' ||
+            this.commodityType == 'FLEXIBAG' ||
+            this.commodityType == 'SP'
+          ) {
             this.uploadFilestoDB();
           }
           alert('Your quotation has been submitted successfully !');
@@ -385,6 +398,73 @@ export class NewQuotationComponent implements OnInit {
         }
       });
   }
+
+  addRate() {
+    var rateList = this.quotationForm.get('SRR_RATES') as FormArray;
+
+    for (var i = 0; i < this.containerList.length; i++) {
+      rateList.push(
+        this.FormBuilder.group({
+          CHARGE_CODE: [''],
+          CURRENCY: ['USD'],
+          STANDARD_RATE: ['100'],
+          REQUESTED_RATE: [''],
+          PAYMENT_TERM: [''],
+          TRANSPORT_TYPE: [''],
+          REMARKS: ['NULL'],
+        })
+      );
+    }
+
+    this.isRate = true;
+  }
+
+  // saveRate() {
+  //   var POL = this.quotationForm.value.POL;
+  //   var POD = this.quotationForm.value.POD;
+
+  //   this.quotationForm.get('SRR_NO')?.setValue(this.getRandomNumber(POL, POD));
+
+  //   var mty = this.quotationForm.get('MTY_REPO')?.value;
+  //   mty == 'true'
+  //     ? this.quotationForm.get('MTY_REPO')?.setValue(true)
+  //     : this.quotationForm.get('MTY_REPO')?.setValue(false);
+
+  //   this.quotationForm
+  //     .get('CREATED_BY')
+  //     ?.setValue(localStorage.getItem('username'));
+  //   this.quotationForm
+  //     .get('AGENT_NAME')
+  //     ?.setValue(localStorage.getItem('username'));
+  //   this.quotationForm
+  //     .get('AGENT_CODE')
+  //     ?.setValue(localStorage.getItem('rolecode'));
+
+  //   var otherparties = this.quotationForm.get('OTHER_PARTIES')?.value;
+
+  //   this.quotationForm
+  //     .get('BROKERAGE_PARTY')
+  //     ?.setValue(otherparties == 'Brokerage Party' ? 'Yes' : 'No');
+  //   this.quotationForm
+  //     .get('CONSIGNEE')
+  //     ?.setValue(otherparties == 'Consignee' ? 'Yes' : 'No');
+  //   this.quotationForm
+  //     .get('FORWARDER')
+  //     ?.setValue(otherparties == 'Forwarder' ? 'Yes' : 'No');
+
+  //   console.log(JSON.stringify(this.quotationForm.value));
+  //   this._srrService
+  //     .insertSRR(JSON.stringify(this.quotationForm.value))
+  //     .subscribe((res) => {
+  //       if (res.responseCode == 200) {
+  //         if (this.commodityType == 'HAZ' || this.commodityType == 'FLEXIBAG') {
+  //           this.uploadFilestoDB();
+  //         }
+  //         alert('Your quotation has been submitted successfully !');
+  //         this._router.navigateByUrl('home/agent-dashboard');
+  //       }
+  //     });
+  // }
 
   // FILE UPLOAD
 
@@ -425,6 +505,21 @@ export class NewQuotationComponent implements OnInit {
     if (value == 'VslOpAp') {
       this.isUploadedVslOpAp = true;
       this.VslOpApAcceptanceFile = event.target.files[0].name;
+    }
+
+    if (value == 'TS') {
+      this.isUploadedTS = true;
+      this.TSAcceptanceFile = event.target.files[0].name;
+    }
+
+    if (value == 'VslOpAp2') {
+      this.isUploadedVslOpAp2 = true;
+      this.VslOpAp2AcceptanceFile = event.target.files[0].name;
+    }
+
+    if (value == 'Sur') {
+      this.isUploadedSur = true;
+      this.SurAcceptanceFile = event.target.files[0].name;
     }
   }
 
