@@ -37,13 +37,15 @@
                         <div class="row">
                             <div class="col-md-4 mb-4">
                                 <div class="form-group">
-                                    <ng-select formControlName="STUFFING_TYPE">
+                                    <ng-select [ngClass]="{'invalid': submitted && f.STUFFING_TYPE.errors}" formControlName="STUFFING_TYPE">
                                         <ng-option value="" selected="true" disabled>--Select Stuffing Type--
                                         </ng-option>
                                         <ng-option value="Factory">Factory</ng-option>
                                         <ng-option value="ICD">ICD</ng-option>
                                         <ng-option value="PORT">PORT</ng-option>
                                     </ng-select>
+                                    <div *ngIf="submitted && f.STUFFING_TYPE.errors" class="invalid-feedback">Please select
+                                        STUFFING TYPE</div>
                                 </div>
                             </div>
                             <div class="col-md-4 mb-4">
@@ -62,7 +64,7 @@
                             </div>
                             <div class="col-md-4 mb-4">
                                 <div class="form-group">
-                                    <ng-select formControlName="LADEN_ACPT_LOC">
+                                    <ng-select formControlName="LADEN_ACPT_LOCATION">
                                         <ng-option value="" selected="true" disabled>--Select Laden Acpt. Location--
                                         </ng-option>
                                         <ng-option value="INMUN-MUNDRA">
@@ -90,21 +92,35 @@
                             </div>
                             <div class="col-md-4 mb-4">
                                 <div class="form-group">
-                                    <input formControlName="REQUIRED_QTY" type="text" class="form-control">
+                                    <input formControlName="REQ_QUANTITY" type="text" class="form-control">
                                     <label class="form-label">Required Qty</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4 mb-4">
+                            <div class="col-md-2 mb-4">
                                 <div class="form-group">
-                                    <input formControlName="GROSS_WEIGHT" type="text" class="form-control">
+                                    <input formControlName="GROSS_WT" type="text" class="form-control">
                                     <label class="form-label">Gross Weight (kg)</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-4">
+                                <div class="form-group">
+                                    <ng-select formControlName="GROSS_WT_UNIT">
+                                        <ng-option value="" selected="true" disabled>--Select Unit--
+                                        </ng-option>
+                                        <ng-option value="Kg">
+                                            Kg
+                                        </ng-option>
+                                        <ng-option value="Ton">
+                                            Ton
+                                        </ng-option>
+                                    </ng-select>
                                 </div>
                             </div>
                             <div class="col-md-4 mb-4">
                                 <div class="form-group">
-                                    <ng-select formControlName="PCKGS">
+                                    <ng-select formControlName="PACKAGES">
                                         <ng-option value="" selected="true" disabled>--Select Packages--</ng-option>
                                         <ng-option value="Bags">
                                             Bags
@@ -117,14 +133,14 @@
                             </div>
                             <div class="col-md-4 mb-4">
                                 <div class="form-group">
-                                    <input formControlName="NO_OF_PCKGS" type="text" class="form-control">
+                                    <input formControlName="NO_OF_PACKAGES" type="text" class="form-control">
                                     <label class="form-label">No of Packages</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-2 offset-md-10" style="text-align: right;">
-                                <button class="btn btn-secondary btn-block">Submit</button>
+                                <button (click)="SaveCRO()" class="btn btn-secondary btn-block">Submit</button>
                             </div>
                         </div>
                     </form>
