@@ -12,7 +12,6 @@ import { SRRService } from 'src/app/services/srr.service';
 })
 export class AgentDashboardComponent implements OnInit {
   // classActive: boolean = false;
-  isSlotDetails: boolean = false;
   srrList: any[] = [];
   bookingList: any[] = [];
   quotationForm: FormGroup;
@@ -27,6 +26,7 @@ export class AgentDashboardComponent implements OnInit {
   submitted: boolean = false;
   requestedCount: any;
   approvedCount: any;
+  quotationDetails: any;
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('closeBtn1') closeBtn1: ElementRef;
@@ -47,7 +47,18 @@ export class AgentDashboardComponent implements OnInit {
     });
 
     this.slotDetailsForm = this.FormBuilder.group({
-      SLOTDETAILS: new FormArray([]),
+      BOOKING_NO: [''],
+      SRR_ID: [''],
+      SRR_NO: [''],
+      VESSEL_NAME: [''],
+      VOYAGE_NO: [''],
+      MOTHER_VESSEL_NAME: [''],
+      MOTHER_VOYAGE_NO: [''],
+      AGENT_CODE: [''],
+      AGENT_NAME: [''],
+      STATUS: [''],
+      CREATED_BY: [''],
+      SLOT_LIST: new FormArray([]),
     });
 
     this.containerForm = this.FormBuilder.group({
@@ -206,55 +217,22 @@ export class AgentDashboardComponent implements OnInit {
     });
   }
 
-  booking(i) {
-    var rootobject = new BOOKING();
-    rootobject.SRR_NO = this.srrList[i].SRR_NO;
-    rootobject.STATUS = 'Booked';
-    rootobject.AGENT_CODE = localStorage.getItem('rolecode');
+  bookNow(i) {
+    this.quotationDetails = new Object();
+    this.quotationDetails.POL = this.srrList[i].POL;
+    this.quotationDetails.POD = this.srrList[i].POD;
+    this.quotationDetails.SRR_ID = this.srrList[i].SRR_ID;
+    this.quotationDetails.SRR_NO = this.srrList[i].SRR_NO;
 
-    this.SrrService.booking(JSON.stringify(rootobject)).subscribe((res) => {
-      if (res.responseCode == 200) {
-        alert('Your Booking has been confirmed');
-      }
-    });
-  }
-
-  getSlotDetails(SRR_NO) {
-    // this.slotNo = i;
-    this.isSlotDetails = !this.isSlotDetails;
-
-    this.SrrService.getSlotList(
-      localStorage.getItem('rolecode'),
-      SRR_NO
-    ).subscribe((res) => {
-      debugger;
-      this.slotDetailsList = res.Data;
-    });
-  }
-
-  bookNow() {
-    var slotDetails = this.slotDetailsForm.get('SLOTDETAILS') as FormArray;
+    this.slotDetailsForm.reset();
+    var slotDetails = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
 
     slotDetails.clear();
 
-    debugger;
-    var x = this.srrList;
-
     slotDetails.push(
       this.FormBuilder.group({
-        SRR_ID: [''],
-        SRR_NO: [''],
-        POL: [''],
-        POD: [''],
-        VESSEL_NAME: [''],
-        VOYAGE_NO: [''],
-        MOTHER_VESSEL_NAME: [''],
-        MOTHER_VOYAGE_NO: [''],
         SLOT_OPERATOR: [''],
         NO_OF_SLOTS: [''],
-        AGENT_CODE: [''],
-        AGENT_NAME: [''],
-        CREATED_BY: [''],
       })
     );
 
@@ -262,25 +240,42 @@ export class AgentDashboardComponent implements OnInit {
   }
 
   slotAllocation() {
-    var slotDetails = this.slotDetailsForm.get('SLOTDETAILS') as FormArray;
+    var slotDetails = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
 
     slotDetails.push(
       this.FormBuilder.group({
-        SRR_ID: [''],
-        SRR_NO: [''],
-        POL: [''],
-        POD: [''],
-        VESSEL_NAME: [''],
-        VOYAGE_NO: [''],
-        MOTHER_VESSEL_NAME: [''],
-        MOTHER_VOYAGE_NO: [''],
         SLOT_OPERATOR: [''],
         NO_OF_SLOTS: [''],
-        AGENT_CODE: [''],
-        AGENT_NAME: [''],
-        CREATED_BY: [''],
       })
     );
+  }
+
+  bookNow2() {
+    this.slotDetailsForm.get('BOOKING_NO')?.setValue(this.getRandomNumber());
+    this.slotDetailsForm.get('SRR_ID')?.setValue(this.quotationDetails?.SRR_ID);
+    this.slotDetailsForm.get('SRR_NO')?.setValue(this.quotationDetails?.SRR_NO);
+    this.slotDetailsForm.get('STATUS')?.setValue('Booked');
+    this.slotDetailsForm
+      .get('CREATED_BY')
+      ?.setValue(localStorage.getItem('username'));
+    this.slotDetailsForm
+      .get('AGENT_NAME')
+      ?.setValue(localStorage.getItem('username'));
+    this.slotDetailsForm
+      .get('AGENT_CODE')
+      ?.setValue(localStorage.getItem('rolecode'));
+
+    console.log(JSON.stringify(this.slotDetailsForm.value));
+
+    this.closeModal();
+
+    this.SrrService.booking(
+      JSON.stringify(this.slotDetailsForm.value)
+    ).subscribe((res) => {
+      if (res.responseCode == 200) {
+        alert('Your booking is placed successfully !');
+      }
+    });
   }
 
   closeModal(): void {
@@ -316,5 +311,10 @@ export class AgentDashboardComponent implements OnInit {
 
   get f() {
     return this.containerForm.controls;
+  }
+
+  getRandomNumber() {
+    var num = Math.floor(Math.random() * 1e16).toString();
+    return 'BK' + num;
   }
 }
