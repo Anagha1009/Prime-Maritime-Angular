@@ -120,7 +120,7 @@
                                         }}</span>
                                 </div>
                                 <div class="col-md-4" style="text-align: right;" *ngIf="item.STATUS == 'Approved'">
-                                    <button (click)="bookNow()" class="btn btn-outline-dark btn-rounded me-2">Book
+                                    <button (click)="bookNow(i)" class="btn btn-info btn-rounded me-2">Book
                                         Now</button>
                                     <button type="button" #openBtn data-toggle="modal"
                                         [attr.data-target]="'#' + 'modal' + i"
@@ -130,7 +130,7 @@
                             <!-- Modal -->
                             <div class="modal fade" id="{{'modal' + i}}" tabindex="-1"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-xl">
+                                <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Booking Details</h5>
@@ -138,54 +138,73 @@
                                                 aria-label="Close" #closeBtn1></button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="col-md-12">
-                                                <div class="row mb-2">
-                                                    <div class="col-md-4">
-                                                        <h6>POL : <small class="text-danger">
-                                                                {{item.POL}}</small>
-                                                            POD :
-                                                            <small class="text-danger">{{item.POD}}</small>
-                                                        </h6>
-
-                                                    </div>
-                                                    <div class="col-md-4 offset-md-4" style="text-align: right;">
-                                                        <button (click)="slotAllocation()" class="btn btn-secondary">
-                                                            <i class="fa fa-plus mr-1"></i>Slot
-                                                            Allocation</button>
+                                            <form [formGroup]="slotDetailsForm">
+                                                <div class="col-md-12">
+                                                    <div class="row mb-2">
+                                                        <div class="col-md-12">
+                                                            <h6>POL : <small class="text-danger">
+                                                                    {{quotationDetails?.POL}}</small>
+                                                                POD :
+                                                                <small
+                                                                    class="text-danger">{{quotationDetails?.POD}}</small>
+                                                            </h6>
+                                                        </div>
+                                                        <div class="row mt-5">
+                                                            <div class="col-md-6 mb-4">
+                                                                <div class="form-group">
+                                                                    <input formControlName="VESSEL_NAME" type="text"
+                                                                        class="form-control" />
+                                                                    <label class="form-label">Vessel Name</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-4">
+                                                                <div class="form-group">
+                                                                    <input formControlName="VOYAGE_NO" type="text"
+                                                                        class="form-control" />
+                                                                    <label class="form-label">Voyage No</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-4">
+                                                                <div class="form-group">
+                                                                    <input formControlName="MOTHER_VESSEL_NAME"
+                                                                        type="text" class="form-control" />
+                                                                    <label class="form-label">Mother Vessel Name</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-4">
+                                                                <div class="form-group">
+                                                                    <input formControlName="MOTHER_VOYAGE_NO"
+                                                                        type="text" class="form-control" />
+                                                                    <label class="form-label">Mother Voyage No</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 offset-md-6" style="text-align: right;">
+                                                            <button (click)="slotAllocation()"
+                                                                class="btn btn-outline-info btn-block">
+                                                                <i class="fa fa-plus mr-1"></i>Slot
+                                                                Allocation</button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </form>
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Vessel Name</th>
-                                                        <th>Voyage No</th>
-                                                        <th>Mother Vessel</th>
-                                                        <th>Mother Voyage</th>
+                                                        <th>Sr. No</th>
                                                         <th>Slot Operator</th>
                                                         <th>No of Slots</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor="let item of slotDetailsForm.get('SLOTDETAILS').controls;let j = index;"
+                                                    <tr *ngFor="let item of slotDetailsForm.get('SLOT_LIST').controls;let j = index;"
                                                         [formGroup]="item">
                                                         <td>
-                                                            <input type="text" formControlName="VESSEL_NAME"
-                                                                class="form-control" />
+                                                            {{j+1}}
                                                         </td>
-                                                        <td>
-                                                            <input type="text" formControlName="VOYAGE_NO"
-                                                                class="form-control" />
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control"
-                                                                formControlName="MOTHER_VESSEL_NAME" />
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control"
-                                                                formControlName="MOTHER_VOYAGE_NO" />
-                                                        </td>
-                                                        <td class="col-md-2">
+                                                        <td class="col-md-6">
                                                             <ng-select formControlName="SLOT_OPERATOR">
                                                                 <ng-option value="" selected disabled>
                                                                     --Slot
@@ -202,7 +221,8 @@
                                             </table>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-dark">Book Now</button>
+                                            <button type="button" (click)="bookNow2()" class="btn btn-outline-dark">Book
+                                                Now</button>
                                         </div>
                                     </div>
                                 </div>

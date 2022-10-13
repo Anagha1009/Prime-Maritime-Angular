@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { debug } from 'console';
 import { CommonService } from 'src/app/services/common.service';
 import { SRRService } from 'src/app/services/srr.service';
 
@@ -31,7 +32,6 @@ export class NewQuotationComponent implements OnInit {
   rateList: any[] = [];
   containerList: any[] = [];
   isContainer: boolean = false;
-  isRate: boolean = false;
 
   //Files
   isUploadedPOL: boolean = false;
@@ -57,6 +57,9 @@ export class NewQuotationComponent implements OnInit {
 
   isUploadedSur: boolean = false;
   SurAcceptanceFile: string = '';
+
+  @ViewChild('openRateModal') openRateModal: ElementRef;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(
     private _commonService: CommonService,
@@ -216,6 +219,11 @@ export class NewQuotationComponent implements OnInit {
     return this.ratesForm.controls;
   }
 
+  get f4() {
+    var s = this.quotationForm.get('SRR_RATES') as FormArray;
+    return s.controls;
+  }
+
   //GET DATA
 
   getDropdown() {
@@ -342,9 +350,24 @@ export class NewQuotationComponent implements OnInit {
     var containers = this.quotationForm.get('SRR_CONTAINERS') as FormArray;
     containers.push(this.containerForm);
 
-    this.containerList.push(this.containerForm.value);
+    var rateList = this.quotationForm.get('SRR_RATES') as FormArray;
 
-    this.isContainer = true;
+    rateList.clear();
+
+    rateList.push(
+      this.FormBuilder.group({
+        CHARGE_CODE: [''],
+        CURRENCY: ['USD'],
+        STANDARD_RATE: ['100'],
+        REQUESTED_RATE: [''],
+        PAYMENT_TERM: [''],
+        TRANSPORT_TYPE: [''],
+        REMARKS: ['NULL'],
+      })
+    );
+
+    this.openRateModal.nativeElement.click();
+
     this.submitted1 = false;
   }
 
@@ -402,21 +425,30 @@ export class NewQuotationComponent implements OnInit {
   addRate() {
     var rateList = this.quotationForm.get('SRR_RATES') as FormArray;
 
-    for (var i = 0; i < this.containerList.length; i++) {
-      rateList.push(
-        this.FormBuilder.group({
-          CHARGE_CODE: [''],
-          CURRENCY: ['USD'],
-          STANDARD_RATE: ['100'],
-          REQUESTED_RATE: [''],
-          PAYMENT_TERM: [''],
-          TRANSPORT_TYPE: [''],
-          REMARKS: ['NULL'],
-        })
-      );
-    }
+    rateList.push(
+      this.FormBuilder.group({
+        CHARGE_CODE: [''],
+        CURRENCY: ['USD'],
+        STANDARD_RATE: ['100'],
+        REQUESTED_RATE: [''],
+        PAYMENT_TERM: [''],
+        TRANSPORT_TYPE: [''],
+        REMARKS: ['NULL'],
+      })
+    );
+  }
 
-    this.isRate = true;
+  submitRate() {
+    this.containerList.push({
+      Container:
+        this.containerForm.value.CONTAINER_TYPE +
+        '-' +
+        this.containerForm.value.CONTAINER_SIZE,
+      ServiceMode: this.containerForm.value.SERVICE_MODE,
+    });
+
+    this.isContainer = true;
+    this.closeBtn.nativeElement.click();
   }
 
   // saveRate() {
