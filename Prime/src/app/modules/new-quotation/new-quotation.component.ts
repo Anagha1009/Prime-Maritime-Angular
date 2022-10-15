@@ -136,20 +136,31 @@ export class NewQuotationComponent implements OnInit {
       SERVICE_NAME: ['', Validators.required],
       EFFECT_FROM: ['', Validators.required],
       EFFECT_TO: ['', Validators.required],
-      MTY_REPO: ['', Validators.required],
+      MTY_REPO: [''],
       CUSTOMER_NAME: ['', Validators.required],
       ADDRESS: ['', Validators.required],
       ADDRESS1: [''],
-      EMAIL: ['', Validators.required],
+      EMAIL: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            '^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$'
+          ),
+        ],
+      ],
       CONTACT: ['', Validators.required],
-      SHIPPER: ['', Validators.required],
+      SHIPPER: [
+        '',
+        [Validators.required, Validators.pattern('^[A-Za-z0-9? , _-]+$')],
+      ],
       CONSIGNEE: [''],
       OTHER_PARTIES: [''],
-      NOTIFY_PARTY: [''],
+      NOTIFY_PARTY: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
       BROKERAGE_PARTY: [''],
       FORWARDER: [''],
-      PLACE_OF_RECEIPT: [''],
-      PLACE_OF_DELIVERY: [''],
+      PLACE_OF_RECEIPT: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
+      PLACE_OF_DELIVERY: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
       TSP_1: [''],
       TSP_2: [''],
       CREATED_BY: [''],
@@ -569,5 +580,9 @@ export class NewQuotationComponent implements OnInit {
   getRandomNumber(pol, pod) {
     var num = Math.floor(Math.random() * 1e16).toString();
     return pol + '-' + pod + '-' + num;
+  }
+
+  getAddress(e) {
+    this.quotationForm.get('ADDRESS1').setValue(e);
   }
 }

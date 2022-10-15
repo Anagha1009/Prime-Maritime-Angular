@@ -11,6 +11,7 @@ import { AgentDashboardComponent } from 'src/app/modules/agent-dashboard/agent-d
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NewQuotationComponent } from 'src/app/modules/new-quotation/new-quotation.component';
 import { NewCroComponent } from 'src/app/modules/new-cro/new-cro.component';
+import { NewBlComponent } from 'src/app/modules/new-bl/new-bl.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { NewCroComponent } from 'src/app/modules/new-cro/new-cro.component';
     AgentDashboardComponent,
     NewQuotationComponent,
     NewCroComponent,
+    NewBlComponent,
   ],
   imports: [
     CommonModule,

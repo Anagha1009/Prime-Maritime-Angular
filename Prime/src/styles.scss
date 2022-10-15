@@ -20,6 +20,16 @@
   opacity: 0.5;
 }
 
+.form-label-ddl {
+  position: absolute;
+  top: -25px;
+  padding: 7px 0 0 13px;
+  transition: all 200ms;
+  opacity: 1;
+  font-size: 14px;
+  font-size: 85%;
+}
+
 .form-label2 {
   color: rgba(0, 0, 0, 0.6);
 }
