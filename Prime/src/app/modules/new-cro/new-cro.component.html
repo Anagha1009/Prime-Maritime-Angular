@@ -1,7 +1,7 @@
 <div class="mt-4 ps-4 pt-5">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-white">
-            <li class="breadcrumb-item"><a routerLink="/home/agent-dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item"><a routerLink="/home/bookings">Bookings</a></li>
             <li class="breadcrumb-item active" aria-current="page">New CRO</li>
         </ol>
     </nav>
@@ -9,22 +9,23 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <div class="card" style="font-size: 14px;">
+            <div class="card" style="font-size: 14px;background-color: #f4f3f3;box-shadow: none;">
                 <div class="card-body">
                     <div class="font-weight-bold">Booking Details</div>
                     <hr>
-                    <h6>BKDMMNSA22080005</h6>
-                    <div>Vessel : <label class="form-label2">THORSWIND</label></div>
-                    <div>Voyage : <label class="form-label2">039</label></div>
-                    <div>POL : <label class="form-label2">DAMMAM-SADMM</label></div>
-                    <div>POD : <label class="form-label2">NHAVA SHEVA-INNSA</label></div>
-                    <div>Booking Party : <label class="form-label2">JITEX</label></div>
+                    <h6>{{bookingDetails?.BOOKING_NO}}</h6>
+                    <div>Vessel : <label class="form-label2">{{bookingDetails?.VESSEL_NAME}}</label></div>
+                    <div>Voyage : <label class="form-label2">{{bookingDetails?.VOYAGE_NO}}</label></div>
+                    <div>POL : <label class="form-label2">{{bookingDetails?.POL}}</label></div>
+                    <div>POD : <label class="form-label2">{{bookingDetails?.POD}}</label></div>
+                    <div>Booking Party : <label class="form-label2">{{bookingDetails?.CUSTOMER_NAME}}</label></div>
                     <div class="font-weight-bold mt-3">Container Details</div>
                     <hr>
-                    <h6>Reefer - 20 HC</h6>
-                    <div>Service : <label class="form-label2">CY/CY</label></div>
-                    <div>Total Qty : <label class="form-label2">2</label></div>
-                    <div>Available Qty : <label class="form-label2">1</label></div>
+                    <div *ngFor="let item of containerList">
+                        <h6>{{item.CONTAINER_TYPE}} - {{item.CONTAINER_SIZE}}</h6>
+                        <div>Service : <label class="form-label2">{{item.SERVICE_MODE}}</label></div>
+                        <div>Total Qty : <label class="form-label2">{{item.IMM_VOLUME_EXPECTED}}</label></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,14 +38,16 @@
                         <div class="row">
                             <div class="col-md-4 mb-4">
                                 <div class="form-group">
-                                    <ng-select [ngClass]="{'invalid': submitted && f.STUFFING_TYPE.errors}" formControlName="STUFFING_TYPE">
+                                    <ng-select [ngClass]="{'invalid': submitted && f.STUFFING_TYPE.errors}"
+                                        formControlName="STUFFING_TYPE">
                                         <ng-option value="" selected="true" disabled>--Select Stuffing Type--
                                         </ng-option>
                                         <ng-option value="Factory">Factory</ng-option>
                                         <ng-option value="ICD">ICD</ng-option>
                                         <ng-option value="PORT">PORT</ng-option>
                                     </ng-select>
-                                    <div *ngIf="submitted && f.STUFFING_TYPE.errors" class="invalid-feedback">Please select
+                                    <div *ngIf="submitted && f.STUFFING_TYPE.errors" class="invalid-feedback">Please
+                                        select
                                         STUFFING TYPE</div>
                                 </div>
                             </div>
@@ -140,7 +143,8 @@
                         </div>
                         <div class="row">
                             <div class="col-md-2 offset-md-10" style="text-align: right;">
-                                <button (click)="SaveCRO()" class="btn btn-secondary btn-block">Submit</button>
+                                <button (click)="SaveCRO()" class="btn btn-default btn-block">Submit</button>
+                                <!-- <button (click)="generatePDF()" class="btn btn-default">PDF</button> -->
                             </div>
                         </div>
                     </form>

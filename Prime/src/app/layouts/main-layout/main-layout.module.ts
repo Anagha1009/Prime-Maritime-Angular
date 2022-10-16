@@ -12,6 +12,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NewQuotationComponent } from 'src/app/modules/new-quotation/new-quotation.component';
 import { NewCroComponent } from 'src/app/modules/new-cro/new-cro.component';
 import { NewBlComponent } from 'src/app/modules/new-bl/new-bl.component';
+import { BookingListComponent } from 'src/app/modules/booking-list/booking-list.component';
+import { CroListComponent } from 'src/app/modules/cro-list/cro-list.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { NewBlComponent } from 'src/app/modules/new-bl/new-bl.component';
     NewQuotationComponent,
     NewCroComponent,
     NewBlComponent,
+    BookingListComponent,
+    CroListComponent,
   ],
   imports: [
     CommonModule,

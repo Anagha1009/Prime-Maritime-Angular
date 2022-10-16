@@ -24,6 +24,7 @@
     "bootstrap": "^4.6.0",
     "jquery": "^3.6.1",
     "mdb-angular-ui-kit": "file:mdb-angular-ui-kit-2.3.0.tgz",
+    "pdfmake": "^0.2.6",
     "popper": "^1.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.1.0",

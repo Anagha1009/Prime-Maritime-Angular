@@ -512,9 +512,14 @@ export class NewQuotationComponent implements OnInit {
   // FILE UPLOAD
 
   fileUpload(event, value) {
-    if (event.target.files[0].type == 'application/pdf') {
+    if (
+      event.target.files[0].type == 'application/pdf' ||
+      event.target.files[0].type == 'application/xls' ||
+      event.target.files[0].type == 'application/xlsx' ||
+      event.target.files[0].type == 'application/doc'
+    ) {
     } else {
-      alert('Please Select PDF only');
+      alert('Please Select PDF or Excel or Word Format only');
       return;
     }
 

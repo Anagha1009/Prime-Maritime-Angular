@@ -2,7 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debug } from 'console';
-import { BOOKING, CONTAINER, QUOTATION } from 'src/app/models/quotation';
+import { BOOKING, CONTAINER, QUOTATION, SLOTS } from 'src/app/models/quotation';
+import { BookingService } from 'src/app/services/booking.service';
 import { SRRService } from 'src/app/services/srr.service';
 
 @Component({
@@ -13,12 +14,10 @@ import { SRRService } from 'src/app/services/srr.service';
 export class AgentDashboardComponent implements OnInit {
   // classActive: boolean = false;
   srrList: any[] = [];
-  bookingList: any[] = [];
   quotationForm: FormGroup;
   slotDetailsForm: FormGroup;
   containerForm: FormGroup;
   isScroll: boolean = false;
-  isScroll1: boolean = false;
   slotList: any[] = [];
   slotDetailsList: any[] = [];
   currentDate: string = '';
@@ -35,6 +34,7 @@ export class AgentDashboardComponent implements OnInit {
 
   constructor(
     private SrrService: SRRService,
+    private bookingService: BookingService,
     private router: Router,
     private FormBuilder: FormBuilder
   ) {}
@@ -68,7 +68,6 @@ export class AgentDashboardComponent implements OnInit {
     this.quotation.AGENT_CODE = +localStorage.getItem('rolecode');
 
     this.getSRRList();
-    this.getBookingList();
     this.currentDate = this.getcurrentDate();
   }
 
@@ -124,33 +123,6 @@ export class AgentDashboardComponent implements OnInit {
     );
   }
 
-  getBookingList() {
-    this.quotation.OPERATION = 'GET_BOOKINGLIST';
-    this.SrrService.getSRRList(this.quotation).subscribe(
-      (res) => {
-        this.bookingList = [];
-        this.isScroll1 = false;
-        if (res.hasOwnProperty('Data')) {
-          if (res.Data?.length > 0) {
-            this.bookingList = res.Data;
-            console.log('bookinglist ' + JSON.stringify(this.bookingList));
-            if (this.bookingList?.length >= 4) {
-              this.isScroll1 = true;
-            } else {
-              this.isScroll1 = false;
-            }
-          }
-        }
-      },
-      (error) => {
-        if (error.status == 401) {
-          alert('You are not authorized to access this page, please login');
-          this.router.navigateByUrl('login');
-        }
-      }
-    );
-  }
-
   addContainer(i) {
     this.submitted = true;
 
@@ -179,50 +151,13 @@ export class AgentDashboardComponent implements OnInit {
     );
   }
 
-  addSlots(i) {
-    // let obj = {
-    //   Index: i,
-    //   Form: this.slotDetailsForm.value,
-    // };
-
-    // this.slotList.push(obj);
-
-    // var x = this.slotList.filter((x) => x.Index == i);
-
-    // x.forEach((element) => {
-    //   this.slotDetailsList.push(element.Form);
-    // });
-
-    this.slotDetailsForm.get('SRR_ID').setValue(this.srrList[i].SRR_ID);
-    this.slotDetailsForm.get('SRR_NO').setValue(this.srrList[i].SRR_NO);
-    this.slotDetailsForm.get('POL').setValue(this.srrList[i].POL);
-    this.slotDetailsForm.get('POD').setValue(this.srrList[i].POD);
-    this.slotDetailsForm
-      .get('AGENT_CODE')
-      .setValue(localStorage.getItem('rolecode'));
-    this.slotDetailsForm
-      .get('AGENT_NAME')
-      .setValue(localStorage.getItem('username'));
-    this.slotDetailsForm
-      .get('CREATED_BY')
-      .setValue(localStorage.getItem('username'));
-
-    this.SrrService.insertSlots(
-      JSON.stringify(this.slotDetailsForm.value)
-    ).subscribe((res) => {
-      if (res.responseCode == 200) {
-        alert('Your Slot has been booked successfully!');
-        this.closeModal();
-      }
-    });
-  }
-
   bookNow(i) {
     this.quotationDetails = new Object();
     this.quotationDetails.POL = this.srrList[i].POL;
     this.quotationDetails.POD = this.srrList[i].POD;
     this.quotationDetails.SRR_ID = this.srrList[i].SRR_ID;
     this.quotationDetails.SRR_NO = this.srrList[i].SRR_NO;
+    this.quotationDetails.NO_OF_CONTAINERS = this.srrList[i].NO_OF_CONTAINERS;
 
     this.slotDetailsForm.reset();
     var slotDetails = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
@@ -251,6 +186,28 @@ export class AgentDashboardComponent implements OnInit {
   }
 
   bookNow2() {
+    // var slotList = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
+
+    // debugger;
+    // var slot = new SLOTS();
+    // slot.SRR_NO = this.quotationDetails?.SRR_NO;
+
+    // for (var i = 0; i < slotList.length; i++) {
+    //   slot.NO_OF_SLOTS = slotList.value[i].NO_OF_SLOTS;
+
+    //   if (slot.NO_OF_SLOTS > this.quotationDetails.NO_OF_CONTAINERS) {
+    //     alert('hi');
+    //   } else {
+    //     alert('No');
+    //   }
+    //   // this.bookingService.validateSlots(slot).subscribe((res) => {
+    //   //   if (res.ResponseCode != 200) {
+    //   //     alert(res.ResponseMessage);
+    //   //     return;
+    //   //   }
+    //   // });
+    // }
+
     this.slotDetailsForm.get('BOOKING_NO')?.setValue(this.getRandomNumber());
     this.slotDetailsForm.get('SRR_ID')?.setValue(this.quotationDetails?.SRR_ID);
     this.slotDetailsForm.get('SRR_NO')?.setValue(this.quotationDetails?.SRR_NO);
@@ -274,6 +231,7 @@ export class AgentDashboardComponent implements OnInit {
     ).subscribe((res) => {
       if (res.responseCode == 200) {
         alert('Your booking is placed successfully !');
+        this.router.navigateByUrl('/home/bookings');
       }
     });
   }
@@ -287,7 +245,9 @@ export class AgentDashboardComponent implements OnInit {
   redirectToSubMenu(p) {
     this.closeModal();
     if (p == 'cro') {
-      this.router.navigateByUrl('/home/new-cro');
+      this.router.navigateByUrl('/home/cro-list');
+    } else if (p == 'booking') {
+      this.router.navigateByUrl('/home/bookings');
     }
   }
 

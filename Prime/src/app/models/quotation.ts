@@ -15,7 +15,12 @@ export class CONTAINER {
 }
 
 export class BOOKING {
+  BOOKING_NO: string = '';
+  STATUS: string = '';
+  AGENT_CODE: number = 0;
+}
+
+export class SLOTS {
   SRR_NO: string;
-  STATUS: string;
-  AGENT_CODE: string;
+  NO_OF_SLOTS: number;
 }

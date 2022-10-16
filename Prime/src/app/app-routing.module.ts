@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { MainLayoutModule } from './layouts/main-layout/main-layout.module';
 import { AgentDashboardComponent } from './modules/agent-dashboard/agent-dashboard.component';
+import { BookingListComponent } from './modules/booking-list/booking-list.component';
+import { CroListComponent } from './modules/cro-list/cro-list.component';
 import { LoginComponent } from './modules/login/login.component';
 import { NewBlComponent } from './modules/new-bl/new-bl.component';
 import { NewCroComponent } from './modules/new-cro/new-cro.component';
@@ -31,12 +33,20 @@ const routes: Routes = [
         component: NewQuotationComponent,
       },
       {
-        path: 'home/new-cro',
+        path: 'home/new-cro/:BOOKING_NO',
         component: NewCroComponent,
       },
       {
         path: 'home/new-bl',
         component: NewBlComponent,
+      },
+      {
+        path: 'home/bookings',
+        component: BookingListComponent,
+      },
+      {
+        path: 'home/cro-list',
+        component: CroListComponent,
       },
     ],
   },

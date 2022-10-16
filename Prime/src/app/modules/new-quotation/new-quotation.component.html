@@ -326,7 +326,7 @@
                             <div class="form-group">
                                 <input type="text" formControlName="FLASH_POINT"
                                     [ngClass]="{'invalid': submitted2 && f2.FLASH_POINT.errors}" class="form-control" />
-                                <label class="form-label">Flash Point</label>
+                                <label class="form-label">Flash Point <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.FLASH_POINT.errors" class="invalid-feedback">
                                     Please enter Flash Point
                                 </div>
@@ -336,7 +336,7 @@
                             <div class="form-group">
                                 <input type="text" formControlName="IMO_CLASS"
                                     [ngClass]="{'invalid': submitted2 && f2.IMO_CLASS.errors}" class="form-control" />
-                                <label class="form-label">IMO Class Name</label>
+                                <label class="form-label">IMO Class Name <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.IMO_CLASS.errors" class="invalid-feedback">
                                     Please enter IMO Class Name
                                 </div>
@@ -345,7 +345,7 @@
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'REEFER'">
                             <div class="form-group">
                                 <input type="text" class="form-control" />
-                                <label class="form-label">Temperature</label>
+                                <label class="form-label">Temperature <span class="text-danger"> *</span></label>
                             </div>
                         </div>
                     </div>
@@ -360,7 +360,7 @@
                             <div class="form-group">
                                 <input type="text" formControlName="UN_NO"
                                     [ngClass]="{'invalid': submitted2 && f2.UN_NO.errors}" class="form-control" />
-                                <label class="form-label">UN No</label>
+                                <label class="form-label">UN No <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.UN_NO.errors" class="invalid-feedback">
                                     Please enter UN No
                                 </div>
@@ -371,7 +371,7 @@
                                 <input type="text" formControlName="HAZ_APPROVAL_REF"
                                     [ngClass]="{'invalid': submitted2 && f2.HAZ_APPROVAL_REF.errors}"
                                     class="form-control" />
-                                <label class="form-label">HAZ Approval Ref</label>
+                                <label class="form-label">HAZ Approval Ref <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.HAZ_APPROVAL_REF.errors" class="invalid-feedback">
                                     Please enter HAZ Approval Ref
                                 </div>
@@ -380,19 +380,19 @@
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'SP'">
                             <div class="form-group">
                                 <input type="text" formControlName="LENGTH" class="form-control" />
-                                <label class="form-label">Length</label>
+                                <label class="form-label">Length <span class="text-danger"> *</span></label>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'SP'">
                             <div class="form-group">
                                 <input type="text" formControlName="WIDTH" class="form-control" />
-                                <label class="form-label">Width</label>
+                                <label class="form-label">Width <span class="text-danger"> *</span></label>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'SP'">
                             <div class="form-group">
                                 <input type="text" formControlName="HEIGHT" class="form-control" />
-                                <label class="form-label">Height</label>
+                                <label class="form-label">Height <span class="text-danger"> *</span></label>
                             </div>
                         </div>
                     </div>
@@ -401,7 +401,7 @@
                             <div class="form-group">
                                 <input type="text" formControlName="CAS_NO"
                                     [ngClass]="{'invalid': submitted2 && f2.CAS_NO.errors}" class="form-control" />
-                                <label class="form-label">CAS No</label>
+                                <label class="form-label">CAS No <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.CAS_NO.errors" class="invalid-feedback">
                                     Please enter CAS No
                                 </div>
@@ -412,13 +412,13 @@
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
                                 <input type="text" class="form-control" />
-                                <label class="form-label">Ventilation</label>
+                                <label class="form-label">Ventilation <span class="text-danger"> *</span></label>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
                                 <input type="text" class="form-control" />
-                                <label class="form-label">Humidity</label>
+                                <label class="form-label">Humidity <span class="text-danger"> *</span></label>
                             </div>
                         </div>
                     </div>
@@ -622,7 +622,7 @@
         <form [formGroup]="containerForm">
             <div class="card mt-2" *ngIf="tabs == '3'">
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
                                 <ng-select [ngClass]="{'invalid': submitted1 && f1.CONTAINER_TYPE.errors}"
@@ -632,6 +632,7 @@
                                     <ng-option value="Open top">Open top</ng-option>
                                     <ng-option value="Reefer">Reefer</ng-option>
                                 </ng-select>
+                                <label class="form-label-ddl">Container <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted1 && f1.CONTAINER_TYPE.errors" class="invalid-feedback">Please
                                     select
                                     Container</div>
@@ -646,6 +647,7 @@
                                         {{ item.CODE_DESC }} ({{ item.CODE }})
                                     </ng-option>
                                 </ng-select>
+                                <label class="form-label-ddl">Container Size <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted1 && f1.CONTAINER_SIZE.errors" class="invalid-feedback">Please
                                     select
                                     Container Size</div>
@@ -660,6 +662,7 @@
                                         {{ item.CODE }}
                                     </ng-option>
                                 </ng-select>
+                                <label class="form-label-ddl">Service Mode <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted1 && f1.SERVICE_MODE.errors" class="invalid-feedback">Please
                                     select
                                     Service Mode</div>
@@ -672,7 +675,7 @@
                                 <input type="text" formControlName="POL_FREE_DAYS"
                                     [ngClass]="{'invalid': submitted1 && f1.POL_FREE_DAYS.errors}"
                                     class="form-control" />
-                                <label class="form-label">POL Free Days</label>
+                                <label class="form-label">POL Free Days <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted1 && f1.POL_FREE_DAYS.errors" class="invalid-feedback">Please
                                     enter
                                     POL Free Days</div>
@@ -683,7 +686,7 @@
                                 <input type="text" formControlName="POD_FREE_DAYS"
                                     [ngClass]="{'invalid': submitted1 && f1.POD_FREE_DAYS.errors}"
                                     class="form-control" />
-                                <label class="form-label">POD Free Days</label>
+                                <label class="form-label">POD Free Days <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted1 && f1.POL_FREE_DAYS.errors" class="invalid-feedback">Please
                                     enter
                                     POD Free Days</div>
@@ -694,7 +697,8 @@
                                 <input type="text" formControlName="IMM_VOLUME_EXPECTED"
                                     [ngClass]="{'invalid': submitted1 && f1.IMM_VOLUME_EXPECTED.errors}"
                                     class="form-control" />
-                                <label class="form-label">Imm Volume Expected</label>
+                                <label class="form-label">Imm Volume Expected <span class="text-danger">
+                                        *</span></label>
                                 <div *ngIf="submitted1 && f1.IMM_VOLUME_EXPECTED.errors" class="invalid-feedback">Please
                                     enter
                                     Imm Volume Expected</div>
@@ -707,7 +711,8 @@
                                 <input type="text" formControlName="TOTAL_VOLUME_EXPECTED"
                                     [ngClass]="{'invalid': submitted1 && f1.TOTAL_VOLUME_EXPECTED.errors}"
                                     class="form-control" />
-                                <label class="form-label">Total Volume Expected</label>
+                                <label class="form-label">Total Volume Expected <span class="text-danger">
+                                        *</span></label>
                                 <div *ngIf="submitted1 && f1.TOTAL_VOLUME_EXPECTED.errors" class="invalid-feedback">
                                     Please
                                     enter

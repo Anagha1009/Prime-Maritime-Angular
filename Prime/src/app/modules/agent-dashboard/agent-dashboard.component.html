@@ -63,23 +63,25 @@
                     <div class="col-md-4 mb-4">
                         <div class="form-outline">
                             <ng-select formControlName="CUSTOMER_NAME">
-                                <ng-option value="" disabled>--Customer--</ng-option>
+                                <ng-option value="" disabled>--Select--</ng-option>
                                 <ng-option value="JITEX">JITEX</ng-option>
                                 <ng-option value="MASDAR TECHNICAL SUPPLIES TRADING CO.">MASDAR TECHNICAL
                                     SUPPLIES
                                     TRADING CO.
                                 </ng-option>
                             </ng-select>
+                            <label class="form-label-ddl">Customer</label>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-outline">
                             <ng-select formControlName="STATUS">
-                                <ng-option value="" disabled>--Status--</ng-option>
+                                <ng-option value="" disabled>--Select--</ng-option>
                                 <ng-option value="Requested">Requested</ng-option>
                                 <ng-option value="Approved">Approved
                                 </ng-option>
                             </ng-select>
+                            <label class="form-label-ddl">Status</label>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -99,9 +101,10 @@
                                 <div class="col-md-4">
                                     <h6>{{ item.SRR_NO }}</h6>
                                     <p>{{ item.CUSTOMER_NAME }} </p>
-                                    <h6>No of Containers CNF <span class="text-danger">{{
+                                    <h6>No of Containers <span class="text-danger">{{
                                             item.NO_OF_CONTAINERS
-                                            }}</span> </h6>
+                                            }} / {{item.TOTAL_VOLUME_EXPECTED}}</span> </h6>
+                                    <p>Booked Containers <span class="text-muted">0</span></p>
                                     <button type="button" data-toggle="modal"
                                         [attr.data-target]="'#' + 'containermodal' + i" class="btn btn-light me-2">Add
                                         Containers</button>
@@ -291,7 +294,7 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card menu-card">
+                        <div class="card menu-card" (click)="redirectToSubMenu('booking')">
                             <div class="card-body">
                                 <i class="fas fa-clipboard-check menu-icons"></i>
                                 BOOKINGS
