@@ -33,7 +33,7 @@ const routes: Routes = [
         component: NewQuotationComponent,
       },
       {
-        path: 'home/new-cro/:BOOKING_NO',
+        path: 'home/new-cro',
         component: NewCroComponent,
       },
       {

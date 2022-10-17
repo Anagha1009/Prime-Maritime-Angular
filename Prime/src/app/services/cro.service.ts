@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
+import { CRO } from '../models/cro';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CroService {
   BASE_URL = environment.BASE_URL;
@@ -14,7 +15,7 @@ export class CroService {
     }),
   };
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {}
 
   insertCRO(rootobject) {
     return this._http.post<any>(
@@ -24,4 +25,21 @@ export class CroService {
     );
   }
 
+  getCROList(cro: CRO) {
+    return this._http.get<any>(
+      this.BASE_URL + 'CRO/GetCROList?AGENT_CODE=' + cro.AGENT_CODE,
+      this.httpOptions
+    );
+  }
+
+  getCRODetails(cro: CRO) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'CRO/GetCRODetails?AGENT_CODE=' +
+        cro.AGENT_CODE +
+        '&CRO_NO=' +
+        cro.CRO_NO,
+      this.httpOptions
+    );
+  }
 }

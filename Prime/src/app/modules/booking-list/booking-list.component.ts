@@ -45,6 +45,12 @@ export class BookingListComponent implements OnInit {
     });
   }
 
+  createCRO(item) {
+    localStorage.setItem('BOOKING_ID', item.BOOKING_ID);
+    localStorage.setItem('BOOKING_NO', item.BOOKING_NO);
+    this.router.navigateByUrl('/home/new-cro');
+  }
+
   closeModal(): void {
     this.closeBtn3.nativeElement.click();
   }
