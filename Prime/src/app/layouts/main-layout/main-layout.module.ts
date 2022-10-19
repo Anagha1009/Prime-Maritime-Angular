@@ -14,6 +14,7 @@ import { NewCroComponent } from 'src/app/modules/new-cro/new-cro.component';
 import { NewBlComponent } from 'src/app/modules/new-bl/new-bl.component';
 import { BookingListComponent } from 'src/app/modules/booking-list/booking-list.component';
 import { CroListComponent } from 'src/app/modules/cro-list/cro-list.component';
+import { QuotationDetailsComponent } from 'src/app/modules/quotation-details/quotation-details.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { CroListComponent } from 'src/app/modules/cro-list/cro-list.component';
     NewBlComponent,
     BookingListComponent,
     CroListComponent,
+    QuotationDetailsComponent,
   ],
   imports: [
     CommonModule,

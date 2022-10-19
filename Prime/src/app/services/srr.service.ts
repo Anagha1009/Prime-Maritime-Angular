@@ -33,9 +33,13 @@ export class SRRService {
     );
   }
 
-  getSRRDetails(SRR_NO) {
+  getSRRDetails(srr: QUOTATION) {
     return this._http.get<any>(
-      this.BASE_URL + 'SRR/GetSRRBySRRNO?SRR_NO=' + SRR_NO,
+      this.BASE_URL +
+        'SRR/GetSRRBySRRNO?SRR_NO=' +
+        srr.SRR_NO +
+        '&AGENT_CODE=' +
+        srr.AGENT_CODE,
       this.httpOptions
     );
   }

@@ -92,11 +92,15 @@
                     </div>
                 </div>
             </form>
+            <div class="card" *ngIf="srrList?.length == 0">
+                <div class="card-body p-5 text-center">
+                    <h6>No Records</h6>
+                </div>
+            </div>
             <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
                 <div [class]="isScroll ? 'force-overflow' : ''">
-                    <div [class]="i == 0 ? 'card border me-2' : 'card border me-2 mt-2'"
-                        *ngFor="let item of srrList;let i = index;">
-                        <div class="card-body">
+                    <div [class]="i == 0 ? 'card' : 'card mt-2'" *ngFor="let item of srrList;let i = index;">
+                        <div class="card-body" (click)="viewDetails(item.SRR_NO)" style="cursor: pointer;">
                             <div class="row">
                                 <div class="col-md-4">
                                     <h6>{{ item.SRR_NO }}</h6>

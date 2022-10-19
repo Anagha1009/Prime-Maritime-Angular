@@ -348,6 +348,12 @@
                                 <label class="form-label">Temperature <span class="text-danger"> *</span></label>
                             </div>
                         </div>
+                        <div class="col-md-4 mb-4" *ngIf="commodityType == 'NORMAL'">
+                            <div class="form-group">
+                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <label class="form-label">Remarks <span class="text-danger"> *</span></label>
+                            </div>
+                        </div>
                     </div>
                     <div class="row" *ngIf="commodityType == 'HAZ'|| commodityType == 'SP'">
                         <!-- <div class="col-md-4 mb-4">
@@ -377,6 +383,13 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-4 mb-4" *ngIf="commodityType == 'HAZ'">
+                            <div class="form-group">
+                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <label class="form-label">Remarks <span class="text-danger"> *</span></label>
+                            </div>
+                        </div>
+
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'SP'">
                             <div class="form-group">
                                 <input type="text" formControlName="LENGTH" class="form-control" />
@@ -396,6 +409,18 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" *ngIf="commodityType == 'HAZ'">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" formControlName="WEIGHT"
+                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
+                                <label class="form-label">Weight <span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
+                                    Please enter Weight
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
@@ -404,6 +429,22 @@
                                 <label class="form-label">CAS No <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.CAS_NO.errors" class="invalid-feedback">
                                     Please enter CAS No
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <label class="form-label">Remarks <span class="text-danger"> *</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" formControlName="WEIGHT"
+                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
+                                <label class="form-label">Weight <span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
+                                    Please enter Weight
                                 </div>
                             </div>
                         </div>
@@ -421,8 +462,25 @@
                                 <label class="form-label">Humidity <span class="text-danger"> *</span></label>
                             </div>
                         </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <label class="form-label">Remarks <span class="text-danger"> *</span></label>
+                            </div>
+                        </div>
                     </div>
-
+                    <div class="row" *ngIf="commodityType == 'REEFER'">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" formControlName="WEIGHT"
+                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
+                                <label class="form-label">Weight <span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
+                                    Please enter Weight
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <h6 *ngIf="commodityType == 'HAZ' || commodityType == 'FLEXIBAG' || commodityType == 'SP'">Upload
                         Files</h6>
                     <div class="row" *ngIf="commodityType == 'HAZ'">
@@ -480,7 +538,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" *ngIf="isTranshipment">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedTS">
                                 <input type="file" (change)="fileUpload($event,'TS')" name="file4" id="file4" />
                                 <label for="file">
@@ -574,6 +632,18 @@
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{SurAcceptanceFile}}</span>
                                     <button (click)="isUploadedSur = false"><span class="fa fa-times"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="commodityType == 'NORMAL'">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" formControlName="WEIGHT"
+                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
+                                <label class="form-label">Weight <span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
+                                    Please enter Weight
                                 </div>
                             </div>
                         </div>

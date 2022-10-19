@@ -7,119 +7,172 @@
     </nav>
 </div>
 <div class="container">
-    <div class="card">
-        <div class="card-body">
-            <form>
-                <div class="font-weight-bold mb-4">BL Details</div>
-                <hr>
-                <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <div class="form-group">
-                            <ng-select>
-                                <ng-option value="" selected="true" disabled>--Select Stuffing Type--
-                                </ng-option>
-                                <ng-option value="Factory">Factory</ng-option>
-                                <ng-option value="ICD">ICD</ng-option>
-                                <ng-option value="PORT">PORT</ng-option>
-                            </ng-select>
+    <div class="col-md-10 mx-auto">
+        <div class="tabs">
+            <input type="radio" class="d-none" (change)="onchangeTab('1')" id="radio-1" name="tabs" checked />
+            <label class="tab" for="radio-1">General Info 1</label>
+            <input type="radio" class="d-none" (change)="onchangeTab('2')" id="radio-2" name="tabs" />
+            <label class="tab" for="radio-2">General Info 2</label>
+            <input type="radio" class="d-none" (change)="onchangeTab('3')" id="radio-3" name="tabs" />
+            <label class="tab" for="radio-3">Container Details</label>
+            <span class="glider d-none"></span>
+        </div>
+    </div>
+    <div class="col-md-12 mt-4 mb-4">
+        <div class="card" *ngIf="tabs == '1'">
+            <div class="card-body">
+                <form [formGroup]="blForm">
+                    <div class="row mt-3">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <label class="form-label-ddl">Service Name</label>
+                                <ng-select formControlName="SERVICE_NAME">
+                                    <ng-option value="" selected="true" disabled>--Select--
+                                    </ng-option>
+                                    <ng-option value="UIG">UIG</ng-option>
+                                    <ng-option value="GIX">GIX</ng-option>
+                                    <ng-option value="TBA">TBA</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <label class="form-label-ddl">Vessel Name</label>
+                                <ng-select formControlName="VESSEL_NAME">
+                                    <ng-option value="" selected="true" disabled>--Select--
+                                    </ng-option>
+                                    <ng-option value="AS ROBERTA">
+                                        AS ROBERTA
+                                    </ng-option>
+                                    <ng-option value="AS SOPHIA">
+                                        AS SOPHIA
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <label class="form-label-ddl">Voyage No</label>
+                                <ng-select formControlName="VOYAGE_NO">
+                                    <ng-option value="" selected="true" disabled>--Select--
+                                    </ng-option>
+                                    <ng-option value="022W">
+                                        022W
+                                    </ng-option>
+                                    <ng-option value="014">
+                                        014
+                                    </ng-option>
+                                </ng-select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="form-group">
-                            <ng-select>
-                                <ng-option value="" selected="true" disabled>--Select Empty Cont. Pickup Point--
-                                </ng-option>
-                                <ng-option value="ADTC-ADTC - Dammam">
-                                    ADTC-ADTC - Dammam
-                                </ng-option>
-                                <ng-option value="BCT-Bay Container Terminal">
-                                    BCT-Bay Container Terminal
-                                </ng-option>
-                            </ng-select>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">Pre Carriage By</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">Merchant Ref.</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">Place of Receipt</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="form-group">
-                            <ng-select>
-                                <ng-option value="" selected="true" disabled>--Select Laden Acpt. Location--
-                                </ng-option>
-                                <ng-option value="INMUN-MUNDRA">
-                                    INMUN-MUNDRA
-                                </ng-option>
-                                <ng-option value="INSAJ6-ICD TUMB">
-                                    INSAJ6-ICD TUMB
-                                </ng-option>
-                            </ng-select>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">TSP 1</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">TSP 2</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">POL</label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <div class="form-group">
-                            <input type="date" class="form-control">
-                            <label class="form-label">RO Validity Date</label>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">POD</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">Place of Delivery</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">Final Destination</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="form-group">
-                            <input type="text" class="form-control">
-                            <label class="form-label">Remarks</label>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">Draft BL Date</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">B/L Type</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">Shipper</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="form-group">
-                            <input type="text" class="form-control">
-                            <label class="form-label">Required Qty</label>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">Shipper Name & Add.</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">Consignee</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <label class="form-label">Consignee Name & Add. </label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 mb-4">
-                        <div class="form-group">
-                            <input type="text" class="form-control">
-                            <label class="form-label">Gross Weight (kg)</label>
+                    <div class="row">
+                        <div class="col-md-2 offset-md-10" style="text-align: right;">
+                            <button class="btn btn-secondary btn-block">Submit</button>
                         </div>
                     </div>
-                    <div class="col-md-2 mb-4">
-                        <div class="form-group">
-                            <ng-select>
-                                <ng-option value="" selected="true" disabled>--Select Unit--
-                                </ng-option>
-                                <ng-option value="Kg">
-                                    Kg
-                                </ng-option>
-                                <ng-option value="Ton">
-                                    Ton
-                                </ng-option>
-                            </ng-select>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="form-group">
-                            <ng-select>
-                                <ng-option value="" selected="true" disabled>--Select Packages--</ng-option>
-                                <ng-option value="Bags">
-                                    Bags
-                                </ng-option>
-                                <ng-option value="Bundles">
-                                    Bundles
-                                </ng-option>
-                            </ng-select>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="form-group">
-                            <input type="text" class="form-control">
-                            <label class="form-label">No of Packages</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 offset-md-10" style="text-align: right;">
-                        <button class="btn btn-secondary btn-block">Submit</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>

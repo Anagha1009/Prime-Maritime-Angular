@@ -9,6 +9,7 @@ import { LoginComponent } from './modules/login/login.component';
 import { NewBlComponent } from './modules/new-bl/new-bl.component';
 import { NewCroComponent } from './modules/new-cro/new-cro.component';
 import { NewQuotationComponent } from './modules/new-quotation/new-quotation.component';
+import { QuotationDetailsComponent } from './modules/quotation-details/quotation-details.component';
 import { LandingComponent } from './shared/components/landing/landing.component';
 
 const routes: Routes = [
@@ -47,6 +48,10 @@ const routes: Routes = [
       {
         path: 'home/cro-list',
         component: CroListComponent,
+      },
+      {
+        path: 'home/quotation-details',
+        component: QuotationDetailsComponent,
       },
     ],
   },

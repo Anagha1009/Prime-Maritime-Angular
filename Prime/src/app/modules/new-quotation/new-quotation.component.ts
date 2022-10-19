@@ -32,6 +32,7 @@ export class NewQuotationComponent implements OnInit {
   rateList: any[] = [];
   containerList: any[] = [];
   isContainer: boolean = false;
+  isTranshipment: boolean = false;
 
   //Files
   isUploadedPOL: boolean = false;
@@ -512,8 +513,13 @@ export class NewQuotationComponent implements OnInit {
   // FILE UPLOAD
 
   fileUpload(event, value) {
+    debugger;
     if (
       event.target.files[0].type == 'application/pdf' ||
+      event.target.files[0].type ==
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+      event.target.files[0].type ==
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
       event.target.files[0].type == 'application/xls' ||
       event.target.files[0].type == 'application/xlsx' ||
       event.target.files[0].type == 'application/doc'

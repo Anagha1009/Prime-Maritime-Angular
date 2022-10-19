@@ -242,6 +242,11 @@ export class AgentDashboardComponent implements OnInit {
     this.closeBtn3.nativeElement.click();
   }
 
+  viewDetails(srrNo) {
+    localStorage.setItem('SRR_NO', srrNo);
+    this.router.navigateByUrl('/home/quotation-details');
+  }
+
   redirectToSubMenu(p) {
     this.closeModal();
     if (p == 'cro') {

@@ -34,6 +34,17 @@
   color: rgba(0, 0, 0, 0.6);
 }
 
+.label-header {
+  font-size: 90%;
+  font-weight: 500;
+  display: block;
+}
+
+.label-subheader {
+  font-size: 85%;
+  display: block;
+}
+
 .form-control:focus + .form-label,
 .form-control:valid + .form-label,
 .form-control:active + .form-label {
@@ -410,4 +421,14 @@
   //   color: #d1c7c7;
   margin-bottom: 0.5rem;
   display: block;
+}
+
+/*---ACCORDION--*/
+
+.accordion-button,
+.accordion-button:not(.collapsed) {
+  color: #000000;
+  background-color: #ededed;
+  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+  border: none;
 }
