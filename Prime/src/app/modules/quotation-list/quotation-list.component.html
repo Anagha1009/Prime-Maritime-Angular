@@ -41,7 +41,7 @@
         <div class="container">
             <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
                 <div [class]="isScroll ? 'force-overflow' : ''">
-                    <div class="icon-box icon-box-cyan text-start" *ngFor="let item of quotationList">
+                    <div class="icon-box icon-box-cyan text-start" *ngFor="let item of quotationList; let i = index">
                         <div class="row">
                             <div class="col-md-8">
                                 <h4 class="title"><a (click)="getQuotationDetails(item.SRR_NO)">{{item.SRR_NO}}</a>
@@ -56,7 +56,10 @@
                                 <a href="">Add More Containers</a>
                             </div>
                             <div class="col-md-4 text-end" *ngIf="item.STATUS == 'Approved'">
-                                <button class="form-btn" data-bs-toggle="modal" href="#bookingModal">Book
+                                <button (click)="openBookingModal(i)" class="form-btn">Book
+                                    Now</button>
+                                <button class="form-btn d-none" #openBtn data-bs-toggle="modal"
+                                    href="#bookingModal">Book
                                     Now</button>
                             </div>
                         </div>
@@ -67,29 +70,31 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Booking Details</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close" #closeBtn1></button>
+                                            aria-label="Close" #closeBtn></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form>
+                                        <form [formGroup]="slotDetailsForm">
                                             <div class="col-md-12">
                                                 <div class="row mb-2">
                                                     <div class="col-md-12">
                                                         <h6>POL : <small class="text-danger">
-                                                                HGFJ</small>
+                                                                {{quotationDetails?.POL}}</small>
                                                             POD :
-                                                            <small class="text-danger">YUHJ</small>
+                                                            <small class="text-danger">{{quotationDetails?.POD}}</small>
                                                         </h6>
                                                     </div>
                                                     <div class="row mt-5">
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" />
+                                                                <input type="text" formControlName="VESSEL_NAME"
+                                                                    class="form-control" />
                                                                 <label class="form-label">Vessel Name</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" />
+                                                                <input formControlName="VOYAGE_NO" type="text"
+                                                                    class="form-control" />
                                                                 <label class="form-label">Voyage No</label>
                                                             </div>
                                                         </div>
@@ -97,19 +102,22 @@
                                                     <div class="row">
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" />
+                                                                <input formControlName="MOTHER_VESSEL_NAME" type="text"
+                                                                    class="form-control" />
                                                                 <label class="form-label">Mother Vessel Name</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" />
+                                                                <input formControlName="MOTHER_VOYAGE_NO" type="text"
+                                                                    class="form-control" />
                                                                 <label class="form-label">Mother Voyage No</label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 offset-md-6" style="text-align: right;">
-                                                        <button class="btn btn-outline-info btn-block">
+                                                        <button (click)="slotAllocation()"
+                                                            class="btn btn-outline-info btn-block">
                                                             <i class="fa fa-plus mr-1"></i>Slot
                                                             Allocation</button>
                                                     </div>
@@ -125,12 +133,12 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
+                                                <tr *ngFor="let item of f;let j = index;" [formGroup]="f1(item)">
                                                     <td>
                                                         1
                                                     </td>
                                                     <td class="col-md-6">
-                                                        <ng-select>
+                                                        <ng-select formControlName="SLOT_OPERATOR">
                                                             <ng-option value="" selected disabled>
                                                                 --Slot
                                                                 Operator--</ng-option>
@@ -138,14 +146,15 @@
                                                         </ng-select>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" />
+                                                        <input formControlName="NO_OF_SLOTS" type="text"
+                                                            class="form-control" />
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-outline-dark">Book
+                                        <button type="button" (click)="bookNow()" class="btn btn-outline-dark">Book
                                             Now</button>
                                     </div>
                                 </div>
