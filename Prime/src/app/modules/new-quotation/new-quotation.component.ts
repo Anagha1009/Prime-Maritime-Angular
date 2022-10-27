@@ -1,9 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { debug } from 'console';
 import { CommonService } from 'src/app/services/common.service';
-import { SRRService } from 'src/app/services/srr.service';
+import { QuotationService } from 'src/app/services/quotation.service';
 
 @Component({
   selector: 'app-new-quotation',
@@ -13,25 +12,21 @@ import { SRRService } from 'src/app/services/srr.service';
 export class NewQuotationComponent implements OnInit {
   tabs: string = '1';
   currentDate: string = '';
+  effectToDate: string = '';
+  submitted: boolean = false;
+  quotationForm: FormGroup;
+  containerForm: FormGroup;
+  commoditiesForm: FormGroup;
+  commodityType: string = '';
+  commodityList: any[] = [];
+  submitted2: boolean = false;
+  submitted1: boolean = false;
+  isContainer: boolean = false;
+  containerList: any[] = [];
   portList: any[] = [];
   icdList: any[] = [];
   containersizeList: any[] = [];
   servicemodeList: any[] = [];
-  quotationForm: FormGroup;
-  containerForm: FormGroup;
-  commoditiesForm: FormGroup;
-  ratesForm: FormGroup;
-  effectToDate: string = '';
-  submitted: boolean = false;
-  submitted1: boolean = false;
-  submitted2: boolean = false;
-  submitted3: boolean = false;
-  commodityType: string = '';
-  fileList: File[] = [];
-  commodityList: any[] = [];
-  rateList: any[] = [];
-  containerList: any[] = [];
-  isContainer: boolean = false;
 
   //Files
   isUploadedPOL: boolean = false;
@@ -57,39 +52,34 @@ export class NewQuotationComponent implements OnInit {
 
   isUploadedSur: boolean = false;
   SurAcceptanceFile: string = '';
+  fileList: any[] = [];
+  isTranshipment: boolean = false;
 
-  @ViewChild('openRateModal') openRateModal: ElementRef;
+  @ViewChild('RateModal') RateModal: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(
+    private _quotationService: QuotationService,
+    private _formBuilder: FormBuilder,
     private _commonService: CommonService,
-    private _srrService: SRRService,
-    private FormBuilder: FormBuilder,
     private _router: Router
   ) {}
 
   ngOnInit(): void {
-    this.getQuotationForm();
-    this.getContainerForm();
-    this.getCommodityForm();
-    this.getRateForm();
+    this.getForm();
     this.getDropdown();
 
     var currentDate = new Date();
 
     this.currentDate = this.getcurrentDate(currentDate);
-    this.quotationForm.get('EFFECT_FROM').setValue(this.currentDate);
+    this.quotationForm.get('EFFECT_FROM')?.setValue(this.currentDate);
 
-    this.getEffectToDate(currentDate);
+    this.getEffectToDate(currentDate, 0);
   }
 
   // ON CHANGE
 
-  onchangeTab(index) {
-    this.tabs = index;
-  }
-
-  onChangeCommodityType(event) {
+  onChangeCommodityType(event: any) {
     this.commodityType = event;
 
     if (this.commodityType == 'HAZ') {
@@ -112,172 +102,8 @@ export class NewQuotationComponent implements OnInit {
     }
   }
 
-  onchangeChargeCode(code) {
-    if (code == 'Gross Freight') {
-      this.ratesForm.get('STANDARD_RATE')?.setValue('500');
-    } else if (code == 'THC') {
-      this.ratesForm.get('STANDARD_RATE')?.setValue('750');
-    } else if (code == 'EWRI') {
-      this.ratesForm.get('STANDARD_RATE')?.setValue('400');
-    } else if (code == 'TERMINAL REBATE') {
-      this.ratesForm.get('STANDARD_RATE')?.setValue('1800');
-    }
-  }
-
-  //GET FORM
-
-  getQuotationForm() {
-    this.quotationForm = this.FormBuilder.group({
-      SRR_NO: [''],
-      POL: ['', Validators.required],
-      POD: ['', Validators.required],
-      ORIGIN_ICD: ['', Validators.required],
-      // DESTINATION_ICD: ['', Validators.required],
-      SERVICE_NAME: ['', Validators.required],
-      EFFECT_FROM: ['', Validators.required],
-      EFFECT_TO: ['', Validators.required],
-      MTY_REPO: ['', Validators.required],
-      CUSTOMER_NAME: ['', Validators.required],
-      ADDRESS: ['', Validators.required],
-      ADDRESS1: [''],
-      EMAIL: ['', Validators.required],
-      CONTACT: ['', Validators.required],
-      SHIPPER: ['', Validators.required],
-      CONSIGNEE: [''],
-      OTHER_PARTIES: [''],
-      NOTIFY_PARTY: [''],
-      BROKERAGE_PARTY: [''],
-      FORWARDER: [''],
-      PLACE_OF_RECEIPT: [''],
-      PLACE_OF_DELIVERY: [''],
-      TSP_1: [''],
-      TSP_2: [''],
-      CREATED_BY: [''],
-      AGENT_NAME: [''],
-      AGENT_CODE: [''],
-      STATUS: ['Requested'],
-      SRR_CONTAINERS: new FormArray([]),
-      SRR_COMMODITIES: new FormArray([]),
-      SRR_RATES: new FormArray([]),
-    });
-  }
-
-  getContainerForm() {
-    this.containerForm = this.FormBuilder.group({
-      CONTAINER_TYPE: ['', Validators.required],
-      CONTAINER_SIZE: ['', Validators.required],
-      SERVICE_MODE: ['', Validators.required],
-      POD_FREE_DAYS: ['', Validators.required],
-      POL_FREE_DAYS: ['', Validators.required],
-      IMM_VOLUME_EXPECTED: ['', Validators.required],
-      TOTAL_VOLUME_EXPECTED: ['', Validators.required],
-    });
-  }
-
-  getCommodityForm() {
-    this.commoditiesForm = this.FormBuilder.group({
-      COMMODITY_NAME: ['', Validators.required],
-      LENGTH: [''],
-      WIDTH: [''],
-      HEIGHT: [''],
-      WEIGHT: [''],
-      COMMODITY_TYPE: ['', Validators.required],
-      IMO_CLASS: ['', Validators.required],
-      UN_NO: ['', Validators.required],
-      HAZ_APPROVAL_REF: ['', Validators.required],
-      FLASH_POINT: ['', Validators.required],
-      CAS_NO: ['', Validators.required],
-      REMARKS: [''],
-    });
-  }
-
-  getRateForm() {
-    this.ratesForm = this.FormBuilder.group({
-      CHARGE_CODE: ['', Validators.required],
-      TRANSPORT_TYPE: ['', Validators.required],
-      CURRENCY: ['', Validators.required],
-      PAYMENT_TERM: ['', Validators.required],
-      STANDARD_RATE: [''],
-      RATE_REQUESTED: ['', Validators.required],
-      REMARKS: [''],
-    });
-  }
-
-  get f() {
-    return this.quotationForm.controls;
-  }
-
-  get f1() {
-    return this.containerForm.controls;
-  }
-
-  get f2() {
-    return this.commoditiesForm.controls;
-  }
-
-  get f3() {
-    return this.ratesForm.controls;
-  }
-
-  get f4() {
-    var s = this.quotationForm.get('SRR_RATES') as FormArray;
-    return s.controls;
-  }
-
-  //GET DATA
-
-  getDropdown() {
-    this._commonService.getDropdownData('PORT').subscribe((res) => {
-      if (res.hasOwnProperty('Data')) {
-        this.portList = res.Data;
-      }
-    });
-
-    this._commonService.getDropdownData('ICD').subscribe((res) => {
-      if (res.hasOwnProperty('Data')) {
-        this.icdList = res.Data;
-      }
-    });
-
-    this._commonService.getDropdownData('CONTAINER_SIZE').subscribe((res) => {
-      if (res.hasOwnProperty('Data')) {
-        this.containersizeList = res.Data;
-      }
-    });
-
-    this._commonService.getDropdownData('SERVICE_MODE').subscribe((res) => {
-      if (res.hasOwnProperty('Data')) {
-        this.servicemodeList = res.Data;
-      }
-    });
-  }
-
-  getcurrentDate(date) {
-    // var date: any = new Date();
-
-    var todate: any = date.getDate();
-    if (todate < 10) {
-      todate = '0' + todate;
-    }
-
-    var month = date.getMonth() + 1;
-
-    if (month < 10) {
-      month = '0' + month;
-    }
-
-    var year = date.getFullYear();
-    return year + '-' + month + '-' + todate;
-  }
-
-  getEffectToDate(e) {
-    let x = new Date(e);
-
-    var newDate = new Date();
-    newDate.setDate(x.getDate() + 15);
-
-    this.effectToDate = this.getcurrentDate(newDate);
-    this.quotationForm.get('EFFECT_TO').setValue(this.effectToDate);
+  onchangeTab(index: any) {
+    this.tabs = index;
   }
 
   // ON SAVE
@@ -337,15 +163,16 @@ export class NewQuotationComponent implements OnInit {
   }
 
   saveCommodity() {
+    console.log(JSON.stringify(this.quotationForm.value));
     this.onchangeTab('3');
   }
 
-  addContainer() {
+  openModal() {
     this.submitted1 = true;
 
-    if (this.containerForm.invalid) {
-      return;
-    }
+    // if (this.containerForm.invalid) {
+    //   return;
+    // }
 
     var containers = this.quotationForm.get('SRR_CONTAINERS') as FormArray;
     containers.push(this.containerForm);
@@ -355,7 +182,7 @@ export class NewQuotationComponent implements OnInit {
     rateList.clear();
 
     rateList.push(
-      this.FormBuilder.group({
+      this._formBuilder.group({
         CHARGE_CODE: [''],
         CURRENCY: ['USD'],
         STANDARD_RATE: ['100'],
@@ -366,67 +193,16 @@ export class NewQuotationComponent implements OnInit {
       })
     );
 
-    this.openRateModal.nativeElement.click();
+    this.RateModal.nativeElement.click();
 
     this.submitted1 = false;
   }
 
-  saveContainer() {
-    var POL = this.quotationForm.value.POL;
-    var POD = this.quotationForm.value.POD;
-
-    this.quotationForm.get('SRR_NO')?.setValue(this.getRandomNumber(POL, POD));
-
-    var mty = this.quotationForm.get('MTY_REPO')?.value;
-    mty == 'true'
-      ? this.quotationForm.get('MTY_REPO')?.setValue(true)
-      : this.quotationForm.get('MTY_REPO')?.setValue(false);
-
-    this.quotationForm
-      .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
-    this.quotationForm
-      .get('AGENT_NAME')
-      ?.setValue(localStorage.getItem('username'));
-    this.quotationForm
-      .get('AGENT_CODE')
-      ?.setValue(localStorage.getItem('rolecode'));
-
-    var otherparties = this.quotationForm.get('OTHER_PARTIES')?.value;
-
-    this.quotationForm
-      .get('BROKERAGE_PARTY')
-      ?.setValue(otherparties == 'Brokerage Party' ? 'Yes' : 'No');
-    this.quotationForm
-      .get('CONSIGNEE')
-      ?.setValue(otherparties == 'Consignee' ? 'Yes' : 'No');
-    this.quotationForm
-      .get('FORWARDER')
-      ?.setValue(otherparties == 'Forwarder' ? 'Yes' : 'No');
-
-    console.log(JSON.stringify(this.quotationForm.value));
-    this._srrService
-      .insertSRR(JSON.stringify(this.quotationForm.value))
-      .subscribe((res) => {
-        if (res.responseCode == 200) {
-          if (
-            this.commodityType == 'HAZ' ||
-            this.commodityType == 'FLEXIBAG' ||
-            this.commodityType == 'SP'
-          ) {
-            this.uploadFilestoDB();
-          }
-          alert('Your quotation has been submitted successfully !');
-          this._router.navigateByUrl('home/agent-dashboard');
-        }
-      });
-  }
-
-  addRate() {
+  addRates() {
     var rateList = this.quotationForm.get('SRR_RATES') as FormArray;
 
     rateList.push(
-      this.FormBuilder.group({
+      this._formBuilder.group({
         CHARGE_CODE: [''],
         CURRENCY: ['USD'],
         STANDARD_RATE: ['100'],
@@ -451,59 +227,212 @@ export class NewQuotationComponent implements OnInit {
     this.closeBtn.nativeElement.click();
   }
 
-  // saveRate() {
-  //   var POL = this.quotationForm.value.POL;
-  //   var POD = this.quotationForm.value.POD;
+  saveContainer() {
+    var POL = this.quotationForm.value.POL;
+    var POD = this.quotationForm.value.POD;
 
-  //   this.quotationForm.get('SRR_NO')?.setValue(this.getRandomNumber(POL, POD));
+    this.quotationForm.get('SRR_NO')?.setValue(this.getRandomNumber(POL, POD));
 
-  //   var mty = this.quotationForm.get('MTY_REPO')?.value;
-  //   mty == 'true'
-  //     ? this.quotationForm.get('MTY_REPO')?.setValue(true)
-  //     : this.quotationForm.get('MTY_REPO')?.setValue(false);
+    this.quotationForm
+      .get('CREATED_BY')
+      ?.setValue(localStorage.getItem('username'));
+    this.quotationForm
+      .get('AGENT_NAME')
+      ?.setValue(localStorage.getItem('username'));
+    this.quotationForm
+      .get('AGENT_CODE')
+      ?.setValue(localStorage.getItem('usercode'));
 
-  //   this.quotationForm
-  //     .get('CREATED_BY')
-  //     ?.setValue(localStorage.getItem('username'));
-  //   this.quotationForm
-  //     .get('AGENT_NAME')
-  //     ?.setValue(localStorage.getItem('username'));
-  //   this.quotationForm
-  //     .get('AGENT_CODE')
-  //     ?.setValue(localStorage.getItem('rolecode'));
+    console.log(JSON.stringify(this.quotationForm.value));
+    this._quotationService
+      .insertSRR(JSON.stringify(this.quotationForm.value))
+      .subscribe((res: any) => {
+        if (res.responseCode == 200) {
+          if (
+            this.commodityType == 'HAZ' ||
+            this.commodityType == 'FLEXIBAG' ||
+            this.commodityType == 'SP'
+          ) {
+            this.uploadFilestoDB();
+          }
+          alert('Your quotation has been submitted successfully !');
+          this._router.navigateByUrl('/home/quotation-list');
+        }
+      });
+  }
 
-  //   var otherparties = this.quotationForm.get('OTHER_PARTIES')?.value;
+  // GET DATA
 
-  //   this.quotationForm
-  //     .get('BROKERAGE_PARTY')
-  //     ?.setValue(otherparties == 'Brokerage Party' ? 'Yes' : 'No');
-  //   this.quotationForm
-  //     .get('CONSIGNEE')
-  //     ?.setValue(otherparties == 'Consignee' ? 'Yes' : 'No');
-  //   this.quotationForm
-  //     .get('FORWARDER')
-  //     ?.setValue(otherparties == 'Forwarder' ? 'Yes' : 'No');
+  getForm() {
+    this.quotationForm = this._formBuilder.group({
+      SRR_NO: [''],
+      POL: ['', Validators.required],
+      POD: ['', Validators.required],
+      FINAL_DESTINATION: ['', Validators.required],
+      SERVICE_NAME: ['', Validators.required],
+      EFFECT_FROM: ['', Validators.required],
+      EFFECT_TO: ['', Validators.required],
+      MTY_REPO: [''],
+      CUSTOMER_NAME: ['', Validators.required],
+      ADDRESS: ['', Validators.required],
+      ADDRESS1: [''],
+      EMAIL: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            '^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$'
+          ),
+        ],
+      ],
+      CONTACT: ['', Validators.required],
+      SHIPPER: [
+        '',
+        [Validators.required, Validators.pattern('^[A-Za-z0-9? , _-]+$')],
+      ],
+      NOTIFY_PARTY: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
+      OTHER_PARTY: [''],
+      OTHER_PARTY_NAME: [''],
+      PLACE_OF_RECEIPT: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
+      PLACE_OF_DELIVERY: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
+      TSP_1: [''],
+      TSP_2: [''],
+      CREATED_BY: [''],
+      AGENT_NAME: [''],
+      AGENT_CODE: [''],
+      STATUS: ['Requested'],
+      SRR_CONTAINERS: new FormArray([]),
+      SRR_COMMODITIES: new FormArray([]),
+      SRR_RATES: new FormArray([]),
+    });
 
-  //   console.log(JSON.stringify(this.quotationForm.value));
-  //   this._srrService
-  //     .insertSRR(JSON.stringify(this.quotationForm.value))
-  //     .subscribe((res) => {
-  //       if (res.responseCode == 200) {
-  //         if (this.commodityType == 'HAZ' || this.commodityType == 'FLEXIBAG') {
-  //           this.uploadFilestoDB();
-  //         }
-  //         alert('Your quotation has been submitted successfully !');
-  //         this._router.navigateByUrl('home/agent-dashboard');
-  //       }
-  //     });
-  // }
+    this.containerForm = this._formBuilder.group({
+      CONTAINER_TYPE: ['', Validators.required],
+      CONTAINER_SIZE: ['', Validators.required],
+      SERVICE_MODE: ['', Validators.required],
+      POD_FREE_DAYS: ['', Validators.required],
+      POL_FREE_DAYS: ['', Validators.required],
+      IMM_VOLUME_EXPECTED: ['', Validators.required],
+      TOTAL_VOLUME_EXPECTED: ['', Validators.required],
+    });
+
+    this.commoditiesForm = this._formBuilder.group({
+      COMMODITY_NAME: ['', Validators.required],
+      LENGTH: [''],
+      WIDTH: [''],
+      HEIGHT: [''],
+      WEIGHT: [''],
+      COMMODITY_TYPE: ['', Validators.required],
+      IMO_CLASS: ['', Validators.required],
+      UN_NO: ['', Validators.required],
+      HAZ_APPROVAL_REF: ['', Validators.required],
+      FLASH_POINT: ['', Validators.required],
+      CAS_NO: ['', Validators.required],
+      REMARKS: [''],
+    });
+  }
+
+  getcurrentDate(date: any) {
+    var todate: any = date.getDate();
+    if (todate < 10) {
+      todate = '0' + todate;
+    }
+
+    var month = date.getMonth() + 1;
+
+    if (month < 10) {
+      month = '0' + month;
+    }
+
+    var year = date.getFullYear();
+    return year + '-' + month + '-' + todate;
+  }
+
+  getEffectToDate(e: any, param: any) {
+    let x = new Date(param == 0 ? e : e.target.value);
+
+    var newDate = new Date();
+    newDate.setDate(x.getDate() + 15);
+
+    this.effectToDate = this.getcurrentDate(newDate);
+    this.quotationForm.get('EFFECT_TO')?.setValue(this.effectToDate);
+  }
+
+  getDropdown() {
+    this._commonService.getDropdownData('PORT').subscribe((res: any) => {
+      if (res.hasOwnProperty('Data')) {
+        this.portList = res.Data;
+      }
+    });
+
+    this._commonService.getDropdownData('ICD').subscribe((res: any) => {
+      if (res.hasOwnProperty('Data')) {
+        this.icdList = res.Data;
+      }
+    });
+
+    this._commonService
+      .getDropdownData('CONTAINER_SIZE')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.containersizeList = res.Data;
+        }
+      });
+
+    this._commonService
+      .getDropdownData('SERVICE_MODE')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.servicemodeList = res.Data;
+        }
+      });
+  }
+
+  getRandomNumber(pol: string, pod: string) {
+    var num = Math.floor(Math.random() * 1e16).toString();
+    return pol + '-' + pod + '-' + num;
+  }
+
+  get f() {
+    return this.quotationForm.controls;
+  }
+
+  get f1() {
+    return this.containerForm.controls;
+  }
+
+  get f2() {
+    return this.commoditiesForm.controls;
+  }
+
+  get f3() {
+    var s = this.quotationForm.get('SRR_RATES') as FormArray;
+    return s.controls;
+  }
+
+  f4(i: any) {
+    return i;
+  }
+
+  getAddress(e: any) {
+    this.quotationForm.get('ADDRESS1')?.setValue(e);
+  }
 
   // FILE UPLOAD
 
-  fileUpload(event, value) {
-    if (event.target.files[0].type == 'application/pdf') {
+  fileUpload(event: any, value: string) {
+    if (
+      event.target.files[0].type == 'application/pdf' ||
+      event.target.files[0].type ==
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+      event.target.files[0].type ==
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      event.target.files[0].type == 'application/xls' ||
+      event.target.files[0].type == 'application/xlsx' ||
+      event.target.files[0].type == 'application/doc'
+    ) {
     } else {
-      alert('Please Select PDF only');
+      alert('Please Select PDF or Excel or Word Format only');
       return;
     }
 
@@ -557,17 +486,10 @@ export class NewQuotationComponent implements OnInit {
 
   uploadFilestoDB() {
     const payload = new FormData();
-    this.fileList.forEach((element) => {
+    this.fileList.forEach((element: any) => {
       payload.append('formFile', element);
     });
 
     //this._srrService.uploadFiles(payload).subscribe();
-  }
-
-  // OTHER FUNCTIONS
-
-  getRandomNumber(pol, pod) {
-    var num = Math.floor(Math.random() * 1e16).toString();
-    return pol + '-' + pod + '-' + num;
   }
 }

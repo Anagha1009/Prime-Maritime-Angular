@@ -1,12 +1,9 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "cli": {
-    "analytics": "54886da8-08a4-4652-990c-880526d4313a"
-  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "mdb-angular-ui-kit-free": {
+    "prime": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/mdb-angular-ui-kit-free",
+            "outputPath": "dist/prime",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -78,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "mdb-angular-ui-kit-free:build:production"
+              "browserTarget": "prime:build:production"
             },
             "development": {
-              "browserTarget": "mdb-angular-ui-kit-free:build:development"
+              "browserTarget": "prime:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -89,7 +86,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mdb-angular-ui-kit-free:build"
+            "browserTarget": "prime:build"
           }
         },
         "test": {
@@ -110,11 +107,11 @@
             ],
             "scripts": [ "./node_modules/bootstrap/dist/js/bootstrap.min.js",
               "./node_modules/jquery/dist/jquery.min.js"
-            ]
+              ]
           }
         }
       }
     }
   },
-  "defaultProject": "mdb-angular-ui-kit-free"
+  "defaultProject": "prime"
 }

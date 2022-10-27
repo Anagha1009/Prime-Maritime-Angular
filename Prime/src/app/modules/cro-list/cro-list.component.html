@@ -1,0 +1,64 @@
+<div class="section-title">
+    <h2>CRO List</h2>
+</div>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <input type="text" class="form-control">
+                <label class="form-label">Booking No</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="date" class="form-control">
+                <label class="form-label">From Date</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="date" class="form-control">
+                <label class="form-label">To Date</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="text" class="form-control">
+                <label class="form-label">Status</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button class="form-btn me-2">Search</button>
+            <button class="form-btn">Clear</button>
+        </div>
+    </div>
+</div>
+<section class="services">
+    <div class="container">
+        <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
+            <div [class]="isScroll ? 'force-overflow' : ''">
+                <div class="icon-box icon-box-cyan text-start" *ngFor="let item of croList">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="title"><a (click)="getCRODetails(item.CRO_NO)">{{ item.CRO_NO }}</a>
+                            </h4>
+                            <p class="description"> <span class="bx bx-user"></span> {{item.CUSTOMER_NAME}} | <span
+                                    class="bx bxs-truck"></span>
+                                Stuffing Type : {{item.STUFFING_TYPE}} | Empty Container Pickup :
+                                {{item.EMPTY_CONT_PCKP}}</p>
+                            <p class="description">
+                                <span class="text-danger">
+                                    {{item.GROSS_WT}} {{item.GROSS_WT_UNIT}}</span> | {{item.CRO_VALIDITY_DATE |
+                                date:'mediumDate'}}
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <button class="form-btn rounded-pill">Create
+                                BL</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

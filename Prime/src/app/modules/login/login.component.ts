@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LOGIN } from 'src/app/models/login';
 import { LoginService } from 'src/app/services/login.service';
@@ -14,15 +14,15 @@ export class LoginComponent implements OnInit {
   submitted: boolean = false;
 
   constructor(
-    private loginservice: LoginService,
-    private FormBuilder: FormBuilder,
-    private router: Router
+    private _loginservice: LoginService,
+    private _formBuilder: FormBuilder,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
-    this.loginForm = this.FormBuilder.group({
-      USERNAME: ['', Validators.required],
-      PASSWORD: ['', Validators.required],
+    this.loginForm = this._formBuilder.group({
+      USERNAME: [''],
+      PASSWORD: [''],
     });
   }
 
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
-  validateLogin() {
+  login() {
     this.submitted = true;
 
     if (this.loginForm.invalid) {
@@ -41,15 +41,16 @@ export class LoginComponent implements OnInit {
     rootobject.USERNAME = this.loginForm.get('USERNAME')?.value;
     rootobject.PASSWORD = this.loginForm.get('PASSWORD')?.value;
 
-    this.loginservice
+    this._loginservice
       .validateLogin(JSON.stringify(rootobject))
-      .subscribe((res) => {
+      .subscribe((res: any) => {
         if (res.isAuthenticated == true) {
           localStorage.clear();
           localStorage.setItem('token', res.token);
           localStorage.setItem('username', res.userName);
           localStorage.setItem('rolecode', res.roleCode);
-          this.router.navigateByUrl('home/agent-dashboard');
+          localStorage.setItem('usercode', res.userCode);
+          this._router.navigateByUrl('/home/quotation-list');
         } else {
           alert(res.message);
           return;
