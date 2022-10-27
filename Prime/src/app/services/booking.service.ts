@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
-import { BOOKING, SLOTS } from '../models/quotation';
+import { BOOKING, SLOTS } from '../models/booking';
 
 @Injectable({
   providedIn: 'root',

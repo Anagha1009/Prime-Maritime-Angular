@@ -1,7 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { QUOTATION } from 'src/app/models/quotation';
-import { SRRService } from 'src/app/services/srr.service';
+import { QuotationService } from 'src/app/services/quotation.service';
 
 @Component({
   selector: 'app-quotation-details',
@@ -9,14 +8,12 @@ import { SRRService } from 'src/app/services/srr.service';
   styleUrls: ['./quotation-details.component.scss'],
 })
 export class QuotationDetailsComponent implements OnInit {
-  quotationDetails: any;
+  quotation: any;
   commodityList: any[] = [];
   containerList: any[] = [];
   rateList: any[] = [];
 
-  @ViewChild('closeBtn3') closeBtn3: ElementRef;
-
-  constructor(private router: Router, private _srrService: SRRService) {}
+  constructor(private _quotationService: QuotationService) {}
 
   ngOnInit(): void {
     this.getQuotationDetails();
@@ -24,28 +21,15 @@ export class QuotationDetailsComponent implements OnInit {
 
   getQuotationDetails() {
     var srr = new QUOTATION();
-    srr.AGENT_CODE = +localStorage.getItem('rolecode');
+    srr.AGENT_CODE = localStorage.getItem('usercode');
     srr.SRR_NO = localStorage.getItem('SRR_NO');
-    this._srrService.getSRRDetails(srr).subscribe((res) => {
+    this._quotationService.getSRRDetails(srr).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
-        this.quotationDetails = res.Data;
+        this.quotation = res.Data;
         this.commodityList = res.Data.SRR_COMMODITIES;
         this.containerList = res.Data.SRR_CONTAINERS;
         this.rateList = res.Data.SRR_RATES;
       }
     });
-  }
-
-  closeModal(): void {
-    this.closeBtn3.nativeElement.click();
-  }
-
-  redirectToSubMenu(p) {
-    this.closeModal();
-    if (p == 'cro') {
-      this.router.navigateByUrl('/home/cro-list');
-    } else if (p == 'booking') {
-      this.router.navigateByUrl('/home/bookings');
-    }
   }
 }

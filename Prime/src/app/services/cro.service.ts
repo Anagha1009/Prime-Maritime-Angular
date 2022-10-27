@@ -17,7 +17,7 @@ export class CroService {
 
   constructor(private _http: HttpClient) {}
 
-  insertCRO(rootobject) {
+  insertCRO(rootobject: any) {
     return this._http.post<any>(
       this.BASE_URL + 'CRO/InsertCRO',
       rootobject,

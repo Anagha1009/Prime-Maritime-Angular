@@ -1,175 +1,61 @@
-<div class="mt-4 ps-4 pt-5">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-white">
-            <li class="breadcrumb-item"><a routerLink="/home/agent-dashboard">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Bookings</li>
-        </ol>
-    </nav>
+<div class="section-title">
+    <h2>Bookings</h2>
 </div>
-<button data-target="#menuModal" data-toggle="modal" class="btn btn-info btn-lg btn-floating float-right"
-    style="right: 2rem;top: -2rem;">
-    <i class="fa fa-th"></i>
-</button>
-<div class="container">
+<div class="container mt-4">
     <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <input type="text" class="form-control">
+                <label class="form-label">Booking No</label>
+            </div>
+        </div>
         <div class="col-md-2">
-            <div class="card border">
-                <div class="card-body">
-                    <div class="counter">
-                        <div class="number-info">
-                            <i class="fas fa-2x fa-hand-holding-usd text-info"></i>
-                            <span class="timer text-info" style="font-size: 30px;">
-                                5
-                            </span>
-                            <p class="text-muted" style="font-size: 12px;">BOOKINGS</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="counter">
-                        <div class="number-info">
-                            <i class="fas fa-clipboard-list fa-2x text-success"></i>
-                            <span class="timer text-success" style="font-size: 30px;">
-                                5
-                            </span>
-                            <p class="text-muted" style="font-size: 12px;">CRO RAISED</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="counter">
-                        <div class="number-info">
-                            <i class="fas fa-calendar-check fa-2x text-warning"></i>
-                            <span class="timer text-warning" style="font-size: 30px;">
-                                0
-                            </span>
-                            <p class="text-muted" style="font-size: 12px;">CRO PENDING</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="form-group">
+                <input type="date" class="form-control">
+                <label class="form-label">From Date</label>
             </div>
         </div>
-        <div class="col-md-10">
-            <form [formGroup]="bookingForm">
-                <div class="row">
-                    <div class="col-md-3 mb-4">
-                        <div class="form-group">
-                            <input type="text" formControlName="BOOKING_NO" class="form-control">
-                            <label class="form-label">Booking No</label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="form-outline">
-                            <ng-select formControlName="CUSTOMER_NAME">
-                                <ng-option value="" disabled>--Customer--</ng-option>
-                                <ng-option value="JITEX">JITEX</ng-option>
-                                <ng-option value="MASDAR TECHNICAL SUPPLIES TRADING CO.">MASDAR TECHNICAL
-                                    SUPPLIES
-                                    TRADING CO.
-                                </ng-option>
-                            </ng-select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-dark me-2" data-mdb-ripple-color="dark">Search</button>
-                        <button type="button" class="btn btn-default" data-mdb-ripple-color="dark">Clear</button>
-                    </div>
-                </div>
-            </form>
-            <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
-                <div [class]="isScroll ? 'force-overflow' : ''">
-                    <div [class]="i == 0 ? 'card border me-2' : 'card border me-2 mt-2'"
-                        *ngFor="let item of bookingList;let i = index;">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <h6>{{ item.BOOKING_NO }}</h6>
-                                    <p>{{item.POL}} - {{item.POD}}</p>
-                                    <p>{{ item.CUSTOMER_NAME }} </p>
-
-                                </div>
-                                <div class="col-md-3">
-                                    <p><b>Vessel</b> : {{item.VESSEL_NAME}}</p>
-                                    <p><b>Voyage</b> : {{item.VOYAGE_NO}}</p>
-
-                                </div>
-                                <div class="col-md-3">
-                                    <h6>No of Containers <span class="text-danger">{{
-                                            item.NO_OF_CONTAINERS
-                                            }}</span> </h6>
-                                    <p>Created On : 10/03/22
-                                    <p>
-                                </div>
-                                <div class="col-md-3" style="text-align: right;">
-                                    <button (click)="createCRO(item)" class="btn btn-light btn-rounded me-2">Create
-                                        CRO</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="date" class="form-control">
+                <label class="form-label">To Date</label>
             </div>
-
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="text" class="form-control">
+                <label class="form-label">Status</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button class="form-btn me-2">Search</button>
+            <button class="form-btn">Clear</button>
         </div>
     </div>
 </div>
-<!-- Modal -->
-<div class="modal right fade" id="menuModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" style="width: 35rem; max-width: 35rem;">
-        <div class="modal-content">
-            <button type="button" class="btn-close d-none" data-dismiss="modal" aria-label="Close" #closeBtn3></button>
-            <div class="modal-body" style="font-size: 14px;">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card menu-card">
-                            <div class="card-body">
-                                <i class="fas fa-file-invoice-dollar menu-icons"></i>
-                                <p>QUOTATIONS</p>
-                            </div>
+<section class="services">
+    <div class="container">
+        <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
+            <div [class]="isScroll ? 'force-overflow' : ''">
+                <div class="icon-box icon-box-cyan text-start" *ngFor="let item of bookingList">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="title">{{item.BOOKING_NO}}</h4>
+                            <p class="description"> <span class="bx bx-user"></span> {{item.CUSTOMER_NAME}} | <span
+                                    class="bx bxs-truck"></span>
+                                {{item.NO_OF_CONTAINERS}} Containers | <span class="text-danger">{{item.POL}} -
+                                    {{item.POD}}</span></p>
+                            <p class="description"><i class="bx bxs-ship"></i> <span class="text-info">
+                                    {{item.VESSEL_NAME}} - {{item.VOYAGE_NO}}</span>
+                            </p>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card menu-card" (click)="redirectToSubMenu('booking')">
-                            <div class="card-body">
-                                <i class="fas fa-clipboard-check menu-icons"></i>
-                                BOOKINGS
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card menu-card" (click)="redirectToSubMenu('cro')">
-                            <div class="card-body">
-                                <i class="fas fa-archive menu-icons"></i>
-                                CRO
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-4">
-                        <div class="card menu-card">
-                            <div class="card-body">
-                                <i class="fas fa-file-signature menu-icons"></i>
-                                <p>BL</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card menu-card">
-                            <div class="card-body">
-                                <i class="far fa-file-alt menu-icons"></i>
-                                TDR
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card menu-card">
-                            <div class="card-body">
-                                <i class="fas fa-clipboard-list menu-icons"></i>
-                                DO
-                            </div>
+                        <div class="col-md-4 text-end">
+                            <button class="form-btn rounded-pill" (click)="createCRO(item)">Create
+                                CRO</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>

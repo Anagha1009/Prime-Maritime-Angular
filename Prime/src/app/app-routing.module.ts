@@ -1,20 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
-import { MainLayoutModule } from './layouts/main-layout/main-layout.module';
-import { AgentDashboardComponent } from './modules/agent-dashboard/agent-dashboard.component';
+import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { BookingListComponent } from './modules/booking-list/booking-list.component';
 import { CroListComponent } from './modules/cro-list/cro-list.component';
 import { LoginComponent } from './modules/login/login.component';
-import { NewBlComponent } from './modules/new-bl/new-bl.component';
 import { NewCroComponent } from './modules/new-cro/new-cro.component';
 import { NewQuotationComponent } from './modules/new-quotation/new-quotation.component';
 import { QuotationDetailsComponent } from './modules/quotation-details/quotation-details.component';
-import { LandingComponent } from './shared/components/landing/landing.component';
+import { QuotationListComponent } from './modules/quotation-list/quotation-list.component';
+import { LandingComponent } from './shared/landing/landing.component';
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: '',
     component: LandingComponent,
   },
   {
@@ -22,36 +20,32 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: '',
+    path: 'home',
     component: MainLayoutComponent,
     children: [
       {
-        path: 'home/agent-dashboard',
-        component: AgentDashboardComponent,
+        path: 'quotation-list',
+        component: QuotationListComponent,
       },
       {
-        path: 'home/new-quotation',
+        path: 'quotation-details',
+        component: QuotationDetailsComponent,
+      },
+      {
+        path: 'new-quotation',
         component: NewQuotationComponent,
       },
       {
-        path: 'home/new-cro',
-        component: NewCroComponent,
-      },
-      {
-        path: 'home/new-bl',
-        component: NewBlComponent,
-      },
-      {
-        path: 'home/bookings',
+        path: 'booking-list',
         component: BookingListComponent,
       },
       {
-        path: 'home/cro-list',
-        component: CroListComponent,
+        path: 'new-cro',
+        component: NewCroComponent,
       },
       {
-        path: 'home/quotation-details',
-        component: QuotationDetailsComponent,
+        path: 'cro-list',
+        component: CroListComponent,
       },
     ],
   },

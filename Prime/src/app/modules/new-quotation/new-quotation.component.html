@@ -1,10 +1,5 @@
-<div class="mt-4 ps-4 pt-5">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-white">
-            <li class="breadcrumb-item"><a routerLink="/home/agent-dashboard">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">New Quotation</li>
-        </ol>
-    </nav>
+<div class="section-title">
+    <h2>New Quotation</h2>
 </div>
 <div class="container">
     <div class="col-md-10 mx-auto">
@@ -20,7 +15,7 @@
             <span class="glider d-none"></span>
         </div>
     </div>
-    <div class="col-md-12 mb-4">
+    <div class="col-md-12">
         <form [formGroup]="quotationForm">
             <div class="card mt-2" *ngIf="tabs == '1'">
                 <div class="card-body">
@@ -75,8 +70,8 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <ng-select [ngClass]="{'invalid': submitted && f.ORIGIN_ICD.errors}"
-                                    formControlName="ORIGIN_ICD">
+                                <ng-select [ngClass]="{'invalid': submitted && f.FINAL_DESTINATION.errors}"
+                                    formControlName="FINAL_DESTINATION">
                                     <ng-option value="" selected="true" disabled>--Select Final Destination--
                                     </ng-option>
                                     <ng-option *ngFor="let item of icdList" value="{{item.CODE}}">{{item.CODE_DESC}}
@@ -84,7 +79,8 @@
                                 </ng-select>
                                 <label class="form-label-ddl">Final Destination <span class="text-danger">
                                         *</span></label>
-                                <div *ngIf="submitted && f.ORIGIN_ICD.errors" class="invalid-feedback">Please select
+                                <div *ngIf="submitted && f.FINAL_DESTINATION.errors" class="invalid-feedback">Please
+                                    select
                                     Final Destination</div>
                             </div>
                         </div>
@@ -129,7 +125,7 @@
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
                                 <input type="date" [ngClass]="{'invalid': submitted && f.EFFECT_FROM.errors}"
-                                    (change)="getEffectToDate($event.target.value)" min={{currentDate}}
+                                    (change)="getEffectToDate($event, 1)" min={{currentDate}}
                                     formControlName="EFFECT_FROM" onkeypress="return false"
                                     class="form-control active" />
                                 <label class="form-label">Effect From <span class="text-danger">
@@ -251,26 +247,24 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-4">
-                            <label class="form-label">Other Parties</label>
-                            <br>
-                            <input type="text" maxlength="100" formControlName="NOTIFY_PARTY"
-                                class="form-control w-50 mb-3" />
+                            <input type="text" maxlength="100" placeholder="Other Parties Name"
+                                formControlName="OTHER_PARTY_NAME" class="form-control w-50 mb-3" />
                             <label class="radio-inline">
-                                <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES"
-                                    id="inlineRadio1" value="Brokerage Party"><span class="indicator"></span>
+                                <input type="radio" formControlName="OTHER_PARTY" id="inlineRadio1"
+                                    value="Brokerage Party"><span class="indicator"></span>
                                 Brokerage Party
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES"
-                                    id="inlineRadio2" value="Consignee"><span class="indicator"></span>Consignee
+                                <input type="radio" formControlName="OTHER_PARTY" id="inlineRadio2"
+                                    value="Consignee"><span class="indicator"></span>Consignee
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES"
-                                    id="inlineRadio3" value="Forwarder"><span class="indicator"></span>Forwarder
+                                <input type="radio" formControlName="OTHER_PARTY" id="inlineRadio3"
+                                    value="Forwarder"><span class="indicator"></span>Forwarder
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" formControlName="OTHER_PARTIES" name="OTHER_PARTIES"
-                                    id="inlineRadio4" value="CHA"><span class="indicator"></span>CHA
+                                <input type="radio" formControlName="OTHER_PARTY" id="inlineRadio4" value="CHA"><span
+                                    class="indicator"></span>CHA
                             </label>
                         </div>
                     </div>
@@ -342,10 +336,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4" *ngIf="commodityType == 'REEFER'">
+                        <div class="col-md-2 mb-4" *ngIf="commodityType == 'REEFER'">
                             <div class="form-group">
                                 <input type="text" class="form-control" />
                                 <label class="form-label">Temperature <span class="text-danger"> *</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-4" *ngIf="commodityType == 'REEFER'">
+                            <div class="form-group">
+                                <ng-select>
+                                    <ng-option>--Select--</ng-option>
+                                    <ng-option>C</ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">UOM <span class="text-danger"> *</span></label>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'NORMAL'">
@@ -450,16 +453,34 @@
                         </div>
                     </div>
                     <div class="row" *ngIf="commodityType == 'REEFER'">
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-2 mb-4">
                             <div class="form-group">
                                 <input type="text" class="form-control" />
                                 <label class="form-label">Ventilation <span class="text-danger"> *</span></label>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-2 mb-4">
+                            <div class="form-group">
+                                <ng-select>
+                                    <ng-option>--Select--</ng-option>
+                                    <ng-option>20</ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">UOM <span class="text-danger"> *</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-4">
                             <div class="form-group">
                                 <input type="text" class="form-control" />
                                 <label class="form-label">Humidity <span class="text-danger"> *</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-4">
+                            <div class="form-group">
+                                <ng-select>
+                                    <ng-option>--Select--</ng-option>
+                                    <ng-option>20</ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">UOM <span class="text-danger"> *</span></label>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
@@ -498,7 +519,8 @@
                             <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOL">
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{POLAcceptanceFile}}</span>
-                                    <button (click)="isUploadedPOL = false"><span class="fa fa-times"></span></button>
+                                    <button (click)="isUploadedPOL = false"><span
+                                            class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -516,7 +538,7 @@
                             <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOD">
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{PODAcceptanceFile}}</span>
-                                    <button (click)="isUploadedPOD = false"><span class="fa fa-times"></span></button>
+                                    <button (click)="isUploadedPOD = false"><span class="bx bx-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -534,7 +556,8 @@
                             <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOp">
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{VslOpAcceptanceFile}}</span>
-                                    <button (click)="isUploadedVslOp = false"><span class="fa fa-times"></span></button>
+                                    <button (click)="isUploadedVslOp = false"><span
+                                            class="bx bx-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -552,7 +575,7 @@
                             <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedTS">
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{TSAcceptanceFile}}</span>
-                                    <button (click)="isUploadedTS = false"><span class="fa fa-times"></span></button>
+                                    <button (click)="isUploadedTS = false"><span class="bx bx-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -573,7 +596,7 @@
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{ShpLOYAcceptanceFile}}</span>
                                     <button (click)="isUploadedShpLOY = false"><span
-                                            class="fa fa-times"></span></button>
+                                            class="bx bx-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -592,7 +615,7 @@
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{VslOpApAcceptanceFile}}</span>
                                     <button (click)="isUploadedVslOpAp = false"><span
-                                            class="fa fa-times"></span></button>
+                                            class="bx bx-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -613,7 +636,7 @@
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{VslOpAp2AcceptanceFile}}</span>
                                     <button (click)="isUploadedVslOpAp2 = false"><span
-                                            class="fa fa-times"></span></button>
+                                            class="bx bx-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -631,7 +654,7 @@
                             <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedSur">
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{SurAcceptanceFile}}</span>
-                                    <button (click)="isUploadedSur = false"><span class="fa fa-times"></span></button>
+                                    <button (click)="isUploadedSur = false"><span class="bx bx-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -792,11 +815,98 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="addContainer()" class="btn btn-secondary btn-block">Add
+                            <button (click)="openModal()" class="btn btn-secondary btn-block">Add
                                 Rate</button>
-                            <button #openRateModal data-toggle="modal" data-target="#rateModal" class="d-none">Add
+                            <button #RateModal data-bs-toggle="modal" href="#rateModal" class="d-none">Add
                                 Rate</button>
 
+                        </div>
+                    </div>
+                    <div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Rate Details</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                        #closeBtn></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-md-12">
+                                        <div class="row mb-2">
+                                            <div class="col-md-6">
+                                                <h6>Container : <small
+                                                        class="text-danger mr-2">{{containerForm.value.CONTAINER_TYPE}}
+                                                        -
+                                                        {{containerForm.value.CONTAINER_SIZE}}</small>
+                                                    Service Mode : <small
+                                                        class="text-danger">{{containerForm.value.SERVICE_MODE}}</small>
+                                                </h6>
+                                            </div>
+                                            <div class="col-md-6" style="text-align: right;">
+                                                <button (click)="addRates()" class="btn btn-outline-info">
+                                                    <i class="fa fa-plus mr-1"></i>Add Rates</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table">
+                                        <thead>
+                                            <tr class="bg-light">
+                                                <th>Charge Code</th>
+                                                <th>Currency</th>
+                                                <th>Standard Rate</th>
+                                                <th>Requested Rate</th>
+                                                <th>Freight Payment Term</th>
+                                                <th>Place of Payment</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of f3;let j = index;" [formGroup]="f4(item)">
+                                                <td class="col-md-4">
+                                                    <ng-select formControlName="CHARGE_CODE">
+                                                        <ng-option value="" selected>--Select--</ng-option>
+                                                        <ng-option value="Gross Freight">Gross Freight</ng-option>
+                                                        <ng-option value="THC">THC</ng-option>
+                                                        <ng-option value="EWRI">EWRI</ng-option>
+                                                        <ng-option value="TERMINAL REBATE">TERMINAL REBATE</ng-option>
+                                                    </ng-select>
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <ng-select formControlName="CURRENCY">
+                                                        <ng-option value="" selected>--Select--</ng-option>
+                                                        <ng-option value="USD">USD</ng-option>
+                                                        <ng-option value="INR">INR</ng-option>
+                                                        <ng-option value="AUD">AUD</ng-option>
+                                                    </ng-select>
+                                                </td>
+                                                <td><label class="mt-2">100</label></td>
+                                                <td><input class="form-control" formControlName="REQUESTED_RATE"
+                                                        type="text" /></td>
+                                                <td class="col-md-4">
+                                                    <ng-select formControlName="PAYMENT_TERM">
+                                                        <ng-option value="" selected>--Select--</ng-option>
+                                                        <ng-option value="Prepaid">Prepaid</ng-option>
+                                                        <ng-option value="Collect">Collect</ng-option>
+                                                    </ng-select>
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <ng-select formControlName="TRANSPORT_TYPE">
+                                                        <ng-option value="" selected>--Select--</ng-option>
+                                                        <ng-option value="POL">POL</ng-option>
+                                                        <ng-option value="POD">POD</ng-option>
+                                                    </ng-select>
+                                                </td>
+                                                <td><i class="fa fa-trash mt-3"></i></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" (click)="submitRate()"
+                                        class="btn btn-secondary">Submit</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row mt-4" *ngIf="isContainer">
@@ -832,87 +942,5 @@
                 </div>
             </div>
         </form>
-        <div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Rate Details</h5>
-                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"
-                            #closeBtn></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-md-12">
-                            <div class="row mb-2">
-                                <div class="col-md-6">
-                                    <h6>Container : <small
-                                            class="text-danger mr-2">{{containerForm.value.CONTAINER_TYPE}} -
-                                            {{containerForm.value.CONTAINER_SIZE}}</small>
-                                        Service Mode : <small
-                                            class="text-danger">{{containerForm.value.SERVICE_MODE}}</small></h6>
-                                </div>
-                                <div class="col-md-6" style="text-align: right;">
-                                    <button (click)="addRate()" class="btn btn-outline-info">
-                                        <i class="fa fa-plus mr-1"></i>Add Rates</button>
-                                </div>
-                            </div>
-                        </div>
-                        <table class="table">
-                            <thead>
-                                <tr class="bg-light">
-                                    <th>Charge Code</th>
-                                    <th>Currency</th>
-                                    <th>Standard Rate</th>
-                                    <th>Requested Rate</th>
-                                    <th>Freight Payment Term</th>
-                                    <th>Place of Payment</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of f4;let j = index;" [formGroup]="item">
-                                    <td class="col-md-4">
-                                        <ng-select formControlName="CHARGE_CODE">
-                                            <ng-option value="" selected>--Select--</ng-option>
-                                            <ng-option value="Gross Freight">Gross Freight</ng-option>
-                                            <ng-option value="THC">THC</ng-option>
-                                            <ng-option value="EWRI">EWRI</ng-option>
-                                            <ng-option value="TERMINAL REBATE">TERMINAL REBATE</ng-option>
-                                        </ng-select>
-                                    </td>
-                                    <td class="col-md-2">
-                                        <ng-select formControlName="CURRENCY">
-                                            <ng-option value="" selected>--Select--</ng-option>
-                                            <ng-option value="USD">USD</ng-option>
-                                            <ng-option value="INR">INR</ng-option>
-                                            <ng-option value="AUD">AUD</ng-option>
-                                        </ng-select>
-                                    </td>
-                                    <td><label class="mt-2">100</label></td>
-                                    <td><input class="form-control" formControlName="REQUESTED_RATE" type="text" /></td>
-                                    <td class="col-md-4">
-                                        <ng-select formControlName="PAYMENT_TERM">
-                                            <ng-option value="" selected>--Select--</ng-option>
-                                            <ng-option value="Prepaid">Prepaid</ng-option>
-                                            <ng-option value="Collect">Collect</ng-option>
-                                        </ng-select>
-                                    </td>
-                                    <td class="col-md-2">
-                                        <ng-select formControlName="TRANSPORT_TYPE">
-                                            <ng-option value="" selected>--Select--</ng-option>
-                                            <ng-option value="POL">POL</ng-option>
-                                            <ng-option value="POD">POD</ng-option>
-                                        </ng-select>
-                                    </td>
-                                    <td><i class="fa fa-trash mt-3"></i></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" (click)="submitRate()" class="btn btn-secondary">Submit</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>

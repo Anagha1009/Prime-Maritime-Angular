@@ -1,12 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CRO } from 'src/app/models/cro';
 import { CroService } from 'src/app/services/cro.service';
-import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+const pdfMake = require('pdfmake/build/pdfmake.js');
+(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-cro-list',
@@ -20,41 +20,20 @@ export class CroListComponent implements OnInit {
   croDetails: any;
 
   constructor(
-    private FormBuilder: FormBuilder,
+    private _formBuilder: FormBuilder,
     private router: Router,
     private _croService: CroService
   ) {}
 
-  @ViewChild('closeBtn3') closeBtn3: ElementRef;
-
   ngOnInit(): void {
-    this.croForm = this.FormBuilder.group({
-      CRO_NO: [''],
-      CUSTOMER_NAME: [''],
-      STATUS: [''],
-    });
-
     this.getCROList();
-  }
-
-  closeModal(): void {
-    this.closeBtn3.nativeElement.click();
-  }
-
-  redirectToSubMenu(p) {
-    this.closeModal();
-    if (p == 'cro') {
-      this.router.navigateByUrl('/home/new-cro');
-    } else if (p == 'booking') {
-      this.router.navigateByUrl('/home/bookings');
-    }
   }
 
   getCROList() {
     var cro = new CRO();
-    cro.AGENT_CODE = +localStorage.getItem('rolecode');
+    cro.AGENT_CODE = localStorage.getItem('usercode');
 
-    this._croService.getCROList(cro).subscribe((res) => {
+    this._croService.getCROList(cro).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.croList = res.Data;
 
@@ -67,14 +46,12 @@ export class CroListComponent implements OnInit {
     });
   }
 
-  getCRODetails(CRO_NO) {
-    debugger;
+  getCRODetails(CRO_NO: string) {
     var cro = new CRO();
-    cro.AGENT_CODE = +localStorage.getItem('rolecode');
+    cro.AGENT_CODE = localStorage.getItem('usercode');
     cro.CRO_NO = CRO_NO;
 
-    this._croService.getCRODetails(cro).subscribe((res) => {
-      debugger;
+    this._croService.getCRODetails(cro).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.croDetails = res.Data;
         this.generatePDF();
@@ -276,7 +253,7 @@ export class CroListComponent implements OnInit {
             widths: ['*', '*', '*', '*'],
             body: [
               ['Type', 'Size', 'Qty', 'Service'],
-              ...this.croDetails?.ContainerList.map((p) => [
+              ...this.croDetails?.ContainerList.map((p: any) => [
                 p.CONTAINER_TYPE,
                 p.CONTAINER_SIZE,
                 p.IMM_VOLUME_EXPECTED,
@@ -299,7 +276,7 @@ export class CroListComponent implements OnInit {
     pdfMake.createPdf(docDefinition).open();
   }
 
-  table(data, columns) {
+  table(data: any, columns: any) {
     return {
       table: {
         headerRows: 1,
@@ -308,15 +285,15 @@ export class CroListComponent implements OnInit {
     };
   }
 
-  buildTableBody(data, columns) {
+  buildTableBody(data: any, columns: any) {
     var body = [];
 
     body.push(columns);
 
-    data.forEach(function (row) {
-      var dataRow = [];
+    data.forEach(function (row: any) {
+      var dataRow: any[] = [];
 
-      columns.forEach(function (column) {
+      columns.forEach(function (column: any) {
         dataRow.push(row[column]);
       });
 
@@ -326,7 +303,7 @@ export class CroListComponent implements OnInit {
     return body;
   }
 
-  getBase64ImageFromURL(url) {
+  getBase64ImageFromURL(url: any) {
     return new Promise((resolve, reject) => {
       var img = new Image();
       img.setAttribute('crossOrigin', 'anonymous');
@@ -337,7 +314,7 @@ export class CroListComponent implements OnInit {
         canvas.height = img.height;
 
         var ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
+        ctx?.drawImage(img, 0, 0);
 
         var dataURL = canvas.toDataURL('image/png');
 

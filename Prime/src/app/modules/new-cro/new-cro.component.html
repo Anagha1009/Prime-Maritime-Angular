@@ -1,15 +1,10 @@
-<div class="mt-4 ps-4 pt-5">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-white">
-            <li class="breadcrumb-item"><a routerLink="/home/bookings">Bookings</a></li>
-            <li class="breadcrumb-item active" aria-current="page">New CRO</li>
-        </ol>
-    </nav>
+<div class="section-title">
+    <h2>New CRO</h2>
 </div>
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <div class="card" style="font-size: 14px;background-color: #f4f3f3;box-shadow: none;">
+            <div class="card" style="font-size: 14px;background-color: #f4f3f3;">
                 <div class="card-body">
                     <div class="font-weight-bold">Booking Details</div>
                     <hr>
@@ -33,8 +28,6 @@
             <div class="card">
                 <div class="card-body">
                     <form [formGroup]="croForm">
-                        <div class="font-weight-bold mb-4">CRO Details</div>
-                        <hr>
                         <div class="row">
                             <div class="col-md-4 mb-4">
                                 <div class="form-group">
@@ -143,7 +136,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-2 offset-md-10" style="text-align: right;">
-                                <button (click)="SaveCRO()" class="btn btn-default btn-block">Submit</button>
+                                <button (click)="SaveCRO()" class="form-btn">Submit</button>
                             </div>
                         </div>
                     </form>
