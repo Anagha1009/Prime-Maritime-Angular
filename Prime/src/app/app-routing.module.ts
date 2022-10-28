@@ -8,6 +8,7 @@ import { NewCroComponent } from './modules/new-cro/new-cro.component';
 import { NewQuotationComponent } from './modules/new-quotation/new-quotation.component';
 import { QuotationDetailsComponent } from './modules/quotation-details/quotation-details.component';
 import { QuotationListComponent } from './modules/quotation-list/quotation-list.component';
+import { SplitBookingComponent } from './modules/split-booking/split-booking.component';
 import { LandingComponent } from './shared/landing/landing.component';
 
 const routes: Routes = [
@@ -38,6 +39,10 @@ const routes: Routes = [
       {
         path: 'booking-list',
         component: BookingListComponent,
+      },
+      {
+        path: 'split-booking',
+        component: SplitBookingComponent,
       },
       {
         path: 'new-cro',
