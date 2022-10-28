@@ -53,7 +53,10 @@
                             </p>
                         </div>
                         <div class="col-md-4 text-end">
-                            <button class="form-btn rounded-pill">Create
+                            <button (click)="openBLModal(item)" class="form-btn rounded-pill">Create
+                                BL</button>
+                            <button #openModal data-bs-toggle="modal" href="#BLModal"
+                                class="form-btn rounded-pill d-none">Create
                                 BL</button>
                         </div>
                     </div>
@@ -62,3 +65,55 @@
         </div>
     </div>
 </section>
+
+<!--BL MODAL-->
+
+<div class="modal fade" id="BLModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Bill of Lading</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label class="form-label">Shipper Name</label>
+                            <textarea class="form-control2"></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">BL No</label>
+                            <input type="text" disabled class="form-control2 bg-light" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="form-label">Consignee Name</label>
+                                <input type="text" class="form-control2" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="form-label">Notify Party</label>
+                                <input type="text" class="form-control2" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 offset-md-6" style="text-align: right;">
+                        <button class="btn btn-outline-info btn-block">
+                            <i class="fa fa-plus mr-1"></i>Slot
+                            Allocation</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark">Book
+                    Now</button>
+            </div>
+        </div>
+    </div>
+</div>

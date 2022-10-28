@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CRO } from 'src/app/models/cro';
@@ -18,10 +18,13 @@ export class CroListComponent implements OnInit {
   isScroll: boolean = false;
   croList: any[] = [];
   croDetails: any;
+  blForm: FormGroup;
+
+  @ViewChild('openModal') openModal: ElementRef;
 
   constructor(
     private _formBuilder: FormBuilder,
-    private router: Router,
+    private _router: Router,
     private _croService: CroService
   ) {}
 
@@ -57,6 +60,10 @@ export class CroListComponent implements OnInit {
         this.generatePDF();
       }
     });
+  }
+
+  openBLModal(item: any) {
+    this.openModal.nativeElement.click();
   }
 
   async generatePDF() {
