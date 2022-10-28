@@ -28,6 +28,7 @@ export class BookingService {
   }
 
   getBookingDetails(Booking: BOOKING) {
+    debugger;
     return this._http.get<any>(
       this.BASE_URL +
         'Booking/GetBookingDetails?AGENT_CODE=' +
@@ -45,6 +46,14 @@ export class BookingService {
         Slots.SRR_NO +
         '&NO_OF_SLOTS=' +
         Slots.NO_OF_SLOTS,
+      this.httpOptions
+    );
+  }
+
+  postBookingDetails(Booking:any){
+    return this._http.post<any>(
+      this.BASE_URL + 'Booking/InsertBooking',
+      Booking,
       this.httpOptions
     );
   }
