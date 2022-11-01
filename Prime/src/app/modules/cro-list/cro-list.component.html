@@ -53,8 +53,10 @@
                             </p>
                         </div>
                         <div class="col-md-4 text-end">
-                            <button (click)="openBLModal(item)" class="form-btn rounded-pill">Create
-                                BL</button>
+                            <!-- <button (click)="openBLModal(item)" class="form-btn rounded-pill">Create
+                                BL</button> -->
+                            <button #openModal1 data-bs-toggle="modal" href="#SIModal"
+                                class="form-btn rounded-pill">Create BL</button>
                             <button #openModal data-bs-toggle="modal" href="#BLModal"
                                 class="form-btn rounded-pill d-none">Create
                                 BL</button>
@@ -66,52 +68,243 @@
     </div>
 </section>
 
+
+<div class="modal fade" id="SIModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upload Shipping Instruction</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn1></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-4">
+                    <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload">
+                        <input type="file" (change)="onFileChange($event)" name="file" id="file" />
+                        <label for="file">
+                            <div>
+                                <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                <span class="formbold-drop-file">Upload</span>
+                                <small>SI File</small>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload">
+                        <div class="formbold-file-item">
+                            <span class="formbold-file-name">file name</span>
+                            <button (click)="onUpload = false"><span class="bx bx-x-circle"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="form-btn" (click)="openBLModal()">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!--BL MODAL-->
 
 <div class="modal fade" id="BLModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Bill of Lading</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form [formGroup]="blForm">
                     <div class="row">
-                        <div class="col-md-8">
-                            <label class="form-label">Shipper Name</label>
-                            <textarea class="form-control2"></textarea>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Shipper Name</label>
+                                <textarea formControlName="SHIPPER" class="form-control2"></textarea>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">BL No</label>
-                            <input type="text" disabled class="form-control2 bg-light" />
+                            <div class="form-group">
+                                <label class="form-label2">Consignee Name</label>
+                                <textarea formControlName="CONSIGNEE" class="form-control2"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Notify Party</label>
+                                <textarea formControlName="NOTIFY_PARTY" class="form-control2"></textarea>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">Consignee Name</label>
+                                <label class="form-label2">Pre Carriage by</label>
+                                <input formControlName="PRE_CARRIAGE_BY" type="text" class="form-control2" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Place of Receipt</label>
+                                <input formControlName="PLACE_OF_RECEIPT" type="text" class="form-control2" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Ocean Vessel/ Voyage No</label>
+                                <input formControlName="VESSEL_NAME" type="text" class="form-control2" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Port of Loading</label>
+                                <input formControlName="PORT_OF_LOADING" type="text" class="form-control2" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Port of Discharge</label>
+                                <input formControlName="PORT_OF_DISCHARGE" type="text" class="form-control2" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Place of Delivery</label>
+                                <input formControlName="PLACE_OF_DELIVERY" type="text" class="form-control2" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Final Destination</label>
+                                <input formControlName="FINAL_DESTINATION" type="text" class="form-control2" />
+                            </div>
+                        </div>
+                    </div>
+                    <h6 class="d-inline mt-3">Container Details<button
+                            class="btn btn-sm btn-outline-dark ms-2 rounded-pill">Split BL</button></h6>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table" style="font-size: 12px;">
+                            <thead>
+                                <tr>
+                                    <th>Sr No</th>
+                                    <th>Container Type</th>
+                                    <th>Container Size</th>
+                                    <th>Marks & No</th>
+                                    <th>Qty</th>
+                                    <th>Description of goods</th>
+                                    <th>Gross Weight</th>
+                                    <th>Measurement</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Open Storage</td>
+                                    <td>20ft</td>
+                                    <td><textarea class="form-control2"></textarea></td>
+                                    <td>3</td>
+                                    <td><input type="text" class="form-control2"
+                                            style="height: calc(1rem + 0.75rem + 2px);" /></td>
+                                    <td><input type="text" class="form-control2"
+                                            style="height: calc(1rem + 0.75rem + 2px);" /></td>
+                                    <td><input type="text" class="form-control2"
+                                            style="height: calc(1rem + 0.75rem + 2px);" /></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Dry Storage</td>
+                                    <td>40ft</td>
+                                    <td><textarea class="form-control2"></textarea></td>
+                                    <td>10</td>
+                                    <td><input type="text" class="form-control2"
+                                            style="height: calc(1rem + 0.75rem + 2px);" /></td>
+                                    <td><input type="text" class="form-control2"
+                                            style="height: calc(1rem + 0.75rem + 2px);" /></td>
+                                    <td><input type="text" class="form-control2"
+                                            style="height: calc(1rem + 0.75rem + 2px);" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Total No of Containers</label>
+                                <input type="text" class="form-control2" />
+                            </div>
+                        </div>
+                    </div>
+                    <h6>Freight & Charges</h6>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table" style="font-size: 12px;">
+                            <thead>
+                                <tr>
+                                    <th>Sr No</th>
+                                    <th>Charge Code</th>
+                                    <th>Rate</th>
+                                    <th>Prepaid</th>
+                                    <th>Collect</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>THC</td>
+                                    <td>500</td>
+                                    <td>Yes</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>EWRI</td>
+                                    <td>254</td>
+                                    <td>No</td>
+                                    <td>Yes</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Prepaid at</label>
+                                <input type="text" class="form-control2" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Payable at</label>
+                                <input type="text" class="form-control2" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Place of Issue</label>
                                 <input type="text" class="form-control2" />
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">Notify Party</label>
+                                <label class="form-label2">Total Prepaid in local currency</label>
                                 <input type="text" class="form-control2" />
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 offset-md-6" style="text-align: right;">
-                        <button class="btn btn-outline-info btn-block">
-                            <i class="fa fa-plus mr-1"></i>Slot
-                            Allocation</button>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">No of Original BL</label>
+                                <input type="text" class="form-control2" />
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark">Book
+                <button type="button" (click)="createBL()" class="btn btn-outline-dark">Book
                     Now</button>
             </div>
         </div>

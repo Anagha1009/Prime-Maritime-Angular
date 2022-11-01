@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { CRO } from 'src/app/models/cro';
 import { CroService } from 'src/app/services/cro.service';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { CommonService } from 'src/app/services/common.service';
+import * as XLSX from 'xlsx';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -19,17 +21,34 @@ export class CroListComponent implements OnInit {
   croList: any[] = [];
   croDetails: any;
   blForm: FormGroup;
+  onUpload: boolean = false;
+  previewTable: any[] = [];
 
   @ViewChild('openModal') openModal: ElementRef;
+  @ViewChild('openModal1') openModal1: ElementRef;
 
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
-    private _croService: CroService
+    private _croService: CroService,
+    private _commonService: CommonService
   ) {}
 
   ngOnInit(): void {
     this.getCROList();
+
+    this.blForm = this._formBuilder.group({
+      SHIPPER: [''],
+      CONSIGNEE: [''],
+      NOTIFY_PARTY: [''],
+      PRE_CARRIAGE_BY: [''],
+      PLACE_OF_RECEIPT: [''],
+      VESSEL_NAME: [''],
+      PORT_OF_LOADING: [''],
+      PORT_OF_DISCHARGE: [''],
+      PLACE_OF_DELIVERY: [''],
+      FINAL_DESTINATION: [''],
+    });
   }
 
   getCROList() {
@@ -49,6 +68,8 @@ export class CroListComponent implements OnInit {
     });
   }
 
+  getBLDetails() {}
+
   getCRODetails(CRO_NO: string) {
     var cro = new CRO();
     cro.AGENT_CODE = localStorage.getItem('usercode');
@@ -62,7 +83,12 @@ export class CroListComponent implements OnInit {
     });
   }
 
-  openBLModal(item: any) {
+  createBL() {
+    console.log(JSON.stringify(this.blForm.value));
+  }
+
+  openBLModal() {
+    this.blForm.patchValue(this.previewTable[0]);
     this.openModal.nativeElement.click();
   }
 
@@ -81,7 +107,7 @@ export class CroListComponent implements OnInit {
       },
       content: [
         {
-          image: await this.getBase64ImageFromURL(
+          image: await this._commonService.getBase64ImageFromURL(
             './../../../assets/img/logo_p.png'
           ),
           alignment: 'right',
@@ -281,58 +307,144 @@ export class CroListComponent implements OnInit {
     };
 
     pdfMake.createPdf(docDefinition).open();
+    // const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+    // pdfDocGenerator.getBlob((blob: any) => {
+    //   console.log(blob);
+    // });
   }
 
-  table(data: any, columns: any) {
-    return {
-      table: {
-        headerRows: 1,
-        body: this.buildTableBody(data, columns),
-      },
-    };
+  onFileChange(ev: any) {
+    let workBook: any = null;
+    let jsonData = null;
+    const reader = new FileReader();
+    var file = ev.target.files[0];
+
+    var extension = file.name.split('.').pop();
+    var array = ['csv', 'xls', 'xlsx'];
+
+    if (file.size > 5000000) {
+      alert('Please upload file less than 5 mb..!');
+      return;
+    } else {
+      var el = array.find((a) => a.includes(extension));
+
+      if (el != null && el != '') {
+        reader.onload = (event) => {
+          const data = reader.result;
+          workBook = XLSX.read(data, { type: 'binary', cellDates: true });
+          jsonData = workBook.SheetNames.reduce((initial: any, name: any) => {
+            const sheet = workBook.Sheets[name];
+            initial[name] = XLSX.utils.sheet_to_json(sheet);
+            return initial;
+          }, {});
+          const dataString = JSON.stringify(jsonData);
+
+          var keyArray = [
+            'SHIPPER',
+            'CONSIGNEE',
+            'NOTIFY_PARTY',
+            'PRE_CARRIAGE_BY',
+            'PLACE_OF_RECEIPT',
+            'VESSEL_NAME',
+            'VOYAGE_NO',
+            'PORT_OF_LOADING',
+            'PORT_OF_DISCHARGE',
+            'PLACE_OF_DELIVERY',
+          ];
+
+          var keyArray1 = [
+            'CONTAINER_NO',
+            'SEAL_NO',
+            'MARKS_NOS',
+            'DESC_OF_GOODS',
+            'GROSS_WEIGHT',
+            'MEASUREMENT',
+          ];
+
+          var keyXlArray: any = [];
+          var keyXlArray1: any = [];
+
+          Object.keys(jsonData['Sheet1'][0]).forEach(function (key) {
+            keyXlArray.push(key);
+          });
+
+          Object.keys(jsonData['Sheet2'][0]).forEach(function (key) {
+            keyXlArray1.push(key);
+          });
+
+          var result = this.isSameColumn(keyXlArray, keyArray);
+          var result1 = this.isSameColumn(keyXlArray1, keyArray1);
+
+          if (result && result1) {
+            this.previewTable = [];
+            this.previewTable = jsonData['Sheet1'];
+            var isValid = true;
+
+            this.previewTable.forEach((element) => {
+              if (
+                !this.checkNullEmpty([
+                  element.SHIPPER,
+                  element.CONSIGNEE,
+                  element.NOTIFY_PARTY,
+                  element.PRE_CARRIAGE_BY,
+                  element.PLACE_OF_RECEIPT,
+                  element.VESSEL_NAME,
+                  element.VOYAGE_NO,
+                  element.PORT_OF_LOADING,
+                  element.PORT_OF_DISCHARGE,
+                  element.PLACE_OF_DELIVERY,
+                ])
+              ) {
+                isValid = false;
+              }
+            });
+
+            if (isValid) {
+              this.previewTable = this.previewTable.filter(
+                (v, i, a) =>
+                  a.findIndex(
+                    (v2) => JSON.stringify(v2) === JSON.stringify(v)
+                  ) === i
+              );
+
+              this.onUpload = true;
+            } else {
+              alert('Incorrect data!');
+            }
+          } else {
+            alert('Invalid file !');
+          }
+        };
+        reader.readAsBinaryString(file);
+      } else {
+        alert('Only .xlsx or .csv files allowed');
+      }
+    }
   }
 
-  buildTableBody(data: any, columns: any) {
-    var body = [];
+  containsObject(obj: any, list: any) {
+    var i;
+    for (i = 0; i < list.length; i++) {
+      if (JSON.stringify(list[i]) == JSON.stringify(obj)) {
+        return true;
+      }
+    }
 
-    body.push(columns);
+    return false;
+  }
 
-    data.forEach(function (row: any) {
-      var dataRow: any[] = [];
-
-      columns.forEach(function (column: any) {
-        dataRow.push(row[column]);
-      });
-
-      body.push(dataRow);
+  checkNullEmpty(param: any) {
+    var x = true;
+    param.forEach((element: any) => {
+      if (element == null || element == '' || element == undefined) {
+        x = false;
+      }
     });
-
-    return body;
+    return x;
   }
 
-  getBase64ImageFromURL(url: any) {
-    return new Promise((resolve, reject) => {
-      var img = new Image();
-      img.setAttribute('crossOrigin', 'anonymous');
-
-      img.onload = () => {
-        var canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-
-        var ctx = canvas.getContext('2d');
-        ctx?.drawImage(img, 0, 0);
-
-        var dataURL = canvas.toDataURL('image/png');
-
-        resolve(dataURL);
-      };
-
-      img.onerror = (error) => {
-        reject(error);
-      };
-
-      img.src = url;
-    });
+  isSameColumn(arr1: any, arr2: any) {
+    return true;
+    //return $(arr1).not(arr2).length === 0 && $(arr2).not(arr1).length === 0;
   }
 }
