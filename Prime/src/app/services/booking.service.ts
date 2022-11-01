@@ -49,7 +49,7 @@ export class BookingService {
     );
   }
 
-  postBookingDetails(Booking:any){
+  postBookingDetails(Booking: any) {
     return this._http.post<any>(
       this.BASE_URL + 'Booking/InsertBooking',
       Booking,
