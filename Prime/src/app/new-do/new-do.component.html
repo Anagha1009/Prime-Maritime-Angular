@@ -1,5 +1,5 @@
 <div class="section-title">
-    <h2>Roll-Over</h2>
+    <h2>DELIVERY ORDER</h2>
 </div>
 <div class="container">
 
@@ -7,12 +7,12 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <input type="text" class="form-control" [(ngModel)]="bookingNo">
-                    <label class="form-label">Booking No.</label>
+                    <input type="text" class="form-control" [(ngModel)]="blNo">
+                    <label class="form-label">Bill No.</label>
                 </div>
             </div>
             <div class="col-md-3">
-                <button class="form-btn me-2" (click)="getBookingDetails()">Get Details</button>
+                <button class="form-btn me-2" (click)="getDO()">Create DO</button>
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
             <div class="container mt-4">
                 <div class="row">
                     <div class="col-md-9 text-end">
-                        <h5>Sorry! No records found for the specified booking number</h5>
+                        <h5>Sorry! No records found for the specified bill number</h5>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
             <div class="container mt-4">
                 <div class="row">
                     <div class="col-md-3">
-                        <h5 class="modal-title" id="exampleModalLabel">Booking Details</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Create Delivery Order</h5>
                     </div>
                 </div>
                 <hr>
@@ -95,34 +95,7 @@
                             </div>
                         </div>
                     </form>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Sr. No</th>
-                                <th>Slot Operator</th>
-                                <th>No of Slots</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of f;let j = index;" [formGroup]="f1(item)">
-                                <td>
-                                    1
-                                </td>
-                                <td class="col-md-6">
-                                    <ng-select formControlName="SLOT_OPERATOR">
-                                        <ng-option value="" selected disabled>
-                                            --Slot
-                                            Operator--</ng-option>
-                                        <ng-option value="xx">test</ng-option>
-                                    </ng-select>
-                                </td>
-                                <td>
-                                    <input formControlName="NO_OF_SLOTS" type="text"
-                                        class="form-control" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                   
                 </div>
                 <hr>
                 <div class="row  mt-4">
@@ -139,4 +112,5 @@
     </section>
 
 </div>
+
 

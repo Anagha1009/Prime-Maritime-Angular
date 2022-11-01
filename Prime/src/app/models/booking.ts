@@ -14,9 +14,14 @@ export class BOOKING {
   AGENT_NAME:string;
   STATUS:string;
   CREATED_BY:string;
+  CONTAINER_LIST:SRRCONTAINER[];
 
 }
 
+export class SRRCONTAINER{
+  SRR_ID:number;
+  SRR_NO:string;
+}
 export class SLOTS {
   // SRR_NO: string;
   // NO_OF_SLOTS: number;
