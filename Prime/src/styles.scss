@@ -349,3 +349,33 @@ input:-webkit-autofill:focus {
     width: 50%;
   }
 }
+
+/*--------------------------------------------------------------
+# Our Delivery Order
+--------------------------------------------------------------*/
+
+.tabs-container{
+  background:#eee;
+  list-style-type:none;
+  padding-left:0;
+  margin-bottom:0;
+  height:55px;
+  border-bottom:1px solid #ccc;
+  width:100%;
+}
+
+.tabs-container .tab-link{
+ width:33.33%;
+ position:relative;
+ height:100%;
+ padding:10px;
+ float:left;
+ text-align:center;
+}
+
+.active{
+ border-bottom:2px solid rgba(30, 67, 86, 0.8);
+ transition:ease-in-out .3s;
+
+}
+

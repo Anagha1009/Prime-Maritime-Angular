@@ -9,6 +9,7 @@ import { NewQuotationComponent } from './modules/new-quotation/new-quotation.com
 import { QuotationDetailsComponent } from './modules/quotation-details/quotation-details.component';
 import { QuotationListComponent } from './modules/quotation-list/quotation-list.component';
 import { SplitBookingComponent } from './modules/split-booking/split-booking.component';
+import { NewDoComponent } from './modules/new-do/new-do.component';
 import { LandingComponent } from './shared/landing/landing.component';
 
 const routes: Routes = [
@@ -51,6 +52,10 @@ const routes: Routes = [
       {
         path: 'cro-list',
         component: CroListComponent,
+      },
+      {
+        path: 'do',
+        component: NewDoComponent,
       },
     ],
   },
