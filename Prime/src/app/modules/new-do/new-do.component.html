@@ -1,0 +1,217 @@
+<div class="section-title">
+    <h2>DELIVERY ORDER</h2>
+</div>
+<div class="container">
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input type="text" class="form-control" [(ngModel)]="billNo">
+                    <label class="form-label">Bill No.</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button class="form-btn me-2" (click)="getDO()">Create DO</button>
+            </div>
+        </div>
+    </div>
+
+    <section  class="services"  *ngIf="previewNoData">
+        <div class="icon-box icon-box-cyan">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-9 text-end">
+                        <h5>Sorry! No records found for the specified bill number</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section  class="services"  *ngIf="previewDetails">
+        <div>
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Delivery Order</h5>
+                    </div>
+                </div>
+                <hr>
+                <div class="row mt-4">
+                    <form [formGroup]="doForm">
+                        <div class="col-md-12">
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h6>BILL NO : <small class="text-danger">
+                                        BK2458859532080462-BL</small>
+                                    </h6>
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">DO No.</label>
+                                            <input formControlName="DO_NO" type="text" class="form-control2" />
+                                         
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">DO Date</label>
+                                            <input formControlName="DO_DATE" type="date" class="form-control2" />
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">Arrival Date</label>
+                                            <input formControlName="ARRIVAL_DATE" type="date" class="form-control2" />
+                                           
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">DO Validity.</label>
+                                            <input formControlName="DO_VALIDITY" type="date" class="form-control2" />
+                                        
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">IGM No.</label>
+                                            <input formControlName="IGM_NO" type="text" class="form-control2" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">IGM Date</label>
+                                            <input formControlName="IGM_DATE" type="date" class="form-control2" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">IGM Item No.</label>
+                                            <input formControlName="IGM_ITEM_NO" type="text" class="form-control2" />
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">Clearing Party</label>
+                                                <ng-select [ngClass]="{'invalid': submitted && f.CLEARING_PARTY.errors}"
+                                    formControlName="CLEARING_PARTY" style="margin-top: 5px;">
+                                    <ng-option value="" selected="true" disabled>--Select Clearing Party--</ng-option>
+                                    <ng-option value="Indian Clearing Corporation Ltd">Indian Clearing Corporation Ltd.</ng-option>
+                                    <ng-option value="National Commodity Clearing Ltd">National Commodity Clearing Ltd.</ng-option>
+                                    <ng-option value="NSE Clearing Limited">NSE Clearing Limited.</ng-option>
+                                    <ng-option value="Multi Commodity Exc. Clearing Corporation Ltd">Multi Commodity Exc. Clearing Corporation Ltd.	
+                                    </ng-option>
+                                   </ng-select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">Empty Letter Location</label>
+                                            <ng-select [ngClass]="{'invalid': submitted && f.ACCEPTANCE_LOCATION.errors}"
+                                    formControlName="ACCEPTANCE_LOCATION" style="margin-top: 5px;">
+                                    <ng-option value="" selected="true" disabled>--Select Acceptance Location--</ng-option>
+                                    <ng-option value="INPPG-ICD PATPARGANJ">INPPG-ICD PATPARGANJ</ng-option>
+                                    <ng-option value="INPWL6-ICD PALWAL">INPWL6-ICD PALWAL</ng-option>
+                                    <ng-option value="INREA-ICD REWARI">INREA-ICD REWARI</ng-option>
+                                    <ng-option value="INSAJ6-ICD TUMB">INSAJ6-ICD TUMB	
+                                    </ng-option>
+                                   </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">Empty Letter Validity.</label>
+                                            <input formControlName="LETTER_VALIDITY" type="date" class="form-control2" />
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">Shipping Terms</label>
+                                            <ng-select [ngClass]="{'invalid': submitted && f.SHIPPING_TERMS.errors}"
+                                    formControlName="SHIPPING_TERMS" style="margin-top: 5px;">
+                                    <ng-option value="" selected="true" disabled>--Select Shipping Terms--</ng-option>
+                                    <ng-option value="DPD">DPD</ng-option>
+                                    <ng-option value="CFS">CFS</ng-option>
+                                    <ng-option value="OFF DOCK">OFF DOCK</ng-option>
+                                   </ng-select>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                   
+                </div>
+                <hr>
+                <div class="row  mt-4">
+
+                    <div class="col-md-6 offset-md-6 text-end">
+                        <button type="button" class="btn btn-secondary btn-block" (click)="saveDO()" style="margin-right: 6px;">Save</button>
+                        <button type="button" class="btn btn-secondary btn-block" (click)="cancelDO()">Cancel</button>
+                    </div>
+                    
+                </div>
+        
+            </div>
+
+        </div>
+    </section>
+
+    <section>
+        <div>
+            <h4>Preview Details <span *ngIf="!dataVisible"><i class='bx bxs-down-arrow' (click)="show()"></i></span>
+            <span *ngIf="dataVisible" (click)="show()"><i class='bx bxs-up-arrow'></i></span>
+            </h4><hr>
+            <div class="col-md-12" *ngIf="previewForm">
+                <ul class="tabs-container">
+                   <li (click)="onTabClick('Container')" [class.active]="activeTab == 'Container'" class="tab-link">
+                    <i class='bx bxs-package'></i>
+                       Container
+                   </li>
+                  <li (click)="onTabClick('Invoice')" [class.active]="activeTab == 'Invoice'" class="tab-link">
+                    <i class='bx bxs-spreadsheet' ></i>   
+                    Invoice
+                   </li>
+                  <li (click)="onTabClick('Manifest')" [class.active]="activeTab == 'Manifest'" class="tab-link">
+                    <i class='bx bxs-edit-alt'></i>   
+                    Manifest
+                   </li>
+                </ul>
+              
+              
+              <div *ngIf="activeTab=='Container'" class="w-100">
+                  Cont.Table
+              </div>
+              <div *ngIf="activeTab=='Invoice'" class="w-100">
+                  Invoice Table
+              </div>
+              <div *ngIf="activeTab=='Manifest'" class="w-100">
+                  Manfiest Table
+              </div>
+              </div>
+            
+        </div>
+
+          
+    </section>
+
+
+
+</div>
+
+

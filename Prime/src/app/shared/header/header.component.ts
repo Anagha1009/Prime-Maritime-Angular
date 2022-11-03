@@ -20,7 +20,9 @@ export class HeaderComponent implements OnInit {
       this.menuList.push(
         { menuName: 'Quotations', menuLink: '/home/quotation-list' },
         { menuName: 'Bookings', menuLink: '/home/booking-list' },
+        { menuName: 'Roll-Over', menuLink: '/home/split-booking' },
         { menuName: 'CRO', menuLink: '/home/cro-list' },
+        { menuName: 'DO', menuLink: '/home/do' },
         { menuName: 'BL', menuLink: '' },
         { menuName: 'Finance', menuLink: '#' }
       );

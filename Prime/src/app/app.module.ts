@@ -9,9 +9,11 @@ import { SharedModule } from './shared/shared.module';
 import { SplitBookingComponent } from './modules/split-booking/split-booking.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { NewDoComponent } from './modules/new-do/new-do.component';
+import { DoListComponent } from './modules/do-list/do-list.component';
 
 @NgModule({
-  declarations: [AppComponent, SplitBookingComponent],
+  declarations: [AppComponent, SplitBookingComponent, NewDoComponent, DoListComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -20,7 +22,7 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     NgSelectModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
