@@ -1,11 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CRO } from 'src/app/models/cro';
 import { CroService } from 'src/app/services/cro.service';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { CommonService } from 'src/app/services/common.service';
 import * as XLSX from 'xlsx';
+import { BlService } from 'src/app/services/bl.service';
+import { Bl } from 'src/app/models/bl';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -16,13 +18,13 @@ const pdfMake = require('pdfmake/build/pdfmake.js');
   styleUrls: ['./cro-list.component.scss'],
 })
 export class CroListComponent implements OnInit {
-  croForm: FormGroup;
   isScroll: boolean = false;
   croList: any[] = [];
   croDetails: any;
   blForm: FormGroup;
   onUpload: boolean = false;
   previewTable: any[] = [];
+  containerList: any[] = [];
 
   @ViewChild('openModal') openModal: ElementRef;
   @ViewChild('openModal1') openModal1: ElementRef;
@@ -31,23 +33,31 @@ export class CroListComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _croService: CroService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private _blService: BlService
   ) {}
 
   ngOnInit(): void {
     this.getCROList();
 
     this.blForm = this._formBuilder.group({
+      BL_NO: [''],
+      SRR_ID: [''],
+      SRR_NO: [''],
       SHIPPER: [''],
       CONSIGNEE: [''],
       NOTIFY_PARTY: [''],
       PRE_CARRIAGE_BY: [''],
       PLACE_OF_RECEIPT: [''],
       VESSEL_NAME: [''],
+      VOYAGE_NO: [''],
       PORT_OF_LOADING: [''],
       PORT_OF_DISCHARGE: [''],
       PLACE_OF_DELIVERY: [''],
       FINAL_DESTINATION: [''],
+      BL_ISSUE_PLACE: [''],
+      NO_OF_ORIGINAL_BL: [''],
+      CONTAINER_LIST: new FormArray([]),
     });
   }
 
@@ -84,12 +94,48 @@ export class CroListComponent implements OnInit {
   }
 
   createBL() {
+    this.blForm.get('BL_NO')?.setValue(this.getRandomNumber());
     console.log(JSON.stringify(this.blForm.value));
+  }
+
+  getRandomNumber() {
+    var num = Math.floor(Math.random() * 1e16).toString();
+    return 'BL' + num;
   }
 
   openBLModal() {
     this.blForm.patchValue(this.previewTable[0]);
+
+    const add = this.blForm.get('CONTAINER_LIST') as FormArray;
+
+    this.containerList.forEach((element) => {
+      add.push(
+        this._formBuilder.group({
+          CONTAINER_NO: [element.CONTAINER_NO],
+          CONTAINER_TYPE: [element.CONTAINER_TYPE],
+          CONTAINER_SIZE: [element.CONTAINER_SIZE],
+          SEAL_NO: [element.SEAL_NO],
+          MARKS_NOS: [element.MARKS_NOS],
+          DESC_OF_GOODS: [element.DESC_OF_GOODS],
+          GROSS_WEIGHT: [element.GROSS_WEIGHT],
+          MEASUREMENT: [element.MEASUREMENT],
+          AGENT_CODE: [''],
+          AGENT_NAME: [''],
+          CREATED_BY: [''],
+        })
+      );
+    });
+
     this.openModal.nativeElement.click();
+  }
+
+  get f() {
+    var c = this.blForm.get('CONTAINER_LIST') as FormArray;
+    return c.controls;
+  }
+
+  getf1(i: any) {
+    return i;
   }
 
   async generatePDF() {
@@ -377,7 +423,10 @@ export class CroListComponent implements OnInit {
 
           if (result && result1) {
             this.previewTable = [];
+            this.containerList = [];
+
             this.previewTable = jsonData['Sheet1'];
+            this.containerList = jsonData['Sheet2'];
             var isValid = true;
 
             this.previewTable.forEach((element) => {
@@ -399,8 +448,30 @@ export class CroListComponent implements OnInit {
               }
             });
 
+            this.containerList.forEach((element) => {
+              if (
+                !this.checkNullEmpty([
+                  element.CONTAINER_NO,
+                  element.SEAL_NO,
+                  element.MARKS_NOS,
+                  element.DESC_OF_GOODS,
+                  element.GROSS_WEIGHT,
+                  element.MEASUREMENT,
+                ])
+              ) {
+                isValid = false;
+              }
+            });
+
             if (isValid) {
               this.previewTable = this.previewTable.filter(
+                (v, i, a) =>
+                  a.findIndex(
+                    (v2) => JSON.stringify(v2) === JSON.stringify(v)
+                  ) === i
+              );
+
+              this.containerList = this.containerList.filter(
                 (v, i, a) =>
                   a.findIndex(
                     (v2) => JSON.stringify(v2) === JSON.stringify(v)
