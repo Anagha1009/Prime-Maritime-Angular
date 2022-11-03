@@ -70,14 +70,14 @@
 
 
 <div class="modal fade" id="SIModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Upload Shipping Instruction</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn1></button>
             </div>
             <div class="modal-body">
-                <div class="col-md-4">
+                <div class="col-md-6 mx-auto">
                     <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload">
                         <input type="file" (change)="onFileChange($event)" name="file" id="file" />
                         <label for="file">
@@ -148,12 +148,18 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label2">Ocean Vessel/ Voyage No</label>
+                                <label class="form-label2">Vessel Name</label>
                                 <input formControlName="VESSEL_NAME" type="text" class="form-control2" />
                             </div>
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Voyage No</label>
+                                <input formControlName="VOYAGE_NO" type="text" class="form-control2" />
+                            </div>
+                        </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label2">Port of Loading</label>
@@ -166,14 +172,14 @@
                                 <input formControlName="PORT_OF_DISCHARGE" type="text" class="form-control2" />
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label2">Place of Delivery</label>
                                 <input formControlName="PLACE_OF_DELIVERY" type="text" class="form-control2" />
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label2">Final Destination</label>
@@ -181,48 +187,35 @@
                             </div>
                         </div>
                     </div>
-                    <h6 class="d-inline mt-3">Container Details<button
-                            class="btn btn-sm btn-outline-dark ms-2 rounded-pill">Split BL</button></h6>
+                    <h6 class="d-inline mt-3">Container Details</h6>
                     <hr>
                     <div class="table-responsive">
                         <table class="table" style="font-size: 12px;">
                             <thead>
                                 <tr>
+                                    <th><input type="checkbox" /></th>
                                     <th>Sr No</th>
-                                    <th>Container Type</th>
-                                    <th>Container Size</th>
-                                    <th>Marks & No</th>
-                                    <th>Qty</th>
+                                    <th>Cont No</th>
+                                    <th>Cont Type</th>
+                                    <th>Marks & Numbers</th>
                                     <th>Description of goods</th>
                                     <th>Gross Weight</th>
                                     <th>Measurement</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Open Storage</td>
-                                    <td>20ft</td>
-                                    <td><textarea class="form-control2"></textarea></td>
-                                    <td>3</td>
-                                    <td><input type="text" class="form-control2"
+                                <tr *ngFor="let item of f;let i = index" [formGroup]="getf1(item)">
+                                    <td><input type="checkbox" /></td>
+                                    <td>{{i+1}}</td>
+                                    <td>{{blForm.value.CONTAINER_LIST[i].CONTAINER_NO}}</td>
+                                    <td>{{blForm.value.CONTAINER_LIST[i].CONTAINER_TYPE}} -
+                                        {{blForm.value.CONTAINER_LIST[i].CONTAINER_SIZE}}</td>
+                                    <td><textarea formControlName="MARKS_NOS" class="form-control2"></textarea></td>
+                                    <td><input formControlName="DESC_OF_GOODS" type="text" class="form-control2"
                                             style="height: calc(1rem + 0.75rem + 2px);" /></td>
-                                    <td><input type="text" class="form-control2"
+                                    <td><input formControlName="GROSS_WEIGHT" type="text" class="form-control2"
                                             style="height: calc(1rem + 0.75rem + 2px);" /></td>
-                                    <td><input type="text" class="form-control2"
-                                            style="height: calc(1rem + 0.75rem + 2px);" /></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Dry Storage</td>
-                                    <td>40ft</td>
-                                    <td><textarea class="form-control2"></textarea></td>
-                                    <td>10</td>
-                                    <td><input type="text" class="form-control2"
-                                            style="height: calc(1rem + 0.75rem + 2px);" /></td>
-                                    <td><input type="text" class="form-control2"
-                                            style="height: calc(1rem + 0.75rem + 2px);" /></td>
-                                    <td><input type="text" class="form-control2"
+                                    <td><input formControlName="MEASUREMENT" type="text" class="form-control2"
                                             style="height: calc(1rem + 0.75rem + 2px);" /></td>
                                 </tr>
                             </tbody>
@@ -270,34 +263,14 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label2">Prepaid at</label>
-                                <input type="text" class="form-control2" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Payable at</label>
-                                <input type="text" class="form-control2" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Place of Issue</label>
-                                <input type="text" class="form-control2" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Total Prepaid in local currency</label>
-                                <input type="text" class="form-control2" />
+                                <label class="form-label2">BL Issue Place</label>
+                                <input type="text" formControlName="BL_ISSUE_PLACE" class="form-control2" />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label2">No of Original BL</label>
-                                <input type="text" class="form-control2" />
+                                <input type="text" formControlName="NO_OF_ORIGINAL_BL" class="form-control2" />
                             </div>
                         </div>
                     </div>
