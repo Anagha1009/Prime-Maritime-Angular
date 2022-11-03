@@ -25,7 +25,7 @@ export class DoService {
     );
   }
 
-  getBookingList(dO: DO) {
+  getDOList(dO: any) {
     return this._http.get<any>(
       this.BASE_URL +
         'DO/GetDOList?AGENT_CODE=' +

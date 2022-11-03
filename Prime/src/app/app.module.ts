@@ -11,9 +11,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NewDoComponent } from './modules/new-do/new-do.component';
 import { DoListComponent } from './modules/do-list/do-list.component';
+import { DoDetailsComponent } from './modules/do-details/do-details.component';
 
 @NgModule({
-  declarations: [AppComponent, SplitBookingComponent, NewDoComponent, DoListComponent],
+  declarations: [AppComponent, SplitBookingComponent, NewDoComponent, DoListComponent, DoDetailsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
