@@ -49,7 +49,9 @@ export class DoListComponent implements OnInit {
   }
 
   getDODetails(doNo:any){
-
+    debugger;
+    localStorage.setItem('DO_NO', doNo);
+    this._router.navigateByUrl('home/do-details');
   }
 
 }

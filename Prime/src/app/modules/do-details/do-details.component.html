@@ -1,4 +1,4 @@
-<!-- <div class="section-title">
+<div class="section-title">
     <h2>Delivery Order Details</h2>
 </div>
 <div class="container">
@@ -18,124 +18,72 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Ref No</label>
-                                <label class="label-subheader">{{quotation?.SRR_NO}}</label>
+                                <label class="label-header">DO No.</label>
+                                <label class="label-subheader">{{do?.DO_NO}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Place of Receipt</label>
-                                <label class="label-subheader">{{quotation?.PLACE_OF_RECEIPT}}</label>
+                                <label class="label-header">DO Date</label>
+                                <label class="label-subheader">{{do?.DO_DATE}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Place of Delivery</label>
-                                <label class="label-subheader">{{quotation?.PLACE_OF_DELIVERY}}</label>
+                                <label class="label-header">Arrival Date</label>
+                                <label class="label-subheader">{{do?.ARRIVAL_DATE}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Final Destination</label>
-                                <label class="label-subheader">{{quotation?.ORIGIN_ICD}}</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">POL</label>
-                                <label class="label-subheader">{{quotation?.POL}}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">POD</label>
-                                <label class="label-subheader">{{quotation?.POD}}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">TSP 1</label>
-                                <label class="label-subheader">{{quotation?.TSP_1}}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">TSP 2</label>
-                                <label class="label-subheader">{{quotation?.TSP_2}}</label>
+                                <label class="label-header">DO Validity</label>
+                                <label class="label-subheader">{{do?.DO_VALIDITY}}</label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Service Name</label>
-                                <label class="label-subheader">{{quotation?.SERVICE_NAME}}</label>
+                                <label class="label-header">IGM No.</label>
+                                <label class="label-subheader">{{do?.IGM_NO}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Effect From</label>
-                                <label class="label-subheader">{{quotation?.EFFECT_FROM}}</label>
+                                <label class="label-header">IGM Item No.</label>
+                                <label class="label-subheader">{{do?.IGM_ITEM_NO}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Effect To</label>
-                                <label class="label-subheader">{{quotation?.EFFECT_TO}}</label>
+                                <label class="label-header">IGM Date</label>
+                                <label class="label-subheader">{{do?.IGM_DATE}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Customer Name</label>
-                                <label class="label-subheader">{{quotation?.CUSTOMER_NAME}}</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">Address</label>
-                                <label class="label-subheader">{{quotation?.ADDRESS}}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">Email</label>
-                                <label class="label-subheader">{{quotation?.EMAIL}}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">Contact</label>
-                                <label class="label-subheader">{{quotation?.CONTACT}}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">Shipper Name</label>
-                                <label class="label-subheader">{{quotation?.SHIPPER}}</label>
+                                <label class="label-header"> Clearing Party</label>
+                                <label class="label-subheader">{{do?.CLEARING_PARTY}}</label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Notify Party</label>
-                                <label class="label-subheader">{{quotation?.NOTIFY_PARTY}}</label>
+                                <label class="label-header">Container Acceptance Location</label>
+                                <label class="label-subheader">{{do?.ACCEPTANCE_LOCATION}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Mty Repo</label>
-                                <label class="label-subheader">{{quotation?.MTY_REPO}}</label>
+                                <label class="label-header">Letter Validity</label>
+                                <label class="label-subheader">{{do?.LETTER_VALIDITY}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Other Parties</label>
-                                <label class="label-subheader">-</label>
+                                <label class="label-header">Shipping Terms</label>
+                                <label class="label-subheader">{{do?.SHIPPING_TERMS}}</label>
                             </div>
                         </div>
                     </div>
@@ -143,32 +91,67 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header" role="tab" id="heading-2">
+            <div class="card-header" role="tab" id="heading-3">
                 <h6 class="mb-0">
-                    <a class="collapsed" data-bs-toggle="collapse" href="#collapse-2" aria-expanded="false"
-                        aria-controls="collapse-2" data-abc="true">
-                        Commodity Details
+                    <a class="collapsed" data-bs-toggle="collapse" href="#collapse-3" aria-expanded="false"
+                        aria-controls="collapse-3" data-abc="true">
+                        Container Details
                     </a>
                 </h6>
             </div>
-            <div id="collapse-2" class="collapse" role="tabpanel" aria-labelledby="heading-2"
+            <div id="collapse-3" class="collapse show" role="tabpanel" aria-labelledby="heading-3"
                 data-bs-parent="#accordion">
                 <div class="card-body">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Sr. No</th>
-                                <th>Commodity</th>
-                                <th>Type</th>
-                                <th>Details</th>
+                                <th>Container No</th>
+                                <th>Container Type</th>
+                                <th>Container Size</th>
+                                <th>Seal No</th>
+                                <th>Marks & Numbers</th>
+                                <th>Desc. Of Goods</th>
+                                <th>Gross Wgt.</th>
+                                <th>Measurement</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of commodityList; let i = index">
-                                <td>{{i+1}}</td>
-                                <td>{{item.COMMODITY_NAME}}</td>
-                                <td>{{item.COMMODITY_TYPE}}</td>
-                                <td>{{item.REMARKS}}</td>
+                            <!-- <tr *ngFor="let item of containerList; let i = index">
+                                <td>{{i + 1}}</td>
+                                <td>{{item.CONTAINER_TYPE}}</td>
+                                <td>{{item.CONTAINER_SIZE}}</td>
+                                <td>{{item.SERVICE_MODE}}</td>
+                                <td><i class="fa fa-eye"></i></td>
+                            </tr> -->
+                            <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    RTEB67575675
+                                </td>
+                                <td>
+                                    Open Storage
+                                </td>
+                                <td>
+                                    20ft
+                                </td>
+                                <td>
+                                    RTDF5456654
+                                </td>
+                                <td>
+                                    RTEB67575675-OpenStorage
+                                </td>
+                                <td>
+                                    10Bags of grains
+                                </td>
+                                <td>
+                                    10Tons
+                                </td>
+                                <td>
+                                    --
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -178,4 +161,4 @@
         
         
     </div>
-</div> -->
+</div>

@@ -78,7 +78,6 @@ export class NewDoComponent implements OnInit {
   }
   getDO(){
     debugger;
-
     const contList = this.doForm.get('CONTAINER_LIST') as FormArray;
     contList.clear();
     this.previewForm=false;

@@ -34,15 +34,15 @@ export class DoService {
     );
   }
 
-  // getBookingDetails(dO: dO) {
-  //   return this._http.get<any>(
-  //     this.BASE_URL +
-  //       'Booking/GetBookingDetails?AGENT_CODE=' +
-  //       Booking.AGENT_CODE +
-  //       '&BOOKING_NO=' +
-  //       Booking.BOOKING_NO,
-  //     this.httpOptions
-  //   );
-  // }
+  getDODetails(dO: any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'DO/GetDODetails?DO_NO=' +
+        dO.DO_NO+
+        '&AGENT_CODE='+
+        dO.AGENT_CODE,
+      this.httpOptions
+    );
+  }
 
 }
