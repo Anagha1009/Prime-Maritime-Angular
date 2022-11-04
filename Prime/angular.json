@@ -34,6 +34,7 @@
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/datatables.net-dt/css/jquery.dataTables.css",
+              "./node_modules/font-awesome/css/font-awesome.min.css",
               "src/styles.scss"
             ],
             "scripts": [ "./node_modules/bootstrap/dist/js/bootstrap.min.js",
@@ -107,6 +108,7 @@
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/font-awesome/css/font-awesome.min.css",
               "./node_modules/datatables.net-dt/css/jquery.dataTables.css",
               "src/styles.scss"
             ],

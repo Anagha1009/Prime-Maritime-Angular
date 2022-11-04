@@ -1,0 +1,164 @@
+<div class="section-title">
+    <h2>Delivery Order Details</h2>
+</div>
+<div class="container">
+    <div class="accordion mt-3" id="accordion" role="tablist">
+        <div class="card">
+            <div class="card-header" role="tab" id="heading-1">
+                <h6 class="mb-0">
+                    <a data-bs-toggle="collapse" href="#collapse-1" aria-expanded="false" aria-controls="collapse-1"
+                        data-abc="true" class="collapsed">
+                        General Info
+                    </a>
+                </h6>
+            </div>
+            <div id="collapse-1" class="collapse show" role="tabpanel" aria-labelledby="heading-1"
+                data-bs-parent="#accordion">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">DO No.</label>
+                                <label class="label-subheader">{{do?.DO_NO}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">DO Date</label>
+                                <label class="label-subheader">{{do?.DO_DATE}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">Arrival Date</label>
+                                <label class="label-subheader">{{do?.ARRIVAL_DATE}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">DO Validity</label>
+                                <label class="label-subheader">{{do?.DO_VALIDITY}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">IGM No.</label>
+                                <label class="label-subheader">{{do?.IGM_NO}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">IGM Item No.</label>
+                                <label class="label-subheader">{{do?.IGM_ITEM_NO}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">IGM Date</label>
+                                <label class="label-subheader">{{do?.IGM_DATE}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header"> Clearing Party</label>
+                                <label class="label-subheader">{{do?.CLEARING_PARTY}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">Container Acceptance Location</label>
+                                <label class="label-subheader">{{do?.ACCEPTANCE_LOCATION}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">Letter Validity</label>
+                                <label class="label-subheader">{{do?.LETTER_VALIDITY}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">Shipping Terms</label>
+                                <label class="label-subheader">{{do?.SHIPPING_TERMS}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" role="tab" id="heading-3">
+                <h6 class="mb-0">
+                    <a class="collapsed" data-bs-toggle="collapse" href="#collapse-3" aria-expanded="false"
+                        aria-controls="collapse-3" data-abc="true">
+                        Container Details
+                    </a>
+                </h6>
+            </div>
+            <div id="collapse-3" class="collapse show" role="tabpanel" aria-labelledby="heading-3"
+                data-bs-parent="#accordion">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Container No</th>
+                                <th>Container Type</th>
+                                <th>Container Size</th>
+                                <th>Seal No</th>
+                                <th>Marks & Numbers</th>
+                                <th>Desc. Of Goods</th>
+                                <th>Gross Wgt.</th>
+                                <th>Measurement</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr *ngFor="let item of containerList; let i = index">
+                                <td>{{i + 1}}</td>
+                                <td>{{item.CONTAINER_TYPE}}</td>
+                                <td>{{item.CONTAINER_SIZE}}</td>
+                                <td>{{item.SERVICE_MODE}}</td>
+                                <td><i class="fa fa-eye"></i></td>
+                            </tr> -->
+                            <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    RTEB67575675
+                                </td>
+                                <td>
+                                    Open Storage
+                                </td>
+                                <td>
+                                    20ft
+                                </td>
+                                <td>
+                                    RTDF5456654
+                                </td>
+                                <td>
+                                    RTEB67575675-OpenStorage
+                                </td>
+                                <td>
+                                    10Bags of grains
+                                </td>
+                                <td>
+                                    10Tons
+                                </td>
+                                <td>
+                                    --
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>

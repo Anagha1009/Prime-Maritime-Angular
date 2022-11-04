@@ -11,6 +11,8 @@ import { QuotationListComponent } from './modules/quotation-list/quotation-list.
 import { SplitBookingComponent } from './modules/split-booking/split-booking.component';
 import { NewDoComponent } from './modules/new-do/new-do.component';
 import { LandingComponent } from './shared/landing/landing.component';
+import { DoListComponent } from './modules/do-list/do-list.component';
+import { DoDetailsComponent } from './modules/do-details/do-details.component';
 
 const routes: Routes = [
   {
@@ -56,6 +58,14 @@ const routes: Routes = [
       {
         path: 'do',
         component: NewDoComponent,
+      },
+      {
+        path: 'do-list',
+        component: DoListComponent,
+      },
+      {
+        path: 'do-details',
+        component: DoDetailsComponent,
       },
     ],
   },

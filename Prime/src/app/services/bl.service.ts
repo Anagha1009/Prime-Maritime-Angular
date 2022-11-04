@@ -24,7 +24,9 @@ export class BlService {
         '&BOOKING_NO=' +
         BL.BOOKING_NO +
         '&CRO_NO=' +
-        BL.CRO_NO,
+        BL.CRO_NO +
+        '&BL_NO='+
+        BL.BL_NO,
       this.httpOptions
     );
   }
