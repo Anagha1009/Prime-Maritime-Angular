@@ -76,10 +76,21 @@ export class NewDoComponent implements OnInit {
   getf1(i: any) {
   return i;
   }
+
   getDO(){
+    if(this.billNo==""){
+      this.previewNoData=true;
+    }
+    else{
+      this.getDOAPI();
+    }
+  }
+  getDOAPI(){
     debugger;
     const contList = this.doForm.get('CONTAINER_LIST') as FormArray;
     contList.clear();
+    this.containerList=[];
+    this.displayBill="";
     this.previewForm=false;
     this.dataVisible=false;
     this.previewDetails=false;
@@ -111,8 +122,8 @@ export class NewDoComponent implements OnInit {
           CREATED_BY: [''],
         })
       );
-    });
-    this.displayBill=this.containerList[0].BL_NO;
+      });
+          this.displayBill=this.containerList[0].BL_NO;
           this.previewDetails=true;
 
         }
@@ -132,6 +143,7 @@ export class NewDoComponent implements OnInit {
     this.doForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
     this.doForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
     this.doForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    
 
     console.log(JSON.stringify(this.doForm.value));
     this._dOService

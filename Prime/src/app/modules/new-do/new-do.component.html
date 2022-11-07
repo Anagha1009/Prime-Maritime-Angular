@@ -30,8 +30,6 @@
                 </div>
             </div>
         </div>
-        
-        
     </section>
 
     <section  class="services" *ngIf="previewDetails">
@@ -69,21 +67,14 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">Arrival Date</label>
-                                            <input formControlName="ARRIVAL_DATE" type="date" class="form-control2" />
-                                           
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
                                             <label class="form-label2">DO Validity.</label>
                                             <input formControlName="DO_VALIDITY" type="date" class="form-control2" />
                                         
                                         </div>
                                     </div>
+                                    
+                                </div>
+                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">IGM No.</label>
@@ -96,8 +87,6 @@
                                             <input formControlName="IGM_DATE" type="date" class="form-control2" />
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">IGM Item No.</label>
@@ -105,21 +94,15 @@
                                            
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">Clearing Party</label>
-                                                <ng-select [ngClass]="{'invalid': submitted && f.CLEARING_PARTY.errors}"
-                                    formControlName="CLEARING_PARTY" style="margin-top: 5px;">
-                                    <ng-option value="" selected="true" disabled>--Select Clearing Party--</ng-option>
-                                    <ng-option value="Indian Clearing Corporation Ltd">Indian Clearing Corporation Ltd.</ng-option>
-                                    <ng-option value="National Commodity Clearing Ltd">National Commodity Clearing Ltd.</ng-option>
-                                    <ng-option value="NSE Clearing Limited">NSE Clearing Limited.</ng-option>
-                                    <ng-option value="Multi Commodity Exc. Clearing Corporation Ltd">Multi Commodity Exc. Clearing Corporation Ltd.	
-                                    </ng-option>
-                                   </ng-select>
+                                            <label class="form-label2">Arrival Date</label>
+                                            <input formControlName="ARRIVAL_DATE" type="date" class="form-control2" />
+                                           
                                         </div>
                                     </div>
-                                    
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">Empty Letter Location</label>
@@ -134,13 +117,28 @@
                                    </ng-select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
+
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">Empty Letter Validity.</label>
                                             <input formControlName="LETTER_VALIDITY" type="date" class="form-control2" />
                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">Clearing Party</label>
+                                                <ng-select [ngClass]="{'invalid': submitted && f.CLEARING_PARTY.errors}"
+                                    formControlName="CLEARING_PARTY" style="margin-top: 5px;">
+                                    <ng-option value="" selected="true" disabled>--Select Clearing Party--</ng-option>
+                                    <ng-option value="Indian Clearing Corporation Ltd">Indian Clearing Corporation Ltd.</ng-option>
+                                    <ng-option value="National Commodity Clearing Ltd">National Commodity Clearing Ltd.</ng-option>
+                                    <ng-option value="NSE Clearing Limited">NSE Clearing Limited.</ng-option>
+                                    <ng-option value="Multi Commodity Exc. Clearing Corporation Ltd">Multi Commodity Exc. Clearing Corporation Ltd.	
+                                    </ng-option>
+                                   </ng-select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
