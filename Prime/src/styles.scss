@@ -436,3 +436,13 @@ input:-webkit-autofill:focus {
   color: #fff;
   text-decoration: none;
 }
+.multiselect-dropdown .dropdown-btn .selected-item {
+  border: 1px solid #337ab7;
+  margin-right: 4px;
+  background: #337ab7;
+  padding: 0 5px;
+  color: #fff;
+  border-radius: 2px;
+  float: left;
+  margin-top: 10px !important;
+}

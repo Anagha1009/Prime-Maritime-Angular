@@ -13,6 +13,7 @@ import { NewDoComponent } from './modules/new-do/new-do.component';
 import { LandingComponent } from './shared/landing/landing.component';
 import { DoListComponent } from './modules/do-list/do-list.component';
 import { DoDetailsComponent } from './modules/do-details/do-details.component';
+import { NewErComponent } from './modules/new-er/new-er.component';
 
 const routes: Routes = [
   {
@@ -50,6 +51,10 @@ const routes: Routes = [
       {
         path: 'new-cro',
         component: NewCroComponent,
+      },
+      {
+        path: 'new-er',
+        component: NewErComponent,
       },
       {
         path: 'cro-list',
