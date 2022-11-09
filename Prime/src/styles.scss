@@ -127,6 +127,42 @@
   outline: 0;
 }
 
+.form-control3 {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.5rem + 2px);
+  padding: 0.12rem 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control3:focus {
+  box-shadow: 0 0 0 0rem rgb(0 123 255 / 25%) !important;
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+}
+
+.form-label3 {
+  position: relative;
+  top: 9px;
+  left: 8px;
+  background: #fff;
+  padding: 0px 5px;
+  color: #000000;
+  font-weight: 400;
+  z-index: 1030;
+  font-size: 0.7rem;
+}
+
 .label-header {
   font-size: 90%;
   font-weight: 500;
@@ -145,7 +181,7 @@ input:-webkit-autofill:focus {
 
 /* --SCROLL BAR-- */
 .scrollbar {
-  height: 350px;
+  height: 480px;
   overflow-y: scroll;
   overflow-x: hidden;
   margin-bottom: 25px;
@@ -354,39 +390,59 @@ input:-webkit-autofill:focus {
 # Our Delivery Order
 --------------------------------------------------------------*/
 
-.tabs-container{
-  background:#eee;
-  list-style-type:none;
-  padding-left:0;
-  margin-bottom:0;
-  height:55px;
-  border-bottom:1px solid #ccc;
-  width:100%;
+.tabs-container {
+  background: #eee;
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 0;
+  height: 55px;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
 }
 
-.tabs-container .tab-link{
- width:33.33%;
- position:relative;
- height:100%;
- padding:10px;
- float:left;
- text-align:center;
+.tabs-container .tab-link {
+  width: 33.33%;
+  position: relative;
+  height: 100%;
+  padding: 10px;
+  float: left;
+  text-align: center;
 }
 
-.active{
- border-bottom:2px solid rgba(30, 67, 86, 0.8);
- transition:ease-in-out .3s;
-
+.active {
+  border-bottom: 2px solid rgba(30, 67, 86, 0.8);
+  transition: ease-in-out 0.3s;
 }
 
+/*--ROUNDED BUTTONS---*/
+
+.rounded-btn > a {
+  font-size: 12px;
+  display: inline-block;
+  background: #68a4c4;
+  color: #fff;
+  line-height: 1;
+  padding: 8px 0;
+  margin-right: 4px;
+  border-radius: 50%;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  transition: 0.3s;
+}
+
+.rounded-btn > a:hover {
+  background: #1e4356;
+  color: #fff;
+  text-decoration: none;
+}
 .multiselect-dropdown .dropdown-btn .selected-item {
-    border: 1px solid #337ab7;
-    margin-right: 4px;
-    background: #337ab7;
-    padding: 0 5px;
-    color: #fff;
-    border-radius: 2px;
-    float: left;
-    margin-top: 10px !important;
+  border: 1px solid #337ab7;
+  margin-right: 4px;
+  background: #337ab7;
+  padding: 0 5px;
+  color: #fff;
+  border-radius: 2px;
+  float: left;
+  margin-top: 10px !important;
 }
-

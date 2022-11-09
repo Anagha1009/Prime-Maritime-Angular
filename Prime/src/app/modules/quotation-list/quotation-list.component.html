@@ -2,61 +2,72 @@
     <h2>Quotations</h2>
 </div>
 <div class="container">
-    <div class="col-md-6 offset-md-6 text-end">
-        <button class="form-btn-primary" routerLink="/home/new-quotation">New Quotation</button>
-    </div>
-    <div class="container mt-4">
+    <form class="mx-5" [formGroup]="quotationForm">
+        <div class="col-md-6 offset-md-6 text-end">
+            <button class="form-btn-primary" routerLink="/home/new-quotation">New Quotation</button>
+        </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <input type="text" class="form-control">
-                    <label class="form-label">Ref No</label>
+                    <label class="form-label2">Ref No</label>
+                    <input formControlName="SRR_NO" type="text" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <input type="date" class="form-control">
-                    <label class="form-label">From Date</label>
+                    <label class="form-label2">From Date</label>
+                    <input formControlName="FROM_DATE" type="date" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <input type="date" class="form-control">
-                    <label class="form-label">To Date</label>
+                    <label class="form-label2">To Date</label>
+                    <input formControlName="TO_DATE" type="date" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <input type="text" class="form-control">
-                    <label class="form-label">Status</label>
+                    <label class="form-label2">Status</label>
+                    <select class="form-control2" formControlName="STATUS">
+                        <option value="">--Select--</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Requested">Requested</option>
+                    </select>
                 </div>
             </div>
-            <div class="col-md-3">
-                <button class="form-btn me-2">Search</button>
-                <button class="form-btn">Clear</button>
+            <div class="col-md-3 mt-4">
+                <button class="form-btn me-2" (click)="Search()">Search</button>
+                <button class="form-btn" (click)="Clear()">Clear</button>
             </div>
         </div>
-    </div>
+    </form>
     <section class="services">
         <div class="container">
             <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
                 <div [class]="isScroll ? 'force-overflow' : ''">
                     <div class="icon-box icon-box-cyan text-start" *ngFor="let item of quotationList; let i = index">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-5">
                                 <h4 class="title"><a (click)="getQuotationDetails(item.SRR_NO)">{{item.SRR_NO}}</a>
                                     <span style="font-size: 10px;"
                                         [class]="item.STATUS == 'Approved' ? 'badge rounded-pill bg-success ms-3' : 'badge rounded-pill bg-secondary ms-3'">{{item.STATUS}}</span>
                                 </h4>
+                                <a (click)="getSRRDetails(item)" href="#" *ngIf="item.STATUS == 'Requested'">Add
+                                    More
+                                    Containers</a>
+                                <a #containerModal class="d-none" data-bs-toggle="modal" href="#containerModal">Add
+                                    More
+                                    Containers</a>
+                            </div>
+                            <div class="col-md-5">
                                 <p class="description"> <span class="bx bx-user"></span> {{item.CUSTOMER_NAME}} | <span
                                         class="bx bxs-truck"></span>
                                     {{item.NO_OF_CONTAINERS}} Containers | <span class="text-danger">{{item.EFFECT_FROM
                                         | date:'mediumDate'}} -
                                         {{item.EFFECT_TO | date:'mediumDate'}}</span></p>
-                                <a href="">Add More Containers</a>
                             </div>
-                            <div class="col-md-4 text-end" *ngIf="item.STATUS == 'Approved'">
-                                <button (click)="openBookingModal(i)" class="form-btn">Book
+                            <div class="col-md-2 text-end" *ngIf="item.STATUS == 'Approved'">
+                                <button (click)="openBookingModal(i)" class="form-btn rounded-pill">Book
                                     Now</button>
                                 <button class="form-btn d-none" #openBtn data-bs-toggle="modal"
                                     href="#bookingModal">Book
@@ -163,6 +174,41 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-5 mx-auto" *ngIf="quotationList.length == 0">
+                <h5 class="text-center">Sorry! No records found !!</h5>
+                <img src="./../../../assets/img/doimg.jpg" class="img-fluid" alt="">
+            </div>
         </div>
     </section>
+
+    <div class="modal fade" id="containerModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Container Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        #closeBtn></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row description">
+                        <div class="col-md-4 mt-2">
+                            <label class="label-header">Container</label>
+                            <label class="label-subheader">234343</label>
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label class="label-header">Service Mode</label>
+                            <label class="label-subheader">CY/CY</label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label2">No of Container</label>
+                            <input type="text" class="form-control2" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="form-btn">Add Container</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

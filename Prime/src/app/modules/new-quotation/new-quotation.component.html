@@ -1,7 +1,7 @@
 <div class="section-title">
     <h2>New Quotation</h2>
 </div>
-<div class="container">
+<div class="container mb-5">
     <div class="col-md-10 mx-auto">
         <div class="tabs">
             <input type="radio" class="d-none" (change)="onchangeTab('1')" id="radio-1" name="tabs" checked />
@@ -24,9 +24,9 @@
                             <div class="form-group">
                                 <input type="text" maxlength="100" formControlName="PLACE_OF_RECEIPT"
                                     class="form-control">
-                                <label class="form-label">Place Of Receipt</label>
+                                <label class="form-label">Place of Receipt</label>
                                 <div *ngIf="submitted && f.PLACE_OF_RECEIPT.errors" class="invalid-feedback">
-                                    Place Of
+                                    Place of
                                     Receipt is invalid</div>
                             </div>
                         </div>
@@ -38,9 +38,10 @@
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">POL <span class="text-danger"> *</span></label>
+                                <label class="form-label-ddl">Port of Loading <span class="text-danger">
+                                        *</span></label>
                                 <div *ngIf="submitted && f.POL.errors" class="invalid-feedback">Please select
-                                    POL</div>
+                                    Port of Loading</div>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
@@ -51,9 +52,10 @@
                                         {{item.CODE_DESC}} ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">POD <span class="text-danger"> *</span></label>
+                                <label class="form-label-ddl">Port of Discharge <span class="text-danger">
+                                        *</span></label>
                                 <div *ngIf="submitted && f.POD.errors" class="invalid-feedback">Please select
-                                    POD</div>
+                                    Port of Discharge</div>
                             </div>
                         </div>
                     </div>
@@ -62,9 +64,9 @@
                             <div class="form-group">
                                 <input type="text" maxlength="100" formControlName="PLACE_OF_DELIVERY"
                                     class="form-control">
-                                <label class="form-label">Place Of Delivery</label>
+                                <label class="form-label">Place of Delivery</label>
                                 <div *ngIf="submitted && f.PLACE_OF_DELIVERY.errors" class="invalid-feedback">
-                                    Place Of
+                                    Place of
                                     Delivery is invalid</div>
                             </div>
                         </div>
@@ -92,7 +94,7 @@
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">TSP 1</label>
+                                <label class="form-label-ddl">Transhipment 1</label>
                             </div>
                         </div>
                     </div>
@@ -105,7 +107,7 @@
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">TSP 2</label>
+                                <label class="form-label-ddl">Transhipment 2</label>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
@@ -113,7 +115,8 @@
                                 <ng-select [ngClass]="{'invalid': submitted && f.SERVICE_NAME.errors}"
                                     formControlName="SERVICE_NAME">
                                     <ng-option value="" selected="true" disabled>--Select Service--</ng-option>
-                                    <ng-option value="xx">xx</ng-option>
+                                    <ng-option *ngFor="let item of servicetypeList" value="{{item.CODE}}">{{item.CODE}}
+                                    </ng-option>
                                     <ng-option value="yy">yy</ng-option>
                                 </ng-select>
                                 <label class="form-label-ddl">Service Name <span class="text-danger">
@@ -270,7 +273,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="saveQuotation()" class="btn btn-secondary btn-block">Save</button>
+                            <button (click)="saveQuotation()" class="form-btn w-100">Save</button>
                         </div>
                     </div>
                 </div>
@@ -353,18 +356,16 @@
                         </div>
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'NORMAL'">
                             <div class="form-group">
-                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <input type="text" [ngClass]="{'invalid': submitted2 && f2.REMARKS.errors}"
+                                    formControlName="REMARKS" class="form-control" />
                                 <label class="form-label">Remarks <span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.REMARKS.errors" class="invalid-feedback">
+                                    Please enter Remarks
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row" *ngIf="commodityType == 'HAZ'|| commodityType == 'SP'">
-                        <!-- <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <input type="text" formControlName="REMARKS" class="form-control" />
-                                <label class="form-label">Remarks</label>
-                            </div>
-                        </div> -->
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'HAZ'">
                             <div class="form-group">
                                 <input type="text" formControlName="UN_NO"
@@ -388,8 +389,12 @@
                         </div>
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'HAZ'">
                             <div class="form-group">
-                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <input type="text" [ngClass]="{'invalid': submitted2 && f2.REMARKS.errors}"
+                                    formControlName="REMARKS" class="form-control" />
                                 <label class="form-label">Remarks <span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.REMARKS.errors" class="invalid-feedback">
+                                    Please enter Remarks
+                                </div>
                             </div>
                         </div>
 
@@ -415,7 +420,8 @@
                     <div class="row" *ngIf="commodityType == 'HAZ'">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="WEIGHT"
+                                <input type="text" formControlName="WEIGHT" maxlength="5"
+                                    (keypress)="numericOnly($event)"
                                     [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
                                 <label class="form-label">Weight <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
@@ -437,13 +443,18 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <input type="text" [ngClass]="{'invalid': submitted2 && f2.REMARKS.errors}"
+                                    formControlName="REMARKS" class="form-control" />
                                 <label class="form-label">Remarks <span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.REMARKS.errors" class="invalid-feedback">
+                                    Please enter Remarks
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="WEIGHT"
+                                <input type="text" formControlName="WEIGHT" maxlength="5"
+                                    (keypress)="numericOnly($event)"
                                     [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
                                 <label class="form-label">Weight <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
@@ -485,15 +496,20 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <input type="text" [ngClass]="{'invalid': submitted2 && f2.REMARKS.errors}"
+                                    formControlName="REMARKS" class="form-control" />
                                 <label class="form-label">Remarks <span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.REMARKS.errors" class="invalid-feedback">
+                                    Please enter Remarks
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row" *ngIf="commodityType == 'REEFER'">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="WEIGHT"
+                                <input type="text" formControlName="WEIGHT" maxlength="5"
+                                    (keypress)="numericOnly($event)"
                                     [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
                                 <label class="form-label">Weight <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
@@ -662,7 +678,8 @@
                     <div class="row" *ngIf="commodityType == 'NORMAL'">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="WEIGHT"
+                                <input type="text" formControlName="WEIGHT" maxlength="5"
+                                    (keypress)="numericOnly($event)"
                                     [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
                                 <label class="form-label">Weight <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
@@ -672,8 +689,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3 offset-md-9" style="text-align: right;">
-                            <button (click)="addCommodity()" class="btn btn-secondary btn-block">Add Commodity</button>
+                        <div class="col-md-2 offset-md-10" style="text-align: right;">
+                            <button (click)="addCommodity()" class="form-btn w-100">Add Commodity</button>
                         </div>
                     </div>
                     <table class="table align-middle my-3 bg-white" *ngIf="commodityList.length > 0">
@@ -706,7 +723,7 @@
                     </table>
                     <div class="row" *ngIf="commodityList.length > 0">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="saveCommodity()" class="btn btn-secondary btn-block">Save</button>
+                            <button (click)="saveCommodity()" class="form-btn w-100">Save</button>
                         </div>
                     </div>
                 </div>
@@ -765,7 +782,9 @@
                     <div class="row">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="POL_FREE_DAYS"
+                                <input type="text" maxlength="3"
+                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                    formControlName="POL_FREE_DAYS"
                                     [ngClass]="{'invalid': submitted1 && f1.POL_FREE_DAYS.errors}"
                                     class="form-control" />
                                 <label class="form-label">POL Free Days <span class="text-danger"> *</span></label>
@@ -776,18 +795,22 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="POD_FREE_DAYS"
+                                <input type="text" maxlength="3"
+                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                    formControlName="POD_FREE_DAYS"
                                     [ngClass]="{'invalid': submitted1 && f1.POD_FREE_DAYS.errors}"
                                     class="form-control" />
                                 <label class="form-label">POD Free Days <span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted1 && f1.POL_FREE_DAYS.errors" class="invalid-feedback">Please
+                                <div *ngIf="submitted1 && f1.POD_FREE_DAYS.errors" class="invalid-feedback">Please
                                     enter
                                     POD Free Days</div>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="IMM_VOLUME_EXPECTED"
+                                <input type="text" maxlength="5"
+                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                    formControlName="IMM_VOLUME_EXPECTED"
                                     [ngClass]="{'invalid': submitted1 && f1.IMM_VOLUME_EXPECTED.errors}"
                                     class="form-control" />
                                 <label class="form-label">Imm Volume Expected <span class="text-danger">
@@ -801,7 +824,9 @@
                     <div class="row">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="TOTAL_VOLUME_EXPECTED"
+                                <input type="text" maxlength="5"
+                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                    formControlName="TOTAL_VOLUME_EXPECTED"
                                     [ngClass]="{'invalid': submitted1 && f1.TOTAL_VOLUME_EXPECTED.errors}"
                                     class="form-control" />
                                 <label class="form-label">Total Volume Expected <span class="text-danger">
@@ -815,7 +840,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="openModal()" class="btn btn-secondary btn-block">Add
+                            <button (click)="openModal()" class="form-btn w-100">Add
                                 Rate</button>
                             <button #RateModal data-bs-toggle="modal" href="#rateModal" class="d-none">Add
                                 Rate</button>
@@ -844,67 +869,66 @@
                                                 </h6>
                                             </div>
                                             <div class="col-md-6" style="text-align: right;">
-                                                <button (click)="addRates()" class="btn btn-outline-info">
-                                                    <i class="fa fa-plus mr-1"></i>Add Rates</button>
+                                                <button (click)="addRates()" class="form-btn">
+                                                    <i class="fa fa-plus me-1"></i>Add Rates</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr class="bg-light">
-                                                <th>Charge Code</th>
-                                                <th>Currency</th>
-                                                <th>Standard Rate</th>
-                                                <th>Requested Rate</th>
-                                                <th>Freight Payment Term</th>
-                                                <th>Place of Payment</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
+                                    <table class="table" style="font-size: 12px;">
                                         <tbody>
                                             <tr *ngFor="let item of f3;let j = index;" [formGroup]="f4(item)">
-                                                <td class="col-md-4">
-                                                    <ng-select formControlName="CHARGE_CODE">
-                                                        <ng-option value="" selected>--Select--</ng-option>
-                                                        <ng-option value="Gross Freight">Gross Freight</ng-option>
-                                                        <ng-option value="THC">THC</ng-option>
-                                                        <ng-option value="EWRI">EWRI</ng-option>
-                                                        <ng-option value="TERMINAL REBATE">TERMINAL REBATE</ng-option>
-                                                    </ng-select>
+                                                <td class="col-md-2">
+                                                    <label class="form-label3">Charge Code</label>
+                                                    <select class="form-control3" formControlName="CHARGE_CODE">
+                                                        <option value="" selected>--Select--</option>
+                                                        <option value="Gross Freight">Gross Freight</option>
+                                                        <option value="THC">THC</option>
+                                                        <option value="EWRI">EWRI</option>
+                                                        <option value="TERMINAL REBATE">TERMINAL REBATE</option>
+                                                    </select>
+                                                </td>
+                                                <td class="col-md-1">
+                                                    <label class="form-label3">Currency</label>
+                                                    <select class="form-control3" formControlName="CURRENCY">
+                                                        <option value="" selected>--Select--</option>
+                                                        <option value="USD">USD</option>
+                                                        <option value="INR">INR</option>
+                                                        <option value="AUD">AUD</option>
+                                                    </select>
+                                                </td>
+                                                <td class="col-md-2"> <label class="form-label3">Standard
+                                                        Rate</label><input class="form-control3" readonly
+                                                        formControlName="STANDARD_RATE" type="text" /></td>
+                                                <td class="col-md-2">
+                                                    <label class="form-label3">Requested Rate</label><input
+                                                        class="form-control3" maxlength="5"
+                                                        (keypress)="numericOnly($event)"
+                                                        formControlName="REQUESTED_RATE" type="text" />
                                                 </td>
                                                 <td class="col-md-2">
-                                                    <ng-select formControlName="CURRENCY">
-                                                        <ng-option value="" selected>--Select--</ng-option>
-                                                        <ng-option value="USD">USD</ng-option>
-                                                        <ng-option value="INR">INR</ng-option>
-                                                        <ng-option value="AUD">AUD</ng-option>
-                                                    </ng-select>
-                                                </td>
-                                                <td><label class="mt-2">100</label></td>
-                                                <td><input class="form-control" formControlName="REQUESTED_RATE"
-                                                        type="text" /></td>
-                                                <td class="col-md-4">
-                                                    <ng-select formControlName="PAYMENT_TERM">
-                                                        <ng-option value="" selected>--Select--</ng-option>
-                                                        <ng-option value="Prepaid">Prepaid</ng-option>
-                                                        <ng-option value="Collect">Collect</ng-option>
-                                                    </ng-select>
+                                                    <label class="form-label3">Payment Term</label>
+                                                    <select class="form-control3" formControlName="PAYMENT_TERM">
+                                                        <option value="" selected>--Select--</option>
+                                                        <option value="Prepaid">Prepaid</option>
+                                                        <option value="Collect">Collect</option>
+                                                    </select>
                                                 </td>
                                                 <td class="col-md-2">
-                                                    <ng-select formControlName="TRANSPORT_TYPE">
-                                                        <ng-option value="" selected>--Select--</ng-option>
-                                                        <ng-option value="POL">POL</ng-option>
-                                                        <ng-option value="POD">POD</ng-option>
-                                                    </ng-select>
+                                                    <label class="form-label3">Place of Payment</label>
+                                                    <select class="form-control3" formControlName="TRANSPORT_TYPE">
+                                                        <option value="" selected>--Select--</option>
+                                                        <option value="POL">POL</option>
+                                                        <option value="POD">POD</option>
+                                                    </select>
                                                 </td>
-                                                <td><i class="fa fa-trash mt-3"></i></td>
+                                                <td class="col-md-1 text-center"><i style="font-size: 15px;"
+                                                        class="fa fa-trash mt-4"></i></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" (click)="submitRate()"
-                                        class="btn btn-secondary">Submit</button>
+                                    <button type="button" (click)="submitRate()" class="form-btn">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -926,7 +950,8 @@
                                         <td>{{i+1}}</td>
                                         <td>{{item.Container}}</td>
                                         <td>{{item.ServiceMode}}</td>
-                                        <td>-</td>
+                                        <td><a data-bs-toggle="modal" href="#rateDetailModal"><i
+                                                    class="fa fa-eye text-dark"></i></a></td>
                                         <td><i class="fa fa-trash"></i></td>
                                     </tr>
                                 </tbody>
@@ -934,9 +959,52 @@
                         </div>
                     </div>
 
+                    <div class="modal fade" id="rateDetailModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Rate Details</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                        #closeBtn></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="services">
+                                        <div class="icon-box icon-box-cyan text-start"
+                                            *ngFor="let item of quotationForm?.value.SRR_RATES">
+                                            <p class="description"> <span
+                                                    class="text-danger">{{item.CHARGE_CODE}}</span>
+                                                | <span class="bx bx-dollar"></span>
+                                                {{item.CURRENCY}} </p>
+                                            <div class="row description">
+                                                <div class="col-md-6">
+                                                    <label class="label-header">Standard Rate</label>
+                                                    <label class="label-sub-header">{{item.STANDARD_RATE}}</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="label-header">Requested Rate</label>
+                                                    <label class="label-sub-header">{{item.REQUESTED_RATE}}</label>
+                                                </div>
+                                            </div>
+                                            <div class="row description">
+                                                <div class="col-md-6">
+                                                    <label class="label-header">Payment Term</label>
+                                                    <label class="label-sub-header">{{item.PAYMENT_TERM}}</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="label-header">Place of Payment</label>
+                                                    <label class="label-sub-header">{{item.TRANSPORT_TYPE}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row" *ngIf="isContainer">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="saveContainer()" class="btn btn-secondary btn-block">Submit</button>
+                            <button (click)="saveContainer()" class="form-btn w-100">Submit</button>
                         </div>
                     </div>
                 </div>

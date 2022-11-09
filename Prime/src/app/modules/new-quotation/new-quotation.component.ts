@@ -27,6 +27,7 @@ export class NewQuotationComponent implements OnInit {
   icdList: any[] = [];
   containersizeList: any[] = [];
   servicemodeList: any[] = [];
+  servicetypeList: any[] = [];
 
   //Files
   isUploadedPOL: boolean = false;
@@ -89,7 +90,6 @@ export class NewQuotationComponent implements OnInit {
       this.commoditiesForm.get('IMO_CLASS')?.enable();
       this.commoditiesForm.get('UN_NO')?.enable();
       this.commoditiesForm.get('HAZ_APPROVAL_REF')?.enable();
-    } else {
     }
 
     if (this.commodityType == 'FLEXIBAG') {
@@ -100,6 +100,9 @@ export class NewQuotationComponent implements OnInit {
       this.commoditiesForm.get('FLASH_POINT')?.enable();
       this.commoditiesForm.get('CAS_NO')?.enable();
     }
+
+    this.commoditiesForm.get('REMARKS')?.setValue('');
+    this.commoditiesForm.get('WEIGHT')?.setValue('');
   }
 
   onchangeTab(index: any) {
@@ -170,9 +173,9 @@ export class NewQuotationComponent implements OnInit {
   openModal() {
     this.submitted1 = true;
 
-    // if (this.containerForm.invalid) {
-    //   return;
-    // }
+    if (this.containerForm.invalid) {
+      return;
+    }
 
     var containers = this.quotationForm.get('SRR_CONTAINERS') as FormArray;
     containers.push(this.containerForm);
@@ -321,14 +324,14 @@ export class NewQuotationComponent implements OnInit {
       LENGTH: [''],
       WIDTH: [''],
       HEIGHT: [''],
-      WEIGHT: [''],
+      WEIGHT: ['', Validators.required],
       COMMODITY_TYPE: ['', Validators.required],
       IMO_CLASS: ['', Validators.required],
       UN_NO: ['', Validators.required],
       HAZ_APPROVAL_REF: ['', Validators.required],
       FLASH_POINT: ['', Validators.required],
       CAS_NO: ['', Validators.required],
-      REMARKS: [''],
+      REMARKS: ['', Validators.required],
     });
   }
 
@@ -386,6 +389,14 @@ export class NewQuotationComponent implements OnInit {
           this.servicemodeList = res.Data;
         }
       });
+
+    this._commonService
+      .getDropdownData('SERVICE_TYPE')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.servicetypeList = res.Data;
+        }
+      });
   }
 
   getRandomNumber(pol: string, pod: string) {
@@ -416,6 +427,21 @@ export class NewQuotationComponent implements OnInit {
 
   getAddress(e: any) {
     this.quotationForm.get('ADDRESS1')?.setValue(e);
+  }
+
+  numericOnly(event: any): boolean {
+    // restrict e,+,-,E characters in  input type number
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode == 101 || charCode == 69 || charCode == 45 || charCode == 43) {
+      return false;
+    }
+    const reg = /^-?\d*(\.\d{0,2})?$/;
+    let input = event.target.value + String.fromCharCode(event.charCode);
+
+    if (!reg.test(input)) {
+      event.preventDefault();
+    }
+    return true;
   }
 
   // FILE UPLOAD

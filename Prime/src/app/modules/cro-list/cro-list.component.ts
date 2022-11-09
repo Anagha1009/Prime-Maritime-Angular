@@ -72,6 +72,7 @@ export class CroListComponent implements OnInit {
       AGENT_NAME: [''],
       CREATED_BY: [''],
       CONTAINER_LIST: new FormArray([]),
+      CONTAINER_LIST2: new FormArray([]),
     });
   }
 
@@ -105,6 +106,12 @@ export class CroListComponent implements OnInit {
     });
   }
 
+  getContainerList(item: any) {
+    const add = this.blForm.get('CONTAINER_LIST') as FormArray;
+    add.push(item);
+    console.log(item.value);
+  }
+
   createBL() {
     this.blForm.get('BL_NO')?.setValue(this.getRandomNumber());
 
@@ -132,7 +139,7 @@ export class CroListComponent implements OnInit {
     this.blForm.get('SRR_ID')?.setValue(item.SRR_ID);
     this.blForm.get('SRR_NO')?.setValue(item.SRR_NO);
 
-    const add = this.blForm.get('CONTAINER_LIST') as FormArray;
+    const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
 
     this.containerList.forEach((element) => {
       add.push(
@@ -153,7 +160,7 @@ export class CroListComponent implements OnInit {
   }
 
   get f() {
-    var c = this.blForm.get('CONTAINER_LIST') as FormArray;
+    var c = this.blForm.get('CONTAINER_LIST2') as FormArray;
     return c.controls;
   }
 

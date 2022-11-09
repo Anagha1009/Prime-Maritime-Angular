@@ -564,7 +564,7 @@ section {
 
 .section-title {
   text-align: center;
-  /* padding-bottom: 30px; */
+  margin-top: 1rem;
 }
 
 .section-title h2 {
