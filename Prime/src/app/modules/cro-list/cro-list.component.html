@@ -206,11 +206,11 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of f;let i = index" [formGroup]="getf1(item)">
-                                    <td><input type="checkbox" /></td>
+                                    <td><input (change)="getContainerList(item)" type="checkbox" /></td>
                                     <td>{{i+1}}</td>
-                                    <td>{{blForm.value.CONTAINER_LIST[i].CONTAINER_NO}}</td>
-                                    <td>{{blForm.value.CONTAINER_LIST[i].CONTAINER_TYPE}} -
-                                        {{blForm.value.CONTAINER_LIST[i].CONTAINER_SIZE}}</td>
+                                    <td>{{blForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
+                                    <td>{{blForm.value.CONTAINER_LIST2[i].CONTAINER_TYPE}} -
+                                        {{blForm.value.CONTAINER_LIST2[i].CONTAINER_SIZE}}</td>
                                     <td><textarea formControlName="MARKS_NOS" class="form-control2"></textarea></td>
                                     <td><input formControlName="DESC_OF_GOODS" type="text" class="form-control2"
                                             style="height: calc(1rem + 0.75rem + 2px);" /></td>

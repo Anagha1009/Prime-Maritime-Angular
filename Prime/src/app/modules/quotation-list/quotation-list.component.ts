@@ -15,9 +15,12 @@ export class QuotationListComponent implements OnInit {
   isScroll: boolean = false;
   quotationDetails: any;
   slotDetailsForm: FormGroup;
+  quotationForm: FormGroup;
+  containerForm: FormGroup;
 
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
+  @ViewChild('containerModal') containerModal: ElementRef;
 
   constructor(
     private _quotationService: QuotationService,
@@ -26,6 +29,14 @@ export class QuotationListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.quotationForm = this._formBuilder.group({
+      SRR_NO: [''],
+      CUSTOMER_NAME: [''],
+      FROM_DATE: [''],
+      TO_DATE: [''],
+      STATUS: [''],
+    });
+
     this.getSRRList();
 
     this.slotDetailsForm = this._formBuilder.group({
@@ -42,6 +53,56 @@ export class QuotationListComponent implements OnInit {
       CREATED_BY: [''],
       SLOT_LIST: new FormArray([]),
     });
+
+    this.containerForm = this._formBuilder.group({
+      SRR_ID: [''],
+      SRR_NO: [''],
+      CONTAINER_TYPE: [''],
+      CONTAINER_SIZE: [''],
+      SERVICE_MODE: [''],
+      IMM_VOLUME_EXPECTED: [''],
+      CREATED_BY: [''],
+    });
+  }
+
+  Search() {
+    debugger;
+    var SRR_NO = this.quotationForm.value.SRR_NO;
+    var CUSTOMER_NAME = this.quotationForm.value.CUSTOMER_NAME;
+    var STATUS = this.quotationForm.value.STATUS;
+    var FROM_DATE = this.quotationForm.value.FROM_DATE;
+    var TO_DATE = this.quotationForm.value.TO_DATE;
+
+    if (
+      SRR_NO == '' &&
+      CUSTOMER_NAME == '' &&
+      STATUS == '' &&
+      FROM_DATE == '' &&
+      TO_DATE == ''
+    ) {
+      alert('Please enter atleast one filter to search !');
+      return;
+    }
+
+    this.quotation.SRR_NO = SRR_NO;
+    this.quotation.CUSTOMER_NAME = CUSTOMER_NAME;
+    this.quotation.STATUS = STATUS;
+
+    this.getSRRList();
+  }
+
+  Clear() {
+    this.quotationForm.get('SRR_NO')?.setValue('');
+    this.quotationForm.get('CUSTOMER_NAME')?.setValue('');
+    this.quotationForm.get('STATUS')?.setValue('');
+    this.quotationForm.get('FROM_DATE')?.setValue('');
+    this.quotationForm.get('TO_DATE')?.setValue('');
+
+    this.quotation.SRR_NO = '';
+    this.quotation.CUSTOMER_NAME = '';
+    this.quotation.STATUS = '';
+
+    this.getSRRList();
   }
 
   getSRRList() {
@@ -70,6 +131,10 @@ export class QuotationListComponent implements OnInit {
         }
       }
     );
+  }
+
+  getSRRDetails(item: any) {
+    var rootobject = new QUOTATION();
   }
 
   getQuotationDetails(SRR_NO: any) {
