@@ -12,9 +12,11 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NewDoComponent } from './modules/new-do/new-do.component';
 import { DoListComponent } from './modules/do-list/do-list.component';
 import { DoDetailsComponent } from './modules/do-details/do-details.component';
+import { NewErComponent } from './modules/new-er/new-er.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
-  declarations: [AppComponent, SplitBookingComponent, NewDoComponent, DoListComponent, DoDetailsComponent],
+  declarations: [AppComponent, SplitBookingComponent, NewDoComponent, DoListComponent, DoDetailsComponent, NewErComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -24,6 +26,7 @@ import { DoDetailsComponent } from './modules/do-details/do-details.component';
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
+    NgMultiSelectDropDownModule 
   ],
   providers: [],
   bootstrap: [AppComponent],
