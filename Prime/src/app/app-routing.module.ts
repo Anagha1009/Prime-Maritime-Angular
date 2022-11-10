@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
+import { PartyComponent } from './masters/party/party.component';
 import { BookingListComponent } from './modules/booking-list/booking-list.component';
 import { CroListComponent } from './modules/cro-list/cro-list.component';
+import { DetentionListComponent } from './modules/detention-list/detention-list.component';
 import { LoginComponent } from './modules/login/login.component';
 import { NewCroComponent } from './modules/new-cro/new-cro.component';
 import { NewQuotationComponent } from './modules/new-quotation/new-quotation.component';
@@ -51,6 +53,14 @@ const routes: Routes = [
       {
         path: 'cro-list',
         component: CroListComponent,
+      },
+      {
+        path: 'detention-list',
+        component: DetentionListComponent,
+      },
+      {
+        path: 'party',
+        component: PartyComponent,
       },
     ],
   },

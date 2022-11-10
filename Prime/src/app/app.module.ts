@@ -9,9 +9,11 @@ import { SharedModule } from './shared/shared.module';
 import { SplitBookingComponent } from './modules/split-booking/split-booking.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { DetentionListComponent } from './modules/detention-list/detention-list.component';
+import { PartyComponent } from './masters/party/party.component';
 
 @NgModule({
-  declarations: [AppComponent, SplitBookingComponent],
+  declarations: [AppComponent, SplitBookingComponent, DetentionListComponent, PartyComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

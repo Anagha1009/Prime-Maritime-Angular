@@ -1,0 +1,91 @@
+<div class="section-title">
+  <h2>Party Master</h2>
+</div>
+<div class="container">
+  <form [formGroup]="partyForm">
+    <div class="col-md-6 mx-auto">
+      <div class="services">
+        <div class="icon-box text-start">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label2">Name</label>
+                <input type="text" formControlName="CUST_NAME" class="form-control2">                
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label2">Address</label>
+                <textarea type="text" formControlName="CUST_ADDRESS" class="form-control2"></textarea>             
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label2">Customer Email</label>
+                <input type="text" formControlName="CUST_EMAIL" class="form-control2">                
+              </div>
+            </div>            
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label2">GST IN</label>
+                <input type="text" formControlName="GSTIN" class="form-control2">                
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label2">Type <span class="text-danger"> *</span></label>
+                <select formControlName="CUST_TYPE" class="form-control2">
+                  <option value="" selected="true" disabled>--Select--</option>
+                  <option value="Shipper">Shipper</option>
+                  <option value="Consignee">Consignee</option>
+                  <option value="forwarder">forwarder</option>
+                </select>                
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label2">Status <span class="text-danger"> *</span></label>
+                <select class="form-control2" formControlName="STATUS">
+                  <option value="" selected="true" disabled>--Select--</option>
+                  <option value="active">Active</option>
+                  <option value="Inactive">InActive</option>
+                </select>                
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 offset-md-10" style="text-align: right;">
+              <button (click)="saveParty()" class="form-btn w-100">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Sr.no</th>
+        <th>CUST_Name</th>
+        <th>CUST_Email</th>
+        <th>CUST_Address</th>
+        <th>GST_IN</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of partyList; let i = index">
+        <td><span>{{i+1}}</span></td>
+        <td><span>{{item.CUST_NAME}}</span></td>
+        <td><span>{{item.CUST_EMAIL}}</span></td>
+        <td><span>{{item.CUST_ADDRESS}}</span></td>
+        <td><span>{{item.GSTIN}}</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
