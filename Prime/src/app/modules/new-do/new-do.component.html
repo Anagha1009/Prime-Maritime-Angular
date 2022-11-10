@@ -217,7 +217,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of f2;let i = index" [formGroup]="getf1(item)">
-                                <td><input type="checkbox" /></td>
+                                <td><input (change)="postSelectedContainerList(item)" type="checkbox" /></td>
                                 <td>{{i+1}}</td>
                                 <td>{{doForm.value.CONTAINER_LIST[i].CONTAINER_NO}}</td>
                                 <td>{{doForm.value.CONTAINER_LIST[i].CONTAINER_TYPE}}</td>
