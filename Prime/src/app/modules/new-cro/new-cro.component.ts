@@ -26,6 +26,10 @@ export class NewCroComponent implements OnInit {
   croDetails: any;
   croNo: string;
   fileData: any;
+  isCRO: boolean = false;
+  bookingNo: string = '';
+  isRecords: boolean = true;
+  email: string = '';
 
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
@@ -60,8 +64,6 @@ export class NewCroComponent implements OnInit {
       AGENT_CODE: [''],
       CREATED_BY: [''],
     });
-
-    this.getBookingDetails();
   }
 
   get f() {
@@ -69,12 +71,8 @@ export class NewCroComponent implements OnInit {
   }
 
   SaveCRO() {
-    this.croForm
-      .get('BOOKING_ID')
-      ?.setValue(localStorage.getItem('BOOKING_ID'));
-    this.croForm
-      .get('BOOKING_NO')
-      ?.setValue(localStorage.getItem('BOOKING_NO'));
+    this.croForm.get('BOOKING_ID')?.setValue(this.bookingDetails.ID);
+    this.croForm.get('BOOKING_NO')?.setValue(this.bookingDetails.BOOKING_NO);
 
     this.croForm.get('CRO_NO')?.setValue(this.getRandomNumber());
     this.croForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
@@ -99,12 +97,17 @@ export class NewCroComponent implements OnInit {
   getBookingDetails() {
     var booking = new BOOKING();
     booking.AGENT_CODE = localStorage.getItem('usercode');
-    booking.BOOKING_NO = localStorage.getItem('BOOKING_NO');
+    booking.BOOKING_NO = this.bookingNo;
 
+    this.isCRO = false;
     this._bookingService.getBookingDetails(booking).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.bookingDetails = res.Data;
         this.containerList = res.Data.CONTAINER_LIST;
+        this.isCRO = true;
+        this.isRecords = true;
+      } else if (res.ResponseCode == 500) {
+        this.isRecords = false;
       }
     });
   }
@@ -346,7 +349,7 @@ export class NewCroComponent implements OnInit {
           formData.append('Attachments', blob);
           formData.append('Attachments', this.excelFile);
           console.log('excel ' + this.excelFile);
-          formData.append('ToEmail', 't.anagha8@gmail.com');
+          formData.append('ToEmail', this.email);
           formData.append('Subject', 'CRO - ' + this.croDetails?.CRO_NO);
 
           this._commonService.sendEmail(formData).subscribe((res: any) => {

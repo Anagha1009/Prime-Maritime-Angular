@@ -52,9 +52,10 @@
                                     <span style="font-size: 10px;"
                                         [class]="item.STATUS == 'Approved' ? 'badge rounded-pill bg-success ms-3' : 'badge rounded-pill bg-secondary ms-3'">{{item.STATUS}}</span>
                                 </h4>
-                                <a (click)="getSRRDetails(item)" href="#" *ngIf="item.STATUS == 'Requested'">Add
+                                <button class="form-btn-primary" style="font-size: 12px;" (click)="getSRRDetails(item)"
+                                    *ngIf="item.STATUS == 'Requested'">Add
                                     More
-                                    Containers</a>
+                                    Containers</button>
                                 <a #containerModal class="d-none" data-bs-toggle="modal" href="#containerModal">Add
                                     More
                                     Containers</a>
@@ -94,48 +95,47 @@
                                                             <small class="text-danger">{{quotationDetails?.POD}}</small>
                                                         </h6>
                                                     </div>
-                                                    <div class="row mt-5">
-                                                        <div class="col-md-6 mb-4">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
+                                                                <label class="form-label2">Vessel Name</label>
                                                                 <input type="text" formControlName="VESSEL_NAME"
-                                                                    class="form-control" />
-                                                                <label class="form-label">Vessel Name</label>
+                                                                    class="form-control2" />
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 mb-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
+                                                                <label class="form-label2">Voyage No</label>
                                                                 <input formControlName="VOYAGE_NO" type="text"
-                                                                    class="form-control" />
-                                                                <label class="form-label">Voyage No</label>
+                                                                    class="form-control2" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-6 mb-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
+                                                                <label class="form-label2">Mother Vessel Name</label>
                                                                 <input formControlName="MOTHER_VESSEL_NAME" type="text"
-                                                                    class="form-control" />
-                                                                <label class="form-label">Mother Vessel Name</label>
+                                                                    class="form-control2" />
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 mb-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
+                                                                <label class="form-label2">Mother Voyage No</label>
                                                                 <input formControlName="MOTHER_VOYAGE_NO" type="text"
-                                                                    class="form-control" />
-                                                                <label class="form-label">Mother Voyage No</label>
+                                                                    class="form-control2" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 offset-md-6" style="text-align: right;">
-                                                        <button (click)="slotAllocation()"
-                                                            class="btn btn-outline-info btn-block">
-                                                            <i class="fa fa-plus mr-1"></i>Slot
+                                                        <button (click)="slotAllocation()" class="form-btn">
+                                                            <i class="fa fa-plus me-2"></i>Slot
                                                             Allocation</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
-                                        <table class="table">
+                                        <table class="table" style="font-size: 12px;">
                                             <thead>
                                                 <tr>
                                                     <th>Sr. No</th>
@@ -145,27 +145,30 @@
                                             </thead>
                                             <tbody>
                                                 <tr *ngFor="let item of f;let j = index;" [formGroup]="f1(item)">
-                                                    <td>
-                                                        {{j+1}}
+                                                    <td class="col-md-2">
+                                                        <label class="mt-4"> {{j+1}}</label>
                                                     </td>
                                                     <td class="col-md-6">
-                                                        <ng-select formControlName="SLOT_OPERATOR">
-                                                            <ng-option value="" selected disabled>
+                                                        <label class="form-label3">Slot Operator</label>
+                                                        <select class="form-control3" formControlName="SLOT_OPERATOR">
+                                                            <option value="" selected disabled>
                                                                 --Slot
-                                                                Operator--</ng-option>
-                                                            <ng-option value="xx">test</ng-option>
-                                                        </ng-select>
+                                                                Operator--</option>
+                                                            <option value="xx">test</option>
+                                                        </select>
                                                     </td>
-                                                    <td>
-                                                        <input formControlName="NO_OF_SLOTS" type="text"
-                                                            class="form-control" />
+                                                    <td class="col-md-4">
+                                                        <label class="form-label3">No of Slots</label>
+                                                        <input class="form-control3" formControlName="NO_OF_SLOTS"
+                                                            type="text" />
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" (click)="bookNow()" class="btn btn-outline-dark">Book
+
+                                        <button type="button" (click)="bookNow()" class="form-btn-primary">Book
                                             Now</button>
                                     </div>
                                 </div>
@@ -187,26 +190,27 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Container Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        #closeBtn></button>
+                        #closeBtn1></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row description">
+                    <div class="row description" *ngFor="let item of f2;let i = index" [formGroup]="f3(item)">
                         <div class="col-md-4 mt-2">
                             <label class="label-header">Container</label>
-                            <label class="label-subheader">234343</label>
+                            <label class="label-subheader">{{containerList[i].CONTAINER_TYPE}} -
+                                {{containerList[i].CONTAINER_SIZE}}</label>
                         </div>
                         <div class="col-md-4 mt-2">
                             <label class="label-header">Service Mode</label>
-                            <label class="label-subheader">CY/CY</label>
+                            <label class="label-subheader">{{containerList[i].SERVICE_MODE}}</label>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label2">No of Container</label>
-                            <input type="text" class="form-control2" />
+                            <input type="text" formControlName="IMM_VOLUME_EXPECTED" class="form-control2" />
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="form-btn">Add Container</button>
+                    <button type="button" (click)="addContainer()" class="form-btn">Add Container</button>
                 </div>
             </div>
         </div>

@@ -21,8 +21,10 @@ const pdfMake = require('pdfmake/build/pdfmake.js');
 export class CroListComponent implements OnInit {
   isScroll: boolean = false;
   croList: any[] = [];
+  croForm: FormGroup;
   croDetails: any;
   blForm: FormGroup;
+  cro = new CRO();
   onUpload: boolean = false;
   previewTable: any[] = [];
   containerList: any[] = [];
@@ -49,6 +51,14 @@ export class CroListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.croForm = this._formBuilder.group({
+      CRO_NO: [''],
+      CUSTOMER_NAME: [''],
+      FROM_DATE: [''],
+      TO_DATE: [''],
+      STATUS: [''],
+    });
+
     this.getCROList();
 
     this.blForm = this._formBuilder.group({
@@ -76,11 +86,49 @@ export class CroListComponent implements OnInit {
     });
   }
 
-  getCROList() {
-    var cro = new CRO();
-    cro.AGENT_CODE = localStorage.getItem('usercode');
+  Search() {
+    var CRO_NO = this.croForm.value.CRO_NO;
+    var CUSTOMER_NAME = this.croForm.value.CUSTOMER_NAME;
+    var STATUS = this.croForm.value.STATUS;
+    var FROM_DATE = this.croForm.value.FROM_DATE;
+    var TO_DATE = this.croForm.value.TO_DATE;
 
-    this._croService.getCROList(cro).subscribe((res: any) => {
+    if (
+      CRO_NO == '' &&
+      CUSTOMER_NAME == '' &&
+      STATUS == '' &&
+      FROM_DATE == '' &&
+      TO_DATE == ''
+    ) {
+      alert('Please enter atleast one filter to search !');
+      return;
+    }
+
+    this.cro.CRO_NO = CRO_NO;
+    this.cro.CUSTOMER_NAME = CUSTOMER_NAME;
+    this.cro.STATUS = STATUS;
+
+    this.getCROList();
+  }
+
+  Clear() {
+    this.croForm.get('CRO_NO')?.setValue('');
+    this.croForm.get('CUSTOMER_NAME')?.setValue('');
+    this.croForm.get('STATUS')?.setValue('');
+    this.croForm.get('FROM_DATE')?.setValue('');
+    this.croForm.get('TO_DATE')?.setValue('');
+
+    this.cro.CRO_NO = '';
+    this.cro.CUSTOMER_NAME = '';
+    this.cro.STATUS = '';
+
+    this.getCROList();
+  }
+
+  getCROList() {
+    this.cro.AGENT_CODE = localStorage.getItem('usercode');
+
+    this._croService.getCROList(this.cro).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.croList = res.Data;
 
@@ -170,10 +218,10 @@ export class CroListComponent implements OnInit {
 
   async generateBLPdf() {
     let docDefinition = {
-      header: {
-        text: 'Bill of Lading',
-        margin: [10, 10, 0, 0],
-      },
+      // header: {
+      //   text: 'Bill of Lading',
+      //   margin: [10, 10, 0, 0],
+      // },
       content: [
         {
           columns: [
@@ -299,11 +347,11 @@ export class CroListComponent implements OnInit {
                 ),
                 alignment: 'right',
                 height: 50,
-                width: 70,
+                width: 90,
                 margin: [0, 0, 0, 10],
               },
               {
-                text: `Date: ${new Date().toLocaleString()}`,
+                text: 'Bill of Lading',
                 alignment: 'right',
               },
               {
@@ -322,7 +370,7 @@ export class CroListComponent implements OnInit {
                   'required by the Carrier, the Bill of Lading duly endorsed must be surrendered in exchange for the ' +
                   'Goods or delivery order,',
                 alignment: 'left',
-                fontSize: 6,
+                fontSize: 7,
               },
               {
                 text:
@@ -332,7 +380,15 @@ export class CroListComponent implements OnInit {
                   'contrary notwithstanding and agrees that all agreements or freight engagements for and in ' +
                   'connection with the carriage of the Goods are superseded by the Bill of Lading ',
                 alignment: 'left',
-                fontSize: 6,
+                fontSize: 7,
+              },
+              {
+                text:
+                  'In witness whereof the undersigned, on behalf of Prime Maritime the Master and the owner of ' +
+                  'the Vessel, has signed the no of Bill(s) of Lading stated below all of this tenor and date, ' +
+                  'one of which being accomplished, the others to stand void. ',
+                alignment: 'left',
+                fontSize: 7,
               },
             ],
           ],
@@ -361,6 +417,191 @@ export class CroListComponent implements OnInit {
               ]),
             ],
           },
+        },
+        {
+          text: 'Total No. of Containers or packages (in words)',
+          bold: true,
+          fontSize: 10,
+          margin: [0, 20, 0, 0],
+        },
+        { text: 'Ten (10) Containers', fontSize: 9, margin: [0, 0, 0, 20] },
+        {
+          layout: 'lightHorizontalLines',
+          table: {
+            headerRows: 1,
+            widths: ['*', '*', '*', '*', '*'],
+            body: [
+              [
+                { text: 'Freight and Charges', fontSize: 9 },
+                { text: 'Revenue Tons', fontSize: 9 },
+                { text: 'Rate Per', fontSize: 9 },
+                { text: 'Prepaid', fontSize: 9 },
+                { text: 'Collect', fontSize: 9 },
+              ],
+              // ...this.ContainerList1.map((p: any) => [
+              //   { text: p.CONTAINER_NO, fontSize: 9 },
+              //   { text: p.SEAL_NO, fontSize: 9 },
+              //   { text: p.QTY, fontSize: 9 },
+              //   { text: p.DESC_OF_GOODS, fontSize: 9 },
+              //   { text: p.GROSS_WEIGHT, fontSize: 9 },
+              //   { text: p.MEASUREMENT, fontSize: 9 },
+              // ]),
+            ],
+          },
+        },
+        {
+          text: '______________________________________________________________________________________________',
+          margin: [0, 0, 0, 70],
+        },
+        {
+          text: '______________________________________________________________________________________________',
+          margin: [0, 0, 0, 0],
+        },
+        {
+          columns: [
+            [
+              {
+                text: 'Ex. Rate',
+                bold: true,
+                fontSize: 10,
+                margin: [0, 5, 0, 0],
+              },
+              { text: '', fontSize: 9 },
+            ],
+            [
+              {
+                text: 'Prepaid at',
+                bold: true,
+                fontSize: 10,
+                margin: [0, 5, 0, 0],
+              },
+              { text: 'INDIA', fontSize: 9 },
+            ],
+            [
+              {
+                text: 'Payable at',
+                bold: true,
+                fontSize: 10,
+                margin: [0, 5, 0, 0],
+              },
+              { text: 'DUBAI', fontSize: 9 },
+            ],
+            [
+              {
+                text: 'Place and date of issue',
+                bold: true,
+                fontSize: 10,
+                margin: [0, 5, 0, 0],
+              },
+              { text: 'INDIA - 10/11/22', fontSize: 9 },
+            ],
+          ],
+        },
+        {
+          text: '______________________________________________________________________________________________',
+        },
+        {
+          columns: [
+            [
+              {
+                text: 'Total Prepaid',
+                bold: true,
+                fontSize: 10,
+                margin: [0, 5, 0, 0],
+              },
+              { text: '45454 INR (currency)', fontSize: 9 },
+            ],
+            [
+              {
+                text: 'No of Original B(s)/L',
+                bold: true,
+                fontSize: 10,
+                margin: [0, 5, 0, 0],
+              },
+              { text: '3', fontSize: 9 },
+            ],
+            [
+              {
+                text: '',
+                bold: true,
+                fontSize: 10,
+                margin: [0, 5, 0, 0],
+              },
+              { text: '', fontSize: 9 },
+            ],
+            [
+              {
+                text: '',
+                bold: true,
+                fontSize: 10,
+                margin: [0, 5, 0, 0],
+              },
+              { text: '', fontSize: 9 },
+            ],
+          ],
+        },
+        {
+          text: '______________________________________________________________________________________________',
+          margin: [0, 0, 0, 20],
+        },
+        {
+          columns: [
+            [
+              {
+                text: 'SHIPPED on board the Vessel',
+                bold: true,
+                fontSize: 10,
+                margin: [0, 5, 0, 0],
+              },
+              { text: '', fontSize: 9 },
+            ],
+            [
+              {
+                text: 'By',
+                bold: true,
+                fontSize: 10,
+                margin: [0, 5, 0, 0],
+              },
+              { text: '---------------------------------', fontSize: 9 },
+            ],
+            [
+              {
+                text: 'For PRIME MARITIME',
+                bold: true,
+                fontSize: 10,
+                margin: [0, 0, 0, 15],
+              },
+              { text: 'As Agents for the carrier', fontSize: 9 },
+              { text: '--------------------------------------' },
+              { text: 'PRIME MARITIME DWC-LLC' },
+            ],
+          ],
+        },
+        {
+          columns: [
+            [
+              {
+                text: 'Date',
+                bold: true,
+                fontSize: 10,
+                margin: [0, 5, 0, 0],
+              },
+              { text: '10/11/22', fontSize: 9 },
+            ],
+          ],
+        },
+        {
+          columns: [
+            [
+              {
+                text: 'ORIGINAL',
+                bold: true,
+                fontSize: 20,
+                margin: [0, 5, 0, 0],
+                color: '#f94449',
+              },
+            ],
+          ],
         },
       ],
       styles: {

@@ -181,7 +181,7 @@ input:-webkit-autofill:focus {
 
 /* --SCROLL BAR-- */
 .scrollbar {
-  height: 480px;
+  height: 350px;
   overflow-y: scroll;
   overflow-x: hidden;
   margin-bottom: 25px;
@@ -409,10 +409,10 @@ input:-webkit-autofill:focus {
   text-align: center;
 }
 
-.active {
-  border-bottom: 2px solid rgba(30, 67, 86, 0.8);
-  transition: ease-in-out 0.3s;
-}
+// .active {
+//   border-bottom: 2px solid rgba(30, 67, 86, 0.8);
+//   transition: ease-in-out 0.3s;
+// }
 
 /*--ROUNDED BUTTONS---*/
 

@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
         { menuName: 'Delivery-Orders', menuLink: '/home/do-list' },
         { menuName: 'EmptyRepoLocal', menuLink: '/home/new-er' },
         { menuName: 'Roll-Over', menuLink: '/home/split-booking' },
-        { menuName: 'CRO', menuLink: '/home/cro-list' },
+        { menuName: 'CRO', menuLink: '#' },
         { menuName: 'DO', menuLink: '/home/do' },
         { menuName: 'BL', menuLink: '#' },
         { menuName: 'Finance', menuLink: '#' }

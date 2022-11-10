@@ -27,6 +27,70 @@
         <!-- Slide 1 -->
         <div class="carousel-item active">
             <div class="carousel-container">
+                <div class="col-md-5">
+                    <div class="tabs">
+                        <input type="radio" (change)="isquotation = true" class="d-none" id="radio-1" name="tabs"
+                            [checked]="true" />
+                        <label class="tab" for="radio-1">GET QUOTATION</label>
+                        <input type="radio" (change)="isquotation = false" class="d-none" id="radio-2" name="tabs" />
+                        <label class="tab" for="radio-2">TRACK CONTAINER</label>
+                        <span class="glider d-none"></span>
+                    </div>
+                    <div class="card  mt-2" style="background: transparent;">
+                        <div class="card-body text-start">
+                            <div *ngIf="isquotation">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input class="form-control" style="background: transparent;" />
+                                            <label class="form-label text-light">Container Type</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input class="form-control" style="background: transparent;" />
+                                            <label class="form-label text-light">No of Containers</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input class="form-control" style="background: transparent;" />
+                                            <label class="form-label text-light">Commodity</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input class="form-control" style="background: transparent;" />
+                                            <label class="form-label text-light">Gross Weight</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mx-auto">
+                                        <button class="form-btn rounded-pill w-100">Quotation</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="!isquotation">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input class="form-control" style="background: transparent;" />
+                                            <label class="form-label text-light">Container No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mx-auto">
+                                        <button class="form-btn rounded-pill w-100">Track Container</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- <h2 class="animate__animated animate__fadeInDown">Welcome to <span>Prime Maritime</span></h2>
                 <p class="animate__animated animate__fadeInUp">As a joint venture company of Samudera Shipping Line Ltd,
                     Singapore and J M BAXI GROUP of India, Prime Maritime is a blend of traditional values of two
@@ -96,7 +160,6 @@
     <!-- ======= Services Section ======= -->
     <section class="services">
         <div class="container">
-
             <div class="row">
                 <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up">
                     <div class="icon-box icon-box-pink">
@@ -133,11 +196,9 @@
                             blanditiis praesentium voluptatum deleniti atque</p>
                     </div>
                 </div>
-
             </div>
-
         </div>
-    </section><!-- End Services Section -->
+    </section>
 
     <!-- ======= Why Us Section ======= -->
     <section class="why-us section-bg" data-aos="fade-up" date-aos-delay="200">

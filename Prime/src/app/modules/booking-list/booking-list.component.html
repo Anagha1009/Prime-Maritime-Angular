@@ -2,35 +2,29 @@
     <h2>Bookings</h2>
 </div>
 <div class="container">
-    <div class="mx-5">
+    <div class="mx-5" [formGroup]="bookingForm">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label class="form-label2">Booking No</label>
-                    <input type="text" class="form-control2">
+                    <input formControlName="BOOKING_NO" type="text" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
                     <label class="form-label2">From Date</label>
-                    <input type="date" class="form-control2">
+                    <input formControlName="FROM_DATE" type="date" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
                     <label class="form-label2">To Date</label>
-                    <input type="date" class="form-control2">
+                    <input formControlName="TO_DATE" type="date" class="form-control2">
                 </div>
             </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label class="form-label2">Status</label>
-                    <input type="text" class="form-control2">
-                </div>
-            </div>
-            <div class="col-md-3 mt-4">
-                <button class="form-btn me-2">Search</button>
-                <button class="form-btn">Clear</button>
+            <div class="col-md-4 mt-4">
+                <button class="form-btn me-2" (click)="Search()">Search</button>
+                <button class="form-btn" (click)="Clear()">Clear</button>
             </div>
         </div>
     </div>
@@ -60,6 +54,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-5 mx-auto" *ngIf="bookingList.length == 0">
+                <h5 class="text-center">Sorry! No records found !!</h5>
+                <img src="./../../../assets/img/doimg.jpg" class="img-fluid" alt="">
             </div>
         </div>
     </section>

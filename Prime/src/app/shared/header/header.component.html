@@ -7,10 +7,15 @@
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li [class]="item.menuName == 'Finance' ? 'dropdown' : ''" *ngFor="let item of menuList">
+                <li [class]="item.menuName == 'Finance' || item.menuName == 'CRO' ? 'dropdown' : ''"
+                    *ngFor="let item of menuList">
                     <a href="{{item.menuLink}}">{{item.menuName}}
-                        <i *ngIf="item.menuName == 'Finance'" class="bi bi-chevron-down"></i>
+                        <i *ngIf="item.menuName == 'Finance' || item.menuName == 'CRO'" class="bi bi-chevron-down"></i>
                     </a>
+                    <ul *ngIf="item.menuName == 'CRO'">
+                        <li><a href="/home/new-cro">New CRO</a></li>
+                        <li><a href="/home/cro-list">CRO List</a></li>
+                    </ul>
                     <ul *ngIf="item.menuName == 'Finance'">
                         <li><a href="#">TDR</a></li>
                         <li><a href="#">VDA</a></li>
