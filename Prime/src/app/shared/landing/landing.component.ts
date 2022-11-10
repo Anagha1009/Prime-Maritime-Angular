@@ -17,6 +17,7 @@ import { Component, OnInit } from '@angular/core';
   ],
 })
 export class LandingComponent implements OnInit {
+  isquotation: boolean = true;
   constructor() {}
 
   ngOnInit(): void {

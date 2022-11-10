@@ -2,10 +2,23 @@
     <h2>New CRO</h2>
 </div>
 <div class="container">
-    <div class="row">
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input type="text" class="form-control" [(ngModel)]="bookingNo">
+                    <label class="form-label">Booking No.</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button class="form-btn me-2" (click)="getBookingDetails()">Create CRO</button>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="isCRO">
         <div class="col-md-3">
             <div class="services" style="font-size: 14px;">
-                <div class="icon-box text-start">
+                <div class="icon-box text-start border" style="box-shadow: none;">
                     <h6>Booking Details</h6>
                     <hr>
                     <p class="description text-danger">{{bookingDetails?.BOOKING_NO}}</p>
@@ -27,130 +40,132 @@
             </div>
         </div>
         <div class="col-md-9">
-            <div class="services">
-                <div class="icon-box text-start">
-                    <form [formGroup]="croForm">
-                        <div class="row mt-3">
-                            <div class="col-md-4 mb-4">
-                                <div class="form-group">
-                                    <ng-select [ngClass]="{'invalid': submitted && f.STUFFING_TYPE.errors}"
-                                        formControlName="STUFFING_TYPE">
-                                        <ng-option value="" selected="true" disabled>--Select Stuffing Type--
-                                        </ng-option>
-                                        <ng-option value="Factory">Factory</ng-option>
-                                        <ng-option value="ICD">ICD</ng-option>
-                                        <ng-option value="PORT">PORT</ng-option>
-                                    </ng-select>
-                                    <label class="form-label-ddl">Stuffing Type</label>
-                                    <div *ngIf="submitted && f.STUFFING_TYPE.errors" class="invalid-feedback">Please
-                                        select
-                                        STUFFING TYPE</div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="form-group">
-                                    <ng-select formControlName="EMPTY_CONT_PCKP">
-                                        <ng-option value="" selected="true" disabled>--Select Empty Cont. Pickup Point--
-                                        </ng-option>
-                                        <ng-option value="ADTC-ADTC - Dammam">
-                                            ADTC-ADTC - Dammam
-                                        </ng-option>
-                                        <ng-option value="BCT-Bay Container Terminal">
-                                            BCT-Bay Container Terminal
-                                        </ng-option>
-                                    </ng-select>
-                                    <label class="form-label-ddl">Cont Pickup Point</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="form-group">
-                                    <ng-select formControlName="LADEN_ACPT_LOCATION">
-                                        <ng-option value="" selected="true" disabled>--Select Laden Acpt. Location--
-                                        </ng-option>
-                                        <ng-option value="INMUN-MUNDRA">
-                                            INMUN-MUNDRA
-                                        </ng-option>
-                                        <ng-option value="INSAJ6-ICD TUMB">
-                                            INSAJ6-ICD TUMB
-                                        </ng-option>
-                                    </ng-select>
-                                    <label class="form-label-ddl">Laden Act Location</label>
-                                </div>
-                            </div>
+            <form [formGroup]="croForm">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label2">Stuffing Type</label>
+                            <select class="form-control2" [ngClass]="{'invalid': submitted && f.STUFFING_TYPE.errors}"
+                                formControlName="STUFFING_TYPE">
+                                <option value="" selected="true" disabled>--Select--
+                                </option>
+                                <option value="Factory">Factory</option>
+                                <option value="ICD">ICD</option>
+                                <option value="PORT">PORT</option>
+                            </select>
+                            <div *ngIf="submitted && f.STUFFING_TYPE.errors" class="invalid-feedback">Please
+                                select
+                                STUFFING TYPE</div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-4 mb-4">
-                                <div class="form-group">
-                                    <input formControlName="CRO_VALIDITY_DATE" type="date" class="form-control">
-                                    <label class="form-label">CRO Validity Date</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="form-group">
-                                    <input formControlName="REMARKS" type="text" class="form-control">
-                                    <label class="form-label">Remarks</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="form-group">
-                                    <input formControlName="REQ_QUANTITY" type="text" class="form-control">
-                                    <label class="form-label">Required Qty</label>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label2">Cont Pickup Point</label>
+                            <select class="form-control2" formControlName="EMPTY_CONT_PCKP">
+                                <option value="" selected="true" disabled>--Select--
+                                </option>
+                                <option value="ADTC-ADTC - Dammam">
+                                    ADTC-ADTC - Dammam
+                                </option>
+                                <option value="BCT-Bay Container Terminal">
+                                    BCT-Bay Container Terminal
+                                </option>
+                            </select>
                         </div>
-                        <div class="row">
-                            <div class="col-md-2 mb-4">
-                                <div class="form-group">
-                                    <input formControlName="GROSS_WT" type="text" class="form-control">
-                                    <label class="form-label">Gross Weight (kg)</label>
-                                </div>
-                            </div>
-                            <div class="col-md-2 mb-4">
-                                <div class="form-group">
-                                    <ng-select formControlName="GROSS_WT_UNIT">
-                                        <ng-option value="" selected="true" disabled>--Select Unit--
-                                        </ng-option>
-                                        <ng-option value="Kg">
-                                            Kg
-                                        </ng-option>
-                                        <ng-option value="Ton">
-                                            Ton
-                                        </ng-option>
-                                    </ng-select>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="form-group">
-                                    <ng-select formControlName="PACKAGES">
-                                        <ng-option value="" selected="true" disabled>--Select Packages--</ng-option>
-                                        <ng-option value="Bags">
-                                            Bags
-                                        </ng-option>
-                                        <ng-option value="Bundles">
-                                            Bundles
-                                        </ng-option>
-                                    </ng-select>
-                                    <label class="form-label-ddl">Packages</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="form-group">
-                                    <input formControlName="NO_OF_PACKAGES" type="text" class="form-control">
-                                    <label class="form-label">No of Packages</label>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label2">Laden Act Location</label>
+                            <select class="form-control2" formControlName="LADEN_ACPT_LOCATION">
+                                <option value="" selected="true" disabled>--Select--
+                                </option>
+                                <option value="INMUN-MUNDRA">
+                                    INMUN-MUNDRA
+                                </option>
+                                <option value="INSAJ6-ICD TUMB">
+                                    INSAJ6-ICD TUMB
+                                </option>
+                            </select>
                         </div>
-                        <div class="row">
-                            <div class="col-md-2 offset-md-10" style="text-align: right;">
-                                <button (click)="SaveCRO()" class="form-btn">Submit</button>
-                                <button #openBtn data-bs-toggle="modal" href="#mailModal"
-                                    class="form-btn d-none">Submit</button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label2">CRO Validity Date</label>
+                            <input formControlName="CRO_VALIDITY_DATE" type="date" class="form-control2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label2">Remarks</label>
+                            <textarea formControlName="REMARKS" type="text" class="form-control2"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label2">Required Qty</label>
+                            <input formControlName="REQ_QUANTITY" type="text" class="form-control2">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="form-label2">Gross Weight</label>
+                            <input formControlName="GROSS_WT" type="text" class="form-control2">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="form-label2">Unit</label>
+                            <select class="form-control2" formControlName="GROSS_WT_UNIT">
+                                <option value="" selected="true" disabled>--Select Unit--
+                                </option>
+                                <option value="Kg">
+                                    Kg
+                                </option>
+                                <option value="Ton">
+                                    Ton
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label2">Packages</label>
+                            <select class="form-control2" formControlName="PACKAGES">
+                                <option value="" selected="true" disabled>--Select Packages--</option>
+                                <option value="Bags">
+                                    Bags
+                                </option>
+                                <option value="Bundles">
+                                    Bundles
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label2">No of Packages</label>
+                            <input formControlName="NO_OF_PACKAGES" type="text" class="form-control2">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 offset-md-10" style="text-align: right;">
+                        <button (click)="SaveCRO()" class="form-btn">Submit</button>
+                        <button #openBtn data-bs-toggle="modal" href="#mailModal"
+                            class="form-btn d-none">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
+    <div class="col-md-5 mx-auto" *ngIf="!isRecords">
+        <h5 class="text-center">Sorry! No records found !!</h5>
+        <img src="./../../../assets/img/doimg.jpg" class="img-fluid" alt="">
     </div>
 </div>
 
@@ -158,16 +173,17 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Send Email {{croNo}}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Send Email</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
             </div>
             <div class="modal-body">
-                <h6 class="text-center">Your CRO has successfully been created !
+                <h6 class="text-center"><span class="text-danger">{{croNo}}</span> has successfully been
+                    created !
                 </h6>
                 <p class="text-center">Please provide email to send CRO and SI to shipper</p>
-                <div class="form-group">
+                <div class="form-group col-md-8 mx-auto">
                     <label class="form-label2">Email</label>
-                    <input class="form-control2" />
+                    <input class="form-control2" [(ngModel)]="email" />
                 </div>
             </div>
             <div class="modal-footer">

@@ -1,35 +1,31 @@
 <div class="section-title">
     <h2>CRO List</h2>
 </div>
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <input type="text" class="form-control">
-                <label class="form-label">Booking No</label>
+<div class="container">
+    <div class="mx-5" [formGroup]="croForm">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label2">CRO No</label>
+                    <input formControlName="CRO_NO" type="text" class="form-control2">
+                </div>
             </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <input type="date" class="form-control">
-                <label class="form-label">From Date</label>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">From Date</label>
+                    <input formControlName="FROM_DATE" type="date" class="form-control2">
+                </div>
             </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <input type="date" class="form-control">
-                <label class="form-label">To Date</label>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">To Date</label>
+                    <input formControlName="TO_DATE" type="date" class="form-control2">
+                </div>
             </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <input type="text" class="form-control">
-                <label class="form-label">Status</label>
+            <div class="col-md-4 mt-4">
+                <button class="form-btn me-2" (click)="Search()">Search</button>
+                <button class="form-btn" (click)="Clear()">Clear</button>
             </div>
-        </div>
-        <div class="col-md-3">
-            <button class="form-btn me-2">Search</button>
-            <button class="form-btn">Clear</button>
         </div>
     </div>
 </div>
@@ -206,18 +202,20 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of f;let i = index" [formGroup]="getf1(item)">
-                                    <td><input (change)="getContainerList(item)" type="checkbox" /></td>
-                                    <td>{{i+1}}</td>
-                                    <td>{{blForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
-                                    <td>{{blForm.value.CONTAINER_LIST2[i].CONTAINER_TYPE}} -
+                                    <td><input (change)="getContainerList(item)" type="checkbox" />
+                                    </td>
+                                    <td class="col-md-1">{{i+1}}</td>
+                                    <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
+                                    <td class="col-md-2">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_TYPE}} -
                                         {{blForm.value.CONTAINER_LIST2[i].CONTAINER_SIZE}}</td>
-                                    <td><textarea formControlName="MARKS_NOS" class="form-control2"></textarea></td>
-                                    <td><input formControlName="DESC_OF_GOODS" type="text" class="form-control2"
-                                            style="height: calc(1rem + 0.75rem + 2px);" /></td>
-                                    <td><input formControlName="GROSS_WEIGHT" type="text" class="form-control2"
-                                            style="height: calc(1rem + 0.75rem + 2px);" /></td>
-                                    <td><input formControlName="MEASUREMENT" type="text" class="form-control2"
-                                            style="height: calc(1rem + 0.75rem + 2px);" /></td>
+                                    <td class="col-md-3"><textarea formControlName="MARKS_NOS"
+                                            class="form-control2"></textarea></td>
+                                    <td class="col-md-3"><textarea formControlName="DESC_OF_GOODS" type="text"
+                                            class="form-control2"></textarea></td>
+                                    <td class="col-md-1"><input formControlName="GROSS_WEIGHT" type="text"
+                                            class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" /></td>
+                                    <td class="col-md-1"><input formControlName="MEASUREMENT" type="text"
+                                            class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" /></td>
                                 </tr>
                             </tbody>
                         </table>
