@@ -1,0 +1,156 @@
+<div class="section-title">
+    <h2>Empty Repo Local</h2>
+</div>
+<section  class="services">
+    <div>
+        <div class="container mt-4">
+            <div class="row mt-4">
+                <form [formGroup]="erForm">
+                    <div class="col-md-12">
+                        <div class="row mb-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label2">Load Depot</label>
+                                        <ng-select [ngClass]="{'invalid': submitted && f.LOAD_DEPOT.errors}"
+                                formControlName="LOAD_DEPOT" style="margin-top: 10px;">
+                                <ng-option value="" selected="true" disabled>--Select DISCHARGE DEPOT--</ng-option>
+                                <ng-option value="ADTC-ADTC - Dammam">ADTC-ADTC - Dammam</ng-option>
+                                <ng-option value="AERAK-RAS AL KHAYMAH">AERAK-RAS AL KHAYMAH</ng-option>
+                                <ng-option value="AMAL - L-AMAL LOGISTICS SERVICES PVT.LTD.">AMAL - L-AMAL LOGISTICS SERVICES PVT.LTD.</ng-option>
+                                <ng-option value="BCT-Bay Container Terminal">BCT-Bay Container Terminal</ng-option>
+                                <ng-option value="BGT20-BGT20 Umm Qasar">BGT20-BGT20 Umm Qasar</ng-option>
+                                <ng-option value="BHKBS-BAHR-BHKBS Deport">BHKBS-BAHR-BHKBS Deport</ng-option>
+                                <ng-option value="BORKHE-ICD BORKHEDI">BORKHE-ICD BORKHEDI</ng-option>
+                               </ng-select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label2">Discharge Depot</label>
+                                        <ng-select [ngClass]="{'invalid': submitted && f.DISCHARGE_DEPOT.errors}"
+                                formControlName="DISCHARGE_DEPOT" style="margin-top: 10px;">
+                                <ng-option value="" selected="true" disabled>--Select DISCHARGE DEPOT--</ng-option>
+                                <ng-option value="ADTC-ADTC - Dammam">ADTC-ADTC - Dammam</ng-option>
+                                <ng-option value="AERAK-RAS AL KHAYMAH">AERAK-RAS AL KHAYMAH</ng-option>
+                                <ng-option value="AMAL - L-AMAL LOGISTICS SERVICES PVT.LTD.">AMAL - L-AMAL LOGISTICS SERVICES PVT.LTD.</ng-option>
+                                <ng-option value="BCT-Bay Container Terminal">BCT-Bay Container Terminal</ng-option>
+                                <ng-option value="BGT20-BGT20 Umm Qasar">BGT20-BGT20 Umm Qasar</ng-option>
+                                <ng-option value="BHKBS-BAHR-BHKBS Deport">BHKBS-BAHR-BHKBS Deport</ng-option>
+                                <ng-option value="BORKHE-ICD BORKHEDI">BORKHE-ICD BORKHEDI</ng-option>
+                               </ng-select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label2">Mode Of Transport</label>
+                                        <ng-select [ngClass]="{'invalid': submitted && f.MODE_OF_TRANSPORT.errors}"
+                                formControlName="MODE_OF_TRANSPORT" style="margin-top: 10px;">
+                                <ng-option value="" selected="true" disabled>--Select Mode Of Transport--</ng-option>
+                                <ng-option value="Rail">Rail</ng-option>
+                                <ng-option value="Road">Road</ng-option> </ng-select>
+                                        
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label2">Movement Date</label>
+                                        <input formControlName="MOVEMENT_DATE" type="date" class="form-control2" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label2">Lift On Charge</label>
+                                        <input type="number" min="0.00" step="0.05" value="1.00" formControlName="LIFT_ON_CHARGE" class="form-control2">
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label2">Lift Off Charge</label>
+                                        <input type="number" min="0.00" step="0.05" value="1.00" formControlName="LIFT_OFF_CHARGE" class="form-control2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label2">Currency</label>
+                                        <ng-select [ngClass]="{'invalid': submitted && f.CURRENCY.errors}"
+                                formControlName="CURRENCY" style="margin-top: 5px;">
+                                <ng-option value="" selected="true" disabled>--Select Currency--</ng-option>
+                                <ng-option value="AED">AED</ng-option>
+                                <ng-option value="AUD">AUD</ng-option>
+                                <ng-option value="BHD">BHD</ng-option>
+                                <ng-option value="CAD">CAD</ng-option>
+                                <ng-option value="CHF">CHF</ng-option>
+                                <ng-option value="CNY">CNY</ng-option>
+                                <ng-option value="DKK">DKK</ng-option>
+                               </ng-select>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label2">Reason</label>
+                                        <textarea formControlName="REASON" class="form-control2"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label2">Remarks</label>
+                                        <textarea formControlName="REMARKS" class="form-control2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label  class="form-label2">Container</label>
+                                        <ng-multiselect-dropdown #multiSelect
+      [placeholder]="'Select Container'"
+      [settings]="dropdownSettings" 
+      [data]="containerDropdownList" 
+      [(ngModel)]="selectedItems"
+      [formControl]="f.CONTAINER_LIST" 
+      [class.is-invalid]="f?.CONTAINER_LIST?.errors?.required && f?.CONTAINER_LIST?.touched"
+      (onFilterChange)="onFilterChange($event)"
+      (onDropDownClose)="onDropDownClose($event)"
+      (onSelect)="onItemSelect($event)" 
+      (onDeSelect)="onDeSelect($event)"
+      (onSelectAll)="onSelectAll($event)"
+      (onDeSelectAll)="onDeSelectAll($event)">
+		</ng-multiselect-dropdown>
+
+    <span *ngIf="f?.CONTAINER_LIST?.errors?.required && f?.CONTAINER_LIST?.touched" style="color: red;">
+      Container is required
+    </span>
+                                        
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </form>
+               
+            </div>
+            <hr>
+            <div class="row  mt-4">
+
+                <div class="col-md-6 offset-md-6 text-end">
+                    <button type="button" class="btn btn-secondary btn-block" style="margin-right: 6px;" (click)="cancelER()">Cancel</button>
+                    <button type="button" class="btn btn-secondary btn-block" style="margin-right: 6px;" (click)="saveER()">Save</button>
+                
+                </div>
+                
+            </div>
+    
+        </div>
+
+    </div>
+</section>

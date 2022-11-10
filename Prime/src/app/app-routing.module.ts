@@ -11,7 +11,11 @@ import { NewQuotationComponent } from './modules/new-quotation/new-quotation.com
 import { QuotationDetailsComponent } from './modules/quotation-details/quotation-details.component';
 import { QuotationListComponent } from './modules/quotation-list/quotation-list.component';
 import { SplitBookingComponent } from './modules/split-booking/split-booking.component';
+import { NewDoComponent } from './modules/new-do/new-do.component';
 import { LandingComponent } from './shared/landing/landing.component';
+import { DoListComponent } from './modules/do-list/do-list.component';
+import { DoDetailsComponent } from './modules/do-details/do-details.component';
+import { NewErComponent } from './modules/new-er/new-er.component';
 
 const routes: Routes = [
   {
@@ -51,12 +55,24 @@ const routes: Routes = [
         component: NewCroComponent,
       },
       {
+        path: 'new-er',
+        component: NewErComponent,
+      },
+      {
         path: 'cro-list',
         component: CroListComponent,
       },
       {
-        path: 'detention-list',
-        component: DetentionListComponent,
+        path: 'do',
+        component: NewDoComponent,
+      },
+      {
+        path: 'do-list',
+        component: DoListComponent,
+      },
+      {
+        path: 'do-details',
+        component: DoDetailsComponent,
       },
       {
         path: 'party',

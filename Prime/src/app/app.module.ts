@@ -11,6 +11,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { DetentionListComponent } from './modules/detention-list/detention-list.component';
 import { PartyComponent } from './masters/party/party.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [AppComponent, SplitBookingComponent, DetentionListComponent, PartyComponent],
@@ -22,7 +23,8 @@ import { PartyComponent } from './masters/party/party.component';
     HttpClientModule,
     NgSelectModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgMultiSelectDropDownModule 
   ],
   providers: [],
   bootstrap: [AppComponent],

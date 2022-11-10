@@ -2,61 +2,73 @@
     <h2>Quotations</h2>
 </div>
 <div class="container">
-    <div class="col-md-6 offset-md-6 text-end">
-        <button class="form-btn-primary" routerLink="/home/new-quotation">New Quotation</button>
-    </div>
-    <div class="container mt-4">
+    <form class="mx-5" [formGroup]="quotationForm">
+        <div class="col-md-6 offset-md-6 text-end">
+            <button class="form-btn-primary" routerLink="/home/new-quotation">New Quotation</button>
+        </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <input type="text" class="form-control">
-                    <label class="form-label">Ref No</label>
+                    <label class="form-label2">Ref No</label>
+                    <input formControlName="SRR_NO" type="text" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <input type="date" class="form-control">
-                    <label class="form-label">From Date</label>
+                    <label class="form-label2">From Date</label>
+                    <input formControlName="FROM_DATE" type="date" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <input type="date" class="form-control">
-                    <label class="form-label">To Date</label>
+                    <label class="form-label2">To Date</label>
+                    <input formControlName="TO_DATE" type="date" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <input type="text" class="form-control">
-                    <label class="form-label">Status</label>
+                    <label class="form-label2">Status</label>
+                    <select class="form-control2" formControlName="STATUS">
+                        <option value="">--Select--</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Requested">Requested</option>
+                    </select>
                 </div>
             </div>
-            <div class="col-md-3">
-                <button class="form-btn me-2">Search</button>
-                <button class="form-btn">Clear</button>
+            <div class="col-md-3 mt-4">
+                <button class="form-btn me-2" (click)="Search()">Search</button>
+                <button class="form-btn" (click)="Clear()">Clear</button>
             </div>
         </div>
-    </div>
+    </form>
     <section class="services">
         <div class="container">
             <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
                 <div [class]="isScroll ? 'force-overflow' : ''">
                     <div class="icon-box icon-box-cyan text-start" *ngFor="let item of quotationList; let i = index">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-5">
                                 <h4 class="title"><a (click)="getQuotationDetails(item.SRR_NO)">{{item.SRR_NO}}</a>
                                     <span style="font-size: 10px;"
                                         [class]="item.STATUS == 'Approved' ? 'badge rounded-pill bg-success ms-3' : 'badge rounded-pill bg-secondary ms-3'">{{item.STATUS}}</span>
                                 </h4>
+                                <button class="form-btn-primary" style="font-size: 12px;" (click)="getSRRDetails(item)"
+                                    *ngIf="item.STATUS == 'Requested'">Add
+                                    More
+                                    Containers</button>
+                                <a #containerModal class="d-none" data-bs-toggle="modal" href="#containerModal">Add
+                                    More
+                                    Containers</a>
+                            </div>
+                            <div class="col-md-5">
                                 <p class="description"> <span class="bx bx-user"></span> {{item.CUSTOMER_NAME}} | <span
                                         class="bx bxs-truck"></span>
                                     {{item.NO_OF_CONTAINERS}} Containers | <span class="text-danger">{{item.EFFECT_FROM
                                         | date:'mediumDate'}} -
                                         {{item.EFFECT_TO | date:'mediumDate'}}</span></p>
-                                <a href="">Add More Containers</a>
                             </div>
-                            <div class="col-md-4 text-end" *ngIf="item.STATUS == 'Approved'">
-                                <button (click)="openBookingModal(i)" class="form-btn">Book
+                            <div class="col-md-2 text-end" *ngIf="item.STATUS == 'Approved'">
+                                <button (click)="openBookingModal(i)" class="form-btn rounded-pill">Book
                                     Now</button>
                                 <button class="form-btn d-none" #openBtn data-bs-toggle="modal"
                                     href="#bookingModal">Book
@@ -83,48 +95,47 @@
                                                             <small class="text-danger">{{quotationDetails?.POD}}</small>
                                                         </h6>
                                                     </div>
-                                                    <div class="row mt-5">
-                                                        <div class="col-md-6 mb-4">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
+                                                                <label class="form-label2">Vessel Name</label>
                                                                 <input type="text" formControlName="VESSEL_NAME"
-                                                                    class="form-control" />
-                                                                <label class="form-label">Vessel Name</label>
+                                                                    class="form-control2" />
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 mb-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
+                                                                <label class="form-label2">Voyage No</label>
                                                                 <input formControlName="VOYAGE_NO" type="text"
-                                                                    class="form-control" />
-                                                                <label class="form-label">Voyage No</label>
+                                                                    class="form-control2" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-6 mb-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
+                                                                <label class="form-label2">Mother Vessel Name</label>
                                                                 <input formControlName="MOTHER_VESSEL_NAME" type="text"
-                                                                    class="form-control" />
-                                                                <label class="form-label">Mother Vessel Name</label>
+                                                                    class="form-control2" />
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 mb-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
+                                                                <label class="form-label2">Mother Voyage No</label>
                                                                 <input formControlName="MOTHER_VOYAGE_NO" type="text"
-                                                                    class="form-control" />
-                                                                <label class="form-label">Mother Voyage No</label>
+                                                                    class="form-control2" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 offset-md-6" style="text-align: right;">
-                                                        <button (click)="slotAllocation()"
-                                                            class="btn btn-outline-info btn-block">
-                                                            <i class="fa fa-plus mr-1"></i>Slot
+                                                        <button (click)="slotAllocation()" class="form-btn">
+                                                            <i class="fa fa-plus me-2"></i>Slot
                                                             Allocation</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
-                                        <table class="table">
+                                        <table class="table" style="font-size: 12px;">
                                             <thead>
                                                 <tr>
                                                     <th>Sr. No</th>
@@ -134,27 +145,30 @@
                                             </thead>
                                             <tbody>
                                                 <tr *ngFor="let item of f;let j = index;" [formGroup]="f1(item)">
-                                                    <td>
-                                                        {{j+1}}
+                                                    <td class="col-md-2">
+                                                        <label class="mt-4"> {{j+1}}</label>
                                                     </td>
                                                     <td class="col-md-6">
-                                                        <ng-select formControlName="SLOT_OPERATOR">
-                                                            <ng-option value="" selected disabled>
+                                                        <label class="form-label3">Slot Operator</label>
+                                                        <select class="form-control3" formControlName="SLOT_OPERATOR">
+                                                            <option value="" selected disabled>
                                                                 --Slot
-                                                                Operator--</ng-option>
-                                                            <ng-option value="xx">test</ng-option>
-                                                        </ng-select>
+                                                                Operator--</option>
+                                                            <option value="xx">test</option>
+                                                        </select>
                                                     </td>
-                                                    <td>
-                                                        <input formControlName="NO_OF_SLOTS" type="text"
-                                                            class="form-control" />
+                                                    <td class="col-md-4">
+                                                        <label class="form-label3">No of Slots</label>
+                                                        <input class="form-control3" formControlName="NO_OF_SLOTS"
+                                                            type="text" />
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" (click)="bookNow()" class="btn btn-outline-dark">Book
+
+                                        <button type="button" (click)="bookNow()" class="form-btn-primary">Book
                                             Now</button>
                                     </div>
                                 </div>
@@ -163,6 +177,42 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-5 mx-auto" *ngIf="quotationList.length == 0">
+                <h5 class="text-center">Sorry! No records found !!</h5>
+                <img src="./../../../assets/img/doimg.jpg" class="img-fluid" alt="">
+            </div>
         </div>
     </section>
+
+    <div class="modal fade" id="containerModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Container Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        #closeBtn1></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row description" *ngFor="let item of f2;let i = index" [formGroup]="f3(item)">
+                        <div class="col-md-4 mt-2">
+                            <label class="label-header">Container</label>
+                            <label class="label-subheader">{{containerList[i].CONTAINER_TYPE}} -
+                                {{containerList[i].CONTAINER_SIZE}}</label>
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label class="label-header">Service Mode</label>
+                            <label class="label-subheader">{{containerList[i].SERVICE_MODE}}</label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label2">No of Container</label>
+                            <input type="text" formControlName="IMM_VOLUME_EXPECTED" class="form-control2" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" (click)="addContainer()" class="form-btn">Add Container</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

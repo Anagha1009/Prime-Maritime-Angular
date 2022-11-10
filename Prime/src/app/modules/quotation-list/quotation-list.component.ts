@@ -15,9 +15,14 @@ export class QuotationListComponent implements OnInit {
   isScroll: boolean = false;
   quotationDetails: any;
   slotDetailsForm: FormGroup;
+  quotationForm: FormGroup;
+  containerForm: FormGroup;
+  containerList: any[] = [];
 
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
+  @ViewChild('closeBtn1') closeBtn1: ElementRef;
+  @ViewChild('containerModal') containerModal: ElementRef;
 
   constructor(
     private _quotationService: QuotationService,
@@ -26,6 +31,14 @@ export class QuotationListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.quotationForm = this._formBuilder.group({
+      SRR_NO: [''],
+      CUSTOMER_NAME: [''],
+      FROM_DATE: [''],
+      TO_DATE: [''],
+      STATUS: [''],
+    });
+
     this.getSRRList();
 
     this.slotDetailsForm = this._formBuilder.group({
@@ -42,6 +55,49 @@ export class QuotationListComponent implements OnInit {
       CREATED_BY: [''],
       SLOT_LIST: new FormArray([]),
     });
+
+    this.containerForm = this._formBuilder.group({
+      SRR_CONTAINERS: new FormArray([]),
+    });
+  }
+
+  Search() {
+    var SRR_NO = this.quotationForm.value.SRR_NO;
+    var CUSTOMER_NAME = this.quotationForm.value.CUSTOMER_NAME;
+    var STATUS = this.quotationForm.value.STATUS;
+    var FROM_DATE = this.quotationForm.value.FROM_DATE;
+    var TO_DATE = this.quotationForm.value.TO_DATE;
+
+    if (
+      SRR_NO == '' &&
+      CUSTOMER_NAME == '' &&
+      STATUS == '' &&
+      FROM_DATE == '' &&
+      TO_DATE == ''
+    ) {
+      alert('Please enter atleast one filter to search !');
+      return;
+    }
+
+    this.quotation.SRR_NO = SRR_NO;
+    this.quotation.CUSTOMER_NAME = CUSTOMER_NAME;
+    this.quotation.STATUS = STATUS;
+
+    this.getSRRList();
+  }
+
+  Clear() {
+    this.quotationForm.get('SRR_NO')?.setValue('');
+    this.quotationForm.get('CUSTOMER_NAME')?.setValue('');
+    this.quotationForm.get('STATUS')?.setValue('');
+    this.quotationForm.get('FROM_DATE')?.setValue('');
+    this.quotationForm.get('TO_DATE')?.setValue('');
+
+    this.quotation.SRR_NO = '';
+    this.quotation.CUSTOMER_NAME = '';
+    this.quotation.STATUS = '';
+
+    this.getSRRList();
   }
 
   getSRRList() {
@@ -72,8 +128,44 @@ export class QuotationListComponent implements OnInit {
     );
   }
 
+  getSRRDetails(item: any) {
+    var quotation = new QUOTATION();
+    quotation.SRR_NO = item.SRR_NO;
+    quotation.AGENT_CODE = localStorage.getItem('usercode');
+    this._quotationService.getSRRDetails(quotation).subscribe((res: any) => {
+      this.containerList = res.Data?.SRR_CONTAINERS;
+
+      const add = this.containerForm.get('SRR_CONTAINERS') as FormArray;
+      add.clear();
+      this.containerList.forEach((element) => {
+        add.push(
+          this._formBuilder.group({
+            SRR_ID: [item.SRR_ID],
+            SRR_NO: [element.SRR_NO],
+            CONTAINER_TYPE: [element.CONTAINER_TYPE],
+            CONTAINER_SIZE: [element.CONTAINER_SIZE],
+            SERVICE_MODE: [element.SERVICE_MODE],
+            IMM_VOLUME_EXPECTED: [''],
+            CREATED_BY: [localStorage.getItem('username')],
+          })
+        );
+      });
+    });
+
+    this.containerModal.nativeElement.click();
+  }
+
+  addContainer() {
+    this._quotationService
+      .insertContainer(JSON.stringify(this.containerForm.value))
+      .subscribe((res: any) => {
+        this.closeBtn1.nativeElement.click();
+        alert('Your container has been added successfully !');
+        this.getSRRList();
+      });
+  }
+
   getQuotationDetails(SRR_NO: any) {
-    debugger;
     localStorage.setItem('SRR_NO', SRR_NO);
     this._router.navigateByUrl('home/quotation-details');
   }
@@ -137,7 +229,7 @@ export class QuotationListComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
           alert('Your booking is placed successfully !');
-          this._router.navigateByUrl('/home/bookings');
+          this._router.navigateByUrl('/home/booking-list');
         }
       });
   }
@@ -148,6 +240,15 @@ export class QuotationListComponent implements OnInit {
   }
 
   f1(i: any) {
+    return i;
+  }
+
+  get f2() {
+    var x = this.containerForm.get('SRR_CONTAINERS') as FormArray;
+    return x.controls;
+  }
+
+  f3(i: any) {
     return i;
   }
 
