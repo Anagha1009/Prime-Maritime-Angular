@@ -50,6 +50,7 @@ export class NewDoComponent implements OnInit {
       AGENT_NAME: [''],
       CREATED_BY: [''],
       CONTAINER_LIST: new FormArray([]),
+      CONTAINER_LIST2:new FormArray([]),
     });
 
   }
@@ -109,6 +110,9 @@ export class NewDoComponent implements OnInit {
       this.containerList.forEach((element) => {
       add.push(
         this._formBuilder.group({
+          BOOKING_NO:[element.BOOKING_NO],
+          CRO_NO:[element.CRO_NO],
+          BL_NO:[element.BL_NO],
           CONTAINER_NO: [element.CONTAINER_NO],
           CONTAINER_TYPE: [element.CONTAINER_TYPE],
           CONTAINER_SIZE: [element.CONTAINER_SIZE],
@@ -117,9 +121,9 @@ export class NewDoComponent implements OnInit {
           DESC_OF_GOODS: [element.DESC_OF_GOODS],
           GROSS_WEIGHT: [element.GROSS_WEIGHT],
           MEASUREMENT: [element.MEASUREMENT],
-          AGENT_CODE: [''],
-          AGENT_NAME: [''],
-          CREATED_BY: [''],
+          AGENT_CODE: [element.AGENT_CODE],
+          AGENT_NAME: [element.AGENT_NAME],
+          CREATED_BY: [element.CREATED_BY],
         })
       );
       });
@@ -136,10 +140,11 @@ export class NewDoComponent implements OnInit {
   }
 
   saveDO(){
-    debugger;
+    //debugger;
     this.submitted=true;
+    this.doForm.get('DO_NO')?.setValue(this.getRandomNumber("DONO"));
     this.doForm.get('BL_ID')?.setValue(0);
-    this.doForm.get('BL_NO')?.setValue("BL-A-05");
+    this.doForm.get('BL_NO')?.setValue(this.displayBill);
     this.doForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
     this.doForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
     this.doForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
@@ -155,7 +160,11 @@ export class NewDoComponent implements OnInit {
         }
       });
   }
-
+  getRandomNumber(arg0: string): any {
+    var num = Math.floor(Math.random() * 1e16).toString();
+    return arg0 + '-' + num;
+    
+  }
   cancelDO(){
     this.doForm.get('DO_NO')?.setValue("");
     this.doForm.get('DO_DATE')?.setValue("");
@@ -168,6 +177,14 @@ export class NewDoComponent implements OnInit {
     this.doForm.get('ACCEPTANCE_LOCATION')?.setValue("");
     this.doForm.get('LETTER_VALIDITY')?.setValue("");
     this.doForm.get('SHIPPING_TERMS')?.setValue("");
+  }
+  
+  
+  postSelectedContainerList(item: any) {
+    //debugger;
+    const add = this.doForm.get('CONTAINER_LIST2') as FormArray;
+    add.push(item);
+    console.log(item.value);
   }
 
 }
