@@ -19,13 +19,10 @@ export class HeaderComponent implements OnInit {
     if (param == 'agent') {
       this.menuList.push(
         { menuName: 'Quotations', menuLink: '/home/quotation-list' },
-        { menuName: 'Bookings', menuLink: '/home/booking-list' },
+        { menuName: 'Bookings', menuLink: '#' },
+        { menuName: 'CRO', menuLink: '/home/cro-list' },
         { menuName: 'Delivery-Orders', menuLink: '/home/do-list' },
-        { menuName: 'EmptyRepoLocal', menuLink: '/home/new-er' },
-        { menuName: 'Roll-Over', menuLink: '/home/split-booking' },
-        { menuName: 'CRO', menuLink: '#' },
-        { menuName: 'DO', menuLink: '/home/do' },
-        { menuName: 'BL', menuLink: '#' },
+        { menuName: 'BL', menuLink: '/home/new-bl' },
         { menuName: 'Finance', menuLink: '#' }
       );
     }

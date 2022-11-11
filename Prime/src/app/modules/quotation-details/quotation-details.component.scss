@@ -113,11 +113,11 @@
 }
 
 .accordion .card .card-header a[aria-expanded="false"]:before {
-  content: "\f095";
+  content: "\f13a";
 }
 
 .accordion .card .card-header a[aria-expanded="true"]:before {
-  content: "\f068";
+  content: "\f139";
 }
 
 .accordion .card .card-header a:before {
@@ -131,6 +131,7 @@
   display: inline-block;
   padding-right: 3px;
   vertical-align: middle;
-  font-size: 0.756em;
+  margin-bottom: 2px;
+  font-size: 1.5em;
   color: #405189;
 }

@@ -80,7 +80,7 @@
                                     <div class="form-group">
                                         <label class="form-label2">Currency</label>
                                         <ng-select [ngClass]="{'invalid': submitted && f.CURRENCY.errors}"
-                                formControlName="CURRENCY" style="margin-top: 5px;">
+                                formControlName="CURRENCY" style="margin-top: 10px;">
                                 <ng-option value="" selected="true" disabled>--Select Currency--</ng-option>
                                 <ng-option value="AED">AED</ng-option>
                                 <ng-option value="AUD">AUD</ng-option>
@@ -143,8 +143,8 @@
             <div class="row  mt-4">
 
                 <div class="col-md-6 offset-md-6 text-end">
-                    <button type="button" class="btn btn-secondary btn-block" style="margin-right: 6px;" (click)="cancelER()">Cancel</button>
-                    <button type="button" class="btn btn-secondary btn-block" style="margin-right: 6px;" (click)="saveER()">Save</button>
+                    <button type="button" class="form-btn" style="margin-right: 6px;" (click)="cancelER()">Clear</button>
+                    <button type="button" class="form-btn" style="margin-right: 6px;" (click)="saveER()">Save</button>
                 
                 </div>
                 

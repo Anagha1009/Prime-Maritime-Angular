@@ -25,10 +25,18 @@ export class DoService {
     );
   }
 
-  getDOList(dO: any) {
+  getDOList(dO: DO) {
     return this._http.get<any>(
       this.BASE_URL +
-        'DO/GetDOList?AGENT_CODE=' +
+        'DO/GetDOList?OPERATION=' +
+        dO.OPERATION +
+        '&DO_NO='+
+        dO.DO_NO+
+        '&DO_DATE='+
+        dO.DO_DATE+
+        '&DO_VALIDITY='+
+        dO.DO_VALIDITY+
+        '&AGENT_CODE='+
         dO.AGENT_CODE,
       this.httpOptions
     );
