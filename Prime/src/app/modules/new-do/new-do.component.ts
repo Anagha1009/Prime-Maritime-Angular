@@ -99,6 +99,7 @@ export class NewDoComponent implements OnInit {
 
     this.bL.AGENT_CODE=localStorage.getItem('usercode');
     this.bL.BL_NO=this.billNo;
+    this.bL.fromDO=true;
     
     this._blService.getContainerList(this.bL).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
@@ -156,7 +157,7 @@ export class NewDoComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
           alert('The delivery order has been saved successfully !');
-          this._router.navigateByUrl('/home/booking-list');
+          this._router.navigateByUrl('/home/do-list');
         }
       });
   }

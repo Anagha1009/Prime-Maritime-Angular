@@ -26,7 +26,11 @@ export class BlService {
         '&CRO_NO=' +
         BL.CRO_NO +
         '&BL_NO='+
-        BL.BL_NO,
+        BL.BL_NO+
+        '&DO_NO='+
+        BL.DO_NO+
+        '&fromDO='+
+        BL.fromDO,
       this.httpOptions
     );
   }
