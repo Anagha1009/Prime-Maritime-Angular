@@ -3,9 +3,9 @@ export class DO {
 	BL_ID:number;
 	BL_NO : any = '';
 	DO_NO : any = '';
-	DO_DATE :string;
+	DO_DATE :string='';
 	ARRIVAL_DATE :string;
-	DO_VALIDITY :string;
+	DO_VALIDITY :string='';
 	IGM_NO : any = '';
 	IGM_ITEM_NO : any = '';
 	IGM_DATE :string;
@@ -16,5 +16,6 @@ export class DO {
 	AGENT_CODE : any = 0;
 	AGENT_NAME :string;
 	CREATED_BY :string;
+	OPERATION: string = '';
 
   }

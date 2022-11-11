@@ -1,5 +1,5 @@
 <div class="section-title">
-    <h2>DELIVERY ORDER</h2>
+    <h2>Delivery Order</h2>
 </div>
 <div class="container">
 
@@ -8,7 +8,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <input type="text" class="form-control" [(ngModel)]="billNo">
-                    <label class="form-label">Bill No.</label>
+                    <label class="form-label">BL No.</label>
                 </div>
             </div>
             <div class="col-md-3">
@@ -53,23 +53,20 @@
                                 <div class="row mt-5">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">DO No.</label>
-                                            <input formControlName="DO_NO" type="text" class="form-control2" />
-                                         
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
                                             <label class="form-label2">DO Date</label>
                                             <input formControlName="DO_DATE" type="date" class="form-control2" />
-                                           
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">DO Validity.</label>
                                             <input formControlName="DO_VALIDITY" type="date" class="form-control2" />
-                                        
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">Vessel Arrival Date</label>
+                                            <input formControlName="ARRIVAL_DATE" type="date" class="form-control2" />
                                         </div>
                                     </div>
                                     
@@ -98,16 +95,9 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">Arrival Date</label>
-                                            <input formControlName="ARRIVAL_DATE" type="date" class="form-control2" />
-                                           
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
                                             <label class="form-label2">Empty Letter Location</label>
                                             <ng-select [ngClass]="{'invalid': submitted && f.ACCEPTANCE_LOCATION.errors}"
-                                    formControlName="ACCEPTANCE_LOCATION" style="margin-top: 5px;">
+                                    formControlName="ACCEPTANCE_LOCATION" style="margin-top: 10px;">
                                     <ng-option value="" selected="true" disabled>--Select Acceptance Location--</ng-option>
                                     <ng-option value="INPPG-ICD PATPARGANJ">INPPG-ICD PATPARGANJ</ng-option>
                                     <ng-option value="INPWL6-ICD PALWAL">INPWL6-ICD PALWAL</ng-option>
@@ -115,23 +105,20 @@
                                     <ng-option value="INSAJ6-ICD TUMB">INSAJ6-ICD TUMB	
                                     </ng-option>
                                    </ng-select>
+                                           
                                         </div>
                                     </div>
-
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">Empty Letter Validity.</label>
                                             <input formControlName="LETTER_VALIDITY" type="date" class="form-control2" />
-                                           
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">Clearing Party</label>
                                                 <ng-select [ngClass]="{'invalid': submitted && f.CLEARING_PARTY.errors}"
-                                    formControlName="CLEARING_PARTY" style="margin-top: 5px;">
+                                    formControlName="CLEARING_PARTY" style="margin-top: 10px;">
                                     <ng-option value="" selected="true" disabled>--Select Clearing Party--</ng-option>
                                     <ng-option value="Indian Clearing Corporation Ltd">Indian Clearing Corporation Ltd.</ng-option>
                                     <ng-option value="National Commodity Clearing Ltd">National Commodity Clearing Ltd.</ng-option>
@@ -141,11 +128,13 @@
                                    </ng-select>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">Shipping Terms</label>
                                             <ng-select [ngClass]="{'invalid': submitted && f.SHIPPING_TERMS.errors}"
-                                    formControlName="SHIPPING_TERMS" style="margin-top: 5px;">
+                                    formControlName="SHIPPING_TERMS" style="margin-top: 10px;">
                                     <ng-option value="" selected="true" disabled>--Select Shipping Terms--</ng-option>
                                     <ng-option value="DPD">DPD</ng-option>
                                     <ng-option value="CFS">CFS</ng-option>
@@ -153,7 +142,7 @@
                                    </ng-select>
                                         </div>
                                     </div>
-                                   
+                                    
                                 </div>
                             </div>
                         </div>
@@ -164,8 +153,8 @@
                 <div class="row  mt-4">
 
                     <div class="col-md-6 offset-md-6 text-end">
-                        <button type="button" class="btn btn-secondary btn-block" (click)="cancelDO()" style="margin-right: 6px;">Cancel</button>
-                        <button type="button" class="btn btn-secondary btn-block" (click)="saveDO()" style="margin-right: 6px;">Save</button>
+                        <button type="button" class="form-btn" (click)="cancelDO()" style="margin-right: 6px;">Clear</button>
+                        <button type="button" class="form-btn" (click)="saveDO()" style="margin-right: 6px;">Save</button>
                     
                     </div>
                     
