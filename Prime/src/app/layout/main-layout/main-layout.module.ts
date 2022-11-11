@@ -14,6 +14,7 @@ import { BookingListComponent } from 'src/app/modules/booking-list/booking-list.
 import { NewCroComponent } from 'src/app/modules/new-cro/new-cro.component';
 import { CroListComponent } from 'src/app/modules/cro-list/cro-list.component';
 
+
 @NgModule({
   declarations: [
     MainLayoutComponent,
@@ -23,14 +24,15 @@ import { CroListComponent } from 'src/app/modules/cro-list/cro-list.component';
     LoginComponent,
     BookingListComponent,
     NewCroComponent,
-    CroListComponent,
+    CroListComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
+    NgSelectModule,
+    
     SharedModule,
   ],
   providers: [],

@@ -20,7 +20,7 @@ export class PartyService {
   getPartyList(party: PARTY) {
     return this._http.get<any>(
       this.BASE_URL +
-        'Master/GetMasterList?AGENT_CODE=' +
+        'Master/GetPartyMasterList?AGENT_CODE=' +
         party.AGENT_CODE,
       this.httpOptions
     );
@@ -28,11 +28,22 @@ export class PartyService {
  
   postParty(party: any) {
     return this._http.post<any>(
-      this.BASE_URL + 'Master/InsertMaster',
+      this.BASE_URL + 'Master/InsertPartyMaster',
       party,
       this.httpOptions
     );
   }
- 
+
+  GetMasterList(){
+    return this._http.get<any>(
+      this.BASE_URL+
+      'Master/GetPartyMasterList?AGENT_CODE=' +
+  
+      this.httpOptions
+    );
+    }
   }
+
+ 
+  
 

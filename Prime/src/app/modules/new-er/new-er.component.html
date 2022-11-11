@@ -111,20 +111,20 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label  class="form-label2">Container</label>
-                                        <ng-multiselect-dropdown #multiSelect
-      [placeholder]="'Select Container'"
-      [settings]="dropdownSettings" 
-      [data]="containerDropdownList" 
-      [(ngModel)]="selectedItems"
-      [formControl]="f.CONTAINER_LIST" 
-      [class.is-invalid]="f?.CONTAINER_LIST?.errors?.required && f?.CONTAINER_LIST?.touched"
-      (onFilterChange)="onFilterChange($event)"
-      (onDropDownClose)="onDropDownClose($event)"
-      (onSelect)="onItemSelect($event)" 
-      (onDeSelect)="onDeSelect($event)"
-      (onSelectAll)="onSelectAll($event)"
-      (onDeSelectAll)="onDeSelectAll($event)">
-		</ng-multiselect-dropdown>
+                                <ng-multiselect-dropdown #multiSelect
+                                [placeholder]="'Select Container'"
+                                [settings]="dropdownSettings" 
+                                [data]="containerDropdownList" 
+                                [(ngModel)]="selectedItems"
+                                [formControlName]="f.CONTAINER_LIST" 
+                                [class.is-invalid]="f?.CONTAINER_LIST?.errors?.required && f?.CONTAINER_LIST?.touched"
+                                (onFilterChange)="onFilterChange($event)"
+                                (onDropDownClose)="onDropDownClose($event)"
+                                (onSelect)="onItemSelect($event)" 
+                                (onDeSelect)="onDeSelect($event)"
+                                (onSelectAll)="onSelectAll($event)"
+                                (onDeSelectAll)="onDeSelectAll($event)">
+                                </ng-multiselect-dropdown>
 
     <span *ngIf="f?.CONTAINER_LIST?.errors?.required && f?.CONTAINER_LIST?.touched" style="color: red;">
       Container is required

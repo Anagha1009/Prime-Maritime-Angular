@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { PARTY } from 'src/app/models/party';
 import { PartyService } from 'src/app/services/party.service';
 
+
 @Component({
   selector: 'app-party',
   templateUrl: './party.component.html',
@@ -13,27 +14,30 @@ export class PartyComponent implements OnInit {
   submitted: boolean = false;
   partyForm: FormGroup;
   partyList: any[] = [];
+  data: any;
+ 
 
-  @ViewChild('openBtn') openBtn: ElementRef;
+
+
   
   constructor(
     private _partyService: PartyService , private _formBuilder:FormBuilder,
     private _router: Router)  { }
 
-  ngOnInit(): void {
+   ngOnInit(): void {
 
-    this.partyForm = this._formBuilder.group({
-      CUST_NAME: [''],
-      CUST_EMAIL: [''],
-      CUST_ADDRESS: [''],
-      CUST_TYPE:[''],
-      GSTIN: [''],
-      AGENT_CODE: [''],
-      STATUS:['']
-    });
+     this.partyForm = this._formBuilder.group({
+       CUST_NAME: [''],
+       CUST_EMAIL: [''],
+       CUST_ADDRESS: [''],
+       CUST_TYPE:[''],
+       GSTIN: [''],
+       AGENT_CODE: [''],
+       STATUS:['']
+     });
 
-    this.GetMasterList();
-  }
+     this.GetMasterList();
+   }
 
   GetMasterList() {
     var partyModel = new PARTY();
@@ -52,6 +56,9 @@ export class PartyComponent implements OnInit {
     this.partyForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
     this.partyForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
 
+    var status = this.partyForm.get('STATUS')?.value;
+    this.partyForm.get('STATUS')?.setValue(Boolean(status));
+
     console.log(JSON.stringify(this.partyForm.value))
 
     this._partyService
@@ -59,8 +66,16 @@ export class PartyComponent implements OnInit {
     .subscribe((res: any) => {
       if (res.responseCode == 200) {
         alert('Your party master has been submitted successfully !');
-        this._router.navigateByUrl('/home/quotation-list');
+        this.GetMasterList()
       }
     });
+  }
+
+  getPartyDetails(){
+
+  }
+
+  deleteParty(){
+    
   }
 }
