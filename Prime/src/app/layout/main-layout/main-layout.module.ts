@@ -13,6 +13,13 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BookingListComponent } from 'src/app/modules/booking-list/booking-list.component';
 import { NewCroComponent } from 'src/app/modules/new-cro/new-cro.component';
 import { CroListComponent } from 'src/app/modules/cro-list/cro-list.component';
+import { SplitBookingComponent } from 'src/app/modules/split-booking/split-booking.component';
+import { NewDoComponent } from 'src/app/modules/new-do/new-do.component';
+import { DoDetailsComponent } from 'src/app/modules/do-details/do-details.component';
+import { DoListComponent } from 'src/app/modules/do-list/do-list.component';
+import { NewErComponent } from 'src/app/modules/new-er/new-er.component';
+import { NewBlComponent } from 'src/app/modules/new-bl/new-bl.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -24,6 +31,12 @@ import { CroListComponent } from 'src/app/modules/cro-list/cro-list.component';
     BookingListComponent,
     NewCroComponent,
     CroListComponent,
+    SplitBookingComponent,
+    NewDoComponent,
+    DoListComponent,
+    DoDetailsComponent,
+    NewErComponent,
+    NewBlComponent,
   ],
   imports: [
     CommonModule,
@@ -32,6 +45,7 @@ import { CroListComponent } from 'src/app/modules/cro-list/cro-list.component';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    NgMultiSelectDropDownModule,
   ],
   providers: [],
 })

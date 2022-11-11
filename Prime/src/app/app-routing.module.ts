@@ -14,6 +14,7 @@ import { LandingComponent } from './shared/landing/landing.component';
 import { DoListComponent } from './modules/do-list/do-list.component';
 import { DoDetailsComponent } from './modules/do-details/do-details.component';
 import { NewErComponent } from './modules/new-er/new-er.component';
+import { NewBlComponent } from './modules/new-bl/new-bl.component';
 
 const routes: Routes = [
   {
@@ -71,6 +72,10 @@ const routes: Routes = [
       {
         path: 'do-details',
         component: DoDetailsComponent,
+      },
+      {
+        path: 'new-bl',
+        component: NewBlComponent,
       },
     ],
   },

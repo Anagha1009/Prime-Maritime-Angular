@@ -319,7 +319,7 @@ input:-webkit-autofill:focus {
 
 .formbold-file-input label {
   position: relative;
-  border: 1px dashed #e0e0e0;
+  border: 1px dashed #00afe3;
   border-radius: 6px;
   min-height: 160px;
   display: flex;
@@ -343,9 +343,11 @@ input:-webkit-autofill:focus {
 }
 
 .formbold-file-item {
-  display: flex;
+  // display: flex;
   align-items: center;
   justify-content: space-between;
+  color: #68a4c4;
+  font-size: 18px;
 }
 
 .formbold-file-item button {
@@ -435,6 +437,7 @@ input:-webkit-autofill:focus {
   background: #1e4356;
   color: #fff;
   text-decoration: none;
+  cursor: pointer;
 }
 .multiselect-dropdown .dropdown-btn .selected-item {
   //border: 1px solid #337ab7;
