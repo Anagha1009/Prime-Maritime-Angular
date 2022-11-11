@@ -6,17 +6,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainLayoutModule } from './layout/main-layout/main-layout.module';
 import { SharedModule } from './shared/shared.module';
-import { SplitBookingComponent } from './modules/split-booking/split-booking.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
-import { NewDoComponent } from './modules/new-do/new-do.component';
-import { DoListComponent } from './modules/do-list/do-list.component';
-import { DoDetailsComponent } from './modules/do-details/do-details.component';
-import { NewErComponent } from './modules/new-er/new-er.component';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent, SplitBookingComponent, NewDoComponent, DoListComponent, DoDetailsComponent, NewErComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -26,7 +20,6 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    NgMultiSelectDropDownModule 
   ],
   providers: [],
   bootstrap: [AppComponent],
