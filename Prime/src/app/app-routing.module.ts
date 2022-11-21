@@ -16,6 +16,7 @@ import { DoDetailsComponent } from './modules/do-details/do-details.component';
 import { NewErComponent } from './modules/new-er/new-er.component';
 import { NewBlComponent } from './modules/new-bl/new-bl.component';
 import { NewCmComponent } from './modules/new-cm/new-cm.component';
+import { ActivityMappingComponent } from './modules/activity-mapping/activity-mapping.component';
 
 const routes: Routes = [
   {
@@ -85,7 +86,11 @@ const routes: Routes = [
       {
         path: 'new-cm',
         component: NewCmComponent,
-      }
+      },
+      {
+        path: 'activity-mapping',
+        component: ActivityMappingComponent,
+      },
     ],
   },
 ];
