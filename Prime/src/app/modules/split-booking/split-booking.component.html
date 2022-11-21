@@ -30,7 +30,7 @@
     </section>
 
     <section  class="services"  *ngIf="previewDetails">
-        <div class="icon-box icon-box-cyan">
+        <div>
             <div class="container mt-4">
                 <div class="row">
                     <div class="col-md-3">
@@ -52,8 +52,9 @@
                                 <div class="row mt-5">
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" [ngClass]="{'invalid': submitted && f2.VESSEL_NAME.errors}" formControlName="VESSEL_NAME"/>
-                                            <label class="form-label">Vessel Name</label>
+                                            <label class="form-label2">Vessel Name</label>
+                                            <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f2.VESSEL_NAME.errors}" formControlName="VESSEL_NAME"/>
+                                            
                                             <div *ngIf="submitted && f2.VESSEL_NAME.errors" class="invalid-feedback">Please enter
                                                 Vessel name</div>
 
@@ -61,8 +62,9 @@
                                     </div>
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" [ngClass]="{'invalid': submitted && f2.VOYAGE_NO.errors}" formControlName="VOYAGE_NO"/>
-                                            <label class="form-label" for>Voyage No</label>
+                                            <label class="form-label2" for>Voyage No</label>
+                                            <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f2.VOYAGE_NO.errors}" formControlName="VOYAGE_NO"/>
+                                            
                                             <div *ngIf="submitted && f2.VOYAGE_NO.errors" class="invalid-feedback">Please enter
                                                 Voyage number</div>
                                         </div>
@@ -71,16 +73,18 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" [ngClass]="{'invalid': submitted && f2.MOTHER_VESSEL_NAME.errors}" formControlName="MOTHER_VESSEL_NAME"/>
-                                            <label class="form-label">Mother Vessel Name</label>
+                                            <label class="form-label2">Mother Vessel Name</label>
+                                            <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f2.MOTHER_VESSEL_NAME.errors}" formControlName="MOTHER_VESSEL_NAME"/>
+                                            
                                             <div *ngIf="submitted && f2.MOTHER_VESSEL_NAME.errors" class="invalid-feedback">Please enter
                                                 Mother Vessel Name</div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" [ngClass]="{'invalid': submitted && f2.MOTHER_VOYAGE_NO.errors}" formControlName="MOTHER_VOYAGE_NO"/>
-                                            <label class="form-label">Mother Voyage No</label>
+                                            <label class="form-label2">Mother Voyage No</label>
+                                            <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f2.MOTHER_VOYAGE_NO.errors}" formControlName="MOTHER_VOYAGE_NO"/>
+                                            
                                             <div *ngIf="submitted && f2.MOTHER_VOYAGE_NO.errors" class="invalid-feedback">Please enter
                                                 Mother Voyage number</div>
                                         </div>
@@ -127,7 +131,8 @@
                 <hr>
                 <div class="row  mt-4">
                     <div class="col-md-6 offset-md-6 text-end">
-                        <button type="button" class="btn btn-outline-dark" (click)="splitBooking()">Rollover</button>
+                        <button type="button" class="form-btn" (click)="cancelBooking()" style="margin-right: 6px;">Clear</button>
+                        <button type="button" class="form-btn" (click)="splitBooking()" style="margin-right: 6px;">Rollover</button>
                     </div>
                     
                 </div>

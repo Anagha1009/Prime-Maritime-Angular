@@ -15,6 +15,7 @@ export class BOOKING {
   AGENT_NAME: string;
   STATUS: string;
   CREATED_BY: string;
+  IS_ROLLOVER:boolean = false;
   CONTAINER_LIST: SRRCONTAINER[];
 }
 

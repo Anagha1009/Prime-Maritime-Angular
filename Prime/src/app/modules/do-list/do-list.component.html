@@ -32,27 +32,23 @@
             </div>
         </div>
     </form>
-
-</div>
-<section class="services" *ngIf="previewNoData">
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-7 text-end">
-                <h5>Sorry! No records found</h5>
+    <section class="services" *ngIf="previewNoData">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-7 text-end">
+                    <h5>Sorry! No records found</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-5 mt-3 pt-5 mb-5">
+                    <img src="./../../../assets/img/doimg.jpg" class="img-fluid" alt="">
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-5 mt-3 pt-5 mb-5">
-                <img src="./../../../assets/img/doimg.jpg" class="img-fluid" alt="">
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 
-<div class="container" *ngIf="previewList">
-    
-    <section class="services">
+    <section class="services"  *ngIf="previewList">
         <div class="container">
             <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
                 <div [class]="isScroll ? 'force-overflow' : ''">
@@ -76,8 +72,7 @@
             </div>  
         </div> 
     </section>
-    
-
 </div>
+
 
                                     

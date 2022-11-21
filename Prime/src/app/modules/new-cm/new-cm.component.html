@@ -1,0 +1,163 @@
+<div class="section-title">
+    <h2>Container Movement</h2>
+</div>
+<section  class="services">
+    <div>
+        <div class="container mt-4">
+            <div class="row mt-4">
+                <form [formGroup]="cmForm">
+                    <div class="col-md-12">
+                        <div class="row mb-2">                       
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-check form-switch">
+                                            <input formControlName="MANUALLY" class="form-check-input" type="checkbox"
+                                                role="switch" (change)="showDynamicFields()"/>
+                                            <label class="form-check-label">Enter Container No. Manually</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row" *ngIf="manually">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label2">Container No</label>
+                                        <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f.CONTAINER_NO.errors}" formControlName="CONTAINER_NO"/>
+                                        <div *ngIf="submitted && f.CONTAINER_NO.errors" class="invalid-feedback">Please enter Container
+                                        No</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="!manually">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label2">Booking/CRO No</label>
+                                        <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f.BKCR_NO.errors}" formControlName="BKCR_NO"/>
+                                        <div *ngIf="submitted && f.BKCR_NO.errors" class="invalid-feedback">Please enter Booking / CRO 
+                                        No</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4 mt-4">
+                                    <button type="button" class="form-btn" style="margin-left: 6px;" (click)="getContainerList()">Get Containers</button>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label2">Activity Date</label>
+                                        <input formControlName="ACTIVITY_DATE" type="date" class="form-control2" [ngClass]="{'invalid': submitted && f.ACTIVITY_DATE.errors}" />
+                                        <div *ngIf="submitted && f.ACTIVITY_DATE.errors" class="invalid-feedback">Please enter
+                                        Activity Date </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label2">Location</label>
+                                        <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f.LOCATION.errors}" formControlName="LOCATION"/>
+                                        <div *ngIf="submitted && f.LOCATION.errors" class="invalid-feedback">Please enter
+                                            Location </div>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                        </div>
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table" style="font-size: 12px;">
+                                    <thead>
+                                        <tr>
+                                            <td><input type="checkbox" /></td>
+                                            <th>Sr No.</th>
+                                            <th>Container No</th>
+                                            <th>Activity</th>
+                                            <th>Previous Activity</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of f2;let i = index" [formGroup]="f1(item)">
+                                            <td><input (change)="postSelectedContainerList(item)" type="checkbox" /></td>
+                                            <td>{{i+1}}</td>
+                                            <td>{{cmForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
+                                            <td class="col-md-3">
+                                                <ng-select formControlName="ACTIVITY">
+                                                    <!-- <ng-option value="" selected disabled>
+                                                        --Activity--</ng-option> -->
+                                                    <ng-option *ngFor="let act of activityList" value="{{act.ACT_CODE}}">{{act.ACT_NAME}}({{act.ACT_CODE}})</ng-option>
+                                                </ng-select>
+                                            </td>
+                                            <td>{{cmForm.value.CONTAINER_LIST2[i].PREV_ACTIVITY}}</td>
+                                            <td class="col-md-3">
+                                                <ng-select formControlName="STATUS">
+                                                    <ng-option value="" selected disabled>
+                                                        --Status--</ng-option>
+                                                    <ng-option *ngFor="let status of statusList" value="{{status.DESC}}">{{status.DESC}}</ng-option>
+                                                </ng-select>
+                                            </td>
+                                            
+                                        </tr>
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                            <!-- <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <h6>Status : <small class="text-danger">
+                                            Available</small>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label2">Status</label>
+                                        <ng-select [ngClass]="{'invalid': submitted && f.STATUS.errors}"
+                                formControlName="ACTIVITY" style="margin-top: 10px;">
+                                <ng-option value="" selected="true" disabled>--Select STATUS--</ng-option>
+                                <ng-option value="ADTC-ADTC - Dammam">ADTC-ADTC - Dammam</ng-option>
+                                <ng-option value="AERAK-RAS AL KHAYMAH">AERAK-RAS AL KHAYMAH</ng-option>
+                                <ng-option value="AMAL - L-AMAL LOGISTICS SERVICES PVT.LTD.">AMAL - L-AMAL LOGISTICS SERVICES PVT.LTD.</ng-option>
+                                <ng-option value="BCT-Bay Container Terminal">BCT-Bay Container Terminal</ng-option>
+                                <ng-option value="BGT20-BGT20 Umm Qasar">BGT20-BGT20 Umm Qasar</ng-option>
+                                <ng-option value="BHKBS-BAHR-BHKBS Deport">BHKBS-BAHR-BHKBS Deport</ng-option>
+                                <ng-option value="BORKHE-ICD BORKHEDI">BORKHE-ICD BORKHEDI</ng-option>
+                               </ng-select>
+                               <div *ngIf="submitted && f.ACTIVITY.errors" class="invalid-feedback">Please select
+                                Activity</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <h6>
+                                            Previous Activity :
+                                            <small class="text-danger">Back to town</small>
+                                        </h6>
+                                    </div>
+                            </div> 
+                        </div>-->
+                    </div>
+                </form>
+               
+            </div>
+            <hr>
+            <div class="row  mt-4">
+
+                <div class="col-md-6 offset-md-6 text-end">
+                    <button type="button" class="form-btn" style="margin-right: 6px;" (click)="cancelContainerMovement()">Clear</button>
+                    <button type="button" class="form-btn" style="margin-right: 6px;" (click)="saveContainerMovement()">Save</button>
+                
+                </div>
+                
+            </div>
+    
+        </div>
+
+    </div>
+</section>
