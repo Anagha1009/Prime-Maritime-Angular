@@ -20,6 +20,7 @@ import { DoListComponent } from 'src/app/modules/do-list/do-list.component';
 import { NewErComponent } from 'src/app/modules/new-er/new-er.component';
 import { NewBlComponent } from 'src/app/modules/new-bl/new-bl.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ActivityMappingComponent } from 'src/app/modules/activity-mapping/activity-mapping.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     DoDetailsComponent,
     NewErComponent,
     NewBlComponent,
+    ActivityMappingComponent
   ],
   imports: [
     CommonModule,
