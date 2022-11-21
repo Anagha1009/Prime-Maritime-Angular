@@ -20,7 +20,9 @@ import { DoListComponent } from 'src/app/modules/do-list/do-list.component';
 import { NewErComponent } from 'src/app/modules/new-er/new-er.component';
 import { NewBlComponent } from 'src/app/modules/new-bl/new-bl.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { ActivityMappingComponent } from 'src/app/modules/activity-mapping/activity-mapping.component';
+import { DepoDashboardComponent } from 'src/app/modules/depo-dashboard/depo-dashboard.component';
+import { ContainerAllotmentComponent } from 'src/app/modules/container-allotment/container-allotment.component';
+import { ContainerAllotmentListComponent } from 'src/app/modules/container-allotment-list/container-allotment-list.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { ActivityMappingComponent } from 'src/app/modules/activity-mapping/activ
     DoDetailsComponent,
     NewErComponent,
     NewBlComponent,
-    ActivityMappingComponent
+    DepoDashboardComponent,
+    ContainerAllotmentComponent,
+    ContainerAllotmentListComponent,
   ],
   imports: [
     CommonModule,

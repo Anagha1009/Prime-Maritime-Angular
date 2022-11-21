@@ -1,0 +1,79 @@
+<div class="section-title">
+    <h2>Container Allotment</h2>
+</div>
+<div class="container">
+    <div class="col-md-10 mx-auto">
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="text" class="form-control" [(ngModel)]="croNo" />
+                    <label class="form-label">CRO No</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <button class="form-btn" (click)="getDetails()">Get Details</button>
+            </div>
+        </div>
+        <form [formGroup]="containerForm">
+            <div class="row" *ngIf="isCRO">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">To Location</label>
+                        <input type="text" formControlName="TO_LOCATION" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">Movement Date</label>
+                        <input type="date" formControlName="MOVEMENT_DATE" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">Container</label>
+                        <ng-multiselect-dropdown #multiSelect [placeholder]="'Select Container'"
+                            [settings]="dropdownSettings" [formControl]="f.CONTAINER_LIST1"
+                            [data]="containerDropdownList" [(ngModel)]="selectedItems">
+                        </ng-multiselect-dropdown>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="col-md-5 mx-auto" *ngIf="!isrecord">
+            <h5 class="text-center">Sorry! No records found !!</h5>
+            <img src="./../../../assets/img/doimg.jpg" class="img-fluid" alt="">
+        </div>
+        <div class="row" *ngIf="isCRO">
+            <div class="col-md-2 offset-md-10" style="text-align: right;">
+                <button class="form-btn-primary w-100" (click)="saveContainer()">Save</button>
+            </div>
+        </div>
+        <table class="table" style="font-size: 12px;" *ngIf="containerList.length > 0">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>CRO No</th>
+                    <th>Container No</th>
+                    <th>To Location</th>
+                    <th>Movement Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of containerList;let i = index">
+                    <td>{{i + 1}}</td>
+                    <td>{{f.CRO_NO.value}}</td>
+                    <td>{{item.item_text}}</td>
+                    <td>{{f.TO_LOCATION.value}}</td>
+                    <td>{{f.CRO_NO.MOVEMENT_DATE}}</td>
+                    <td><i class='bx bxs-trash-alt'></i></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row" *ngIf="containerList.length > 0">
+            <div class="col-md-2 offset-md-10" style="text-align: right;">
+                <button class="form-btn w-100" (click)="insertContainer()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

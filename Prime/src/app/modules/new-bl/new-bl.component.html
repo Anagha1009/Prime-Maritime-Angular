@@ -36,10 +36,10 @@
         <div class="col-md-3 mt-4 mx-auto">
             <div class="form-group">
                 <label class="form-label2">BL No</label>
-                <input type="text" class="form-control2" />
+                <input type="text" class="form-control2" [(ngModel)]="blNo" />
             </div>
             <div class="col-md-5 mx-auto text-end">
-                <button class="form-btn w-100" (click)="getBLForm()">Submit</button>
+                <button class="form-btn w-100" (click)="getBLDetails()">Submit</button>
             </div>
         </div>
 
@@ -126,7 +126,7 @@
                 <table class="table" style="font-size: 12px;">
                     <thead>
                         <tr>
-                            <th><input type="checkbox" (change)="getContainerList(1,$event,-1)" /></th>
+                            <th *ngIf="isSplit"><input type="checkbox" (change)="getContainerList(1,$event,-1)" /></th>
                             <th>Sr No</th>
                             <th>Cont No</th>
                             <th>Cont Type</th>
@@ -138,7 +138,8 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of f;let i = index" [formGroup]="getf1(item)">
-                            <td><input id="chck{{i}}" (change)="getContainerList(item,$event,i)" type="checkbox" />
+                            <td *ngIf="isSplit"><input id="chck{{i}}" (change)="getContainerList(item,$event,i)"
+                                    type="checkbox" />
                             </td>
                             <td class="col-md-1">{{i+1}}</td>
                             <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
@@ -160,7 +161,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Total No of Containers</label>
-                        <input type="text" class="form-control2" />
+                        <input type="text" formControlName="TOTAL_CONTAINERS" class="form-control2" />
                     </div>
                 </div>
             </div>
@@ -173,24 +174,17 @@
                             <th>Sr No</th>
                             <th>Charge Code</th>
                             <th>Rate</th>
-                            <th>Prepaid</th>
-                            <th>Collect</th>
+                            <th>Payment Term</th>
+                            <th>Place of Payment</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>THC</td>
-                            <td>500</td>
-                            <td>Yes</td>
-                            <td>No</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>EWRI</td>
-                            <td>254</td>
-                            <td>No</td>
-                            <td>Yes</td>
+                        <tr *ngFor="let item of chargeList; let i = index">
+                            <td>{{i + 1}}</td>
+                            <td>{{item.CHARGE_CODE}}</td>
+                            <td>{{item.CURRENCY}} {{item.RATE_REQUESTED}}</td>
+                            <td>{{item.PAYMENT_TERM}}</td>
+                            <td>{{item.TRANSPORT_TYPE}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -217,7 +211,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Issue Date</label>
-                        <input type="text" formControlName="BL_ISSUE_DATE" class="form-control2" />
+                        <input type="date" formControlName="BL_ISSUE_DATE" class="form-control2" />
                     </div>
                 </div>
             </div>

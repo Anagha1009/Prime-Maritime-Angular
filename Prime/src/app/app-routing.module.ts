@@ -15,7 +15,11 @@ import { DoListComponent } from './modules/do-list/do-list.component';
 import { DoDetailsComponent } from './modules/do-details/do-details.component';
 import { NewErComponent } from './modules/new-er/new-er.component';
 import { NewBlComponent } from './modules/new-bl/new-bl.component';
-import { ActivityMappingComponent } from './modules/activity-mapping/activity-mapping.component';
+import { DepoDashboardComponent } from './modules/depo-dashboard/depo-dashboard.component';
+import { ContainerAllotmentComponent } from './modules/container-allotment/container-allotment.component';
+import { ContainerAllotmentListComponent } from './modules/container-allotment-list/container-allotment-list.component';
+import { PmLayoutComponent } from './layout/pm-layout/pm-layout.component';
+import { PmLoginComponent } from './pm-modules/pm-login/pm-login.component';
 
 const routes: Routes = [
   {
@@ -25,6 +29,16 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'pm',
+    component: PmLayoutComponent,
+    children: [
+      {
+        path: 'login',
+        component: PmLoginComponent,
+      },
+    ],
   },
   {
     path: 'home',
@@ -79,8 +93,16 @@ const routes: Routes = [
         component: NewBlComponent,
       },
       {
-        path: 'activity-mapping',
-        component: ActivityMappingComponent,
+        path: 'depo',
+        component: DepoDashboardComponent,
+      },
+      {
+        path: 'container-allotment',
+        component: ContainerAllotmentComponent,
+      },
+      {
+        path: 'container-allotment-list',
+        component: ContainerAllotmentListComponent,
       },
     ],
   },
