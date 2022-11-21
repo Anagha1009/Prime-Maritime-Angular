@@ -8,6 +8,7 @@ import { MainLayoutModule } from './layout/main-layout/main-layout.module';
 import { SharedModule } from './shared/shared.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     MainLayoutModule,
+    PmLayoutModule,
     SharedModule,
     HttpClientModule,
     NgSelectModule,
