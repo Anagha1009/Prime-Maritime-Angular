@@ -3,6 +3,9 @@ import * as XLSX from 'xlsx';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { CommonService } from 'src/app/services/common.service';
+import { Bl } from 'src/app/models/bl';
+import { BlService } from 'src/app/services/bl.service';
+import { Router } from '@angular/router';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -30,10 +33,17 @@ export class NewBlComponent implements OnInit {
   ];
   isBLForm: boolean = false;
   tabs: string = '1';
+  blNo: string = '';
+  isSplit: boolean = false;
+  srrId: any;
+  srrNo: any;
+  chargeList: any[] = [];
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private _blService: BlService,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +51,7 @@ export class NewBlComponent implements OnInit {
       BL_NO: [''],
       SRR_ID: [''],
       SRR_NO: [''],
+      BOOKING_NO: [''],
       SHIPPER: [''],
       CONSIGNEE: [''],
       NOTIFY_PARTY: [''],
@@ -52,6 +63,7 @@ export class NewBlComponent implements OnInit {
       PORT_OF_DISCHARGE: [''],
       PLACE_OF_DELIVERY: [''],
       FINAL_DESTINATION: [''],
+      TOTAL_CONTAINERS: [''],
       PREPAID_AT: [''],
       PAYABLE_AT: [''],
       BL_ISSUE_PLACE: [''],
@@ -87,10 +99,30 @@ export class NewBlComponent implements OnInit {
     });
 
     this.isBLForm = true;
+    this.isSplit = false;
+
+    this.blForm.get('TOTAL_CONTAINERS')?.setValue(this.containerList.length);
+    var bl = new Bl();
+    bl.AGENT_CODE = localStorage.getItem('usercode');
+    bl.BL_NO = this.isSplit ? this.blNo : '';
+    bl.BOOKING_NO = !this.isSplit ? this.blForm.get('BOOKING_NO')?.value : '';
+
+    this._blService.getSRRDetails(bl).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
+        this.blForm.get('SRR_NO')?.setValue(res.Data.SRR_NO);
+
+        this.chargeList = res.Data.SRR_RATES;
+      }
+    });
   }
 
   createBL() {
-    this.blForm.get('BL_NO')?.setValue(this.getRandomNumber());
+    if (this.isSplit) {
+      this.blForm.get('BL_NO')?.setValue(this.blNo + '-1');
+    } else {
+      this.blForm.get('BL_NO')?.setValue(this.getRandomNumber());
+    }
 
     var voyageNo = this.blForm.get('VOYAGE_NO')?.value;
     this.blForm.get('VOYAGE_NO')?.setValue(voyageNo.toString());
@@ -102,8 +134,82 @@ export class NewBlComponent implements OnInit {
     this.blForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
     this.blForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
 
-    console.log(JSON.stringify(this.blForm.value));
+    if (!this.isSplit) {
+      const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
+      const add1 = this.blForm.get('CONTAINER_LIST') as FormArray;
+
+      add.controls.forEach((control) => {
+        add1.push(control);
+      });
+    }
+    var bl = new Bl();
+    bl.AGENT_CODE = localStorage.getItem('usercode');
+    bl.BL_NO = this.isSplit ? this.blNo : '';
+    bl.BOOKING_NO = !this.isSplit ? this.blForm.get('BOOKING_NO')?.value : '';
+
+    this._blService.getSRRDetails(bl).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
+        this.blForm.get('SRR_NO')?.setValue(res.Data.SRR_NO);
+        this._blService
+          .createBL(JSON.stringify(this.blForm.value))
+          .subscribe((res: any) => {
+            if (res.responseCode == 200) {
+              this._router.navigateByUrl('/home/quotation-list');
+            }
+          });
+      }
+    });
+
     this.generateBLPdf();
+  }
+
+  getBLDetails() {
+    var BL = new Bl();
+    BL.AGENT_CODE = localStorage.getItem('usercode');
+    BL.BL_NO = this.blNo;
+
+    this._blService.getBLDetails(BL).subscribe((res: any) => {
+      this.blForm.patchValue(res.Data);
+
+      var contList: any[] = res.Data.CONTAINER_LIST;
+
+      const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
+
+      add.clear();
+      contList.forEach((element) => {
+        add.push(
+          this._formBuilder.group({
+            CONTAINER_NO: [element.CONTAINER_NO],
+            CONTAINER_TYPE: [element.CONTAINER_TYPE],
+            CONTAINER_SIZE: [element.CONTAINER_SIZE],
+            SEAL_NO: [element.SEAL_NO],
+            MARKS_NOS: [element.MARKS_NOS],
+            DESC_OF_GOODS: [element.DESC_OF_GOODS],
+            GROSS_WEIGHT: [element.GROSS_WEIGHT],
+            MEASUREMENT: [element.MEASUREMENT?.toString()],
+          })
+        );
+      });
+
+      this.isBLForm = true;
+      this.isSplit = true;
+
+      this.blForm.get('TOTAL_CONTAINERS')?.setValue(contList.length);
+      var bl = new Bl();
+      bl.AGENT_CODE = localStorage.getItem('usercode');
+      bl.BL_NO = this.isSplit ? this.blNo : '';
+      bl.BOOKING_NO = !this.isSplit ? this.blForm.get('BOOKING_NO')?.value : '';
+
+      this._blService.getSRRDetails(bl).subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
+          this.blForm.get('SRR_NO')?.setValue(res.Data.SRR_NO);
+
+          this.chargeList = res.Data.SRR_RATES;
+        }
+      });
+    });
   }
 
   get f() {
@@ -126,7 +232,9 @@ export class NewBlComponent implements OnInit {
       const add1 = this.blForm.get('CONTAINER_LIST') as FormArray;
 
       if (event.target.checked) {
-        add1.push(add);
+        add.controls.forEach((control) => {
+          add1.push(control);
+        });
 
         for (var i: number = 0; i < add.length; i++) {
           (document.getElementById('chck' + i) as HTMLInputElement).checked =
@@ -176,6 +284,7 @@ export class NewBlComponent implements OnInit {
           const dataString = JSON.stringify(jsonData);
 
           var keyArray = [
+            'BOOKING_NO',
             'SHIPPER',
             'CONSIGNEE',
             'NOTIFY_PARTY',
@@ -186,6 +295,7 @@ export class NewBlComponent implements OnInit {
             'PORT_OF_LOADING',
             'PORT_OF_DISCHARGE',
             'PLACE_OF_DELIVERY',
+            'FINAL_DESTINATION',
           ];
 
           var keyArray1 = [
@@ -222,6 +332,7 @@ export class NewBlComponent implements OnInit {
             this.previewTable.forEach((element) => {
               if (
                 !this.checkNullEmpty([
+                  element.BOOKING_NO,
                   element.SHIPPER,
                   element.CONSIGNEE,
                   element.NOTIFY_PARTY,
@@ -232,6 +343,7 @@ export class NewBlComponent implements OnInit {
                   element.PORT_OF_LOADING,
                   element.PORT_OF_DISCHARGE,
                   element.PLACE_OF_DELIVERY,
+                  element.FINAL_DESTINATION,
                 ])
               ) {
                 isValid = false;

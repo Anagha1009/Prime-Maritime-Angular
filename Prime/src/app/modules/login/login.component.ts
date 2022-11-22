@@ -50,7 +50,11 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('username', res.userName);
           localStorage.setItem('rolecode', res.roleCode);
           localStorage.setItem('usercode', res.userCode);
-          this._router.navigateByUrl('/home/quotation-list');
+          if (res.roleCode == '1') {
+            this._router.navigateByUrl('/home/quotation-list');
+          } else if (res.roleCode == '3') {
+            this._router.navigateByUrl('/home/depo');
+          }
         } else {
           alert(res.message);
           return;
