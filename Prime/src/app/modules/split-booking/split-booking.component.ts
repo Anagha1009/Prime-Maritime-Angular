@@ -36,6 +36,7 @@ export class SplitBookingComponent implements OnInit {
       AGENT_NAME: [''],
       STATUS: [''],
       CREATED_BY: [''],
+      IS_ROLLOVER: [false],
       SLOT_LIST: new FormArray([]),
     });
 
@@ -90,12 +91,13 @@ export class SplitBookingComponent implements OnInit {
   splitBooking(){
     debugger;
     this.submitted=true;
-    this.splitBookingForm.get('BOOKING_NO')?.setValue(this.booking?.BOOKING_NO+"-A");
+    this.splitBookingForm.get('BOOKING_NO')?.setValue(this.booking?.BOOKING_NO);
+    this.splitBookingForm.get('IS_ROLLOVER')?.setValue(true);
     this.splitBookingForm.get('SRR_ID')?.setValue(this.booking?.CONTAINER_LIST[0].SRR_ID);
     this.splitBookingForm.get('SRR_NO')?.setValue(this.booking?.CONTAINER_LIST[0].SRR_NO);
     this.splitBookingForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
     this.splitBookingForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    this.splitBookingForm.get('STATUS')?.setValue("Booked");
+    this.splitBookingForm.get('STATUS')?.setValue('Booked');
     this.splitBookingForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
 
     console.log(JSON.stringify(this.splitBookingForm.value));
@@ -107,6 +109,16 @@ export class SplitBookingComponent implements OnInit {
           this._router.navigateByUrl('/home/booking-list');
         }
       });
+
+  }
+  cancelBooking(){
+    this.splitBookingForm.get('VESSEL_NAME')?.setValue('');
+    this.splitBookingForm.get('VOYAGE_NO')?.setValue('');
+    this.splitBookingForm.get('MOTHER_VESSEL_NAME')?.setValue('');
+    this.splitBookingForm.get('MOTHER_VOYAGE_NO')?.setValue('');
+    var slotDetails = this.splitBookingForm.get('SLOT_LIST') as FormArray;
+    slotDetails.get('SLOT_OPERATOR')?.setValue('');
+    slotDetails.get('NO_OF_SLOTS')?.setValue('');
 
   }
 
