@@ -20,11 +20,16 @@ import { ContainerAllotmentComponent } from './modules/container-allotment/conta
 import { ContainerAllotmentListComponent } from './modules/container-allotment-list/container-allotment-list.component';
 import { PmLayoutComponent } from './layout/pm-layout/pm-layout.component';
 import { PmLoginComponent } from './pm-modules/pm-login/pm-login.component';
+import { PmLandingComponent } from './shared/pm-landing/pm-landing.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LandingComponent,
+  },
+  {
+    path: 'pm-landing',
+    component: PmLandingComponent,
   },
   {
     path: 'login',
