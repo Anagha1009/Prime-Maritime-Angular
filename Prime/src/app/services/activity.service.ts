@@ -33,4 +33,20 @@ export class ActivityService {
     );
   }
 
+  getActivityByCode(actCode:any){
+    return this._http.post<any>(
+      this.BASE_URL + 'ActivityMapping/GetActivityDetailsByCode?ACT_CODE=',
+      actCode,
+      this.httpOptions
+    );
+  }
+
+  getMappingById(actId:any){
+    return this._http.post<any>(
+      this.BASE_URL + 'Activity/GetActivityMappingDetailsByID?ACT_ID=',
+      actId,
+      this.httpOptions
+    );
+  }
+
 }

@@ -8,6 +8,8 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { CONTAINER_MOVEMENT } from 'src/app/models/cm';
 import { BlService } from 'src/app/services/bl.service';
 import { CmService } from 'src/app/services/cm.service';
+import { ActivityService } from 'src/app/services/activity.service';
+import { Activity } from 'src/app/models/activity-mapping';
 
 @Component({
   selector: 'app-new-cm',
@@ -19,14 +21,20 @@ export class NewCmComponent implements OnInit {
   onUpload: boolean = false;
   submitted:boolean=false;
   manually:boolean=false;
+  fromXL:boolean=false;
   previewNoData:boolean=true;
   cmTable: any[] = [];
   containerList:any[]=[];
   cm=new CONTAINER_MOVEMENT();
+  singleCM=new CONTAINER_MOVEMENT();
+  contNo:any='';
   bkcr: any='';
   currentUser:any='';
   selectedItems: any[] = [];
   dropdownSettings = {};
+
+  prevData=new Activity();
+  //activityList:any[]=[];
 
   activityList=[
     {ID:6,ACT_CODE:"HDMG",ACT_NAME:"Heavy damage"},
@@ -50,28 +58,11 @@ export class NewCmComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder,
     private _cmService: CmService,
     private _blService:BlService,
+    private _actService:ActivityService,
     private _router: Router) { }
 
   ngOnInit(): void {
    
-    // this.dropdownSettings = {
-    //   singleSelection: false,
-    //   idField: 'CONTAINER_NO',
-    //   textField: 'CONTAINER_NO',
-    //   enableCheckAll: true,
-    //   selectAllText: 'Select All',
-    //   unSelectAllText: 'Unselect All',
-    //   allowSearchFilter: true,
-    //   limitSelection: -1,
-    //   clearSearchFilter: true,
-    //   maxHeight: 197,
-    //   itemsShowLimit: 3,
-    //   searchPlaceholderText: 'Select Container',
-    //   noDataAvailablePlaceholderText: 'No Container Present',
-    //   closeDropDownOnSelection: false,
-    //   showSelectedItemsAtTop: false,
-    //   defaultOpen: false,
-    // };
     this.cmForm = this._formBuilder.group({
       MANUALLY:[''],
       BOOKING_NO: [''],
@@ -84,7 +75,6 @@ export class NewCmComponent implements OnInit {
       LOCATION:['',Validators.required],
       STATUS: [''],
       CREATED_BY: [''],
-      //CONTAINER_LIST_DROPDOWN:new FormControl(this.containerList, Validators.required),
       CONTAINER_MOVEMENT_LIST:new FormArray([]),
       CONTAINER_LIST2:new FormArray([])
     });
@@ -96,6 +86,29 @@ export class NewCmComponent implements OnInit {
     const add = this.cmForm.get('CONTAINER_LIST2') as FormArray;
     add.clear();
     this.containerList.forEach((element) => {
+      // this._actService.getActivityByCode(element.PREV_ACTIVITY).subscribe((res: any) => {
+      //   debugger;
+      //   if (res.ResponseCode == 200) {
+      //     this.prevData = res.Data;
+      //   }
+      //   if(res.ResponseCode==500){
+      //     this.activityList=this.mainActList;
+      //   }
+      // });
+
+      // if(this.prevData!=null){
+      //   this._actService.getMappingById(this.prevData.ID).subscribe((res: any) => {
+      //     debugger;
+      //     if (res.ResponseCode == 200) {
+      //       this.activityList = res.Data;
+      //     }
+      //     if(res.ResponseCode==500){
+      //       this.activityList=this.mainActList;
+      //     }
+      //   });
+
+      // }
+      
       add.push(
         this._formBuilder.group({
           ID:[element.ID],
@@ -121,17 +134,47 @@ export class NewCmComponent implements OnInit {
     this.currentUser=localStorage.getItem('username');
   }
 
+  getSingleContainer(){
+    debugger;
+    if(this.cmForm.get('CONTAINER_NO')?.value==""){
+      alert('Please enter Container No.');
+    }
+    else{
+      debugger;
+      this.contNo=this.cmForm.get('CONTAINER_NO')?.value;
+      this._cmService.getSingleCM(this.contNo).subscribe((res: any) => {
+        debugger;
+        if (res.ResponseCode == 200) {
+          this.singleCM = res.Data;
+        }
+        if(res.ResponseCode==500){
+          //alert("It seems like there is no such container, continue with the process to add it's first activity");
+        }
+      });
+      this.cmForm.get('ACTIVITY')?.setValue(this.singleCM?.ACTIVITY);
+      this.cmForm.get('PREV_ACTIVITY')?.setValue(this.singleCM?.PREV_ACTIVITY);
+      this.cmForm.get('ACTIVITY_DATE')?.setValue(this.singleCM?.ACTIVITY_DATE);
+      this.cmForm.get('LOCATION')?.setValue(this.singleCM?.LOCATION);
+      this.cmForm.get('STATUS')?.setValue(this.singleCM?.STATUS);
+
+    }
+    
+  }
+
   getContainerList(){
     debugger;
     this.previewNoData=true;
     this.containerList=[];
-    if(this.cmForm.get('CONTAINER_NO')?.value!=""){
-      this.cm.CONTAINER_NO=this.cmForm.get('CONTAINER_NO')?.value;
-    }
-    else{
-      this.bkcr=this.cmForm.get('BKCR_NO')?.value;
-      this.cm.BOOKING_NO=this.bkcr;
-    }
+    // if(this.cmForm.get('CONTAINER_NO')?.value!=""){
+    //   this.cm.CONTAINER_NO=this.cmForm.get('CONTAINER_NO')?.value;
+    // }
+    // else{
+    //   this.bkcr=this.cmForm.get('BKCR_NO')?.value;
+    //   this.cm.BOOKING_NO=this.bkcr;
+      
+    // }
+    this.bkcr=this.cmForm.get('BKCR_NO')?.value;
+    this.cm.BOOKING_NO=this.bkcr;
     this._cmService.getContainerMovement(this.cm).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.containerList = res.Data;
@@ -162,7 +205,7 @@ export class NewCmComponent implements OnInit {
 
     console.log(JSON.stringify(this.cmForm.value));
     this._cmService
-      .postContainerMovement(JSON.stringify(this.cmForm.value))
+      .postContainerMovement(JSON.stringify(this.cmForm.value),this.fromXL)
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
           alert('Container Movement saved successfully !');
@@ -188,6 +231,10 @@ export class NewCmComponent implements OnInit {
 
   f1(i: any) {
     return i;
+  }
+
+  get formArr() {
+    return this.cmForm.get("CONTAINER_MOVEMENT_LIST") as FormArray;
   }
 
   postSelectedContainerList(item: any) {
@@ -243,7 +290,7 @@ export class NewCmComponent implements OnInit {
 
           var keyXlArray: any = [];
 
-          Object.keys(jsonData['Sheet1'][0]).forEach(function (key) {
+          Object.keys(jsonData['CM'][0]).forEach(function (key) {
             keyXlArray.push(key);
           });
 
@@ -252,8 +299,8 @@ export class NewCmComponent implements OnInit {
           if (result) {
             this.cmTable = [];
 
-            this.cmTable = jsonData['Sheet1'];
-
+            this.cmTable = jsonData['CM'];
+            this.containerList = jsonData['CM'];
             var isValid = true;
 
             this.cmTable.forEach((element) => {
@@ -341,15 +388,21 @@ export class NewCmComponent implements OnInit {
     //return $(arr1).not(arr2).length === 0 && $(arr2).not(arr1).length === 0;
   }
 
+  openMyPreview(){
+    var element = document.getElementById("openModalButton") as HTMLElement;
+    element.click();
+
+  }
   getCMForm() {
-    this.cmForm.patchValue(this.cmTable[0]);
+    
+    this.fromXL=true;
     const add = this.cmForm.get('CONTAINER_MOVEMENT_LIST') as FormArray;
 
     add.clear();
     this.containerList.forEach((element) => {
       add.push(
         this._formBuilder.group({
-          ID:[element.ID],
+          ID:[0],
           BOOKING_NO: [element.BOOKING_NO],
           CRO_NO: [element.CRO_NO],
           CONTAINER_NO: [element.CONTAINER_NO],
@@ -358,17 +411,24 @@ export class NewCmComponent implements OnInit {
           ACTIVITY_DATE: [element.ACTIVITY_DATE],
           LOCATION: [element.LOCATION],
           STATUS: [element.STATUS],
-          AGENT_CODE: [element.AGENT_CODE],
-          DEPO_CODE: [element.DEPO_CODE],
+          AGENT_CODE: [element.AGENT_CODE.toString()],
+          DEPO_CODE: [element.DEPO_CODE.toString],
           CREATED_BY: [element.CREATED_BY]
         })
       );
 
     });
 
+    debugger
+
+    this.cmForm.get('fromXL')?.setValue(true);
+    this.cmForm.get("ACTIVITY_DATE")?.setValue(new Date());
     console.log(JSON.stringify(this.cmForm.value));
+
+    
+
     this._cmService
-      .postContainerMovement(JSON.stringify(this.cmForm.value))
+      .postContainerMovement(JSON.stringify(this.cmForm.value),this.fromXL)
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
           alert('Container Movement saved successfully !');

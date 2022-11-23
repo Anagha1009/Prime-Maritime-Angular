@@ -6,6 +6,8 @@ export class BOOKING {
   BOOKING_NO: any = '';
   SRR_ID: number;
   SRR_NO: string;
+  POL:string;
+  POD:string;
   VESSEL_NAME: string;
   VOYAGE_NO: string;
   MOTHER_VESSEL_NAME: string;

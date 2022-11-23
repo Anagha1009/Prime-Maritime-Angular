@@ -11,4 +11,5 @@ export class CONTAINER_MOVEMENT {
     AGENT_CODE: any='';
     DEPO_CODE: any='';
     CREATED_BY: string;
+    fromXL:boolean;
 }
