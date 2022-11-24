@@ -52,9 +52,7 @@
                                                 <button (click)="onUpload = false"><span class="bx bx-x-circle"></span></button>
                                             </div>
                                         </div>
-                                        <!-- <div class="col-md-5 mx-auto text-end">
-                                            <button class="form-btn w-100" (click)="getBLForm()">Upload</button>
-                                        </div> -->
+                                      
                                       
                                     </div>
                                     <div class="modal-footer">
@@ -62,18 +60,11 @@
                                             <button id="openModalButton"  data-bs-toggle="modal" href="#previewModal" hidden  >Open Modal</button>
                                             <button class="form-btn w-100"  (click)="openMyPreview()">Upload</button>
                                         </div>
-<!-- 
-                                        <button type="button" (click)="bookNow()" class="form-btn-primary">Book
-                                            Now</button> -->
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
                             <div class="row" *ngIf="manually">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -108,8 +99,7 @@
                                     <div class="form-group">
                                         <label class="form-label2">Activity</label>
                                         <ng-select formControlName="ACTIVITY" [ngClass]="{'invalid': submitted && f.ACTIVITY.errors}" style="margin-top: 10px;">
-                                            <!-- <ng-option value="" selected disabled>
-                                                --Activity--</ng-option> -->
+                                  
                                             <ng-option *ngFor="let act of activityList" value="{{act.ACT_CODE}}">{{act.ACT_NAME}}({{act.ACT_CODE}})</ng-option>
                                         </ng-select>
                                         <div *ngIf="submitted && f.ACTIVITY.errors" class="invalid-feedback">Please enter
@@ -154,6 +144,7 @@
                                     </div>
                                </div> 
                                <div class="col-md-4">
+                                <div class="row mt-5"></div>
                                 <div class="form-group">
                                     <input formControlName="PREV_ACTIVITY" type="date" class="form-control2" [ngClass]="{'invalid': submitted && f.PREV_ACTIVITY.errors}" hidden/>
                                     <h6>
@@ -165,8 +156,7 @@
                                 </div>
                             </div>
                             </div>
-
-                            <div class="row" *ngIf="!manually">
+                            <!-- <div class="row" *ngIf="!manually">
                                 
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -185,10 +175,11 @@
                                             Location </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                                 
                         </div>
-                        <div class="row" *ngIf="!manually">
+                        <div class="row" *ngIf="!manually && showTable">
+                            <hr>
                             <div class="table-responsive">
                                 <table class="table" style="font-size: 12px;">
                                     <thead>
@@ -196,8 +187,20 @@
                                             <td><input type="checkbox" /></td>
                                             <th>Sr No.</th>
                                             <th>Container No</th>
-                                            <th>Activity</th>
                                             <th>Previous Activity</th>
+                                            <th>Activity
+                                            </th>
+                                            <th>Activity Date
+                                                <span class="rounded-btn" style="margin-left: 50px;">
+                                                    <a (click)="copyDate()"><i class="fa fa-copy text-light"></i></a>
+                                                </span>
+                                                
+                                            </th>
+                                            <th>Location
+                                                <span class="rounded-btn" style="margin-left: 50px;">
+                                                    <a (click)="copyLocation()"><i class="fa fa-copy text-light"></i></a>
+                                                </span>
+                                            </th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -206,15 +209,22 @@
                                             <td><input (change)="postSelectedContainerList(item)" type="checkbox" /></td>
                                             <td>{{i+1}}</td>
                                             <td>{{cmForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
-                                            <td class="col-md-3">
+                                            <td>{{cmForm.value.CONTAINER_LIST2[i].PREV_ACTIVITY}}</td>
+    
+                                            <td class="col-md-2">
                                                 <ng-select formControlName="ACTIVITY">
-                                                    <!-- <ng-option value="" selected disabled>
-                                                        --Activity--</ng-option> -->
-                                                    <ng-option *ngFor="let act of activityList" value="{{act.ACT_CODE}}">{{act.ACT_NAME}}({{act.ACT_CODE}})</ng-option>
+                                                    <ng-option value="" selected disabled>
+                                                        --Activity--</ng-option>
+                                                    <ng-option *ngFor="let act of cmForm.value.CONTAINER_LIST2[i].NEXT_ACTIVITY_LIST" value="{{act}}">{{act}}</ng-option>
                                                 </ng-select>
                                             </td>
-                                            <td>{{cmForm.value.CONTAINER_LIST2[i].PREV_ACTIVITY}}</td>
-                                            <td class="col-md-3">
+                                            <td>
+                                                <input formControlName="ACTIVITY_DATE" type="date" class="form-control2"/>
+                                            </td>
+                                            <td>
+                                                <input formControlName="LOCATION" type="text" class="form-control2" />
+                                            </td>
+                                            <td class="col-md-2">
                                                 <ng-select formControlName="STATUS">
                                                     <ng-option value="" selected disabled>
                                                         --Status--</ng-option>
@@ -227,55 +237,25 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <hr>
+                            <div class="row mt-4">
+                               <div class="col-md-6 offset-md-6 text-end">
+                                    <button type="button" class="form-btn" style="margin-right: 6px;" (click)="cancelContainerMovement()">Clear</button>
+                                     <button type="button" class="form-btn" style="margin-right: 6px;" (click)="saveContainerMovement()">Save</button>
+                                </div>
+                            </div>
                         </div>
-                            <!-- <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <h6>Status : <small class="text-danger">
-                                            Available</small>
-                                        </h6>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label2">Status</label>
-                                        <ng-select [ngClass]="{'invalid': submitted && f.STATUS.errors}"
-                                formControlName="ACTIVITY" style="margin-top: 10px;">
-                                <ng-option value="" selected="true" disabled>--Select STATUS--</ng-option>
-                                <ng-option value="ADTC-ADTC - Dammam">ADTC-ADTC - Dammam</ng-option>
-                                <ng-option value="AERAK-RAS AL KHAYMAH">AERAK-RAS AL KHAYMAH</ng-option>
-                                <ng-option value="AMAL - L-AMAL LOGISTICS SERVICES PVT.LTD.">AMAL - L-AMAL LOGISTICS SERVICES PVT.LTD.</ng-option>
-                                <ng-option value="BCT-Bay Container Terminal">BCT-Bay Container Terminal</ng-option>
-                                <ng-option value="BGT20-BGT20 Umm Qasar">BGT20-BGT20 Umm Qasar</ng-option>
-                                <ng-option value="BHKBS-BAHR-BHKBS Deport">BHKBS-BAHR-BHKBS Deport</ng-option>
-                                <ng-option value="BORKHE-ICD BORKHEDI">BORKHE-ICD BORKHEDI</ng-option>
-                               </ng-select>
-                               <div *ngIf="submitted && f.ACTIVITY.errors" class="invalid-feedback">Please select
-                                Activity</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <h6>
-                                            Previous Activity :
-                                            <small class="text-danger">Back to town</small>
-                                        </h6>
-                                    </div>
-                               </div> 
-                        </div>-->
                     </div>
                 </form>
                
             </div>
-            <hr>
-            <div class="row  mt-4">
-
+            
+            <div class="row mt-4" *ngIf="manually">
+                <hr>
                 <div class="col-md-6 offset-md-6 text-end">
                     <button type="button" class="form-btn" style="margin-right: 6px;" (click)="cancelContainerMovement()">Clear</button>
                     <button type="button" class="form-btn" style="margin-right: 6px;" (click)="saveContainerMovement()">Save</button>
-                
                 </div>
-                
             </div>
     
         </div>
@@ -324,9 +304,6 @@
                                         <div class="col-md-5 mx-auto text-end">
                                             <button class="form-btn w-100" (click)="getCMForm()">Upload</button>
                                         </div>
-<!-- 
-                                        <button type="button" (click)="bookNow()" class="form-btn-primary">Book
-                                            Now</button> -->
                                     </div>
                                 </div>
                             </div>

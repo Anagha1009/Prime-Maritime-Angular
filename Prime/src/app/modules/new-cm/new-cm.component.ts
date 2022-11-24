@@ -10,6 +10,7 @@ import { BlService } from 'src/app/services/bl.service';
 import { CmService } from 'src/app/services/cm.service';
 import { ActivityService } from 'src/app/services/activity.service';
 import { Activity } from 'src/app/models/activity-mapping';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-new-cm',
@@ -21,12 +22,15 @@ export class NewCmComponent implements OnInit {
   onUpload: boolean = false;
   submitted:boolean=false;
   manually:boolean=false;
+  showTable:boolean=false;
   fromXL:boolean=false;
   previewNoData:boolean=true;
   cmTable: any[] = [];
   containerList:any[]=[];
   cm=new CONTAINER_MOVEMENT();
   singleCM=new CONTAINER_MOVEMENT();
+  commonDate:any='';
+  commonLocation:any='';
   contNo:any='';
   bkcr: any='';
   currentUser:any='';
@@ -76,7 +80,8 @@ export class NewCmComponent implements OnInit {
       STATUS: [''],
       CREATED_BY: [''],
       CONTAINER_MOVEMENT_LIST:new FormArray([]),
-      CONTAINER_LIST2:new FormArray([])
+      CONTAINER_LIST2:new FormArray([]),
+      NEXT_ACTIVITY_LIST: new FormArray([])
     });
     this.checkUser();
     
@@ -86,49 +91,44 @@ export class NewCmComponent implements OnInit {
     const add = this.cmForm.get('CONTAINER_LIST2') as FormArray;
     add.clear();
     this.containerList.forEach((element) => {
-      // this._actService.getActivityByCode(element.PREV_ACTIVITY).subscribe((res: any) => {
-      //   debugger;
-      //   if (res.ResponseCode == 200) {
-      //     this.prevData = res.Data;
-      //   }
-      //   if(res.ResponseCode==500){
-      //     this.activityList=this.mainActList;
-      //   }
-      // });
-
-      // if(this.prevData!=null){
-      //   this._actService.getMappingById(this.prevData.ID).subscribe((res: any) => {
-      //     debugger;
-      //     if (res.ResponseCode == 200) {
-      //       this.activityList = res.Data;
-      //     }
-      //     if(res.ResponseCode==500){
-      //       this.activityList=this.mainActList;
-      //     }
-      //   });
-
-      // }
-      
       add.push(
         this._formBuilder.group({
           ID:[element.ID],
           BOOKING_NO: [element.BOOKING_NO],
           CRO_NO: [element.CRO_NO],
           CONTAINER_NO: [element.CONTAINER_NO],
-          ACTIVITY: [element.ACTIVITY],
-          PREV_ACTIVITY: [element.PREV_ACTIVITY],
-          ACTIVITY_DATE: [element.ACTIVITY_DATE],
+          ACTIVITY: [element.ACT_CODE],
+          PREV_ACTIVITY: [element.PREV_ACT_CODE],
+          ACTIVITY_DATE: [formatDate(element.ACTIVITY_DATE, 'yyyy-MM-dd', 'en')],
           LOCATION: [element.LOCATION],
           STATUS: [element.STATUS],
           AGENT_CODE: [element.AGENT_CODE],
           DEPO_CODE: [element.DEPO_CODE],
-          CREATED_BY: [element.CREATED_BY]
+          CREATED_BY: [element.CREATED_BY],
+          //NEXT_ACTIVITY_LIST:[element.NEXT_ACTIVITY_LIST]
         })
       );
-
     });
 
   }
+
+  copyDate(){
+    debugger;
+    this.commonDate=this.cmForm.value.CONTAINER_LIST2[0].ACTIVITY_DATE;
+    this.cmForm.value.CONTAINER_LIST2.forEach((element: { ACTIVITY_DATE: any; }) => {
+      element.ACTIVITY_DATE=formatDate(this.commonDate, 'yyyy-MM-dd', 'en');
+    });
+    this.cmForm.get('CONTAINER_LIST2')?.setValue(this.cmForm.value.CONTAINER_LIST2);
+  }
+
+  copyLocation(){
+    this.commonLocation=this.cmForm.value.CONTAINER_LIST2[0].LOCATION;
+    this.cmForm.value.CONTAINER_LIST2.forEach((element: { LOCATION: any; }) => {
+      element.LOCATION=this.commonLocation;
+    });
+    this.cmForm.get('CONTAINER_LIST2')?.setValue(this.cmForm.value.CONTAINER_LIST2);
+  }
+ 
 
   checkUser(){
     this.currentUser=localStorage.getItem('username');
@@ -146,25 +146,58 @@ export class NewCmComponent implements OnInit {
         debugger;
         if (res.ResponseCode == 200) {
           this.singleCM = res.Data;
+          this.cmForm.get('ACTIVITY')?.setValue(this.singleCM?.ACTIVITY);
+          this.cmForm.get('PREV_ACTIVITY')?.setValue(this.singleCM?.PREV_ACTIVITY);
+          this.cmForm.get('ACTIVITY_DATE')?.setValue(formatDate(this.singleCM?.ACTIVITY_DATE, 'yyyy-MM-dd', 'en'));
+          this.cmForm.get('LOCATION')?.setValue(this.singleCM?.LOCATION);
+          this.cmForm.get('STATUS')?.setValue(this.singleCM?.STATUS);
+          this.cmForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
+          this.cmForm.get('DEPO_CODE')?.setValue('');
+
+        }
+        if(res.ResponseCode==500){
+          alert("It seems like there is no such container, continue with the process to add it's first activity");
+        }
+      });
+      
+
+      this._actService.getActivityByCode(this.singleCM?.PREV_ACTIVITY).subscribe((res: any) => {
+        debugger;
+        if (res.ResponseCode == 200) {
+          this.prevData = res.Data;
         }
         if(res.ResponseCode==500){
           //alert("It seems like there is no such container, continue with the process to add it's first activity");
         }
       });
-      this.cmForm.get('ACTIVITY')?.setValue(this.singleCM?.ACTIVITY);
-      this.cmForm.get('PREV_ACTIVITY')?.setValue(this.singleCM?.PREV_ACTIVITY);
-      this.cmForm.get('ACTIVITY_DATE')?.setValue(this.singleCM?.ACTIVITY_DATE);
-      this.cmForm.get('LOCATION')?.setValue(this.singleCM?.LOCATION);
-      this.cmForm.get('STATUS')?.setValue(this.singleCM?.STATUS);
 
+      if(this.prevData!=null){
+        this._actService.getMappingById(this.prevData.ID).subscribe((res: any) => {
+          debugger;
+          if (res.ResponseCode == 200) {
+            this.activityList = res.Data;
+          }
+          if(res.ResponseCode==500){
+            //alert("It seems like there is no such container, continue with the process to add it's first activity");
+          }
+        });
+      }
+      else{
+        this.activityList=this.activityList;
+      }
+      //this.cmForm.get('NEXT_ACTIVITY_LIST')?.setValue(this.activityList);
     }
     
   }
 
   getContainerList(){
     debugger;
-    this.previewNoData=true;
-    this.containerList=[];
+    if(this.cmForm.get('BKCR_NO')?.value==""){
+      alert('Please enter Booking/CRO No.');
+    }
+    else{
+      this.showTable=false;
+      this.containerList=[];
     // if(this.cmForm.get('CONTAINER_NO')?.value!=""){
     //   this.cm.CONTAINER_NO=this.cmForm.get('CONTAINER_NO')?.value;
     // }
@@ -173,18 +206,21 @@ export class NewCmComponent implements OnInit {
     //   this.cm.BOOKING_NO=this.bkcr;
       
     // }
-    this.bkcr=this.cmForm.get('BKCR_NO')?.value;
-    this.cm.BOOKING_NO=this.bkcr;
-    this._cmService.getContainerMovement(this.cm).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.containerList = res.Data;
-        this.initializeMovementList();
-        this.previewNoData=false;
-      }
-      if(res.ResponseCode==500){
-        this.previewNoData=true;
-      }
+      this.bkcr=this.cmForm.get('BKCR_NO')?.value;
+      this.cm.BOOKING_NO=this.bkcr;
+      this._cmService.getContainerMovement(this.cm).subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.containerList = res.Data;
+          if(this.containerList?.length!=0){
+            this.initializeMovementList();
+            this.showTable=true;
+          }
+        }  
+        if(res.ResponseCode==500){
+          this.showTable=false;
+        }
     });
+    }
 
   }
 
@@ -199,6 +235,7 @@ export class NewCmComponent implements OnInit {
     console.log(this.cmForm.get('CONTAINER_MOVEMENT_LIST')?.value);
     this.cmForm.get('BOOKING_NO')?.setValue(this.bkcr);
     this.cmForm.get('CRO_NO')?.setValue("");
+    this.cmForm.get('ACTIVITY_DATE')?.setValue(new Date());
     this.cmForm.get('AGENT_CODE')?.setValue("0325");
     this.cmForm.get('DEPO_CODE')?.setValue("");
     this.cmForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));

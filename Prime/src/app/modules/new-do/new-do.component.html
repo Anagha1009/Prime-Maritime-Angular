@@ -196,9 +196,9 @@
 
     <section *ngIf="previewDetails">
         <div>
-            <h4>Preview Details <span *ngIf="!dataVisible"><i class='bx bxs-down-arrow' (click)="show()"></i></span>
+            <h5>Preview Details <span *ngIf="!dataVisible"><i class='bx bxs-down-arrow' (click)="show()"></i></span>
             <span *ngIf="dataVisible" (click)="show()"><i class='bx bxs-up-arrow'></i></span>
-            </h4><hr>
+            </h5><hr>
             <div class="col-md-12" *ngIf="dataVisible">
                 <ul class="tabs-container">
                    <li (click)="onTabClick('Container')" [class.active]="activeTab == 'Container'" class="tab-link">
