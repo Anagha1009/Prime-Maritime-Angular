@@ -26,6 +26,10 @@ export class QuotationService {
         quotation.CUSTOMER_NAME +
         '&STATUS=' +
         quotation.STATUS +
+        '&FROMDATE=' +
+        quotation.FROMDATE +
+        '&TODATE=' +
+        quotation.TODATE +
         '&AGENT_CODE=' +
         quotation.AGENT_CODE +
         '&OPERATION=' +
