@@ -21,16 +21,7 @@ export class NewBlComponent implements OnInit {
   onUpload: boolean = false;
   previewTable: any[] = [];
   containerList: any[] = [];
-  ContainerList1: any[] = [
-    {
-      CONTAINER_NO: 'BHYT767675656',
-      SEAL_NO: 'FGSFfgs',
-      QTY: '1',
-      DESC_OF_GOODS: ['sdsh sgdsvceg'],
-      GROSS_WEIGHT: [44],
-      MEASUREMENT: ['kg'],
-    },
-  ];
+  ContainerList1: any[] = [];
   isBLForm: boolean = false;
   tabs: string = '1';
   blNo: string = '';
@@ -53,7 +44,9 @@ export class NewBlComponent implements OnInit {
       SRR_NO: [''],
       BOOKING_NO: [''],
       SHIPPER: [''],
+      SHIPPER_ADDRESS: [''],
       CONSIGNEE: [''],
+      CONSIGNEE_ADDRESS: [''],
       NOTIFY_PARTY: [''],
       PRE_CARRIAGE_BY: [''],
       PLACE_OF_RECEIPT: [''],
@@ -155,7 +148,7 @@ export class NewBlComponent implements OnInit {
           .createBL(JSON.stringify(this.blForm.value))
           .subscribe((res: any) => {
             if (res.responseCode == 200) {
-              this._router.navigateByUrl('/home/quotation-list');
+              //  this._router.navigateByUrl('/home/quotation-list');
             }
           });
       }
@@ -286,7 +279,9 @@ export class NewBlComponent implements OnInit {
           var keyArray = [
             'BOOKING_NO',
             'SHIPPER',
+            'SHIPPER_ADDRESS',
             'CONSIGNEE',
+            'CONSIGNEE_ADDRESS',
             'NOTIFY_PARTY',
             'PRE_CARRIAGE_BY',
             'PLACE_OF_RECEIPT',
@@ -334,7 +329,9 @@ export class NewBlComponent implements OnInit {
                 !this.checkNullEmpty([
                   element.BOOKING_NO,
                   element.SHIPPER,
+                  element.SHIPPER_ADDRESS,
                   element.CONSIGNEE,
+                  element.CONSIGNEE_ADDRESS,
                   element.NOTIFY_PARTY,
                   element.PRE_CARRIAGE_BY,
                   element.PLACE_OF_RECEIPT,
@@ -422,6 +419,10 @@ export class NewBlComponent implements OnInit {
   }
 
   async generateBLPdf() {
+    const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
+    this.ContainerList1 = [];
+    this.ContainerList1.push(add.value);
+
     let docDefinition = {
       // header: {
       //   text: 'Bill of Lading',
@@ -440,9 +441,9 @@ export class NewBlComponent implements OnInit {
                 fontSize: 10,
                 margin: [0, 5, 0, 0],
               },
-              { text: 'JUBAIL CHEMICAL INDUSTRIES CO.(JANA)', fontSize: 9 },
+              { text: this.blForm.value.SHIPPER.toUpperCase(), fontSize: 9 },
               {
-                text: 'P.O. BOX 10661 JUBAIL INDUSTRIAL CITY 31961 KINGDOM OF SAUDI ARABIA TEL : +966 3 358-5002 FAX : +966 3 358-0089',
+                text: this.blForm.value.SHIPPER_ADDRESS.toUpperCase(),
                 fontSize: 9,
               },
               {
@@ -454,9 +455,9 @@ export class NewBlComponent implements OnInit {
                 fontSize: 10,
                 margin: [0, 5, 0, 0],
               },
-              { text: 'GST GLOBAL SUPPLY FZ-LLC', fontSize: 9 },
+              { text: this.blForm.value.CONSIGNEE.toUpperCase(), fontSize: 9 },
               {
-                text: 'B5-801-C ACADEMIC ZONE 01 BUSINESS CENTER 5, RAKEZ BUSINESS ZONE-FZ RAS AL KHAIMAH -UNITED ARAB EMIRATES',
+                text: this.blForm.value.CONSIGNEE_ADDRESS.toUpperCase(),
                 fontSize: 9,
               },
               {
@@ -468,7 +469,10 @@ export class NewBlComponent implements OnInit {
                 fontSize: 10,
                 margin: [0, 5, 0, 0],
               },
-              { text: 'JITEX', fontSize: 9 },
+              {
+                text: this.blForm.value.NOTIFY_PARTY.toUpperCase(),
+                fontSize: 9,
+              },
               {
                 text: '______________________________________________',
               },
@@ -481,7 +485,10 @@ export class NewBlComponent implements OnInit {
                       fontSize: 10,
                       margin: [0, 5, 0, 0],
                     },
-                    { text: 'JITEX', fontSize: 9 },
+                    {
+                      text: this.blForm.value.PRE_CARRIAGE_BY.toUpperCase(),
+                      fontSize: 9,
+                    },
                   ],
                   [
                     {
@@ -490,7 +497,10 @@ export class NewBlComponent implements OnInit {
                       fontSize: 10,
                       margin: [0, 5, 0, 0],
                     },
-                    { text: 'India', fontSize: 9 },
+                    {
+                      text: this.blForm.value.PLACE_OF_RECEIPT.toUpperCase(),
+                      fontSize: 9,
+                    },
                   ],
                 ],
               },
@@ -506,7 +516,13 @@ export class NewBlComponent implements OnInit {
                       fontSize: 10,
                       margin: [0, 5, 0, 0],
                     },
-                    { text: 'Samudra/985', fontSize: 9 },
+                    {
+                      text:
+                        this.blForm.value.VESSEL_NAME.toUpperCase() +
+                        '/' +
+                        this.blForm.value.VOYAGE_NO.toUpperCase(),
+                      fontSize: 9,
+                    },
                   ],
                   [
                     {
@@ -515,7 +531,10 @@ export class NewBlComponent implements OnInit {
                       fontSize: 10,
                       margin: [0, 5, 0, 0],
                     },
-                    { text: 'Mumbai', fontSize: 9 },
+                    {
+                      text: this.blForm.value.PORT_OF_LOADING.toUpperCase(),
+                      fontSize: 9,
+                    },
                   ],
                 ],
               },
@@ -531,7 +550,11 @@ export class NewBlComponent implements OnInit {
                       fontSize: 10,
                       margin: [0, 5, 0, 0],
                     },
-                    { text: 'Dubai', fontSize: 9, margin: [0, 0, 0, 20] },
+                    {
+                      text: this.blForm.value.PORT_OF_DISCHARGE.toUpperCase(),
+                      fontSize: 9,
+                      margin: [0, 0, 0, 20],
+                    },
                   ],
                   [
                     {
@@ -540,7 +563,11 @@ export class NewBlComponent implements OnInit {
                       fontSize: 10,
                       margin: [0, 5, 0, 0],
                     },
-                    { text: 'Dubai', fontSize: 9, margin: [0, 0, 0, 20] },
+                    {
+                      text: this.blForm.value.PLACE_OF_DELIVERY.toUpperCase(),
+                      fontSize: 9,
+                      margin: [0, 0, 0, 20],
+                    },
                   ],
                 ],
               },
@@ -560,7 +587,7 @@ export class NewBlComponent implements OnInit {
                 alignment: 'right',
               },
               {
-                text: 'BL No : BL76765656445',
+                text: 'BL No :' + this.blForm.value.BL_NO.toUpperCase(),
                 alignment: 'right',
                 color: '#17a2b8',
                 margin: [0, 0, 0, 5],
@@ -607,15 +634,15 @@ export class NewBlComponent implements OnInit {
               [
                 { text: 'Container No', fontSize: 9 },
                 { text: 'Seal No', fontSize: 9 },
-                { text: 'No of Containers of pkgs.', fontSize: 9 },
+                { text: 'No of Containers or pkgs.', fontSize: 9 },
                 { text: 'Description of goods', fontSize: 9 },
                 { text: 'Gross Weight', fontSize: 9 },
                 { text: 'Measurement', fontSize: 9 },
               ],
-              ...this.ContainerList1.map((p: any) => [
+              ...this.ContainerList1[0].map((p: any) => [
                 { text: p.CONTAINER_NO, fontSize: 9 },
                 { text: p.SEAL_NO, fontSize: 9 },
-                { text: p.QTY, fontSize: 9 },
+                { text: '4', fontSize: 9 },
                 { text: p.DESC_OF_GOODS, fontSize: 9 },
                 { text: p.GROSS_WEIGHT, fontSize: 9 },
                 { text: p.MEASUREMENT, fontSize: 9 },
@@ -629,7 +656,7 @@ export class NewBlComponent implements OnInit {
           fontSize: 10,
           margin: [0, 20, 0, 0],
         },
-        { text: 'Ten (10) Containers', fontSize: 9, margin: [0, 0, 0, 20] },
+        { text: 'Four (4)', fontSize: 9, margin: [0, 0, 0, 20] },
         {
           layout: 'lightHorizontalLines',
           table: {
@@ -680,7 +707,7 @@ export class NewBlComponent implements OnInit {
                 fontSize: 10,
                 margin: [0, 5, 0, 0],
               },
-              { text: 'INDIA', fontSize: 9 },
+              { text: this.blForm.value.PREPAID_AT, fontSize: 9 },
             ],
             [
               {
@@ -689,7 +716,7 @@ export class NewBlComponent implements OnInit {
                 fontSize: 10,
                 margin: [0, 5, 0, 0],
               },
-              { text: 'DUBAI', fontSize: 9 },
+              { text: this.blForm.value.PAYABLE_AT, fontSize: 9 },
             ],
             [
               {
@@ -698,7 +725,13 @@ export class NewBlComponent implements OnInit {
                 fontSize: 10,
                 margin: [0, 5, 0, 0],
               },
-              { text: 'INDIA - 10/11/22', fontSize: 9 },
+              {
+                text:
+                  this.blForm.value.BL_ISSUE_PLACE +
+                  '-' +
+                  this.blForm.value.BL_ISSUE_DATE,
+                fontSize: 9,
+              },
             ],
           ],
         },
@@ -714,7 +747,10 @@ export class NewBlComponent implements OnInit {
                 fontSize: 10,
                 margin: [0, 5, 0, 0],
               },
-              { text: '45454 INR (currency)', fontSize: 9 },
+              {
+                text: this.blForm.value.TOTAL_PREPAID + 'INR (currency)',
+                fontSize: 9,
+              },
             ],
             [
               {
@@ -723,7 +759,7 @@ export class NewBlComponent implements OnInit {
                 fontSize: 10,
                 margin: [0, 5, 0, 0],
               },
-              { text: '3', fontSize: 9 },
+              { text: this.blForm.value.NO_OF_ORIGINAL_BL, fontSize: 9 },
             ],
             [
               {

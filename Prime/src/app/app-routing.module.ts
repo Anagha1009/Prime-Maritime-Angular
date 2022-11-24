@@ -23,19 +23,12 @@ import { DepoDashboardComponent } from './modules/depo-dashboard/depo-dashboard.
 import { ContainerAllotmentComponent } from './modules/container-allotment/container-allotment.component';
 import { ContainerAllotmentListComponent } from './modules/container-allotment-list/container-allotment-list.component';
 import { PmLandingComponent } from './shared/pm-landing/pm-landing.component';
+import { PmQuotationListComponent } from './pm-modules/pm-quotation-list/pm-quotation-list.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LandingComponent,
-  },
-  {
-    path: 'pm-landing',
-    component: PmLandingComponent,
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
   },
   {
     path: 'pm',
@@ -45,7 +38,15 @@ const routes: Routes = [
         path: 'login',
         component: PmLoginComponent,
       },
+      {
+        path: 'quotation-list',
+        component: PmQuotationListComponent,
+      },
     ],
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
   {
     path: 'home',

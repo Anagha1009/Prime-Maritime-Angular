@@ -4,4 +4,6 @@ export class QUOTATION {
   STATUS: string = '';
   AGENT_CODE: any = 0;
   OPERATION: string = '';
+  FROMDATE: string = '';
+  TODATE: string = '';
 }

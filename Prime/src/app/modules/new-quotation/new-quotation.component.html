@@ -690,10 +690,11 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="addCommodity()" class="form-btn w-100">Add Commodity</button>
+                            <button (click)="addCommodity()" class="form-btn-primary w-100">Add Commodity</button>
                         </div>
                     </div>
-                    <table class="table align-middle my-3 bg-white" *ngIf="commodityList.length > 0">
+                    <table style="font-size: 12px;" class="table align-middle my-3 bg-white"
+                        *ngIf="commodityList.length > 0">
                         <thead class="bg-light">
                             <tr>
                                 <th>Sr. No</th>
@@ -840,7 +841,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="openModal()" class="form-btn w-100">Add
+                            <button (click)="openModal()" class="form-btn-primary w-100">Add
                                 Rate</button>
                             <button #RateModal data-bs-toggle="modal" href="#rateModal" class="d-none">Add
                                 Rate</button>
@@ -935,7 +936,7 @@
                     </div>
                     <div class="row mt-4" *ngIf="isContainer">
                         <div class="table-responsive">
-                            <table class="table align-middle">
+                            <table class="table align-middle" style="font-size: 12px">
                                 <thead>
                                     <tr class="bg-light">
                                         <th>Sr. No</th>

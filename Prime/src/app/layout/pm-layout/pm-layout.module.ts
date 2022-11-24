@@ -7,9 +7,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PmLayoutComponent } from './pm-layout.component';
 import { PmLoginComponent } from 'src/app/pm-modules/pm-login/pm-login.component';
+import { PmQuotationListComponent } from 'src/app/pm-modules/pm-quotation-list/pm-quotation-list.component';
 
 @NgModule({
-  declarations: [PmLayoutComponent, PmLoginComponent],
+  declarations: [PmLayoutComponent, PmLoginComponent, PmQuotationListComponent],
   imports: [
     CommonModule,
     RouterModule,

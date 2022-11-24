@@ -77,11 +77,16 @@ export class QuotationListComponent implements OnInit {
     ) {
       alert('Please enter atleast one filter to search !');
       return;
+    } else if (FROM_DATE > TO_DATE) {
+      alert('From Date should be less than To Date !');
+      return;
     }
 
     this.quotation.SRR_NO = SRR_NO;
     this.quotation.CUSTOMER_NAME = CUSTOMER_NAME;
     this.quotation.STATUS = STATUS;
+    this.quotation.FROMDATE = FROM_DATE;
+    this.quotation.TODATE = TO_DATE;
 
     this.getSRRList();
   }
@@ -96,6 +101,8 @@ export class QuotationListComponent implements OnInit {
     this.quotation.SRR_NO = '';
     this.quotation.CUSTOMER_NAME = '';
     this.quotation.STATUS = '';
+    this.quotation.FROMDATE = '';
+    this.quotation.TODATE = '';
 
     this.getSRRList();
   }
