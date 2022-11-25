@@ -26,6 +26,13 @@ import { DepoDashboardComponent } from 'src/app/modules/depo-dashboard/depo-dash
 import { ContainerAllotmentComponent } from 'src/app/modules/container-allotment/container-allotment.component';
 import { ContainerAllotmentListComponent } from 'src/app/modules/container-allotment-list/container-allotment-list.component';
 import { ManifestListComponent } from 'src/app/modules/manifest-list/manifest-list.component';
+import { ContainerSizeComponent } from 'src/app/masters/container-size/container-size.component';
+import { ServicetypeComponent } from 'src/app/masters/servicetype/servicetype.component';
+import { CurrencyComponent } from 'src/app/masters/currency/currency.component';
+import { UnitComponent } from 'src/app/masters/unit/unit.component';
+import { PortComponent } from 'src/app/masters/port/port.component';
+import { ContainerComponent } from 'src/app/masters/container/container.component';
+import { PartyComponent } from 'src/app/masters/party/party.component';
 
 @NgModule({
   declarations: [
@@ -48,14 +55,21 @@ import { ManifestListComponent } from 'src/app/modules/manifest-list/manifest-li
     DepoDashboardComponent,
     ContainerAllotmentComponent,
     ContainerAllotmentListComponent,
-    ManifestListComponent
+    ManifestListComponent,
+    ContainerComponent,
+    ContainerSizeComponent,
+    ServicetypeComponent,
+    CurrencyComponent,
+    UnitComponent,
+    PortComponent,  
+    PartyComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
+    NgSelectModule,    
     SharedModule,
     NgMultiSelectDropDownModule,
   ],

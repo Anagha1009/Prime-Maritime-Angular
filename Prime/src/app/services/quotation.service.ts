@@ -26,6 +26,10 @@ export class QuotationService {
         quotation.CUSTOMER_NAME +
         '&STATUS=' +
         quotation.STATUS +
+        '&FROMDATE=' +
+        quotation.FROMDATE +
+        '&TODATE=' +
+        quotation.TODATE +
         '&AGENT_CODE=' +
         quotation.AGENT_CODE +
         '&OPERATION=' +
@@ -71,5 +75,9 @@ export class QuotationService {
 
   uploadFiles(file: any) {
     return this._http.post<any>(this.BASE_URL + 'SRR/UploadFiles', file);
+  }
+
+  approveRate(rootobject: any) {
+    return this._http.post<any>(this.BASE_URL + 'SRR/ApproveRate', rootobject);
   }
 }

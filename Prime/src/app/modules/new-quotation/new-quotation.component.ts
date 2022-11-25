@@ -28,6 +28,7 @@ export class NewQuotationComponent implements OnInit {
   containersizeList: any[] = [];
   servicemodeList: any[] = [];
   servicetypeList: any[] = [];
+  conindex: any = 0;
 
   //Files
   isUploadedPOL: boolean = false;
@@ -58,6 +59,7 @@ export class NewQuotationComponent implements OnInit {
 
   @ViewChild('RateModal') RateModal: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
+  @ViewChild('RateDetailModal') RateDetailModal: ElementRef;
 
   constructor(
     private _quotationService: QuotationService,
@@ -137,8 +139,6 @@ export class NewQuotationComponent implements OnInit {
       this.commoditiesForm.get('IMO_CLASS')?.disable();
       this.commoditiesForm.get('UN_NO')?.disable();
       this.commoditiesForm.get('HAZ_APPROVAL_REF')?.disable();
-      this.commoditiesForm.get('WEIGHT')?.disable();
-      this.commoditiesForm.get('REMARKS')?.disable();
     }
 
     if (this.commoditiesForm.invalid) {
@@ -166,7 +166,6 @@ export class NewQuotationComponent implements OnInit {
   }
 
   saveCommodity() {
-    console.log(JSON.stringify(this.quotationForm.value));
     this.onchangeTab('3');
   }
 
@@ -177,19 +176,19 @@ export class NewQuotationComponent implements OnInit {
       return;
     }
 
-    var containers = this.quotationForm.get('SRR_CONTAINERS') as FormArray;
-    containers.push(this.containerForm);
-
-    var rateList = this.quotationForm.get('SRR_RATES') as FormArray;
+    var rateList = this.quotationForm.get('SRR_RATES1') as FormArray;
 
     rateList.clear();
 
+    var ct = this.containerForm.value.CONTAINER_TYPE;
+
     rateList.push(
       this._formBuilder.group({
+        CONTAINER_TYPE: [ct],
         CHARGE_CODE: [''],
         CURRENCY: ['USD'],
         STANDARD_RATE: ['100'],
-        REQUESTED_RATE: [''],
+        RATE_REQUESTED: [''],
         PAYMENT_TERM: [''],
         TRANSPORT_TYPE: [''],
         REMARKS: ['NULL'],
@@ -202,14 +201,17 @@ export class NewQuotationComponent implements OnInit {
   }
 
   addRates() {
-    var rateList = this.quotationForm.get('SRR_RATES') as FormArray;
+    var rateList = this.quotationForm.get('SRR_RATES1') as FormArray;
+
+    var ct = this.containerForm.value.CONTAINER_TYPE;
 
     rateList.push(
       this._formBuilder.group({
+        CONTAINER_TYPE: [ct],
         CHARGE_CODE: [''],
         CURRENCY: ['USD'],
         STANDARD_RATE: ['100'],
-        REQUESTED_RATE: [''],
+        RATE_REQUESTED: [''],
         PAYMENT_TERM: [''],
         TRANSPORT_TYPE: [''],
         REMARKS: ['NULL'],
@@ -218,6 +220,13 @@ export class NewQuotationComponent implements OnInit {
   }
 
   submitRate() {
+    const add = this.quotationForm.get('SRR_RATES1') as FormArray;
+    const add1 = this.quotationForm.get('SRR_RATES') as FormArray;
+
+    add.controls.forEach((control) => {
+      add1.push(control);
+    });
+
     this.containerList.push({
       Container:
         this.containerForm.value.CONTAINER_TYPE +
@@ -225,6 +234,24 @@ export class NewQuotationComponent implements OnInit {
         this.containerForm.value.CONTAINER_SIZE,
       ServiceMode: this.containerForm.value.SERVICE_MODE,
     });
+
+    var containers = this.quotationForm.get('SRR_CONTAINERS') as FormArray;
+    containers.push(
+      this._formBuilder.group({
+        CONTAINER_TYPE: [this.containerForm.value.CONTAINER_TYPE],
+        CONTAINER_SIZE: [this.containerForm.value.CONTAINER_SIZE],
+        SERVICE_MODE: [this.containerForm.value.SERVICE_MODE],
+        POD_FREE_DAYS: [this.containerForm.value.POD_FREE_DAYS],
+        POL_FREE_DAYS: [this.containerForm.value.POL_FREE_DAYS],
+        IMM_VOLUME_EXPECTED: [this.containerForm.value.IMM_VOLUME_EXPECTED],
+        TOTAL_VOLUME_EXPECTED: [this.containerForm.value.TOTAL_VOLUME_EXPECTED],
+      })
+    );
+
+    this.containerForm.reset();
+    this.containerForm.get('CONTAINER_TYPE')?.setValue('');
+    this.containerForm.get('CONTAINER_SIZE')?.setValue('');
+    this.containerForm.get('SERVICE_MODE')?.setValue('');
 
     this.isContainer = true;
     this.closeBtn.nativeElement.click();
@@ -262,6 +289,11 @@ export class NewQuotationComponent implements OnInit {
           this._router.navigateByUrl('/home/quotation-list');
         }
       });
+  }
+
+  openRateDetailModal(i: any) {
+    this.conindex = i;
+    this.RateDetailModal.nativeElement.click();
   }
 
   // GET DATA
@@ -307,6 +339,7 @@ export class NewQuotationComponent implements OnInit {
       SRR_CONTAINERS: new FormArray([]),
       SRR_COMMODITIES: new FormArray([]),
       SRR_RATES: new FormArray([]),
+      SRR_RATES1: new FormArray([]),
     });
 
     this.containerForm = this._formBuilder.group({
@@ -417,7 +450,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   get f3() {
-    var s = this.quotationForm.get('SRR_RATES') as FormArray;
+    var s = this.quotationForm.get('SRR_RATES1') as FormArray;
     return s.controls;
   }
 

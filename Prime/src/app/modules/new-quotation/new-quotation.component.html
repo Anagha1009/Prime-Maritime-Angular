@@ -117,7 +117,6 @@
                                     <ng-option value="" selected="true" disabled>--Select Service--</ng-option>
                                     <ng-option *ngFor="let item of servicetypeList" value="{{item.CODE}}">{{item.CODE}}
                                     </ng-option>
-                                    <ng-option value="yy">yy</ng-option>
                                 </ng-select>
                                 <label class="form-label-ddl">Service Name <span class="text-danger">
                                         *</span></label>
@@ -690,10 +689,11 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="addCommodity()" class="form-btn w-100">Add Commodity</button>
+                            <button (click)="addCommodity()" class="form-btn-primary w-100">Add Commodity</button>
                         </div>
                     </div>
-                    <table class="table align-middle my-3 bg-white" *ngIf="commodityList.length > 0">
+                    <table style="font-size: 12px;" class="table align-middle my-3 bg-white"
+                        *ngIf="commodityList.length > 0">
                         <thead class="bg-light">
                             <tr>
                                 <th>Sr. No</th>
@@ -840,7 +840,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="openModal()" class="form-btn w-100">Add
+                            <button (click)="openModal()" class="form-btn-primary w-100">Add
                                 Rate</button>
                             <button #RateModal data-bs-toggle="modal" href="#rateModal" class="d-none">Add
                                 Rate</button>
@@ -903,7 +903,7 @@
                                                     <label class="form-label3">Requested Rate</label><input
                                                         class="form-control3" maxlength="5"
                                                         (keypress)="numericOnly($event)"
-                                                        formControlName="REQUESTED_RATE" type="text" />
+                                                        formControlName="RATE_REQUESTED" type="text" />
                                                 </td>
                                                 <td class="col-md-2">
                                                     <label class="form-label3">Payment Term</label>
@@ -935,7 +935,7 @@
                     </div>
                     <div class="row mt-4" *ngIf="isContainer">
                         <div class="table-responsive">
-                            <table class="table align-middle">
+                            <table class="table align-middle" style="font-size: 12px">
                                 <thead>
                                     <tr class="bg-light">
                                         <th>Sr. No</th>
@@ -950,8 +950,12 @@
                                         <td>{{i+1}}</td>
                                         <td>{{item.Container}}</td>
                                         <td>{{item.ServiceMode}}</td>
-                                        <td><a data-bs-toggle="modal" href="#rateDetailModal"><i
-                                                    class="fa fa-eye text-dark"></i></a></td>
+                                        <td>
+                                            <a (click)="openRateDetailModal(i)"><i class="fa fa-eye text-dark"></i></a>
+                                            <button #RateDetailModal data-bs-toggle="modal" href="#rateDetailsModal"
+                                                class="d-none">Add
+                                                Rate</button>
+                                        </td>
                                         <td><i class="fa fa-trash"></i></td>
                                     </tr>
                                 </tbody>
@@ -959,8 +963,8 @@
                         </div>
                     </div>
 
-                    <div class="modal fade" id="rateDetailModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
+                    <div class="modal fade" #rateDetailModal id="rateDetailsModal" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -970,30 +974,33 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="services">
-                                        <div class="icon-box icon-box-cyan text-start"
+                                        <div [class]="item.CONTAINER_TYPE == quotationForm?.value.SRR_CONTAINERS[conindex].CONTAINER_TYPE ? 'icon-box icon-box-cyan text-start' : ''"
                                             *ngFor="let item of quotationForm?.value.SRR_RATES">
-                                            <p class="description"> <span
-                                                    class="text-danger">{{item.CHARGE_CODE}}</span>
-                                                | <span class="bx bx-dollar"></span>
-                                                {{item.CURRENCY}} </p>
-                                            <div class="row description">
-                                                <div class="col-md-6">
-                                                    <label class="label-header">Standard Rate</label>
-                                                    <label class="label-sub-header">{{item.STANDARD_RATE}}</label>
+                                            <div
+                                                *ngIf="item.CONTAINER_TYPE == quotationForm?.value.SRR_CONTAINERS[conindex].CONTAINER_TYPE">
+                                                <p class="description"> <span
+                                                        class="text-danger">{{item.CHARGE_CODE}}</span>
+                                                    | <span class="bx bx-dollar"></span>
+                                                    {{item.CURRENCY}} </p>
+                                                <div class="row description">
+                                                    <div class="col-md-6">
+                                                        <label class="label-header">Standard Rate</label>
+                                                        <label class="label-sub-header">{{item.STANDARD_RATE}}</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="label-header">Requested Rate</label>
+                                                        <label class="label-sub-header">{{item.RATE_REQUESTED}}</label>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label class="label-header">Requested Rate</label>
-                                                    <label class="label-sub-header">{{item.REQUESTED_RATE}}</label>
-                                                </div>
-                                            </div>
-                                            <div class="row description">
-                                                <div class="col-md-6">
-                                                    <label class="label-header">Payment Term</label>
-                                                    <label class="label-sub-header">{{item.PAYMENT_TERM}}</label>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="label-header">Place of Payment</label>
-                                                    <label class="label-sub-header">{{item.TRANSPORT_TYPE}}</label>
+                                                <div class="row description">
+                                                    <div class="col-md-6">
+                                                        <label class="label-header">Payment Term</label>
+                                                        <label class="label-sub-header">{{item.PAYMENT_TERM}}</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="label-header">Place of Payment</label>
+                                                        <label class="label-sub-header">{{item.TRANSPORT_TYPE}}</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
