@@ -362,32 +362,37 @@
                                 <label class="label-header">Approved Rate</label>
                             </div>
                         </div>
-                        <div class="row" *ngFor="let item of quotationDetails?.SRR_RATES">
-                            <div class="col-md-2 mt-2">
-                                <label class="label-subheader">{{item.CHARGE_CODE}}</label>
-                            </div>
-                            <div class="col-md-2 mt-2">
-                                <label class="label-subheader">100 USD</label>
-                            </div>
-                            <div class="col-md-2 mt-2">
-                                <label class="label-subheader">{{item.PAYMENT_TERM}}</label>
-                            </div>
-                            <div class="col-md-2 mt-2">
-                                <label class="label-subheader">{{item.TRANSPORT_TYPE}}</label>
-                            </div>
-                            <div class="col-md-2 mt-2">
-                                <label class="label-subheader">{{item.RATE_REQUESTED}} {{item.CURRENCY}}</label>
-                            </div>
-                            <div class="col-md-2 mt-1">
-                                <input class="form-control3" type="text" />
+                        <div *ngFor="let item of f1;let i = index" [formGroup]="f(item)">
+                            <div *ngIf="item.value.CONTAINER_TYPE == item1.CONTAINER_TYPE" class="row">
+                                <div class="col-md-2 mt-2">
+                                    <label class="label-subheader">{{item.value.CHARGE_CODE}}</label>
+                                </div>
+                                <div class="col-md-2 mt-2">
+                                    <label class="label-subheader">100 USD</label>
+                                </div>
+                                <div class="col-md-2 mt-2">
+                                    <label class="label-subheader">{{item.value.PAYMENT_TERM}}</label>
+                                </div>
+                                <div class="col-md-2 mt-2">
+                                    <label class="label-subheader">{{item.value.TRANSPORT_TYPE}}</label>
+                                </div>
+                                <div class="col-md-2 mt-2">
+                                    <label class="label-subheader">{{item.value.RATE_REQUESTED}}
+                                        {{item.value.CURRENCY}}</label>
+                                </div>
+                                <div class="col-md-2 mt-1">
+                                    <input class="form-control3" formControlName="APPROVED_RATE" type="text" />
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <hr>
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="form-btn">Submit</button>
+                <button type="button" (click)="approveRate()" class="form-btn-success me-2">Approve</button>
+                <button type="button" class="form-btn-danger">Reject</button>
             </div>
         </div>
     </div>
