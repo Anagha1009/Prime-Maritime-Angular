@@ -8,7 +8,7 @@ import { ContainerService } from 'src/app/services/container.service';
 @Component({
   selector: 'app-container',
   templateUrl: './container.component.html',
-  styleUrls: ['./container.component.scss']
+  styleUrls: ['./container.component.scss'],
 })
 export class ContainerComponent implements OnInit {
   submitted: boolean = false;
@@ -18,13 +18,13 @@ export class ContainerComponent implements OnInit {
   isUpdate: boolean = false;
   container: CONTAINER;
 
-  constructor(private _containerService: ContainerService, private _formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private _router: Router) { }
+  constructor(
+    private _containerService: ContainerService,
+    private _formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.containerForm = this._formBuilder.group({
-
       ID: [0],
       CONTAINER_NO: [''],
       CONTAINER_TYPE: [''],
@@ -39,42 +39,45 @@ export class ContainerComponent implements OnInit {
       PICKUP_LOCATION: [''],
       DROP_LOCATION: [''],
       CREATED_BY: [''],
-      STATUS: ['']
+      STATUS: [''],
     });
 
     this.GetContainerMasterList();
   }
 
   Insertcontainersize() {
-    debugger
-    this.containerForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.containerForm
+      .get('CREATED_BY')
+      ?.setValue(localStorage.getItem('username'));
     var status = this.containerForm.get('STATUS')?.value;
-    this.containerForm.get('STATUS')?.setValue(status == "true" ? true : false);
+    this.containerForm.get('STATUS')?.setValue(status == 'true' ? true : false);
 
-    this._containerService.postContainer(JSON.stringify(this.containerForm.value)).subscribe((res: any) => {
-      if (res.responseCode == 200) {
-        alert('Your record has been submitted successfully !');
-        this.GetContainerMasterList()
-        this.ClearForm()
-      }
-    });
-
+    this._containerService
+      .postContainer(JSON.stringify(this.containerForm.value))
+      .subscribe((res: any) => {
+        if (res.responseCode == 200) {
+          alert('Your record has been submitted successfully !');
+          this.GetContainerMasterList();
+          this.ClearForm();
+        }
+      });
   }
 
   GetContainerMasterList() {
     var containerModel = new CONTAINER();
     containerModel.CREATED_BY = localStorage.getItem('usercode');
 
-
-    this._containerService.GetContainerMasterList(containerModel).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.containerList = res.Data;
-      }
-    });
+    this._containerService
+      .GetContainerMasterList(containerModel)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.containerList = res.Data;
+        }
+      });
   }
 
   ClearForm() {
-    this.containerForm.reset()
+    this.containerForm.reset();
     this.containerForm.get('CONTAINER_NO')?.setValue('');
     this.containerForm.get('CONTAINER_TYPE')?.setValue('');
     this.containerForm.get('CONTAINER_SIZE')?.setValue('');
@@ -92,34 +95,46 @@ export class ContainerComponent implements OnInit {
     var containerModel = new CONTAINER();
     containerModel.CREATED_BY = localStorage.getItem('usercode');
     containerModel.ID = containerId;
-    this._containerService.GetContainerMasterDetails(containerModel).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.containerForm.patchValue(res.Data);
-        this.containerForm.get("OWNER")?.setValue(res.Data.OWNER_NAME)
-        this.containerForm.get("ON_HIRE_DATE")?.setValue(formatDate(res.Data.ON_HIRE_DATE, 'yyyy-MM-dd', 'en'))
-        this.containerForm.get("OFF_HIRE_DATE")?.setValue(formatDate(res.Data.OFF_HIRE_DATE, 'yyyy-MM-dd', 'en'));
-        this.containerForm.get("MANUFACTURING_DATE")?.setValue(formatDate(res.Data.MANUFACTURING_DATE, 'yyyy-MM-dd', 'en'));
-        this.isUpdate = true;
-      }
-    });
+    this._containerService
+      .GetContainerMasterDetails(containerModel)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.containerForm.patchValue(res.Data);
+          this.containerForm.get('OWNER')?.setValue(res.Data.OWNER_NAME);
+          this.containerForm
+            .get('ON_HIRE_DATE')
+            ?.setValue(formatDate(res.Data.ON_HIRE_DATE, 'yyyy-MM-dd', 'en'));
+          this.containerForm
+            .get('OFF_HIRE_DATE')
+            ?.setValue(formatDate(res.Data.OFF_HIRE_DATE, 'yyyy-MM-dd', 'en'));
+          this.containerForm
+            .get('MANUFACTURING_DATE')
+            ?.setValue(
+              formatDate(res.Data.MANUFACTURING_DATE, 'yyyy-MM-dd', 'en')
+            );
+          this.isUpdate = true;
+        }
+      });
   }
 
   updateContainerMaster() {
-    debugger
-    this.containerForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    debugger;
+    this.containerForm
+      .get('CREATED_BY')
+      ?.setValue(localStorage.getItem('username'));
 
     var status = this.containerForm.get('STATUS')?.value;
-    this.containerForm.get('STATUS')?.setValue(status == "true" ? true : false);
+    this.containerForm.get('STATUS')?.setValue(status == 'true' ? true : false);
 
-    console.log("sfds " + JSON.stringify(this.containerForm.value))
+    console.log('sfds ' + JSON.stringify(this.containerForm.value));
     this._containerService
       .updateContainerMaster(JSON.stringify(this.containerForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
           alert('Your party master has been Updated successfully !');
-          this.GetContainerMasterList()
+          this.GetContainerMasterList();
           this.containerForm.setValue(this.container);
-          this.ClearForm()
+          this.ClearForm();
           this.isUpdate = false;
         }
       });
@@ -132,12 +147,14 @@ export class ContainerComponent implements OnInit {
       containerModel.CREATED_BY = localStorage.getItem('username');
       containerModel.ID = containerId;
 
-      this._containerService.deleteContainerMaster(containerModel).subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          alert('Your record has been deleted successfully !');
-          this.GetContainerMasterList();
-        }
-      });
+      this._containerService
+        .deleteContainerMaster(containerModel)
+        .subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            alert('Your record has been deleted successfully !');
+            this.GetContainerMasterList();
+          }
+        });
     }
   }
 }

@@ -1,10 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
-import { MASTER } from '../models/master';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MasterService {
   BASE_URL = environment.BASE_URL;
@@ -15,50 +14,44 @@ export class MasterService {
     }),
   };
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {}
 
-  GetMasterList(master:MASTER){
+  GetMasterList(key: string) {
     return this._http.get<any>(
-      this.BASE_URL +
-      'Common/GetDropdownData?KEY_NAME=' +
-        master.KEY_NAME,
+      this.BASE_URL + 'Master/GetMasterList?key=' + key,
       this.httpOptions
     );
   }
 
   InsertMaster(type: any) {
     return this._http.post<any>(
-      this.BASE_URL + 'Master/InsertServiceTypeMaster',
+      this.BASE_URL + 'Master/InsertMaster',
       type,
       this.httpOptions
     );
   }
 
-  GetMasterDetails(master: MASTER) {
+  GetMasterDetails(ID: number) {
     return this._http.get<any>(
-      this.BASE_URL +
-        'Master/GetServiceTypeMasterDetails?CREATED_BY=' +
-        master.CREATED_BY +
-        '&CODE=' +
-        master.CODE,
+      this.BASE_URL + 'Master/GetMasterDetails?ID=' + ID,
       this.httpOptions
     );
   }
 
-  UpdateMaster(master:any){
-    debugger
+  UpdateMaster(master: any) {
+    debugger;
     return this._http.post<any>(
-      this.BASE_URL+ 'Master/UpdateServiceTypeMaster',
+      this.BASE_URL + 'Master/UpdateMaster',
       master,
       this.httpOptions
     );
   }
 
-  DeleteMaster(master:MASTER){
-    debugger
+  DeleteMaster(ID: number) {
+    debugger;
     return this._http.delete<any>(
-      this.BASE_URL+
-      'Master/DeleteServiceTypeMaster?CODE='+ master.CODE,this.httpOptions
+      this.BASE_URL + 'Master/DeleteMaster?ID=' + ID,
+      this.httpOptions
     );
   }
 }
