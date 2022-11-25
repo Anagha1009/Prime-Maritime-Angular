@@ -6,8 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainLayoutModule } from './layout/main-layout/main-layout.module';
 import { SharedModule } from './shared/shared.module';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
 
 @NgModule({
@@ -18,10 +19,11 @@ import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
     MainLayoutModule,
     PmLayoutModule,
     SharedModule,
-    HttpClientModule,
-    NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
+    NgSelectModule,   
+    NgMultiSelectDropDownModule 
   ],
   providers: [],
   bootstrap: [AppComponent],

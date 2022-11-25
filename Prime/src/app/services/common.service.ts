@@ -52,4 +52,13 @@ export class CommonService {
       img.src = url;
     });
   }
+
+  UpdateMaster(type:any){
+    debugger
+    return this._http.post<any>(
+      this.BASE_URL+ 'Master/UpdateMaster',
+      type,
+      this.httpOptions
+    );
+  }
 }
