@@ -22,6 +22,7 @@ import { PmLoginComponent } from './pm-modules/pm-login/pm-login.component';
 import { DepoDashboardComponent } from './modules/depo-dashboard/depo-dashboard.component';
 import { ContainerAllotmentComponent } from './modules/container-allotment/container-allotment.component';
 import { ContainerAllotmentListComponent } from './modules/container-allotment-list/container-allotment-list.component';
+import { ManifestListComponent } from './modules/manifest-list/manifest-list.component';
 
 const routes: Routes = [
   {
@@ -117,6 +118,10 @@ const routes: Routes = [
       {
         path: 'container-allotment-list',
         component: ContainerAllotmentListComponent,
+      },
+      {
+        path: 'manifest-list',
+        component: ManifestListComponent,
       },
     ],
   },

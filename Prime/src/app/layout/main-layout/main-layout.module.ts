@@ -25,6 +25,7 @@ import { ActivityMappingComponent } from 'src/app/modules/activity-mapping/activ
 import { DepoDashboardComponent } from 'src/app/modules/depo-dashboard/depo-dashboard.component';
 import { ContainerAllotmentComponent } from 'src/app/modules/container-allotment/container-allotment.component';
 import { ContainerAllotmentListComponent } from 'src/app/modules/container-allotment-list/container-allotment-list.component';
+import { ManifestListComponent } from 'src/app/modules/manifest-list/manifest-list.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { ContainerAllotmentListComponent } from 'src/app/modules/container-allot
     DepoDashboardComponent,
     ContainerAllotmentComponent,
     ContainerAllotmentListComponent,
+    ManifestListComponent
   ],
   imports: [
     CommonModule,
