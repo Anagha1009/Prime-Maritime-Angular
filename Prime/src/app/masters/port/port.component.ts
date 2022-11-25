@@ -93,21 +93,22 @@ export class PortComponent implements OnInit {
       });
   }
 
-  DeletePortMaster(code:string){
+  DeletePortMaster(code: string) {
+    debugger
     if (confirm('Are you sure want to delete this record ?')) {
-      var currencyModel = new MASTER();
-      currencyModel.CREATED_BY = localStorage.getItem('usercode');
-      currencyModel.CODE = code;
+      var portModel = new MASTER();
+      portModel.CREATED_BY = localStorage.getItem('usercode');
+      portModel.CODE = code;
 
-      this._masterService.DeleteMaster(currencyModel).subscribe((res: any) => {
+      this._masterService.DeleteMaster(portModel).subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           alert('Your record has been deleted successfully !');
-          //this.GetCurrencyMasterList();
+          this.GetPortMasterList();
         }
       });
     }
-
   }
+
 
   ClearForm() {
     this.portForm.reset()
