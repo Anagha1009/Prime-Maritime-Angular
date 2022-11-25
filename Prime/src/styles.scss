@@ -21,6 +21,19 @@
   transition: 0.4s;
 }
 
+.form-btn-success {
+  background: white;
+  border: 1px solid #63a963;
+  padding: 6px 18px;
+  color: #63a963;
+  transition: 0.4s;
+}
+
+.form-btn-success:hover {
+  background: #63a963;
+  color: #fff;
+}
+
 .form-btn-danger {
   background: white;
   border: 1px solid rgba(220, 53, 69);

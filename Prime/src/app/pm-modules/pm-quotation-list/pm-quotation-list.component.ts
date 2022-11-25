@@ -1,4 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { QUOTATION } from 'src/app/models/quotation';
 import { QuotationService } from 'src/app/services/quotation.service';
 
@@ -11,12 +18,21 @@ export class PmQuotationListComponent implements OnInit {
   quotation = new QUOTATION();
   quotationList: any[] = [];
   quotationDetails: any;
+  rateForm: FormGroup;
 
   @ViewChild('RateModal') RateModal: ElementRef;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
 
-  constructor(private _quotationService: QuotationService) {}
+  constructor(
+    private _quotationService: QuotationService,
+    private _formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
+    this.rateForm = this._formBuilder.group({
+      SRR_RATES: new FormArray([]),
+    });
+
     this.getQuotationList();
   }
 
@@ -35,6 +51,13 @@ export class PmQuotationListComponent implements OnInit {
     this._quotationService.getSRRDetails(quot).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.quotationDetails = res.Data;
+
+        const add = this.rateForm.get('SRR_RATES') as FormArray;
+
+        res.Data.SRR_RATES.forEach((element: any) => {
+          add.push(this._formBuilder.group(element));
+        });
+
         this.RateModal.nativeElement.click();
       }
     });
@@ -53,5 +76,25 @@ export class PmQuotationListComponent implements OnInit {
       event.preventDefault();
     }
     return true;
+  }
+
+  f(i: any) {
+    return i;
+  }
+
+  get f1() {
+    var r = this.rateForm.get('SRR_RATES') as FormArray;
+    return r.controls;
+  }
+
+  approveRate() {
+    this._quotationService
+      .approveRate(this.rateForm.value.SRR_RATES)
+      .subscribe((res: any) => {
+        if (res.responseCode == 200) {
+          alert('Rates are approved successfully !');
+          this.closeBtn.nativeElement.click();
+        }
+      });
   }
 }
