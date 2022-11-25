@@ -76,4 +76,8 @@ export class QuotationService {
   uploadFiles(file: any) {
     return this._http.post<any>(this.BASE_URL + 'SRR/UploadFiles', file);
   }
+
+  approveRate(rootobject: any) {
+    return this._http.post<any>(this.BASE_URL + 'SRR/ApproveRate', rootobject);
+  }
 }
