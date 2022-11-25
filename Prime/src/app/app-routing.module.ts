@@ -22,11 +22,34 @@ import { ServicetypeComponent } from './masters/servicetype/servicetype.componen
 import { CurrencyComponent } from './masters/currency/currency.component';
 import { UnitComponent } from './masters/unit/unit.component';
 import { PortComponent } from './masters/port/port.component';
+import { PmQuotationListComponent } from './pm-modules/pm-quotation-list/pm-quotation-list.component';
+import { PmLayoutComponent } from './layout/pm-layout/pm-layout.component';
+import { ActivityMappingComponent } from './modules/activity-mapping/activity-mapping.component';
+import { ContainerAllotmentListComponent } from './modules/container-allotment-list/container-allotment-list.component';
+import { ContainerAllotmentComponent } from './modules/container-allotment/container-allotment.component';
+import { DepoDashboardComponent } from './modules/depo-dashboard/depo-dashboard.component';
+import { NewBlComponent } from './modules/new-bl/new-bl.component';
+import { NewCmComponent } from './modules/new-cm/new-cm.component';
+import { PmLoginComponent } from './pm-modules/pm-login/pm-login.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LandingComponent,
+  },
+  {
+    path: 'pm',
+    component: PmLayoutComponent,
+    children: [
+      {
+        path: 'login',
+        component: PmLoginComponent,
+      },
+      {
+        path: 'quotation-list',
+        component: PmQuotationListComponent,
+      },
+    ],
   },
   {
     path: 'login',
@@ -63,6 +86,10 @@ const routes: Routes = [
       {
         path: 'new-er',
         component: NewErComponent,
+      },
+      {
+        path: 'new-do',
+        component: NewDoComponent,
       },
       {
         path: 'cro-list',
@@ -107,7 +134,31 @@ const routes: Routes = [
       {
         path:'port',
         component:PortComponent,
-      }
+      },
+      {
+        path: 'new-bl',
+        component: NewBlComponent,
+      },
+      {
+        path: 'new-cm',
+        component: NewCmComponent,
+      },
+      {
+        path: 'activity-mapping',
+        component: ActivityMappingComponent,
+      },
+      {
+        path: 'depo',
+        component: DepoDashboardComponent,
+      },
+      {
+        path: 'container-allotment',
+        component: ContainerAllotmentComponent,
+      },
+      {
+        path: 'container-allotment-list',
+        component: ContainerAllotmentListComponent,
+      },
     ],
   },
 ];

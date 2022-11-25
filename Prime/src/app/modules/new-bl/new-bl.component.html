@@ -1,0 +1,239 @@
+<div class="section-title">
+    <h2>Bill of Lading</h2>
+</div>
+<div class="container mb-5">
+    <div class="col-md-4 mx-auto mt-5" *ngIf="!isBLForm">
+        <div class="tabs">
+            <input type="radio" (click)="tabs = '1'" class="d-none" id="radio-1" name="tabs" checked />
+            <label class="tab" for="radio-1">New BL</label>
+            <input type="radio" (click)="tabs = '2'" class="d-none" id="radio-2" name="tabs" />
+            <label class="tab" for="radio-2">Split BL</label>
+            <span class="glider"></span>
+        </div>
+    </div>
+    <div class="col-md-5 mt-5 mx-auto" *ngIf="!isBLForm && tabs=='1'">
+        <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload">
+            <input type="file" (change)="onFileChange($event)" name="file" id="file" />
+            <label for="file">
+                <div>
+                    <h3><i class="fa fa-file-pdf-o"></i></h3>
+                    <span class="formbold-drop-file">Upload</span>
+                    <span class="formbold-file-item">SI File</span>
+                </div>
+            </label>
+        </div>
+        <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload">
+            <div class="formbold-file-item">
+                <span class="formbold-file-name">SI File</span>
+                <button (click)="onUpload = false"><span class="bx bx-x-circle"></span></button>
+            </div>
+        </div>
+        <div class="col-md-5 mx-auto text-end">
+            <button class="form-btn w-100" (click)="getBLForm()">Upload</button>
+        </div>
+    </div>
+    <div *ngIf="!isBLForm && tabs=='2'">
+        <div class="col-md-3 mt-4 mx-auto">
+            <div class="form-group">
+                <label class="form-label2">BL No</label>
+                <input type="text" class="form-control2" [(ngModel)]="blNo" />
+            </div>
+            <div class="col-md-5 mx-auto text-end">
+                <button class="form-btn w-100" (click)="getBLDetails()">Submit</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-10 mx-auto" *ngIf="isBLForm">
+        <div class="text-end"><button (click)="tabs='1';isBLForm = false;" class="form-btn-primary">Re-Upload</button>
+        </div>
+        <form [formGroup]="blForm">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Shipper Name</label>
+                        <input type="text" formControlName="SHIPPER" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Consignee Name</label>
+                        <input type="text" formControlName="CONSIGNEE" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Notify Party</label>
+                        <input type="text" formControlName="NOTIFY_PARTY" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Pre Carriage by</label>
+                        <input formControlName="PRE_CARRIAGE_BY" type="text" class="form-control2" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Place of Receipt</label>
+                        <input formControlName="PLACE_OF_RECEIPT" type="text" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Vessel Name</label>
+                        <input formControlName="VESSEL_NAME" type="text" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Voyage No</label>
+                        <input formControlName="VOYAGE_NO" type="text" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Port of Loading</label>
+                        <input formControlName="PORT_OF_LOADING" type="text" class="form-control2" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Port of Discharge</label>
+                        <input formControlName="PORT_OF_DISCHARGE" type="text" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Place of Delivery</label>
+                        <input formControlName="PLACE_OF_DELIVERY" type="text" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Final Destination</label>
+                        <input formControlName="FINAL_DESTINATION" type="text" class="form-control2" />
+                    </div>
+                </div>
+            </div>
+            <h6 class="d-inline mt-3">Container Details</h6>
+            <hr>
+            <div class="table-responsive">
+                <table class="table" style="font-size: 12px;">
+                    <thead>
+                        <tr>
+                            <th *ngIf="isSplit"><input type="checkbox" (change)="getContainerList(1,$event,-1)" /></th>
+                            <th>Sr No</th>
+                            <th>Cont No</th>
+                            <th>Cont Type</th>
+                            <th>Marks & Numbers</th>
+                            <th>Description of goods</th>
+                            <th>Gross Weight</th>
+                            <th>Measurement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of f;let i = index" [formGroup]="getf1(item)">
+                            <td *ngIf="isSplit"><input id="chck{{i}}" (change)="getContainerList(item,$event,i)"
+                                    type="checkbox" />
+                            </td>
+                            <td class="col-md-1">{{i+1}}</td>
+                            <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
+                            <td class="col-md-2">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_TYPE}} -
+                                {{blForm.value.CONTAINER_LIST2[i].CONTAINER_SIZE}}</td>
+                            <td class="col-md-3"><textarea formControlName="MARKS_NOS" class="form-control2"></textarea>
+                            </td>
+                            <td class="col-md-3"><textarea formControlName="DESC_OF_GOODS" type="text"
+                                    class="form-control2"></textarea></td>
+                            <td class="col-md-1"><input formControlName="GROSS_WEIGHT" type="text" class="form-control2"
+                                    style="height: calc(1rem + 0.75rem + 2px);" /></td>
+                            <td class="col-md-1"><input formControlName="MEASUREMENT" type="text" class="form-control2"
+                                    style="height: calc(1rem + 0.75rem + 2px);" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Total No of Containers</label>
+                        <input type="text" formControlName="TOTAL_CONTAINERS" class="form-control2" />
+                    </div>
+                </div>
+            </div>
+            <h6>Freight & Charges</h6>
+            <hr>
+            <div class="table-responsive">
+                <table class="table" style="font-size: 12px;">
+                    <thead>
+                        <tr>
+                            <th>Sr No</th>
+                            <th>Charge Code</th>
+                            <th>Rate</th>
+                            <th>Payment Term</th>
+                            <th>Place of Payment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of chargeList; let i = index">
+                            <td>{{i + 1}}</td>
+                            <td>{{item.CHARGE_CODE}}</td>
+                            <td>{{item.CURRENCY}} {{item.RATE_REQUESTED}}</td>
+                            <td>{{item.PAYMENT_TERM}}</td>
+                            <td>{{item.TRANSPORT_TYPE}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Prepaid at</label>
+                        <input type="text" formControlName="PREPAID_AT" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Payable at</label>
+                        <input type="text" formControlName="PAYABLE_AT" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Place of Issue</label>
+                        <input type="text" formControlName="BL_ISSUE_PLACE" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Issue Date</label>
+                        <input type="date" formControlName="BL_ISSUE_DATE" class="form-control2" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Total prepaid in local currency</label>
+                        <input type="text" formControlName="TOTAL_PREPAID" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">No of Original BL</label>
+                        <input type="text" formControlName="NO_OF_ORIGINAL_BL" class="form-control2" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 offset-md-10" style="text-align: right;">
+                    <button class="form-btn" (click)="createBL()">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

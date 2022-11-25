@@ -137,8 +137,6 @@ export class NewQuotationComponent implements OnInit {
       this.commoditiesForm.get('IMO_CLASS')?.disable();
       this.commoditiesForm.get('UN_NO')?.disable();
       this.commoditiesForm.get('HAZ_APPROVAL_REF')?.disable();
-      this.commoditiesForm.get('WEIGHT')?.disable();
-      this.commoditiesForm.get('REMARKS')?.disable();
     }
 
     if (this.commoditiesForm.invalid) {

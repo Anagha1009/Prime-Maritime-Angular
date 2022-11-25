@@ -90,7 +90,7 @@
                 </div>
             </div>
         </div>
-        <div class="card">
+        <div class="card" *ngIf="showList">
             <div class="card-header" role="tab" id="heading-3">
                 <h6 class="mb-0">
                     <a class="collapsed" data-bs-toggle="collapse" href="#collapse-3" aria-expanded="false"
@@ -117,42 +117,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- <tr *ngFor="let item of containerList; let i = index">
+                            <tr *ngFor="let item of containerList; let i = index">
                                 <td>{{i + 1}}</td>
+                                <td>{{item.CONTAINER_NO}}</td>
                                 <td>{{item.CONTAINER_TYPE}}</td>
                                 <td>{{item.CONTAINER_SIZE}}</td>
-                                <td>{{item.SERVICE_MODE}}</td>
-                                <td><i class="fa fa-eye"></i></td>
-                            </tr> -->
-                            <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    RTEB67575675
-                                </td>
-                                <td>
-                                    Open Storage
-                                </td>
-                                <td>
-                                    20ft
-                                </td>
-                                <td>
-                                    RTDF5456654
-                                </td>
-                                <td>
-                                    RTEB67575675-OpenStorage
-                                </td>
-                                <td>
-                                    10Bags of grains
-                                </td>
-                                <td>
-                                    10Tons
-                                </td>
-                                <td>
-                                    --
-                                </td>
+                                <td>{{item.SEAL_NO}}</td>
+                                <td>{{item.MARKS_NOS}}</td>
+                                <td>{{item.DESC_OF_GOODS}}</td>
+                                <td>{{item.GROSS_WEIGHT}}</td>
+                                <td>{{item.Measurement}}</td>
+
                             </tr>
+                            
                         </tbody>
                     </table>
                 </div>

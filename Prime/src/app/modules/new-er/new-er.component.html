@@ -14,7 +14,7 @@
                                         <label class="form-label2">Load Depot</label>
                                         <ng-select [ngClass]="{'invalid': submitted && f.LOAD_DEPOT.errors}"
                                 formControlName="LOAD_DEPOT" style="margin-top: 10px;">
-                                <ng-option value="" selected="true" disabled>--Select DISCHARGE DEPOT--</ng-option>
+                                <ng-option value="" selected="true" disabled>--Select Load DEPOT--</ng-option>
                                 <ng-option value="ADTC-ADTC - Dammam">ADTC-ADTC - Dammam</ng-option>
                                 <ng-option value="AERAK-RAS AL KHAYMAH">AERAK-RAS AL KHAYMAH</ng-option>
                                 <ng-option value="AMAL - L-AMAL LOGISTICS SERVICES PVT.LTD.">AMAL - L-AMAL LOGISTICS SERVICES PVT.LTD.</ng-option>
@@ -23,6 +23,9 @@
                                 <ng-option value="BHKBS-BAHR-BHKBS Deport">BHKBS-BAHR-BHKBS Deport</ng-option>
                                 <ng-option value="BORKHE-ICD BORKHEDI">BORKHE-ICD BORKHEDI</ng-option>
                                </ng-select>
+
+                               <div *ngIf="submitted && f.LOAD_DEPOT.errors" class="invalid-feedback">Please select
+                                Load Depot</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -39,6 +42,8 @@
                                 <ng-option value="BHKBS-BAHR-BHKBS Deport">BHKBS-BAHR-BHKBS Deport</ng-option>
                                 <ng-option value="BORKHE-ICD BORKHEDI">BORKHE-ICD BORKHEDI</ng-option>
                                </ng-select>
+                               <div *ngIf="submitted && f.DISCHARGE_DEPOT.errors" class="invalid-feedback">Please select
+                                Discharge Depot</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -49,6 +54,8 @@
                                 <ng-option value="" selected="true" disabled>--Select Mode Of Transport--</ng-option>
                                 <ng-option value="Rail">Rail</ng-option>
                                 <ng-option value="Road">Road</ng-option> </ng-select>
+                                    <div *ngIf="submitted && f.MODE_OF_TRANSPORT.errors" class="invalid-feedback">Please select
+                                       Mode Of Transport</div>
                                         
                                     </div>
                                 </div>
@@ -58,20 +65,26 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label2">Movement Date</label>
-                                        <input formControlName="MOVEMENT_DATE" type="date" class="form-control2" />
+                                        <input formControlName="MOVEMENT_DATE" type="date" class="form-control2" [ngClass]="{'invalid': submitted && f.MOVEMENT_DATE.errors}"/>
+                                        <div *ngIf="submitted && f.MOVEMENT_DATE.errors" class="invalid-feedback">Please select
+                                            Movement Date</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label2">Lift On Charge</label>
-                                        <input type="number" min="0.00" step="0.05" value="1.00" formControlName="LIFT_ON_CHARGE" class="form-control2">
+                                        <input type="number" min="0.00" step="0.05" value="1.00" formControlName="LIFT_ON_CHARGE" class="form-control2" [ngClass]="{'invalid': submitted && f.LIFT_ON_CHARGE.errors}">
+                                        <div *ngIf="submitted && f.LIFT_ON_CHARGE.errors" class="invalid-feedback">Please enter
+                                        Lift On Charge </div>
                                     </div>
 
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label2">Lift Off Charge</label>
-                                        <input type="number" min="0.00" step="0.05" value="1.00" formControlName="LIFT_OFF_CHARGE" class="form-control2">
+                                        <input type="number" min="0.00" step="0.05" value="1.00" formControlName="LIFT_OFF_CHARGE" class="form-control2" [ngClass]="{'invalid': submitted && f.LIFT_OFF_CHARGE.errors}">
+                                        <div *ngIf="submitted && f.LIFT_OFF_CHARGE.errors" class="invalid-feedback">Please enter
+                                            Lift Off Charge </div>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +93,7 @@
                                     <div class="form-group">
                                         <label class="form-label2">Currency</label>
                                         <ng-select [ngClass]="{'invalid': submitted && f.CURRENCY.errors}"
-                                formControlName="CURRENCY" style="margin-top: 5px;">
+                                formControlName="CURRENCY" style="margin-top: 10px;">
                                 <ng-option value="" selected="true" disabled>--Select Currency--</ng-option>
                                 <ng-option value="AED">AED</ng-option>
                                 <ng-option value="AUD">AUD</ng-option>
@@ -90,20 +103,27 @@
                                 <ng-option value="CNY">CNY</ng-option>
                                 <ng-option value="DKK">DKK</ng-option>
                                </ng-select>
+                               <div *ngIf="submitted && f.CURRENCY.errors" class="invalid-feedback">Please enter
+                                Currency </div>
                                         
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label2">Reason</label>
-                                        <textarea formControlName="REASON" class="form-control2"></textarea>
+                                        <textarea formControlName="REASON" class="form-control2" [ngClass]="{'invalid': submitted && f.REASON.errors}"></textarea>
+                                        <div *ngIf="submitted && f.REASON.errors" class="invalid-feedback">Please enter
+                                            Reason </div>
+                                        
                                     </div>
                                 </div>
 
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label2">Remarks</label>
-                                        <textarea formControlName="REMARKS" class="form-control2"></textarea>
+                                        <textarea formControlName="REMARKS" class="form-control2" [ngClass]="{'invalid': submitted && f.REMARKS.errors}"></textarea>
+                                        <div *ngIf="submitted && f.REMARKS.errors" class="invalid-feedback">Please enter
+                                            Remarks </div>
                                     </div>
                                 </div>
                             </div>
@@ -111,24 +131,24 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label  class="form-label2">Container</label>
-                                <ng-multiselect-dropdown #multiSelect
-                                [placeholder]="'Select Container'"
-                                [settings]="dropdownSettings" 
-                                [data]="containerDropdownList" 
-                                [(ngModel)]="selectedItems"
-                                [formControlName]="f.CONTAINER_LIST" 
-                                [class.is-invalid]="f?.CONTAINER_LIST?.errors?.required && f?.CONTAINER_LIST?.touched"
-                                (onFilterChange)="onFilterChange($event)"
-                                (onDropDownClose)="onDropDownClose($event)"
-                                (onSelect)="onItemSelect($event)" 
-                                (onDeSelect)="onDeSelect($event)"
-                                (onSelectAll)="onSelectAll($event)"
-                                (onDeSelectAll)="onDeSelectAll($event)">
-                                </ng-multiselect-dropdown>
+                                        <ng-multiselect-dropdown #multiSelect
+      [placeholder]="'Select Container'"
+      [settings]="dropdownSettings" 
+      [data]="containerDropdownList" 
+      [(ngModel)]="selectedItems"
+      [formControl]="f.CONTAINER_LIST" 
+      [class.is-invalid]="f?.CONTAINER_LIST?.errors?.required"
+      (onFilterChange)="onFilterChange($event)"
+      (onDropDownClose)="onDropDownClose($event)"
+      (onSelect)="onItemSelect($event)" 
+      (onDeSelect)="onDeSelect($event)"
+      (onSelectAll)="onSelectAll($event)"
+      (onDeSelectAll)="onDeSelectAll($event)">
+		</ng-multiselect-dropdown>
 
-    <span *ngIf="f?.CONTAINER_LIST?.errors?.required && f?.CONTAINER_LIST?.touched" style="color: red;">
+    <div *ngIf="submitted && f?.CONTAINER_LIST?.errors?.required" style="color: red;">
       Container is required
-    </span>
+    </div>
                                         
                                     </div>
                                 </div>
@@ -143,8 +163,8 @@
             <div class="row  mt-4">
 
                 <div class="col-md-6 offset-md-6 text-end">
-                    <button type="button" class="btn btn-secondary btn-block" style="margin-right: 6px;" (click)="cancelER()">Cancel</button>
-                    <button type="button" class="btn btn-secondary btn-block" style="margin-right: 6px;" (click)="saveER()">Save</button>
+                    <button type="button" class="form-btn" style="margin-right: 6px;" (click)="cancelER()">Clear</button>
+                    <button type="button" class="form-btn" style="margin-right: 6px;" (click)="saveER()">Save</button>
                 
                 </div>
                 

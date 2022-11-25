@@ -1,0 +1,57 @@
+<div class="section-title">
+    <h2>Activity Mapping</h2>
+</div>
+<section class="services">
+    <div class="col-md-8 mx-auto">
+        <div class="container mt-4">
+            <div class="row mt-4">
+                <form [formGroup]="activityMappingForm">
+                    <div class="col-md-12">
+                        <div class="row mb-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label2">Activity Code</label>
+                                        <ng-select [ngClass]="{'invalid': submitted && f.ACT_ID.errors}"
+                                            formControlName="ACT_ID" style="margin-top: 10px;">
+                                            <ng-option value="" selected="true" disabled>--Select Activity Code--
+                                            </ng-option>
+                                            <ng-option *ngFor="let item of activityList" value="{{item.ID}}">
+                                                {{item.ACT_NAME}}
+                                            </ng-option>
+                                        </ng-select>
+                                        <div *ngIf="submitted && f.ACT_ID.errors?.required" class="invalid-feedback">
+                                            Activity Code is required</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label2">Next Activity Code</label>
+                                        <ng-multiselect-dropdown #multiSelect [placeholder]="'--Select Activity Code--'"
+                                            [settings]="dropdownSettings" [data]="activityList"
+                                            [(ngModel)]="selectedItems" [formControl]="f.ACT_SEQ_DROPDOWN">
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <hr>
+            <div class="row  mt-4">
+                <div class="col-md-6 offset-md-6 text-end">
+                    <button type="button" class="form-btn" style="margin-right: 6px;"
+                        (click)="CancelMapping()">Clear</button>
+                    <button type="button" class="form-btn" style="margin-right: 6px;"
+                        (click)="InsertMapping()">Save</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
