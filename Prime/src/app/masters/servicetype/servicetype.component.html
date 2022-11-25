@@ -1,0 +1,62 @@
+<div class="section-title">
+    <h2>Service Type</h2>
+</div>
+
+<form [formGroup]="typeForm">
+    <div class="col-md-8 mx-auto">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label2">Code</label>
+                    <input type="text" id="code" formControlName="CODE" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label2">Code Description</label>
+                    <textarea type="text" id="desc" formControlName="CODE_DESC" class="form-control2"></textarea>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label2">Status <span class="text-danger"> *</span></label>
+                    <select class="form-control2" formControlName="STATUS">
+                        <option value="" selected="true" disabled>--Select--</option>
+                        <option value="true">Active</option>
+                        <option value="false">InActive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4 offset-md-5" style="text-align: right">
+                <button *ngIf="!isUpdate" (click)="InsertServiceTypeMaster()" class="form-btn me-2">Save</button>
+                <button (click)="ClearForm()" class="form-btn me-2">Clear</button>
+                <button *ngIf="isUpdate" (click)="UpdateServiceTypeMaster()" class="form-btn">Update</button>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="col-md-10 mx-auto">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Sr. No</th>
+                <th>CODE</th>
+                <th>Code Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of TypeList; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{item.CODE}}</td>
+                <td>{{item.CODE_DESC}}</td>
+                <td>
+                    <i class="fa fa-pencil mx-2 pointer text-success"
+                        (click)="GetServiceTypeMasterDetails(item.CODE)"></i>
+                    <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteServiceTypeMaster(item.CODE)"></i>
+            </tr>
+        </tbody>
+    </table>
+</div>
