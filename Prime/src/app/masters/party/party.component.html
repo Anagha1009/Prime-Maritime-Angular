@@ -1,10 +1,10 @@
 <div class="section-title">
-  <h2>Party Master</h2>
+  <h2>Customer Master</h2>
 </div>
 <div class="container mb-4">
   <form [formGroup]="partyForm">
     <div class="col-md-8 mx-auto">
-      <div class="row">
+      <div class="row">       
         <div class="col-md-4">
           <div class="form-group">
             <label class="form-label2">Name</label>
@@ -14,7 +14,7 @@
         <div class="col-md-4">
           <div class="form-group">
             <label class="form-label2">Address</label>
-            <textarea type="text"  id="address" formControlName="CUST_ADDRESS" class="form-control2"></textarea>
+            <textarea type="text" id="address" formControlName="CUST_ADDRESS" class="form-control2"></textarea>
           </div>
         </div>
         <div class="col-md-4">
@@ -28,7 +28,7 @@
         <div class="col-md-4">
           <div class="form-group">
             <label class="form-label2">GST IN</label>
-            <input type="text"  id="gstin" formControlName="GSTIN" class="form-control2">
+            <input type="text" id="gstin" formControlName="GSTIN" class="form-control2">
           </div>
         </div>
         <div class="col-md-4">
@@ -38,7 +38,7 @@
               <option value="" selected="true" disabled>--Select--</option>
               <option value="Shipper">Shipper</option>
               <option value="Consignee">Consignee</option>
-              <option value="forwarder">forwarder</option>
+              <option value="Forwarder">Forwarder</option>
             </select>
           </div>
         </div>
@@ -55,37 +55,41 @@
       </div>
       <div class="row mb-3">
         <div class="col-md-2 offset-md-10" style="text-align: right;">
-          <button (click)="saveParty()" class="form-btn w-100">Save</button>
+          <button *ngIf="!isUpdate" (click)="InsertPartyMaster()" class="form-btn w-100">Save</button>
+          <button *ngIf="isUpdate" (click)="UpdatePartyMaster()" class="form-btn w-100">Update</button>
         </div>
       </div>
     </div>
   </form>
 
- <div class="col-md-10 mx-auto">
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Sr. No</th>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Email</th>
-        <th>Address</th>
-        <th>GST</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of partyList; let i = index">
-        <td>{{i+1}}</td>
-        <td>{{item.CUST_NAME}}</td>
-        <td>{{item.CUST_TYPE}}</td>
-        <td>{{item.CUST_EMAIL}}</td>
-        <td>{{item.CUST_ADDRESS}}</td>
-        <td>{{item.GSTIN}}</td>
-        <td><a (click)="getPartyDetails()"><i class="fa fa-pencil mx-2"></i></a><a (click)="deleteParty()"><i class="fa fa-trash ms-2"></i></a></td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="col-md-10 mx-auto">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Sr. No</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>GST</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of partyList; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{item.CUST_NAME}}</td>
+          <td>{{item.CUST_TYPE}}</td>
+          <td>{{item.CUST_EMAIL}}</td>
+          <td>{{item.CUST_ADDRESS}}</td>
+          <td>{{item.GSTIN}}</td>
+          <td>
+           <i class="fa fa-pencil mx-2 pointer text-success" (click)="GetPartyMasterDetails(item.CUST_ID)"></i>
+            <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeletePartyMaster(item.CUST_ID)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
- </div>
+  </div>
 </div>

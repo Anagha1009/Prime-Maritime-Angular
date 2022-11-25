@@ -16,6 +16,12 @@ import { LandingComponent } from './shared/landing/landing.component';
 import { DoListComponent } from './modules/do-list/do-list.component';
 import { DoDetailsComponent } from './modules/do-details/do-details.component';
 import { NewErComponent } from './modules/new-er/new-er.component';
+import { ContainerComponent } from './masters/container/container.component';
+import { ContainerSizeComponent } from './masters/container-size/container-size.component';
+import { ServicetypeComponent } from './masters/servicetype/servicetype.component';
+import { CurrencyComponent } from './masters/currency/currency.component';
+import { UnitComponent } from './masters/unit/unit.component';
+import { PortComponent } from './masters/port/port.component';
 
 const routes: Routes = [
   {
@@ -78,6 +84,30 @@ const routes: Routes = [
         path: 'party',
         component: PartyComponent,
       },
+      {
+        path: 'container',
+        component: ContainerComponent,
+      },
+      {
+        path: 'containerSize',
+        component: ContainerSizeComponent,
+      },
+      {
+        path: 'servicetype',
+        component:ServicetypeComponent,
+      },
+      {
+        path:'currency',
+        component:CurrencyComponent,
+      },
+      {
+        path:'unit',
+        component:UnitComponent,
+      },
+      {
+        path:'port',
+        component:PortComponent,
+      }
     ],
   },
 ];

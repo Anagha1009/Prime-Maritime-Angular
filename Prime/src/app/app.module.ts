@@ -14,10 +14,16 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NewErComponent } from './modules/new-er/new-er.component';
 import { PartyComponent } from './masters/party/party.component';
 import { NewDoComponent } from './modules/new-do/new-do.component';
+import { ContainerComponent } from './masters/container/container.component';
+import { ContainerSizeComponent } from './masters/container-size/container-size.component';
+import { ServicetypeComponent } from './masters/servicetype/servicetype.component';
+import { CurrencyComponent } from './masters/currency/currency.component';
+import { UnitComponent } from './masters/unit/unit.component';
+import { PortComponent } from './masters/port/port.component';
 
 
 @NgModule({
-  declarations: [AppComponent, SplitBookingComponent, DetentionListComponent,NewErComponent,PartyComponent,NewDoComponent],
+  declarations: [AppComponent, SplitBookingComponent, DetentionListComponent,NewErComponent,PartyComponent,NewDoComponent, ContainerComponent, ContainerSizeComponent, ServicetypeComponent, CurrencyComponent, UnitComponent, PortComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
