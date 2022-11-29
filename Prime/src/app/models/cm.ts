@@ -4,7 +4,7 @@ export class CONTAINER_MOVEMENT {
     CRO_NO: any='';
     CONTAINER_NO: any='';
     ACTIVITY: string;
-    PREV_ACTIVITY: string;
+    PREV_ACTIVITY: any='';
     ACTIVITY_DATE: string;
     LOCATION: string;
     STATUS: string;

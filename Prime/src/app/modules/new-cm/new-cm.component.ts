@@ -1,5 +1,5 @@
 import { ThisReceiver } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CheckboxControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Bl } from 'src/app/models/bl';
@@ -11,6 +11,7 @@ import { CmService } from 'src/app/services/cm.service';
 import { ActivityService } from 'src/app/services/activity.service';
 import { Activity } from 'src/app/models/activity-mapping';
 import { formatDate } from '@angular/common';
+import { NotificationsService, NotificationType } from 'angular2-notifications';
 
 @Component({
   selector: 'app-new-cm',
@@ -23,8 +24,10 @@ export class NewCmComponent implements OnInit {
   submitted:boolean=false;
   manually:boolean=false;
   showTable:boolean=false;
+  showFields:boolean=false;
   fromXL:boolean=false;
-  previewNoData:boolean=true;
+  previewNoData:boolean=false;
+  isAgent:boolean=true;
   cmTable: any[] = [];
   containerList:any[]=[];
   cm=new CONTAINER_MOVEMENT();
@@ -34,13 +37,16 @@ export class NewCmComponent implements OnInit {
   contNo:any='';
   bkcr: any='';
   currentUser:any='';
+  selectedActCode:any=''
+  selectedActivity:any[]=[];
   selectedItems: any[] = [];
   dropdownSettings = {};
+  @ViewChild ('myacts') myactsRef: ElementRef;
 
-  prevData=new Activity();
-  //activityList:any[]=[];
+  prevData:any;
+  activityList:any[]=[];
 
-  activityList=[
+  activityList1=[
     {ID:6,ACT_CODE:"HDMG",ACT_NAME:"Heavy damage"},
     {ID:7,ACT_CODE:"HOLD",ACT_NAME:"Hold"},
     {ID:10,ACT_CODE:"LOST",ACT_NAME:"LOST container"},
@@ -63,7 +69,8 @@ export class NewCmComponent implements OnInit {
     private _cmService: CmService,
     private _blService:BlService,
     private _actService:ActivityService,
-    private _router: Router) { }
+    private _router: Router,
+    private ntService:NotificationsService) { }
 
   ngOnInit(): void {
    
@@ -81,35 +88,98 @@ export class NewCmComponent implements OnInit {
       CREATED_BY: [''],
       CONTAINER_MOVEMENT_LIST:new FormArray([]),
       CONTAINER_LIST2:new FormArray([]),
-      NEXT_ACTIVITY_LIST: new FormArray([])
+      NEXT_ACTIVITY_LIST_SINGLE: new FormArray([])
     });
+   
     this.checkUser();
+    this.initializeNextActivityList();
     
+  }
+
+  initializeNextActivityList(){
+    this.activityList=[];
+    this._actService.getActivityList().subscribe((res: any) => {
+      if(res.ResponseCode==200){
+        this.activityList=res.Data;
+      }
+    });
+    const add=this.cmForm.get("NEXT_ACTIVITY_LIST_SINGLE") as FormArray;
+    add.clear();
+    this.activityList.forEach((element) => {
+      add.push(
+        this._formBuilder.group({
+          ID:[element.ID],
+          ACT_NAME: [element.ACT_NAME],
+          ACT_CODE: [element.ACT_CODE],
+          ACT_TYPE: [element.ACT_TYPE]
+        })
+       );
+      });
+  }
+
+  checkUser(){
+    this.currentUser=localStorage.getItem('username');
+    console.log(this.currentUser);
+    if(this.currentUser=='agent'){
+      this.isAgent=true;
+      this.cmForm.get('STATUS')?.disable();
+      this.cmForm.get('PREV_ACTIVITY')?.disable();
+    }
+    else{
+      this.isAgent=false;
+      this.cmForm.get('STATUS')?.enable();
+      this.cmForm.get('PREV_ACTIVITY')?.disable();
+    }
+
   }
 
   initializeMovementList(){
     const add = this.cmForm.get('CONTAINER_LIST2') as FormArray;
     add.clear();
-    this.containerList.forEach((element) => {
-      add.push(
-        this._formBuilder.group({
-          ID:[element.ID],
-          BOOKING_NO: [element.BOOKING_NO],
-          CRO_NO: [element.CRO_NO],
-          CONTAINER_NO: [element.CONTAINER_NO],
-          ACTIVITY: [element.ACT_CODE],
-          PREV_ACTIVITY: [element.PREV_ACT_CODE],
-          ACTIVITY_DATE: [formatDate(element.ACTIVITY_DATE, 'yyyy-MM-dd', 'en')],
-          LOCATION: [element.LOCATION],
-          STATUS: [element.STATUS],
-          AGENT_CODE: [element.AGENT_CODE],
-          DEPO_CODE: [element.DEPO_CODE],
-          CREATED_BY: [element.CREATED_BY],
-          //NEXT_ACTIVITY_LIST:[element.NEXT_ACTIVITY_LIST]
-        })
-      );
-    });
+    if(this.currentUser=="agent"){
+      this.containerList.forEach((element) => {
+        add.push(
+          this._formBuilder.group({
+            ID:[element.ID],
+            BOOKING_NO: [element.BOOKING_NO],
+            CRO_NO: [element.CRO_NO],
+            CONTAINER_NO: [element.CONTAINER_NO],
+            ACTIVITY: [element.ACT_CODE],
+            PREV_ACTIVITY: [element.PREV_ACT_CODE],
+            ACTIVITY_DATE: [formatDate(element.ACTIVITY_DATE, 'yyyy-MM-dd', 'en')],
+            LOCATION: [element.LOCATION],
+            STATUS: {disabled:true,value:element.STATUS},
+            AGENT_CODE: [element.AGENT_CODE],
+            DEPO_CODE: [element.DEPO_CODE],
+            CREATED_BY: [element.CREATED_BY],
+            NEXT_ACTIVITY_LIST:[element.NEXT_ACTIVITY_LIST]
+          })
+        );
+      });
 
+    }
+    else{
+      this.containerList.forEach((element) => {
+        add.push(
+          this._formBuilder.group({
+            ID:[element.ID],
+            BOOKING_NO: [element.BOOKING_NO],
+            CRO_NO: [element.CRO_NO],
+            CONTAINER_NO: [element.CONTAINER_NO],
+            ACTIVITY: [element.ACT_CODE],
+            PREV_ACTIVITY: [element.PREV_ACT_CODE],
+            ACTIVITY_DATE: [formatDate(element.ACTIVITY_DATE, 'yyyy-MM-dd', 'en')],
+            LOCATION: [element.LOCATION],
+            STATUS: [element.STATUS],
+            AGENT_CODE: [element.AGENT_CODE],
+            DEPO_CODE: [element.DEPO_CODE],
+            CREATED_BY: [element.CREATED_BY],
+            NEXT_ACTIVITY_LIST:[element.NEXT_ACTIVITY_LIST]
+          })
+        );
+      });
+    }
+    
   }
 
   copyDate(){
@@ -128,24 +198,26 @@ export class NewCmComponent implements OnInit {
     });
     this.cmForm.get('CONTAINER_LIST2')?.setValue(this.cmForm.value.CONTAINER_LIST2);
   }
- 
 
-  checkUser(){
-    this.currentUser=localStorage.getItem('username');
-  }
 
   getSingleContainer(){
     debugger;
+    this.resetContainerMovement();
     if(this.cmForm.get('CONTAINER_NO')?.value==""){
       alert('Please enter Container No.');
+      this.showFields=false;
     }
     else{
+      
       debugger;
       this.contNo=this.cmForm.get('CONTAINER_NO')?.value;
       this._cmService.getSingleCM(this.contNo).subscribe((res: any) => {
         debugger;
         if (res.ResponseCode == 200) {
           this.singleCM = res.Data;
+  
+          this.cmForm.get('BOOKING_NO')?.setValue(this.singleCM?.BOOKING_NO);
+          this.cmForm.get('CRO_NO')?.setValue(this.singleCM?.CRO_NO);
           this.cmForm.get('ACTIVITY')?.setValue(this.singleCM?.ACTIVITY);
           this.cmForm.get('PREV_ACTIVITY')?.setValue(this.singleCM?.PREV_ACTIVITY);
           this.cmForm.get('ACTIVITY_DATE')?.setValue(formatDate(this.singleCM?.ACTIVITY_DATE, 'yyyy-MM-dd', 'en'));
@@ -153,39 +225,97 @@ export class NewCmComponent implements OnInit {
           this.cmForm.get('STATUS')?.setValue(this.singleCM?.STATUS);
           this.cmForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
           this.cmForm.get('DEPO_CODE')?.setValue('');
+          console.log(this.singleCM?.PREV_ACTIVITY);
+
+          this._actService.getActivityByCode(this.singleCM?.PREV_ACTIVITY).subscribe((res: any) => {
+            debugger;
+            if (res.ResponseCode == 200) {
+              this.prevData = res.Data;
+              console.log(this.prevData);
+              if(this.prevData!=null){
+                this._actService.getMappingById(this.prevData?.ID).subscribe((res: any) => {
+                  debugger;
+                  this.activityList=[];
+                  if (res.ResponseCode == 200) {
+                    this.activityList = res.Data.ActivityList;
+                    console.log(this.activityList);
+                    const add=this.cmForm.get("NEXT_ACTIVITY_LIST_SINGLE") as FormArray;
+                    add.clear();
+                    this.activityList.forEach((element) => {
+                    add.push(
+                      this._formBuilder.group({
+                        ID:[element.ID],
+                        ACT_NAME: [element.ACT_NAME],
+                        ACT_CODE: [element.ACT_CODE],
+                        ACT_TYPE: [element.ACT_TYPE]
+                      })
+                     );
+                    });
+                    console.log(this.cmForm.get("NEXT_ACTIVITY_LIST_SINGLE")?.value);
+                    //this.activityList1 = res.Data;
+                  }
+                  if(res.ResponseCode==500){
+                    //alert("It seems like there is no such container, continue with the process to add it's first activity");
+                  }
+                });
+              }
+              else{
+                this.activityList=[];
+                this._actService.getActivityList().subscribe((res: any) => {
+                  if(res.ResponseCode==200){
+                    this.activityList=res.Data;
+                  }
+                });
+                const add=this.cmForm.get("NEXT_ACTIVITY_LIST_SINGLE") as FormArray;
+                add.clear();
+                this.activityList.forEach((element) => {
+                  add.push(
+                    this._formBuilder.group({
+                      ID:[element.ID],
+                      ACT_NAME: [element.ACT_NAME],
+                      ACT_CODE: [element.ACT_CODE],
+                      ACT_TYPE: [element.ACT_TYPE]
+                    })
+                   );
+                  });
+               
+              }
+              
+            }
+            if(res.ResponseCode==500){
+              //alert("It seems like there is no such container, continue with the process to add it's first activity");
+            }
+          });
+          
 
         }
         if(res.ResponseCode==500){
           alert("It seems like there is no such container, continue with the process to add it's first activity");
+          //this.initializeNextActivityList();
+          this._actService.getActivityList().subscribe((res: any) => {
+            if(res.ResponseCode==200){
+              this.activityList=res.Data;
+            }
+          });
+          const add=this.cmForm.get("NEXT_ACTIVITY_LIST_SINGLE") as FormArray;
+          add.clear();
+          this.activityList.forEach((element) => {
+            add.push(
+              this._formBuilder.group({
+                ID:[element.ID],
+                ACT_NAME: [element.ACT_NAME],
+                ACT_CODE: [element.ACT_CODE],
+                ACT_TYPE: [element.ACT_TYPE]
+              })
+             );
+            });
+
         }
+       
       });
+      this.showFields=true;
+      //console.log(this.cmForm.value);
       
-
-      this._actService.getActivityByCode(this.singleCM?.PREV_ACTIVITY).subscribe((res: any) => {
-        debugger;
-        if (res.ResponseCode == 200) {
-          this.prevData = res.Data;
-        }
-        if(res.ResponseCode==500){
-          //alert("It seems like there is no such container, continue with the process to add it's first activity");
-        }
-      });
-
-      if(this.prevData!=null){
-        this._actService.getMappingById(this.prevData.ID).subscribe((res: any) => {
-          debugger;
-          if (res.ResponseCode == 200) {
-            this.activityList = res.Data;
-          }
-          if(res.ResponseCode==500){
-            //alert("It seems like there is no such container, continue with the process to add it's first activity");
-          }
-        });
-      }
-      else{
-        this.activityList=this.activityList;
-      }
-      //this.cmForm.get('NEXT_ACTIVITY_LIST')?.setValue(this.activityList);
     }
     
   }
@@ -198,26 +328,43 @@ export class NewCmComponent implements OnInit {
     else{
       this.showTable=false;
       this.containerList=[];
-    // if(this.cmForm.get('CONTAINER_NO')?.value!=""){
-    //   this.cm.CONTAINER_NO=this.cmForm.get('CONTAINER_NO')?.value;
-    // }
-    // else{
-    //   this.bkcr=this.cmForm.get('BKCR_NO')?.value;
-    //   this.cm.BOOKING_NO=this.bkcr;
-      
-    // }
+
       this.bkcr=this.cmForm.get('BKCR_NO')?.value;
-      this.cm.BOOKING_NO=this.bkcr;
+      console.log(this.bkcr.substring(0,2))
+      if(this.bkcr.substring(0,2)=="BK"){
+        this.cm.BOOKING_NO=this.bkcr;
+      }
+      else if(this.bkcr.substring(0,2)=="CR"){
+        this.cm.CRO_NO=this.bkcr;
+      }
+      else{
+        alert('Incorrect prefix characters!')
+      }
       this._cmService.getContainerMovement(this.cm).subscribe((res: any) => {
         if (res.ResponseCode == 200) {
-          this.containerList = res.Data;
-          if(this.containerList?.length!=0){
+          
+          if(res.Data?.length!=0){
+            this.containerList = res.Data;
             this.initializeMovementList();
             this.showTable=true;
+            this.previewNoData=false;
+          }
+
+          // this.containerList = res.Data;
+          // if(this.containerList?.length!=0){
+          //   this.initializeMovementList();
+          //   this.showTable=true;
+          //   this.previewNoData=false;
+          // }
+          else if(res.Data?.length==0){
+            this.showTable=false;
+            this.previewNoData=true;
           }
         }  
         if(res.ResponseCode==500){
+          debugger;
           this.showTable=false;
+          this.previewNoData=true;
         }
     });
     }
@@ -229,31 +376,69 @@ export class NewCmComponent implements OnInit {
     this.manually=this.cmForm.get('MANUALLY')?.value;
   }
 
-  saveContainerMovement(){
+  saveCMList(){
     debugger;
     this.submitted=true;
-    console.log(this.cmForm.get('CONTAINER_MOVEMENT_LIST')?.value);
     this.cmForm.get('BOOKING_NO')?.setValue(this.bkcr);
     this.cmForm.get('CRO_NO')?.setValue("");
     this.cmForm.get('ACTIVITY_DATE')?.setValue(new Date());
-    this.cmForm.get('AGENT_CODE')?.setValue("0325");
-    this.cmForm.get('DEPO_CODE')?.setValue("");
+    console.log(this.cmForm.get('PREV_ACTIVITY')?.value);
+    console.log(this.cmForm.get('STATUS')?.value);
+    if(this.currentUser=="agent"){
+      this.cmForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
+      this.cmForm.get('DEPO_CODE')?.setValue("");
+    }
+    else if(this.currentUser=="depo"){
+      this.cmForm.get('AGENT_CODE')?.setValue("");
+      this.cmForm.get('DEPO_CODE')?.setValue(localStorage.getItem('usercode'));
+    }
     this.cmForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
-
-    console.log(JSON.stringify(this.cmForm.value));
+    console.log(JSON.stringify(this.cmForm.getRawValue()));
     this._cmService
-      .postContainerMovement(JSON.stringify(this.cmForm.value),this.fromXL)
+      .postContainerMovement(JSON.stringify(this.cmForm.getRawValue()),this.fromXL)
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Container Movement saved successfully !');
-          this._router.navigateByUrl('/home/booking-list');
+          this.onSuccess("Container Movement saved successfully !");
+          //alert('Container Movement saved successfully !');
+          //this._router.navigateByUrl('/home/booking-list');
         }
       });
 
   }
 
-  cancelContainerMovement(){
+  saveContainerMovement(){
+    debugger;
+    this.submitted=true;
+    if(this.currentUser=="agent"){
+      this.cmForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
+      this.cmForm.get('DEPO_CODE')?.setValue("");
+    }
+    else if(this.currentUser=="depo"){
+      this.cmForm.get('AGENT_CODE')?.setValue("");
+      this.cmForm.get('DEPO_CODE')?.setValue(localStorage.getItem('usercode'));
+    }
+    this.cmForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    console.log(JSON.stringify(this.cmForm.getRawValue()));
+    this._cmService
+      .postContainerMovement(JSON.stringify(this.cmForm.getRawValue()),this.fromXL)
+      .subscribe((res: any) => {
+        if (res.responseCode == 200) {
+          this.onSuccess("Container Movement saved successfully !");
+          //alert('Container Movement saved successfully !');
+          //this._router.navigateByUrl('/home/booking-list');
+        }
+      });
 
+  }
+
+  resetContainerMovement(){
+    this.submitted=false;
+    this.cmForm.get('ACTIVITY')?.setValue('');
+    this.cmForm.get('ACTIVITY_DATE')?.setValue('');
+    this.cmForm.get('LOCATION')?.setValue('');
+    this.cmForm.get('STATUS')?.setValue('');
+    this.cmForm.get('AGENT_CODE')?.setValue('');
+    this.cmForm.get('DEPO_CODE')?.setValue('');
   }
 
   get f2() {
@@ -456,14 +641,9 @@ export class NewCmComponent implements OnInit {
 
     });
 
-    debugger
-
     this.cmForm.get('fromXL')?.setValue(true);
     this.cmForm.get("ACTIVITY_DATE")?.setValue(new Date());
     console.log(JSON.stringify(this.cmForm.value));
-
-    
-
     this._cmService
       .postContainerMovement(JSON.stringify(this.cmForm.value),this.fromXL)
       .subscribe((res: any) => {
@@ -472,7 +652,32 @@ export class NewCmComponent implements OnInit {
           this._router.navigateByUrl('/home/booking-list');
         }
       });
+  }
+   
+  onSuccess(message:any){
+    debugger;
+    const temp={
+      title:"Success",
+      content:message,
+      type:NotificationType.Success,
+    };
+    this.ntService.create(temp.title,temp.content,temp.type,temp);
+    // this.ntService.create('Success','Container Movement saved successfully!','success');
 
+    // this.ntService.success('Success',message,{
+    //   position:['bottom','right'],
+    //   timeOut:2000,
+    //   animate:'fade',
+    //   showProgressBar:true
+    // });
   }
 
+  onError(message:any){
+    this.ntService.error('Error',message,{
+      position:['bottom','right'],
+      timeOut:2000,
+      animate:'fade',
+      showProgressBar:true
+    });
+  }
 }

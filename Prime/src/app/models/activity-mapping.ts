@@ -11,7 +11,7 @@ export class ActivityId {
 
 export class Activity{
     ID:number;
-    ACT_NAME:string;
-    ACT_CODE:string;
-    ACT_TYPE:string;
+    ACT_NAME:any='';
+    ACT_CODE:any='';
+    ACT_TYPE:any='';
 }

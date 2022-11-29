@@ -17,6 +17,7 @@ export class ActivityService {
   constructor(private _http: HttpClient) { }
 
   getActivityList() {
+    debugger;
     return this._http.get<any>(
       this.BASE_URL +
         'Activity/GetActivityList',
@@ -34,16 +35,18 @@ export class ActivityService {
   }
 
   getActivityByCode(actCode:any){
-    return this._http.post<any>(
-      this.BASE_URL + 'ActivityMapping/GetActivityDetailsByCode?ACT_CODE=',
+    debugger;
+    return this._http.get<any>(
+      this.BASE_URL + 'Activity/GetActivityDetailsByCode?ACT_CODE='+
       actCode,
       this.httpOptions
     );
   }
 
   getMappingById(actId:any){
-    return this._http.post<any>(
-      this.BASE_URL + 'Activity/GetActivityMappingDetailsByID?ACT_ID=',
+    debugger;
+    return this._http.get<any>(
+      this.BASE_URL + 'Activity/GetActivityMappingDetailsByID?ACT_ID='+
       actId,
       this.httpOptions
     );

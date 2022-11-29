@@ -9,6 +9,8 @@ import { SharedModule } from './shared/shared.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
+import { SimpleNotificationsModule } from 'angular2-notifications';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +24,7 @@ import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
+    SimpleNotificationsModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],
