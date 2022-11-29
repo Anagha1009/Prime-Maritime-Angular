@@ -22,4 +22,12 @@ export class DepoService {
       this.httpOptions
     );
   }
+
+  createMRRequest(mrList: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Depo/InsertMRRequest',
+      mrList,
+      this.httpOptions
+    );
+  }
 }

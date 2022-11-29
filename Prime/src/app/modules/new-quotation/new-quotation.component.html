@@ -1,11 +1,11 @@
 <div class="section-title">
-    <h2>New Quotation</h2>
+    <h2>New Rate Request</h2>
 </div>
 <div class="container mb-5">
     <div class="col-md-10 mx-auto">
         <div class="tabs">
             <input type="radio" class="d-none" (change)="onchangeTab('1')" id="radio-1" name="tabs" checked />
-            <label class="tab" for="radio-1">Quotation Details</label>
+            <label class="tab" for="radio-1">General Details</label>
             <input type="radio" class="d-none" (change)="onchangeTab('2')" id="radio-2" name="tabs" />
             <label class="tab" for="radio-2">Add Commodities</label>
             <input type="radio" class="d-none" (change)="onchangeTab('3')" id="radio-3" name="tabs" />
@@ -15,9 +15,9 @@
             <span class="glider d-none"></span>
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12 services">
         <form [formGroup]="quotationForm">
-            <div class="card mt-2" *ngIf="tabs == '1'">
+            <div class="card mt-2 icon-box text-start" *ngIf="tabs == '1'">
                 <div class="card-body">
                     <div class="row mt-3">
                         <div class="col-md-4 mb-4">
@@ -99,7 +99,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <ng-select formControlName="TSP_2">
                                     <ng-option value="" selected="true" disabled>--Select TSP 2--</ng-option>
@@ -110,7 +110,7 @@
                                 <label class="form-label-ddl">Transhipment 2</label>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <ng-select [ngClass]="{'invalid': submitted && f.SERVICE_NAME.errors}"
                                     formControlName="SERVICE_NAME">
@@ -124,36 +124,7 @@
                                     Service</div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <input type="date" [ngClass]="{'invalid': submitted && f.EFFECT_FROM.errors}"
-                                    (change)="getEffectToDate($event, 1)" min={{currentDate}}
-                                    formControlName="EFFECT_FROM" onkeypress="return false"
-                                    class="form-control active" />
-                                <label class="form-label">Effect From <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted && f.EFFECT_FROM.errors" class="invalid-feedback">Please enter
-                                    Effect From</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <input type="date" [ngClass]="{'invalid': submitted && f.EFFECT_TO.errors}"
-                                    formControlName="EFFECT_TO" min={{currentDate}} onkeypress="return false"
-                                    class="form-control active" />
-                                <label class="form-label">Effect To <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted && f.EFFECT_TO.errors" class="invalid-feedback">Please enter
-                                    Effect To</div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <h5 class="mb-5">Customer Details</h5>
-                    <div class="row">
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <ng-select [ngClass]="{'invalid': submitted && f.CUSTOMER_NAME.errors}"
                                     formControlName="CUSTOMER_NAME">
@@ -166,88 +137,118 @@
                                     Customer Name</div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <ng-select [ngClass]="{'invalid': submitted && f.ADDRESS.errors}"
-                                    (change)="getAddress($event)" formControlName="ADDRESS">
-                                    <ng-option value="" selected="true" disabled>--Select Address--</ng-option>
-                                    <ng-option value="Address 1">Address 1</ng-option>
-                                    <ng-option value="Address 2">Address 2</ng-option>
-                                </ng-select>
-                                <label class="form-label-ddl">Address <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted && f.ADDRESS.errors" class="invalid-feedback">Please select
-                                    Address</div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <input type="text" readonly class="form-control" formControlName="ADDRESS1">
-
-                            </div>
-                        </div>
                     </div>
+                    <hr>
+                    <h5 class="mb-4">Rate Validity</h5>
                     <div class="row">
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4" *ngIf="!isVesselVal">
                             <div class="form-group">
-                                <input type="text" maxlength="255" [ngClass]="{'invalid': submitted && f.EMAIL.errors}"
-                                    formControlName="EMAIL" class="form-control" />
-                                <label class="form-label">Email<span class="text-danger">
+                                <input type="date" [ngClass]="{'invalid': submitted && f.EFFECT_FROM.errors}"
+                                    (change)="getEffectToDate($event, 1)" min={{currentDate}}
+                                    formControlName="EFFECT_FROM" onkeypress="return false"
+                                    class="form-control active" />
+                                <label class="form-label">Effect From <span class="text-danger">
                                         *</span></label>
-                                <div *ngIf="submitted && f.EMAIL.errors?.required" class="invalid-feedback">Please enter
-                                    Email</div>
-                                <div *ngIf="submitted && f.EMAIL.errors?.pattern" class="invalid-feedback">
-                                    Email is invalid</div>
+                                <div *ngIf="submitted && f.EFFECT_FROM.errors" class="invalid-feedback">Please enter
+                                    Effect From</div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4" *ngIf="!isVesselVal">
                             <div class="form-group">
-                                <input type="text"
-                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
-                                    maxlength="10" [ngClass]="{'invalid': submitted && f.CONTACT.errors}"
-                                    formControlName="CONTACT" class="form-control" />
-                                <label class="form-label">Contact<span class="text-danger">
+                                <input type="date" [ngClass]="{'invalid': submitted && f.EFFECT_TO.errors}"
+                                    formControlName="EFFECT_TO" min={{currentDate}} onkeypress="return false"
+                                    class="form-control active" />
+                                <label class="form-label">Valid Till <span class="text-danger">
                                         *</span></label>
-                                <div *ngIf="submitted && f.CONTACT.errors" class="invalid-feedback">Please enter
-                                    Contact</div>
+                                <div *ngIf="submitted && f.EFFECT_TO.errors" class="invalid-feedback">Please enter
+                                    Effect To</div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <input type="text" maxlength="100"
-                                    [ngClass]="{'invalid': submitted && f.SHIPPER.errors}" formControlName="SHIPPER"
-                                    class="form-control" />
-                                <label class="form-label">Shipper Name<span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted && f.SHIPPER.errors?.required" class="invalid-feedback">Please
-                                    enter
-                                    Shipper Name</div>
-                                <div *ngIf="submitted && f.SHIPPER.errors?.pattern" class="invalid-feedback">
-                                    Shipper Name is invalid</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <input type="text" maxlength="100" formControlName="NOTIFY_PARTY"
-                                    class="form-control" />
-                                <label class="form-label">Notify Party</label>
-                                <div *ngIf="submitted && f.NOTIFY_PARTY.errors" class="invalid-feedback">
-                                    Notify Party is invalid</div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-4 mt-md-3">
+                        <div [class]="isVesselVal ? 'col-md-4' : 'col-md-4 mt-md-3'">
                             <div class="form-group">
                                 <div class="form-check form-switch">
-                                    <input formControlName="MTY_REPO" class="form-check-input" type="checkbox"
+                                    <input (change)="isVesselValidity($event)" class="form-check-input" type="checkbox"
                                         role="switch" />
-                                    <label class="form-check-label">MTY Repo</label>
+                                    <label class="form-check-label">Apply Vessel Validity</label>
                                 </div>
                             </div>
                         </div>
+                        <div *ngIf="isVesselVal" class="col-md-4 offset-md-4" style="text-align: right;">
+                            <button (click)="slotAllocation()" class="form-btn-primary">
+                                <i class="fa fa-plus me-2"></i>Slot
+                                Allocation</button>
+                        </div>
                     </div>
-                    <div class="row">
+                    <form [formGroup]="slotDetailsForm" *ngIf="isVesselVal">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label2">Vessel Name</label>
+                                            <input type="text" formControlName="VESSEL_NAME" class="form-control2" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label2">Voyage No</label>
+                                            <input formControlName="VOYAGE_NO" type="text" class="form-control2" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label2">Mother Vessel Name</label>
+                                            <input formControlName="MOTHER_VESSEL_NAME" type="text"
+                                                class="form-control2" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label2">Mother Voyage No</label>
+                                            <input formControlName="MOTHER_VOYAGE_NO" type="text"
+                                                class="form-control2" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="table mt-3" style="font-size: 12px;">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr. No</th>
+                                            <th>Slot Operator</th>
+                                            <th>No of Slots</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of s;let j = index;" [formGroup]="s1(item)">
+                                            <td class="col-md-2">
+                                                <label class="mt-4"> {{j+1}}</label>
+                                            </td>
+                                            <td class="col-md-6">
+                                                <label class="form-label3">Slot Operator</label>
+                                                <select class="form-control3" formControlName="SLOT_OPERATOR">
+                                                    <option value="" selected disabled>
+                                                        --Slot
+                                                        Operator--</option>
+                                                    <option value="xx">test</option>
+                                                </select>
+                                            </td>
+                                            <td class="col-md-4">
+                                                <label class="form-label3">No of Slots</label>
+                                                <input class="form-control3" formControlName="NO_OF_SLOTS"
+                                                    type="text" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- <div class="row">
                         <div class="col-md-6 mb-4">
                             <input type="text" maxlength="100" placeholder="Other Parties Name"
                                 formControlName="OTHER_PARTY_NAME" class="form-control w-50 mb-3" />
@@ -269,7 +270,8 @@
                                     class="indicator"></span>CHA
                             </label>
                         </div>
-                    </div>
+                    </div> -->
+                    <hr>
                     <div class="row">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
                             <button (click)="saveQuotation()" class="form-btn w-100">Save</button>
@@ -768,7 +770,7 @@
                                 <ng-select formControlName="SERVICE_MODE"
                                     [ngClass]="{'invalid': submitted1 && f1.SERVICE_MODE.errors}">
                                     <ng-option value="" selected="true" disabled>--Select Service Mode--</ng-option>
-                                    <ng-option *ngFor="let item of servicemodeList" value="{{ item.CODE }}">
+                                    <ng-option *ngFor="let item of servicetypeList" value="{{ item.CODE }}">
                                         {{ item.CODE }}
                                     </ng-option>
                                 </ng-select>
@@ -933,7 +935,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-4" *ngIf="isContainer">
+                    <div class="row mt-4 mb-2" *ngIf="isContainer">
                         <div class="table-responsive">
                             <table class="table align-middle" style="font-size: 12px">
                                 <thead>
