@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { SwPush } from '@angular/service-worker';
 import { QUOTATION } from 'src/app/models/quotation';
-import { NewsletterService } from 'src/app/services/newsletter.service';
 import { QuotationService } from 'src/app/services/quotation.service';
 
 @Component({
@@ -30,9 +29,7 @@ export class PmQuotationListComponent implements OnInit {
 
   constructor(
     private _quotationService: QuotationService,
-    private _formBuilder: FormBuilder,
-    private swPush: SwPush,
-    private newsletterService: NewsletterService
+    private _formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -104,18 +101,5 @@ export class PmQuotationListComponent implements OnInit {
           this.getQuotationList();
         }
       });
-  }
-
-  subscribeToNotifications() {
-    this.swPush
-      .requestSubscription({
-        serverPublicKey: this.VAPID_PUBLIC_KEY,
-      })
-      .then((sub: any) =>
-        this.newsletterService.addPushSubscriber(sub).subscribe()
-      )
-      .catch((err: any) =>
-        console.error('Could not subscribe to notifications', err)
-      );
   }
 }
