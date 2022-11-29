@@ -6,8 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainLayoutModule } from './layout/main-layout/main-layout.module';
 import { SharedModule } from './shared/shared.module';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 
@@ -20,11 +21,12 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
     MainLayoutModule,
     PmLayoutModule,
     SharedModule,
-    HttpClientModule,
-    NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    SimpleNotificationsModule.forRoot()
+    SimpleNotificationsModule.forRoot(),
+    HttpClientModule,
+    NgSelectModule,   
+    NgMultiSelectDropDownModule 
   ],
   providers: [],
   bootstrap: [AppComponent],

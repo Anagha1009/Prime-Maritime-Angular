@@ -1,0 +1,89 @@
+<div class="section-title">
+    <h2>M&R Request List</h2>
+</div>
+<div class="container">
+    <form class="mx-5" [formGroup]="mrForm">
+        <div class="col-md-6 offset-md-6 text-end">
+            <button class="form-btn-primary" routerLink="/home/new-quotation">New M&R Request</button>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label2">Request No</label>
+                    <input formControlName="MR_NO" type="text" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">From Date</label>
+                    <input formControlName="FROM_DATE" type="date" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">To Date</label>
+                    <input formControlName="TO_DATE" type="date" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">Status</label>
+                    <select class="form-control2" formControlName="STATUS">
+                        <option value="">--Select--</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Requested">Requested</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3 mt-4">
+                <button class="form-btn me-2">Search</button>
+                <button class="form-btn">Clear</button>
+            </div>
+        </div>
+    </form>
+    <div class="mt-3">
+        <table class="table table-responsive-xl">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Quotation No</th>
+                    <th>Port</th>
+                    <th>Customer</th>
+                    <th>Cont.</th>
+                    <th>Status</th>
+                    <th>&nbsp;</th>
+                    <!-- <th>&nbsp;</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="alert" role="alert">
+                    <td>
+                        <label class="checkbox-wrap checkbox-primary">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                    </td>
+                    <td>
+                        shgf
+                    </td>
+                    <td>dfhg</td>
+                    <td>dfydfdvc</td>
+                    <td>cgdfcyd</td>
+                    <td class="status"><span class="active">Requested</span>
+                    </td>
+                    <td>
+                        <div class="rounded-btn"><a><i class="fa fa-plus text-light"></i></a>
+                            <button #RateModal data-bs-toggle="modal" href="#rateModal" class="d-none">Add
+                                Rate</button>
+                        </div>
+                    </td>
+                    <!-- <td>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-check"></i></span>
+                        </button>
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

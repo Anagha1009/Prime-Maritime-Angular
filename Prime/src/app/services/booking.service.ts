@@ -2,11 +2,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import { BOOKING, SLOTS } from '../models/booking';
+import { DETENTION } from '../models/detention';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookingService {
+  getDetentionList(detention: DETENTION) {
+    throw new Error('Method not implemented.');
+  }
   BASE_URL = environment.BASE_URL;
 
   httpOptions = {

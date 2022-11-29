@@ -28,6 +28,7 @@ export class NewQuotationComponent implements OnInit {
   containersizeList: any[] = [];
   servicemodeList: any[] = [];
   servicetypeList: any[] = [];
+  conindex: any = 0;
 
   //Files
   isUploadedPOL: boolean = false;
@@ -56,8 +57,12 @@ export class NewQuotationComponent implements OnInit {
   fileList: any[] = [];
   isTranshipment: boolean = false;
 
+  slotDetailsForm: FormGroup;
+
   @ViewChild('RateModal') RateModal: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
+  @ViewChild('RateDetailModal') RateDetailModal: ElementRef;
+  isVesselVal: boolean = false;
 
   constructor(
     private _quotationService: QuotationService,
@@ -137,8 +142,6 @@ export class NewQuotationComponent implements OnInit {
       this.commoditiesForm.get('IMO_CLASS')?.disable();
       this.commoditiesForm.get('UN_NO')?.disable();
       this.commoditiesForm.get('HAZ_APPROVAL_REF')?.disable();
-      this.commoditiesForm.get('WEIGHT')?.disable();
-      this.commoditiesForm.get('REMARKS')?.disable();
     }
 
     if (this.commoditiesForm.invalid) {
@@ -166,7 +169,6 @@ export class NewQuotationComponent implements OnInit {
   }
 
   saveCommodity() {
-    console.log(JSON.stringify(this.quotationForm.value));
     this.onchangeTab('3');
   }
 
@@ -177,19 +179,19 @@ export class NewQuotationComponent implements OnInit {
       return;
     }
 
-    var containers = this.quotationForm.get('SRR_CONTAINERS') as FormArray;
-    containers.push(this.containerForm);
-
-    var rateList = this.quotationForm.get('SRR_RATES') as FormArray;
+    var rateList = this.quotationForm.get('SRR_RATES1') as FormArray;
 
     rateList.clear();
 
+    var ct = this.containerForm.value.CONTAINER_TYPE;
+
     rateList.push(
       this._formBuilder.group({
+        CONTAINER_TYPE: [ct],
         CHARGE_CODE: [''],
         CURRENCY: ['USD'],
         STANDARD_RATE: ['100'],
-        REQUESTED_RATE: [''],
+        RATE_REQUESTED: [''],
         PAYMENT_TERM: [''],
         TRANSPORT_TYPE: [''],
         REMARKS: ['NULL'],
@@ -202,14 +204,17 @@ export class NewQuotationComponent implements OnInit {
   }
 
   addRates() {
-    var rateList = this.quotationForm.get('SRR_RATES') as FormArray;
+    var rateList = this.quotationForm.get('SRR_RATES1') as FormArray;
+
+    var ct = this.containerForm.value.CONTAINER_TYPE;
 
     rateList.push(
       this._formBuilder.group({
+        CONTAINER_TYPE: [ct],
         CHARGE_CODE: [''],
         CURRENCY: ['USD'],
         STANDARD_RATE: ['100'],
-        REQUESTED_RATE: [''],
+        RATE_REQUESTED: [''],
         PAYMENT_TERM: [''],
         TRANSPORT_TYPE: [''],
         REMARKS: ['NULL'],
@@ -218,6 +223,13 @@ export class NewQuotationComponent implements OnInit {
   }
 
   submitRate() {
+    const add = this.quotationForm.get('SRR_RATES1') as FormArray;
+    const add1 = this.quotationForm.get('SRR_RATES') as FormArray;
+
+    add.controls.forEach((control) => {
+      add1.push(control);
+    });
+
     this.containerList.push({
       Container:
         this.containerForm.value.CONTAINER_TYPE +
@@ -226,6 +238,24 @@ export class NewQuotationComponent implements OnInit {
       ServiceMode: this.containerForm.value.SERVICE_MODE,
     });
 
+    var containers = this.quotationForm.get('SRR_CONTAINERS') as FormArray;
+    containers.push(
+      this._formBuilder.group({
+        CONTAINER_TYPE: [this.containerForm.value.CONTAINER_TYPE],
+        CONTAINER_SIZE: [this.containerForm.value.CONTAINER_SIZE],
+        SERVICE_MODE: [this.containerForm.value.SERVICE_MODE],
+        POD_FREE_DAYS: [this.containerForm.value.POD_FREE_DAYS],
+        POL_FREE_DAYS: [this.containerForm.value.POL_FREE_DAYS],
+        IMM_VOLUME_EXPECTED: [this.containerForm.value.IMM_VOLUME_EXPECTED],
+        TOTAL_VOLUME_EXPECTED: [this.containerForm.value.TOTAL_VOLUME_EXPECTED],
+      })
+    );
+
+    this.containerForm.reset();
+    this.containerForm.get('CONTAINER_TYPE')?.setValue('');
+    this.containerForm.get('CONTAINER_SIZE')?.setValue('');
+    this.containerForm.get('SERVICE_MODE')?.setValue('');
+
     this.isContainer = true;
     this.closeBtn.nativeElement.click();
   }
@@ -233,8 +263,9 @@ export class NewQuotationComponent implements OnInit {
   saveContainer() {
     var POL = this.quotationForm.value.POL;
     var POD = this.quotationForm.value.POD;
+    var SRRNO = this.getRandomNumber(POL, POD);
 
-    this.quotationForm.get('SRR_NO')?.setValue(this.getRandomNumber(POL, POD));
+    this.quotationForm.get('SRR_NO')?.setValue(SRRNO);
 
     this.quotationForm
       .get('CREATED_BY')
@@ -245,6 +276,11 @@ export class NewQuotationComponent implements OnInit {
     this.quotationForm
       .get('AGENT_CODE')
       ?.setValue(localStorage.getItem('usercode'));
+
+    if (this.isVesselVal) {
+      this.quotationForm.get('EFFECT_FROM')?.setValue('');
+      this.quotationForm.get('EFFECT_TO')?.setValue('');
+    }
 
     console.log(JSON.stringify(this.quotationForm.value));
     this._quotationService
@@ -258,10 +294,45 @@ export class NewQuotationComponent implements OnInit {
           ) {
             this.uploadFilestoDB();
           }
-          alert('Your quotation has been submitted successfully !');
-          this._router.navigateByUrl('/home/quotation-list');
+
+          if (this.isVesselVal) {
+            this.slotDetailsForm
+              .get('BOOKING_NO')
+              ?.setValue(this.getRandomBookingNumber());
+            this.slotDetailsForm.get('SRR_ID')?.setValue(res.data);
+            this.slotDetailsForm.get('SRR_NO')?.setValue(SRRNO);
+            this.slotDetailsForm.get('STATUS')?.setValue('Booked');
+            this.slotDetailsForm
+              .get('CREATED_BY')
+              ?.setValue(localStorage.getItem('username'));
+            this.slotDetailsForm
+              .get('AGENT_NAME')
+              ?.setValue(localStorage.getItem('username'));
+            this.slotDetailsForm
+              .get('AGENT_CODE')
+              ?.setValue(localStorage.getItem('usercode'));
+
+            console.log(JSON.stringify(this.slotDetailsForm.value));
+
+            this._quotationService
+              .booking(JSON.stringify(this.slotDetailsForm.value))
+              .subscribe((res: any) => {
+                if (res.responseCode == 200) {
+                  alert('Your quotation has been submitted successfully !');
+                  this._router.navigateByUrl('/home/quotation-list');
+                }
+              });
+          } else {
+            alert('Your quotation has been submitted successfully !');
+            this._router.navigateByUrl('/home/quotation-list');
+          }
         }
       });
+  }
+
+  openRateDetailModal(i: any) {
+    this.conindex = i;
+    this.RateDetailModal.nativeElement.click();
   }
 
   // GET DATA
@@ -275,27 +346,27 @@ export class NewQuotationComponent implements OnInit {
       SERVICE_NAME: ['', Validators.required],
       EFFECT_FROM: ['', Validators.required],
       EFFECT_TO: ['', Validators.required],
-      MTY_REPO: [''],
+      // MTY_REPO: [false],
       CUSTOMER_NAME: ['', Validators.required],
-      ADDRESS: ['', Validators.required],
-      ADDRESS1: [''],
-      EMAIL: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(
-            '^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$'
-          ),
-        ],
-      ],
-      CONTACT: ['', Validators.required],
-      SHIPPER: [
-        '',
-        [Validators.required, Validators.pattern('^[A-Za-z0-9? , _-]+$')],
-      ],
-      NOTIFY_PARTY: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
-      OTHER_PARTY: [''],
-      OTHER_PARTY_NAME: [''],
+      // ADDRESS: ['', Validators.required],
+      // ADDRESS1: [''],
+      // EMAIL: [
+      //   '',
+      //   [
+      //     Validators.required,
+      //     Validators.pattern(
+      //       '^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$'
+      //     ),
+      //   ],
+      // ],
+      // CONTACT: ['', Validators.required],
+      // SHIPPER: [
+      //   '',
+      //   [Validators.required, Validators.pattern('^[A-Za-z0-9? , _-]+$')],
+      // ],
+      // NOTIFY_PARTY: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
+      // OTHER_PARTY: [''],
+      // OTHER_PARTY_NAME: [''],
       PLACE_OF_RECEIPT: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
       PLACE_OF_DELIVERY: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
       TSP_1: [''],
@@ -307,6 +378,7 @@ export class NewQuotationComponent implements OnInit {
       SRR_CONTAINERS: new FormArray([]),
       SRR_COMMODITIES: new FormArray([]),
       SRR_RATES: new FormArray([]),
+      SRR_RATES1: new FormArray([]),
     });
 
     this.containerForm = this._formBuilder.group({
@@ -332,6 +404,21 @@ export class NewQuotationComponent implements OnInit {
       FLASH_POINT: ['', Validators.required],
       CAS_NO: ['', Validators.required],
       REMARKS: ['', Validators.required],
+    });
+
+    this.slotDetailsForm = this._formBuilder.group({
+      BOOKING_NO: [''],
+      SRR_ID: [''],
+      SRR_NO: [''],
+      VESSEL_NAME: [''],
+      VOYAGE_NO: [''],
+      MOTHER_VESSEL_NAME: [''],
+      MOTHER_VOYAGE_NO: [''],
+      AGENT_CODE: [''],
+      AGENT_NAME: [''],
+      STATUS: [''],
+      CREATED_BY: [''],
+      SLOT_LIST: new FormArray([]),
     });
   }
 
@@ -404,6 +491,11 @@ export class NewQuotationComponent implements OnInit {
     return pol + '-' + pod + '-' + num;
   }
 
+  getRandomBookingNumber() {
+    var num = Math.floor(Math.random() * 1e16).toString();
+    return 'BK' + num;
+  }
+
   get f() {
     return this.quotationForm.controls;
   }
@@ -417,7 +509,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   get f3() {
-    var s = this.quotationForm.get('SRR_RATES') as FormArray;
+    var s = this.quotationForm.get('SRR_RATES1') as FormArray;
     return s.controls;
   }
 
@@ -425,9 +517,9 @@ export class NewQuotationComponent implements OnInit {
     return i;
   }
 
-  getAddress(e: any) {
-    this.quotationForm.get('ADDRESS1')?.setValue(e);
-  }
+  // getAddress(e: any) {
+  //   this.quotationForm.get('ADDRESS1')?.setValue(e);
+  // }
 
   numericOnly(event: any): boolean {
     // restrict e,+,-,E characters in  input type number
@@ -517,5 +609,38 @@ export class NewQuotationComponent implements OnInit {
     });
 
     //this._srrService.uploadFiles(payload).subscribe();
+  }
+
+  isVesselValidity(e: any) {
+    var slotDetails = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
+
+    if (e.target.checked) {
+      slotDetails.clear();
+
+      slotDetails.push(
+        this._formBuilder.group({
+          SLOT_OPERATOR: [''],
+          NO_OF_SLOTS: [''],
+        })
+      );
+
+      this.quotationForm.get('EFFECT_FROM')?.disable();
+      this.quotationForm.get('EFFECT_TO')?.disable();
+      this.isVesselVal = true;
+    } else {
+      slotDetails.clear();
+      this.isVesselVal = false;
+      this.quotationForm.get('EFFECT_FROM')?.enable();
+      this.quotationForm.get('EFFECT_TO')?.enable();
+    }
+  }
+
+  get s() {
+    var x = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
+    return x.controls;
+  }
+
+  s1(i: any) {
+    return i;
   }
 }

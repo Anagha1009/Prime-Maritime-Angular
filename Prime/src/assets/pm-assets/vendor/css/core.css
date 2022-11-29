@@ -2141,12 +2141,12 @@ progress {
     -webkit-overflow-scrolling: touch;
   }
 }
-.form-label {
+/* .form-label {
   margin-bottom: 0.5rem;
   font-size: 0.75rem;
   font-weight: 500;
   color: #566a7f;
-}
+} */
 
 .col-form-label {
   padding-top: calc(0.4375rem + 1px);
@@ -7603,7 +7603,7 @@ button:focus {
   padding: 1.125rem 1.125rem 0;
   font-size: 1.125rem;
 }
-
+/* 
 .form-label,
 .col-form-label {
   font-size: 0.75rem;
@@ -7617,7 +7617,7 @@ button:focus {
 
 .form-label-sm {
   font-size: 0.75rem;
-}
+} */
 
 .form-control::-moz-placeholder {
   -moz-transition: all 0.25s ease;
@@ -7946,12 +7946,12 @@ form select.selectpicker.is-invalid ~ .btn {
   padding: 0.635rem;
   box-shadow: 0 0.125rem 0.25rem rgba(161, 172, 184, 0.4);
   transition: all 0.23s ease 0.1s;
-  transform: translate(23px, -25px);
+  /* transform: translate(23px, -25px); */
 }
 .modal .btn-close:hover, .modal .btn-close:focus, .modal .btn-close:active {
   opacity: 1;
   outline: none;
-  transform: translate(20px, -20px);
+  /* transform: translate(20px, -20px); */
 }
 .modal .modal-header .btn-close {
   margin-top: -1.25rem;

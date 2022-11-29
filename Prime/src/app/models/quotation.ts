@@ -6,5 +6,7 @@ export class QUOTATION {
   OPERATION: string = '';
   POL:string='';
   POD:string='';
+  FROMDATE: string = '';
+  TODATE: string = '';
 }
 
