@@ -32,6 +32,7 @@ export class BookingService {
   }
 
   getBookingDetails(Booking: BOOKING) {
+    debugger;
     return this._http.get<any>(
       this.BASE_URL +
         'Booking/GetBookingDetails?AGENT_CODE=' +

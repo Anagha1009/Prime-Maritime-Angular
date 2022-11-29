@@ -51,27 +51,36 @@
                         <div class="col-md-12">
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <h6>BILL NO : <small class="text-danger">
+                                    <h6>BL NO : <small class="text-danger">
                                         {{displayBill}}</small>
                                     </h6>
                                 </div>
                                 <div class="row mt-5">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">DO Date</label>
-                                            <input formControlName="DO_DATE" type="date" class="form-control2" />
+                                            <label class="form-label2">DO Date<span class="text-danger">
+                                                *</span></label>
+                                            <input formControlName="DO_DATE" type="date" class="form-control2" [ngClass]="{'invalid': submitted && f.DO_DATE.errors}"/>
+                                            <div *ngIf="submitted && f.DO_DATE.errors" class="invalid-feedback">Please select
+                                                DO Date</div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">DO Validity.</label>
-                                            <input formControlName="DO_VALIDITY" type="date" class="form-control2" />
+                                            <label class="form-label2">DO Validity<span class="text-danger">
+                                                *</span></label>
+                                            <input formControlName="DO_VALIDITY" type="date" class="form-control2" [ngClass]="{'invalid': submitted && f.DO_VALIDITY.errors}"/>
+                                            <div *ngIf="submitted && f.DO_VALIDITY.errors" class="invalid-feedback">Please select
+                                                DO Validity</div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">Vessel Arrival Date</label>
-                                            <input formControlName="ARRIVAL_DATE" type="date" class="form-control2" />
+                                            <label class="form-label2">Vessel Arrival Date<span class="text-danger">
+                                                *</span></label>
+                                            <input formControlName="ARRIVAL_DATE" type="date" class="form-control2" [ngClass]="{'invalid': submitted && f.ARRIVAL_DATE.errors}"/>
+                                            <div *ngIf="submitted && f.ARRIVAL_DATE.errors" class="invalid-feedback">Please select
+                                                Arrival Date</div>
                                         </div>
                                     </div>
                                     
@@ -79,72 +88,92 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">IGM No.</label>
-                                            <input formControlName="IGM_NO" type="text" class="form-control2" />
+                                            <label class="form-label2">IGM No<span class="text-danger">
+                                                *</span></label>
+                                            <input formControlName="IGM_NO" type="text" class="form-control2" [ngClass]="{'invalid': submitted && f.IGM_NO.errors}"/>
+                                            <div *ngIf="submitted && f.IGM_NO.errors" class="invalid-feedback">Please select
+                                                IGM No</div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">IGM Date</label>
-                                            <input formControlName="IGM_DATE" type="date" class="form-control2" />
+                                            <label class="form-label2">IGM Date<span class="text-danger">
+                                                *</span></label>
+                                            <input formControlName="IGM_DATE" type="date" class="form-control2" [ngClass]="{'invalid': submitted && f.IGM_DATE.errors}"/>
+                                            <div *ngIf="submitted && f.IGM_DATE.errors" class="invalid-feedback">Please select
+                                                IGM Date</div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">IGM Item No.</label>
-                                            <input formControlName="IGM_ITEM_NO" type="text" class="form-control2" />
-                                           
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label2">Empty Letter Location</label>
-                                            <ng-select [ngClass]="{'invalid': submitted && f.ACCEPTANCE_LOCATION.errors}"
-                                    formControlName="ACCEPTANCE_LOCATION" style="margin-top: 10px;">
-                                    <ng-option value="" selected="true" disabled>--Select Acceptance Location--</ng-option>
-                                    <ng-option value="INPPG-ICD PATPARGANJ">INPPG-ICD PATPARGANJ</ng-option>
-                                    <ng-option value="INPWL6-ICD PALWAL">INPWL6-ICD PALWAL</ng-option>
-                                    <ng-option value="INREA-ICD REWARI">INREA-ICD REWARI</ng-option>
-                                    <ng-option value="INSAJ6-ICD TUMB">INSAJ6-ICD TUMB	
-                                    </ng-option>
-                                   </ng-select>
-                                           
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label2">Empty Letter Validity.</label>
-                                            <input formControlName="LETTER_VALIDITY" type="date" class="form-control2" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label2">Clearing Party</label>
-                                                <ng-select [ngClass]="{'invalid': submitted && f.CLEARING_PARTY.errors}"
-                                    formControlName="CLEARING_PARTY" style="margin-top: 10px;">
-                                    <ng-option value="" selected="true" disabled>--Select Clearing Party--</ng-option>
-                                    <ng-option value="Indian Clearing Corporation Ltd">Indian Clearing Corporation Ltd.</ng-option>
-                                    <ng-option value="National Commodity Clearing Ltd">National Commodity Clearing Ltd.</ng-option>
-                                    <ng-option value="NSE Clearing Limited">NSE Clearing Limited.</ng-option>
-                                    <ng-option value="Multi Commodity Exc. Clearing Corporation Ltd">Multi Commodity Exc. Clearing Corporation Ltd.	
-                                    </ng-option>
-                                   </ng-select>
+                                            <label class="form-label2">IGM Item No<span class="text-danger">
+                                                *</span></label>
+                                            <input formControlName="IGM_ITEM_NO" type="text" class="form-control2" [ngClass]="{'invalid': submitted && f.IGM_ITEM_NO.errors}"/>
+                                            <div *ngIf="submitted && f.IGM_ITEM_NO.errors" class="invalid-feedback">Please select
+                                                IGM Item No</div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">Shipping Terms</label>
-                                            <ng-select [ngClass]="{'invalid': submitted && f.SHIPPING_TERMS.errors}"
-                                    formControlName="SHIPPING_TERMS" style="margin-top: 10px;">
-                                    <ng-option value="" selected="true" disabled>--Select Shipping Terms--</ng-option>
-                                    <ng-option value="DPD">DPD</ng-option>
-                                    <ng-option value="CFS">CFS</ng-option>
-                                    <ng-option value="OFF DOCK">OFF DOCK</ng-option>
-                                   </ng-select>
+                                            <label class="form-label2">Empty Letter Location<span class="text-danger">
+                                                *</span></label>
+                                            <select [ngClass]="{'invalid': submitted && f.ACCEPTANCE_LOCATION.errors}"
+                                    formControlName="ACCEPTANCE_LOCATION" style="margin-top: 10px;" class="form-control2">
+                                    <option value="" selected="true" disabled>--Select Acceptance Location--</option>
+                                    <option value="INPPG-ICD PATPARGANJ">INPPG-ICD PATPARGANJ</option>
+                                    <option value="INPWL6-ICD PALWAL">INPWL6-ICD PALWAL</option>
+                                    <option value="INREA-ICD REWARI">INREA-ICD REWARI</option>
+                                    <option value="INSAJ6-ICD TUMB">INSAJ6-ICD TUMB	
+                                    </option>
+                                   </select>
+                                   <div *ngIf="submitted && f.ACCEPTANCE_LOCATION.errors" class="invalid-feedback">Please select
+                                    Empty Letter Location</div>
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">Empty Letter Validity<span class="text-danger">
+                                                *</span></label>
+                                            <input formControlName="LETTER_VALIDITY" type="date" class="form-control2" [ngClass]="{'invalid': submitted && f.LETTER_VALIDITY.errors}"/>
+                                            <div *ngIf="submitted && f.LETTER_VALIDITY.errors" class="invalid-feedback">Please select
+                                                Empty Letter Validity</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">Clearing Party<span class="text-danger">
+                                                *</span></label>
+                                                <select [ngClass]="{'invalid': submitted && f.CLEARING_PARTY.errors}"
+                                    formControlName="CLEARING_PARTY" style="margin-top: 10px;" class="form-control2">
+                                    <option value="" selected="true" disabled>--Select Clearing Party--</option>
+                                    <option value="Indian Clearing Corporation Ltd">Indian Clearing Corporation Ltd.</option>
+                                    <option value="National Commodity Clearing Ltd">National Commodity Clearing Ltd.</option>
+                                    <option value="NSE Clearing Limited">NSE Clearing Limited.</option>
+                                    <option value="Multi Commodity Exc. Clearing Corporation Ltd">Multi Commodity Exc. Clearing Corporation Ltd.	
+                                    </option>
+                                   </select>
+                                   <div *ngIf="submitted && f.CLEARING_PARTY.errors" class="invalid-feedback">Please select
+                                    Clearing Party</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label2">Shipping Terms<span class="text-danger">
+                                                *</span></label>
+                                            <select [ngClass]="{'invalid': submitted && f.SHIPPING_TERMS.errors}"
+                                    formControlName="SHIPPING_TERMS" style="margin-top: 10px;" class="form-control2">
+                                    <option value="" selected="true" disabled>--Select Shipping Terms--</option>
+                                    <option value="DPD">DPD</option>
+                                    <option value="CFS">CFS</option>
+                                    <option value="OFF DOCK">OFF DOCK</option>
+                                   </select>
+                                   <div *ngIf="submitted && f.SHIPPING_TERMS.errors" class="invalid-feedback">Please select
+                                    Shipping Terms</div>
                                         </div>
                                     </div>
                                     
@@ -155,7 +184,7 @@
                    
                 </div>
                 <hr>
-                <div class="row  mt-4">
+                <!-- <div class="row  mt-4">
 
                     <div class="col-md-6 offset-md-6 text-end">
                         <button type="button" class="form-btn" (click)="cancelDO()" style="margin-right: 6px;">Clear</button>
@@ -163,7 +192,7 @@
                     
                     </div>
                     
-                </div>
+                </div> -->
         
             </div>
 
@@ -172,9 +201,9 @@
 
     <section *ngIf="previewDetails">
         <div>
-            <h4>Preview Details <span *ngIf="!dataVisible"><i class='bx bxs-down-arrow' (click)="show()"></i></span>
+            <h5>Preview Details <span *ngIf="!dataVisible"><i class='bx bxs-down-arrow' (click)="show()"></i></span>
             <span *ngIf="dataVisible" (click)="show()"><i class='bx bxs-up-arrow'></i></span>
-            </h4><hr>
+            </h5><hr>
             <div class="col-md-12" *ngIf="dataVisible">
                 <ul class="tabs-container">
                    <li (click)="onTabClick('Container')" [class.active]="activeTab == 'Container'" class="tab-link">
@@ -233,6 +262,15 @@
                   Manfiest Table
               </div>
               </div>
+            
+        </div>
+        <div class="row  mt-4">
+
+            <div class="col-md-6 offset-md-6 text-end">
+                <button type="button" class="form-btn" (click)="cancelDO()" style="margin-right: 6px;">Clear</button>
+                <button type="button" class="form-btn" (click)="saveDO()" style="margin-right: 6px;">Save</button>
+            
+            </div>
             
         </div>
 

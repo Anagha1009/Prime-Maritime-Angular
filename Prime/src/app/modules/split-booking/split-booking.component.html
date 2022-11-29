@@ -11,8 +11,41 @@
                     <label class="form-label">Booking No.</label>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <button class="form-btn me-2" (click)="getBookingDetails()">Get Details</button>
+            </div>
+            <div class="col-md-3 text-start" *ngIf="booking.BOOKING_NO!=''">
+                <div class="row">
+                    <h6>
+                        Booking No :
+                        <small class="text-danger">{{booking.BOOKING_NO}}</small>
+                    </h6>
+                </div>
+                <div class="row">
+                    <h6>
+                        Customer Name :
+                        <small class="text-danger">{{booking.CUSTOMER_NAME}}</small>
+                    </h6>
+                </div>
+                <div class="row">
+                    <h6>
+                        Vessel :
+                    <small class="text-danger">{{booking.VESSEL_NAME}} - {{booking.VOYAGE_NO}}</small>
+                    </h6>
+                </div>
+                <div class="row">
+                    <h6>
+                        POL : 
+                    <small class="text-danger">{{booking.POL}}</small>
+                    </h6>
+                </div>
+                <div class="row">
+                    <h6>
+                        POD :
+                    <small class="text-danger">{{booking.POD}}</small> 
+                    </h6>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -36,21 +69,22 @@
                     <div class="col-md-3">
                         <h5 class="modal-title" id="exampleModalLabel">Booking Details</h5>
                     </div>
+                    
                 </div>
                 <hr>
                 <div class="row mt-4">
                     <form [formGroup]="splitBookingForm">
                         <div class="col-md-12">
-                            <div class="row mb-2">
-                                <div class="col-md-12">
-                                    <h6>POL : <small class="text-danger">
-                                            HGFJ</small>
-                                        POD :
-                                        <small class="text-danger">YUHJ</small>
-                                    </h6>
+                            <div class="row">
+                                
+                                <div class="col-md-6 offset-md-6 text-end mb-1">
+                                   
+                                    <button (click)="slotAllocation()" class="form-btn">
+                                        <i class="fa fa-plus me-2"></i>Slot
+                                        Allocation</button>
                                 </div>
-                                <div class="row mt-5">
-                                    <div class="col-md-6 mb-4">
+                                <!-- <div class="row mt-5">
+                                    <div class="col-md-3 mb-4">
                                         <div class="form-group">
                                             <label class="form-label2">Vessel Name</label>
                                             <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f2.VESSEL_NAME.errors}" formControlName="VESSEL_NAME"/>
@@ -60,7 +94,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-6 mb-4">
+                                    <div class="col-md-3 mb-4">
                                         <div class="form-group">
                                             <label class="form-label2" for>Voyage No</label>
                                             <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f2.VOYAGE_NO.errors}" formControlName="VOYAGE_NO"/>
@@ -69,9 +103,7 @@
                                                 Voyage number</div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-4">
+                                    <div class="col-md-3 mb-4">
                                         <div class="form-group">
                                             <label class="form-label2">Mother Vessel Name</label>
                                             <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f2.MOTHER_VESSEL_NAME.errors}" formControlName="MOTHER_VESSEL_NAME"/>
@@ -80,7 +112,7 @@
                                                 Mother Vessel Name</div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 mb-4">
+                                    <div class="col-md-3 mb-4">
                                         <div class="form-group">
                                             <label class="form-label2">Mother Voyage No</label>
                                             <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f2.MOTHER_VOYAGE_NO.errors}" formControlName="MOTHER_VOYAGE_NO"/>
@@ -89,44 +121,94 @@
                                                 Mother Voyage number</div>
                                         </div>
                                     </div>
+                                </div> -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label2">Vessel Name</label>
+                                                    <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f2.VESSEL_NAME.errors}" formControlName="VESSEL_NAME"/>
+                                                    
+                                                    <div *ngIf="submitted && f2.VESSEL_NAME.errors" class="invalid-feedback">Please enter
+                                                        Vessel name</div>
+        
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label2" for>Voyage No</label>
+                                                    <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f2.VOYAGE_NO.errors}" formControlName="VOYAGE_NO"/>
+                                                    
+                                                    <div *ngIf="submitted && f2.VOYAGE_NO.errors" class="invalid-feedback">Please enter
+                                                        Voyage number</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-group">
+                                                    <label class="form-label2">Mother Vessel Name</label>
+                                                    <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f2.MOTHER_VESSEL_NAME.errors}" formControlName="MOTHER_VESSEL_NAME"/>
+                                                    
+                                                    <div *ngIf="submitted && f2.MOTHER_VESSEL_NAME.errors" class="invalid-feedback">Please enter
+                                                        Mother Vessel Name</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-group">
+                                                    <label class="form-label2">Mother Voyage No</label>
+                                                    <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f2.MOTHER_VOYAGE_NO.errors}" formControlName="MOTHER_VOYAGE_NO"/>
+                                                    
+                                                    <div *ngIf="submitted && f2.MOTHER_VOYAGE_NO.errors" class="invalid-feedback">Please enter
+                                                        Mother Voyage number</div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="vertical">
+                                            <div [class]="isScroll ? 'scrollbarRollOver' : ''" id="style-3">
+                                                <div [class]="isScroll ? 'force-overflow' : ''">
+                                                    <table class="table">
+                       
+                                                        <tbody>
+                                                            <tr *ngFor="let item of f;let j = index;" [formGroup]="f1(item)">
+                                                                <td class="col-md-2 text-end">
+                                                                    <label class="mt-4"> {{j+1}}</label>
+                                                                </td>
+                                                                <td class="col-md-6">
+                                                                    <label class="form-label3">Slot Operator</label>
+                                                                    <select class="form-control3" formControlName="SLOT_OPERATOR">
+                                                                        <option value="" selected disabled>
+                                                                            --Slot
+                                                                            Operator--</option>
+                                                                        <option value="xx">test</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td class="col-md-6">
+                                                                    <label class="form-label3">No of Slots</label>
+                                                                    <input class="form-control3" formControlName="NO_OF_SLOTS"
+                                                                        type="text" />
+                                                                </td>
+                                                            </tr>
+                                                            
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 offset-md-6" style="text-align: right;">
-                                    <button (click)="slotAllocation()"
-                                                            class="btn btn-outline-info btn-block">
-                                                            <i class="fa fa-plus mr-1"></i>Slot
-                                                            Allocation</button>
-                                </div>
+
                             </div>
                         </div>
                     </form>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Sr. No</th>
-                                <th>Slot Operator</th>
-                                <th>No of Slots</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of f;let j = index;" [formGroup]="f1(item)">
-                                <td>
-                                    1
-                                </td>
-                                <td class="col-md-6">
-                                    <ng-select formControlName="SLOT_OPERATOR">
-                                        <ng-option value="" selected disabled>
-                                            --Slot
-                                            Operator--</ng-option>
-                                        <ng-option value="xx">test</ng-option>
-                                    </ng-select>
-                                </td>
-                                <td>
-                                    <input formControlName="NO_OF_SLOTS" type="text"
-                                        class="form-control" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    
                 </div>
                 <hr>
                 <div class="row  mt-4">

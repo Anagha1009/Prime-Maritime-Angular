@@ -10,6 +10,8 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
+import { SimpleNotificationsModule } from 'angular2-notifications';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +23,7 @@ import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    SimpleNotificationsModule.forRoot(),
     HttpClientModule,
     NgSelectModule,   
     NgMultiSelectDropDownModule 

@@ -6,4 +6,12 @@ export class ActivityMapping {
 
 export class ActivityId {
     AC_ID: number;
+
+}
+
+export class Activity{
+    ID:number;
+    ACT_NAME:any='';
+    ACT_CODE:any='';
+    ACT_TYPE:any='';
 }
