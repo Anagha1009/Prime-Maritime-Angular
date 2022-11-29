@@ -32,6 +32,8 @@ import { UnitComponent } from 'src/app/masters/unit/unit.component';
 import { PortComponent } from 'src/app/masters/port/port.component';
 import { ContainerComponent } from 'src/app/masters/container/container.component';
 import { PartyComponent } from 'src/app/masters/party/party.component';
+import { MrRequestComponent } from 'src/app/modules/mr-request/mr-request.component';
+import { MrRequestListComponent } from 'src/app/modules/mr-request-list/mr-request-list.component';
 
 @NgModule({
   declarations: [
@@ -59,15 +61,17 @@ import { PartyComponent } from 'src/app/masters/party/party.component';
     ServicetypeComponent,
     CurrencyComponent,
     UnitComponent,
-    PortComponent,  
-    PartyComponent
+    PortComponent,
+    PartyComponent,
+    MrRequestComponent,
+    MrRequestListComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    NgSelectModule,    
+    NgSelectModule,
     SharedModule,
     NgMultiSelectDropDownModule,
   ],

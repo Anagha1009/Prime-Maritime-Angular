@@ -6,7 +6,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { SwPush } from '@angular/service-worker';
 import { QUOTATION } from 'src/app/models/quotation';
+import { NewsletterService } from 'src/app/services/newsletter.service';
 import { QuotationService } from 'src/app/services/quotation.service';
 
 @Component({
@@ -23,9 +25,14 @@ export class PmQuotationListComponent implements OnInit {
   @ViewChild('RateModal') RateModal: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
+  readonly VAPID_PUBLIC_KEY =
+    'BMhvJ95Ji0uVwIzhyeZwb133-4e7Hb_DtMP0-SKTFBcnbg_a7PlLCMD2ofLMNwNLZ5NqM-9pXOX4zDj64R-MXp4';
+
   constructor(
     private _quotationService: QuotationService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private swPush: SwPush,
+    private newsletterService: NewsletterService
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +60,7 @@ export class PmQuotationListComponent implements OnInit {
         this.quotationDetails = res.Data;
 
         const add = this.rateForm.get('SRR_RATES') as FormArray;
-
+        add.clear();
         res.Data.SRR_RATES.forEach((element: any) => {
           add.push(this._formBuilder.group(element));
         });
@@ -94,7 +101,21 @@ export class PmQuotationListComponent implements OnInit {
         if (res.responseCode == 200) {
           alert('Rates are approved successfully !');
           this.closeBtn.nativeElement.click();
+          this.getQuotationList();
         }
       });
+  }
+
+  subscribeToNotifications() {
+    this.swPush
+      .requestSubscription({
+        serverPublicKey: this.VAPID_PUBLIC_KEY,
+      })
+      .then((sub: any) =>
+        this.newsletterService.addPushSubscriber(sub).subscribe()
+      )
+      .catch((err: any) =>
+        console.error('Could not subscribe to notifications', err)
+      );
   }
 }

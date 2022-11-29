@@ -31,6 +31,8 @@ import { DepoDashboardComponent } from './modules/depo-dashboard/depo-dashboard.
 import { NewBlComponent } from './modules/new-bl/new-bl.component';
 import { NewCmComponent } from './modules/new-cm/new-cm.component';
 import { PmLoginComponent } from './pm-modules/pm-login/pm-login.component';
+import { MrRequestComponent } from './modules/mr-request/mr-request.component';
+import { MrRequestListComponent } from './modules/mr-request-list/mr-request-list.component';
 
 const routes: Routes = [
   {
@@ -121,19 +123,19 @@ const routes: Routes = [
       },
       {
         path: 'servicetype',
-        component:ServicetypeComponent,
+        component: ServicetypeComponent,
       },
       {
-        path:'currency',
-        component:CurrencyComponent,
+        path: 'currency',
+        component: CurrencyComponent,
       },
       {
-        path:'unit',
-        component:UnitComponent,
+        path: 'unit',
+        component: UnitComponent,
       },
       {
-        path:'port',
-        component:PortComponent,
+        path: 'port',
+        component: PortComponent,
       },
       {
         path: 'new-bl',
@@ -158,6 +160,14 @@ const routes: Routes = [
       {
         path: 'container-allotment-list',
         component: ContainerAllotmentListComponent,
+      },
+      {
+        path: 'm&r-request',
+        component: MrRequestComponent,
+      },
+      {
+        path: 'm&r-request-list',
+        component: MrRequestListComponent,
       },
     ],
   },
