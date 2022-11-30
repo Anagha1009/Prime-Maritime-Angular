@@ -10,8 +10,9 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,9 +24,11 @@ import { environment } from '../environments/environment';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    SimpleNotificationsModule.forRoot(),
     HttpClientModule,
     NgSelectModule,   
-    NgMultiSelectDropDownModule, ServiceWorkerModule.register('ngsw-worker.js', {
+    NgMultiSelectDropDownModule, 
+    ServiceWorkerModule.register('ngsw-worker.js', {
   enabled: true,
   // Register the ServiceWorker as soon as the application is stable
   // or after 30 seconds (whichever comes first).

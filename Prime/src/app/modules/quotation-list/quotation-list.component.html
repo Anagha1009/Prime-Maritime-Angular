@@ -1,15 +1,15 @@
 <div class="section-title">
-    <h2>Quotations</h2>
+    <h2>Rate Requests</h2>
 </div>
 <div class="container">
     <form class="mx-5" [formGroup]="quotationForm">
         <div class="col-md-6 offset-md-6 text-end">
-            <button class="form-btn-primary" routerLink="/home/new-quotation">New Quotation</button>
+            <button class="form-btn-primary" routerLink="/home/new-quotation">New Rate Request</button>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label class="form-label2">Ref No</label>
+                    <label class="form-label2">Request No</label>
                     <input formControlName="SRR_NO" type="text" class="form-control2">
                 </div>
             </div>
@@ -52,8 +52,8 @@
                                     <span style="font-size: 10px;"
                                         [class]="item.STATUS == 'Approved' ? 'badge rounded-pill bg-success ms-3' : 'badge rounded-pill bg-secondary ms-3'">{{item.STATUS}}</span>
                                 </h4>
-                                <button class="form-btn-primary" style="font-size: 12px;" (click)="getSRRDetails(item)"
-                                    *ngIf="item.STATUS == 'Requested'">Add
+                                <button class="form-btn-primary" style="font-size: 12px;"
+                                    (click)="getSRRDetails(item)">Add
                                     More
                                     Containers</button>
                                 <a #containerModal class="d-none" data-bs-toggle="modal" href="#containerModal">Add

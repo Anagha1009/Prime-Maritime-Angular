@@ -36,6 +36,8 @@ import { PartyComponent } from 'src/app/masters/party/party.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment.prod';
 import { PushNotificationComponent } from 'src/app/modules/push-notification/push-notification.component';
+import { MrRequestComponent } from 'src/app/modules/mr-request/mr-request.component';
+import { MrRequestListComponent } from 'src/app/modules/mr-request-list/mr-request-list.component';
 
 @NgModule({
   declarations: [
@@ -66,14 +68,18 @@ import { PushNotificationComponent } from 'src/app/modules/push-notification/pus
     UnitComponent,
     PortComponent,  
     PartyComponent,
-    PushNotificationComponent
+    PushNotificationComponent,
+    PortComponent,
+    PartyComponent,
+    MrRequestComponent,
+    MrRequestListComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    NgSelectModule,    
+    NgSelectModule,
     SharedModule,
     NgMultiSelectDropDownModule,
     ServiceWorkerModule.register('ngsw-worker.js', {

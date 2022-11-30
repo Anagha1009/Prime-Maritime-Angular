@@ -3,7 +3,9 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AnyARecord } from 'dns';
 import { BOOKING } from 'src/app/models/booking';
+import { QUOTATION } from 'src/app/models/quotation';
 import { BookingService } from 'src/app/services/booking.service';
+import { QuotationService } from 'src/app/services/quotation.service';
 
 @Component({
   selector: 'app-split-booking',
@@ -12,7 +14,8 @@ import { BookingService } from 'src/app/services/booking.service';
 })
 export class SplitBookingComponent implements OnInit {
   splitBookingForm:FormGroup;
-  booking =new BOOKING();
+  booking=new BOOKING();
+  isScroll: boolean = false;
   splitbooking=new BOOKING();
   bookingNo:string='';
   previewDetails:boolean=false;
@@ -21,6 +24,7 @@ export class SplitBookingComponent implements OnInit {
 
   constructor(private _formBuilder: FormBuilder,
     private _bookingService: BookingService,
+    private _srrService:QuotationService,
     private _router: Router) { }
 
   ngOnInit(): void {
@@ -39,6 +43,7 @@ export class SplitBookingComponent implements OnInit {
       IS_ROLLOVER: [false],
       SLOT_LIST: new FormArray([]),
     });
+    console.log(this.booking);
 
     this.slotAllocation()
 
@@ -46,7 +51,9 @@ export class SplitBookingComponent implements OnInit {
 
   slotAllocation() {
     var slotDetails = this.splitBookingForm.get('SLOT_LIST') as FormArray;
-
+    if(slotDetails?.length>=3){
+      this.isScroll=true;
+    }
     slotDetails.push(
       this._formBuilder.group({
         SLOT_OPERATOR: [''],
@@ -70,14 +77,17 @@ export class SplitBookingComponent implements OnInit {
   }
 
   getBookingDetails() {
+    debugger;
     this.previewNoData=false;
     this.previewDetails=false;
-    var booking = new BOOKING();
-    booking.AGENT_CODE = localStorage.getItem('usercode');
-    booking.BOOKING_NO = this.bookingNo;
+    var bk = new BOOKING();
+    bk.AGENT_CODE = localStorage.getItem('usercode');
+    bk.BOOKING_NO = this.bookingNo;
 
-    this._bookingService.getBookingDetails(booking).subscribe((res: any) => {
+    this._bookingService.getBookingDetails(bk).subscribe((res: any) => {
+      debugger;
       if (res.ResponseCode == 200) {
+        console.log(res.data);
         this.booking = res.Data;
         this.previewDetails=true;
       }
@@ -85,7 +95,7 @@ export class SplitBookingComponent implements OnInit {
         this.previewNoData=true;
       }
     });
-
+ 
   }
 
   splitBooking(){

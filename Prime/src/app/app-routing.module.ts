@@ -33,6 +33,8 @@ import { ContainerAllotmentComponent } from './modules/container-allotment/conta
 import { ContainerAllotmentListComponent } from './modules/container-allotment-list/container-allotment-list.component';
 import { ManifestListComponent } from './modules/manifest-list/manifest-list.component';
 import { PushNotificationComponent } from './modules/push-notification/push-notification.component';
+import { MrRequestComponent } from './modules/mr-request/mr-request.component';
+import { MrRequestListComponent } from './modules/mr-request-list/mr-request-list.component';
 
 const routes: Routes = [
   {
@@ -123,19 +125,19 @@ const routes: Routes = [
       },
       {
         path: 'servicetype',
-        component:ServicetypeComponent,
+        component: ServicetypeComponent,
       },
       {
-        path:'currency',
-        component:CurrencyComponent,
+        path: 'currency',
+        component: CurrencyComponent,
       },
       {
-        path:'unit',
-        component:UnitComponent,
+        path: 'unit',
+        component: UnitComponent,
       },
       {
-        path:'port',
-        component:PortComponent,
+        path: 'port',
+        component: PortComponent,
       },
       {
         path: 'new-bl',
@@ -168,6 +170,14 @@ const routes: Routes = [
       {
         path: 'notification',
         component: PushNotificationComponent,
+      },
+      {
+        path: 'm&r-request',
+        component: MrRequestComponent,
+      },
+      {
+        path: 'm&r-request-list',
+        component: MrRequestListComponent,
       },
     ],
   },
