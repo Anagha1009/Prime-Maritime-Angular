@@ -65,12 +65,12 @@ export class PortComponent implements OnInit {
     portModel.CREATED_BY = localStorage.getItem('usercode');
     portModel.CODE = code;
 
-    this._masterService.GetMasterDetails(portModel).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.portForm.patchValue(res.Data)
-        this.isUpdate = true;
-      }
-    });
+    // this._masterService.GetMasterDetails(portModel).subscribe((res: any) => {
+    //   if (res.ResponseCode == 200) {
+    //     this.portForm.patchValue(res.Data)
+    //     this.isUpdate = true;
+    //   }
+    // });
   }
 
   UpdatePortMaster() {
@@ -99,12 +99,12 @@ export class PortComponent implements OnInit {
       currencyModel.CREATED_BY = localStorage.getItem('usercode');
       currencyModel.CODE = code;
 
-      this._masterService.DeleteMaster(currencyModel).subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          alert('Your record has been deleted successfully !');
-          //this.GetCurrencyMasterList();
-        }
-      });
+      // this._masterService.DeleteMaster(currencyModel).subscribe((res: any) => {
+      //   if (res.ResponseCode == 200) {
+      //     alert('Your record has been deleted successfully !');
+      //     //this.GetCurrencyMasterList();
+      //   }
+      // });
     }
 
   }

@@ -10,6 +10,8 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +25,12 @@ import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
     ReactiveFormsModule,
     HttpClientModule,
     NgSelectModule,   
-    NgMultiSelectDropDownModule 
+    NgMultiSelectDropDownModule, ServiceWorkerModule.register('ngsw-worker.js', {
+  enabled: true,
+  // Register the ServiceWorker as soon as the application is stable
+  // or after 30 seconds (whichever comes first).
+  registrationStrategy: 'registerWhenStable:30000'
+}) 
   ],
   providers: [],
   bootstrap: [AppComponent],

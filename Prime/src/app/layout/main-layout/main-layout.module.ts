@@ -33,6 +33,9 @@ import { UnitComponent } from 'src/app/masters/unit/unit.component';
 import { PortComponent } from 'src/app/masters/port/port.component';
 import { ContainerComponent } from 'src/app/masters/container/container.component';
 import { PartyComponent } from 'src/app/masters/party/party.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from 'src/environments/environment.prod';
+import { PushNotificationComponent } from 'src/app/modules/push-notification/push-notification.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +65,8 @@ import { PartyComponent } from 'src/app/masters/party/party.component';
     CurrencyComponent,
     UnitComponent,
     PortComponent,  
-    PartyComponent
+    PartyComponent,
+    PushNotificationComponent
   ],
   imports: [
     CommonModule,
@@ -72,6 +76,12 @@ import { PartyComponent } from 'src/app/masters/party/party.component';
     NgSelectModule,    
     SharedModule,
     NgMultiSelectDropDownModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }) 
   ],
   providers: [],
 })

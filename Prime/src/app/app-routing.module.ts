@@ -32,6 +32,7 @@ import { DepoDashboardComponent } from './modules/depo-dashboard/depo-dashboard.
 import { ContainerAllotmentComponent } from './modules/container-allotment/container-allotment.component';
 import { ContainerAllotmentListComponent } from './modules/container-allotment-list/container-allotment-list.component';
 import { ManifestListComponent } from './modules/manifest-list/manifest-list.component';
+import { PushNotificationComponent } from './modules/push-notification/push-notification.component';
 
 const routes: Routes = [
   {
@@ -163,6 +164,10 @@ const routes: Routes = [
       {
         path: 'manifest-list',
         component: ManifestListComponent,
+      },
+      {
+        path: 'notification',
+        component: PushNotificationComponent,
       },
     ],
   },

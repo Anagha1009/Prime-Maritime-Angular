@@ -22,7 +22,7 @@
 </div>
 
 <section class="services">
-    <div class="container col-md-8">
+    <div class="container">
         <div class="icon-box icon-box-cyan text-start" *ngIf="isManifest">
             <div class="row">
                 <div class="col-md-3">
@@ -31,6 +31,17 @@
                 </div>
                 <div class="col-md-1 rounded-btn mx-auto">
                     <a (click)="getCargoManifest()"><i class="fa fa-eye text-light"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="icon-box icon-box-cyan text-start" *ngIf="isManifest">
+            <div class="row">
+                <div class="col-md-3">
+                    <h4 class="title">FREIGHT MANIFEST
+                    </h4>
+                </div>
+                <div class="col-md-1 rounded-btn mx-auto">
+                    <a (click)="getFreightManifest()"><i class="fa fa-eye text-light"></i></a>
                 </div>
             </div>
         </div>
