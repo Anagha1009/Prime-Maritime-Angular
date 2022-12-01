@@ -32,6 +32,9 @@ import { UnitComponent } from 'src/app/masters/unit/unit.component';
 import { PortComponent } from 'src/app/masters/port/port.component';
 import { ContainerComponent } from 'src/app/masters/container/container.component';
 import { PartyComponent } from 'src/app/masters/party/party.component';
+import { VesselComponent } from 'src/app/masters/vessel/vessel.component';
+import { ServiceComponent } from 'src/app/masters/service/service.component';
+import { ContainerTypeComponent } from 'src/app/masters/container-type/container-type.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +63,10 @@ import { PartyComponent } from 'src/app/masters/party/party.component';
     CurrencyComponent,
     UnitComponent,
     PortComponent,  
-    PartyComponent
+    PartyComponent,
+    VesselComponent,
+    ServiceComponent,
+    ContainerTypeComponent
   ],
   imports: [
     CommonModule,
