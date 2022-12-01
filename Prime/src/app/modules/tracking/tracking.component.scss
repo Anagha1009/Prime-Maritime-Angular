@@ -1,3 +1,33 @@
+
+
+// p {
+//     font-family: Lato;
+//   }
+  
+//   .stepper {
+//     display: flex;
+//     width: 100%;
+//     flex-direction: column
+//   }
+//   .stepper-bar-content {
+//     min-height: 4px;
+//     background: #2f5ff4;
+//   }
+  
+//   .stepper-bar {
+//     min-height: 4px;
+//     width: 100%;
+//     background: #f2f2f2;
+//     display: flex
+//   }
+  
+//   .stepper-steps {
+//     display: flex;
+//     justify-content: space-between;
+//     width: 100%
+//   }
+
+//Logic
 .ratetable th,
 .ratetable td {
   // padding: 0.75rem;
@@ -166,3 +196,91 @@
 .checkbox-primary input:checked ~ .checkmark:after {
   color: #40bfc1;
 }
+
+
+  //Progressbar
+  .progress-container {
+    //z-index: -99;
+    position: relative;
+    margin: 50px auto 50px;
+    padding: 4px 0 0;
+    width: 800px;
+    height: 8px;
+    background: white;
+    -moz-box-shadow: inset 0 0 2px white;
+        -webkit-box-shadow: inset 0 0 2px white;
+         box-shadow: inset 0 0 2px white;
+    
+    ul li {
+        position: absolute;
+        display: inline-table;
+        margin: 0 auto 4px;
+        top: -12px;
+        left: 0;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        width: 65px;
+        height: 54px;
+        //line-height: 40px;
+        text-align: center;
+        font-size: 18px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: red;
+        border-radius: 50%;
+      
+      &:nth-child(2) {
+        margin-left: 200px;
+      }
+      
+      &:nth-child(3) {
+        margin-left: 400px;
+      }
+
+      &:nth-child(4) {
+        margin-left: 600px;
+      }
+
+      &:nth-child(5) {
+        margin-left: 800px;
+      }
+    
+      &:nth-child(6) {
+        margin-left: 1000px;
+      }
+      &:last-child {
+        margin-left: 1200px;
+      }
+      
+      &:before {
+        z-index: -99;
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        content:'';
+        height: 20px;
+        width: 20px;
+        background: white;
+        border-radius: 50%;
+      }
+
+    }
+    li:active{
+        border-color: #3cba9f;
+
+    }
+    .progress-bar {
+        height: 7px;
+        width: 0%;
+        background: #09A6B2;
+        -webkit-transition: width 1s ease-in-out;
+           -moz-transition: width 1s ease-in-out;
+             -o-transition: width 1s ease-in-out;
+                transition: width 1s ease-in-out;
+       }
+
+
+}
+  
+

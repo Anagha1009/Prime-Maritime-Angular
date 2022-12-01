@@ -11,10 +11,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
 import { SimpleNotificationsModule } from 'angular2-notifications';
+import { CtListComponent } from './modules/ct-list/ct-list.component';
+import { TrackingComponent } from './modules/tracking/tracking.component';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, CtListComponent, TrackingComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
