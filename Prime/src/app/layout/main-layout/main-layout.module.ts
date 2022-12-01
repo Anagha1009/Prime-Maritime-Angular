@@ -25,6 +25,7 @@ import { ActivityMappingComponent } from 'src/app/modules/activity-mapping/activ
 import { DepoDashboardComponent } from 'src/app/modules/depo-dashboard/depo-dashboard.component';
 import { ContainerAllotmentComponent } from 'src/app/modules/container-allotment/container-allotment.component';
 import { ContainerAllotmentListComponent } from 'src/app/modules/container-allotment-list/container-allotment-list.component';
+import { ManifestListComponent } from 'src/app/modules/manifest-list/manifest-list.component';
 import { ContainerSizeComponent } from 'src/app/masters/container-size/container-size.component';
 import { ServicetypeComponent } from 'src/app/masters/servicetype/servicetype.component';
 import { CurrencyComponent } from 'src/app/masters/currency/currency.component';
@@ -35,6 +36,11 @@ import { PartyComponent } from 'src/app/masters/party/party.component';
 import { VesselComponent } from 'src/app/masters/vessel/vessel.component';
 import { ServiceComponent } from 'src/app/masters/service/service.component';
 import { ContainerTypeComponent } from 'src/app/masters/container-type/container-type.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from 'src/environments/environment.prod';
+import { PushNotificationComponent } from 'src/app/modules/push-notification/push-notification.component';
+import { MrRequestComponent } from 'src/app/modules/mr-request/mr-request.component';
+import { MrRequestListComponent } from 'src/app/modules/mr-request-list/mr-request-list.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +63,7 @@ import { ContainerTypeComponent } from 'src/app/masters/container-type/container
     DepoDashboardComponent,
     ContainerAllotmentComponent,
     ContainerAllotmentListComponent,
+    ManifestListComponent,
     ContainerComponent,
     ContainerSizeComponent,
     ServicetypeComponent,
@@ -66,16 +73,27 @@ import { ContainerTypeComponent } from 'src/app/masters/container-type/container
     PartyComponent,
     VesselComponent,
     ServiceComponent,
-    ContainerTypeComponent
+    ContainerTypeComponent,
+    PushNotificationComponent,
+    PortComponent,
+    PartyComponent,
+    MrRequestComponent,
+    MrRequestListComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    NgSelectModule,    
+    NgSelectModule,
     SharedModule,
     NgMultiSelectDropDownModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }) 
   ],
   providers: [],
 })

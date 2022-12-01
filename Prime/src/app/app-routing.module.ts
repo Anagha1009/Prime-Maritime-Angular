@@ -25,15 +25,19 @@ import { PortComponent } from './masters/port/port.component';
 import { PmQuotationListComponent } from './pm-modules/pm-quotation-list/pm-quotation-list.component';
 import { PmLayoutComponent } from './layout/pm-layout/pm-layout.component';
 import { ActivityMappingComponent } from './modules/activity-mapping/activity-mapping.component';
-import { ContainerAllotmentListComponent } from './modules/container-allotment-list/container-allotment-list.component';
-import { ContainerAllotmentComponent } from './modules/container-allotment/container-allotment.component';
-import { DepoDashboardComponent } from './modules/depo-dashboard/depo-dashboard.component';
 import { NewBlComponent } from './modules/new-bl/new-bl.component';
 import { NewCmComponent } from './modules/new-cm/new-cm.component';
 import { PmLoginComponent } from './pm-modules/pm-login/pm-login.component';
 import { VesselComponent } from './masters/vessel/vessel.component';
 import { ServiceComponent } from './masters/service/service.component';
 import { ContainerTypeComponent } from './masters/container-type/container-type.component';
+import { DepoDashboardComponent } from './modules/depo-dashboard/depo-dashboard.component';
+import { ContainerAllotmentComponent } from './modules/container-allotment/container-allotment.component';
+import { ContainerAllotmentListComponent } from './modules/container-allotment-list/container-allotment-list.component';
+import { ManifestListComponent } from './modules/manifest-list/manifest-list.component';
+import { PushNotificationComponent } from './modules/push-notification/push-notification.component';
+import { MrRequestComponent } from './modules/mr-request/mr-request.component';
+import { MrRequestListComponent } from './modules/mr-request-list/mr-request-list.component';
 
 const routes: Routes = [
   {
@@ -124,19 +128,19 @@ const routes: Routes = [
       },
       {
         path: 'servicetype',
-        component:ServicetypeComponent,
+        component: ServicetypeComponent,
       },
       {
-        path:'currency',
-        component:CurrencyComponent,
+        path: 'currency',
+        component: CurrencyComponent,
       },
       {
-        path:'unit',
-        component:UnitComponent,
+        path: 'unit',
+        component: UnitComponent,
       },
       {
-        path:'port',
-        component:PortComponent,
+        path: 'port',
+        component: PortComponent,
       },
       {
         path: 'new-bl',
@@ -174,6 +178,21 @@ const routes: Routes = [
       {
         path:'containerType',
         component:ContainerTypeComponent,
+      },{
+        path: 'manifest-list',
+        component: ManifestListComponent,
+      },
+      {
+        path: 'notification',
+        component: PushNotificationComponent,
+      },
+      {
+        path: 'm&r-request',
+        component: MrRequestComponent,
+      },
+      {
+        path: 'm&r-request-list',
+        component: MrRequestListComponent,
       },
     ],
   },

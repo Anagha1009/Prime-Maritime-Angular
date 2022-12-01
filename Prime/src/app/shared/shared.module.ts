@@ -6,6 +6,7 @@ import { FooterComponent } from './footer/footer.component';
 import { PmLandingComponent } from './pm-landing/pm-landing.component';
 import { ChartComponent } from '../pm-modules/chart/chart.component';
 import * as CanvasJSAngularChart from '../../assets/canvasjs-3.7.2/canvasjs.angular.component';
+import {SimpleNotificationsModule } from 'angular2-notifications';
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
 @NgModule({
@@ -18,6 +19,6 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     CanvasJSChart,
   ],
   imports: [CommonModule],
-  exports: [HeaderComponent, FooterComponent],
+  exports: [HeaderComponent, FooterComponent, SimpleNotificationsModule],
 })
 export class SharedModule {}
