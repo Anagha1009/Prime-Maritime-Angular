@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { time } from 'console';
 import { QUOTATION } from 'src/app/models/quotation';
+import { CommonService } from 'src/app/services/common.service';
 import { QuotationService } from 'src/app/services/quotation.service';
 
 @Component({
@@ -18,16 +20,25 @@ export class QuotationListComponent implements OnInit {
   quotationForm: FormGroup;
   containerForm: FormGroup;
   containerList: any[] = [];
+  rateForm: FormGroup;
+  expRecords: any = 0;
+  vesselList: any[] = [];
+  voyageList: any[] = [];
+  slotoperatorList: any[] = [];
+  submitted: boolean = false;
 
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('closeBtn1') closeBtn1: ElementRef;
+  @ViewChild('closeBtn2') closeBtn2: ElementRef;
   @ViewChild('containerModal') containerModal: ElementRef;
+  @ViewChild('rateModal') rateModal: ElementRef;
 
   constructor(
     private _quotationService: QuotationService,
     private _router: Router,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _commonService: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -45,7 +56,7 @@ export class QuotationListComponent implements OnInit {
       BOOKING_NO: [''],
       SRR_ID: [''],
       SRR_NO: [''],
-      VESSEL_NAME: [''],
+      VESSEL_NAME: ['', Validators.required],
       VOYAGE_NO: [''],
       MOTHER_VESSEL_NAME: [''],
       MOTHER_VOYAGE_NO: [''],
@@ -59,6 +70,34 @@ export class QuotationListComponent implements OnInit {
     this.containerForm = this._formBuilder.group({
       SRR_CONTAINERS: new FormArray([]),
     });
+
+    this.rateForm = this._formBuilder.group({
+      SRR_RATES: new FormArray([]),
+    });
+
+    this.getDropdown();
+  }
+
+  getDropdown() {
+    this._commonService.getDropdownData('VESSEL_NAME').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.vesselList = res.Data;
+      }
+    });
+
+    this._commonService.getDropdownData('VOYAGE_NO').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.voyageList = res.Data;
+      }
+    });
+
+    this._commonService
+      .getDropdownData('SLOT_OPERATOR')
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.slotoperatorList = res.Data;
+        }
+      });
   }
 
   Search() {
@@ -123,6 +162,13 @@ export class QuotationListComponent implements OnInit {
             } else {
               this.isScroll = false;
             }
+
+            this.expRecords = 0;
+            res.Data.forEach((element: any) => {
+              if (element.DAYS == 3) {
+                this.expRecords = this.expRecords + 1;
+              }
+            });
           }
         }
       },
@@ -135,7 +181,7 @@ export class QuotationListComponent implements OnInit {
     );
   }
 
-  getSRRDetails(item: any) {
+  getSRRDetails(item: any, value: string) {
     var quotation = new QUOTATION();
     quotation.SRR_NO = item.SRR_NO;
     quotation.AGENT_CODE = localStorage.getItem('usercode');
@@ -157,9 +203,20 @@ export class QuotationListComponent implements OnInit {
           })
         );
       });
+
+      const add1 = this.rateForm.get('SRR_RATES') as FormArray;
+
+      add1.clear();
+      res.Data?.SRR_RATES.forEach((element: any) => {
+        add1.push(this._formBuilder.group(element));
+      });
     });
 
-    this.containerModal.nativeElement.click();
+    if (value == 'container') {
+      this.containerModal.nativeElement.click();
+    } else if (value == 'rate') {
+      this.rateModal.nativeElement.click();
+    }
   }
 
   addContainer() {
@@ -198,6 +255,8 @@ export class QuotationListComponent implements OnInit {
       this.quotationList[i].NO_OF_CONTAINERS;
 
     this.slotDetailsForm.reset();
+    this.slotDetailsForm.get('VESSEL_NAME')?.setValue('');
+    this.slotDetailsForm.get('VOYAGE_NO')?.setValue('');
     var slotDetails = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
 
     slotDetails.clear();
@@ -255,12 +314,34 @@ export class QuotationListComponent implements OnInit {
     return x.controls;
   }
 
-  f3(i: any) {
-    return i;
+  get f3() {
+    var x = this.rateForm.get('SRR_RATES') as FormArray;
+    return x.controls;
+  }
+
+  get f4() {
+    return this.slotDetailsForm.controls;
   }
 
   getRandomNumber() {
     var num = Math.floor(Math.random() * 1e16).toString();
     return 'BK' + num;
+  }
+
+  removeItem(i: any) {
+    const add = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
+    add.removeAt(i);
+  }
+
+  counterRate() {
+    this._quotationService
+      .counterRate(this.rateForm.value.SRR_RATES)
+      .subscribe((res: any) => {
+        if (res.responseCode == 200) {
+          alert('Your request is been sent Successfully !');
+          this.closeBtn2.nativeElement.click();
+          this.getSRRList();
+        }
+      });
   }
 }
