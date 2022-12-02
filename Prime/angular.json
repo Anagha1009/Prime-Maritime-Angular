@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "7b04fdd7-7ea6-46a3-94f5-1251ad2287e3"
+    "analytics": "9692e56e-6999-4715-83c0-073506eb9ff1"
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -32,7 +32,10 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/assets/img/A1.pdf"
+              "src/assets/img/A1.pdf",
+              "src/manifest.webmanifest",
+              "src/ngsw-worker.js",
+              "src/ngsw.json"
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -40,10 +43,13 @@
               "./node_modules/font-awesome/css/font-awesome.min.css",
               "src/styles.scss"
             ],
-            "scripts": [ "./node_modules/bootstrap/dist/js/bootstrap.min.js",
+            "scripts": [
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js",
               "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/datatables.net/js/jquery.dataTables.js"
-              ]
+            ],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "production": {
@@ -107,7 +113,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/assets/img/A1.pdf"
+              "src/assets/img/A1.pdf",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -115,10 +122,11 @@
               "./node_modules/datatables.net-dt/css/jquery.dataTables.css",
               "src/styles.scss"
             ],
-            "scripts": [ "./node_modules/bootstrap/dist/js/bootstrap.min.js",
+            "scripts": [
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js",
               "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/datatables.net/js/jquery.dataTables.js"
-              ]
+            ]
           }
         }
       }

@@ -16,10 +16,11 @@ export class CmService {
   };
   constructor(private _http: HttpClient) {}
 
-  postContainerMovement(CM:any){
+  postContainerMovement(CM:any,fromXL:boolean){
     debugger;
     return this._http.post<any>(
-      this.BASE_URL + 'ContainerMovement/InsertContainerMovement',
+      this.BASE_URL + 'ContainerMovement/InsertContainerMovement?fromXL='+
+      fromXL,
       CM,
       this.httpOptions
     );
@@ -44,5 +45,38 @@ export class CmService {
   
   }
 
+  //for tracking view
+  getContainerMovementBooking(bkNo:any,croNo:any){
+    debugger;
+    return this._http.get<any>(
+      this.BASE_URL +
+        'ContainerMovement/GetContainerMovementBooking?BOOKING_NO=' +
+        bkNo +
+        '&CRO_NO='+
+        croNo,
+      this.httpOptions
+    );
   
+  }
+
+  getSingleCM(contNo:any){
+    debugger;
+    return this._http.get<any>(
+      this.BASE_URL+
+      'ContainerMovement/GetSingleContainerMovement?CONTAINER_NO='+
+      contNo,
+      this.httpOptions
+    );
+  }
+
+  getTrackingHistory(contNo:any){
+    return this._http.get<any>(
+      this.BASE_URL+
+      'ContainerMovement/GetContainerTrackingList?CONTAINER_NO='+
+      contNo,
+      this.httpOptions
+    );
+  }
+
+
 }

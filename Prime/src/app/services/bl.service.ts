@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import { Bl } from '../models/bl';
+import { CARGO_MANIFEST } from '../models/manifest';
 
 @Injectable({
   providedIn: 'root',
@@ -67,6 +68,17 @@ export class BlService {
     return this._http.post<any>(
       this.BASE_URL + 'BL/InsertBL',
       bl,
+      this.httpOptions
+    );
+  }
+
+  getCargoManifestList(BL: CARGO_MANIFEST) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'BL/GetCargoManifestList?AGENT_CODE=' +
+        BL.AGENT_CODE +
+        '&BL_NO=' +
+        BL.BL_NO,
       this.httpOptions
     );
   }

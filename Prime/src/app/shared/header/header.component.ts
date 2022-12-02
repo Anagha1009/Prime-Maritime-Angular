@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit {
         { menuName: 'DO', menuLink: '/home/do-list' },
         { menuName: 'BL', menuLink: '/home/new-bl' },
         { menuName: 'Container Movement', menuLink: '/home/new-cm' },
+        { menuName: 'Container Tracking', menuLink: '/home/tracking' },
         { menuName: 'Finance', menuLink: '#' }
       );
     }
