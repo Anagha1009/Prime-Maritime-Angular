@@ -80,4 +80,8 @@ export class QuotationService {
   approveRate(rootobject: any) {
     return this._http.post<any>(this.BASE_URL + 'SRR/ApproveRate', rootobject);
   }
+
+  counterRate(rootobject: any) {
+    return this._http.post<any>(this.BASE_URL + 'SRR/CounterRate', rootobject);
+  }
 }

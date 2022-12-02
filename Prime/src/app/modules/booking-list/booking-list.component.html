@@ -34,23 +34,31 @@
                 <div [class]="isScroll ? 'force-overflow' : ''">
                     <div class="icon-box icon-box-cyan text-start" *ngFor="let item of bookingList">
                         <div class="row">
-                            <div class="col-md-3">
-                                <h4 class="title">{{item.BOOKING_NO}}</h4>
-                            </div>
                             <div class="col-md-5">
-                                <p class="description"> <span class="bx bx-user"></span> {{item.CUSTOMER_NAME}} | <span
-                                        class="bx bxs-truck"></span>
-                                    {{item.NO_OF_CONTAINERS}} Containers | <span class="text-danger">{{item.POL}} -
-                                        {{item.POD}}</span></p>
-                            </div>
-                            <div class="col-md-3">
-                                <p class="description"><i class="bx bxs-ship"></i> <span class="text-info">
-                                        {{item.VESSEL_NAME}} - {{item.VOYAGE_NO}}</span>
+                                <h4 class="title mb-0">{{item.BOOKING_NO}}</h4>
+                                <small class="mb-0 text-danger">{{item.SRR_NO}}</small>
+                                <p class="description mb-2"><span class="bx bxs-ship me-2"></span>{{item.POL}} <i
+                                        class='bx bxs-right-arrow-circle mx-2'></i>
+                                    <span class="bx bxs-ship me-2"></span>{{item.POD}}
                                 </p>
                             </div>
-                            <div class="col-md-1 rounded-btn">
-                                <a href="#"><i class="fa fa-eye"></i></a>
+                            <div class="col-md-4">
+                                <p class="description" style="font-weight: 500;"> <span
+                                        class="bx bx-user me-2"></span>{{item.CUSTOMER_NAME}} </p>
+                                <p class="description"><span class="bx bxs-truck me-2"></span>{{item.CONTAINERS}} </p>
+                                <p class="description"><i class='bx bxs-package me-2'></i>{{item.COMMODITY}} Kg</p>
                             </div>
+                            <div class="col-md-3">
+                                <p class="description"><i class="bx bxs-ship me-2"></i> <span
+                                        class="text-info">{{item.VESSEL_NAME}} - {{item.VOYAGE_NO}}</span>
+                                </p>
+                                <p class="description"><i class='bx bx-history me-2'></i> ETA : {{item.ETA |
+                                    date:'mediumDate'}} - ETD : {{item.ETD | date:'mediumDate'}}</p>
+                                <p class="description"><i class='bx bx-street-view me-2'></i>Slot : {{item.SLOTS}}</p>
+                            </div>
+                            <!-- <div class="col-md-1 rounded-btn">
+                                <a href="#"><i class="fa fa-eye"></i></a>
+                            </div> -->
                         </div>
                     </div>
                 </div>
