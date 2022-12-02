@@ -103,7 +103,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="form-group">
-                                <input type="text" maxlength="100" formControlName="PLACE_OF_RECEIPT"
+                                <input type="text"  [ngClass]="{'invalid':submitted && f.REMARKS.errors}" formControlName="REMARKS"
                                     class="form-control">
                                 <label class="form-label"> Remarks <span class="text-danger">*</span></label>
                                 <div *ngIf="submitted && f.REMARKS.errors" class="invalid-feedback">
@@ -114,19 +114,19 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <input type="text" maxlength="100" formControlName="REQ_QUANTITY"
+                            <input type="text"  [ngClass]="{'invalid':submitted && f.REQ_QUANTITY.errors}" formControlName="REQ_QUANTITY"
                                     class="form-control">
                                 <label class="form-label"> Required Qty<span class="text-danger">*</span></label>
                                 <div *ngIf="submitted && f.REQ_QUANTITY.errors" class="invalid-feedback">
                                     Please Enter Required Quantity
-                                   </div>
+                                 </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
-                            <input type="text" maxlength="100" formControlName="REQ_QUANTITY"
+                            <input type="text" [ngClass]="{'invalid': submitted && f.GROSS_WT.errors}" formControlName="REQ_QUANTITY"
                                     class="form-control">
                                 <label class="form-label"> Gross Weight<span class="text-danger">*</span></label>
                                 <div *ngIf="submitted && f.GROSS_WT.errors" class="invalid-feedback">
@@ -169,7 +169,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <input type="text" maxlength="100" formControlName="NO_OF_PACKAGES"
+                            <input type="text"[ngClass]="{'invalid': submitted && f.NO_OF_PACKAGES.errors}" formControlName="NO_OF_PACKAGES"
                                     class="form-control">
                                 <label class="form-label"> No of Packages<span class="text-danger">*</span></label>
                                 <div *ngIf="submitted && f.NO_OF_PACKAGES.errors" class="invalid-feedback">Please Select No of Packages
