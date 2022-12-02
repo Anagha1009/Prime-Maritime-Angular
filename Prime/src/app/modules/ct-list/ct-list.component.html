@@ -1,0 +1,70 @@
+<div class="section-title">
+    <h2>Container History</h2>
+</div>
+<div class="container">
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input type="text" class="form-control" [(ngModel)]="conNo">
+                    <label class="form-label">Container No.</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button class="form-btn me-2" (click)="getTrackingHistoryList()">Get History</button>
+            </div>
+        </div>
+    </div>
+
+    <section class="services" *ngIf="previewNoData">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-9 text-end">
+                    <h5>Sorry! No records found for the specified bill number</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-5 mt-3 pt-5 mb-5">
+                    <img src="./../../../assets/img/doimg.jpg" class="img-fluid" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section *ngIf="previewDetails">
+        <hr>
+        <div class="table-responsive">
+            <table class="ratetable" style="font-size: 12px;">
+                
+                <thead><tr>
+                    <th>Booking No</th>
+                    <th>CRO No</th>
+                    <th>Container No</th>
+                    <th>Activity</th>
+                    <th>Previous Activity</th>
+                    <th>Activity Date</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                </tr></thead>
+                
+                <tbody>
+                    <tr *ngFor="let data of containerList"
+                    formGroup="d">
+                        <td>{{data.BOOKING_NO}}</td>
+                        <td>{{data.CRO_NO}}</td>
+                        <td>{{data.CONTAINER_NO}}</td>
+                        <td>{{data.ACTIVITY}}</td>
+                        <td>{{data.PREV_ACTIVITY}}</td>
+                        <td>{{data.ACTIVITY_DATE | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{data.LOCATION}}</td>
+                        <td>{{data.STATUS}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        
+
+    </section>
+</div>

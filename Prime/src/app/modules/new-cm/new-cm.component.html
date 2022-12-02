@@ -184,10 +184,16 @@
                         <div class="row" *ngIf="!manually && showTable">
                             <hr>
                             <div class="table-responsive">
-                                <table class="table" style="font-size: 12px;">
+                                <table class="ratetable" style="font-size: 12px;">
                                     <thead>
                                         <tr>
-                                            <td><input type="checkbox" /></td>
+                                            <th>
+                                                <label class="checkbox-wrap checkbox-primary" style="margin-bottom: 10px;">
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </th>
+                                            <!-- <td><input type="checkbox" /></td> -->
                                             <th>Sr No.</th>
                                             <th>Container No</th>
                                             <th>Previous Activity</th>
@@ -209,7 +215,14 @@
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let item of f2;let i = index" [formGroup]="f1(item)">
-                                            <td><input (change)="postSelectedContainerList(item)" type="checkbox" /></td>
+                                            <!-- <td><input (change)="postSelectedContainerList(item)" type="checkbox" /></td> -->
+                                            <td>
+                                                <label class="checkbox-wrap checkbox-primary">
+                                                    <input type="checkbox" (change)="postSelectedContainerList(item)">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+
                                             <td>{{i+1}}</td>
                                             <td>{{cmForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
                                             <td>{{cmForm.value.CONTAINER_LIST2[i].PREV_ACTIVITY}}</td>
@@ -228,7 +241,7 @@
                                                 <input formControlName="LOCATION" type="text" class="form-control2" />
                                             </td>
                                             <td class="col-md-2">
-                                                <ng-select formControlName="STATUS" [attr.disabled]="isAgent">
+                                                <ng-select formControlName="STATUS" [readonly]="isAgent">
                                                     <ng-option value="" selected disabled>
                                                         --Status--</ng-option>
                                                     <ng-option *ngFor="let status of statusList" value="{{status.DESC}}">{{status.DESC}}</ng-option>

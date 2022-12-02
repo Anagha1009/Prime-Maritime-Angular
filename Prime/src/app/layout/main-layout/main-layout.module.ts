@@ -41,6 +41,8 @@ import { environment } from 'src/environments/environment.prod';
 import { PushNotificationComponent } from 'src/app/modules/push-notification/push-notification.component';
 import { MrRequestComponent } from 'src/app/modules/mr-request/mr-request.component';
 import { MrRequestListComponent } from 'src/app/modules/mr-request-list/mr-request-list.component';
+import { CtListComponent } from 'src/app/modules/ct-list/ct-list.component';
+import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +81,7 @@ import { MrRequestListComponent } from 'src/app/modules/mr-request-list/mr-reque
     PartyComponent,
     MrRequestComponent,
     MrRequestListComponent,
+    CtListComponent, TrackingComponent
   ],
   imports: [
     CommonModule,
