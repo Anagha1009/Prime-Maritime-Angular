@@ -44,112 +44,136 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label2">Stuffing Type</label>
-                            <select class="form-control2" [ngClass]="{'invalid': submitted && f.STUFFING_TYPE.errors}"
-                                formControlName="STUFFING_TYPE">
-                                <option value="" selected="true" disabled>--Select--
-                                </option>
-                                <option value="Factory">Factory</option>
-                                <option value="ICD">ICD</option>
-                                <option value="PORT">PORT</option>
-                            </select>
+                            <ng-select [ngClass]="{'invalid': submitted && f.STUFFING_TYPE.errors}"  formControlName="STUFFING_TYPE">
+                                <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                <ng-option value="Factory">Factory</ng-option>
+                                <ng-option value="ICD">ICD</ng-option>
+                                <ng-option value="PORT">PORT</ng-option>
+                            </ng-select>
+                            <label class="form-label-ddl">Stuffing Type<span class="text-danger">*</span></label>
                             <div *ngIf="submitted && f.STUFFING_TYPE.errors" class="invalid-feedback">Please
                                 select
-                                STUFFING TYPE</div>
+                                Stuffing Type</div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label2">Cont Pickup Point</label>
-                            <select class="form-control2" formControlName="EMPTY_CONT_PCKP">
-                                <option value="" selected="true" disabled>--Select--
-                                </option>
-                                <option value="ADTC-ADTC - Dammam">
+                            <ng-select [ngClass]="{'invalid': submitted && f.EMPTY_CONT_PCKP.errors}" formControlName="EMPTY_CONT_PCKP">
+                                <ng-option value="" selected="true" disabled>--Select--
+                                </ng-option>
+                                <ng-option value="ADTC-ADTC - Dammam">
                                     ADTC-ADTC - Dammam
-                                </option>
-                                <option value="BCT-Bay Container Terminal">
+                                </ng-option>
+                                <ng-option value="BCT-Bay Container Terminal">
                                     BCT-Bay Container Terminal
-                                </option>
-                            </select>
+                                </ng-option>
+                            </ng-select>
+                            <label class="form-label-ddl">Cont Pickup Point<span class="text-danger">*</span></label>
+                            <div *ngIf="submitted && f.EMPTY_CONT_PCKP.errors" class="invalid-feedback">Please select
+                                Container Pickup Point</div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label2">Laden Act Location</label>
-                            <select class="form-control2" formControlName="LADEN_ACPT_LOCATION">
-                                <option value="" selected="true" disabled>--Select--
-                                </option>
-                                <option value="INMUN-MUNDRA">
+                            <ng-select [ngClass]="{'invalid': submitted && f.LADEN_ACPT_LOCATION.errors}"  formControlName="LADEN_ACPT_LOCATION">
+                                <ng-option value="" selected="true" disabled>--Select--
+                                </ng-option>
+                                <ng-option value="INMUN-MUNDRA">
                                     INMUN-MUNDRA
-                                </option>
-                                <option value="INSAJ6-ICD TUMB">
+                                </ng-option>
+                                <ng-option value="INSAJ6-ICD TUMB">
                                     INSAJ6-ICD TUMB
-                                </option>
-                            </select>
+                                </ng-option>
+                            </ng-select>
+                            <label class="form-label-ddl">Laden Act Location<span class="text-danger">*</span></label>
+                            <div *ngIf="submitted && f.LADEN_ACPT_LOCATION.errors" class="invalid-feedback">Please select
+                                Laden act Location</div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label2">CRO Validity Date</label>
-                            <input formControlName="CRO_VALIDITY_DATE" type="date" class="form-control2">
+                            <input type="date" class="form-control" [ngClass]="{'invalid': submitted && f.CRO_VALIDITY_DATE.errors}"  formControlName="CRO_VALIDITY_DATE">
+                            <label class="form-label">CRO Validity Date <span class="text-danger">*</span></label>
+                            <div *ngIf="submitted && f.CRO_VALIDITY_DATE.errors" class="invalid-feedback">Please select
+                                Cro Validity Date</div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label2">Remarks</label>
-                            <textarea formControlName="REMARKS" type="text" class="form-control2"></textarea>
+                            <div class="form-group">
+                                <input type="text"  [ngClass]="{'invalid':submitted && f.REMARKS.errors}" formControlName="REMARKS"
+                                    class="form-control">
+                                <label class="form-label"> Remarks <span class="text-danger">*</span></label>
+                                <div *ngIf="submitted && f.REMARKS.errors" class="invalid-feedback">
+                                    Please Enter Remarks
+                                   </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label2">Required Qty</label>
-                            <input formControlName="REQ_QUANTITY" type="text" class="form-control2">
+                            <input type="text"  [ngClass]="{'invalid':submitted && f.REQ_QUANTITY.errors}" formControlName="REQ_QUANTITY"
+                                    class="form-control">
+                                <label class="form-label"> Required Qty<span class="text-danger">*</span></label>
+                                <div *ngIf="submitted && f.REQ_QUANTITY.errors" class="invalid-feedback">
+                                    Please Enter Required Quantity
+                                 </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label class="form-label2">Gross Weight</label>
-                            <input formControlName="GROSS_WT" type="text" class="form-control2">
+                            <input type="text" [ngClass]="{'invalid': submitted && f.GROSS_WT.errors}" formControlName="REQ_QUANTITY"
+                                    class="form-control">
+                                <label class="form-label"> Gross Weight<span class="text-danger">*</span></label>
+                                <div *ngIf="submitted && f.GROSS_WT.errors" class="invalid-feedback">
+                                    Please Enter Gross Weight
+                                   </div>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label class="form-label2">Unit</label>
-                            <select class="form-control2" formControlName="GROSS_WT_UNIT">
-                                <option value="" selected="true" disabled>--Select Unit--
-                                </option>
-                                <option value="Kg">
+                            <ng-select [ngClass]="{'invalid': submitted && f.GROSS_WT_UNIT.errors}" formControlName="GROSS_WT_UNIT">
+                                <ng-option value="" selected="true" disabled>--Select Unit--
+                                </ng-option>
+                                <ng-option value="Kg">
                                     Kg
-                                </option>
-                                <option value="Ton">
+                                </ng-option>
+                                <ng-option value="Ton">
                                     Ton
-                                </option>
-                            </select>
+                                </ng-option>
+                            </ng-select>
+                            <label class="form-label-ddl">Unit <span class="text-danger">*</span></label>
+                            <div *ngIf="submitted && f.GROSS_WT_UNIT.errors" class="invalid-feedback">Please select
+                               Unit</div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label2">Packages</label>
-                            <select class="form-control2" formControlName="PACKAGES">
-                                <option value="" selected="true" disabled>--Select Packages--</option>
-                                <option value="Bags">
+                            <ng-select [ngClass]="{'invalid': submitted && f.PACKAGES.errors}"  formControlName="PACKAGES">
+                                <ng-option value="" selected="true" disabled>--Select Packages--</ng-option>
+                                <ng-option value="Bags">
                                     Bags
-                                </option>
-                                <option value="Bundles">
+                                </ng-option>
+                                <ng-option value="Bundles">
                                     Bundles
-                                </option>
-                            </select>
+                                </ng-option>
+                            </ng-select>
+                            <label class="form-label-ddl">Packages <span class="text-danger">*</span></label>
+                            <div *ngIf="submitted && f.PACKAGES.errors" class="invalid-feedback">Please Select Packages
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label2">No of Packages</label>
-                            <input formControlName="NO_OF_PACKAGES" type="text" class="form-control2">
-
+                            <input type="text"[ngClass]="{'invalid': submitted && f.NO_OF_PACKAGES.errors}" formControlName="NO_OF_PACKAGES"
+                                    class="form-control">
+                                <label class="form-label"> No of Packages<span class="text-danger">*</span></label>
+                                <div *ngIf="submitted && f.NO_OF_PACKAGES.errors" class="invalid-feedback">Please Select No of Packages
+                                   </div>
                         </div>
                     </div>
                 </div>
