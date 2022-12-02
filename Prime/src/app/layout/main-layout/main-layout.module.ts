@@ -33,6 +33,9 @@ import { UnitComponent } from 'src/app/masters/unit/unit.component';
 import { PortComponent } from 'src/app/masters/port/port.component';
 import { ContainerComponent } from 'src/app/masters/container/container.component';
 import { PartyComponent } from 'src/app/masters/party/party.component';
+import { VesselComponent } from 'src/app/masters/vessel/vessel.component';
+import { ServiceComponent } from 'src/app/masters/service/service.component';
+import { ContainerTypeComponent } from 'src/app/masters/container-type/container-type.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment.prod';
 import { PushNotificationComponent } from 'src/app/modules/push-notification/push-notification.component';
@@ -70,6 +73,9 @@ import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
     UnitComponent,
     PortComponent,  
     PartyComponent,
+    VesselComponent,
+    ServiceComponent,
+    ContainerTypeComponent,
     PushNotificationComponent,
     PortComponent,
     PartyComponent,

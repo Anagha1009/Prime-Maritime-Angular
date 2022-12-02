@@ -128,6 +128,3 @@ export class PartyComponent implements OnInit {
 
   }
 }
-// this.sizeForm.patchValue(res.Data)
-//         this.sizeForm.get("STATUS")?.setValue(res.Data.STATUS.trim())
-//         this.sizeForm.get("CONT_SIZE")?.setValue(res.Data.CONT_SIZE.trim())
