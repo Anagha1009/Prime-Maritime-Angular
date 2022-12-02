@@ -35,6 +35,7 @@ import { ManifestListComponent } from './modules/manifest-list/manifest-list.com
 import { PushNotificationComponent } from './modules/push-notification/push-notification.component';
 import { MrRequestComponent } from './modules/mr-request/mr-request.component';
 import { MrRequestListComponent } from './modules/mr-request-list/mr-request-list.component';
+import { TrackingComponent } from './modules/tracking/tracking.component';
 
 const routes: Routes = [
   {
@@ -146,6 +147,10 @@ const routes: Routes = [
       {
         path: 'new-cm',
         component: NewCmComponent,
+      },
+      {
+        path: 'tracking',
+        component: TrackingComponent,
       },
       {
         path: 'activity-mapping',
