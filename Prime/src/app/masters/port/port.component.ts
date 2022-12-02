@@ -6,7 +6,7 @@ import { MasterService } from 'src/app/services/master.service';
 @Component({
   selector: 'app-port',
   templateUrl: './port.component.html',
-  styleUrls: ['./port.component.scss']
+  styleUrls: ['./port.component.scss'],
 })
 export class PortComponent implements OnInit {
   portForm: FormGroup;
@@ -14,9 +14,10 @@ export class PortComponent implements OnInit {
   data: any;
   isUpdate: boolean = false;
 
-  constructor(private _masterService: MasterService,  
-    private _formBuilder: FormBuilder,
-    ) { }
+  constructor(
+    private _masterService: MasterService,
+    private _formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.portForm = this._formBuilder.group({
@@ -27,10 +28,8 @@ export class PortComponent implements OnInit {
       STATUS: [''],
       PARENT_CODE: [''],
       CREATED_BY: [''],
-
     });
     this.GetPortMasterList();
-
   }
 
   GetPortMasterList() {
@@ -42,9 +41,7 @@ export class PortComponent implements OnInit {
   }
 
   InsertPortMaster() {
-    this.portForm
-      .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+    this.portForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
     var status = this.portForm.get('STATUS')?.value;
     this.portForm.get('STATUS')?.setValue(status == 'true' ? true : false);
     this.portForm.get('KEY_NAME')?.setValue('PORT');
@@ -69,11 +66,8 @@ export class PortComponent implements OnInit {
     });
   }
 
-
   UpdatePortMaster() {
-    this.portForm
-      .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+    this.portForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
     var status = this.portForm.get('STATUS')?.value;
     this.portForm.get('STATUS')?.setValue(status == 'true' ? true : false);
 
@@ -104,10 +98,6 @@ export class PortComponent implements OnInit {
   }
 
   ClearForm() {
-    this.portForm.reset()
+    this.portForm.reset();
   }
-
-
-
-
 }
