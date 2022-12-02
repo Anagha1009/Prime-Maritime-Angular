@@ -68,6 +68,9 @@ export class TrackingComponent implements OnInit {
               //   this.isScroll = false;
               // }
             }
+            else{
+              this.previewNoData=true;
+            }
             
           }
           if (res.ResponseCode == 500) {
@@ -116,6 +119,9 @@ export class TrackingComponent implements OnInit {
   }
 
   trackContainer(data:any){
+    // var element = document.getElementById("stepbtn") as HTMLElement;
+    // element.click();
+
     this.step= 0;
     this.animation = 0;
     this.randomIncrease= true;
@@ -202,7 +208,6 @@ export class TrackingComponent implements OnInit {
   }
 
   doAnimation(timeoutInterval:any) {
-    console.log('hi');
     if (this.animation >= 100 / (this.steps ? this.steps.length : 100)) return;
     let timeout = setTimeout(() => {
       this.doAnimation(timeoutInterval);

@@ -20,7 +20,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-9 text-end">
-                    <h5>Sorry! No records found for the specified bill number</h5>
+                    <h5>Sorry! No records found for the specified container number</h5>
                 </div>
             </div>
             <div class="row">
@@ -38,6 +38,7 @@
             <table class="ratetable" style="font-size: 12px;">
                 
                 <thead><tr>
+                    <th>Sr No.</th>
                     <th>Booking No</th>
                     <th>CRO No</th>
                     <th>Container No</th>
@@ -49,13 +50,13 @@
                 </tr></thead>
                 
                 <tbody>
-                    <tr *ngFor="let data of containerList"
-                    formGroup="d">
-                        <td>{{data.BOOKING_NO}}</td>
-                        <td>{{data.CRO_NO}}</td>
+                    <tr *ngFor="let data of ctList;let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{data.BOOKING_NO=="" || data.BOOKING_NO==null?"-":data.BOOKING_NO}}</td>
+                        <td>{{data.CRO_NO=="" || data.CRO_NO==null?"-":data.CRO_NO}}</td>
                         <td>{{data.CONTAINER_NO}}</td>
                         <td>{{data.ACTIVITY}}</td>
-                        <td>{{data.PREV_ACTIVITY}}</td>
+                        <td>{{data.PREV_ACTIVITY =="" || data.PREV_ACTIVITY==null?"-":data.PREV_ACTIVITY}}</td>
                         <td>{{data.ACTIVITY_DATE | date: 'dd/MM/yyyy'}}</td>
                         <td>{{data.LOCATION}}</td>
                         <td>{{data.STATUS}}</td>

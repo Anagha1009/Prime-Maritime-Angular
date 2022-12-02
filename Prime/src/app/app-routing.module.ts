@@ -36,6 +36,7 @@ import { PushNotificationComponent } from './modules/push-notification/push-noti
 import { MrRequestComponent } from './modules/mr-request/mr-request.component';
 import { MrRequestListComponent } from './modules/mr-request-list/mr-request-list.component';
 import { TrackingComponent } from './modules/tracking/tracking.component';
+import { CtListComponent } from './modules/ct-list/ct-list.component';
 
 const routes: Routes = [
   {
@@ -151,6 +152,10 @@ const routes: Routes = [
       {
         path: 'tracking',
         component: TrackingComponent,
+      },
+      {
+        path: 'ct-list',
+        component: CtListComponent,
       },
       {
         path: 'activity-mapping',

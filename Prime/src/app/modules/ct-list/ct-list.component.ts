@@ -43,6 +43,9 @@ export class CtListComponent implements OnInit {
               //   this.isScroll = false;
               // }
             }
+            else{
+              this.previewNoData=true;
+            }
             
           }
           if (res.ResponseCode == 500) {
