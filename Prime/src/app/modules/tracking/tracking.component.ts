@@ -109,6 +109,12 @@ export class TrackingComponent implements OnInit {
  
   }
 
+  openTracking(){
+    var element = document.getElementById("openModalButton") as HTMLElement;
+    element.click();
+
+  }
+
   trackContainer(data:any){
     this.step= 0;
     this.animation = 0;

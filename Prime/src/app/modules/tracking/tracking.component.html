@@ -55,7 +55,11 @@
                         <td>{{data.ACTIVITY_DATE | date: 'dd/MM/yyyy'}}</td>
                         <td>{{data.LOCATION}}</td>
                         <td>{{data.STATUS}}</td>
-                        <td><button class="form-btn me-2" id="openModalButton"  data-bs-toggle="modal" href="#previewModal" (click)="trackContainer(data)">Track</button></td>
+                        <td>
+                            <!-- <button id="openModalButton"  data-bs-toggle="modal" href="#previewModal" (click)="trackContainer(data)" hidden>Open Modal</button>
+                            <button class="form-btn w-100"  (click)="openTracking()">Track</button> -->
+                            <button class="form-btn me-2" id="openModalButton"  data-bs-toggle="modal" href="#previewModal" (click)="trackContainer(data)">Track</button>
+                        </td>
                         
                     </tr>
                     
@@ -71,16 +75,17 @@
 
 <div class="modal fade" id="previewModal" aria-labelledby="exampleModalLabel" tabindex="-1"
                             aria-hidden="true">
-                            <div class="modal-dialog" style="max-width: 90%;">
+                            <div class="modal-dialog" style="max-width: 70%;">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Tracking:-</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close" #closeBtn></button>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-body" style="text-align: center;">
+                                        <span class="description"> <span class="bx bxs-ship"></span> {{booking.POL}} - </span> 
+                                        <span class="description"> <span class="bx bxs-ship"></span> {{booking.POD}}</span>
                                         <div class="progress-container">
-                                            
                                             <ul>
                                               <li [ngClass]="{'active': sntsActive==true}"><i class='bx bx-child' style="font-size:40px;color:#07ebaa"></i></li>
                                               <li [ngClass]="{'active': rcflActive==true}"><i class='bx bxs-door-open' style="font-size:40px;color:#07ebaa"></i></li>
@@ -95,18 +100,51 @@
                                             </ul>
                                             <!-- <span class="progress-bar" [ngStyle]="{width: getPercent() + '%'}">
                                             </span> -->
-                                            
-                                            
                                         </div>
-                                        
-                                      
-                                      
+                                        <!-- <span class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-4 text-end">
+                                                    <b>SNTS</b>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <b>RCFL</b>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <b>LODF</b>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <b>DCHF</b>
+                                                </div>
+                                            </div>
+                                        </span> -->
                                     </div>
                                     <div class="modal-footer">
-                                        <div class="col-md-5 mx-auto text-end">
-                                            <button style="background:red;color:white;margin-bottom:20px" mat-button (click)="startStep()">Start stepping</button>
-                                            <!-- <button class="form-btn w-100" (click)="getCMForm()">Upload</button> -->
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                
+                                                <div class="col-md-2 text-center">
+                                                    <b>SNTS</b>
+                                                </div>
+                                                <div class="col-md-2 text-center">
+                                                    <b>RCFL</b>
+                                                </div>
+                                                <div class="col-md-2 text-center">
+                                                    <b>LODF</b>
+                                                </div>
+                                                <div class="col-md-2 text-center">
+                                                    <b>DCHF</b>
+                                                </div>
+                                                <div class="col-md-2 text-center">
+                                                    <b>SNTC</b>
+                                                </div>
+                                                <div class="col-md-2 text-center">
+                                                    <b>RCVC</b>
+                                                </div>
+                                            </div>
+
                                         </div>
+                                        
+                                        
                                     </div>
                                 </div>
                             </div>

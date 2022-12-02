@@ -11,12 +11,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
 import { SimpleNotificationsModule } from 'angular2-notifications';
-import { CtListComponent } from './modules/ct-list/ct-list.component';
-import { TrackingComponent } from './modules/tracking/tracking.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
-  declarations: [AppComponent, CtListComponent, TrackingComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -28,7 +27,13 @@ import { TrackingComponent } from './modules/tracking/tracking.component';
     SimpleNotificationsModule.forRoot(),
     HttpClientModule,
     NgSelectModule,   
-    NgMultiSelectDropDownModule 
+    NgMultiSelectDropDownModule, 
+    ServiceWorkerModule.register('ngsw-worker.js', {
+  enabled: true,
+  // Register the ServiceWorker as soon as the application is stable
+  // or after 30 seconds (whichever comes first).
+  registrationStrategy: 'registerWhenStable:30000'
+}) 
   ],
   providers: [],
   bootstrap: [AppComponent],
