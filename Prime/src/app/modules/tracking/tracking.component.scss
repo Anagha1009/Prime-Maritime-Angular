@@ -216,7 +216,7 @@
         position: absolute;
         display: inline-table;
         margin: 0 auto 4px;
-        top: -12px;
+        top: -20px;
         left: 0;
         margin: 0;
         padding: 0;
@@ -226,7 +226,7 @@
         //line-height: 40px;
         text-align: center;
         font-size: 18px;
-        border-width: 2px;
+        border-width: 4px;
         border-style: solid;
         border-color: red;
         border-radius: 50%;
@@ -265,10 +265,6 @@
         background: white;
         border-radius: 50%;
       }
-
-    }
-    li:active{
-        border-color: #3cba9f;
 
     }
     .progress-bar {

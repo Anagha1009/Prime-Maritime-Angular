@@ -114,15 +114,15 @@
                                         <div class="form-group">
                                             <label class="form-label2">Empty Letter Location<span class="text-danger">
                                                 *</span></label>
-                                            <select [ngClass]="{'invalid': submitted && f.ACCEPTANCE_LOCATION.errors}"
-                                    formControlName="ACCEPTANCE_LOCATION" style="margin-top: 10px;" class="form-control2">
-                                    <option value="" selected="true" disabled>--Select Acceptance Location--</option>
-                                    <option value="INPPG-ICD PATPARGANJ">INPPG-ICD PATPARGANJ</option>
-                                    <option value="INPWL6-ICD PALWAL">INPWL6-ICD PALWAL</option>
-                                    <option value="INREA-ICD REWARI">INREA-ICD REWARI</option>
-                                    <option value="INSAJ6-ICD TUMB">INSAJ6-ICD TUMB	
-                                    </option>
-                                   </select>
+                                            <ng-select [ngClass]="{'invalid': submitted && f.ACCEPTANCE_LOCATION.errors}"
+                                    formControlName="ACCEPTANCE_LOCATION" style="margin-top: 10px;">
+                                    <ng-option value="" selected="true" disabled>--Select Acceptance Location--</ng-option>
+                                    <ng-option value="INPPG-ICD PATPARGANJ">INPPG-ICD PATPARGANJ</ng-option>
+                                    <ng-option value="INPWL6-ICD PALWAL">INPWL6-ICD PALWAL</ng-option>
+                                    <ng-option value="INREA-ICD REWARI">INREA-ICD REWARI</ng-option>
+                                    <ng-option value="INSAJ6-ICD TUMB">INSAJ6-ICD TUMB	
+                                    </ng-option>
+                                   </ng-select>
                                    <div *ngIf="submitted && f.ACCEPTANCE_LOCATION.errors" class="invalid-feedback">Please select
                                     Empty Letter Location</div>
                                            
@@ -141,15 +141,15 @@
                                         <div class="form-group">
                                             <label class="form-label2">Clearing Party<span class="text-danger">
                                                 *</span></label>
-                                                <select [ngClass]="{'invalid': submitted && f.CLEARING_PARTY.errors}"
-                                    formControlName="CLEARING_PARTY" style="margin-top: 10px;" class="form-control2">
-                                    <option value="" selected="true" disabled>--Select Clearing Party--</option>
-                                    <option value="Indian Clearing Corporation Ltd">Indian Clearing Corporation Ltd.</option>
-                                    <option value="National Commodity Clearing Ltd">National Commodity Clearing Ltd.</option>
-                                    <option value="NSE Clearing Limited">NSE Clearing Limited.</option>
-                                    <option value="Multi Commodity Exc. Clearing Corporation Ltd">Multi Commodity Exc. Clearing Corporation Ltd.	
-                                    </option>
-                                   </select>
+                                                <ng-select [ngClass]="{'invalid': submitted && f.CLEARING_PARTY.errors}"
+                                    formControlName="CLEARING_PARTY" style="margin-top: 10px;">
+                                    <ng-option value="" selected="true" disabled>--Select Clearing Party--</ng-option>
+                                    <ng-option value="Indian Clearing Corporation Ltd">Indian Clearing Corporation Ltd.</ng-option>
+                                    <ng-option value="National Commodity Clearing Ltd">National Commodity Clearing Ltd.</ng-option>
+                                    <ng-option value="NSE Clearing Limited">NSE Clearing Limited.</ng-option>
+                                    <ng-option value="Multi Commodity Exc. Clearing Corporation Ltd">Multi Commodity Exc. Clearing Corporation Ltd.	
+                                    </ng-option>
+                                   </ng-select>
                                    <div *ngIf="submitted && f.CLEARING_PARTY.errors" class="invalid-feedback">Please select
                                     Clearing Party</div>
                                         </div>
@@ -160,13 +160,13 @@
                                         <div class="form-group">
                                             <label class="form-label2">Shipping Terms<span class="text-danger">
                                                 *</span></label>
-                                            <select [ngClass]="{'invalid': submitted && f.SHIPPING_TERMS.errors}"
-                                    formControlName="SHIPPING_TERMS" style="margin-top: 10px;" class="form-control2">
-                                    <option value="" selected="true" disabled>--Select Shipping Terms--</option>
-                                    <option value="DPD">DPD</option>
-                                    <option value="CFS">CFS</option>
-                                    <option value="OFF DOCK">OFF DOCK</option>
-                                   </select>
+                                            <ng-select [ngClass]="{'invalid': submitted && f.SHIPPING_TERMS.errors}"
+                                    formControlName="SHIPPING_TERMS" style="margin-top: 10px;">
+                                    <ng-option value="" selected="true" disabled>--Select Shipping Terms--</ng-option>
+                                    <ng-option value="DPD">DPD</ng-option>
+                                    <ng-option value="CFS">CFS</ng-option>
+                                    <ng-option value="OFF DOCK">OFF DOCK</ng-option>
+                                   </ng-select>
                                    <div *ngIf="submitted && f.SHIPPING_TERMS.errors" class="invalid-feedback">Please select
                                     Shipping Terms</div>
                                         </div>
@@ -218,10 +218,16 @@
               
               <div *ngIf="activeTab=='Container'" class="w-100">
                 <div class="table-responsive">
-                    <table class="table" style="font-size: 12px;">
+                    <table class="ratetable" style="font-size: 12px;">
                         <thead>
                             <tr>
-                                <td><input type="checkbox" /></td>
+                                <!-- <td><input type="checkbox" /></td> -->
+                                <th>
+                                    <label class="checkbox-wrap checkbox-primary" style="margin-bottom: 10px;">
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </th>
                                 <th>Sr No</th>
                                 <th>Cont No</th>
                                 <th>Cont Type</th>
@@ -235,7 +241,13 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of f2;let i = index" [formGroup]="getf1(item)">
-                                <td><input (change)="postSelectedContainerList(item)" type="checkbox" /></td>
+                                <!-- <td><input (change)="postSelectedContainerList(item)" type="checkbox" /></td> -->
+                                <td>
+                                    <label class="checkbox-wrap checkbox-primary">
+                                        <input type="checkbox" (change)="postSelectedContainerList(item)">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
                                 <td>{{i+1}}</td>
                                 <td>{{doForm.value.CONTAINER_LIST[i].CONTAINER_NO}}</td>
                                 <td>{{doForm.value.CONTAINER_LIST[i].CONTAINER_TYPE}}</td>

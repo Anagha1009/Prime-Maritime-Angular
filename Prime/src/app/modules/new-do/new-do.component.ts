@@ -149,10 +149,13 @@ export class NewDoComponent implements OnInit {
     this.doForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
     this.doForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
     this.doForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
-    
 
-    console.log(JSON.stringify(this.doForm.value));
-    this._dOService
+    if(this.doForm.get('CONTAINER_LIST2')?.value==''){
+      alert("Please select atleast one container to create it's delivery order");
+    }
+    else{
+      console.log(JSON.stringify(this.doForm.value));
+      this._dOService
       .postDODetails(JSON.stringify(this.doForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
@@ -160,6 +163,9 @@ export class NewDoComponent implements OnInit {
           this._router.navigateByUrl('/home/do-list');
         }
       });
+
+    }
+    
   }
   getRandomNumber(arg0: string): any {
     var num = Math.floor(Math.random() * 1e16).toString();

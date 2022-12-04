@@ -27,6 +27,7 @@ export class DoDetailsComponent implements OnInit {
     this._dOService.getDODetails(myDo).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.do = res.Data;
+        console.log(this.do);
       }
     });
     var bl=new Bl();

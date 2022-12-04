@@ -85,17 +85,17 @@
                                             aria-label="Close" #closeBtn></button>
                                     </div>
                                     <div class="modal-body" style="text-align: center;">
-                                        <!-- <button id="stepbtn" style="background:red;color:white;margin-bottom:20px" mat-button (click)="doAnimation(10)">Start stepping</button> -->
-                                        <span class="description"> <span class="bx bxs-ship"></span> {{booking.POL}} - </span> 
-                                        <span class="description"> <span class="bx bxs-ship"></span> {{booking.POD}}</span>
+                                       
+                                        <span class="description" style="font-size: larger;"> <span class="bx bxs-ship"></span> {{booking.POL}} - </span> 
+                                        <span class="description" style="font-size: larger;"> <span class="bx bxs-ship"></span> {{booking.POD}}</span>
                                         <div class="progress-container">
                                             <ul>
-                                              <li [ngClass]="{'active': sntsActive==true}"><i class='bx bx-child' style="font-size:40px;color:#07ebaa"></i></li>
-                                              <li [ngClass]="{'active': rcflActive==true}"><i class='bx bxs-door-open' style="font-size:40px;color:#07ebaa"></i></li>
-                                              <li [ngClass]="{'active': lodfActive==true}"><i class='bx bxs-package' style="font-size:40px;color:#07ebaa"></i></li>
-                                              <li [ngClass]="{'active': dchfActive==true}"><i class='bx bxs-ship' style="font-size:40px;color:#07ebaa"></i></li>
-                                              <li [ngClass]="{'active': sntcActive==true}"><i class='bx bxs-send' style="font-size:40px;color:#07ebaa"></i></li>
-                                              <li [ngClass]="{'active': rcvcActive==true}"><i class='bx bx-child' style="font-size:40px;color:#07ebaa"></i></li>
+                                              <li [ngStyle]="{'border-color': sntsActive ? 'cadetblue' : 'red' }"><i class='bx bx-child' style="font-size:40px;color:#07ebaa"></i></li>
+                                              <li [ngStyle]="{'border-color': rcflActive ? 'cadetblue' : 'red' }"><i class='bx bxs-door-open' style="font-size:40px;color:#07ebaa"></i></li>
+                                              <li [ngStyle]="{'border-color': lodfActive ? 'cadetblue' : 'red' }"><i class='bx bxs-package' style="font-size:40px;color:#07ebaa"></i></li>
+                                              <li [ngStyle]="{'border-color': dchfActive ? 'cadetblue' : 'red' }"><i class='bx bxs-ship' style="font-size:40px;color:#07ebaa"></i></li>
+                                              <li [ngStyle]="{'border-color': sntcActive ? 'cadetblue' : 'red' }"><i class='bx bxs-send' style="font-size:40px;color:#07ebaa"></i></li>
+                                              <li [ngStyle]="{'border-color': rccnActive ? 'cadetblue' : 'red' }"><i class='bx bx-child' style="font-size:40px;color:#07ebaa"></i></li>
                                               
                                               <span class="progress-bar" [ngStyle]="{width: getPercent() + '%'}">
                                             </span>
@@ -104,22 +104,7 @@
                                             <!-- <span class="progress-bar" [ngStyle]="{width: getPercent() + '%'}">
                                             </span> -->
                                         </div>
-                                        <!-- <span class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-md-4 text-end">
-                                                    <b>SNTS</b>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <b>RCFL</b>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <b>LODF</b>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <b>DCHF</b>
-                                                </div>
-                                            </div>
-                                        </span> -->
+                                        
                                     </div>
                                     <div class="modal-footer">
                                         <div class="col-md-12">
