@@ -53,12 +53,12 @@ export class NewCroComponent implements OnInit {
       EMPTY_CONT_PCKP: ['', Validators.required],
       LADEN_ACPT_LOCATION: ['', Validators.required],
       CRO_VALIDITY_DATE: ['', Validators.required],
-      REMARKS: [''],
+      REMARKS: ['',Validators.required],
       REQ_QUANTITY: ['', Validators.required],
       GROSS_WT: ['', Validators.required],
       GROSS_WT_UNIT: ['', Validators.required],
       PACKAGES: ['', Validators.required],
-      NO_OF_PACKAGES: [''],
+      NO_OF_PACKAGES: ['',Validators.required],
       STATUS: ['Drafted'],
       AGENT_NAME: [''],
       AGENT_CODE: [''],
@@ -71,22 +71,27 @@ export class NewCroComponent implements OnInit {
   }
 
   SaveCRO() {
-    this.croForm.get('BOOKING_ID')?.setValue(this.bookingDetails.ID);
-    this.croForm.get('BOOKING_NO')?.setValue(this.bookingDetails.BOOKING_NO);
+    this.submitted=true
+    if(this.croForm.invalid){
+      return
+    }
+    alert("Hii")
+    // this.croForm.get('BOOKING_ID')?.setValue(this.bookingDetails.ID);
+    // this.croForm.get('BOOKING_NO')?.setValue(this.bookingDetails.BOOKING_NO);
 
-    this.croForm.get('CRO_NO')?.setValue(this.getRandomNumber());
-    this.croForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
-    this.croForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    this.croForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    // this.croForm.get('CRO_NO')?.setValue(this.getRandomNumber());
+    // this.croForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
+    // this.croForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
+    // this.croForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
 
-    this._croService
-      .insertCRO(JSON.stringify(this.croForm.value))
-      .subscribe((res: any) => {
-        if (res.responseCode == 200) {
-          this.croNo = res.data;
-          this.openBtn.nativeElement.click();
-        }
-      });
+    // this._croService
+    //   .insertCRO(JSON.stringify(this.croForm.value))
+    //   .subscribe((res: any) => {
+    //     if (res.responseCode == 200) {
+    //       this.croNo = res.data;
+    //       this.openBtn.nativeElement.click();
+    //     }
+    //   });
   }
 
   getRandomNumber() {
