@@ -1,0 +1,9 @@
+{
+    "*": {
+        "target": "http://10.1.1.121/",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+       
+    }
+  }

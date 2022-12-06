@@ -8,11 +8,15 @@ import {
 } from '@angular/forms';
 import { QUOTATION } from 'src/app/models/quotation';
 import { QuotationService } from 'src/app/services/quotation.service';
+import $ from 'jquery';
 
 @Component({
   selector: 'app-pm-quotation-list',
   templateUrl: './pm-quotation-list.component.html',
-  styleUrls: ['./pm-quotation-list.component.scss'],
+  styleUrls: [
+    './pm-quotation-list.component.scss',
+    './../../../../node_modules/datatables.net-dt/css/jquery.dataTables.css',
+  ],
 })
 export class PmQuotationListComponent implements OnInit {
   quotation = new QUOTATION();
@@ -25,6 +29,7 @@ export class PmQuotationListComponent implements OnInit {
 
   readonly VAPID_PUBLIC_KEY =
     'BMhvJ95Ji0uVwIzhyeZwb133-4e7Hb_DtMP0-SKTFBcnbg_a7PlLCMD2ofLMNwNLZ5NqM-9pXOX4zDj64R-MXp4';
+  data: any;
 
   constructor(
     private _quotationService: QuotationService,
@@ -32,11 +37,24 @@ export class PmQuotationListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadJsFile([
+      'assets/vendor/bootstrap/js/bootstrap.bundle.min.js',
+      'assets/js/jquery.dataTables.js',
+    ]);
     this.rateForm = this._formBuilder.group({
       SRR_RATES: new FormArray([]),
     });
 
     this.getQuotationList();
+  }
+
+  public loadJsFile(url: any[]) {
+    url.forEach((el) => {
+      let node = document.createElement('script');
+      node.src = el;
+      node.type = 'text/javascript';
+      document.getElementsByTagName('head')[0].appendChild(node);
+    });
   }
 
   getQuotationList() {
@@ -54,6 +72,15 @@ export class PmQuotationListComponent implements OnInit {
     this._quotationService.getSRRDetails(quot).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.quotationDetails = res.Data;
+
+        setTimeout(() => {
+          $('#datatableexample').DataTable({
+            pagingType: 'full_numbers',
+            pageLength: 5,
+            processing: true,
+            lengthMenu: [5, 10, 25],
+          });
+        }, 1);
 
         const add = this.rateForm.get('SRR_RATES') as FormArray;
         add.clear();

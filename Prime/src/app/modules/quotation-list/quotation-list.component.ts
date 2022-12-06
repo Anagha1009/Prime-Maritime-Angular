@@ -165,7 +165,7 @@ export class QuotationListComponent implements OnInit {
 
             this.expRecords = 0;
             res.Data.forEach((element: any) => {
-              if (element.DAYS == 3) {
+              if (element.DAYS <= 3) {
                 this.expRecords = this.expRecords + 1;
               }
             });
