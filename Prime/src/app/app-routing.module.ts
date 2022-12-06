@@ -39,6 +39,7 @@ import { PushNotificationComponent } from './modules/push-notification/push-noti
 import { MrRequestComponent } from './modules/mr-request/mr-request.component';
 import { MrRequestListComponent } from './modules/mr-request-list/mr-request-list.component';
 import { TrackingComponent } from './modules/tracking/tracking.component';
+import { TrackBookingComponent } from './modules/track-booking/track-booking.component';
 
 const routes: Routes = [
   {
@@ -50,10 +51,6 @@ const routes: Routes = [
     component: PmLayoutComponent,
     children: [
       {
-        path: 'login',
-        component: PmLoginComponent,
-      },
-      {
         path: 'quotation-list',
         component: PmQuotationListComponent,
       },
@@ -61,7 +58,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent,
+    component: PmLoginComponent,
   },
   {
     path: 'home',
@@ -172,18 +169,18 @@ const routes: Routes = [
         component: ContainerAllotmentListComponent,
       },
       {
-        path:'vessel',
-        component:VesselComponent,
+        path: 'vessel',
+        component: VesselComponent,
       },
       {
-        path:'service',
-        component:ServiceComponent,
-        
+        path: 'service',
+        component: ServiceComponent,
       },
       {
-        path:'containerType',
-        component:ContainerTypeComponent,
-      },{
+        path: 'containerType',
+        component: ContainerTypeComponent,
+      },
+      {
         path: 'manifest-list',
         component: ManifestListComponent,
       },
@@ -198,6 +195,10 @@ const routes: Routes = [
       {
         path: 'm&r-request-list',
         component: MrRequestListComponent,
+      },
+      {
+        path: 'track-booking',
+        component: TrackBookingComponent,
       },
     ],
   },

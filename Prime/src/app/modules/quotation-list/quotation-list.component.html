@@ -44,7 +44,7 @@
     <section class="services">
         <div class="container">
             <div *ngIf="expRecords > 0" class="col-md-5 offset-md-7 pe-md-3 text-end">
-                <img height="30" width="40" src="../../../assets/img/alert.gif">
+                <img height="30" width="40" src="assets/img/alert.gif">
                 <small class="text-danger">{{expRecords}} Request(s) about to expire</small>
             </div>
             <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
@@ -85,8 +85,8 @@
                                     </span>
                                     | Validity : <span class="text-danger">{{item.EFFECT_FROM
                                         | date:'mediumDate'}} -
-                                        {{item.EFFECT_TO | date:'mediumDate'}}</span><img *ngIf="item.DAYS == 3"
-                                        height="30" width="40" class="mb-1" src="../../../assets/img/alert.gif"></p>
+                                        {{item.EFFECT_TO | date:'mediumDate'}}</span><img *ngIf="item.DAYS <= 3"
+                                        height="30" width="40" class="mb-1" src="assets/img/alert.gif"></p>
                                 <p class="description"><i class='bx bxs-package me-2'></i>{{item.COMMODITY}} Kg</p>
                             </div>
                             <div class="col-md-2 text-end" *ngIf="item.STATUS == 'Approved'">

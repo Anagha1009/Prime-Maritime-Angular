@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { QUOTATION } from 'src/app/models/quotation';
 import { QuotationService } from 'src/app/services/quotation.service';
 
