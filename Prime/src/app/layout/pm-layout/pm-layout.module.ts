@@ -18,6 +18,7 @@ import { PmQuotationListComponent } from 'src/app/pm-modules/pm-quotation-list/p
     FormsModule,
     ReactiveFormsModule,
     NgMultiSelectDropDownModule,
+    SharedModule,
   ],
 })
 export class PmLayoutModule {}

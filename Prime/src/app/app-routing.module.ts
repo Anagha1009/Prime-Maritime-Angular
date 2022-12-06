@@ -40,6 +40,7 @@ import { MrRequestComponent } from './modules/mr-request/mr-request.component';
 import { MrRequestListComponent } from './modules/mr-request-list/mr-request-list.component';
 import { TrackingComponent } from './modules/tracking/tracking.component';
 import { TrackBookingComponent } from './modules/track-booking/track-booking.component';
+import { PmLandingComponent } from './shared/pm-landing/pm-landing.component';
 
 const routes: Routes = [
   {
@@ -50,6 +51,10 @@ const routes: Routes = [
     path: 'pm',
     component: PmLayoutComponent,
     children: [
+      {
+        path: 'dashboard',
+        component: PmLandingComponent,
+      },
       {
         path: 'quotation-list',
         component: PmQuotationListComponent,

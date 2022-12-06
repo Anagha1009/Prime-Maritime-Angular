@@ -53,12 +53,12 @@ export class NewCroComponent implements OnInit {
       EMPTY_CONT_PCKP: ['', Validators.required],
       LADEN_ACPT_LOCATION: ['', Validators.required],
       CRO_VALIDITY_DATE: ['', Validators.required],
-      REMARKS: ['',Validators.required],
+      REMARKS: ['', Validators.required],
       REQ_QUANTITY: ['', Validators.required],
       GROSS_WT: ['', Validators.required],
       GROSS_WT_UNIT: ['', Validators.required],
       PACKAGES: ['', Validators.required],
-      NO_OF_PACKAGES: ['',Validators.required],
+      NO_OF_PACKAGES: ['', Validators.required],
       STATUS: ['Drafted'],
       AGENT_NAME: [''],
       AGENT_CODE: [''],
@@ -71,11 +71,11 @@ export class NewCroComponent implements OnInit {
   }
 
   SaveCRO() {
-    this.submitted=true
-    if(this.croForm.invalid){
-      return
+    this.submitted = true;
+    if (this.croForm.invalid) {
+      return;
     }
-    alert("Hii")
+    alert('Hii');
     // this.croForm.get('BOOKING_ID')?.setValue(this.bookingDetails.ID);
     // this.croForm.get('BOOKING_NO')?.setValue(this.bookingDetails.BOOKING_NO);
 
@@ -139,7 +139,7 @@ export class NewCroComponent implements OnInit {
       content: [
         {
           image: await this._commonService.getBase64ImageFromURL(
-            './../../../assets/img/logo_p.png'
+            'assets/img/logo_p.png'
           ),
           alignment: 'right',
           height: 50,
@@ -340,7 +340,7 @@ export class NewCroComponent implements OnInit {
     const pdfDocGenerator = pdfMake.createPdf(docDefinition);
     pdfDocGenerator.getBlob((blob: any) => {
       this.http
-        .get('./../../../assets/img/SI.xlsx', {
+        .get('assets/img/SI.xlsx', {
           responseType: 'blob',
         })
         .subscribe((data: any) => {
