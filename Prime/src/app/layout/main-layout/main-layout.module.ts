@@ -43,6 +43,7 @@ import { MrRequestComponent } from 'src/app/modules/mr-request/mr-request.compon
 import { MrRequestListComponent } from 'src/app/modules/mr-request-list/mr-request-list.component';
 import { CtListComponent } from 'src/app/modules/ct-list/ct-list.component';
 import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
+import { TrackBookingComponent } from 'src/app/modules/track-booking/track-booking.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,7 @@ import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
     ServicetypeComponent,
     CurrencyComponent,
     UnitComponent,
-    PortComponent,  
+    PortComponent,
     PartyComponent,
     VesselComponent,
     ServiceComponent,
@@ -81,7 +82,9 @@ import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
     PartyComponent,
     MrRequestComponent,
     MrRequestListComponent,
-    CtListComponent, TrackingComponent
+    CtListComponent,
+    TrackingComponent,
+    TrackBookingComponent,
   ],
   imports: [
     CommonModule,
@@ -95,8 +98,8 @@ import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    }) 
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
   providers: [],
 })
