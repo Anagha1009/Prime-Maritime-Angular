@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MASTER } from 'src/app/models/master';
 import { MasterService } from 'src/app/services/master.service';
 
@@ -13,6 +13,7 @@ export class PortComponent implements OnInit {
   PortList: any;
   data: any;
   isUpdate: boolean = false;
+  submitted:boolean=false;
 
   constructor(
     private _masterService: MasterService,
@@ -23,14 +24,20 @@ export class PortComponent implements OnInit {
     this.portForm = this._formBuilder.group({
       ID: [0],
       KEY_NAME: [''],
-      CODE: [''],
-      CODE_DESC: [''],
-      STATUS: [''],
+      CODE: ['',Validators.required],
+      CODE_DESC: ['',Validators.required],
+      STATUS: ['',Validators.required],
       PARENT_CODE: [''],
       CREATED_BY: [''],
     });
     this.GetPortMasterList();
   }
+
+  get f(){
+    return this.portForm.controls;
+  }
+
+  
 
   GetPortMasterList() {
     this._masterService.GetMasterList('PORT').subscribe((res: any) => {
@@ -41,6 +48,11 @@ export class PortComponent implements OnInit {
   }
 
   InsertPortMaster() {
+
+    this.submitted=true
+    if(this.portForm.invalid){
+      return
+    }
     this.portForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
     var status = this.portForm.get('STATUS')?.value;
     this.portForm.get('STATUS')?.setValue(status == 'true' ? true : false);

@@ -13,10 +13,12 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { LoadListComponent } from './modules/load-list/load-list.component';
+
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, LoadListComponent, ],
   imports: [
     BrowserModule,
     AppRoutingModule,

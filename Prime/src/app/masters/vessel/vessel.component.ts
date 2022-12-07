@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VESSEL } from 'src/app/models/vessel';
 import { VesselService } from 'src/app/services/vessel.service';
@@ -26,16 +26,20 @@ export class VesselComponent implements OnInit {
 
     this.vesselForm = this._formBuilder.group({
       ID:[0],
-      VESSEL_NAME: [''],
-      IMO_NO: [''],
-      COUNTRY_CODE: [''],
-      VESSEL_CODE: [''],
-      STATUS: [''],
+      VESSEL_NAME: ['',Validators.required],
+      IMO_NO: ['',Validators.required],
+      COUNTRY_CODE: ['',Validators.required],
+      VESSEL_CODE: ['',Validators.required],
+      STATUS: ['',Validators.required],
       CREATED_BY: ['']
     });
 
     this.GetVesselMasterList();
   }
+
+  get f(){
+    return this.vesselForm.controls;
+  } 
   GetVesselMasterList() {
     var vesselModel = new VESSEL();
     vesselModel.CREATED_BY = localStorage.getItem('usercode');
@@ -49,6 +53,10 @@ export class VesselComponent implements OnInit {
 
   InsertVesselMaster() {
     debugger;
+    this.submitted=true
+    if(this.vesselForm.invalid){
+      return
+    }
     this.vesselForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
     var status = this.vesselForm.get('STATUS')?.value;
     this.vesselForm.get('STATUS')?.setValue(status == "true" ? true : false);
