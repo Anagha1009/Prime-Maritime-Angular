@@ -1,7 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainLayoutModule } from './layout/main-layout/main-layout.module';
@@ -12,6 +11,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { AgGridModule } from 'ag-grid-angular';
 
 
 @NgModule({
@@ -28,6 +28,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     HttpClientModule,
     NgSelectModule,   
     NgMultiSelectDropDownModule, 
+    AgGridModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
   enabled: true,
   // Register the ServiceWorker as soon as the application is stable

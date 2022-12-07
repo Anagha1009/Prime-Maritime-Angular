@@ -1,7 +1,7 @@
 <div class="section-title">
     <h2>Container History</h2>
 </div>
-<div class="container">
+   <div class="container">
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-3">
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <section class="services" *ngIf="previewNoData">
+    <!-- <section class="services" *ngIf="previewNoData">
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-9 text-end">
@@ -68,4 +68,22 @@
         
 
     </section>
-</div>
+</div> -->
+<section *ngIf="previewDetails" class="col-md-12">
+    <ag-grid-angular
+  class="ag-theme-alpine"
+  style="height: 400px;"
+  [rowData]="rowData"
+  [columnDefs]="columnDefs"
+  [pagination]="true"
+  (gridReady)="onGridReady($event)"
+  [paginationPageSize]="defaultPageSize" 
+  [cacheBlockSize]="defaultPageSize"
+  [enableRangeSelection]="true"
+>
+</ag-grid-angular>
+
+</section>
+
+
+
