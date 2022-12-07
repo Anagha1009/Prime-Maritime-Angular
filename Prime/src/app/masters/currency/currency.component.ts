@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MasterService } from 'src/app/services/master.service';
 
 @Component({
@@ -11,6 +11,7 @@ export class CurrencyComponent implements OnInit {
   currencyForm: FormGroup;
   CurrencyList: any[] = [];
   isUpdate: boolean = false;
+  submitted:boolean=false;
 
   constructor(
     private _masterService: MasterService,
@@ -21,16 +22,25 @@ export class CurrencyComponent implements OnInit {
     this.currencyForm = this._formBuilder.group({
       ID: [0],
       KEY_NAME: [''],
-      CODE: [''],
-      CODE_DESC: [''],
-      STATUS: [''],
+      CODE: ['',Validators.required],
+      CODE_DESC: ['',Validators.required],
+      STATUS: ['',Validators.required],
       PARENT_CODE: [''],
       CREATED_BY: [''],
     });
     this.GetCurrencyMasterList();
   }
 
+  get f(){
+    return this.currencyForm.controls;
+  }
+
   InsertCurrencyMaster() {
+    this.submitted=true
+    if(this.currencyForm.invalid){
+      return
+
+    }
     this.currencyForm
       .get('CREATED_BY')
       ?.setValue(localStorage.getItem('username'));

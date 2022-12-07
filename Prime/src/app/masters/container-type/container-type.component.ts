@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TYPE } from 'src/app/models/type';
 import { ContainerTypeService } from 'src/app/services/container-type.service';
@@ -10,6 +10,7 @@ import { ContainerTypeService } from 'src/app/services/container-type.service';
   styleUrls: ['./container-type.component.scss']
 })
 export class ContainerTypeComponent implements OnInit {
+  submitted:boolean=false;
   containerTypeForm: FormGroup;
   containerTypeList: any[] = [];
   data: any;
@@ -25,19 +26,21 @@ export class ContainerTypeComponent implements OnInit {
   ngOnInit(): void {
     this.containerTypeForm = this._formBuilder.group({
       ID:[0],
-      CONT_TYPE_CODE:[''],
-      CONT_TYPE:[''],
-      CONT_SIZE:[''],
-      ISO_CODE:[''],
-      TEUS:[''],
-      OUT_DIM:[''],
-      STATUS:[''],
+      CONT_TYPE_CODE:['',Validators.required],
+      CONT_TYPE:['',Validators.required],
+      CONT_SIZE:['',Validators.required],
+      ISO_CODE:['',Validators.required],
+      TEUS:['',Validators.required],
+      OUT_DIM:['',Validators.required],
+      STATUS:['',Validators.required],
       CREATED_BY:[''],
     });
 
     this.GetConatinerTypeMasterList();
   }
-
+get f(){
+  return this.containerTypeForm.controls;
+}
 
   GetConatinerTypeMasterList() {
     var containerTypeModel = new TYPE();
@@ -53,6 +56,10 @@ export class ContainerTypeComponent implements OnInit {
   }
 
   InsertContainerTypeMaster() {
+    this.submitted=true
+    if(this.containerTypeForm.invalid){
+      return
+    }
 
     this.containerTypeForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
     this.containerTypeForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));

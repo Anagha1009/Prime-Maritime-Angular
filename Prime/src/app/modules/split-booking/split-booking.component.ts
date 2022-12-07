@@ -98,6 +98,11 @@ export class SplitBookingComponent implements OnInit {
  
   }
 
+  removeItem(i: any) {
+    const add = this.splitBookingForm.get('SLOT_LIST') as FormArray;
+    add.removeAt(i);
+  }
+
   splitBooking(){
     
     debugger;

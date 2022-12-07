@@ -39,6 +39,8 @@ import { PushNotificationComponent } from './modules/push-notification/push-noti
 import { MrRequestComponent } from './modules/mr-request/mr-request.component';
 import { MrRequestListComponent } from './modules/mr-request-list/mr-request-list.component';
 import { TrackingComponent } from './modules/tracking/tracking.component';
+import { LoadListComponent } from './modules/load-list/load-list.component';
+
 
 const routes: Routes = [
   {
@@ -199,6 +201,11 @@ const routes: Routes = [
         path: 'm&r-request-list',
         component: MrRequestListComponent,
       },
+      {
+        path:'load-list',
+        component:LoadListComponent,
+      }
+     
     ],
   },
 ];

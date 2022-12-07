@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { combineLatest } from 'rxjs';
 import { MasterService } from 'src/app/services/master.service';
 
@@ -23,9 +23,9 @@ export class ServicetypeComponent implements OnInit {
     this.typeForm = this._formBuilder.group({
       ID: [0],
       KEY_NAME: [''],
-      CODE: [''],
-      CODE_DESC: [''],
-      STATUS: [''],
+      CODE: ['',Validators.required],
+      CODE_DESC: ['',Validators.required],
+      STATUS: ['',Validators.required],
       PARENT_CODE: [''],
       CREATED_BY: [''],
     });
@@ -33,7 +33,17 @@ export class ServicetypeComponent implements OnInit {
     this.GetServiceTypeMasterList();
   }
 
+  get f(){
+    return this.typeForm.controls;
+  }
+
+  
   InsertServiceTypeMaster() {
+
+    this.submitted=true
+    if(this.typeForm.invalid){
+      return
+    }
     this.typeForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
     var status = this.typeForm.get('STATUS')?.value;
     this.typeForm.get('STATUS')?.setValue(status == 'true' ? true : false);

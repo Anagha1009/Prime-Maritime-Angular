@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { stat } from 'fs';
 import { CONTAINER } from 'src/app/models/container';
@@ -29,16 +29,22 @@ export class PartyComponent implements OnInit {
 
     this.partyForm = this._formBuilder.group({
       CUST_ID:[0],
-      CUST_NAME: [''],
-      CUST_EMAIL: [''],
-      CUST_ADDRESS: [''],
-      CUST_TYPE: [''],
-      GSTIN: [''],
+      CUST_NAME: ['',Validators.required],
+      CUST_EMAIL: ['',Validators.required],
+      CUST_ADDRESS: ['',Validators.required],
+      CUST_TYPE: ['',Validators.required],
+      GSTIN: ['',Validators.required],
       AGENT_CODE: [''],
-      STATUS: ['']
+      STATUS: ['',Validators.required]
     });
 
     this.GetPartyMasterList();
+  }
+
+
+ 
+  get f(){
+    return this.partyForm.controls;
   }
 
   
@@ -55,6 +61,10 @@ export class PartyComponent implements OnInit {
   }
 
   InsertPartyMaster() {
+    this.submitted=true
+    if(this.partyForm.invalid){
+      return
+    }
 
     this.partyForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
     this.partyForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));

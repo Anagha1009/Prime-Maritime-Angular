@@ -1,0 +1,77 @@
+<div class="section-title">
+    <h2>Load List</h2>
+</div>
+<div class="container mb-4">
+    <form [formGroup]="loadlistForm">
+        <div class="col-md-8 mx-auto">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">Vessel Name <span class="text-danger"> *</span></label>
+                        <select class="form-control2" formControlName="VESSEL_NAME">
+                            <option value="" selected="true" disabled>--Select--</option>
+                            <option *ngFor="let item of VesselList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">Voyage Number<span class="text-danger">*</span></label>
+                        <select class="form-control2" formControlName="VOYAGE_NO">
+                            <option value="" selected="true" disabled>--Select--</option>
+                            <option *ngFor="let item of VoyageList" value="{{item.CODE_DESC}}">{{item.CODE_DESC}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="offset-md-6 col-md-6 mb-3" style="text-align: right;">
+                <!-- <div class="col-md-4 offset-md-5" style="text-align: right"> -->
+                <button (click)="GetLoadList()" class="form-btn me-2">Get Load List</button>
+                <button (click)="exportToExcel()" class="form-btn">Download Load List</button>
+            </div>
+        </div>
+    </form>
+    <div class="col-md-10 mx-auto" #epltable *ngIf="loadList.length>0">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>SRR.NO</th>
+                    <th>Container Number</th>
+                    <th>Container Type</th>
+                    <th>POL</th>
+                    <th>POD</th>
+                    <th>Final Destination</th>
+                    <th>Vessel Name</th>
+                    <th>Voyage Number</th>
+                    <th>Status</th>
+                    <th>Vgm Wait</th>
+                    <th>Slot Operator</th>
+                    <th>Remarks</th>
+                    <th>Commodity Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of loadList; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.SRR_NO}}</td>
+                    <td>{{item.CONTAINER_NO}}</td>
+                    <td>{{item.CONTAINER_TYPE}}</td>
+                    <td>{{item.POL}}</td>
+                    <td>{{item.POD}}</td>
+                    <td>{{item.FINAL_DESTINATION}}</td>
+                    <td>{{item.VESSEL_NAME}}</td>
+                    <td>{{item.VOYAGE_NO}}</td>
+                   <td>{{item.STATUS}}</td>
+                   <td>{{item.VGM_WT}}</td>
+                   <td>{{item.SLOT_OPERATOR}}</td>
+                   <td>{{item.REMARKS}}</td>
+                   <td>{{item.COMMODITY_NAME}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
