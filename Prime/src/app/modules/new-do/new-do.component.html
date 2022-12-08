@@ -26,13 +26,13 @@
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-5 mt-3 pt-5 mb-5">
-                    <img src="./../../../assets/img/doimg.jpg" class="img-fluid" alt="">
+                    <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
                 </div>
             </div>
         </div>
     </section>
 
-    <section  class="services" *ngIf="previewDetails">
+    <section class="services" *ngIf="previewDetails">
         <div>
             <div class="container">
                 <div class="row">
@@ -47,7 +47,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-12">
                                     <h6>BL NO : <small class="text-danger">
-                                        {{displayBill}}</small>
+                                            {{displayBill}}</small>
                                     </h6>
                                 </div>
                                 <div class="row mt-2">
@@ -55,57 +55,68 @@
                                         <div class="form-group">
                                             <label class="form-label2">DO Date<span class="text-danger">*</span></label>
                                             <input type="date" class="form-control"
-                                            [ngClass]="{'invalid': submitted && f.DO_DATE.errors}"
-                                            formControlName="DO_DATE">
-                                            <div *ngIf="submitted && f.DO_DATE.errors" class="invalid-feedback">Please select
+                                                [ngClass]="{'invalid': submitted && f.DO_DATE.errors}"
+                                                formControlName="DO_DATE">
+                                            <div *ngIf="submitted && f.DO_DATE.errors" class="invalid-feedback">Please
+                                                select
                                                 DO Date</div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">DO Validity<span class="text-danger">
-                                                *</span></label>
-                                            <input type="date" class="form-control" formControlName="DO_VALIDITY"  [ngClass]="{'invalid': submitted && f.DO_VALIDITY.errors}"/>
-                                            <div *ngIf="submitted && f.DO_VALIDITY.errors" class="invalid-feedback">Please select
+                                                    *</span></label>
+                                            <input type="date" class="form-control" formControlName="DO_VALIDITY"
+                                                [ngClass]="{'invalid': submitted && f.DO_VALIDITY.errors}" />
+                                            <div *ngIf="submitted && f.DO_VALIDITY.errors" class="invalid-feedback">
+                                                Please select
                                                 DO Validity</div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">Vessel Arrival Date<span class="text-danger">
-                                                *</span></label>
-                                            <input formControlName="ARRIVAL_DATE" type="date" class="form-control" [ngClass]="{'invalid': submitted && f.ARRIVAL_DATE.errors}"/>
-                                            <div *ngIf="submitted && f.ARRIVAL_DATE.errors" class="invalid-feedback">Please select
+                                                    *</span></label>
+                                            <input formControlName="ARRIVAL_DATE" type="date" class="form-control"
+                                                [ngClass]="{'invalid': submitted && f.ARRIVAL_DATE.errors}" />
+                                            <div *ngIf="submitted && f.ARRIVAL_DATE.errors" class="invalid-feedback">
+                                                Please select
                                                 Arrival Date</div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">IGM No<span class="text-danger">
-                                                *</span></label>
-                                            <input formControlName="IGM_NO" type="text" class="form-control" [ngClass]="{'invalid': submitted && f.IGM_NO.errors}"/>
-                                            <div *ngIf="submitted && f.IGM_NO.errors" class="invalid-feedback">Please select
+                                                    *</span></label>
+                                            <input formControlName="IGM_NO" type="text" class="form-control"
+                                                [ngClass]="{'invalid': submitted && f.IGM_NO.errors}" />
+                                            <div *ngIf="submitted && f.IGM_NO.errors" class="invalid-feedback">Please
+                                                select
                                                 IGM No</div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">IGM Date<span class="text-danger">
-                                                *</span></label>
-                                            <input formControlName="IGM_DATE" type="date" class="form-control" [ngClass]="{'invalid': submitted && f.IGM_DATE.errors}"/>
-                                            <div *ngIf="submitted && f.IGM_DATE.errors" class="invalid-feedback">Please select
+                                                    *</span></label>
+                                            <input formControlName="IGM_DATE" type="date" class="form-control"
+                                                [ngClass]="{'invalid': submitted && f.IGM_DATE.errors}" />
+                                            <div *ngIf="submitted && f.IGM_DATE.errors" class="invalid-feedback">Please
+                                                select
                                                 IGM Date</div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">IGM Item No<span class="text-danger">
-                                                *</span></label>
-                                            <input formControlName="IGM_ITEM_NO" type="text" class="form-control" [ngClass]="{'invalid': submitted && f.IGM_ITEM_NO.errors}"/>
-                                            <div *ngIf="submitted && f.IGM_ITEM_NO.errors" class="invalid-feedback">Please select
+                                                    *</span></label>
+                                            <input formControlName="IGM_ITEM_NO" type="text" class="form-control"
+                                                [ngClass]="{'invalid': submitted && f.IGM_ITEM_NO.errors}" />
+                                            <div *ngIf="submitted && f.IGM_ITEM_NO.errors" class="invalid-feedback">
+                                                Please select
                                                 IGM Item No</div>
                                         </div>
                                     </div>
@@ -114,45 +125,56 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">Empty Letter Location<span class="text-danger">
-                                                *</span></label>
-                                                <select [ngClass]="{'invalid': submitted && f.ACCEPTANCE_LOCATION.errors}"
-                                    formControlName="ACCEPTANCE_LOCATION" style="margin-top: 10px;" class="form-control">
-                                    <option value="" selected="true" disabled>--Select Acceptance Location--</option>
-                                    <option value="INPPG-ICD PATPARGANJ">INPPG-ICD PATPARGANJ</option>
-                                    <option value="INPWL6-ICD PALWAL">INPWL6-ICD PALWAL</option>
-                                    <option value="INREA-ICD REWARI">INREA-ICD REWARI</option>
-                                    <option value="INSAJ6-ICD TUMB">INSAJ6-ICD TUMB	
-                                    </option>
-                                   </select>
-                                   <div *ngIf="submitted && f.ACCEPTANCE_LOCATION.errors" class="invalid-feedback">Please select
-                                    Empty Letter Location</div>
-                                           
+                                                    *</span></label>
+                                            <select [ngClass]="{'invalid': submitted && f.ACCEPTANCE_LOCATION.errors}"
+                                                formControlName="ACCEPTANCE_LOCATION" style="margin-top: 10px;"
+                                                class="form-control">
+                                                <option value="" selected="true" disabled>--Select Acceptance Location--
+                                                </option>
+                                                <option value="INPPG-ICD PATPARGANJ">INPPG-ICD PATPARGANJ</option>
+                                                <option value="INPWL6-ICD PALWAL">INPWL6-ICD PALWAL</option>
+                                                <option value="INREA-ICD REWARI">INREA-ICD REWARI</option>
+                                                <option value="INSAJ6-ICD TUMB">INSAJ6-ICD TUMB
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f.ACCEPTANCE_LOCATION.errors"
+                                                class="invalid-feedback">Please select
+                                                Empty Letter Location</div>
+
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">Empty Letter Validity<span class="text-danger">
-                                                *</span></label>
-                                            <input formControlName="LETTER_VALIDITY" type="date" class="form-control" [ngClass]="{'invalid': submitted && f.LETTER_VALIDITY.errors}"/>
-                                            <div *ngIf="submitted && f.IGM_DATE.errors" class="invalid-feedback">Please select
-                                                 Empty Letter Validity</div>
+                                                    *</span></label>
+                                            <input formControlName="LETTER_VALIDITY" type="date" class="form-control"
+                                                [ngClass]="{'invalid': submitted && f.LETTER_VALIDITY.errors}" />
+                                            <div *ngIf="submitted && f.IGM_DATE.errors" class="invalid-feedback">Please
+                                                select
+                                                Empty Letter Validity</div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">Clearing Party<span class="text-danger">
-                                                *</span></label>
-                                                <select [ngClass]="{'invalid': submitted && f.CLEARING_PARTY.errors}"
-                                    formControlName="CLEARING_PARTY" style="margin-top: 10px;" class="form-control">
-                                    <option value="" selected="true" disabled>--Select Clearing Party--</option>
-                                    <option value="Indian Clearing Corporation Ltd">Indian Clearing Corporation Ltd.</option>
-                                    <option value="National Commodity Clearing Ltd">National Commodity Clearing Ltd.</option>
-                                    <option value="NSE Clearing Limited">NSE Clearing Limited.</option>
-                                    <option value="Multi Commodity Exc. Clearing Corporation Ltd">Multi Commodity Exc. Clearing Corporation Ltd.	
-                                    </option>
-                                   </select>
-                                   <div *ngIf="submitted && f.CLEARING_PARTY.errors" class="invalid-feedback">Please select
-                                    Clearing Party</div>
+                                                    *</span></label>
+                                            <select [ngClass]="{'invalid': submitted && f.CLEARING_PARTY.errors}"
+                                                formControlName="CLEARING_PARTY" style="margin-top: 10px;"
+                                                class="form-control">
+                                                <option value="" selected="true" disabled>--Select Clearing Party--
+                                                </option>
+                                                <option value="Indian Clearing Corporation Ltd">Indian Clearing
+                                                    Corporation Ltd.</option>
+                                                <option value="National Commodity Clearing Ltd">National Commodity
+                                                    Clearing Ltd.</option>
+                                                <option value="NSE Clearing Limited">NSE Clearing Limited.</option>
+                                                <option value="Multi Commodity Exc. Clearing Corporation Ltd">Multi
+                                                    Commodity Exc. Clearing Corporation Ltd.
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f.CLEARING_PARTY.errors" class="invalid-feedback">
+                                                Please select
+                                                Clearing Party</div>
                                         </div>
                                     </div>
                                 </div>
@@ -160,24 +182,27 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label2">Shipping Terms<span class="text-danger">
-                                                *</span></label>
+                                                    *</span></label>
                                             <select [ngClass]="{'invalid': submitted && f.SHIPPING_TERMS.errors}"
-                                    formControlName="SHIPPING_TERMS" style="margin-top: 10px;" class="form-control">
-                                    <option value="" selected="true" disabled>--Select Shipping Terms--</option>
-                                    <option value="DPD">DPD</option>
-                                    <option value="CFS">CFS</option>
-                                    <option value="OFF DOCK">OFF DOCK</option>
-                                   </select>
-                                   <div *ngIf="submitted && f.SHIPPING_TERMS.errors" class="invalid-feedback">Please select
-                                    Shipping Terms</div>
+                                                formControlName="SHIPPING_TERMS" style="margin-top: 10px;"
+                                                class="form-control">
+                                                <option value="" selected="true" disabled>--Select Shipping Terms--
+                                                </option>
+                                                <option value="DPD">DPD</option>
+                                                <option value="CFS">CFS</option>
+                                                <option value="OFF DOCK">OFF DOCK</option>
+                                            </select>
+                                            <div *ngIf="submitted && f.SHIPPING_TERMS.errors" class="invalid-feedback">
+                                                Please select
+                                                Shipping Terms</div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
                     </form>
-                   
+
                 </div>
                 <hr>
                 <!-- <div class="row  mt-4">
@@ -189,7 +214,7 @@
                     </div>
                     
                 </div> -->
-        
+
             </div>
 
         </div>
@@ -198,95 +223,94 @@
     <section *ngIf="previewDetails">
         <div>
             <h5>Preview Details <span *ngIf="!dataVisible"><i class='bx bxs-down-arrow' (click)="show()"></i></span>
-            <span *ngIf="dataVisible" (click)="show()"><i class='bx bxs-up-arrow'></i></span>
-            </h5><hr>
+                <span *ngIf="dataVisible" (click)="show()"><i class='bx bxs-up-arrow'></i></span>
+            </h5>
+            <hr>
             <div class="col-md-12" *ngIf="dataVisible">
                 <ul class="tabs-container">
-                   <li (click)="onTabClick('Container')" [class.active]="activeTab == 'Container'" class="tab-link">
-                    <i class='bx bxs-package'></i>
-                       Container
-                   </li>
-                  <li (click)="onTabClick('Invoice')" [class.active]="activeTab == 'Invoice'" class="tab-link">
-                    <i class='bx bxs-spreadsheet' ></i>   
-                    Invoice
-                   </li>
-                  <li (click)="onTabClick('Manifest')" [class.active]="activeTab == 'Manifest'" class="tab-link">
-                    <i class='bx bxs-edit-alt'></i>   
-                    Manifest
-                   </li>
+                    <li (click)="onTabClick('Container')" [class.active]="activeTab == 'Container'" class="tab-link">
+                        <i class='bx bxs-package'></i>
+                        Container
+                    </li>
+                    <li (click)="onTabClick('Invoice')" [class.active]="activeTab == 'Invoice'" class="tab-link">
+                        <i class='bx bxs-spreadsheet'></i>
+                        Invoice
+                    </li>
+                    <li (click)="onTabClick('Manifest')" [class.active]="activeTab == 'Manifest'" class="tab-link">
+                        <i class='bx bxs-edit-alt'></i>
+                        Manifest
+                    </li>
                 </ul>
-              
-              
-              <div *ngIf="activeTab=='Container'" class="w-100">
-                <div class="table-responsive">
-                    <table class="ratetable" style="font-size: 12px;">
-                        <thead>
-                            <tr>
-                                <!-- <td><input type="checkbox" /></td> -->
-                                <th>
-                                    <label class="checkbox-wrap checkbox-primary" style="margin-bottom: 10px;">
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </th>
-                                <th>Sr No</th>
-                                <th>Cont No</th>
-                                <th>Cont Type</th>
-                                <th>Cont Size</th>
-                                <th>Seal No</th>
-                                <th>Marks & Numbers</th>
-                                <th>Description of goods</th>
-                                <th>Gross Weight</th>
-                                <th>Measurement</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of f2;let i = index" [formGroup]="getf1(item)">
-                                <!-- <td><input (change)="postSelectedContainerList(item)" type="checkbox" /></td> -->
-                                <td>
-                                    <label class="checkbox-wrap checkbox-primary">
-                                        <input type="checkbox" (change)="postSelectedContainerList(item)">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </td>
-                                <td>{{i+1}}</td>
-                                <td>{{doForm.value.CONTAINER_LIST[i].CONTAINER_NO}}</td>
-                                <td>{{doForm.value.CONTAINER_LIST[i].CONTAINER_TYPE}}</td>
-                                <td>{{doForm.value.CONTAINER_LIST[i].CONTAINER_SIZE}}</td>
-                                <td>{{doForm.value.CONTAINER_LIST[i].SEAL_NO}}</td>
-                                <td>{{doForm.value.CONTAINER_LIST[i].MARKS_NOS}}</td>
-                                <td>{{doForm.value.CONTAINER_LIST[i].DESC_OF_GOODS}}</td>
-                                <td>{{doForm.value.CONTAINER_LIST[i].GROSS_WEIGHT}}</td>
-                                <td>{{doForm.value.CONTAINER_LIST[i].MEASUREMENT}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+
+                <div *ngIf="activeTab=='Container'" class="w-100">
+                    <div class="table-responsive">
+                        <table class="ratetable" style="font-size: 12px;">
+                            <thead>
+                                <tr>
+                                    <!-- <td><input type="checkbox" /></td> -->
+                                    <th>
+                                        <label class="checkbox-wrap checkbox-primary" style="margin-bottom: 10px;">
+                                            <input type="checkbox">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </th>
+                                    <th>Sr No</th>
+                                    <th>Cont No</th>
+                                    <th>Cont Type</th>
+                                    <th>Cont Size</th>
+                                    <th>Seal No</th>
+                                    <th>Marks & Numbers</th>
+                                    <th>Description of goods</th>
+                                    <th>Gross Weight</th>
+                                    <th>Measurement</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of f2;let i = index" [formGroup]="getf1(item)">
+                                    <!-- <td><input (change)="postSelectedContainerList(item)" type="checkbox" /></td> -->
+                                    <td>
+                                        <label class="checkbox-wrap checkbox-primary">
+                                            <input type="checkbox" (change)="postSelectedContainerList(item)">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                    <td>{{i+1}}</td>
+                                    <td>{{doForm.value.CONTAINER_LIST[i].CONTAINER_NO}}</td>
+                                    <td>{{doForm.value.CONTAINER_LIST[i].CONTAINER_TYPE}}</td>
+                                    <td>{{doForm.value.CONTAINER_LIST[i].CONTAINER_SIZE}}</td>
+                                    <td>{{doForm.value.CONTAINER_LIST[i].SEAL_NO}}</td>
+                                    <td>{{doForm.value.CONTAINER_LIST[i].MARKS_NOS}}</td>
+                                    <td>{{doForm.value.CONTAINER_LIST[i].DESC_OF_GOODS}}</td>
+                                    <td>{{doForm.value.CONTAINER_LIST[i].GROSS_WEIGHT}}</td>
+                                    <td>{{doForm.value.CONTAINER_LIST[i].MEASUREMENT}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div *ngIf="activeTab=='Invoice'" class="w-100">
+                        Invoice Table
+                    </div>
+                    <div *ngIf="activeTab=='Manifest'" class="w-100">
+                        Manfiest Table
+                    </div>
                 </div>
-              </div>
-              <div *ngIf="activeTab=='Invoice'" class="w-100">
-                  Invoice Table
-              </div>
-              <div *ngIf="activeTab=='Manifest'" class="w-100">
-                  Manfiest Table
-              </div>
-              </div>
-            
-        </div>
-        <div class="row  mt-4">
 
-            <div class="col-md-6 offset-md-6 text-end">
-                <button type="button" class="form-btn" (click)="cancelDO()" style="margin-right: 6px;">Clear</button>
-                <button type="button" class="form-btn" (click)="saveDO()" style="margin-right: 6px;">Save</button>
-            
             </div>
-            
+            <div class="row  mt-4">
+
+                <div class="col-md-6 offset-md-6 text-end">
+                    <button type="button" class="form-btn" (click)="cancelDO()"
+                        style="margin-right: 6px;">Clear</button>
+                    <button type="button" class="form-btn" (click)="saveDO()" style="margin-right: 6px;">Save</button>
+
+                </div>
+
+            </div>
         </div>
 
-          
     </section>
 
 
 
 </div>
-
-

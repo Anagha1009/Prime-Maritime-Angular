@@ -43,6 +43,8 @@ import { CtListComponent } from './modules/ct-list/ct-list.component';
 import { LoadListComponent } from './modules/load-list/load-list.component';
 
 import { TrackBookingComponent } from './modules/track-booking/track-booking.component';
+import { PmLandingComponent } from './shared/pm-landing/pm-landing.component';
+import { PmQuotationDetailsComponent } from './pm-modules/pm-quotation-details/pm-quotation-details.component';
 
 const routes: Routes = [
   {
@@ -54,8 +56,16 @@ const routes: Routes = [
     component: PmLayoutComponent,
     children: [
       {
+        path: 'dashboard',
+        component: PmLandingComponent,
+      },
+      {
         path: 'quotation-list',
         component: PmQuotationListComponent,
+      },
+      {
+        path: 'quotation-details',
+        component: PmQuotationDetailsComponent,
       },
     ],
   },
