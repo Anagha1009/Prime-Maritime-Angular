@@ -1,14 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { QUOTATION } from 'src/app/models/quotation';
 import { QuotationService } from 'src/app/services/quotation.service';
-import $ from 'jquery';
 
 @Component({
   selector: 'app-pm-quotation-list',
@@ -46,15 +39,6 @@ export class PmQuotationListComponent implements OnInit {
     this._quotationService.getSRRList(this.quotation).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.quotationList = res.Data;
-
-        setTimeout(() => {
-          $('#datatableexample').DataTable({
-            pagingType: 'full_numbers',
-            pageLength: 5,
-            processing: true,
-            lengthMenu: [5, 10, 25],
-          });
-        }, 1);
       }
     });
   }

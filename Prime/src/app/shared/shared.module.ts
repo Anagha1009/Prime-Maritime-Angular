@@ -8,6 +8,8 @@ import { ChartComponent } from '../pm-modules/chart/chart.component';
 import * as CanvasJSAngularChart from '../../assets/canvasjs-3.7.2/canvasjs.angular.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { PmSidebarComponent } from './pm-sidebar/pm-sidebar.component';
+import { AgGridModule } from 'ag-grid-angular';
+
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
 @NgModule({
@@ -26,6 +28,7 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     FooterComponent,
     SimpleNotificationsModule,
     PmSidebarComponent,
+    AgGridModule,
   ],
 })
 export class SharedModule {}

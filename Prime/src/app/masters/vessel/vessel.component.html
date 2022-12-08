@@ -7,38 +7,43 @@
         <div class="row">       
           <div class="col-md-4">
             <div class="form-group">
-              <label class="form-label2">Vessel Name</label>
-              <input type="text" id="name"  formControlName="VESSEL_NAME" class="form-control2">
+              <label class="form-label2">Vessel Name<span class="text-danger">*</span></label>
+              <input type="text" id="name"  [ngClass]="{'invalid':submitted && f.VESSEL_NAME.errors}"  formControlName="VESSEL_NAME" class="form-control2">
+              <div *ngIf="submitted && f.VESSEL_NAME.errors" class="invalid-feedback">Please Enter Vessel Name </div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
-              <label class="form-label2">Imo No</label>
-              <textarea type="text" id="no" formControlName="IMO_NO"   class="form-control2"></textarea>
+              <label class="form-label2">Imo No<span class="text-danger">*</span></label>
+              <textarea type="text" id="no" [ngClass]="{'invalid':submitted && f.IMO_NO.errors}" formControlName="IMO_NO"   class="form-control2"></textarea>
+              <div *ngIf="submitted && f.IMO_NO.errors" class="invalid-feedback">Please Enter Imo Number </div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
-              <label class="form-label2">Conuntry Code</label>
-              <input type="text" id="CustomerEmail"  formControlName="COUNTRY_CODE" class="form-control2">
+              <label class="form-label2">Conuntry Code<span class="text-danger">*</span></label>
+              <input type="text" id="CustomerEmail" [ngClass]="{'invalid':submitted && f.COUNTRY_CODE.errors}"  formControlName="COUNTRY_CODE" class="form-control2">
+              <div *ngIf="submitted && f.COUNTRY_CODE.errors" class="invalid-feedback">Please Enter Country Code  </div>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label class="form-label2">Vessel Code</label>
-              <input type="text" id="gstin"  formControlName="VESSEL_CODE" class="form-control2">
+              <label class="form-label2">Vessel Code<span class="text-danger">*</span></label>
+              <input type="text" id="gstin"  [ngClass]="{'invalid':submitted && f.VESSEL_CODE.errors}" formControlName="VESSEL_CODE" class="form-control2">
+              <div *ngIf="submitted && f.VESSEL_CODE.errors" class="invalid-feedback">Please Enter Vessel  Code  </div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               <label class="form-label2">Status <span class="text-danger"> *</span></label>
-              <select class="form-control2" formControlName="STATUS"  >
+              <select class="form-control2" [ngClass]="{'invalid':submitted && f.STATUS.errors}" formControlName="STATUS"  >
                 <option value="" selected="true" disabled>--Select--</option>
                 <option value="true">Active</option>
                 <option value="false">InActive</option>
               </select>
+              <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status     </div>
             </div>
           </div>
         </div>

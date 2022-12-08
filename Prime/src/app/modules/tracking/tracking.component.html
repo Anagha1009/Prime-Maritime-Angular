@@ -20,7 +20,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-9 text-end">
-                    <h5>Sorry! No records found for the specified bill number</h5>
+                    <h5>Sorry! No records found for the specified booking/bill number</h5>
                 </div>
             </div>
             <div class="row">
@@ -38,6 +38,7 @@
             <table class="ratetable" style="font-size: 12px;">
                 
                 <thead><tr>
+                    <th>Sr No.</th>
                     <th>Container No</th>
                     <th>Activity</th>
                     <th>Previous Activity</th>
@@ -48,7 +49,8 @@
                 </tr></thead>
                 
                 <tbody>
-                    <tr *ngFor="let data of cmList">
+                    <tr *ngFor="let data of cmList;let i = index">
+                        <td>{{i+1}}</td>
                         <td>{{data.CONTAINER_NO}}</td>
                         <td>{{data.ACTIVITY}}</td>
                         <td>{{data.PREV_ACTIVITY}}</td>
@@ -83,16 +85,17 @@
                                             aria-label="Close" #closeBtn></button>
                                     </div>
                                     <div class="modal-body" style="text-align: center;">
-                                        <span class="description"> <span class="bx bxs-ship"></span> {{booking.POL}} - </span> 
-                                        <span class="description"> <span class="bx bxs-ship"></span> {{booking.POD}}</span>
+                                       
+                                        <span class="description" style="font-size: larger;"> <span class="bx bxs-ship"></span> {{booking.POL}} - </span> 
+                                        <span class="description" style="font-size: larger;"> <span class="bx bxs-ship"></span> {{booking.POD}}</span>
                                         <div class="progress-container">
                                             <ul>
-                                              <li [ngClass]="{'active': sntsActive==true}"><i class='bx bx-child' style="font-size:40px;color:#07ebaa"></i></li>
-                                              <li [ngClass]="{'active': rcflActive==true}"><i class='bx bxs-door-open' style="font-size:40px;color:#07ebaa"></i></li>
-                                              <li [ngClass]="{'active': lodfActive==true}"><i class='bx bxs-package' style="font-size:40px;color:#07ebaa"></i></li>
-                                              <li [ngClass]="{'active': dchfActive==true}"><i class='bx bxs-ship' style="font-size:40px;color:#07ebaa"></i></li>
-                                              <li [ngClass]="{'active': sntcActive==true}"><i class='bx bxs-send' style="font-size:40px;color:#07ebaa"></i></li>
-                                              <li [ngClass]="{'active': rcvcActive==true}"><i class='bx bx-child' style="font-size:40px;color:#07ebaa"></i></li>
+                                              <li [ngStyle]="{'border-color': sntsActive ? 'cadetblue' : 'red' }"><i class='bx bx-child' style="font-size:40px;color:#07ebaa"></i></li>
+                                              <li [ngStyle]="{'border-color': rcflActive ? 'cadetblue' : 'red' }"><i class='bx bxs-door-open' style="font-size:40px;color:#07ebaa"></i></li>
+                                              <li [ngStyle]="{'border-color': lodfActive ? 'cadetblue' : 'red' }"><i class='bx bxs-package' style="font-size:40px;color:#07ebaa"></i></li>
+                                              <li [ngStyle]="{'border-color': dchfActive ? 'cadetblue' : 'red' }"><i class='bx bxs-ship' style="font-size:40px;color:#07ebaa"></i></li>
+                                              <li [ngStyle]="{'border-color': sntcActive ? 'cadetblue' : 'red' }"><i class='bx bxs-send' style="font-size:40px;color:#07ebaa"></i></li>
+                                              <li [ngStyle]="{'border-color': rccnActive ? 'cadetblue' : 'red' }"><i class='bx bx-child' style="font-size:40px;color:#07ebaa"></i></li>
                                               
                                               <span class="progress-bar" [ngStyle]="{width: getPercent() + '%'}">
                                             </span>
@@ -101,44 +104,34 @@
                                             <!-- <span class="progress-bar" [ngStyle]="{width: getPercent() + '%'}">
                                             </span> -->
                                         </div>
-                                        <!-- <span class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-md-4 text-end">
-                                                    <b>SNTS</b>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <b>RCFL</b>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <b>LODF</b>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <b>DCHF</b>
-                                                </div>
-                                            </div>
-                                        </span> -->
+                                        
                                     </div>
                                     <div class="modal-footer">
                                         <div class="col-md-12">
                                             <div class="row">
-                                                
                                                 <div class="col-md-2 text-center">
-                                                    <b>SNTS</b>
+                                                    <p>Sent To Shipper</p>
+                                                    <b>(SNTS)</b>
                                                 </div>
                                                 <div class="col-md-2 text-center">
-                                                    <b>RCFL</b>
+                                                    <p>Received Full/<br>Gate-In Terminal</p>
+                                                    <b>(RCFL)</b>
                                                 </div>
                                                 <div class="col-md-2 text-center">
-                                                    <b>LODF</b>
+                                                    <p>Loaded Full On Vessel</p>
+                                                    <b>(LODF)</b>
                                                 </div>
                                                 <div class="col-md-2 text-center">
-                                                    <b>DCHF</b>
+                                                    <p>Discharge Full</p>
+                                                    <b>(DCHF)</b>
                                                 </div>
                                                 <div class="col-md-2 text-center">
-                                                    <b>SNTC</b>
+                                                    <p>Sent To Consignee</p>
+                                                    <b>(SNTC)</b>
                                                 </div>
                                                 <div class="col-md-2 text-center">
-                                                    <b>RCVC</b>
+                                                    <p>Received From Consignee</p>
+                                                    <b>(RCCN)</b>
                                                 </div>
                                             </div>
 

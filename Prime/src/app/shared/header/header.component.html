@@ -7,7 +7,7 @@
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li [class]="item.menuName == 'Finance' || item.menuName == 'Bookings'? 'dropdown' : ''"
+                <li [class]="item.menuName == 'Finance' || item.menuName == 'Bookings' || item.menuName == 'Container Movement'? 'dropdown' : ''"
                     *ngFor="let item of menuList">
                     <a href="{{item.menuLink}}">{{item.menuName}}
                         <i *ngIf="item.menuName == 'Finance' || item.menuName == 'Bookings'"
@@ -18,6 +18,11 @@
                         <li><a href="home/split-booking">Rollover</a></li>
                         <li><a href="home/new-er">Empty Repo Local</a></li>
                     </ul>
+                    <ul *ngIf="item.menuName == 'Container Movement'">
+                        <li><a href="/home/tracking">Tracking</a></li>
+                        <li><a href="/home/ct-list">History</a></li>
+                    </ul>
+                    
 
                     <ul *ngIf="item.menuName == 'Finance'">
                         <li><a href="#">TDR</a></li>

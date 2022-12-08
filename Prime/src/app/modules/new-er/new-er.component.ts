@@ -97,7 +97,7 @@ export class NewErComponent implements OnInit {
       LIFT_OFF_CHARGE: ['', Validators.required],
       CURRENCY: ['', Validators.required],
       NO_OF_CONTAINER: [''],
-      MODE_OF_TRANSPORT: [''],
+      MODE_OF_TRANSPORT: ['',Validators.required],
       REASON: ['', Validators.required],
       REMARKS: ['', Validators.required],
       STATUS: [''],
@@ -135,23 +135,28 @@ export class NewErComponent implements OnInit {
   saveER() {
     //debugger;
     this.submitted = true;
-    this.erForm.get('REPO_NO')?.setValue(this.getRandomNumber("Repo"));
-    this.erForm.get('CONTAINER_LIST')?.setValue(this.dummyList);
-    this.erForm.get('NO_OF_CONTAINER')?.setValue(2);
-    this.erForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
-    this.erForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    this.erForm.get('STATUS')?.setValue(1);
-    this.erForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    if(this.erForm.invalid){
+      return
+    }
+    alert("Hii")
+    
+    // this.erForm.get('REPO_NO')?.setValue(this.getRandomNumber("Repo"));
+    // this.erForm.get('CONTAINER_LIST')?.setValue(this.dummyList);
+    // this.erForm.get('NO_OF_CONTAINER')?.setValue(2);
+    // this.erForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
+    // this.erForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
+    // this.erForm.get('STATUS')?.setValue(1);
+    // this.erForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
 
-    console.log(JSON.stringify(this.erForm.value));
-    this._erService
-      .postERDetails(JSON.stringify(this.erForm.value))
-      .subscribe((res: any) => {
-        if (res.responseCode == 200) {
-          alert('Your Request has successfully placed!');
-          this._router.navigateByUrl('/home/booking-list');
-        }
-      });
+    // console.log(JSON.stringify(this.erForm.value));
+    // this._erService
+    //   .postERDetails(JSON.stringify(this.erForm.value))
+    //   .subscribe((res: any) => {
+    //     if (res.responseCode == 200) {
+    //       alert('Your Request has successfully placed!');
+    //       this._router.navigateByUrl('/home/booking-list');
+    //     }
+    //   });
 
   }
 

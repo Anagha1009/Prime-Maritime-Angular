@@ -9,20 +9,22 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label2">Liner <span class="text-danger"> *</span></label>
-                        <select class="form-control2" formControlName="LINER_CODE">
+                        <select class="form-control2"  [ngClass]="{'invalid':submitted && f.LINER_CODE.errors}"  formControlName="LINER_CODE">
                             <option value="" selected="true" disabled>--Select--</option>
                             <option *ngFor="let item of linerList" value="{{item.CODE}}">{{item.CODE_DESC}}</option>
                         </select>
+                        <div *ngIf="submitted && f.LINER_CODE.errors" class="invalid-feedback">Please  Select Liner Code </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label2">Service <span class="text-danger"> *</span></label>
-                        <select class="form-control2" formControlName="SERVICE_NAME">
+                        <select class="form-control2" [ngClass]="{'invalid':submitted && f.SERVICE_NAME.errors}"  formControlName="SERVICE_NAME">
                             <option value="" selected="true" disabled>--Select--</option>
                             <option *ngFor="let item of serviceNameList" value="{{item.CODE}}">{{item.CODE_DESC}}
                             </option>
                         </select>
+                        <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">Please  Select Service Name </div>
                     </div>
                 </div>
             </div>
@@ -30,20 +32,22 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label2">Port <span class="text-danger"> *</span></label>
-                        <select class="form-control2" formControlName="PORT_CODE">
+                        <select class="form-control2"  [ngClass]="{'invalid':submitted && f.PORT_CODE.errors}"  formControlName="PORT_CODE">
                             <option value="" selected="true" disabled>--Select--</option>
                             <option *ngFor="let item of PortList" value="{{item.CODE}}">{{item.CODE_DESC}}</option>
                         </select>
+                        <div *ngIf="submitted && f.PORT_CODE.errors" class="invalid-feedback">Please  Select Port Code </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label2">Status <span class="text-danger"> *</span></label>
-                        <select class="form-control2" formControlName="STATUS">
+                        <select class="form-control2" [ngClass]="{'invalid':submitted && f.STATUS.errors}"  formControlName="STATUS">
                             <option value="" selected="true" disabled>--Select--</option>
                             <option value="true">Active</option>
                             <option value="false">InActive</option>
                         </select>
+                        <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please  Select Status </div>
                     </div>
                 </div>
             </div>

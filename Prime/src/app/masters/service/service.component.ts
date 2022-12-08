@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { valHooks } from 'jquery';
 import { CommonService } from 'src/app/services/common.service';
 import { MasterService } from 'src/app/services/master.service';
 import { ServiceService } from 'src/app/services/service.service';
@@ -17,6 +18,7 @@ export class ServiceComponent implements OnInit {
   linerIdList:any[] = [];
   serviceNameList:any[]=[];
   PortList: any[]=[];
+  submitted:boolean=false;
   
 
   constructor(
@@ -31,15 +33,19 @@ export class ServiceComponent implements OnInit {
     debugger
     this.serviceForm = this._formBuilder.group({
       ID: [0],
-      LINER_CODE: [''],
-      SERVICE_NAME: [''],
-      PORT_CODE: [''],
-      STATUS: [''],
+      LINER_CODE: ['',Validators.required],
+      SERVICE_NAME: ['',Validators.required],
+      PORT_CODE: ['',Validators.required],
+      STATUS: ['',Validators.required],
       CREATED_BY: [''],
     });
 
     this.getDropdown();
     this.GetServiceMasterList();
+  }
+
+  get f(){
+    return this.serviceForm.controls;
   }
 
   getDropdown(){
@@ -64,7 +70,10 @@ export class ServiceComponent implements OnInit {
   }
 
   InsertServiceMaster() {
-    debugger
+    this.submitted=true
+    if(this.serviceForm.invalid){
+      return
+    }
     this.serviceForm
       .get('CREATED_BY')
       ?.setValue(localStorage.getItem('username'));

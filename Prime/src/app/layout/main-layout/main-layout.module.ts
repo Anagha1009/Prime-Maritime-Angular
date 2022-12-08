@@ -44,6 +44,7 @@ import { MrRequestListComponent } from 'src/app/modules/mr-request-list/mr-reque
 import { CtListComponent } from 'src/app/modules/ct-list/ct-list.component';
 import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
 import { TrackBookingComponent } from 'src/app/modules/track-booking/track-booking.component';
+import { LoadListComponent } from 'src/app/modules/load-list/load-list.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { TrackBookingComponent } from 'src/app/modules/track-booking/track-booki
     CtListComponent,
     TrackingComponent,
     TrackBookingComponent,
+    LoadListComponent,
   ],
   imports: [
     CommonModule,

@@ -39,6 +39,9 @@ import { PushNotificationComponent } from './modules/push-notification/push-noti
 import { MrRequestComponent } from './modules/mr-request/mr-request.component';
 import { MrRequestListComponent } from './modules/mr-request-list/mr-request-list.component';
 import { TrackingComponent } from './modules/tracking/tracking.component';
+import { CtListComponent } from './modules/ct-list/ct-list.component';
+import { LoadListComponent } from './modules/load-list/load-list.component';
+
 import { TrackBookingComponent } from './modules/track-booking/track-booking.component';
 import { PmLandingComponent } from './shared/pm-landing/pm-landing.component';
 import { PmQuotationDetailsComponent } from './pm-modules/pm-quotation-details/pm-quotation-details.component';
@@ -163,6 +166,10 @@ const routes: Routes = [
         component: TrackingComponent,
       },
       {
+        path: 'ct-list',
+        component: CtListComponent,
+      },
+      {
         path: 'activity-mapping',
         component: ActivityMappingComponent,
       },
@@ -207,6 +214,11 @@ const routes: Routes = [
         component: MrRequestListComponent,
       },
       {
+        path:'load-list',
+        component:LoadListComponent,
+      },
+      {
+     
         path: 'track-booking',
         component: TrackBookingComponent,
       },

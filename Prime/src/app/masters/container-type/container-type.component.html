@@ -7,51 +7,60 @@
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label class="form-label2">Container Type</label>
-              <input type="text"   id="containetType" formControlName= "CONT_TYPE" class="form-control2"  maxlength="20">
+              <label class="form-label2">Container Type<span class="text-danger">*</span></label>
+              <input type="text"   id="containetType" [ngClass]="{'invalid':submitted && f.CONT_TYPE.errors}"  formControlName= "CONT_TYPE" class="form-control2"  maxlength="20">
+              <div *ngIf="submitted && f.CONT_TYPE.errors" class="invalid-feedback">Please EnterContainer Type </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+
+            <div class="form-group">
+              <label class="form-label2">Type Code<span class="text-danger">*</span></label>
+              <input type="text" id="desc" [ngClass]="{'invalid':submitted && f.CONT_TYPE_CODE.errors}" formControlName="CONT_TYPE_CODE" class="form-control2" maxlength="20">
+              <div *ngIf="submitted && f.CONT_TYPE_CODE.errors" class="invalid-feedback">Please Enter Container Type Code </div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
-              <label class="form-label2">Type Code</label>
-              <input type="text" id="desc" formControlName="CONT_TYPE_CODE" class="form-control2" maxlength="20">
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-                <label class="form-label2">Size</label>
-                <input type="text" id="size" formControlName="CONT_SIZE" class="form-control2" maxlength="20">
-            </div>
+                <label class="form-label2">Size<span class="text-danger">*</span></label>
+                <input type="text" id="size" [ngClass]="{'invalid':submitted && f.CONT_SIZE.errors}" formControlName="CONT_SIZE" class="form-control2" maxlength="20">
+                <div *ngIf="submitted && f.CONT_SIZE.errors" class="invalid-feedback">Please Enter Container Size </div>
+              </div>
           </div>
           <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label class="form-label2">Iso Code</label>
-                    <input type="text" id="Isocode"  formControlName="ISO_CODE"class="form-control2" maxlength="20">
-                </div>
+                    <label class="form-label2">Iso Code<span class="text-danger">*</span></label>
+                    <input type="text" id="Isocode"  [ngClass]="{'invalid':submitted && f.ISO_CODE.errors}" formControlName="ISO_CODE"class="form-control2" maxlength="20">
+                    <div *ngIf="submitted && f.ISO_CODE.errors" class="invalid-feedback">Please Enter  Iso Code </div>
+                    
+                  </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label class="form-label2">Teus</label>
-                    <input type="text" id="Isocode" formControlName="TEUS" class="form-control2" maxlength="20">
-                </div>
+                    <label class="form-label2">Teus<span class="text-danger">*</span></label>
+                    <input type="text" id="Isocode" [ngClass]="{'invalid':submitted && f.TEUS.errors}" formControlName="TEUS" class="form-control2" maxlength="20">
+                    <div *ngIf="submitted && f.TEUS.errors" class="invalid-feedback">Please Enter Teus  </div>
+                  </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label class="form-label2">Out Dim</label>
-                    <input type="text" id="Isocode" formControlName="OUT_DIM" class="form-control2" maxlength="20">
-                </div>
+                    <label class="form-label2">Out Dim<span class="text-danger">*</span></label>
+                    <input type="text" id="Isocode" [ngClass]="{'invalid':submitted && f.OUT_DIM.errors}" formControlName="OUT_DIM" class="form-control2" maxlength="20">
+                    <div *ngIf="submitted && f.OUT_DIM.errors" class="invalid-feedback">Please Enter Out Dim </div>
+                  </div>
             </div>
           </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               <label class="form-label2">Status <span class="text-danger"> *</span></label>
-              <select class="form-control2" formControlName="STATUS"  >
+              <select class="form-control2" [ngClass]="{'invalid':submitted && f.STATUS.errors}" formControlName="STATUS"  >
                 <option value="" selected="true" disabled>--Select--</option>
                 <option value=true>Active</option>
                 <option value=false>InActive</option>
               </select>
+              <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status </div>
             </div>
           </div>
         
