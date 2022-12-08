@@ -43,6 +43,7 @@ import { CtListComponent } from './modules/ct-list/ct-list.component';
 import { LoadListComponent } from './modules/load-list/load-list.component';
 
 import { TrackBookingComponent } from './modules/track-booking/track-booking.component';
+import { PmCmComponent } from './pm-modules/pm-cm/pm-cm.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,10 @@ const routes: Routes = [
       {
         path: 'quotation-list',
         component: PmQuotationListComponent,
+      },
+      {
+        path: 'container-movement',
+        component: PmCmComponent,
       },
     ],
   },

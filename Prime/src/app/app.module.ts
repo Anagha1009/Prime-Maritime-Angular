@@ -17,9 +17,10 @@ import { AgGridModule } from 'ag-grid-angular';
 import { LoadListComponent } from './modules/load-list/load-list.component';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+// import { PmCmComponent } from './pm-modules/pm-cm/pm-cm.component';
 
 @NgModule({
-  declarations: [AppComponent, LoadListComponent, ],
+  declarations: [AppComponent, LoadListComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
