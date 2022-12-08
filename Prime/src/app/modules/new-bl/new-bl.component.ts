@@ -6,6 +6,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { Bl } from 'src/app/models/bl';
 import { BlService } from 'src/app/services/bl.service';
 import { Router } from '@angular/router';
+import $ from 'jquery';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -72,6 +73,11 @@ export class NewBlComponent implements OnInit {
   }
 
   getBLForm() {
+    if (this.previewTable.length == 0) {
+      alert('Please upload Shipping Instructions !');
+      return;
+    }
+
     this.blForm.patchValue(this.previewTable[0]);
     const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
 
@@ -259,6 +265,15 @@ export class NewBlComponent implements OnInit {
     var extension = file.name.split('.').pop();
     var array = ['csv', 'xls', 'xlsx'];
 
+    if (
+      ev.target.files[0].type ==
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ) {
+    } else {
+      alert('Please Select Excel Format only');
+      return;
+    }
+
     if (file.size > 5000000) {
       alert('Please upload file less than 5 mb..!');
       return;
@@ -267,13 +282,21 @@ export class NewBlComponent implements OnInit {
 
       if (el != null && el != '') {
         reader.onload = (event) => {
+          debugger;
           const data = reader.result;
           workBook = XLSX.read(data, { type: 'binary', cellDates: true });
+
+          if (workBook.SheetNames[0] != 'Sheet1') {
+            alert('Invalid File !');
+            return;
+          }
+
           jsonData = workBook.SheetNames.reduce((initial: any, name: any) => {
             const sheet = workBook.Sheets[name];
             initial[name] = XLSX.utils.sheet_to_json(sheet);
             return initial;
           }, {});
+
           const dataString = JSON.stringify(jsonData);
 
           var keyArray = [
@@ -295,6 +318,8 @@ export class NewBlComponent implements OnInit {
 
           var keyArray1 = [
             'CONTAINER_NO',
+            'CONTAINER_TYPE',
+            'CONTAINER_SIZE',
             'SEAL_NO',
             'MARKS_NOS',
             'DESC_OF_GOODS',
@@ -351,6 +376,8 @@ export class NewBlComponent implements OnInit {
               if (
                 !this.checkNullEmpty([
                   element.CONTAINER_NO,
+                  element.CONTAINER_TYPE,
+                  element.CONTAINER_SIZE,
                   element.SEAL_NO,
                   element.MARKS_NOS,
                   element.DESC_OF_GOODS,
@@ -414,8 +441,7 @@ export class NewBlComponent implements OnInit {
   }
 
   isSameColumn(arr1: any, arr2: any) {
-    return true;
-    //return $(arr1).not(arr2).length === 0 && $(arr2).not(arr1).length === 0;
+    return $(arr1).not(arr2).length === 0 && $(arr2).not(arr1).length === 0;
   }
 
   async generateBLPdf() {

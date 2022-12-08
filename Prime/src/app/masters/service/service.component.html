@@ -1,0 +1,90 @@
+<div class="section-title">
+    <h2> Service</h2>
+</div>
+
+<div class="container mb-4">
+    <form [formGroup]="serviceForm">
+        <div class="col-md-10 mx-auto">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">Liner <span class="text-danger"> *</span></label>
+                        <select class="form-control2"  [ngClass]="{'invalid':submitted && f.LINER_CODE.errors}"  formControlName="LINER_CODE">
+                            <option value="" selected="true" disabled>--Select--</option>
+                            <option *ngFor="let item of linerList" value="{{item.CODE}}">{{item.CODE_DESC}}</option>
+                        </select>
+                        <div *ngIf="submitted && f.LINER_CODE.errors" class="invalid-feedback">Please  Select Liner Code </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">Service <span class="text-danger"> *</span></label>
+                        <select class="form-control2" [ngClass]="{'invalid':submitted && f.SERVICE_NAME.errors}"  formControlName="SERVICE_NAME">
+                            <option value="" selected="true" disabled>--Select--</option>
+                            <option *ngFor="let item of serviceNameList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                            </option>
+                        </select>
+                        <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">Please  Select Service Name </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">Port <span class="text-danger"> *</span></label>
+                        <select class="form-control2"  [ngClass]="{'invalid':submitted && f.PORT_CODE.errors}"  formControlName="PORT_CODE">
+                            <option value="" selected="true" disabled>--Select--</option>
+                            <option *ngFor="let item of PortList" value="{{item.CODE}}">{{item.CODE_DESC}}</option>
+                        </select>
+                        <div *ngIf="submitted && f.PORT_CODE.errors" class="invalid-feedback">Please  Select Port Code </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">Status <span class="text-danger"> *</span></label>
+                        <select class="form-control2" [ngClass]="{'invalid':submitted && f.STATUS.errors}"  formControlName="STATUS">
+                            <option value="" selected="true" disabled>--Select--</option>
+                            <option value="true">Active</option>
+                            <option value="false">InActive</option>
+                        </select>
+                        <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please  Select Status </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4 offset-md-5" style="text-align: right">
+                    <button *ngIf="!isUpdate" (click)="InsertServiceMaster()" class="form-btn me-2">Save</button>
+                    <button *ngIf="isUpdate"(click)="UpdateServiceMaster()" class="form-btn me-2">Update</button>
+                    <button class="form-btn me-2" (click)="ClearForm()">Clear</button>
+
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="col-md-10 mx-auto">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Liner</th>
+                    <th>Service</th>
+                    <th>Port</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of linerIdList; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.LINER_CODE}}</td>
+                    <td>{{item.SERVICE_NAME}}</td>
+                    <td>{{item.PORT_CODE}}</td>
+                    <td>
+                        <i class="fa fa-pencil mx-2 pointer text-success"
+                            (click)="GetServiceMasterDetails(item.ID)"></i>
+                        <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteServiceMaster(item.ID)"></i>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>

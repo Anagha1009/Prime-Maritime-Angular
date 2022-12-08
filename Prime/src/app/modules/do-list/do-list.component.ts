@@ -41,7 +41,7 @@ export class DoListComponent implements OnInit {
         this.isScroll = false;
         if (res.hasOwnProperty('Data')) {
           if (res.Data?.length > 0) {
-            //this.doList = res.Data;
+            this.doList = res.Data;
             this.previewList=true;
             if (this.doList?.length >= 4) {
               this.isScroll = true;

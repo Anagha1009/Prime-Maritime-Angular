@@ -33,6 +33,9 @@ import { UnitComponent } from 'src/app/masters/unit/unit.component';
 import { PortComponent } from 'src/app/masters/port/port.component';
 import { ContainerComponent } from 'src/app/masters/container/container.component';
 import { PartyComponent } from 'src/app/masters/party/party.component';
+import { VesselComponent } from 'src/app/masters/vessel/vessel.component';
+import { ServiceComponent } from 'src/app/masters/service/service.component';
+import { ContainerTypeComponent } from 'src/app/masters/container-type/container-type.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment.prod';
 import { PushNotificationComponent } from 'src/app/modules/push-notification/push-notification.component';
@@ -40,6 +43,7 @@ import { MrRequestComponent } from 'src/app/modules/mr-request/mr-request.compon
 import { MrRequestListComponent } from 'src/app/modules/mr-request-list/mr-request-list.component';
 import { CtListComponent } from 'src/app/modules/ct-list/ct-list.component';
 import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
+import { TrackBookingComponent } from 'src/app/modules/track-booking/track-booking.component';
 
 @NgModule({
   declarations: [
@@ -68,14 +72,19 @@ import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
     ServicetypeComponent,
     CurrencyComponent,
     UnitComponent,
-    PortComponent,  
+    PortComponent,
     PartyComponent,
+    VesselComponent,
+    ServiceComponent,
+    ContainerTypeComponent,
     PushNotificationComponent,
     PortComponent,
     PartyComponent,
     MrRequestComponent,
     MrRequestListComponent,
-    CtListComponent, TrackingComponent
+    CtListComponent,
+    TrackingComponent,
+    TrackBookingComponent,
   ],
   imports: [
     CommonModule,
@@ -89,8 +98,8 @@ import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    }) 
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
   providers: [],
 })

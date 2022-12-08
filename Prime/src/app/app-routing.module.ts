@@ -28,6 +28,9 @@ import { ActivityMappingComponent } from './modules/activity-mapping/activity-ma
 import { NewBlComponent } from './modules/new-bl/new-bl.component';
 import { NewCmComponent } from './modules/new-cm/new-cm.component';
 import { PmLoginComponent } from './pm-modules/pm-login/pm-login.component';
+import { VesselComponent } from './masters/vessel/vessel.component';
+import { ServiceComponent } from './masters/service/service.component';
+import { ContainerTypeComponent } from './masters/container-type/container-type.component';
 import { DepoDashboardComponent } from './modules/depo-dashboard/depo-dashboard.component';
 import { ContainerAllotmentComponent } from './modules/container-allotment/container-allotment.component';
 import { ContainerAllotmentListComponent } from './modules/container-allotment-list/container-allotment-list.component';
@@ -37,6 +40,9 @@ import { MrRequestComponent } from './modules/mr-request/mr-request.component';
 import { MrRequestListComponent } from './modules/mr-request-list/mr-request-list.component';
 import { TrackingComponent } from './modules/tracking/tracking.component';
 import { CtListComponent } from './modules/ct-list/ct-list.component';
+import { LoadListComponent } from './modules/load-list/load-list.component';
+
+import { TrackBookingComponent } from './modules/track-booking/track-booking.component';
 
 const routes: Routes = [
   {
@@ -48,10 +54,6 @@ const routes: Routes = [
     component: PmLayoutComponent,
     children: [
       {
-        path: 'login',
-        component: PmLoginComponent,
-      },
-      {
         path: 'quotation-list',
         component: PmQuotationListComponent,
       },
@@ -59,7 +61,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent,
+    component: PmLoginComponent,
   },
   {
     path: 'home',
@@ -174,6 +176,18 @@ const routes: Routes = [
         component: ContainerAllotmentListComponent,
       },
       {
+        path: 'vessel',
+        component: VesselComponent,
+      },
+      {
+        path: 'service',
+        component: ServiceComponent,
+      },
+      {
+        path: 'containerType',
+        component: ContainerTypeComponent,
+      },
+      {
         path: 'manifest-list',
         component: ManifestListComponent,
       },
@@ -188,6 +202,15 @@ const routes: Routes = [
       {
         path: 'm&r-request-list',
         component: MrRequestListComponent,
+      },
+      {
+        path:'load-list',
+        component:LoadListComponent,
+      },
+      {
+     
+        path: 'track-booking',
+        component: TrackBookingComponent,
       },
     ],
   },

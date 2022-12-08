@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CONTAINER } from 'src/app/models/container';
 import { ContainerService } from 'src/app/services/container.service';
@@ -26,26 +26,39 @@ export class ContainerComponent implements OnInit {
   ngOnInit(): void {
     this.containerForm = this._formBuilder.group({
       ID: [0],
-      CONTAINER_NO: [''],
-      CONTAINER_TYPE: [''],
-      CONTAINER_SIZE: [''],
+      CONTAINER_NO: ['',Validators.required],
+      CONTAINER_TYPE: ['',Validators.required],
+      CONTAINER_SIZE: ['',Validators.required],
       IS_OWNED: [false],
-      ON_HIRE_DATE: [''],
-      OFF_HIRE_DATE: [''],
-      MANUFACTURING_DATE: [''],
+      ON_HIRE_DATE: ['',Validators.required],
+      OFF_HIRE_DATE: ['',Validators.required],
+      MANUFACTURING_DATE: ['',Validators.required],
       SHIPPER_OWNED: [false],
-      OWNER_NAME: [''],
-      LESSOR_NAME: [''],
-      PICKUP_LOCATION: [''],
-      DROP_LOCATION: [''],
+      OWNER_NAME: ['',Validators.required],
+      LESSOR_NAME: ['',Validators.required],
+      PICKUP_LOCATION: ['',Validators.required],
+      DROP_LOCATION: ['',Validators.required],
       CREATED_BY: [''],
-      STATUS: [''],
+      STATUS: ['',Validators.required
+    ],
     });
 
     this.GetContainerMasterList();
   }
 
+  
+  get f(){
+    return this.containerForm.controls;
+
+ }
+
+  
   Insertcontainersize() {
+    this.submitted=true
+    if(this.containerForm.invalid){
+      return
+    }
+
     this.containerForm
       .get('CREATED_BY')
       ?.setValue(localStorage.getItem('username'));

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MasterService } from 'src/app/services/master.service';
 
@@ -12,6 +12,7 @@ export class UnitComponent implements OnInit {
   unitForm: any;
   UnitList: any[] = [];
   isUpdate: boolean = false;
+  submitted:boolean=false;
 
   constructor(
     private _masterService: MasterService,
@@ -22,16 +23,24 @@ export class UnitComponent implements OnInit {
     this.unitForm = this._formBuilder.group({
       ID: [0],
       KEY_NAME: [''],
-      CODE: [''],
-      CODE_DESC: [''],
-      STATUS: [''],
+      CODE: ['',Validators.required],
+      CODE_DESC: ['',Validators.required],
+      STATUS: ['',Validators.required],
       PARENT_CODE: [''],
       CREATED_BY: [''],
     });
     this.GetUnitMasterList();
   }
+  get f(){
+    return this.unitForm.controls;
+  }
+ 
 
   InsertUnitMaster() {
+    this.submitted=true
+    if(this.unitForm.invalid){
+      return
+    }
     this.unitForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
     var status = this.unitForm.get('STATUS')?.value;
     this.unitForm.get('STATUS')?.setValue(status == 'true' ? true : false);

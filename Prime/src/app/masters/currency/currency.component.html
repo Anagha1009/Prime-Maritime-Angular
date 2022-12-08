@@ -3,28 +3,31 @@
 </div>
 
 <form [formGroup]="currencyForm">
-    <div class="col-md-8 mx-auto">
+    <div class="col-md-10 mx-auto">
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label class="form-label2">Code</label>
-                    <input type="text" id="code" formControlName="CODE" class="form-control2">
+                    <label class="form-label2">Code<span class="text-danger">*</span></label>
+                    <input type="text" id="code" [ngClass]="{'invalid':submitted && f.CODE.errors}" formControlName="CODE" class="form-control2">
+                    <div *ngIf="submitted && f.CODE.errors" class="invalid-feedback">Please Enter Code </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label class="form-label2">Code Description</label>
-                    <textarea type="text" id="desc" formControlName="CODE_DESC" class="form-control2"></textarea>
+                    <label class="form-label2">Code Description<span class="text-danger">*</span></label>
+                    <textarea type="text" id="desc" [ngClass]="{'invalid':submitted && f.CODE_DESC.errors}"  formControlName="CODE_DESC" class="form-control2"></textarea>
+                    <div *ngIf="submitted && f.CODE_DESC.errors" class="invalid-feedback">Please Enter Code Description</div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label class="form-label2">Status <span class="text-danger"> *</span></label>
-                    <select class="form-control2" formControlName="STATUS">
+                    <select class="form-control2" [ngClass]="{'invalid':submitted && f.STATUS.errors}" formControlName="STATUS">
                         <option value="" selected="true" disabled>--Select--</option>
                         <option value="true">Active</option>
                         <option value="false">InActive</option>
                     </select>
+                    <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status  </div>
                 </div>
             </div>
         </div>
