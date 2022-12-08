@@ -13,10 +13,7 @@ import $ from 'jquery';
 @Component({
   selector: 'app-pm-quotation-list',
   templateUrl: './pm-quotation-list.component.html',
-  styleUrls: [
-    './pm-quotation-list.component.scss',
-    './../../../../node_modules/datatables.net-dt/css/jquery.dataTables.css',
-  ],
+  styleUrls: ['./pm-quotation-list.component.scss'],
 })
 export class PmQuotationListComponent implements OnInit {
   quotation = new QUOTATION();
@@ -37,10 +34,6 @@ export class PmQuotationListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadJsFile([
-      'assets/vendor/bootstrap/js/bootstrap.bundle.min.js',
-      'assets/js/jquery.dataTables.js',
-    ]);
     this.rateForm = this._formBuilder.group({
       SRR_RATES: new FormArray([]),
     });
@@ -48,20 +41,20 @@ export class PmQuotationListComponent implements OnInit {
     this.getQuotationList();
   }
 
-  public loadJsFile(url: any[]) {
-    url.forEach((el) => {
-      let node = document.createElement('script');
-      node.src = el;
-      node.type = 'text/javascript';
-      document.getElementsByTagName('head')[0].appendChild(node);
-    });
-  }
-
   getQuotationList() {
     this.quotation.OPERATION = 'GET_SRRLIST_PM';
     this._quotationService.getSRRList(this.quotation).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.quotationList = res.Data;
+
+        setTimeout(() => {
+          $('#datatableexample').DataTable({
+            pagingType: 'full_numbers',
+            pageLength: 5,
+            processing: true,
+            lengthMenu: [5, 10, 25],
+          });
+        }, 1);
       }
     });
   }
@@ -72,15 +65,6 @@ export class PmQuotationListComponent implements OnInit {
     this._quotationService.getSRRDetails(quot).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.quotationDetails = res.Data;
-
-        setTimeout(() => {
-          $('#datatableexample').DataTable({
-            pagingType: 'full_numbers',
-            pageLength: 5,
-            processing: true,
-            lengthMenu: [5, 10, 25],
-          });
-        }, 1);
 
         const add = this.rateForm.get('SRR_RATES') as FormArray;
         add.clear();
