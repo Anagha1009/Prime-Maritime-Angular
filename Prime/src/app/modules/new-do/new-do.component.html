@@ -219,10 +219,16 @@
               
               <div *ngIf="activeTab=='Container'" class="w-100">
                 <div class="table-responsive">
-                    <table class="table" style="font-size: 12px;">
+                    <table class="ratetable" style="font-size: 12px;">
                         <thead>
                             <tr>
-                                <td><input type="checkbox" /></td>
+                                <!-- <td><input type="checkbox" /></td> -->
+                                <th>
+                                    <label class="checkbox-wrap checkbox-primary" style="margin-bottom: 10px;">
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </th>
                                 <th>Sr No</th>
                                 <th>Cont No</th>
                                 <th>Cont Type</th>
@@ -236,7 +242,13 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of f2;let i = index" [formGroup]="getf1(item)">
-                                <td><input (change)="postSelectedContainerList(item)" type="checkbox" /></td>
+                                <!-- <td><input (change)="postSelectedContainerList(item)" type="checkbox" /></td> -->
+                                <td>
+                                    <label class="checkbox-wrap checkbox-primary">
+                                        <input type="checkbox" (change)="postSelectedContainerList(item)">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
                                 <td>{{i+1}}</td>
                                 <td>{{doForm.value.CONTAINER_LIST[i].CONTAINER_NO}}</td>
                                 <td>{{doForm.value.CONTAINER_LIST[i].CONTAINER_TYPE}}</td>

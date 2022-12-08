@@ -73,14 +73,14 @@ export class PmQuotationListComponent implements OnInit {
       if (res.ResponseCode == 200) {
         this.quotationDetails = res.Data;
 
-        setTimeout(() => {
-          $('#datatableexample').DataTable({
-            pagingType: 'full_numbers',
-            pageLength: 5,
-            processing: true,
-            lengthMenu: [5, 10, 25],
-          });
-        }, 1);
+        // setTimeout(() => {
+        //   $('#datatableexample').DataTable({
+        //     pagingType: 'full_numbers',
+        //     pageLength: 5,
+        //     processing: true,
+        //     lengthMenu: [5, 10, 25],
+        //   });
+        // }, 1);
 
         const add = this.rateForm.get('SRR_RATES') as FormArray;
         add.clear();

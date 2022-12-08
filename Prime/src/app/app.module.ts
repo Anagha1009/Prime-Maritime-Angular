@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { DataTablesModule } from 'angular-datatables';
+//import { DataTablesModule } from 'angular-datatables';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +13,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { AgGridModule } from 'ag-grid-angular';
 import { LoadListComponent } from './modules/load-list/load-list.component';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
@@ -28,8 +29,11 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     SimpleNotificationsModule.forRoot(),
-    DataTablesModule,
+    // DataTablesModule,
     HttpClientModule,
+    NgSelectModule,   
+    NgMultiSelectDropDownModule, 
+    AgGridModule,
     NgSelectModule,
     NgMultiSelectDropDownModule,
     ServiceWorkerModule.register('ngsw-worker.js', {

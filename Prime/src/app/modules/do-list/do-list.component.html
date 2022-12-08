@@ -54,8 +54,9 @@
                 <div [class]="isScroll ? 'force-overflow' : ''">
                     <div class="icon-box icon-box-cyan text-start" *ngFor="let item of doList; let i = index">
                         <div class="row">
-                            <div class="col-md-8">
-                                <h4 class="title"><a (click)="getDODetails(item.DO_NO)">{{item.DO_NO}}</a>
+                            <div class="col-md-7">
+                                <h4 class="title"><a (click)="getDODetails(item.DO_NO)">{{item.DO_NO}} - </a>
+                                    <span class="shipTerms">{{item.SHIPPING_TERMS}}</span>
                                 </h4>
                                 <p class="description"> <span class="bx bx-user"></span> {{item.CLEARING_PARTY}} | <span
                                         class="bx bxs-truck"></span>
@@ -66,6 +67,10 @@
                                     {{item.DO_DATE | date:'mediumDate'}} - {{item.DO_VALIDITY | date:'mediumDate'}} </span>
                              </p>
                             </div>
+                            <div class="col-md-5 text-end">
+                                <span style="font-size: 15px;" class="badge rounded-pill bg-success ms-3">{{item.BL_NO}}</span>
+                                <div class="description" style="text-size:large;color: purple;"> <span class="bx bxs-ship"></span> {{item.ARRIVAL_DATE | date:'mediumDate'}}</div> 
+                            </div>
                         </div> 
                     </div> 
                 </div> 
@@ -73,6 +78,11 @@
         </div> 
     </section>
 </div>
+
+<!-- <div class="loadImg" *ngIf="doList?.length===0">
+    <div class="loader">
+    </div>
+</div> -->
 
 
                                     
