@@ -104,9 +104,6 @@
                                     date:'dd-MM-YYYY'}}</small>
                             </h6>
                         </div>
-                        <div class="col-md-6 text-end">
-                            <i class="bx bxs-magic-wand me-4" style="font-size: 25px"></i>
-                        </div>
                     </div>
                     <hr>
                 </div>
@@ -162,7 +159,10 @@
                             <td>{{item.LABOUR}}</td>
                             <td>{{item.MATERIAL}}</td>
                             <td>{{item.TOTAL}}</td>
-                            <td><input class="form-control3" type="text" /></td>
+                            <td>
+                                {{item.APPROVED_RATE}}
+                                <!-- <input class="form-control3" type="text" /> -->
+                            </td>
                         </tr>
                     </tbody>
                 </table>

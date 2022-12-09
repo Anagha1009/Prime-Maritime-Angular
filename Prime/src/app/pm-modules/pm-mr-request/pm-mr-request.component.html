@@ -247,7 +247,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <div class="rounded-btn"><a (click)="getDetails(item.MR_NO)"><i
+                                    <div *ngIf="item.STATUS == 'Requested'" class="rounded-btn"><a (click)="getDetails(item.MR_NO)"><i
                                                 class="fa fa-plus text-light"></i></a>
                                         <button #MRModal data-bs-toggle="modal" href="#mrModal" class="d-none"></button>
                                     </div>
@@ -283,9 +283,6 @@
                                 Created Date : <small class="text-danger">{{mrDetailsList[0]?.CREATED_DATE |
                                     date:'dd-MM-YYYY'}}</small>
                             </h6>
-                        </div>
-                        <div class="col-md-6 text-end">
-                            <i class="bx bxs-magic-wand me-4" style="font-size: 25px"></i>
                         </div>
                     </div>
                     <hr>
