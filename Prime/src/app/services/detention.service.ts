@@ -25,4 +25,23 @@ export class DetentionService {
       this.httpOptions
     );
   }
+
+  
+  getDetentionListByDO(DO: string) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'Detention/GetDetentionListByDO?DO_NO=' +
+        DO ,
+      this.httpOptions
+    );
+  }
+
+  insertDetention(Detention:any){
+    debugger
+    return this._http.post<any>(
+      this.BASE_URL + 'Detention/InsertDetention',
+      Detention,
+      this.httpOptions
+    );
+  }
 }

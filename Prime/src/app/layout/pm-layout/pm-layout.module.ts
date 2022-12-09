@@ -10,6 +10,7 @@ import { PmLoginComponent } from 'src/app/pm-modules/pm-login/pm-login.component
 import { PmQuotationListComponent } from 'src/app/pm-modules/pm-quotation-list/pm-quotation-list.component';
 import { PmQuotationDetailsComponent } from 'src/app/pm-modules/pm-quotation-details/pm-quotation-details.component';
 import { PmCmComponent } from 'src/app/pm-modules/pm-cm/pm-cm.component';
+import { PmMrRequestComponent } from 'src/app/pm-modules/pm-mr-request/pm-mr-request.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { PmCmComponent } from 'src/app/pm-modules/pm-cm/pm-cm.component';
     PmLoginComponent,
     PmQuotationListComponent,
     PmQuotationDetailsComponent,
+    PmMrRequestComponent,
     PmCmComponent
   ],
   imports: [

@@ -38,6 +38,8 @@ import { ManifestListComponent } from './modules/manifest-list/manifest-list.com
 import { PushNotificationComponent } from './modules/push-notification/push-notification.component';
 import { MrRequestComponent } from './modules/mr-request/mr-request.component';
 import { MrRequestListComponent } from './modules/mr-request-list/mr-request-list.component';
+import { PmMrRequestComponent } from './pm-modules/pm-mr-request/pm-mr-request.component';
+import { DetentionWaverRequestComponent } from './modules/detention-waver-request/detention-waver-request.component';
 import { TrackingComponent } from './modules/tracking/tracking.component';
 import { CtListComponent } from './modules/ct-list/ct-list.component';
 import { LoadListComponent } from './modules/load-list/load-list.component';
@@ -67,6 +69,10 @@ const routes: Routes = [
       {
         path: 'container-movement',
         component: PmCmComponent,
+      },
+      {
+        path: 'mr-request',
+        component: PmMrRequestComponent,
       },
       {
         path: 'quotation-details',
@@ -217,6 +223,10 @@ const routes: Routes = [
       {
         path: 'm&r-request-list',
         component: MrRequestListComponent,
+      },
+      {
+        path: 'dentention-waiver',
+        component: DetentionWaverRequestComponent,
       },
       {
         path:'load-list',

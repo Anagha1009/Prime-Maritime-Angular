@@ -2,11 +2,30 @@
     <h2>M&R Request</h2>
 </div>
 <div class="container">
-    <div class="row mt-5">
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input type="text" class="form-control" [(ngModel)]="containerNo">
+                    <label class="form-label">Container No.</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button class="form-btn me-2" (click)="getContainerDetails()">Create MNR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5 mx-auto" *ngIf="!isRecords">
+        <h5 class="text-center">Sorry! No records found !!</h5>
+        <img src="./../../../assets/img/doimg.jpg" class="img-fluid" alt="">
+    </div>
+
+    <div class="row mt-5" *ngIf="isContainer">
         <div class="col-md-2">
             <div class="form-group">
                 <label class="label-header">Container No</label>
-                <label class="label-subheader">6576566464</label>
+                <label class="label-subheader">{{containerDetails?.CONTAINER_NO}}</label>
             </div>
             <div class="form-group">
                 <label class="label-header">Tare Weight</label>
@@ -16,7 +35,8 @@
         <div class="col-md-2">
             <div class="form-group">
                 <label class="label-header">Size/Type</label>
-                <label class="label-subheader">20OT</label>
+                <label
+                    class="label-subheader">{{containerDetails?.CONTAINER_SIZE}}/{{containerDetails?.CONTAINER_TYPE}}</label>
             </div>
             <div class="form-group">
                 <label class="label-header">Pay Load Capacity</label>
@@ -64,179 +84,205 @@
                 <label class="label-subheader">ABC Depot</label>
             </div>
         </div>
+        <hr>
     </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-6">
-            <h5 class="mb-4">M&R Details</h5>
+
+    <div *ngIf="isContainer">
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="mb-4">M&R Details</h5>
+            </div>
+            <div class="col-md-6" style="text-align: right;">
+                <button (click)="addNew()" class="form-btn">
+                    <i class="fa fa-plus me-2"></i>Add New</button>
+            </div>
         </div>
-        <div class="col-md-6" style="text-align: right;">
-            <button (click)="addNew()" class="form-btn">
-                <i class="fa fa-plus me-2"></i>Add New</button>
-        </div>
-    </div>
-    <div class="table-responsive">
-        <table class="ratetable" style="font-size: 12px;">
-            <tr>
-                <th>No</th>
-                <th>Location</th>
-                <th>Component</th>
-                <th>Damage</th>
-                <th>Repair</th>
-                <th>Description</th>
-                <th>Measurement</th>
-                <th>Unit</th>
-                <th>Responsibility</th>
-                <th>&nbsp;</th>
-            </tr>
-            <tr *ngFor="let item of f;let j = index" [formGroup]="f1(item)">
-                <td width="1%">
-                    <label class="mt-4">{{j+1}}</label>
-                </td>
-                <td width="10%">
-                    <div class="col-md-12">
-                        <label class="form-label3">Location</label>
-                        <select formControlName="LOCATION" class="form-control3">
-                            <option value="" selected disabled>
-                                --Select--</option>
-                            <option value="xx">test</option>
-                        </select>
-                    </div>
-                </td>
-                <td width="10%">
-                    <div class="col-md-12">
-                        <label class="form-label3">Component</label>
-                        <select formControlName="COMPONENT" class="form-control3">
-                            <option value="" selected disabled>
-                                --Select--</option>
-                            <option value="xx">test</option>
-                        </select>
-                    </div>
-                </td>
-                <td width="10%">
-                    <div class="col-md-12">
-                        <label class="form-label3">Damage</label>
-                        <select formControlName="DAMAGE" class="form-control3">
-                            <option value="" selected disabled>
-                                --Select--</option>
-                            <option value="xx">test</option>
-                        </select>
-                    </div>
-                </td>
-                <td width="10%">
-                    <div class="col-md-12">
-                        <label class="form-label3">Repair</label>
-                        <select formControlName="REPAIR" class="form-control3">
-                            <option value="" selected disabled>
-                                --Select--</option>
-                            <option value="xx">test</option>
-                        </select>
-                    </div>
-                </td>
-                <td width="15%">
-                    <div class="col-md-12">
-                        <label class="form-label3">Description</label>
-                        <textarea formControlName="DESC" class="form-control3" type="text"></textarea>
-                    </div>
-                </td>
-                <td width="10%">
-                    <div class="row">
-                        <div class="col-md-4 px-0"><label class="form-label3">L</label>
-                            <input formControlName="LENGTH" class="form-control3" type="text" />
-                        </div>
-                        <div class="col-md-4 px-1"><label class="form-label3">W</label>
-                            <input formControlName="WIDTH" class="form-control3" type="text" />
-                        </div>
-                        <div class="col-md-4 px-0"><label class="form-label3">H</label>
-                            <input formControlName="HEIGHT" class="form-control3" type="text" />
-                        </div>
-                    </div>
-                </td>
-                <td width="10%">
-                    <div class="col-md-12">
-                        <label class="form-label3">Unit</label>
-                        <input formControlName="UNIT" class="form-control3" type="text" />
-                    </div>
-                </td>
-                <td width="10%">
-                    <div class="col-md-12">
-                        <label class="form-label3">Responsibility</label>
-                        <select formControlName="RESPONSIBILITY" class="form-control3">
-                            <option value="" selected disabled>
-                                --Select--</option>
-                            <option value="xx">test</option>
-                        </select>
-                    </div>
-                </td>
-                <td width="5%">
-                    <a class="pointer" (click)="removeItem(j)"><i style="font-size:18px"
-                            class="fa fa-trash mt-3"></i></a>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <hr>
-    <h5 class="mb-4 mt-5">Rate Details</h5>
-    <div class="col-md-6">
-        <table class="table" style="font-size: 12px">
-            <thead>
+        <div class="table-responsive">
+            <table class="ratetable" style="font-size: 12px;">
                 <tr>
-                    <th>#</th>
+                    <th>No</th>
+                    <th>Location</th>
+                    <th>Component</th>
+                    <th>Damage</th>
+                    <th>Repair</th>
+                    <th>Measurement(in CMS)</th>
+                    <th>Unit</th>
+                    <th>Responsibility</th>
                     <th>Man hour</th>
                     <th>Labour</th>
                     <th>Material</th>
                     <th>Total</th>
+                    <th>&nbsp;</th>
                 </tr>
-            </thead>
-            <tbody>
                 <tr *ngFor="let item of f;let j = index" [formGroup]="f1(item)">
-                    <td><label class="form-label2 mt-2">{{j+1}}</label></td>
-                    <td><label class="form-label3">Man hour</label>
-                        <input formControlName="MAN_HOUR" class="form-control3" type="text" />
+                    <td width="1%">
+                        <label class="mt-4">{{j+1}}</label>
                     </td>
-                    <td><label class="form-label3">Labour</label>
-                        <input formControlName="LABOUR" class="form-control3" type="text" />
-                    </td>
-                    <td><label class="form-label3">Material</label>
-                        <input formControlName="MATERIAL" class="form-control3" type="text" />
-                    </td>
-                    <td><label class="form-label2 mt-2">{{item.value.TOTAL}}</label></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <hr>
-    <h5 class="mb-4 mt-5">File Upload</h5>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="formbold-mb-5 formbold-file-input">
-                <input type="file" (change)="fileUpload($event)" name="file" id="file" />
-                <label for="file">
-                    <div>
-                        <h3><i class="fa fa-file-pdf-o"></i></h3>
-                        <span class="formbold-drop-file">Upload</span>
-                        <small>Container Images</small>
-                    </div>
-                </label>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-4" *ngFor="let item of fileList">
-                    <div class="formbold-file-list formbold-mb-5">
-                        <div class="formbold-file-item">
-                            <span class="formbold-file-name">{{item.name.slice(0, 10) + '..'}}</span>
-                            <button><span class="bx bx-x-circle"></span></button>
+                    <td width="10%">
+                        <div class="col-md-12">
+                            <label class="form-label3">Location</label>
+                            <input formControlName="LOCATION" class="form-control3" type="text" />
                         </div>
-                    </div>
+                    </td>
+                    <td width="10%">
+                        <div class="col-md-12">
+                            <label class="form-label3">Component</label>
+                            <select formControlName="COMPONENT" class="form-control3">
+                                <option value="" selected disabled>--Select--</option>
+                                <option *ngFor="let item of componentList" value="{{item.CODE}}">
+                                    {{item.CODE}}
+                                </option>
+                            </select>
+                        </div>
+                    </td>
+                    <td width="10%">
+                        <div class="col-md-12">
+                            <label class="form-label3">Damage</label>
+                            <select formControlName="DAMAGE" class="form-control3">
+                                <option value="" selected disabled>--Select--</option>
+                                <option *ngFor="let item of damageList" value="{{item.CODE}}">
+                                    {{item.CODE}}
+                                </option>
+                            </select>
+                        </div>
+                    </td>
+                    <td width="10%">
+                        <div class="col-md-12">
+                            <label class="form-label3">Repair</label>
+                            <select formControlName="REPAIR" class="form-control3">
+                                <option value="" selected disabled>--Select--</option>
+                                <option *ngFor="let item of repairList" value="{{item.CODE}}">
+                                    {{item.CODE}}
+                                </option>
+                            </select>
+                        </div>
+                    </td>
+                    <td width="10%">
+                        <div class="row">
+                            <div class="col-md-4 px-0"><label class="form-label3">L</label>
+                                <input formControlName="LENGTH" class="form-control3" type="text" />
+                            </div>
+                            <div class="col-md-4 px-1"><label class="form-label3">W</label>
+                                <input formControlName="WIDTH" class="form-control3" type="text" />
+                            </div>
+                            <div class="col-md-4 px-0"><label class="form-label3">H</label>
+                                <input formControlName="HEIGHT" class="form-control3" type="text" />
+                            </div>
+                        </div>
+                    </td>
+                    <td width="5%">
+                        <div class="col-md-12">
+                            <label class="form-label3">Unit</label>
+                            <input formControlName="UNIT" class="form-control3" type="text" />
+                        </div>
+                    </td>
+                    <td width="8%">
+                        <div class="col-md-12">
+                            <label class="form-label3">Responsibility</label>
+                            <select formControlName="RESPONSIBILITY" class="form-control3">
+                                <option value="" selected disabled>
+                                    --Select--</option>
+                                <option value="S">S</option>
+                                <option value="C">C</option>
+                                <option value="T">T</option>
+                                <option value="O">O</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td width="5%">
+                        <div class="col-md-12">
+                            <label class="form-label3">Man hour</label>
+                            <input formControlName="MAN_HOUR" class="form-control3" type="text" />
+                        </div>
+                    </td>
+                    <td width="5%">
+                        <div class="col-md-12">
+                            <label class="form-label3">Labour</label>
+                            <input formControlName="LABOUR" class="form-control3" type="text" />
+                        </div>
+                    </td>
+                    <td width="5%">
+                        <div class="col-md-12">
+                            <label class="form-label3">Material</label>
+                            <input formControlName="MATERIAL" class="form-control3" type="text" />
+                        </div>
+                    </td>
+                    <td width="5%">
+                        <div class="col-md-12">
+                            <label class="form-label2">{{Sum(j)}}</label>
+                        </div>
+                    </td>
+                    <td width="5%">
+                        <a class="pointer" (click)="removeItem(j)"><i style="font-size:18px"
+                                class="fa fa-trash mt-3"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-center">
+                        <h6>{{ManHourSum()}}</h6>
+                    </td>
+                    <td class="text-center">
+                        <h6>{{LabourSum()}}</h6>
+                    </td>
+                    <td class="text-center">
+                        <h6>{{MaterialSum()}}</h6>
+                    </td>
+                    <td class="text-center">
+                        <h6>{{TotalSum()}}</h6>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-md-4 offset-md-8 text-end mt-3">
+            <h6>Fresh Damage :
+                <small class="text-danger">{{TotalFreshDamageSum()}}</small> <br>
+                W & T damage :
+                <small class="text-danger">{{TotalWTSum()}}</small> <br>
+            </h6>
+            <h6>Tax :
+                <small class="text-danger">{{TaxTotal()}}</small><br>
+                Total :
+                <small class="text-danger">{{FinalTotal()}}</small>
+            </h6>
+        </div>
+        <hr>
+
+        <h5 class="mb-4 mt-5">File Upload</h5>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="formbold-mb-5 formbold-file-input">
+                    <input type="file" (change)="fileUpload($event)" accept="image/*" multiple="" name="file"
+                        id="file" />
+                    <label for="file">
+                        <div>
+                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                            <span class="formbold-drop-file">Upload</span>
+                            <small>Container Images</small>
+                        </div>
+                    </label>
                 </div>
             </div>
+            <div class="col-md-8">
+                <div class="row">
+                </div>
+                <img *ngFor='let url of images' [src]="url" height="150" width="150" style="margin: 3px;">
+                <br />
+            </div>
         </div>
-    </div>
-    <hr>
-    <div class="row mb-5">
-        <div class="col-md-2 offset-md-10" style="text-align: right;">
-            <button (click)="submitRequest()" class="form-btn w-100">Save</button>
+        <hr>
+        <div class="row mb-5">
+            <div class="col-md-2 offset-md-10" style="text-align: right;">
+                <button (click)="submitRequest()" class="form-btn w-100">Save</button>
+            </div>
         </div>
     </div>
 </div>
