@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, ɵgetDebugNode } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
-import { CONTAINER_MOVEMENT } from '../models/cm';
+import { CONTAINER_MOVEMENT, CONTAINER_TRACKING } from '../models/cm';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +76,15 @@ export class CmService {
       contNo,
       this.httpOptions
     );
+  }
+
+  postTrackingHistory(ct:CONTAINER_TRACKING){
+    return this._http.post<any>(
+      this.BASE_URL + 'ContainerMovement/InsertContainerTracking',
+      ct,
+      this.httpOptions
+    );
+
   }
 
 

@@ -45,6 +45,7 @@ import { CtListComponent } from './modules/ct-list/ct-list.component';
 import { LoadListComponent } from './modules/load-list/load-list.component';
 
 import { TrackBookingComponent } from './modules/track-booking/track-booking.component';
+import { PmCmComponent } from './pm-modules/pm-cm/pm-cm.component';
 import { PmLandingComponent } from './shared/pm-landing/pm-landing.component';
 import { PmQuotationDetailsComponent } from './pm-modules/pm-quotation-details/pm-quotation-details.component';
 
@@ -64,6 +65,10 @@ const routes: Routes = [
       {
         path: 'quotation-list',
         component: PmQuotationListComponent,
+      },
+      {
+        path: 'container-movement',
+        component: PmCmComponent,
       },
       {
         path: 'mr-request',

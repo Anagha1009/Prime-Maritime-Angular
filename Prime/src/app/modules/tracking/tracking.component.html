@@ -51,16 +51,16 @@
                 <tbody>
                     <tr *ngFor="let data of cmList;let i = index">
                         <td>{{i+1}}</td>
-                        <td>{{data.CONTAINER_NO}}</td>
-                        <td>{{data.ACTIVITY}}</td>
-                        <td>{{data.PREV_ACTIVITY}}</td>
-                        <td>{{data.ACTIVITY_DATE | date: 'dd/MM/yyyy'}}</td>
-                        <td>{{data.LOCATION}}</td>
-                        <td>{{data.STATUS}}</td>
+                        <td>{{data.CONTAINER_NO?data.CONTAINER_NO:'-'}}</td>
+                        <td>{{data.ACTIVITY?data.ACTIVITY:'-'}}</td>
+                        <td>{{data.PREV_ACTIVITY?data.PREV_ACTIVITY:'-'}}</td>
+                        <td>{{data.ACTIVITY_DATE?data.ACTIVITY_DATE:'-' | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{data.LOCATION?data.LOCATION:'-'}}</td>
+                        <td>{{data.STATUS?data.STATUS:'-'}}</td>
                         <td>
-                            <!-- <button id="openModalButton"  data-bs-toggle="modal" href="#previewModal" (click)="trackContainer(data)" hidden>Open Modal</button>
-                            <button class="form-btn w-100"  (click)="openTracking()">Track</button> -->
-                            <button class="form-btn me-2" id="openModalButton"  data-bs-toggle="modal" href="#previewModal" (click)="trackContainer(data)">Track</button>
+                            <button id="openModalButton"  data-bs-toggle="modal" href="#previewModal" (click)="trackContainer(data)" hidden>Open Modal</button>
+                            <button class="form-btn w-100"  (click)="openTracking(data)">Track</button>
+                            <!-- <button class="form-btn me-2" id="openModalButton"  data-bs-toggle="modal" href="#previewModal" (click)="trackContainer(data)">Track</button> -->
                         </td>
                         
                     </tr>

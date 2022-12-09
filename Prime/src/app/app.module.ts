@@ -16,6 +16,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { AgGridModule } from 'ag-grid-angular';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+// import { PmCmComponent } from './pm-modules/pm-cm/pm-cm.component';
 
 @NgModule({
   declarations: [AppComponent],
