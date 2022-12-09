@@ -587,13 +587,39 @@ export class PmCmComponent implements OnInit {
     return this.cmForm.get("CONTAINER_MOVEMENT_LIST") as FormArray;
   }
 
-  postSelectedContainerList(item: any) {
-    //debugger;
-    const add = this.cmForm.get('CONTAINER_MOVEMENT_LIST') as FormArray;
-    add.push(
-      item
-      );
-    console.log(item.value);
+  postSelectedContainerList(item: any, event: any, index: number) {
+    debugger;
+    
+    if(index==0){
+      const add = this.cmForm.get('CONTAINER_LIST2') as FormArray;
+      const add1 = this.cmForm.get('CONTAINER_MOVEMENT_LIST') as FormArray;
+      if (event.target.checked) {
+        add.controls.forEach((control) => {
+          add1.push(control);
+        });
+
+        for (var i: number = 0; i < add.length; i++) {
+          (document.getElementById('chck' + i) as HTMLInputElement).checked =
+            true;
+        }
+      } else {
+        add.clear();
+        for (var i: number = 0; i < add.length; i++) {
+          (document.getElementById('chck' + i) as HTMLInputElement).checked =
+            false;
+        }
+      }
+      
+    }
+    else{
+      if (event.target.checked) {
+        this.formArr.push(item);
+      } else {
+        this.formArr.removeAt(this.formArr.value.findIndex((m: { CONTAINER_NO: any; }) => m.CONTAINER_NO === item.value.CONTAINER_NO));
+      }
+      
+    }
+    
   }
   
   //FILES LOGIC

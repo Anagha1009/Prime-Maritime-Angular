@@ -207,7 +207,7 @@
                                             <tr>
                                                 <th>
                                                     <label class="checkbox-wrap checkbox-primary" style="margin-bottom: 10px;">
-                                                        <input type="checkbox">
+                                                        <input type="checkbox" (change)="postSelectedContainerList(item,$event,0)">
                                                         <span class="checkmark"></span>
                                                     </label>
                                                 </th>
@@ -236,7 +236,7 @@
                                                 <!-- <td><input (change)="postSelectedContainerList(item)" type="checkbox" /></td> -->
                                                 <td>
                                                     <label class="checkbox-wrap checkbox-primary">
-                                                        <input type="checkbox" (change)="postSelectedContainerList(item)">
+                                                        <input type="checkbox" id="chck{{i}}" (change)="postSelectedContainerList(item,$event,i)">
                                                         <span class="checkmark"></span>
                                                     </label>
                                                 </td>

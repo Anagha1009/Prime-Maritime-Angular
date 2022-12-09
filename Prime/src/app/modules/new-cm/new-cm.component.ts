@@ -45,7 +45,8 @@ export class NewCmComponent implements OnInit {
   selectedActivity:any[]=[];
   selectedItems: any[] = [];
   dropdownSettings = {};
-  contChecked:boolean=false;
+  contAllChecked:boolean=false;
+
   @ViewChild ('myacts') myactsRef: ElementRef;
 
   agentXLCode:any='';
@@ -701,39 +702,41 @@ export class NewCmComponent implements OnInit {
     return this.cmForm.get("CONTAINER_MOVEMENT_LIST") as FormArray;
   }
 
-  postSelectedContainerList(item: any) {
+  selectAll(){
+    this.contAllChecked=true;
+  }
+  postSelectedContainerList(item: any, event: any, index: number) {
     debugger;
-    const add = this.cmForm.get('CONTAINER_MOVEMENT_LIST') as FormArray;
-      add.push(
-        item
-      );
-    console.log(item.value);
-    // const checkbox = document.getElementById(
-    //   'itemCheck',
-    // ) as HTMLInputElement | null;
-    // if(checkbox?.checked){
-    //   const add = this.cmForm.get('CONTAINER_MOVEMENT_LIST') as FormArray;
-    //   add.push(
-    //     item
-    //   );
-    //   console.log(item.value);
-    // }
-    // if(this.contChecked){
-    //   const add = this.cmForm.get('CONTAINER_MOVEMENT_LIST') as FormArray;
-    //   add.push(
-    //     item
-    //   );
-    //   console.log(item.value);
+    
+    if(index==0){
+      const add = this.cmForm.get('CONTAINER_LIST2') as FormArray;
+      const add1 = this.cmForm.get('CONTAINER_MOVEMENT_LIST') as FormArray;
+      if (event.target.checked) {
+        add.controls.forEach((control) => {
+          add1.push(control);
+        });
 
-    // }
-    // if(!this.contChecked){
-    //   const add = this.cmForm.get('CONTAINER_MOVEMENT_LIST') as FormArray;
-    //   add.removeAt(
-    //     add.value.findIndex((e: { CONTAINER_NO: any; }) => e.CONTAINER_NO === item.CONTAINER_NO)
-    //   );
-    //   console.log(item.value);
+        for (var i: number = 0; i < add.length; i++) {
+          (document.getElementById('chck' + i) as HTMLInputElement).checked =
+            true;
+        }
+      } else {
+        add.clear();
+        for (var i: number = 0; i < add.length; i++) {
+          (document.getElementById('chck' + i) as HTMLInputElement).checked =
+            false;
+        }
+      }
       
-    // }
+    }
+    else{
+      if (event.target.checked) {
+        this.formArr.push(item);
+      } else {
+        this.formArr.removeAt(this.formArr.value.findIndex((m: { CONTAINER_NO: any; }) => m.CONTAINER_NO === item.value.CONTAINER_NO));
+      }
+      
+    }
     
   }
   
