@@ -13,7 +13,6 @@ export class NotificationService {
   constructor(private http: HttpClient) { }
 
   subscribe(subscription: any) {
-    debugger
     return this.http.post('/app/' + 'subscribe', subscription).pipe(map(res => res));
   }
   triggerMessage(message: any) {

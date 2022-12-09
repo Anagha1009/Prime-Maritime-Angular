@@ -17,11 +17,11 @@ export class ContainerService {
 
   constructor(private _http: HttpClient) { }
 
-  GetContainerMasterList(containermaster:CONTAINER) {
+  GetContainerMasterList(containermaster: CONTAINER) {
     return this._http.get<any>(
       this.BASE_URL +
-        'Master/GetContainerMasterList?CONTAINER_NO=' +
-        containermaster.CONTAINER_NO,
+      'Master/GetContainerMasterList?CONTAINER_NO=' +
+      containermaster.CONTAINER_NO,
       this.httpOptions
     );
   }
@@ -33,31 +33,32 @@ export class ContainerService {
     );
   }
 
-  GetContainerMasterDetails(container:CONTAINER) {
+  GetContainerMasterDetails(container: CONTAINER) {
+    debugger
     return this._http.get<any>(
       this.BASE_URL +
-        'Master/GetContainerMasterDetails?CREATED_BY=' +
-        container.CREATED_BY +
-        '&ID=' +
-        container.ID,
+      'Master/GetContainerMasterDetails?&ID=' +
+      container.ID +
+      '&CONTAINER_NO=' +
+      container.CONTAINER_NO,
       this.httpOptions
     );
   }
 
-  updateContainerMaster(container:any){
-    
+  updateContainerMaster(container: any) {
+
     return this._http.post<any>(
-      this.BASE_URL+ 'Master/UpdateContainerMasterList',
+      this.BASE_URL + 'Master/UpdateContainerMasterList',
       container,
       this.httpOptions
     );
   }
 
-  deleteContainerMaster(container:CONTAINER){
+  deleteContainerMaster(container: CONTAINER) {
     debugger
     return this._http.delete<any>(
-      this.BASE_URL+
-      'Master/DeleteContainerMasterList?ID='+ container.ID,this.httpOptions
+      this.BASE_URL +
+      'Master/DeleteContainerMasterList?ID=' + container.ID, this.httpOptions
     );
   }
 }

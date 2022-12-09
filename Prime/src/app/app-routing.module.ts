@@ -35,6 +35,8 @@ import { ManifestListComponent } from './modules/manifest-list/manifest-list.com
 import { PushNotificationComponent } from './modules/push-notification/push-notification.component';
 import { MrRequestComponent } from './modules/mr-request/mr-request.component';
 import { MrRequestListComponent } from './modules/mr-request-list/mr-request-list.component';
+import { PmMrRequestComponent } from './pm-modules/pm-mr-request/pm-mr-request.component';
+import { DetentionWaverRequestComponent } from './modules/detention-waver-request/detention-waver-request.component';
 
 const routes: Routes = [
   {
@@ -52,6 +54,10 @@ const routes: Routes = [
       {
         path: 'quotation-list',
         component: PmQuotationListComponent,
+      },
+      {
+        path: 'mr-request',
+        component: PmMrRequestComponent,
       },
     ],
   },
@@ -178,6 +184,10 @@ const routes: Routes = [
       {
         path: 'm&r-request-list',
         component: MrRequestListComponent,
+      },
+      {
+        path: 'dentention-waiver',
+        component: DetentionWaverRequestComponent,
       },
     ],
   },
