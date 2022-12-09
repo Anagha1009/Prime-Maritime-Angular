@@ -54,6 +54,8 @@ export class PmLoginComponent implements OnInit {
             this._router.navigateByUrl('/home/quotation-list');
           } else if (res.roleCode == '3') {
             this._router.navigateByUrl('/home/depo');
+          } else if (res.roleCode == '2') {
+            this._router.navigateByUrl('/pm/dashboard');
           }
         } else {
           alert(res.message);

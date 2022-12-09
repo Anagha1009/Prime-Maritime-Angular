@@ -601,7 +601,7 @@ export class NewBlComponent implements OnInit {
             [
               {
                 image: await this._commonService.getBase64ImageFromURL(
-                  './../../../assets/img/logo_p.png'
+                  'assets/img/logo_p.png'
                 ),
                 alignment: 'right',
                 height: 50,

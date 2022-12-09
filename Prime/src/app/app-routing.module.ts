@@ -44,6 +44,8 @@ import { LoadListComponent } from './modules/load-list/load-list.component';
 
 import { TrackBookingComponent } from './modules/track-booking/track-booking.component';
 import { PmCmComponent } from './pm-modules/pm-cm/pm-cm.component';
+import { PmLandingComponent } from './shared/pm-landing/pm-landing.component';
+import { PmQuotationDetailsComponent } from './pm-modules/pm-quotation-details/pm-quotation-details.component';
 
 const routes: Routes = [
   {
@@ -55,12 +57,20 @@ const routes: Routes = [
     component: PmLayoutComponent,
     children: [
       {
+        path: 'dashboard',
+        component: PmLandingComponent,
+      },
+      {
         path: 'quotation-list',
         component: PmQuotationListComponent,
       },
       {
         path: 'container-movement',
         component: PmCmComponent,
+      },
+      {
+        path: 'quotation-details',
+        component: PmQuotationDetailsComponent,
       },
     ],
   },
