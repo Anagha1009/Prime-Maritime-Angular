@@ -41,6 +41,7 @@ import { environment } from 'src/environments/environment.prod';
 import { PushNotificationComponent } from 'src/app/modules/push-notification/push-notification.component';
 import { MrRequestComponent } from 'src/app/modules/mr-request/mr-request.component';
 import { MrRequestListComponent } from 'src/app/modules/mr-request-list/mr-request-list.component';
+import { DetentionWaverRequestComponent } from 'src/app/modules/detention-waver-request/detention-waver-request.component';
 import { CtListComponent } from 'src/app/modules/ct-list/ct-list.component';
 import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
 import { TrackBookingComponent } from 'src/app/modules/track-booking/track-booking.component';
@@ -83,6 +84,7 @@ import { LoadListComponent } from 'src/app/modules/load-list/load-list.component
     PartyComponent,
     MrRequestComponent,
     MrRequestListComponent,
+    DetentionWaverRequestComponent,
     CtListComponent,
     TrackingComponent,
     TrackBookingComponent,
