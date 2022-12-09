@@ -98,27 +98,37 @@ export class SplitBookingComponent implements OnInit {
  
   }
 
+  removeItem(i: any) {
+    const add = this.splitBookingForm.get('SLOT_LIST') as FormArray;
+    add.removeAt(i);
+  }
+
   splitBooking(){
+    
     debugger;
     this.submitted=true;
-    this.splitBookingForm.get('BOOKING_NO')?.setValue(this.booking?.BOOKING_NO);
-    this.splitBookingForm.get('IS_ROLLOVER')?.setValue(true);
-    this.splitBookingForm.get('SRR_ID')?.setValue(this.booking?.CONTAINER_LIST[0].SRR_ID);
-    this.splitBookingForm.get('SRR_NO')?.setValue(this.booking?.CONTAINER_LIST[0].SRR_NO);
-    this.splitBookingForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
-    this.splitBookingForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    this.splitBookingForm.get('STATUS')?.setValue('Booked');
-    this.splitBookingForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    if(this.splitBookingForm.invalid){
+      return
+    }
+    alert("hii")
+    // this.splitBookingForm.get('BOOKING_NO')?.setValue(this.booking?.BOOKING_NO);
+    // this.splitBookingForm.get('IS_ROLLOVER')?.setValue(true);
+    // this.splitBookingForm.get('SRR_ID')?.setValue(this.booking?.CONTAINER_LIST[0].SRR_ID);
+    // this.splitBookingForm.get('SRR_NO')?.setValue(this.booking?.CONTAINER_LIST[0].SRR_NO);
+    // this.splitBookingForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
+    // this.splitBookingForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
+    // this.splitBookingForm.get('STATUS')?.setValue('Booked');
+    // this.splitBookingForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
 
-    console.log(JSON.stringify(this.splitBookingForm.value));
-    this._bookingService
-      .postBookingDetails(JSON.stringify(this.splitBookingForm.value))
-      .subscribe((res: any) => {
-        if (res.responseCode == 200) {
-          alert('The booking has been rolled over successfully !');
-          this._router.navigateByUrl('/home/booking-list');
-        }
-      });
+    // console.log(JSON.stringify(this.splitBookingForm.value));
+    // this._bookingService
+    //   .postBookingDetails(JSON.stringify(this.splitBookingForm.value))
+    //   .subscribe((res: any) => {
+    //     if (res.responseCode == 200) {
+    //       alert('The booking has been rolled over successfully !');
+    //       this._router.navigateByUrl('/home/booking-list');
+    //     }
+    //   });
 
   }
   cancelBooking(){

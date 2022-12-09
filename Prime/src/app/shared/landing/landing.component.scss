@@ -153,3 +153,16 @@ input[id="radio-4"] {
     transform: scale(0.6);
   }
 }
+
+.navbar a,
+.navbar a:focus {
+  color: #000;
+  font-weight: bold;
+}
+
+.navbar a:hover,
+.navbar .active,
+.navbar .active:focus,
+.navbar li:hover > a {
+  color: #ea0813;
+}

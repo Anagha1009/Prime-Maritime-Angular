@@ -16,7 +16,7 @@ export class CommonService {
 
   constructor(private _http: HttpClient) {}
 
-  getDropdownData(key: string) {
+  getDropdownData(key: string, port:string = '') {
     return this._http.get<any>(
       this.BASE_URL + 'Common/GetDropdownData?key=' + key,
       this.httpOptions

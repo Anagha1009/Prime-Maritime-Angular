@@ -4,7 +4,7 @@
 <div class="container">
     <div class="mx-5" [formGroup]="croForm">
         <div class="col-md-6 offset-md-6 text-end">
-            <button class="form-btn-primary" routerLink="/home/new-cro">New CRO</button>
+            <button class="form-btn-primary" routerLink="home/new-cro">New CRO</button>
         </div>
         <div class="row">
             <div class="col-md-4">
@@ -38,27 +38,37 @@
             <div [class]="isScroll ? 'force-overflow' : ''">
                 <div class="icon-box icon-box-cyan text-start" *ngFor="let item of croList">
                     <div class="row">
-                        <div class="col-md-3">
-                            <h4 class="title">{{ item.CRO_NO }}
-                            </h4>
-                        </div>
                         <div class="col-md-5">
-                            <p class="description"> <span class="bx bx-user"></span> {{item.CUSTOMER_NAME}} | <span
-                                    class="bx bxs-truck"></span>
-                                Stuffing Type : {{item.STUFFING_TYPE}} <br> Empty Container Pickup :
-                                {{item.EMPTY_CONT_PCKP}}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <p class="description">
-                                <span class="">
-                                    Gross Wght : {{item.GROSS_WT}} {{item.GROSS_WT_UNIT}}</span> |
-                                Valid Till : {{item.CRO_VALIDITY_DATE |
-                                date:'mediumDate'}}
+                            <h4 class="title mb-0">{{ item.CRO_NO }}
+                            </h4>
+                            <small class="mb-0 text-danger">{{item.BOOKING_NO}}</small>
+                            <p class="description mb-2"><span class="bx bxs-ship me-2"></span>{{item.POL}} <i
+                                    class='bx bxs-right-arrow-circle mx-2'></i>
+                                <span class="bx bxs-ship me-2"></span>{{item.POD}}
                             </p>
                         </div>
-                        <div class="col-md-1 rounded-btn">
-                            <a (click)="getCRODetails(item.CRO_NO)"><i class="fa fa-eye text-light"></i></a>
+                        <div class="col-md-5">
+                            <p class="description" style="font-weight: 500;"> <span
+                                    class="bx bx-user me-2"></span>{{item.CUSTOMER_NAME}} </p>
+                            <p class="description"><span class="bx bxs-truck me-2"></span>Stuffing Type :
+                                {{item.STUFFING_TYPE}} | Pickup :
+                                {{item.EMPTY_CONT_PCKP}}</p>
+                            <p class="description"><i class='bx bxs-package me-2'></i>{{item.PACKAGES}} -
+                                {{item.GROSS_WT}}
+                                {{item.GROSS_WT_UNIT}} (Gross)</p>
                         </div>
+                        <div class="col-md-2">
+                            <button (click)="getCRODetails(item.CRO_NO)" class="form-btn rounded-pill mb-2">View
+                                PDF</button>
+                            <p class="description">
+                                Valid Till : <span class="text-danger">{{item.CRO_VALIDITY_DATE |
+                                    date:'mediumDate'}}</span>
+
+                            </p>
+                        </div>
+                        <!-- <div class="col-md-1 rounded-btn">
+                            <a (click)="getCRODetails(item.CRO_NO)"><i class="fa fa-eye text-light"></i></a>
+                        </div> -->
                         <!-- <div class="col-md-4 text-end">
                             <button #openModal1 data-bs-toggle="modal" href="#SIModal"
                                 class="form-btn rounded-pill">Create BL</button>

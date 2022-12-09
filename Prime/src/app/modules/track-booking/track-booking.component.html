@@ -1,0 +1,45 @@
+<div class="container-fluid">
+    <ul class="multi-steps mt-5">
+        <li #step1 class="is-active">Quotation
+            <div #p1 class="progress-bar">
+            </div>
+            <div class="progress-bar__bar">
+                <div #icon1 class="train" style="bottom: 1.9rem;width: 20%;" onclick="this.style.left='255px'">
+                    <img src="../../../assets/img/quote-icon.png" width="100%">
+                </div>
+            </div>
+        </li>
+        <li #step2>CRO<div #p2 class="progress-bar"></div>
+            <div class="progress-bar__bar">
+                <div #icon2 class="train" style="bottom: 1rem;width: 27%;" onclick="this.style.left='245px'">
+                    <img src="../../../assets/img/container2.jpg" width="100%">
+                </div>
+            </div>
+        </li>
+        <li #step3>BL<div #p3 class="progress-bar"></div>
+            <div class="progress-bar__bar">
+                <div #icon3 class="train" style="width: 20%;bottom:1.7rem" onclick="this.style.left='260px'">
+                    <img src="../../../assets/img/972617.png" width="100%">
+                </div>
+            </div>
+        </li>
+        <li #step4>Vessel Sailed<div #p4 class="progress-bar"></div>
+            <div class="progress-bar__bar">
+                <div #icon4 class="train" style="bottom: 1.3rem;width: 35%;" onclick="this.style.left='230px'">
+                    <img src="../../../assets/img/cargoship2.png" width="100%">
+                </div>
+            </div>
+        </li>
+        <li #step5>DO<div #p5 class="progress-bar"></div>
+            <div class="progress-bar__bar">
+                <div #icon5 class="train w-25" style="bottom: 1.8rem" onclick="this.style.left='260px'">
+                    <img src="../../../assets/img/truck-icon.jpg" width="100%">
+                </div>
+            </div>
+        </li>
+        <li #step6>Release</li>
+    </ul>
+</div>
+<br>
+<br>
+<button (click)="next()">Next Step</button>

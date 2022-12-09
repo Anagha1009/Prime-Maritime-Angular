@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MasterService } from 'src/app/services/master.service';
 
 @Component({
@@ -22,16 +22,25 @@ export class ContainerSizeComponent implements OnInit {
     this.sizeForm = this._formBuilder.group({
       ID: [0],
       KEY_NAME: [''],
-      CODE: [''],
-      CODE_DESC: [''],
-      STATUS: [''],
+      CODE: ['',Validators.required],
+      CODE_DESC: ['',Validators.required],
+      STATUS: ['',Validators.required],
       CREATED_BY: [''],
     });
 
     this.GetContainerSizeList();
   }
 
+
+   get f(){
+return this.sizeForm.controls;
+}
+
   InsertContainerSize() {
+this.submitted=true
+if(this.sizeForm.invalid){
+  return
+}
     this.sizeForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
     var status = this.sizeForm.get('STATUS')?.value;
     this.sizeForm.get('STATUS')?.setValue(status == 'true' ? true : false);

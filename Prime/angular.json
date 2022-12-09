@@ -35,7 +35,8 @@
               "src/assets/img/A1.pdf",
               "src/manifest.webmanifest",
               "src/ngsw-worker.js",
-              "src/ngsw.json"
+              "src/ngsw.json",
+              "src/assets/vendor/aos/aos.js"
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -56,13 +57,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "5mb",
                   "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "5mb",
+                  "maximumError": "5mb"
                 }
               ],
               "fileReplacements": [
@@ -114,7 +115,9 @@
               "src/favicon.ico",
               "src/assets",
               "src/assets/img/A1.pdf",
-              "src/manifest.webmanifest"
+              "src/manifest.webmanifest",
+              "src/ngsw.json",
+              "src/assets/vendor/aos/aos.js"
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
