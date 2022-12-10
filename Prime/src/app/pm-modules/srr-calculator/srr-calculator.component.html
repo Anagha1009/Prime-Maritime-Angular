@@ -1,0 +1,285 @@
+<div class="col-md-4 mx-auto">
+    <div class="tabs">
+        <input type="radio" (click)="tabs = '1'" class="d-none" id="radio-1" name="tabs" checked />
+        <label class="tab" for="radio-1">To Port</label>
+        <input type="radio" (click)="tabs = '2'" class="d-none" id="radio-2" name="tabs" />
+        <label class="tab" for="radio-2">Empty/Laden Back</label>
+        <span class="glider"></span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="form-label3">POL</label>
+            <input readonly value="Chennai (INMUN)" type="text" class="form-control3" />
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="form-label3">POD</label>
+            <select class="form-control3">
+                <option value="">--Select--</option>
+                <option value="INMUN">INMUN</option>
+                <option value="INIX1">INIX1</option>
+            </select>
+        </div>
+    </div>
+</div>
+<label class="form-label2" style="z-index: 1;font-size: 1rem;font-weight: 500;color: #185ee0;">Freight
+    Charges</label>
+<div class="col-md-6">
+    <div class="card" style="font-size: 14px;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <label class="label-header">Charge Code</label>
+                </div>
+                <div class="col-md-4">
+                    <label class="label-header">Standard</label>
+                </div>
+                <div class="col-md-3">
+                    <label class="label-header">Counter</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">Gross Freight</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">100 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">Net Freight</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">160 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">BAF</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">200 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-5">
+                    <h6>Total : </h6>
+                </div>
+                <div class="col-md-4">
+                    <h6>460 USD</h6>
+                </div>
+                <div class="col-md-3">
+                    <h6>0 USD</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<label class="form-label2" style="z-index: 1;font-size: 1rem;font-weight: 500;color: #185ee0;">POL
+    Charges</label>
+<div class="col-md-6">
+    <div class="card" style="font-size: 14px;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <label class="label-header">Charge Code</label>
+                </div>
+                <div class="col-md-4">
+                    <label class="label-header">Standard</label>
+                </div>
+                <div class="col-md-3">
+                    <label class="label-header">Counter</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">BL Fee</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">5 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">Seal Fee</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">6 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">Terminal Rebate</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">5 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">MUC</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">2 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">THC</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">120 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">Survey</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">2 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-5">
+                    <h6>Total : </h6>
+                </div>
+                <div class="col-md-4">
+                    <h6>140 USD</h6>
+                </div>
+                <div class="col-md-3">
+                    <h6>0 USD</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<label class="form-label2" style="z-index: 1;font-size: 1rem;font-weight: 500;color: #185ee0;">POD
+    Charges</label>
+<div class="col-md-6">
+    <div class="card" style="font-size: 14px;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <label class="label-header">Charge Code</label>
+                </div>
+                <div class="col-md-4">
+                    <label class="label-header">Standard</label>
+                </div>
+                <div class="col-md-3">
+                    <label class="label-header">Counter</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">DO Fee</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">8 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">Seal Fee</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">7 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">THC</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">207 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">CMC</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">41 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">Container Washing</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">20 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mt-2">
+                    <label class="label-subheader">ISPS</label>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <label class="label-subheader">12 USD</label>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <input class="form-control3" type="text" />
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-5">
+                    <h6>Total : </h6>
+                </div>
+                <div class="col-md-4">
+                    <h6>295 USD</h6>
+                </div>
+                <div class="col-md-3">
+                    <h6>0 USD</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

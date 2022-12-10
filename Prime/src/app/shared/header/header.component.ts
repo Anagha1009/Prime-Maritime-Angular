@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -9,11 +10,21 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
   @Input() menu: string;
   menuList: any[] = [];
+  public selectedLanguage: any = 'en';
 
-  constructor(private _router: Router) {}
+  constructor(
+    private _router: Router,
+    public _translateService: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.getMenuList(this.menu);
+    this.setLanguage('en');
+  }
+
+  setLanguage(language: any): void {
+    this.selectedLanguage = language;
+    this._translateService.use(language);
   }
 
   getMenuList(param: any) {

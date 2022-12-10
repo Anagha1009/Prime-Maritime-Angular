@@ -23,13 +23,16 @@ export class NewQuotationComponent implements OnInit {
   submitted1: boolean = false;
   isContainer: boolean = false;
   containerList: any[] = [];
-  portList: any[] = [];
   icdList: any[] = [];
   containersizeList: any[] = [];
-  servicemodeList: any[] = [];
+  servicenameList: any[] = [];
   servicetypeList: any[] = [];
   conindex: any = 0;
-
+  polList: any[] = [];
+  podList: any[] = [];
+  ts1List: any[] = [];
+  ts2List: any[] = [];
+  customerList: any[] = [];
   //Files
   isUploadedPOL: boolean = false;
   POLAcceptanceFile: string = '';
@@ -449,12 +452,6 @@ export class NewQuotationComponent implements OnInit {
   }
 
   getDropdown() {
-    this._commonService.getDropdownData('PORT').subscribe((res: any) => {
-      if (res.hasOwnProperty('Data')) {
-        this.portList = res.Data;
-      }
-    });
-
     this._commonService.getDropdownData('ICD').subscribe((res: any) => {
       if (res.hasOwnProperty('Data')) {
         this.icdList = res.Data;
@@ -470,18 +467,52 @@ export class NewQuotationComponent implements OnInit {
       });
 
     this._commonService
-      .getDropdownData('SERVICE_MODE')
-      .subscribe((res: any) => {
-        if (res.hasOwnProperty('Data')) {
-          this.servicemodeList = res.Data;
-        }
-      });
-
-    this._commonService
       .getDropdownData('SERVICE_TYPE')
       .subscribe((res: any) => {
         if (res.hasOwnProperty('Data')) {
           this.servicetypeList = res.Data;
+        }
+      });
+
+    this._commonService
+      .getDropdownData('CUSTOMER_NAME')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.customerList = res.Data;
+        }
+      });
+  }
+
+  getServiceName(event: any) {
+    this.servicenameList = [];
+    this._commonService
+      .getDropdownData('SERVICE_NAME', event, '')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.servicenameList = res.Data;
+        }
+      });
+  }
+
+  getPortList(event: any, value: string) {
+    if (value == 'POL') {
+      this.polList = [];
+    } else if (value == 'POD') {
+      this.podList = [];
+    }
+    this._commonService
+      .getDropdownData('PORT', '', event.target.value)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          if (value == 'POL') {
+            this.polList = res.Data;
+          } else if (value == 'POD') {
+            this.podList = res.Data;
+          } else if (value == 'TS1') {
+            this.ts1List = res.Data;
+          } else if (value == 'TS2') {
+            this.ts2List = res.Data;
+          }
         }
       });
   }

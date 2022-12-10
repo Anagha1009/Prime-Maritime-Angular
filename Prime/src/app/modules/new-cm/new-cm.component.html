@@ -283,11 +283,11 @@
                                                 <td>{{cmForm.value.CONTAINER_LIST2[i].PREV_ACTIVITY}}</td>
 
                                                 <td class="col-md-2">
-                                                    <ng-select formControlName="ACTIVITY" *ngIf="currentUser=='agent'">
+                                                    <ng-select formControlName="ACTIVITY">
                                                         <ng-option value="" selected disabled>
                                                             --Activity--</ng-option>
-                                                        <ng-option
-                                                            *ngFor="let act of cmForm.value.CONTAINER_LIST2[i].NEXT_ACTIVITY_LIST"
+                                                        <ng-option *ngFor=" let act of
+                                                        cmForm.value.CONTAINER_LIST2[i].NEXT_ACTIVITY_LIST"
                                                             value="{{act.split('-')[0]}}">
                                                             {{act.split('-')[0]}}-{{act.split('-')[1]}}
                                                         </ng-option>

@@ -1,10 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { time } from 'console';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 import { QUOTATION } from 'src/app/models/quotation';
 import { CommonService } from 'src/app/services/common.service';
 import { QuotationService } from 'src/app/services/quotation.service';
+import { locale as english } from 'src/app/@core/translate/srr/en';
+import { locale as hindi } from 'src/app/@core/translate/srr/hi';
 
 @Component({
   selector: 'app-quotation-list',
@@ -38,8 +40,11 @@ export class QuotationListComponent implements OnInit {
     private _quotationService: QuotationService,
     private _router: Router,
     private _formBuilder: FormBuilder,
-    private _commonService: CommonService
-  ) {}
+    private _commonService: CommonService,
+    private _coreTranslationService: CoreTranslationService
+  ) {
+    this._coreTranslationService.translate(english, hindi);
+  }
 
   ngOnInit(): void {
     this.quotationForm = this._formBuilder.group({

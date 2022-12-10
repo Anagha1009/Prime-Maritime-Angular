@@ -32,9 +32,10 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <ng-select [ngClass]="{'invalid': submitted && f.POL.errors}" formControlName="POL">
+                                <ng-select (keyup)="getPortList($event,'POL')" (change)="getServiceName($event)"
+                                    [ngClass]="{'invalid': submitted && f.POL.errors}" formControlName="POL">
                                     <ng-option value="" selected="true" disabled>--Select POL--</ng-option>
-                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    <ng-option *ngFor="let item of polList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -46,9 +47,10 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <ng-select [ngClass]="{'invalid': submitted && f.POD.errors}" formControlName="POD">
+                                <ng-select (keyup)="getPortList($event,'POD')"
+                                    [ngClass]="{'invalid': submitted && f.POD.errors}" formControlName="POD">
                                     <ng-option value="" selected="true" disabled>--Select POD--</ng-option>
-                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">
+                                    <ng-option *ngFor="let item of podList;" value="{{item.CODE}}">
                                         {{item.CODE_DESC}} ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -88,9 +90,9 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <ng-select formControlName="TSP_1">
+                                <ng-select (keyup)="getPortList($event,'TS1')" formControlName="TSP_1">
                                     <ng-option value="" selected="true" disabled>--Select TSP 1--</ng-option>
-                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    <ng-option *ngFor="let item of ts1List" value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -101,9 +103,9 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <ng-select formControlName="TSP_2">
+                                <ng-select (keyup)="getPortList($event,'TS2')" formControlName="TSP_2">
                                     <ng-option value="" selected="true" disabled>--Select TSP 2--</ng-option>
-                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    <ng-option *ngFor="let item of ts2List" value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -115,7 +117,7 @@
                                 <ng-select [ngClass]="{'invalid': submitted && f.SERVICE_NAME.errors}"
                                     formControlName="SERVICE_NAME">
                                     <ng-option value="" selected="true" disabled>--Select Service--</ng-option>
-                                    <ng-option *ngFor="let item of servicetypeList" value="{{item.CODE}}">{{item.CODE}}
+                                    <ng-option *ngFor="let item of servicenameList" value="{{item.CODE}}">{{item.CODE}}
                                     </ng-option>
                                 </ng-select>
                                 <label class="form-label-ddl">Service Name <span class="text-danger">
@@ -129,7 +131,10 @@
                                 <ng-select [ngClass]="{'invalid': submitted && f.CUSTOMER_NAME.errors}"
                                     formControlName="CUSTOMER_NAME">
                                     <ng-option value="" selected="true" disabled>--Select Customer--</ng-option>
-                                    <ng-option value="JITEX">JITEX</ng-option>
+                                    <ng-option *ngFor="let item of customerList"
+                                        value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        ({{item.CODE}})
+                                    </ng-option>
                                 </ng-select>
                                 <label class="form-label-ddl">Customer Name <span class="text-danger">
                                         *</span></label>

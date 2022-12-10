@@ -1,33 +1,33 @@
 <div class="section-title">
-    <h2>Rate Requests</h2>
+    <h2>{{'Header.title'|translate}}</h2>
 </div>
 <div class="container">
     <form class="mx-5" [formGroup]="quotationForm">
         <div class="col-md-6 offset-md-6 text-end">
-            <button class="form-btn-primary" routerLink="/home/new-quotation">New Rate Request</button>
+            <button class="form-btn-primary" routerLink="/home/new-quotation">{{'Button.newRequest'|translate}}</button>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label class="form-label2">Request No</label>
+                    <label class="form-label2">{{'Header.requestNo'|translate}}</label>
                     <input formControlName="SRR_NO" type="text" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <label class="form-label2">From Date</label>
+                    <label class="form-label2">{{'Header.fromDate'|translate}}</label>
                     <input formControlName="FROM_DATE" type="date" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <label class="form-label2">To Date</label>
+                    <label class="form-label2">{{'Header.toDate'|translate}}</label>
                     <input formControlName="TO_DATE" type="date" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <label class="form-label2">Status</label>
+                    <label class="form-label2">{{'Header.status'|translate}}</label>
                     <select class="form-control2" formControlName="STATUS">
                         <option value="">--Select--</option>
                         <option value="Approved">Approved</option>
@@ -36,8 +36,8 @@
                 </div>
             </div>
             <div class="col-md-3 mt-4">
-                <button class="form-btn me-2" (click)="Search()">Search</button>
-                <button class="form-btn" (click)="Clear()">Clear</button>
+                <button class="form-btn me-2" (click)="Search()">{{'Button.search'|translate}}</button>
+                <button class="form-btn" (click)="Clear()">{{'Button.clear'|translate}}</button>
             </div>
         </div>
     </form>
@@ -83,10 +83,13 @@
                                 <p class="description"><span class='bx bxs-wallet me-2'></span>Rate : <span
                                         class="text-success">{{item.TOTAL_RATE_REQUESTED}}
                                     </span>
-                                    | Validity : <span class="text-danger">{{item.EFFECT_FROM
+                                    | Validity : <span class="">{{item.EFFECT_FROM
                                         | date:'mediumDate'}} -
-                                        {{item.EFFECT_TO | date:'mediumDate'}}</span><img *ngIf="item.DAYS <= 3"
-                                        height="30" width="40" class="mb-1" src="assets/img/alert.gif"></p>
+                                        {{item.EFFECT_TO | date:'mediumDate'}}</span>
+                                    <small class="ms-2 text-danger" *ngIf="item.DAYS <= 3"> About to
+                                        expire !</small>
+                                    <!-- <img *ngIf="item.DAYS <= 3" height="30" width="40" class="mb-1" src="assets/img/alert.gif"> -->
+                                </p>
                                 <p class="description"><i class='bx bxs-package me-2'></i>{{item.COMMODITY}} Kg</p>
                             </div>
                             <div class="col-md-2 text-end" *ngIf="item.STATUS == 'Approved'">

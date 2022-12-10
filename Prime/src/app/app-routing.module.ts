@@ -45,6 +45,7 @@ import { LoadListComponent } from './modules/load-list/load-list.component';
 import { TrackBookingComponent } from './modules/track-booking/track-booking.component';
 import { PmLandingComponent } from './shared/pm-landing/pm-landing.component';
 import { PmQuotationDetailsComponent } from './pm-modules/pm-quotation-details/pm-quotation-details.component';
+import { SrrCalculatorComponent } from './pm-modules/srr-calculator/srr-calculator.component';
 
 const routes: Routes = [
   {
@@ -66,6 +67,10 @@ const routes: Routes = [
       {
         path: 'quotation-details',
         component: PmQuotationDetailsComponent,
+      },
+      {
+        path: 'srr-calculator',
+        component: SrrCalculatorComponent,
       },
     ],
   },
@@ -214,11 +219,10 @@ const routes: Routes = [
         component: MrRequestListComponent,
       },
       {
-        path:'load-list',
-        component:LoadListComponent,
+        path: 'load-list',
+        component: LoadListComponent,
       },
       {
-     
         path: 'track-booking',
         component: TrackBookingComponent,
       },
