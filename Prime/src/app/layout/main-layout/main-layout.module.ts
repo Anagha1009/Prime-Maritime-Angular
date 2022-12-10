@@ -46,6 +46,7 @@ import { CtListComponent } from 'src/app/modules/ct-list/ct-list.component';
 import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
 import { TrackBookingComponent } from 'src/app/modules/track-booking/track-booking.component';
 import { LoadListComponent } from 'src/app/modules/load-list/load-list.component';
+import { NewTrackComponent } from 'src/app/modules/new-track/new-track.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { LoadListComponent } from 'src/app/modules/load-list/load-list.component
     DetentionWaverRequestComponent,
     CtListComponent,
     TrackingComponent,
+    NewTrackComponent,
     TrackBookingComponent,
     LoadListComponent,
   ],

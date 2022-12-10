@@ -1,0 +1,29 @@
+.rope{
+    position: absolute;
+    margin-top: 10px;
+    height:800px;
+    width:80%;
+    background-image: url('/assets/img/latestrope.png');
+    background-repeat: no-repeat;
+    //background-size: 1500px 500px;
+   
+}
+#hang{
+    position: relative;
+    margin-top:0px ;
+    height:200px;
+    width:200px;
+    background-image: url('/assets/img/newhang.gif');
+    background-repeat: no-repeat;
+    //animation: move-in-steps 10s infinite;
+}
+@keyframes move-in-steps {
+    0% {
+      left: 0;
+      //background: blue;
+    }
+    20% {
+      left: 20%;
+      //background: red;
+    }
+}
