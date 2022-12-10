@@ -241,7 +241,8 @@
                                                 <th>
                                                     <label class="checkbox-wrap checkbox-primary"
                                                         style="margin-bottom: 10px;">
-                                                        <input type="checkbox">
+                                                        <input type="checkbox"
+                                                            (change)="postSelectedContainerList(item,$event,0)">
                                                         <span class="checkmark"></span>
                                                     </label>
                                                 </th>
@@ -272,8 +273,8 @@
                                                 <!-- <td><input (change)="postSelectedContainerList(item)" type="checkbox" /></td> -->
                                                 <td>
                                                     <label class="checkbox-wrap checkbox-primary">
-                                                        <input type="checkbox"
-                                                            (change)="postSelectedContainerList(item)">
+                                                        <input type="checkbox" id="chck{{i}}"
+                                                            (change)="postSelectedContainerList(item,$event,i)">
                                                         <span class="checkmark"></span>
                                                     </label>
                                                 </td>
@@ -352,7 +353,6 @@
 
 </div>
 
-
 <div class="modal fade" id="previewModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -369,7 +369,6 @@
                             <th>CRO No</th>
                             <th>Container No</th>
                             <th>Activity</th>
-                            <th>Previous Activity</th>
                             <th>Activity Date</th>
                             <th>Location</th>
                             <th>Status</th>
@@ -381,7 +380,6 @@
                             <td>{{data.CRO_NO}}</td>
                             <td>{{data.CONTAINER_NO}}</td>
                             <td>{{data.ACTIVITY}}</td>
-                            <td>{{data.PREV_ACTIVITY}}</td>
                             <td>{{data.ACTIVITY_DATE | date: 'dd/MM/yyyy'}}</td>
                             <td>{{data.LOCATION}}</td>
                             <td>{{data.STATUS}}</td>

@@ -14,4 +14,5 @@ export class Activity{
     ACT_NAME:any='';
     ACT_CODE:any='';
     ACT_TYPE:any='';
+    ACTIVITY_BY:any='';
 }

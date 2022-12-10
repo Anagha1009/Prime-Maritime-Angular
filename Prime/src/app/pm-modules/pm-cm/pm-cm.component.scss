@@ -29,8 +29,8 @@
 .ratetable {
   margin-bottom: 1rem;
   color: #212529;
-  min-width: 1000px !important;
-  width: 150%;
+  //min-width: 500px !important;
+  width: 100%;
   -webkit-box-shadow: 0px 5px 12px -12px rgba(0, 0, 0, 0.29);
   -moz-box-shadow: 0px 5px 12px -12px rgba(0, 0, 0, 0.29);
   box-shadow: 0px 5px 12px -12px rgba(0, 0, 0, 0.29);
@@ -166,4 +166,3 @@
 .checkbox-primary input:checked ~ .checkmark:after {
   color: #40bfc1;
 }
-

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SwPush } from '@angular/service-worker';
+import { SwPush, SwUpdate } from '@angular/service-worker';
 import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
@@ -9,7 +9,8 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class PushNotificationComponent implements OnInit {
 
-  readonly VAPID_KEY = 'BNtm-GAQ8YJdZUniE2kM5g1QysrQw0HZSdCuu9RSqIrGlrpi82eYi3pRa9Lhj1Hn3Lspc-ANq2v-zwS34X1zca4';
+  vapidKeys: string = `BADdk_vfLNd_UFgkCv2Ip12luBjcOP_iAg1RU490Te2-XQlKNWNdB-STSHBfOzSBFH2zW99jixVbA3mvvL7Povc`;
+  // readonly VAPID_KEY = 'BNtm-GAQ8YJdZUniE2kM5g1QysrQw0HZSdCuu9RSqIrGlrpi82eYi3pRa9Lhj1Hn3Lspc-ANq2v-zwS34X1zca4';
   payload = JSON.stringify({
     "notification": {
       "title": "Web Mail Notification",
@@ -22,50 +23,30 @@ export class PushNotificationComponent implements OnInit {
     }
   })
 
-  constructor(private swPush: SwPush, private service: NotificationService) { }
+  constructor
+    (
+      private swUpdate: SwUpdate,
+      private swPush: SwPush,
+      private service: NotificationService
+    ) {
+    swUpdate.available.subscribe(swUpdate => {
+      console.log("update available");
+
+    })
+  }
   triggerMessage() {
     this.service.triggerMessage(this.payload).subscribe(x => console.log(x), err => console.log(err));
   }
 
-  // subscribeToNotifications() {
-  //   //this.requestSubscription();
-  //   console.log(Notification.permission);
-  //   console.log(this.vapidKeys);
-  //   if (this.swPush.isEnabled) {
-  //     this.swPush.notificationClicks.subscribe(x => console.log(x));
-  //     this.swPush.requestSubscription({
-  //       serverPublicKey: this.vapidKeys
-  //     })
-  //       .then(sub => { this.service.subscribe(sub).subscribe(x => console.log(x), err => console.log(err)) })
-  //       .catch(err => console.error("Could not subscribe to notifications", err));
-  //   }
-  // }
-
-  async requestSubscription() {
-    try {
-      debugger
-      const sub = await this.swPush.requestSubscription({ serverPublicKey: this.VAPID_KEY });
-      console.log("subscription object ", sub);
-    } catch (e) {
-      //this._floatNotifications.makeToast.next({header: "Task failed", text: "failed to get subscription object"+e, DurationsEnum: DurationsEnum.MEDIUM, type: "danger"});
-    }
-  }
-
-
-
-
-
   subscribeToNotifications() {
-    if(this.swPush.isEnabled){
-      this.swPush.requestSubscription({
-        serverPublicKey: this.VAPID_KEY
+    if (this.swPush.isEnabled) {
+      this.swPush.notificationClicks.subscribe(x => console.log(x)); this.swPush.requestSubscription({
+        serverPublicKey: this.vapidKeys
       })
-      .then(sub => {
-        this.service.addPushSubscriber(sub).subscribe();
-      })
+        .then(sub => { this.service.subscribe(sub).subscribe(x => console.log(x), err => console.log(err)) })
+        .catch(err => console.error("Could not subscribe to notifications", err));
     }
   }
-
 
 
   ngOnInit(): void {
