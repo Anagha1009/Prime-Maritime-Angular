@@ -97,7 +97,7 @@ export class NewTrackComponent implements OnInit {
   openTracking(data:any){
     debugger;
     this.currentActivity=data.ACTIVITY;  
-    // this.currentActivity="SNTC";
+    //this.currentActivity="SNTC";
     // this.currentActivity="RCFL";
     //this.currentActivity="LODF";
     //this.currentActivity="DCHF";
@@ -170,7 +170,7 @@ export class NewTrackComponent implements OnInit {
   shift2(){
     var hang =document.getElementById('hang') as HTMLElement;
     hang.style.animation="move-in-steps2 10s infinite";
-    setTimeout(()=>{hang.style.animationPlayState="paused"},2250);
+    setTimeout(()=>{hang.style.animationPlayState="paused"},2500);
   }
   shift3(){
     var hang =document.getElementById('hang') as HTMLElement;

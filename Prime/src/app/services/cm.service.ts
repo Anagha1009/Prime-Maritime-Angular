@@ -69,6 +69,19 @@ export class CmService {
     );
   }
 
+  //for empty repo
+  getCMAvailable(status:any,currentLocation:any){
+    debugger;
+    return this._http.get<any>(
+      this.BASE_URL+
+      'ContainerMovement/GetCMAvailable?STATUS='+
+      status +
+      '&CURRENT_LOCATION='+
+      currentLocation,
+      this.httpOptions
+    );
+  }
+
   getTrackingHistory(contNo:any){
     return this._http.get<any>(
       this.BASE_URL+
