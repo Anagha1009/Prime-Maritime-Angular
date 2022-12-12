@@ -7,7 +7,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuotationDetailsComponent } from 'src/app/modules/quotation-details/quotation-details.component';
 import { NewQuotationComponent } from 'src/app/modules/new-quotation/new-quotation.component';
-import { LoginComponent } from 'src/app/modules/login/login.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { BookingListComponent } from 'src/app/modules/booking-list/booking-list.component';
 import { NewCroComponent } from 'src/app/modules/new-cro/new-cro.component';
@@ -55,7 +54,6 @@ import { TranslateModule } from '@ngx-translate/core';
     QuotationListComponent,
     QuotationDetailsComponent,
     NewQuotationComponent,
-    LoginComponent,
     BookingListComponent,
     NewCroComponent,
     CroListComponent,

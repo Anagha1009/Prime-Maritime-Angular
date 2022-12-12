@@ -156,6 +156,7 @@ export class QuotationListComponent implements OnInit {
     this.quotation.OPERATION = 'GET_SRRLIST';
     this._quotationService.getSRRList(this.quotation).subscribe(
       (res: any) => {
+        debugger;
         this.quotationList = [];
         this.isScroll = false;
         if (res.hasOwnProperty('Data')) {
@@ -336,6 +337,21 @@ export class QuotationListComponent implements OnInit {
   removeItem(i: any) {
     const add = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
     add.removeAt(i);
+  }
+
+  numericOnly(event: any): boolean {
+    // restrict e,+,-,E characters in  input type number
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode == 101 || charCode == 69 || charCode == 45 || charCode == 43) {
+      return false;
+    }
+    const reg = /^-?\d*(\.\d{0,2})?$/;
+    let input = event.target.value + String.fromCharCode(event.charCode);
+
+    if (!reg.test(input)) {
+      event.preventDefault();
+    }
+    return true;
   }
 
   counterRate() {
