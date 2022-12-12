@@ -17,6 +17,7 @@ import { LoadListComponent } from './modules/load-list/load-list.component';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
+
 @NgModule({
   declarations: [AppComponent, LoadListComponent, ],
   imports: [

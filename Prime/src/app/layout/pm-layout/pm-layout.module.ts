@@ -8,9 +8,12 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PmLayoutComponent } from './pm-layout.component';
 import { PmLoginComponent } from 'src/app/pm-modules/pm-login/pm-login.component';
 import { PmQuotationListComponent } from 'src/app/pm-modules/pm-quotation-list/pm-quotation-list.component';
+import { TestMapComponent } from 'src/app/pm-modules/test-map/test-map.component';
+import { IgxGeographicMapModule } from "igniteui-angular-maps";
+import { IgxDataChartInteractivityModule } from "igniteui-angular-charts";
 
 @NgModule({
-  declarations: [PmLayoutComponent, PmLoginComponent, PmQuotationListComponent],
+  declarations: [PmLayoutComponent, PmLoginComponent, PmQuotationListComponent,TestMapComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -18,6 +21,8 @@ import { PmQuotationListComponent } from 'src/app/pm-modules/pm-quotation-list/p
     FormsModule,
     ReactiveFormsModule,
     NgMultiSelectDropDownModule,
+    IgxGeographicMapModule,
+    IgxDataChartInteractivityModule
   ],
 })
 export class PmLayoutModule {}

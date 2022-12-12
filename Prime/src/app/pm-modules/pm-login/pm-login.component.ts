@@ -12,12 +12,14 @@ import { LoginService } from 'src/app/services/login.service';
 export class PmLoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted: boolean = false;
+  isLoading: boolean = false;
+  button: string;
 
   constructor(
     private _loginservice: LoginService,
     private _formBuilder: FormBuilder,
     private _router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this._formBuilder.group({
@@ -30,7 +32,12 @@ export class PmLoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
+
+  onChange(changeEvent: boolean, idx: number): void {
+    console.log(changeEvent, idx)
+  }
   login() {
+
     this.submitted = true;
 
     if (this.loginForm.invalid) {
@@ -40,10 +47,11 @@ export class PmLoginComponent implements OnInit {
     var rootobject = new LOGIN();
     rootobject.USERNAME = this.loginForm.get('USERNAME')?.value;
     rootobject.PASSWORD = this.loginForm.get('PASSWORD')?.value;
-
+    this.isLoading = true;
     this._loginservice
       .validateLogin(JSON.stringify(rootobject))
       .subscribe((res: any) => {
+        this.isLoading = false;
         if (res.isAuthenticated == true) {
           localStorage.clear();
           localStorage.setItem('token', res.token);
@@ -52,10 +60,13 @@ export class PmLoginComponent implements OnInit {
           localStorage.setItem('usercode', res.userCode);
           if (res.roleCode == '1') {
             this._router.navigateByUrl('/home/quotation-list');
+
           } else if (res.roleCode == '3') {
             this._router.navigateByUrl('/home/depo');
           }
-        } else {
+        }
+
+        else {
           alert(res.message);
           return;
         }

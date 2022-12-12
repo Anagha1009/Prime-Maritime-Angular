@@ -42,6 +42,7 @@ import { TrackingComponent } from './modules/tracking/tracking.component';
 import { LoadListComponent } from './modules/load-list/load-list.component';
 
 import { TrackBookingComponent } from './modules/track-booking/track-booking.component';
+import { TestMapComponent } from './pm-modules/test-map/test-map.component';
 
 const routes: Routes = [
   {
@@ -206,6 +207,10 @@ const routes: Routes = [
      
         path: 'track-booking',
         component: TrackBookingComponent,
+      },
+      {
+        path:'test-map',
+        component:TestMapComponent,
       },
     ],
   },

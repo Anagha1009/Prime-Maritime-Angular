@@ -12,6 +12,8 @@ import { LoginService } from 'src/app/services/login.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted: boolean = false;
+  isLoading: boolean=false;
+  button: string;
 
   constructor(
     private _loginservice: LoginService,
@@ -31,6 +33,15 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.isLoading = true;
+    this.button = 'Processing';
+
+    setTimeout(() => {
+      this.isLoading = false;
+      this.button = 'Submit';
+      alert('Done loading');
+    }, 8000)
+    
     this.submitted = true;
 
     if (this.loginForm.invalid) {
