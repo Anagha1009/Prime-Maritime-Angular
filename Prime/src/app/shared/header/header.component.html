@@ -7,7 +7,7 @@
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li [class]="item.menuName == 'Finance' || item.menuName == 'Bookings'? 'dropdown' : ''"
+                <li [class]="item.menuName == 'Finance' || item.menuName == 'Bookings' || item.menuName == 'Container Movement'? 'dropdown' : ''"
                     *ngFor="let item of menuList">
                     <a href="{{item.menuLink}}">{{item.menuName}}
                         <i *ngIf="item.menuName == 'Finance' || item.menuName == 'Bookings'"
@@ -18,7 +18,10 @@
                         <li><a href="home/split-booking">Rollover</a></li>
                         <li><a href="home/new-er">Empty Repo Local</a></li>
                     </ul>
-
+                    <ul *ngIf="item.menuName == 'Container Movement'">
+                        <li><a href="/home/tracking">Tracking</a></li>
+                        <li><a href="/home/ct-list">History</a></li>
+                    </ul>
                     <ul *ngIf="item.menuName == 'Finance'">
                         <li><a href="#">TDR</a></li>
                         <li><a href="#">VDA</a></li>
@@ -29,46 +32,12 @@
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
+        <select (change)="setLanguage($event.target.value)" name="" id="">
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+        </select>
         <span class="text-light">Hi User !<a (click)="logout()"><i title="logout" style="font-size: 20px"
                     class='ms-2 pointer bx bx-user-x'></i></a></span>
     </div>
 </header>
 <div class="mt-5 pt-4"></div>
-
-<!-- <div class="wrapper d-flex align-items-stretch">
-    <nav id="sidebar">
-        <div class="custom-menu">
-            <button type="button" id="sidebarCollapse" class="btn btn-primary">
-                <i class="fa fa-bars"></i>
-                <span class="sr-only">Toggle Menu</span>
-            </button>
-        </div>
-        <div class="p-4">
-            <a href="index.html"><img style="height:80px;width: 100px;" src="./../../../assets/img/logo_p.png"
-                    alt=""></a>
-            <ul class="list-unstyled components mb-5">
-                <li class="active">
-                    <a href="#"><span class="fa fa-home mr-3"></span> Home</a>
-                </li>
-                <li>
-                    <a href="/home/quotation-list"><span class="fa fa-user mr-3"></span> Quotations</a>
-                </li>
-                <li>
-                    <a href="/home/booking-list"><span class="fa fa-briefcase mr-3"></span>Bookings</a>
-                </li>
-                <li>
-                    <a href="/home/do-list"><span class="fa fa-sticky-note mr-3"></span>Delivery-Orders</a>
-                </li>
-                <li>
-                    <a href="/home/split-booking"><span class="fa fa-suitcase mr-3"></span>Roll-Over</a>
-                </li>
-                <li>
-                    <a href="/home/cro-list"><span class="fa fa-cogs mr-3"></span>CRO</a>
-                </li>
-                <li>
-                    <a href="/home/do"><span class="fa fa-paper-plane mr-3"></span>DO</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div> -->

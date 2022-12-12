@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CommonService } from 'src/app/services/common.service';
 import { ErService } from 'src/app/services/er.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class NewErComponent implements OnInit {
   submitted: boolean = false;
   disabled = false;
   public loadContent: boolean = false;
+  currencyList: any[] = [];
   dummyList: any[] = [
     {
       CONTAINER_NO: "RTEB67575347",
@@ -47,6 +49,7 @@ export class NewErComponent implements OnInit {
 
   constructor(private _formBuilder: FormBuilder,
     private _erService: ErService,
+    private _commonService:CommonService,
     private _router: Router) { }
 
   ngOnInit(): void {
@@ -106,15 +109,23 @@ export class NewErComponent implements OnInit {
       CREATED_BY: [''],
       CONTAINER_LIST: new FormControl(this.containerDropdownList, Validators.required),
     });
-
+    
+    this.getDropdownData();
     this.loadContent = true;
-
-
   }
 
   get f() {
     return this.erForm.controls;
 
+  }
+
+  getDropdownData(){
+    this._commonService.getDropdownData('CURRENCY').subscribe((res: any) => {
+      if (res.hasOwnProperty('Data')) {
+        this.currencyList = res.Data;
+      }
+    });
+    
   }
 
   cancelER(){

@@ -251,7 +251,13 @@ export class NewBlComponent implements OnInit {
       if (event.target.checked) {
         add.push(item);
       } else {
-        add.removeAt(index);
+        // add.removeAt(index);
+        add.removeAt(
+          add.value.findIndex(
+            (m: { CONTAINER_NO: any }) =>
+              m.CONTAINER_NO === item.value.CONTAINER_NO
+          )
+        );
       }
     }
   }
@@ -601,7 +607,7 @@ export class NewBlComponent implements OnInit {
             [
               {
                 image: await this._commonService.getBase64ImageFromURL(
-                  './../../../assets/img/logo_p.png'
+                  'assets/img/logo_p.png'
                 ),
                 alignment: 'right',
                 height: 50,

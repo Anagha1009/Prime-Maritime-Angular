@@ -1,7 +1,8 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { DataTablesModule } from 'angular-datatables';
+// import { DataTablesModule } from 'angular-datatables';
+import { JwtInterceptor } from './helpers/jwt.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,13 +14,15 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { LoadListComponent } from './modules/load-list/load-list.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+// import { PmCmComponent } from './pm-modules/pm-cm/pm-cm.component';
 
 
 @NgModule({
-  declarations: [AppComponent, LoadListComponent, ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -29,8 +32,12 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     SimpleNotificationsModule.forRoot(),
-    DataTablesModule,
+    TranslateModule.forRoot(),
+    // DataTablesModule,
     HttpClientModule,
+    NgSelectModule,
+    NgMultiSelectDropDownModule,
+    AgGridModule,
     NgSelectModule,
     NgMultiSelectDropDownModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
@@ -42,5 +49,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
   ],
   // providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
 })
 export class AppModule {}

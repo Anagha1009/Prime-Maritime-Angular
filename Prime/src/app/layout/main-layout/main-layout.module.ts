@@ -7,9 +7,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuotationDetailsComponent } from 'src/app/modules/quotation-details/quotation-details.component';
 import { NewQuotationComponent } from 'src/app/modules/new-quotation/new-quotation.component';
-import { LoginComponent } from 'src/app/modules/login/login.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BookingListComponent } from 'src/app/modules/booking-list/booking-list.component';
 import { NewCroComponent } from 'src/app/modules/new-cro/new-cro.component';
 import { CroListComponent } from 'src/app/modules/cro-list/cro-list.component';
@@ -41,9 +39,14 @@ import { environment } from 'src/environments/environment.prod';
 import { PushNotificationComponent } from 'src/app/modules/push-notification/push-notification.component';
 import { MrRequestComponent } from 'src/app/modules/mr-request/mr-request.component';
 import { MrRequestListComponent } from 'src/app/modules/mr-request-list/mr-request-list.component';
+import { DetentionWaverRequestComponent } from 'src/app/modules/detention-waver-request/detention-waver-request.component';
 import { CtListComponent } from 'src/app/modules/ct-list/ct-list.component';
 import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
 import { TrackBookingComponent } from 'src/app/modules/track-booking/track-booking.component';
+import { LoadListComponent } from 'src/app/modules/load-list/load-list.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from 'src/app/helpers/jwt.interceptor';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,6 @@ import { TrackBookingComponent } from 'src/app/modules/track-booking/track-booki
     QuotationListComponent,
     QuotationDetailsComponent,
     NewQuotationComponent,
-    LoginComponent,
     BookingListComponent,
     NewCroComponent,
     CroListComponent,
@@ -82,9 +84,11 @@ import { TrackBookingComponent } from 'src/app/modules/track-booking/track-booki
     PartyComponent,
     MrRequestComponent,
     MrRequestListComponent,
+    DetentionWaverRequestComponent,
     CtListComponent,
     TrackingComponent,
     TrackBookingComponent,
+    LoadListComponent,
   ],
   imports: [
     CommonModule,
@@ -94,6 +98,7 @@ import { TrackBookingComponent } from 'src/app/modules/track-booking/track-booki
     NgSelectModule,
     SharedModule,
     NgMultiSelectDropDownModule,
+    TranslateModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
@@ -101,6 +106,8 @@ import { TrackBookingComponent } from 'src/app/modules/track-booking/track-booki
       registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
 })
 export class MainLayoutModule {}

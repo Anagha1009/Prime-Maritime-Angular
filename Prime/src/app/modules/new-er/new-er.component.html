@@ -1,5 +1,5 @@
 <div class="section-title">
-    <h2>Empty Repo Local</h2>
+    <h2>Empty Repo</h2>
 </div>
 <section class="services">
     <div>
@@ -67,6 +67,7 @@
                                             </ng-option>
                                             <ng-option value="Rail">Rail</ng-option>
                                             <ng-option value="Road">Road</ng-option>
+                                            <ng-option value="Road">Port</ng-option>
                                         </ng-select>
                                         <div *ngIf="submitted && f.MODE_OF_TRANSPORT.errors" class="invalid-feedback">
                                             Please select
@@ -118,37 +119,26 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label"> Currency <span class="text-danger">*</span></label>
+                                        <!-- <label class="form-label"> Currency <span class="text-danger">*</span></label> -->
                                         <ng-select [ngClass]="{'invalid': submitted && f.CURRENCY.errors}"
                                             formControlName="CURRENCY" style="margin-top: 10px;">
                                             <ng-option value="" selected="true" disabled>--Select Currency--</ng-option>
-                                            <ng-option value="AED">AED</ng-option>
-                                            <ng-option value="AUD">AUD</ng-option>
-                                            <ng-option value="BHD">BHD</ng-option>
-                                            <ng-option value="CAD">CAD</ng-option>
-                                            <ng-option value="CHF">CHF</ng-option>
-                                            <ng-option value="CNY">CNY</ng-option>
-                                            <ng-option value="DKK">DKK</ng-option>
+                                            <ng-option *ngFor="let item of currencyList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                               ({{item.CODE}})
+                                            </ng-option>
                                         </ng-select>
+                                        <label class="form-label-ddl">Currency <span class="text-danger">*</span></label>
                                         <div *ngIf="submitted && f.CURRENCY.errors" class="invalid-feedback">Please
                                             enter
                                             Currency </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label"> REASON <span class="text-danger">*</span></label>
-                                        <input type="text" [ngClass]="{'invalid':submitted && f.REASON.errors}"
-                                            formControlName="REASON" class="form-control">
-                                        <div *ngIf="submitted && f.REASON.errors" class="invalid-feedback">Please enter
-                                            Reason </div>
-                                    </div>
-                                </div>
 
                                 <div class="col-md-4">
                                     <div class="form-group">
+                                       
                                         <input type="text"  [ngClass]="{'invalid':submitted && f.REMARKS.errors}" formControlName="REMARKS"
-                                        class="form-control">
+                                        class="form-control" style="margin-top: 10px;">
                                     <label class="form-label"> Remarks <span class="text-danger">*</span></label>
                                     <div *ngIf="submitted && f.REMARKS.errors" class="invalid-feedback">
                                         Please Enter Remarks

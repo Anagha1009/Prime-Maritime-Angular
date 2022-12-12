@@ -42,20 +42,21 @@
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-5 mt-3 pt-5 mb-5">
-                    <img src="./../../../assets/img/doimg.jpg" class="img-fluid" alt="">
+                    <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="services"  *ngIf="previewList">
+    <section class="services" *ngIf="previewList">
         <div class="container">
             <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
                 <div [class]="isScroll ? 'force-overflow' : ''">
                     <div class="icon-box icon-box-cyan text-start" *ngFor="let item of doList; let i = index">
                         <div class="row">
-                            <div class="col-md-8">
-                                <h4 class="title"><a (click)="getDODetails(item.DO_NO)">{{item.DO_NO}}</a>
+                            <div class="col-md-7">
+                                <h4 class="title"><a (click)="getDODetails(item.DO_NO)">{{item.DO_NO}} - </a>
+                                    <span class="shipTerms">{{item.SHIPPING_TERMS}}</span>
                                 </h4>
                                 <p class="description"> <span class="bx bx-user"></span> {{item.CLEARING_PARTY}} | <span
                                         class="bx bxs-truck"></span>
@@ -63,16 +64,25 @@
                                         <span><i class='bx bx-current-location'></i></span>
                                         {{item.ACCEPTANCE_LOCATION}}</span></p>
                                 <p class="description"><i class='bx bx-time-five'></i> <span class="text-info">
-                                    {{item.DO_DATE | date:'mediumDate'}} - {{item.DO_VALIDITY | date:'mediumDate'}} </span>
-                             </p>
+                                        {{item.DO_DATE | date:'mediumDate'}} - {{item.DO_VALIDITY | date:'mediumDate'}}
+                                    </span>
+                                </p>
                             </div>
-                        </div> 
-                    </div> 
-                </div> 
-            </div>  
-        </div> 
+                            <div class="col-md-5 text-end">
+                                <span style="font-size: 15px;"
+                                    class="badge rounded-pill bg-success ms-3">{{item.BL_NO}}</span>
+                                <div class="description" style="font-size:large;color: purple;"> <span
+                                        class="bx bxs-ship"></span> {{item.ARRIVAL_DATE | date:'mediumDate'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
 
-
-                                    
+<!-- <div class="loadImg" *ngIf="doList?.length===0">
+    <div class="loader">
+    </div>
+</div> -->

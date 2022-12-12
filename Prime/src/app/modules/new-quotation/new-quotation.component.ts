@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BookingService } from 'src/app/services/booking.service';
 import { CommonService } from 'src/app/services/common.service';
 import { QuotationService } from 'src/app/services/quotation.service';
 
@@ -23,13 +24,31 @@ export class NewQuotationComponent implements OnInit {
   submitted1: boolean = false;
   isContainer: boolean = false;
   containerList: any[] = [];
-  portList: any[] = [];
   icdList: any[] = [];
   containersizeList: any[] = [];
-  servicemodeList: any[] = [];
+  servicenameList: any[] = [];
+  servicenameList1: any[] = [];
   servicetypeList: any[] = [];
   conindex: any = 0;
-
+  polList: any[] = [];
+  podList: any[] = [];
+  ts1List: any[] = [];
+  ts2List: any[] = [];
+  customerList: any[] = [];
+  slotDetailsForm: FormGroup;
+  isVesselVal: boolean = false;
+  containerTypeList: any[] = [];
+  vesselList: any[] = [];
+  voyageList: any[] = [];
+  isScroll: boolean = false;
+  slotoperatorList: any[] = [];
+  voyageForm: FormGroup;
+  vesselList1: any[] = [];
+  currencyList: any[] = [];
+  currencyList1: any[] = [];
+  portList: any[] = [];
+  submitted3: boolean = false;
+  isVoyageAdded: boolean = false;
   //Files
   isUploadedPOL: boolean = false;
   POLAcceptanceFile: string = '';
@@ -57,15 +76,14 @@ export class NewQuotationComponent implements OnInit {
   fileList: any[] = [];
   isTranshipment: boolean = false;
 
-  slotDetailsForm: FormGroup;
-
   @ViewChild('RateModal') RateModal: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
+  @ViewChild('closeBtn3') closeBtn3: ElementRef;
   @ViewChild('RateDetailModal') RateDetailModal: ElementRef;
-  isVesselVal: boolean = false;
 
   constructor(
     private _quotationService: QuotationService,
+    private _bookingService: BookingService,
     private _formBuilder: FormBuilder,
     private _commonService: CommonService,
     private _router: Router
@@ -231,10 +249,7 @@ export class NewQuotationComponent implements OnInit {
     });
 
     this.containerList.push({
-      Container:
-        this.containerForm.value.CONTAINER_TYPE +
-        '-' +
-        this.containerForm.value.CONTAINER_SIZE,
+      Container: this.containerForm.value.CONTAINER_TYPE,
       ServiceMode: this.containerForm.value.SERVICE_MODE,
     });
 
@@ -242,7 +257,7 @@ export class NewQuotationComponent implements OnInit {
     containers.push(
       this._formBuilder.group({
         CONTAINER_TYPE: [this.containerForm.value.CONTAINER_TYPE],
-        CONTAINER_SIZE: [this.containerForm.value.CONTAINER_SIZE],
+        CONTAINER_SIZE: ['NULL'],
         SERVICE_MODE: [this.containerForm.value.SERVICE_MODE],
         POD_FREE_DAYS: [this.containerForm.value.POD_FREE_DAYS],
         POL_FREE_DAYS: [this.containerForm.value.POL_FREE_DAYS],
@@ -253,7 +268,6 @@ export class NewQuotationComponent implements OnInit {
 
     this.containerForm.reset();
     this.containerForm.get('CONTAINER_TYPE')?.setValue('');
-    this.containerForm.get('CONTAINER_SIZE')?.setValue('');
     this.containerForm.get('SERVICE_MODE')?.setValue('');
 
     this.isContainer = true;
@@ -280,6 +294,7 @@ export class NewQuotationComponent implements OnInit {
     if (this.isVesselVal) {
       this.quotationForm.get('EFFECT_FROM')?.setValue('');
       this.quotationForm.get('EFFECT_TO')?.setValue('');
+      this.quotationForm.get('IS_VESSELVALIDITY')?.setValue(true);
     }
 
     console.log(JSON.stringify(this.quotationForm.value));
@@ -335,6 +350,35 @@ export class NewQuotationComponent implements OnInit {
     this.RateDetailModal.nativeElement.click();
   }
 
+  insertVoyage() {
+    this.submitted3 = true;
+
+    if (this.voyageForm.invalid) {
+      return;
+    }
+
+    this.voyageForm
+      .get('CREATED_BY')
+      ?.setValue(localStorage.getItem('username'));
+
+    this._bookingService
+      .insertVoyage(JSON.stringify(this.voyageForm.value))
+      .subscribe((res: any) => {
+        if (res.responseCode == 200) {
+          alert('Voyage added successfully !');
+          this.slotDetailsForm
+            .get('VOYAGE_NO')
+            ?.setValue(this.voyageForm.get('VOYAGE_NO')?.value);
+          this.slotDetailsForm
+            .get('VESSEL_NAME')
+            ?.setValue(this.voyageForm.get('VESSEL_NAME')?.value);
+
+          this.isVoyageAdded = true;
+          this.closeBtn3.nativeElement.click();
+        }
+      });
+  }
+
   // GET DATA
 
   getForm() {
@@ -346,6 +390,7 @@ export class NewQuotationComponent implements OnInit {
       SERVICE_NAME: ['', Validators.required],
       EFFECT_FROM: ['', Validators.required],
       EFFECT_TO: ['', Validators.required],
+      IS_VESSELVALIDITY: [false],
       // MTY_REPO: [false],
       CUSTOMER_NAME: ['', Validators.required],
       // ADDRESS: ['', Validators.required],
@@ -383,7 +428,7 @@ export class NewQuotationComponent implements OnInit {
 
     this.containerForm = this._formBuilder.group({
       CONTAINER_TYPE: ['', Validators.required],
-      CONTAINER_SIZE: ['', Validators.required],
+      CONTAINER_SIZE: ['NULL', Validators.required],
       SERVICE_MODE: ['', Validators.required],
       POD_FREE_DAYS: ['', Validators.required],
       POL_FREE_DAYS: ['', Validators.required],
@@ -410,8 +455,8 @@ export class NewQuotationComponent implements OnInit {
       BOOKING_NO: [''],
       SRR_ID: [''],
       SRR_NO: [''],
-      VESSEL_NAME: [''],
-      VOYAGE_NO: [''],
+      VESSEL_NAME: ['', Validators.required],
+      VOYAGE_NO: ['', Validators.required],
       MOTHER_VESSEL_NAME: [''],
       MOTHER_VOYAGE_NO: [''],
       AGENT_CODE: [''],
@@ -419,6 +464,24 @@ export class NewQuotationComponent implements OnInit {
       STATUS: [''],
       CREATED_BY: [''],
       SLOT_LIST: new FormArray([]),
+    });
+
+    this.voyageForm = this._formBuilder.group({
+      VESSEL_NAME: ['', Validators.required],
+      VOYAGE_NO: ['', Validators.required],
+      ATA: ['', Validators.required],
+      ATD: ['', Validators.required],
+      IMM_CURR: ['', Validators.required],
+      IMM_CURR_RATE: ['', Validators.required],
+      EXP_CURR: ['', Validators.required],
+      EXP_CURR_RATE: ['', Validators.required],
+      TERMINAL_CODE: ['', Validators.required],
+      SERVICE_NAME: ['', Validators.required],
+      VIA_NO: ['', Validators.required],
+      PORT_CODE: ['', Validators.required],
+      ETA: ['', Validators.required],
+      ETD: ['', Validators.required],
+      CREATED_BY: [''],
     });
   }
 
@@ -449,17 +512,19 @@ export class NewQuotationComponent implements OnInit {
   }
 
   getDropdown() {
-    this._commonService.getDropdownData('PORT').subscribe((res: any) => {
-      if (res.hasOwnProperty('Data')) {
-        this.portList = res.Data;
-      }
-    });
-
     this._commonService.getDropdownData('ICD').subscribe((res: any) => {
       if (res.hasOwnProperty('Data')) {
         this.icdList = res.Data;
       }
     });
+
+    this._commonService
+      .getDropdownData('CONTAINER_TYPE')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.containerTypeList = res.Data;
+        }
+      });
 
     this._commonService
       .getDropdownData('CONTAINER_SIZE')
@@ -470,18 +535,106 @@ export class NewQuotationComponent implements OnInit {
       });
 
     this._commonService
-      .getDropdownData('SERVICE_MODE')
-      .subscribe((res: any) => {
-        if (res.hasOwnProperty('Data')) {
-          this.servicemodeList = res.Data;
-        }
-      });
-
-    this._commonService
       .getDropdownData('SERVICE_TYPE')
       .subscribe((res: any) => {
         if (res.hasOwnProperty('Data')) {
           this.servicetypeList = res.Data;
+        }
+      });
+
+    this._commonService
+      .getDropdownData('CUSTOMER_NAME')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.customerList = res.Data;
+        }
+      });
+
+    this._commonService.getDropdownData('VESSEL_NAME').subscribe((res: any) => {
+      if (res.hasOwnProperty('Data')) {
+        this.vesselList = res.Data;
+        this.vesselList1 = res.Data;
+      }
+    });
+
+    this._commonService.getDropdownData('VOYAGE_NO').subscribe((res: any) => {
+      if (res.hasOwnProperty('Data')) {
+        this.voyageList = res.Data;
+      }
+    });
+
+    this._commonService
+      .getDropdownData('SLOT_OPERATOR')
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.slotoperatorList = res.Data;
+        }
+      });
+
+    this._commonService.getDropdownData('CURRENCY').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.currencyList = res.Data;
+        this.currencyList1 = res.Data;
+      }
+    });
+  }
+
+  getServiceName(event: any) {
+    this.servicenameList = [];
+    this._commonService
+      .getDropdownData('SERVICE_NAME', event, '')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.servicenameList = res.Data;
+        }
+      });
+  }
+
+  getServiceName1(event: any) {
+    this.servicenameList1 = [];
+    this._commonService
+      .getDropdownData('SERVICE_NAME', event, '')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.servicenameList1 = res.Data;
+        }
+      });
+  }
+
+  getPortList(event: any, value: string) {
+    if (value == 'POL') {
+      this.polList = [];
+    } else if (value == 'POD') {
+      this.podList = [];
+    } else if (value == 'TS1') {
+      this.ts1List = [];
+    } else if (value == 'TS2') {
+      this.ts2List = [];
+    }
+    this._commonService
+      .getDropdownData('PORT', '', event.target.value)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          if (value == 'POL') {
+            this.polList = res.Data;
+          } else if (value == 'POD') {
+            this.podList = res.Data;
+          } else if (value == 'TS1') {
+            this.ts1List = res.Data;
+          } else if (value == 'TS2') {
+            this.ts2List = res.Data;
+          }
+        }
+      });
+  }
+
+  getPortList1(event: any) {
+    this.portList = [];
+    this._commonService
+      .getDropdownData('PORT', '', event.target.value)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.portList = res.Data;
         }
       });
   }
@@ -513,6 +666,14 @@ export class NewQuotationComponent implements OnInit {
     return s.controls;
   }
 
+  get f5() {
+    return this.slotDetailsForm.controls;
+  }
+
+  get f6() {
+    return this.voyageForm.controls;
+  }
+
   f4(i: any) {
     return i;
   }
@@ -534,6 +695,26 @@ export class NewQuotationComponent implements OnInit {
       event.preventDefault();
     }
     return true;
+  }
+
+  slotAllocation() {
+    var slotDetails = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
+
+    slotDetails.push(
+      this._formBuilder.group({
+        SLOT_OPERATOR: [''],
+        NO_OF_SLOTS: [''],
+      })
+    );
+
+    if (slotDetails.length > 2) {
+      this.isScroll = true;
+    }
+  }
+
+  removeItem(i: any) {
+    const add = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
+    add.removeAt(i);
   }
 
   // FILE UPLOAD

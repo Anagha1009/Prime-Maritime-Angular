@@ -30,6 +30,10 @@
   ],
   "dataGroups": [
     {
+      "name": "",
+      "urls": [
+        
+      ],
       "cacheConfig": {
         "strategy": "freshness",
         "timeout": "10s",

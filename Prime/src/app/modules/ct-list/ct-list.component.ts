@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ColDef,ITextFilterParams, ValueFormatterParams } from 'ag-grid-community';
+import { contains, param } from 'jquery';
+import { filter, Observable } from 'rxjs';
 import { CmService } from 'src/app/services/cm.service';
 
 @Component({
@@ -13,11 +16,56 @@ export class CtListComponent implements OnInit {
   conNo:any='';
   ctList:any[]=[];
 
-
+  //AGGrid
+  public rowData:any[]=[];
+  private gridApi: any;
+  private gridColumnApi: any;  
+  defaultPageSize = 10;
+  columnDefs:ColDef[];
+  customFilterParams: ITextFilterParams = {
+  filterOptions: ['contains'],
+  debounceMs: 200,
+  suppressAndOrCondition: true,
+  } as ITextFilterParams;
 
   constructor(private _cmService:CmService,private _router:Router) { }
 
   ngOnInit(): void {
+    this.columnDefs=[
+      {field:'BOOKING_NO',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter},
+      {field:'CRO_NO',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter},
+      {field:'CONTAINER_NO',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter},
+      {field:'ACTIVITY',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter},
+      {field:'PREV_ACTIVITY',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter},
+      {field:'ACTIVITY_DATE',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter},
+      {field:'LOCATION',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter},
+      {field:'STATUS',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter}
+  
+    ];
+
+  }
+
+  checkDataFormatter(params: ValueFormatterParams) {
+    if(params.value==null){
+      return '-';
+    }
+    else if(params.value==""){
+      return '-';
+    }
+    else if(params.value!=""){
+      return params.value;
+    }
+    
+  }
+
+  onPageSizeChanged(event: any) {
+    this.gridApi.paginationSetPageSize(Number(event.target.value));
+  }
+
+  onGridReady(params: any) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+    this.gridApi.setDatasource(this.rowData);
   }
 
   getTrackingHistoryList(){
@@ -36,12 +84,17 @@ export class CtListComponent implements OnInit {
           if (res.ResponseCode == 200) {
             if (res.Data?.length > 0) {
               this.ctList = res.Data;
+              console.log(this.ctList);
+              this.rowData=res.Data;
               this.previewDetails=true;
               // if (this.doList?.length >= 4) {
               //   this.isScroll = true;
               // } else {
               //   this.isScroll = false;
               // }
+            }
+            else{
+              this.previewNoData=true;
             }
             
           }
