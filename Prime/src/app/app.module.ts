@@ -20,6 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 // import { PmCmComponent } from './pm-modules/pm-cm/pm-cm.component';
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
