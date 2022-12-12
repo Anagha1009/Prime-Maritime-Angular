@@ -21,7 +21,7 @@ export class PmQuotationDetailsComponent implements OnInit {
     this.rateForm = this._formBuilder.group({
       SRR_RATES: new FormArray([]),
     });
-    this.getDetails('AEJEA-QAHMD-7078198266933213');
+    this.getDetails('AEJEA1-QAHMD1-7078198266933213');
   }
 
   getDetails(SRR_NO: string) {

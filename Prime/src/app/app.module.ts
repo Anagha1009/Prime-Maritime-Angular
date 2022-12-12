@@ -1,7 +1,8 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 // import { DataTablesModule } from 'angular-datatables';
+import { JwtInterceptor } from './helpers/jwt.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,7 @@ import { PmLayoutModule } from './layout/pm-layout/pm-layout.module';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AgGridModule } from 'ag-grid-angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 // import { PmCmComponent } from './pm-modules/pm-cm/pm-cm.component';
@@ -29,6 +31,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     SimpleNotificationsModule.forRoot(),
+    TranslateModule.forRoot(),
     // DataTablesModule,
     HttpClientModule,
     NgSelectModule,
@@ -45,5 +48,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
   ],
   // providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
 })
 export class AppModule {}
