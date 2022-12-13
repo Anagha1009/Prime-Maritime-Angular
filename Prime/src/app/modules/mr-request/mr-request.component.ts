@@ -52,9 +52,10 @@ export class MrRequestComponent implements OnInit {
           LABOUR: [0],
           MATERIAL: [0],
           TOTAL: [0],
-          TAX: [''],
+          TAX: [0],
           FINAL_TOTAL: [0],
           DEPO_CODE: [''],
+          REMARKS:[''],
           CREATED_BY: ['']
         }),
       ]),
@@ -91,12 +92,18 @@ export class MrRequestComponent implements OnInit {
 
   Sum(index: number) {
     const add = this.mrForm.get('MR_LIST') as FormArray;
-    var mh = add.at(index)?.get('MAN_HOUR')?.value;
     var labour = add.at(index)?.get('LABOUR')?.value;
     var material = add.at(index)?.get('MATERIAL')?.value;
 
     var totalAmount = +labour + +material;
     return Math.round(totalAmount * 100) / 100
+  }
+
+  LabourCount(index: number){
+    const add = this.mrForm.get('MR_LIST') as FormArray;
+    var mh = add.at(index)?.get('MAN_HOUR')?.value;
+    var totalAmount = +mh * 60;
+    add.at(index)?.get('LABOUR')?.setValue(Math.round(totalAmount * 100) / 100)
   }
 
   ManHourSum() {
@@ -171,7 +178,6 @@ export class MrRequestComponent implements OnInit {
   }
 
   FinalTotal() {
-    const add = this.mrForm.get('MR_LIST') as FormArray;
     var totalAmount = 0;
     totalAmount += +this.TotalSum() + +this.TaxTotal();
     return Math.round(totalAmount * 100) / 100
@@ -223,8 +229,9 @@ export class MrRequestComponent implements OnInit {
         LABOUR: [0],
         MATERIAL: [0],
         TOTAL: [0],
-        TAX: [''],
-        FINAL_TOTAL: [0]
+        TAX: [0],
+        FINAL_TOTAL: [0],
+        REMARKS:['']
       })
     );
   }
@@ -252,7 +259,6 @@ export class MrRequestComponent implements OnInit {
         var reader = new FileReader();
 
         reader.onload = (event: any) => {
-          //console.log(event.target.result);
           this.images.push(event.target.result);
 
           this.mrForm.patchValue({
@@ -323,8 +329,9 @@ export class MrRequestComponent implements OnInit {
         LABOUR: [0],
         MATERIAL: [0],
         TOTAL: [0],
-        TAX: [''],
-        FINAL_TOTAL: [0]
+        TAX: [0],
+        FINAL_TOTAL: [0],
+        REMARKS:['']
       })
     );
     this.images = [];

@@ -112,6 +112,7 @@
                     <th>Labour</th>
                     <th>Material</th>
                     <th>Total</th>
+                    <th>Remarks</th>
                     <th>&nbsp;</th>
                 </tr>
                 <tr *ngFor="let item of f;let j = index" [formGroup]="f1(item)">
@@ -192,13 +193,14 @@
                     <td width="5%">
                         <div class="col-md-12">
                             <label class="form-label3">Man hour</label>
-                            <input formControlName="MAN_HOUR" class="form-control3" type="text" />
+                            <input formControlName="MAN_HOUR" (keyup)="LabourCount(j)" class="form-control3"
+                                type="text" />
                         </div>
                     </td>
                     <td width="5%">
                         <div class="col-md-12">
                             <label class="form-label3">Labour</label>
-                            <input formControlName="LABOUR" class="form-control3" type="text" />
+                            <input formControlName="LABOUR" readonly class="form-control3" type="text" />
                         </div>
                     </td>
                     <td width="5%">
@@ -210,6 +212,12 @@
                     <td width="5%">
                         <div class="col-md-12">
                             <label class="form-label2">{{Sum(j)}}</label>
+                        </div>
+                    </td>
+                    <td width="5%">
+                        <div class="col-md-12">
+                            <label class="form-label3">Remarks</label>
+                            <textarea class="form-control3" formControlName="REMARKS" type="text"></textarea>
                         </div>
                     </td>
                     <td width="5%">
@@ -238,6 +246,8 @@
                     <td class="text-center">
                         <h6>{{TotalSum()}}</h6>
                     </td>
+                    <td></td>
+                    <td></td>
                 </tr>
             </table>
         </div>

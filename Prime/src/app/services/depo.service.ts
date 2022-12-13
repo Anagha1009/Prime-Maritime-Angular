@@ -14,7 +14,7 @@ export class DepoService {
       'Content-Type': 'application/json;charset=UTF-8',
     }),
   };
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) { }
 
   createContainer(depoContainer: any) {
     return this._http.post<any>(
@@ -25,7 +25,6 @@ export class DepoService {
   }
 
   createMRRequest(mrList: any) {
-    debugger;
     return this._http.post<any>(
       this.BASE_URL + 'Depo/InsertMRRequest',
       mrList,
@@ -37,18 +36,19 @@ export class DepoService {
     return this._http.get<any>(
       this.BASE_URL + 'Depo/GetMNRList?&OPERATION=' +
       mr.OPERATION +
-      '&DEPO_CODE=' + 
+      '&DEPO_CODE=' +
       mr.DEPO_CODE,
       this.httpOptions
     );
   }
 
   getMRDetails(mr_details: MR_DETAILS) {
-    debugger;
     return this._http.get<any>(
       this.BASE_URL +
       'Depo/GetMRDetails?MR_NO=' +
-      mr_details.MR_NO,
+      mr_details.MR_NO +
+      '&OPERATION=' +
+      mr_details.OPERATION,
       this.httpOptions
     );
   }
@@ -57,10 +57,30 @@ export class DepoService {
     return this._http.post<any>(this.BASE_URL + 'Depo/ApproveRate', rootobject);
   }
 
-  uploadFiles(file: any, MR_NO:string) {
-    debugger
+  uploadFiles(file: any, MR_NO: string) {
     return this._http.post<any>(this.BASE_URL + 'Depo/UploadMNRFiles?MR_NO=' + MR_NO, file);
   }
 
+  createNewMRRequest(mrList: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Depo/InsertNewMRRequest',
+      mrList,
+      this.httpOptions
+    );
+  }
+
+  DeleteMRRequest(mrNo: string, location: string) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Depo/DeleteMRequest?MR_NO=' +
+      mrNo +
+      '&LOCATION=' +
+      location,
+      this.httpOptions
+    );
+  }
+
+  GetFiles(mrNo: string) {
+    return this._http.get<any>(this.BASE_URL + 'Depo/GetImage?MR_NO=' + mrNo);
+  }
 
 }
