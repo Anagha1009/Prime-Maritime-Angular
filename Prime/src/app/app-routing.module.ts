@@ -226,11 +226,11 @@ const routes: Routes = [
         component: PushNotificationComponent,
       },
       {
-        path: 'mnr-request',
+        path: 'mr-request',
         component: MrRequestComponent,
       },
       {
-        path: 'm&r-request-list',
+        path: 'mnr-request-list',
         component: MrRequestListComponent,
       },
       {
