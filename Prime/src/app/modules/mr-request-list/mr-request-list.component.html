@@ -4,7 +4,7 @@
 <div class="container">
     <form class="mx-5" [formGroup]="mrForm">
         <div class="col-md-6 offset-md-6 text-end">
-            <button class="form-btn-primary" routerLink="/home/m&r-request">New M&R Request</button>
+            <button class="form-btn-primary" routerLink="/home/mr-request">New M&R Request</button>
         </div>
         <div class="row">
             <div class="col-md-3">
@@ -171,8 +171,7 @@
                         <div class="text-end">
                             <h6>
                                 Tax : <small class="text-danger me-2">{{mrDetailsList[0]?.TAX}}</small><br>
-                                Final Total : <small
-                                    class="text-danger">{{mrDetailsList[0]?.FINAL_TOTAL}}</small>
+                                Final Total : <small class="text-danger">{{mrDetailsList[0]?.FINAL_TOTAL}}</small>
                             </h6>
                         </div>
                     </div>

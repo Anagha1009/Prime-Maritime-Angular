@@ -63,8 +63,9 @@
                                 (click)="getSRRDetails(item,'container')">Add
                                 More
                                 Containers</button>
-                            <button *ngIf="item.STATUS == 'Approved'" (click)="getSRRDetails(item,'rate')"
-                                class="form-btn-danger ms-2" style="font-size: 12px;">Counter
+                            <button *ngIf="item.STATUS == 'Approved && item.BOOKINGS == 0'"
+                                (click)="getSRRDetails(item,'rate')" class="form-btn-danger ms-2"
+                                style="font-size: 12px;">Counter
                                 Offer</button>
                             <a #rateModal class="d-none" data-bs-toggle="modal" href="#counterRateModal">Add
                                 More
@@ -130,7 +131,7 @@
                                                 <div class="row mt-4">
                                                     <div class="col-md-6 mb-4">
                                                         <div class="form-group">
-                                                            <ng-select
+                                                            <ng-select (change)="getVoyageList($event)"
                                                                 [ngClass]="{'invalid': submitted && f4.VESSEL_NAME.errors}"
                                                                 formControlName="VESSEL_NAME">
                                                                 <ng-option value="" selected="true" disabled>
@@ -214,7 +215,8 @@
                                                         <option value="" selected disabled>
                                                             --Slot
                                                             Operator--</option>
-                                                        <option *ngFor="let item of slotoperatorList" value="item.CODE">
+                                                        <option *ngFor="let item of slotoperatorList"
+                                                            value="{{item.CODE}}">
                                                             {{item.CODE_DESC}}</option>
                                                     </select>
                                                 </td>
