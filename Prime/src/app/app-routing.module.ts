@@ -72,7 +72,7 @@ const routes: Routes = [
         component: PmCmComponent,
       },
       {
-        path: 'mr-request',
+        path: 'mnr-request',
         component: PmMrRequestComponent,
       },
       {
@@ -226,7 +226,7 @@ const routes: Routes = [
         component: PushNotificationComponent,
       },
       {
-        path: 'm&r-request',
+        path: 'mnr-request',
         component: MrRequestComponent,
       },
       {
@@ -246,8 +246,8 @@ const routes: Routes = [
         component: TrackBookingComponent,
       },
       {
-        path:'test-map',
-        component:TestMapComponent,
+        path: 'test-map',
+        component: TestMapComponent,
       },
     ],
   },
