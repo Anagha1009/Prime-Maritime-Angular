@@ -97,12 +97,7 @@ export class NewTrackComponent implements OnInit {
   openTracking(data:any){
     debugger;
     this.currentActivity=data.ACTIVITY;  
-    //this.currentActivity="SNTC";
-    // this.currentActivity="RCFL";
-    //this.currentActivity="LODF";
-    //this.currentActivity="DCHF";
-    //this.currentActivity="SNTC";
-    //this.currentActivity="RCCN";
+   
     this.currentContNo=data.CONTAINER_NO;
     switch (this.currentActivity) {
       case "RCFL":
