@@ -1,31 +1,64 @@
+.rope{
+    position: relative;
+    margin-top: 10px;
+    height:320px;
+    width:80%;
+    background-image: url('/assets/img/tspread.png');
+    background-repeat: no-repeat;
+   
+}
+#hang{
+    position: relative;
+    margin-top:10px ;
+    height:200px;
+    width:200px;
+    background-image: url('/assets/img/newhang.gif');
+    background-repeat: no-repeat;
+    //animation: move-in-steps 10s infinite;
+}
+@keyframes move-in-steps1 {
+    0% {
+      left: 0;
+      //background: blue;
+    }
+    15% {
+      left: 15%;
+      //background: red;
+    }
+}
+@keyframes move-in-steps2 {
+    0% {
+      left: 0;
+    }
+    32% {
+      left: 32%;
+    }
+}
+@keyframes move-in-steps3 {
+    0% {
+      left: 0;
+    }
+    49% {
+      left: 49%;
+    }
+}
+@keyframes move-in-steps4 {
+    0% {
+      left: 0;
+    }
+    66% {
+      left: 66%;
+    }
+}
+@keyframes move-in-steps5 {
+    0% {
+      left: 0;
+    }
+    83% {
+      left: 83%;
+    }
+}
 
-
-// p {
-//     font-family: Lato;
-//   }
-  
-//   .stepper {
-//     display: flex;
-//     width: 100%;
-//     flex-direction: column
-//   }
-//   .stepper-bar-content {
-//     min-height: 4px;
-//     background: #2f5ff4;
-//   }
-  
-//   .stepper-bar {
-//     min-height: 4px;
-//     width: 100%;
-//     background: #f2f2f2;
-//     display: flex
-//   }
-  
-//   .stepper-steps {
-//     display: flex;
-//     justify-content: space-between;
-//     width: 100%
-//   }
 
 //Logic
 .ratetable th,
@@ -197,88 +230,10 @@
   color: #40bfc1;
 }
 
-
-  //Progressbar
-  .progress-container {
-    //z-index: -99;
-    position: relative;
-    margin: 50px 50px 40px 50px;
-    padding: 4px 0 0;
-    width: 800px;
-    height: 8px;
-    background: white;
-    -moz-box-shadow: inset 0 0 2px white;
-        -webkit-box-shadow: inset 0 0 2px white;
-         box-shadow: inset 0 0 2px white;
-    
-    ul li {
-        justify-content: center;
-        position: absolute;
-        display: inline-table;
-        margin: 0 auto 4px;
-        top: -20px;
-        left: 0;
-        margin: 0;
-        padding: 0;
-        background-color: #fff;
-        width: 65px;
-        //width: 5%;
-        height: 54px;
-        //line-height: 40px;
-        text-align: center;
-        font-size: 18px;
-        border-width: 4px;
-        border-style: solid;
-        border-color: red;
-        border-radius: 50%;
-      
-      &:nth-child(2) {
-        margin-left: 200px;
-      }
-      
-      &:nth-child(3) {
-        margin-left: 400px;
-      }
-
-      &:nth-child(4) {
-        margin-left: 600px;
-      }
-
-      &:nth-child(5) {
-        margin-left: 800px;
-      }
-    
-      &:nth-child(6) {
-        margin-left: 1000px;
-      }
-      &:last-child {
-        margin-left: 1200px;
-      }
-      
-      &:before {
-        z-index: -99;
-        position: absolute;
-        top: -5px;
-        left: -5px;
-        content:'';
-        height: 20px;
-        width: 20px;
-        background: white;
-        border-radius: 50%;
-      }
-
-    }
-    .progress-bar {
-        height: 7px;
-        width: 0%;
-        background: #09A6B2;
-        -webkit-transition: width 1s ease-in-out;
-           -moz-transition: width 1s ease-in-out;
-             -o-transition: width 1s ease-in-out;
-                transition: width 1s ease-in-out;
-       }
-
-
-}
-  
-
+//dialog
+// @media (min-width: 1000px)/* The minimum width of the display area, such as a browser window*/
+// {
+//   .modal-dialog {
+//       width: 1000px;
+//   }
+// }

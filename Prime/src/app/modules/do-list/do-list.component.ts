@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Bl } from 'src/app/models/bl';
 import { DO } from 'src/app/models/do';
+import { BlService } from 'src/app/services/bl.service';
 import { DoService } from 'src/app/services/do.service';
 
 @Component({
@@ -12,12 +14,13 @@ import { DoService } from 'src/app/services/do.service';
 export class DoListComponent implements OnInit {
   dO=new DO();
   doList:any[]=[];
+  containerList:any[]=[];
   isScroll: boolean = false;
   doListForm:FormGroup;
   previewNoData:boolean=false;
   previewList:boolean=false;
 
-  constructor(private _dOService: DoService,private _router: Router,private _formBuilder: FormBuilder) { }
+  constructor(private _dOService: DoService,private _blService:BlService,private _router: Router,private _formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.doListForm = this._formBuilder.group({
@@ -42,6 +45,8 @@ export class DoListComponent implements OnInit {
         if (res.hasOwnProperty('Data')) {
           if (res.Data?.length > 0) {
             this.doList = res.Data;
+            //getContainerCount
+            this.getContainerCount();
             this.previewList=true;
             if (this.doList?.length >= 4) {
               this.isScroll = true;
@@ -62,6 +67,27 @@ export class DoListComponent implements OnInit {
         }
       }
     );
+
+  }
+
+  getContainerCount(){
+    
+    this.doList.forEach((element :{
+      DO_NO: any; ContainerCount: any}) => {
+      this.containerList=[];
+      var bl=new Bl();
+      bl.AGENT_CODE=localStorage.getItem('usercode');
+      bl.DO_NO=element.DO_NO;
+      this._blService.getContainerList(bl).subscribe((res:any)=>{
+        if (res.ResponseCode == 200) {
+          this.containerList = res.Data;
+          if(this.containerList?.length>0){
+            element.ContainerCount=this.containerList?.length;
+            //this.previewList=true;
+          }
+        }
+      });
+    });
 
   }
 

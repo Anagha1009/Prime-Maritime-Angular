@@ -149,7 +149,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label2">Container <span class="text-danger">*</span></label>
+                                        <label class="form-label2" style="margin-bottom: 20px;">Container <span class="text-danger">*</span></label>
                                         <ng-multiselect-dropdown #multiSelect [placeholder]="'Select Container'"
                                             [settings]="dropdownSettings" [data]="containerDropdownList"
                                             [(ngModel)]="selectedItems" [formControl]="f.CONTAINER_LIST"
@@ -159,7 +159,7 @@
                                             (onSelect)="onItemSelect($event)" (onDeSelect)="onDeSelect($event)"
                                             (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
                                         </ng-multiselect-dropdown>
-
+                                        
                                         <div *ngIf="submitted && f?.CONTAINER_LIST?.errors?.required"
                                             style="color: red;">
                                             Container is required
