@@ -18,7 +18,13 @@
                         <li><a href="home/split-booking">Rollover</a></li>
                         <li><a href="home/new-er">Empty Repo Local</a></li>
                     </ul>
+                    <ul *ngIf="item.menuName == 'Operations'">
+                        <li><a href="home/cro-list">CRO</a></li>
+                        <li><a href="home/new-bl">BL</a></li>
+                        <li><a href="home/do-list">DO</a></li>
+                    </ul>
                     <ul *ngIf="item.menuName == 'Container Movement'">
+                        <li><a href="/home/new-cm">Movement</a></li>
                         <li><a href="/home/new-track">Tracking</a></li>
                         <li><a href="/home/ct-list">History</a></li>
                     </ul>

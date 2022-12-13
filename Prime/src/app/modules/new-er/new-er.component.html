@@ -9,7 +9,20 @@
                     <div class="col-md-12">
                         <div class="row mb-2">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3 mx-auto">
+                                    <div class="tabs">
+                                        <input type="radio" (click)="tabs = '1'" class="d-none" id="radio-1" name="tabs" checked />
+                                        <label class="tab" for="radio-1">Truck</label>
+                                        <input type="radio" (click)="tabs = '2'" class="d-none" id="radio-2" name="tabs" />
+                                        <label class="tab" for="radio-2">Rail</label>
+                                        <input type="radio" (click)="tabs = '3'" class="d-none" id="radio-3" name="tabs" />
+                                        <label class="tab" for="radio-3">Vessel</label>
+                                        <span class="glider"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-4" *ngIf="tabs=='1' || tabs=='2' || tabs=='3'">
                                     <div class="form-group">
                                         <label class="form-label2">Load Depot<span class="text-danger">*</span></label>
                                         <ng-select [ngClass]="{'invalid': submitted && f.LOAD_DEPOT.errors}"
@@ -33,7 +46,7 @@
                                             Load Depot</div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4" *ngIf="tabs=='1' || tabs=='2' || tabs=='3'">
                                     <div class="form-group">
                                         <label class="form-label2">Discharge Depot<span
                                                 class="text-danger">*</span></label>
@@ -57,7 +70,22 @@
                                             Discharge Depot</div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                
+                                <div class="col-md-4 mt-2">
+                                    <div class="form-group">
+                                        <label class="form-label2">Movement Date <span
+                                            class="text-danger">*</span></label>
+                                        <input type="date" class="form-control"
+                                            [ngClass]="{'invalid': submitted && f.MOVEMENT_DATE.errors}"
+                                            formControlName="MOVEMENT_DATE">
+                                        <!-- <label class="form-label">Movement Date <span
+                                                class="text-danger">*</span></label> -->
+                                        <div *ngIf="submitted && f.MOVEMENT_DATE.errors" class="invalid-feedback">
+                                            Please enter
+                                            Movement Date </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label2">Mode Of Transport<span
                                                 class="text-danger">*</span></label>
@@ -74,27 +102,17 @@
                                             Mode Of Transport</div>
 
                                     </div>
-                                </div>
+                                </div> -->
 
                             </div>
-                            <div class="row">
-                                <div class="col-md-4">
+                            <div class="row mt-2">
+                               
+                                <!-- <div class="col-md-4" *ngIf="tabs=='1' || tabs=='2'">
                                     <div class="form-group">
-                                        <input type="date" class="form-control"
-                                            [ngClass]="{'invalid': submitted && f.MOVEMENT_DATE.errors}"
-                                            formControlName="MOVEMENT_DATE">
-                                        <label class="form-label">Movement Date <span
-                                                class="text-danger">*</span></label>
-                                        <div *ngIf="submitted && f.MOVEMENT_DATE.errors" class="invalid-feedback">
-                                            Please enter
-                                            Movement Date </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
+                                        
                                         <input type="number" min="0.00" step="0.05" value="1.00" class="form-control"
                                             [ngClass]="{'invalid': submitted && f.LIFT_ON_CHARGE.errors}"
-                                            formControlName="LIFT_ON_CHARGE">
+                                            formControlName="LIFT_ON_CHARGE" style="margin-top: 10px;">
                                         <label class="form-label">Lift On Charge <span
                                                 class="text-danger">*</span></label>
                                         <div *ngIf="submitted && f.LIFT_ON_CHARGE.errors" class="invalid-feedback">
@@ -103,23 +121,80 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4" *ngIf="tabs=='1' || tabs=='2'">
                                     <div class="form-group">
                                         <input type="number" min="0.00" step="0.05" value="1.00" class="form-control"
                                             [ngClass]="{'invalid': submitted && f.LIFT_OFF_CHARGE.errors}"
-                                            formControlName="LIFT_OFF_CHARGE">
+                                            formControlName="LIFT_OFF_CHARGE" style="margin-top: 10px;">
                                         <label class="form-label">Lift Off Charge <span
                                                 class="text-danger">*</span></label>
                                         <div *ngIf="submitted && f.LIFT_OFF_CHARGE.errors" class="invalid-feedback">
                                             Please enter
                                             Lift Off Charge </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
+                                </div> -->
+                                <div class="col-md-4" *ngIf="tabs=='3'">
                                     <div class="form-group">
-                                        <!-- <label class="form-label"> Currency <span class="text-danger">*</span></label> -->
+                                        <label class="form-label2">Load Port<span class="text-danger">*</span></label>
+                                        <ng-select [ngClass]="{'invalid': submitted && f.LOAD_DEPOT.errors}"
+                                            formControlName="LOAD_DEPOT" style="margin-top: 10px;">
+                                            <ng-option value="" selected="true" disabled>--Select LOAD PORT--
+                                            </ng-option>
+                                            <ng-option value="ADTC-ADTC - Dammam">ADTC-ADTC - Dammam</ng-option>
+                                            <ng-option value="AERAK-RAS AL KHAYMAH">AERAK-RAS AL KHAYMAH</ng-option>
+                                            <ng-option value="AMAL - L-AMAL LOGISTICS SERVICES PVT.LTD.">AMAL - L-AMAL
+                                                LOGISTICS SERVICES PVT.LTD.</ng-option>
+                                            <ng-option value="BCT-Bay Container Terminal">BCT-Bay Container Terminal
+                                            </ng-option>
+                                            <ng-option value="BGT20-BGT20 Umm Qasar">BGT20-BGT20 Umm Qasar</ng-option>
+                                            <ng-option value="BHKBS-BAHR-BHKBS Deport">BHKBS-BAHR-BHKBS Deport
+                                            </ng-option>
+                                            <ng-option value="BORKHE-ICD BORKHEDI">BORKHE-ICD BORKHEDI</ng-option>
+                                        </ng-select>
+
+                                        <div *ngIf="submitted && f.LOAD_DEPOT.errors" class="invalid-feedback">Please
+                                            select
+                                            Load Port</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" *ngIf="tabs=='3'">
+                                    <div class="form-group">
+                                        <label class="form-label2">Discharge Port<span
+                                                class="text-danger">*</span></label>
+                                        <ng-select [ngClass]="{'invalid': submitted && f.DISCHARGE_DEPOT.errors}"
+                                            formControlName="DISCHARGE_DEPOT" style="margin-top: 10px;">
+                                            <ng-option value="" selected="true" disabled>--Select DISCHARGE PORT--
+                                            </ng-option>
+                                            <ng-option value="ADTC-ADTC - Dammam">ADTC-ADTC - Dammam</ng-option>
+                                            <ng-option value="AERAK-RAS AL KHAYMAH">AERAK-RAS AL KHAYMAH</ng-option>
+                                            <ng-option value="AMAL - L-AMAL LOGISTICS SERVICES PVT.LTD.">AMAL - L-AMAL
+                                                LOGISTICS SERVICES PVT.LTD.</ng-option>
+                                            <ng-option value="BCT-Bay Container Terminal">BCT-Bay Container Terminal
+                                            </ng-option>
+                                            <ng-option value="BGT20-BGT20 Umm Qasar">BGT20-BGT20 Umm Qasar</ng-option>
+                                            <ng-option value="BHKBS-BAHR-BHKBS Deport">BHKBS-BAHR-BHKBS Deport
+                                            </ng-option>
+                                            <ng-option value="BORKHE-ICD BORKHEDI">BORKHE-ICD BORKHEDI</ng-option>
+                                        </ng-select>
+                                        <div *ngIf="submitted && f.DISCHARGE_DEPOT.errors" class="invalid-feedback">
+                                            Please select
+                                            Discharge Port</div>
+                                    </div> 
+                                </div>
+                                <div class="col-md-4 mt-4" *ngIf="tabs=='3'">
+                                    <div class="form-group">
+                                       
+                                        <input type="text"  [ngClass]="{'invalid':submitted && f.REMARKS.errors}" formControlName="REMARKS"
+                                        class="form-control" style="margin-top: 10px;">
+                                    <label class="form-label"> Remarks <span class="text-danger">*</span></label>
+                                    <div *ngIf="submitted && f.REMARKS.errors" class="invalid-feedback">
+                                        Please Enter Remarks
+                                       </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-4" *ngIf="tabs=='1' || tabs=='2'">
+                                    <div class="form-group">
+                                       <label class="form-label2"> Currency <span class="text-danger">*</span></label> 
                                         <ng-select [ngClass]="{'invalid': submitted && f.CURRENCY.errors}"
                                             formControlName="CURRENCY" style="margin-top: 10px;">
                                             <ng-option value="" selected="true" disabled>--Select Currency--</ng-option>
@@ -132,24 +207,13 @@
                                             enter
                                             Currency </div>
                                     </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                       
-                                        <input type="text"  [ngClass]="{'invalid':submitted && f.REMARKS.errors}" formControlName="REMARKS"
-                                        class="form-control" style="margin-top: 10px;">
-                                    <label class="form-label"> Remarks <span class="text-danger">*</span></label>
-                                    <div *ngIf="submitted && f.REMARKS.errors" class="invalid-feedback">
-                                        Please Enter Remarks
-                                       </div>
-                                    </div>
-                                </div>
+                                </div> -->
+                                
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label2" style="margin-bottom: 20px;">Container <span class="text-danger">*</span></label>
+                                        <label class="form-label2"  style="margin-bottom: 13px;">Container <span class="text-danger">*</span></label>
                                         <ng-multiselect-dropdown #multiSelect [placeholder]="'Select Container'"
                                             [settings]="dropdownSettings" [data]="containerDropdownList"
                                             [(ngModel)]="selectedItems" [formControl]="f.CONTAINER_LIST"
@@ -168,7 +232,204 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-4 mt-3" *ngIf="tabs=='1' || tabs=='2'">
+                                    <div class="form-group">
+                                       
+                                        <input type="text"  [ngClass]="{'invalid':submitted && f.REMARKS.errors}" formControlName="REMARKS"
+                                        class="form-control" style="margin-top: 10px;">
+                                    <label class="form-label"> Remarks <span class="text-danger">*</span></label>
+                                    <div *ngIf="submitted && f.REMARKS.errors" class="invalid-feedback">
+                                        Please Enter Remarks
+                                       </div>
+                                    </div>
+                                </div>
                             </div>
+                            
+                            <!-- slots -->
+                            <div class="row" *ngIf="tabs=='3'">
+                                <hr>
+                                <div class="col-md-6">
+                                    <h5>Slot Allocation <span class="text-danger">*</span></h5>
+                                </div>
+                                <div class="col-md-6" style="text-align: right;">
+                                    <button (click)="slotAllocation()" class="form-btn">
+                                        <i class="fa fa-plus me-1"></i>Add Slot</button>
+                                </div>
+                            </div>
+                             
+                            <!-- slottable -->
+                            <div class="row" *ngIf="tabs=='3'">
+                                <div class="col-md-8">
+                                    <div [class]="isScroll1 ? 'scrollbarRollOver' : ''" id="style-3">
+                                        <div [class]="isScroll1 ? 'force-overflow' : ''">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr *ngFor="let item of f5;let j = index;"
+                                                        [formGroup]="f6(item)">
+                                                        <!-- <td class="col-md-2">
+                                                            <label class="mt-4"> {{j+1}}</label>
+                                                        </td> -->
+                                                        <td class="col-md-2">
+                                                            <label class="form-label3">Slot Operator</label>
+                                                            <select class="form-control3"
+                                                                formControlName="SLOT_OPERATOR">
+                                                                <option value="" selected disabled>
+                                                                    --Slot
+                                                                    Operator--</option>
+                                                                <option value="xx">test</option>
+                                                            </select>
+                                                        </td>
+                                                        <td class="col-md-1">
+                                                            <label class="form-label3">No of Slots</label>
+                                                            <input class="form-control3"
+                                                                formControlName="NO_OF_SLOTS" type="text" />
+                                                        </td>
+                                                        <td class="col-md-1 text-start"><i style="font-size: 15px;"
+                                                            class="fa fa-trash mt-4" (click)="removeItem(j)" ></i></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <div class="row" *ngIf="tabs=='3'">
+                                <hr>
+                                <div class="col-md-6">
+                                    <h5>Charges <span class="text-danger">*</span></h5>
+                                </div>
+                                
+                                <div class="col-md-6" style="text-align: right;">
+                                    <button (click)="addRates()" class="form-btn">
+                                        <i class="fa fa-plus me-1"></i>Add Rates</button>
+                                </div>
+
+                            </div>
+
+                            <!-- chargetable -->
+                            <div class="row" *ngIf="tabs=='3'">
+                                <div class="col-md-12">
+                                    <div [class]="isScroll2 ? 'scrollbarRollOver' : ''" id="style-3">
+                                        <div [class]="isScroll2 ? 'force-overflow' : ''">
+                                            <table class="table" style="font-size: 12px;">
+                                                <tbody>
+                                                    <tr *ngFor="let item of f3;let j = index;" [formGroup]="f4(item)">
+                                                        <td class="col-md-2">
+                                                            <label class="form-label3">Charge Code</label>
+                                                            <select class="form-control3" formControlName="CHARGE_CODE">
+                                                                <option value="" selected>--Select--</option>
+                                                                <option value="Gross Freight">Gross Freight</option>
+                                                                <option value="THC">THC</option>
+                                                                <option value="EWRI">EWRI</option>
+                                                                <option value="TERMINAL REBATE">TERMINAL REBATE</option>
+                                                            </select>
+                                                        </td>
+                                                        <td class="col-md-1">
+                                                            <label class="form-label3">Currency</label>
+                                                            <select class="form-control3" formControlName="CURRENCY">
+                                                                <option value="" selected>--Select--</option>
+                                                                <option value="USD">USD</option>
+                                                                <option value="INR">INR</option>
+                                                                <option value="AUD">AUD</option>
+                                                            </select>
+                                                        </td>
+                                                        <td class="col-md-2"> <label class="form-label3">Standard
+                                                                Rate</label><input class="form-control3" readonly
+                                                                formControlName="STANDARD_RATE" type="text" /></td>
+                                                        <td class="col-md-2">
+                                                            <label class="form-label3">Requested Rate</label><input
+                                                                class="form-control3" maxlength="5"
+                                                                (keypress)="numericOnly($event)"
+                                                                formControlName="RATE_REQUESTED" type="text" />
+                                                        </td>
+                                                        <td class="col-md-2">
+                                                            <label class="form-label3">Payment Term</label>
+                                                            <select class="form-control3" formControlName="PAYMENT_TERM">
+                                                                <option value="" selected>--Select--</option>
+                                                                <option value="Prepaid">Prepaid</option>
+                                                                <option value="Collect">Collect</option>
+                                                            </select>
+                                                        </td>
+                                                        <td class="col-md-2">
+                                                            <label class="form-label3">Place of Payment</label>
+                                                            <select class="form-control3" formControlName="TRANSPORT_TYPE">
+                                                                <option value="" selected>--Select--</option>
+                                                                <option value="POL">POL</option>
+                                                                <option value="POD">POD</option>
+                                                            </select>
+                                                        </td>
+                                                        <td class="col-md-1 text-center"><i style="font-size: 15px;"
+                                                                class="fa fa-trash mt-4"></i></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div> 
+                            <!-- <div class="row" *ngIf="tabs=='3'">
+                                <div class="col-md-12 mt-3" *ngIf="tabs=='3'">
+                                    
+                                    <table class="table" style="font-size: 12px;">
+                                        <tbody>
+                                            <tr *ngFor="let item of f3;let j = index;" [formGroup]="f4(item)">
+                                                <td class="col-md-2">
+                                                    <label class="form-label3">Charge Code</label>
+                                                    <select class="form-control3" formControlName="CHARGE_CODE">
+                                                        <option value="" selected>--Select--</option>
+                                                        <option value="Gross Freight">Gross Freight</option>
+                                                        <option value="THC">THC</option>
+                                                        <option value="EWRI">EWRI</option>
+                                                        <option value="TERMINAL REBATE">TERMINAL REBATE</option>
+                                                    </select>
+                                                </td>
+                                                <td class="col-md-1">
+                                                    <label class="form-label3">Currency</label>
+                                                    <select class="form-control3" formControlName="CURRENCY">
+                                                        <option value="" selected>--Select--</option>
+                                                        <option value="USD">USD</option>
+                                                        <option value="INR">INR</option>
+                                                        <option value="AUD">AUD</option>
+                                                    </select>
+                                                </td>
+                                                <td class="col-md-2"> <label class="form-label3">Standard
+                                                        Rate</label><input class="form-control3" readonly
+                                                        formControlName="STANDARD_RATE" type="text" /></td>
+                                                <td class="col-md-2">
+                                                    <label class="form-label3">Requested Rate</label><input
+                                                        class="form-control3" maxlength="5"
+                                                        (keypress)="numericOnly($event)"
+                                                        formControlName="RATE_REQUESTED" type="text" />
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <label class="form-label3">Payment Term</label>
+                                                    <select class="form-control3" formControlName="PAYMENT_TERM">
+                                                        <option value="" selected>--Select--</option>
+                                                        <option value="Prepaid">Prepaid</option>
+                                                        <option value="Collect">Collect</option>
+                                                    </select>
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <label class="form-label3">Place of Payment</label>
+                                                    <select class="form-control3" formControlName="TRANSPORT_TYPE">
+                                                        <option value="" selected>--Select--</option>
+                                                        <option value="POL">POL</option>
+                                                        <option value="POD">POD</option>
+                                                    </select>
+                                                </td>
+                                                <td class="col-md-1 text-center"><i style="font-size: 15px;"
+                                                        class="fa fa-trash mt-4"></i></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div> -->
                         </div>
                     </div>
                 </form>
