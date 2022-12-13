@@ -271,7 +271,8 @@
                                                 <!-- <td><input (change)="postSelectedContainerList(item)" type="checkbox" /></td> -->
                                                 <td>
                                                     <label class="checkbox-wrap checkbox-primary">
-                                                        <input type="checkbox" id="chck{{i}}" (change)="postSelectedContainerList(item,$event,i)">
+                                                        <input type="checkbox" id="chck{{i}}"
+                                                            (change)="postSelectedContainerList(item,$event,i)">
                                                         <span class="checkmark"></span>
                                                     </label>
                                                 </td>
@@ -284,7 +285,11 @@
                                                     <ng-select formControlName="ACTIVITY">
                                                         <ng-option value="" selected disabled>
                                                             --Activity--</ng-option>
-                                                        <ng-option *ngFor="let act of cmForm.value.CONTAINER_LIST2[i].NEXT_ACTIVITY_LIST" value="{{act.split('-')[0]}}">{{act.split('-')[0]}}-{{act.split('-')[1]}}</ng-option>
+                                                        <ng-option *ngFor=" let act of
+                                                        cmForm.value.CONTAINER_LIST2[i].NEXT_ACTIVITY_LIST"
+                                                            value="{{act.split('-')[0]}}">
+                                                            {{act.split('-')[0]}}-{{act.split('-')[1]}}
+                                                        </ng-option>
                                                     </ng-select>
 
                                                     <!-- <ng-select formControlName="ACTIVITY">
@@ -346,50 +351,49 @@
 
 </div>
 
-<div class="modal fade" id="previewModal" aria-labelledby="exampleModalLabel" tabindex="-1"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-xl">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Preview Container Movement</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close" #closeBtn></button>
-                                    </div>
-                                    <div class="modal-body">
-                                      
-                                      <table class="table table-bordered">
-                                        <thead><tr>
-                                            <th>Booking No</th>
-                                            <th>CRO No</th>
-                                            <th>Container No</th>
-                                            <th>Activity</th>
-                                            <th>Activity Date</th>
-                                            <th>Location</th>
-                                            <th>Status</th>
-                                        </tr></thead>
-                                        <tbody>
-                                            <tr *ngFor="let data of containerList"
-                                            formGroup="d">
-                                                <td>{{data.BOOKING_NO}}</td>
-                                                <td>{{data.CRO_NO}}</td>
-                                                <td>{{data.CONTAINER_NO}}</td>
-                                                <td>{{data.ACTIVITY}}</td>
-                                                <td>{{data.ACTIVITY_DATE | date: 'dd/MM/yyyy'}}</td>
-                                                <td>{{data.LOCATION}}</td>
-                                                <td>{{data.STATUS}}</td>
-                                            </tr>
-                                        </tbody>
-                                      </table>
-                                      
-                                    </div>
-                                    <div class="modal-footer">
-                                        <div class="col-md-5 mx-auto text-end">
-                                            <button class="form-btn w-100" (click)="getCMForm()">Upload</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<div class="modal fade" id="previewModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Preview Container Movement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Booking No</th>
+                            <th>CRO No</th>
+                            <th>Container No</th>
+                            <th>Activity</th>
+                            <th>Activity Date</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of containerList" formGroup="d">
+                            <td>{{data.BOOKING_NO}}</td>
+                            <td>{{data.CRO_NO}}</td>
+                            <td>{{data.CONTAINER_NO}}</td>
+                            <td>{{data.ACTIVITY}}</td>
+                            <td>{{data.ACTIVITY_DATE | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{data.LOCATION}}</td>
+                            <td>{{data.STATUS}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-5 mx-auto text-end">
+                    <button class="form-btn w-100" (click)="getCMForm()">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

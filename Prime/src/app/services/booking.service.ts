@@ -62,4 +62,13 @@ export class BookingService {
       this.httpOptions
     );
   }
+
+  insertVoyage(Voyage: any) {
+    debugger;
+    return this._http.post<any>(
+      this.BASE_URL + 'Booking/InsertVoyage',
+      Voyage,
+      this.httpOptions
+    );
+  }
 }

@@ -1,7 +1,7 @@
-import { Master } from './master';
+import { MASTER } from './master';
 
 describe('Master', () => {
   it('should create an instance', () => {
-    expect(new Master()).toBeTruthy();
+    expect(new MASTER()).toBeTruthy();
   });
 });

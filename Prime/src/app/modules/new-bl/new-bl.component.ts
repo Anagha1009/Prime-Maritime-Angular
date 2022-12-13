@@ -251,7 +251,13 @@ export class NewBlComponent implements OnInit {
       if (event.target.checked) {
         add.push(item);
       } else {
-        add.removeAt(index);
+        // add.removeAt(index);
+        add.removeAt(
+          add.value.findIndex(
+            (m: { CONTAINER_NO: any }) =>
+              m.CONTAINER_NO === item.value.CONTAINER_NO
+          )
+        );
       }
     }
   }

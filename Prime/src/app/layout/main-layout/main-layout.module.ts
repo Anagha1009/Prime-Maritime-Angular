@@ -7,9 +7,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuotationDetailsComponent } from 'src/app/modules/quotation-details/quotation-details.component';
 import { NewQuotationComponent } from 'src/app/modules/new-quotation/new-quotation.component';
-import { LoginComponent } from 'src/app/modules/login/login.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BookingListComponent } from 'src/app/modules/booking-list/booking-list.component';
 import { NewCroComponent } from 'src/app/modules/new-cro/new-cro.component';
 import { CroListComponent } from 'src/app/modules/cro-list/cro-list.component';
@@ -47,6 +45,9 @@ import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
 import { TrackBookingComponent } from 'src/app/modules/track-booking/track-booking.component';
 import { LoadListComponent } from 'src/app/modules/load-list/load-list.component';
 import { NewTrackComponent } from 'src/app/modules/new-track/new-track.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from 'src/app/helpers/jwt.interceptor';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,6 @@ import { NewTrackComponent } from 'src/app/modules/new-track/new-track.component
     QuotationListComponent,
     QuotationDetailsComponent,
     NewQuotationComponent,
-    LoginComponent,
     BookingListComponent,
     NewCroComponent,
     CroListComponent,
@@ -100,6 +100,7 @@ import { NewTrackComponent } from 'src/app/modules/new-track/new-track.component
     NgSelectModule,
     SharedModule,
     NgMultiSelectDropDownModule,
+    TranslateModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
@@ -107,6 +108,8 @@ import { NewTrackComponent } from 'src/app/modules/new-track/new-track.component
       registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
 })
 export class MainLayoutModule {}
