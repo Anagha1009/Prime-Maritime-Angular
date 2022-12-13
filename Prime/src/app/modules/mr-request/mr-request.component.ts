@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 import { CONTAINER } from 'src/app/models/container';
-import { Mr } from 'src/app/models/mr';
 import { CommonService } from 'src/app/services/common.service';
 import { ContainerService } from 'src/app/services/container.service';
 import { DepoService } from 'src/app/services/depo.service';
+import { locale as english } from 'src/app/@core/translate/mnr/en';
+import { locale as hindi } from 'src/app/@core/translate/mnr/hi';
 
 @Component({
   selector: 'app-mr-request',
@@ -21,7 +23,7 @@ export class MrRequestComponent implements OnInit {
   images: any[] = [];
   imageUploads: any[] = [];
   containerNo: string = '';
-  containerDetails:any;
+  containerDetails: any;
   isContainer: boolean = false;
   isRecords: boolean = true;
 
@@ -30,7 +32,10 @@ export class MrRequestComponent implements OnInit {
     private _depoService: DepoService,
     private _commonService: CommonService,
     private _containerService: ContainerService,
-  ) { }
+    private _coreTranslationService: CoreTranslationService
+  ) {
+    this._coreTranslationService.translate(english, hindi);
+  }
 
   ngOnInit(): void {
     this.mrForm = this._formBuilder.group({
@@ -55,7 +60,7 @@ export class MrRequestComponent implements OnInit {
           TAX: [0],
           FINAL_TOTAL: [0],
           DEPO_CODE: [''],
-          REMARKS:[''],
+          REMARKS: [''],
           CREATED_BY: ['']
         }),
       ]),
@@ -83,7 +88,7 @@ export class MrRequestComponent implements OnInit {
           this.isRecords = true;
         } else if (res.ResponseCode == 500) {
           this.isRecords = false;
-          this.isContainer =false;
+          this.isContainer = false;
         }
       });
     }
@@ -99,7 +104,7 @@ export class MrRequestComponent implements OnInit {
     return Math.round(totalAmount * 100) / 100
   }
 
-  LabourCount(index: number){
+  LabourCount(index: number) {
     const add = this.mrForm.get('MR_LIST') as FormArray;
     var mh = add.at(index)?.get('MAN_HOUR')?.value;
     var totalAmount = +mh * 60;
@@ -231,7 +236,7 @@ export class MrRequestComponent implements OnInit {
         TOTAL: [0],
         TAX: [0],
         FINAL_TOTAL: [0],
-        REMARKS:['']
+        REMARKS: ['']
       })
     );
   }
@@ -331,13 +336,13 @@ export class MrRequestComponent implements OnInit {
         TOTAL: [0],
         TAX: [0],
         FINAL_TOTAL: [0],
-        REMARKS:['']
+        REMARKS: ['']
       })
     );
     this.images = [];
 
     this.containerNo = '';
-    
+
   }
 
 }
