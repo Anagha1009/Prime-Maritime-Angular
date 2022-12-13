@@ -49,6 +49,7 @@ export class MrRequestListComponent implements OnInit {
   getDetails(MR_NO: string) {
     var mr = new MR_DETAILS();
     mr.MR_NO = MR_NO;
+    mr.OPERATION = 'GET_MR_REQ_DETAILS';
     this._depoService.getMRDetails(mr).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.mrDetailsList = res.Data;

@@ -14,7 +14,7 @@ export class MR_DETAILS {
     COMPONENT: string = '';
     DAMAGE: string = '';
     REPAIR: string = '';
-    DESCRIPTION: string = '';
+    DESC: string = '';
     LENGTH: number = 0;
     WIDTH: number = 0;
     HEIGHT: number = 0;
@@ -26,8 +26,10 @@ export class MR_DETAILS {
     TOTAL: number = 0;
     TAX: number = 0;
     FINAL_TOTAL: number = 0;
+    REMARKS: string = '';
     DEPO_CODE: any = 0;
     DEPO_NAME: string = '';
     CREATED_BY: string = '';
     CREATED_DATE: string = '';
+    OPERATION: string = '';
 }

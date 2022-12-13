@@ -247,8 +247,8 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <div *ngIf="item.STATUS == 'Requested'" class="rounded-btn"><a (click)="getDetails(item.MR_NO)"><i
-                                                class="fa fa-plus text-light"></i></a>
+                                    <div *ngIf="item.STATUS == 'Requested'" class="rounded-btn"><a
+                                            (click)="getDetails(item.MR_NO)"><i class="fa fa-plus text-light"></i></a>
                                         <button #MRModal data-bs-toggle="modal" href="#mrModal" class="d-none"></button>
                                     </div>
                                 </td>
@@ -271,90 +271,189 @@
             <div class="modal-body">
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-9">
                             <h6>
                                 MR No : <small class="text-danger me-2">{{mrDetailsList[0]?.MR_NO}}</small>
                                 Depo : <small
                                     class="text-danger">{{mrDetailsList[0]?.DEPO_NAME}}({{mrDetailsList[0]?.DEPO_CODE}})</small>
-                            </h6>
-                            <h6>
-                                Container No : <small
+                                    Container No : <small
                                     class="text-danger me-2">{{mrDetailsList[0]?.CONTAINER_NO}}</small>
                                 Created Date : <small class="text-danger">{{mrDetailsList[0]?.CREATED_DATE |
                                     date:'dd-MM-YYYY'}}</small>
                             </h6>
                         </div>
+                        <div class="col-md-3 text-end">
+                            <button (click)="addNew()" class="form-btn">
+                                <i class="fa fa-plus me-2"></i>Add New</button>
+                        </div>
                     </div>
                     <hr>
                 </div>
-                <table class="table" style="font-size: 12px;">
-                    <tbody>
-                        <tr>
-                            <td class="col-md-1">
-                                <label class="label-header">Location</label>
-                            </td>
-                            <td class="col-md-1">
-                                <label class="label-header">Component</label>
-                            </td>
-                            <td class="col-md-1">
-                                <label class="label-header">Damage</label>
-                            </td>
-                            <td class="col-md-1">
-                                <label class="label-header">Repair</label>
-                            </td>
-                            <td class="col-md-1">
-                                <label class="label-header">Description</label>
-                            </td>
-                            <td class="col-md-1">
-                                <label class="label-header">LWH (Unit)</label>
-                            </td>
-                            <td class="col-md-1">
-                                <label class="label-header">Responsibility</label>
-                            </td>
-                            <td class="col-md-1">
-                                <label class="label-header">Man Hour</label>
-                            </td>
-                            <td class="col-md-1">
-                                <label class="label-header">Labour</label>
-                            </td>
-                            <td class="col-md-1">
-                                <label class="label-header">Material</label>
-                            </td>
-                            <td class="col-md-1">
-                                <label class="label-header">Total</label>
-                            </td>
-                            <td class="col-md-1">
-                                <label class="label-header">Approved Rate</label>
-                            </td>
-                        </tr>
-                        <tr *ngFor="let item of f1;let i = index" [formGroup]="f(item)">
-                            <td>{{item.value.LOCATION}}</td>
-                            <td>{{item.value.COMPONENT}}</td>
-                            <td>{{item.value.DAMAGE}}</td>
-                            <td>{{item.value.REPAIR}}</td>
-                            <td>{{item.value.DESCRIPTION}}</td>
-                            <td>{{item.value.LENGTH}}-{{item.value.WIDTH}}-{{item.value.HEIGHT}} ({{item.UNIT}})</td>
-                            <td>{{item.value.RESPONSIBILITY}}</td>
-                            <td>{{item.value.MAN_HOUR}}</td>
-                            <td>{{item.value.LABOUR}}</td>
-                            <td>{{item.value.MATERIAL}}</td>
-                            <td>{{item.value.TOTAL}}</td>
-                            <td><input class="form-control3" formControlName="APPROVED_RATE" type="text" /></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="">
+                    <table class="table table-responsive-xl" style="font-size: 12px;">
+                        <tbody>
+                            <tr>
+                                <td width="8%">
+                                    <label class="label-header">Location</label>
+                                </td>
+                                <td width="8%">
+                                    <label class="label-header">Component</label>
+                                </td>
+                                <td width="8%">
+                                    <label class="label-header">Damage</label>
+                                </td>
+                                <td width="8%">
+                                    <label class="label-header">Repair</label>
+                                </td>
+                                <td width="20%">
+                                    <label class="label-header">Description</label>
+                                </td>
+                                <td width="25%">
+                                    <label class="label-header">LWH (Unit)</label>
+                                </td>
+                                <td width="5%">
+                                    <label class="label-header">Responsibility</label>
+                                </td>
+                                <td width="5%">
+                                    <label class="label-header">Manhr</label>
+                                </td>
+                                <td width="5%">
+                                    <label class="label-header">Labour</label>
+                                </td>
+                                <td width="5%">
+                                    <label class="label-header">Material</label>
+                                </td>
+                                <td width="5%">
+                                    <label class="label-header">Total</label>
+                                </td>
+                                <td width="20%">
+                                    <label class="label-header">Remarks</label>
+                                </td>
+                                <td width="5%">&nbsp;</td>
+                            </tr>
+                            <tr *ngFor="let item of f1;let i = index" [formGroup]="f(item)">
+                                <td>{{item.value.LOCATION}}</td>
+                                <td>{{item.value.COMPONENT}}</td>
+                                <td>{{item.value.DAMAGE}}</td>
+                                <td>{{item.value.REPAIR}}</td>
+                                <td>{{item.value.DESC}}</td>
+                                <td>{{item.value.LENGTH}}-{{item.value.WIDTH}}-{{item.value.HEIGHT}} ({{item.value.UNIT}})</td>
+                                <td>{{item.value.RESPONSIBILITY}}</td>
+                                <td>{{item.value.MAN_HOUR}}</td>
+                                <td>{{item.value.LABOUR}}</td>
+                                <td>{{item.value.MATERIAL}}</td>
+                                <td>{{item.value.TOTAL}}</td>
+                                <td>
+                                    <textarea class="form-control3" formControlName="REMARKS" type="text"></textarea>
+                                </td>
+                                <td>
+                                    <a class="pointer" (click)="removeMR(i)">
+                                        <i style="font-size:18px" class="fa fa-trash mt-3"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let item of f2;let j = index" [formGroup]="f(item)">
+                                <td width="8%">
+                                    <input formControlName="LOCATION" class="form-control3" type="text" />
+                                </td>
+                                <td width="5%">
+                                    <select formControlName="COMPONENT" class="form-control3">
+                                        <option value="" selected disabled>--Select--</option>
+                                        <option *ngFor="let item of componentList" value="{{item.CODE}}">
+                                            {{item.CODE}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td width="5%">
+                                    <select formControlName="DAMAGE" class="form-control3">
+                                        <option value="" selected disabled>--Select--</option>
+                                        <option *ngFor="let item of damageList" value="{{item.CODE}}">
+                                            {{item.CODE}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td width="5%">
+                                    <select formControlName="REPAIR" class="form-control3">
+                                        <option value="" selected disabled>--Select--</option>
+                                        <option *ngFor="let item of repairList" value="{{item.CODE}}">
+                                            {{item.CODE}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td width="20%">
+                                    <textarea class="form-control3" formControlName="DESC" type="text"></textarea>
+                                </td>
+                                <td width="20%">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <input formControlName="LENGTH" class="form-control3" type="text" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input formControlName="WIDTH" class="form-control3" type="text" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input formControlName="HEIGHT" class="form-control3" type="text" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input formControlName="UNIT" class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="5%">
+                                    <select formControlName="RESPONSIBILITY" class="form-control3">
+                                        <option value="" selected disabled>
+                                            --Select--</option>
+                                        <option value="S">S</option>
+                                        <option value="C">C</option>
+                                        <option value="T">T</option>
+                                        <option value="O">O</option>
+                                    </select>
+                                </td>
+                                <td width="5%">
+                                    <input formControlName="MAN_HOUR" (keyup)="LabourCount(j)" class="form-control3"
+                                        type="text" />
+                                </td>
+                                <td width="5%">
+                                    <input formControlName="LABOUR" readonly class="form-control3" type="text" />
+                                </td>
+                                <td width="5%">
+                                    <input formControlName="MATERIAL" class="form-control3" type="text" />
+                                </td>
+                                <td width="5%">
+                                    {{Sum(j)}}
+                                </td>
+                                <td width="10%">
+                                    <textarea class="form-control3" formControlName="REMARKS" type="text"></textarea>
+                                </td>
+                                <td width="5%">
+                                    <a class="pointer" (click)="removeItem(j)">
+                                        <i style="font-size:18px" class="fa fa-trash mt-3"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <hr>
                 <div class="col-md-12">
                     <div class="row">
                         <div class="text-end">
                             <h6>
-                                Tax : <small class="text-danger me-2">{{mrDetailsList[0]?.TAX}}</small><br>
-                                Final Total : <small
-                                    class="text-danger">{{mrDetailsList[0]?.FINAL_TOTAL}}</small>
+                                Tax : <small class="text-danger me-2">{{TaxTotal()}}</small><br>
+                                Final Total : <small class="text-danger">{{FinalTotal()}}</small>
                             </h6>
                         </div>
                     </div>
                     <hr>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <tbody>
+                            <tr *ngFor="let img of imgList">
+                                <td><img [src]="img" alt="picture" style="width:60px; height:60px;"></td>
+                            </tr>
+                        </tbody>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
