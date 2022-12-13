@@ -144,7 +144,7 @@
                                 <label class="label-header">Total</label>
                             </td>
                             <td class="col-md-1">
-                                <label class="label-header">Approved Rate</label>
+                                <label class="label-header">Remarks</label>
                             </td>
                         </tr>
                         <tr *ngFor="let item of mrDetailsList">
@@ -152,7 +152,7 @@
                             <td>{{item.COMPONENT}}</td>
                             <td>{{item.DAMAGE}}</td>
                             <td>{{item.REPAIR}}</td>
-                            <td>{{item.DESCRIPTION}}</td>
+                            <td>{{item.DESC}}</td>
                             <td>{{item.LENGTH}}-{{item.WIDTH}}-{{item.HEIGHT}} ({{item.UNIT}})</td>
                             <td>{{item.RESPONSIBILITY}}</td>
                             <td>{{item.MAN_HOUR}}</td>
@@ -160,8 +160,7 @@
                             <td>{{item.MATERIAL}}</td>
                             <td>{{item.TOTAL}}</td>
                             <td>
-                                {{item.APPROVED_RATE}}
-                                <!-- <input class="form-control3" type="text" /> -->
+                                {{item.REMARKS}}
                             </td>
                         </tr>
                     </tbody>
