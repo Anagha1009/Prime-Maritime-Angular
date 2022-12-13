@@ -34,6 +34,7 @@ export class TrackingComponent implements OnInit {
   showTracking:boolean=false;
   previewDetails:boolean=false;
   previewNoData:boolean=false;
+  show:boolean=false;
   cmList:any[]=[];
   booking=new BOOKING();
 
@@ -121,17 +122,44 @@ export class TrackingComponent implements OnInit {
     this.rccnActive=false;
   }
 
-  openTracking(){
-    var element = document.getElementById("openModalButton") as HTMLElement;
-    element.click();
+  openTracking(data:any){
+    debugger;
+    this.currentActivity=data.ACTIVITY;  
+    switch (this.currentActivity) {
+      case "RCFL":
+        var element = document.getElementById("openModalButton") as HTMLElement;
+        element.click();
+        break;
+      case "LODF":
+        var element = document.getElementById("openModalButton") as HTMLElement;
+        element.click(); 
+        break;
+      case "DCHF":
+        var element = document.getElementById("openModalButton") as HTMLElement;
+        element.click();
+        break;
+      case "SNTC":
+        var element = document.getElementById("openModalButton") as HTMLElement;
+        element.click(); 
+        break;
+      case "RCCN":
+        var element = document.getElementById("openModalButton") as HTMLElement;
+        element.click();
+        break;
+      default:
+        alert("There is no movement for this particular container!");
+        break;
+    }
+
   }
 
   trackContainer(data:any){
+    debugger;
     this.initializeBorders();
     this.step= 0;
     this.animation = 0;
     this.randomIncrease= true;
-    this.currentActivity=data.ACTIVITY;
+    //this.currentActivity=data.ACTIVITY;
     switch (this.currentActivity) {
       case "RCFL":
           setTimeout(()=>{this.startStep()},1000);
@@ -167,6 +195,7 @@ export class TrackingComponent implements OnInit {
           //console.log("No such day exists!");
           break;
     }
+    
 
   }
 

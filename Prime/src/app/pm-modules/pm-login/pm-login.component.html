@@ -34,7 +34,10 @@
                             <a href="#!" class="text-body">Forgot password?</a>
                         </div>
                         <div class="mb-3">
-                            <button class="btn btn-danger d-grid w-100" (click)="login()" type="submit">Log in</button>
+                            <button class="btn btn-danger btn-flat w-100" (click)="login()" type="button">Log in
+                                <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span>
+                            </button>
+
                         </div>
                     </form>
                 </div>

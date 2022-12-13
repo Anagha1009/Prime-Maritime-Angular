@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ColDef,ITextFilterParams } from 'ag-grid-community';
-import { contains } from 'jquery';
+import { ColDef,ITextFilterParams, ValueFormatterParams } from 'ag-grid-community';
+import { contains, param } from 'jquery';
 import { filter, Observable } from 'rxjs';
 import { CmService } from 'src/app/services/cm.service';
 
@@ -32,17 +32,30 @@ export class CtListComponent implements OnInit {
 
   ngOnInit(): void {
     this.columnDefs=[
-      {field:'BOOKING_NO',sortable:true,filter:true,filterParams:this.customFilterParams},
-      {field:'CRO_NO',sortable:true,filter:true,filterParams:this.customFilterParams},
-      {field:'CONTAINER_NO',sortable:true,filter:true,filterParams:this.customFilterParams},
-      {field:'ACTIVITY',sortable:true,filter:true,filterParams:this.customFilterParams},
-      {field:'PREV_ACTIVITY',sortable:true,filter:true,filterParams:this.customFilterParams},
-      {field:'ACTIVITY_DATE',sortable:true,filter:true,filterParams:this.customFilterParams},
-      {field:'LOCATION',sortable:true,filter:true,filterParams:this.customFilterParams},
-      {field:'STATUS',sortable:true,filter:true,filterParams:this.customFilterParams}
+      {field:'BOOKING_NO',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter},
+      {field:'CRO_NO',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter},
+      {field:'CONTAINER_NO',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter},
+      {field:'ACTIVITY',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter},
+      {field:'PREV_ACTIVITY',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter},
+      {field:'ACTIVITY_DATE',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter},
+      {field:'LOCATION',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter},
+      {field:'STATUS',sortable:true,filter:true,filterParams:this.customFilterParams,valueFormatter:this.checkDataFormatter}
   
     ];
 
+  }
+
+  checkDataFormatter(params: ValueFormatterParams) {
+    if(params.value==null){
+      return '-';
+    }
+    else if(params.value==""){
+      return '-';
+    }
+    else if(params.value!=""){
+      return params.value;
+    }
+    
   }
 
   onPageSizeChanged(event: any) {

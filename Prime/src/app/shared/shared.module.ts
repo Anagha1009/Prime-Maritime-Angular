@@ -9,6 +9,7 @@ import * as CanvasJSAngularChart from '../../assets/canvasjs-3.7.2/canvasjs.angu
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { PmSidebarComponent } from './pm-sidebar/pm-sidebar.component';
 import { AgGridModule } from 'ag-grid-angular';
+import { PmLayoutModule } from '../layout/pm-layout/pm-layout.module';
 
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 

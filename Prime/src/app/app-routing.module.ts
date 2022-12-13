@@ -4,8 +4,6 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
 import { PartyComponent } from './masters/party/party.component';
 import { BookingListComponent } from './modules/booking-list/booking-list.component';
 import { CroListComponent } from './modules/cro-list/cro-list.component';
-import { DetentionListComponent } from './modules/detention-list/detention-list.component';
-import { LoginComponent } from './modules/login/login.component';
 import { NewCroComponent } from './modules/new-cro/new-cro.component';
 import { NewQuotationComponent } from './modules/new-quotation/new-quotation.component';
 import { QuotationDetailsComponent } from './modules/quotation-details/quotation-details.component';
@@ -45,8 +43,11 @@ import { CtListComponent } from './modules/ct-list/ct-list.component';
 import { LoadListComponent } from './modules/load-list/load-list.component';
 
 import { TrackBookingComponent } from './modules/track-booking/track-booking.component';
+import { TestMapComponent } from './pm-modules/test-map/test-map.component';
+import { PmCmComponent } from './pm-modules/pm-cm/pm-cm.component';
 import { PmLandingComponent } from './shared/pm-landing/pm-landing.component';
 import { PmQuotationDetailsComponent } from './pm-modules/pm-quotation-details/pm-quotation-details.component';
+import { SrrCalculatorComponent } from './pm-modules/srr-calculator/srr-calculator.component';
 
 const routes: Routes = [
   {
@@ -66,12 +67,20 @@ const routes: Routes = [
         component: PmQuotationListComponent,
       },
       {
+        path: 'container-movement',
+        component: PmCmComponent,
+      },
+      {
         path: 'mr-request',
         component: PmMrRequestComponent,
       },
       {
         path: 'quotation-details',
         component: PmQuotationDetailsComponent,
+      },
+      {
+        path: 'srr-calculator',
+        component: SrrCalculatorComponent,
       },
     ],
   },
@@ -224,13 +233,16 @@ const routes: Routes = [
         component: DetentionWaverRequestComponent,
       },
       {
-        path:'load-list',
-        component:LoadListComponent,
+        path: 'load-list',
+        component: LoadListComponent,
       },
       {
-     
         path: 'track-booking',
         component: TrackBookingComponent,
+      },
+      {
+        path:'test-map',
+        component:TestMapComponent,
       },
     ],
   },

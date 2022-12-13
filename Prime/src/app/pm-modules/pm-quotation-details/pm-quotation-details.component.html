@@ -38,6 +38,9 @@
             <div class="col-md-3 text-end">
                 <span style="font-size: 10px;"
                     [class]="quotationDetails?.STATUS == 'Approved' ? 'badge rounded-pill bg-success me-2' : 'badge rounded-pill bg-secondary me-2'">{{quotationDetails?.STATUS}}</span>
+                <div class="rounded-btn mt-3 me-2">
+                    <a href="/pm/srr-calculator" title="SRR Calculator"><i class="bx bxs-magic-wand text-light"></i></a>
+                </div>
             </div>
         </div>
         <hr>
@@ -127,60 +130,201 @@
             </div>
 
             <div class="row">
-                <div class="col-md-10 mt-3">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <label class="label-header">Charge Code</label>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="label-header">Standard Rate</label>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="label-header">Payment Term</label>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="label-header">Place of Payment</label>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="label-header">Requested Rate</label>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="label-header">Approved Rate</label>
+                <div class="col-md-8">
+                    <h6>Freight Rates</h6>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="label-header">Charge Code</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="label-header">Standard Rate</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="label-header">Requested Rate</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mt-2">
+                                        <label class="label-subheader">Gross Freight</label>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <label class="label-subheader">100 USD</label>
+                                    </div>
+                                    <div class="col-md-4 mt-1">
+                                        <input class="form-control3" type="text" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mt-2">
+                                        <label class="label-subheader">Net Freight</label>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <label class="label-subheader">160 USD</label>
+                                    </div>
+                                    <div class="col-md-4 mt-1">
+                                        <input class="form-control3" type="text" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mt-2">
+                                        <label class="label-subheader">BAF</label>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <label class="label-subheader">200 USD</label>
+                                    </div>
+                                    <div class="col-md-4 mt-1">
+                                        <input class="form-control3" type="text" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div *ngFor="let item of f1;let i = index" [formGroup]="f(item)">
-                        <div class="row">
-                            <div class="col-md-2 mt-2">
-                                <label class="label-subheader">{{item.value.CHARGE_CODE}}</label>
+
+                    <h6>POL Rates</h6>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="label-header">Charge Code</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="label-header">Standard Rate</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="label-header">Requested Rate</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mt-2">
+                                        <label class="label-subheader">EWRI</label>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <label class="label-subheader">100 USD</label>
+                                    </div>
+                                    <div class="col-md-4 mt-1">
+                                        <input class="form-control3" type="text" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mt-2">
+                                        <label class="label-subheader">Stevedoring</label>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <label class="label-subheader">100 USD</label>
+                                    </div>
+                                    <div class="col-md-4 mt-1">
+                                        <input class="form-control3" type="text" />
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-2 mt-2">
-                                <label class="label-subheader">100 USD</label>
-                            </div>
-                            <div class="col-md-2 mt-2">
-                                <label class="label-subheader">{{item.value.PAYMENT_TERM}}</label>
-                            </div>
-                            <div class="col-md-2 mt-2">
-                                <label class="label-subheader">{{item.value.TRANSPORT_TYPE}}</label>
-                            </div>
-                            <div class="col-md-2 mt-2">
-                                <label class="label-subheader">{{item.value.RATE_REQUESTED}}
-                                    {{item.value.CURRENCY}}</label>
-                            </div>
-                            <div class="col-md-2 mt-1">
-                                <input class="form-control3" formControlName="APPROVED_RATE" type="text" />
+                        </div>
+                    </div>
+
+                    <h6>POD Rates</h6>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="label-header">Charge Code</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="label-header">Standard Rate</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="label-header">Requested Rate</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mt-2">
+                                        <label class="label-subheader">EWRI</label>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <label class="label-subheader">100 USD</label>
+                                    </div>
+                                    <div class="col-md-4 mt-1">
+                                        <input class="form-control3" type="text" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mt-2">
+                                        <label class="label-subheader">THC</label>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <label class="label-subheader">100 USD</label>
+                                    </div>
+                                    <div class="col-md-4 mt-1">
+                                        <input class="form-control3" type="text" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4 border-start">
+                    <div class="row">
+                        <div class="col-5">
+                            <h6>Total Income : </h6>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="text-danger">1574</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <h6>Total Expense : </h6>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="text-danger">1405</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <h6>PNL : </h6>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="text-info">169</h6>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-5">
+                            <h6>Laden Back : </h6>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="text-danger">-150</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <h6>PNL : </h6>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="text-info">19</h6>
+                        </div>
+                    </div>
 
-                <div class="col-md-3">
-                    Total Income : 1574 <br>
-                    Total Expense : 1405 <br>
-                    PNL : 169 <br>
-                    Laden Back : 36542 <br>
-                    PNL : 575 <br>
-                    Laden Empty : 36542 <br>
-                    PNL : 575
+                    <hr>
+                    <div class="row">
+                        <div class="col-5">
+                            <h6>Laden Empty : </h6>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="text-danger">-200</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <h6>PNL : </h6>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="text-info">-31</h6>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

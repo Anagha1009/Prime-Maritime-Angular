@@ -1,0 +1,150 @@
+.tabs {
+  display: flex;
+  position: relative;
+  background-color: #fff;
+  box-shadow: 0 0 1px 0 rgba(#185ee0, 0.15), 0 6px 12px 0 rgba(#185ee0, 0.15);
+  // padding: 0.5rem 0.1rem 0.1rem 0.3rem;
+  border-radius: 99px; // just a high number to create pill effect
+  * {
+    z-index: 2;
+  }
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 41px;
+  width: 175px;
+  font-size: 0.876rem;
+  font-weight: 500;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: color 0.15s ease-in;
+}
+
+input[type="radio"] {
+  &:checked {
+    & + label {
+      color: #185ee0;
+      & > .notification {
+        background-color: #185ee0;
+        color: #fff;
+      }
+    }
+  }
+}
+
+input[id="radio-1"] {
+  &:checked {
+    & ~ .glider {
+      transform: translateX(0);
+    }
+  }
+}
+
+input[id="radio-2"] {
+  &:checked {
+    & ~ .glider {
+      transform: translateX(100%);
+    }
+  }
+}
+
+input[id="radio-3"] {
+  &:checked {
+    & ~ .glider {
+      transform: translateX(200%);
+    }
+  }
+}
+
+input[id="radio-4"] {
+  &:checked {
+    & ~ .glider {
+      transform: translateX(300%);
+    }
+  }
+}
+
+.radio-inline {
+  margin-right: 10px;
+}
+
+.radio input,
+.radio-inline input {
+  opacity: 0;
+  position: absolute;
+}
+
+.radio > label {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.radio .indicator,
+.radio-inline .indicator {
+  position: relative;
+}
+
+.radio .indicator:before,
+.radio-inline .indicator:before {
+  content: "";
+  border: 2px solid #888;
+  display: inline-block;
+  vertical-align: middle;
+  width: 23px;
+  height: 23px;
+  padding: 2px;
+  margin-top: -5px;
+  margin-right: 5px;
+  text-align: center;
+}
+
+.radio input + .indicator:before,
+.radio-inline input + .indicator:before {
+  border-radius: 50%;
+}
+
+.radio input:checked + .indicator:before,
+.radio-inline input:checked + .indicator:before {
+  border-color: black;
+  background: black;
+  box-shadow: inset 0px 0px 0px 5px #fff;
+}
+
+.radio input:disabled + .indicator:before,
+.radio-inline input:disabled + .indicator:before {
+  border-color: #ccc;
+  box-shadow: inset 0px 0px 0px 5px #fff;
+}
+
+.radio input:checked:disabled + .indicator:before,
+.radio-inline input:checked:disabled + .indicator:before {
+  border-color: #ccc;
+  background: #ccc;
+  box-shadow: inset 0px 0px 0px 5px #fff;
+}
+
+.radio input:focus + .indicator,
+.radio-inline input:focus + .indicator {
+  outline: 0px solid #ddd;
+  /* focus style */
+}
+
+.glider {
+  position: absolute;
+  display: flex;
+  height: 41px;
+  width: 130px;
+  background-color: #0000000d;
+  z-index: 1;
+  border-radius: 99px; // just a high number to create pill effect
+  transition: 0.25s ease-out;
+}
+
+@media (max-width: 700px) {
+  .tabs {
+    transform: scale(0.6);
+  }
+}

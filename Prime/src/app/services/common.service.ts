@@ -16,9 +16,15 @@ export class CommonService {
 
   constructor(private _http: HttpClient) {}
 
-  getDropdownData(key: string, port:string = '') {
+  getDropdownData(key: string, port: string = '', value: string = '') {
     return this._http.get<any>(
-      this.BASE_URL + 'Common/GetDropdownData?key=' + key,
+      this.BASE_URL +
+        'Common/GetDropdownData?key=' +
+        key +
+        '&value=' +
+        value +
+        '&port=' +
+        port,
       this.httpOptions
     );
   }
@@ -53,10 +59,10 @@ export class CommonService {
     });
   }
 
-  UpdateMaster(type:any){
-    debugger
+  UpdateMaster(type: any) {
+    debugger;
     return this._http.post<any>(
-      this.BASE_URL+ 'Master/UpdateMaster',
+      this.BASE_URL + 'Master/UpdateMaster',
       type,
       this.httpOptions
     );
