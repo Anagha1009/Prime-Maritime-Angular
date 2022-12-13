@@ -590,7 +590,7 @@ export class PmCmComponent implements OnInit {
   postSelectedContainerList(item: any, event: any, index: number) {
     debugger;
     
-    if(index==0){
+    if(item==1){
       const add = this.cmForm.get('CONTAINER_LIST2') as FormArray;
       const add1 = this.cmForm.get('CONTAINER_MOVEMENT_LIST') as FormArray;
       if (event.target.checked) {
@@ -603,7 +603,7 @@ export class PmCmComponent implements OnInit {
             true;
         }
       } else {
-        add.clear();
+        add1.clear();
         for (var i: number = 0; i < add.length; i++) {
           (document.getElementById('chck' + i) as HTMLInputElement).checked =
             false;

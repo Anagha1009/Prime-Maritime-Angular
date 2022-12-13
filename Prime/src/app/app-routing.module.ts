@@ -47,6 +47,7 @@ import { TestMapComponent } from './pm-modules/test-map/test-map.component';
 import { PmCmComponent } from './pm-modules/pm-cm/pm-cm.component';
 import { PmLandingComponent } from './shared/pm-landing/pm-landing.component';
 import { PmQuotationDetailsComponent } from './pm-modules/pm-quotation-details/pm-quotation-details.component';
+import { NewTrackComponent } from './modules/new-track/new-track.component';
 import { SrrCalculatorComponent } from './pm-modules/srr-calculator/srr-calculator.component';
 
 const routes: Routes = [
@@ -179,6 +180,10 @@ const routes: Routes = [
       {
         path: 'tracking',
         component: TrackingComponent,
+      },
+      {
+        path: 'new-track',
+        component: NewTrackComponent,
       },
       {
         path: 'ct-list',

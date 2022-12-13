@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CmService } from 'src/app/services/cm.service';
 import { CommonService } from 'src/app/services/common.service';
 import { ErService } from 'src/app/services/er.service';
 
@@ -10,6 +11,8 @@ import { ErService } from 'src/app/services/er.service';
   styleUrls: ['./new-er.component.scss']
 })
 export class NewErComponent implements OnInit {
+  currentLocation:any='';
+  status:any='Available'
   erForm: FormGroup;
   submitted: boolean = false;
   disabled = false;
@@ -50,31 +53,34 @@ export class NewErComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder,
     private _erService: ErService,
     private _commonService:CommonService,
+    private _cmService:CmService,
     private _router: Router) { }
 
   ngOnInit(): void {
-    this.containerDropdownList = [
-      { item_id: 1, item_text: 'SIKU3034664' },
-      { item_id: 2, item_text: 'TLLU8316901' },
-      { item_id: 3, item_text: 'TCKU2125749' },
-      { item_id: 4, item_text: 'SEGU1759710' },
-      { item_id: 5, item_text: 'SEGU1900639' },
-      { item_id: 6, item_text: 'TCLU3387545' },
-      { item_id: 7, item_text: 'SIKU2952032' },
-      { item_id: 8, item_text: 'SEGU1561659' },
-      { item_id: 9, item_text: 'SEGU1706269' },
-      { item_id: 10, item_text: 'VSBU2058560' },
-      { item_id: 11, item_text: 'GESU1163666' },
-      { item_id: 12, item_text: 'SEGU1552683' },
-      { item_id: 13, item_text: 'SIKU3060792' },
-      { item_id: 14, item_text: 'SIKU3040374' },
-      { item_id: 15, item_text: 'TLLU8398406' }
-    ];
-
+    this.currentLocation='Dammam';
+    //this.currentLocation=localStorage.getItem('location');
+    // this.containerDropdownList = [
+    //   { item_id: 1, item_text: 'SIKU3034664' },
+    //   { item_id: 2, item_text: 'TLLU8316901' },
+    //   { item_id: 3, item_text: 'TCKU2125749' },
+    //   { item_id: 4, item_text: 'SEGU1759710' },
+    //   { item_id: 5, item_text: 'SEGU1900639' },
+    //   { item_id: 6, item_text: 'TCLU3387545' },
+    //   { item_id: 7, item_text: 'SIKU2952032' },
+    //   { item_id: 8, item_text: 'SEGU1561659' },
+    //   { item_id: 9, item_text: 'SEGU1706269' },
+    //   { item_id: 10, item_text: 'VSBU2058560' },
+    //   { item_id: 11, item_text: 'GESU1163666' },
+    //   { item_id: 12, item_text: 'SEGU1552683' },
+    //   { item_id: 13, item_text: 'SIKU3060792' },
+    //   { item_id: 14, item_text: 'SIKU3040374' },
+    //   { item_id: 15, item_text: 'TLLU8398406' }
+    // ];
+    this.getDropdownData();
     this.dropdownSettings = {
       singleSelection: false,
-      idField: 'item_id',
-      textField: 'item_text',
+      idField: 'ID',
+      textField: 'CONTAINER_NO',
       enableCheckAll: true,
       selectAllText: 'Select All',
       unSelectAllText: 'Unselect All',
@@ -110,7 +116,7 @@ export class NewErComponent implements OnInit {
       CONTAINER_LIST: new FormControl(this.containerDropdownList, Validators.required),
     });
     
-    this.getDropdownData();
+    //this.getDropdownData();
     this.loadContent = true;
   }
 
@@ -120,9 +126,19 @@ export class NewErComponent implements OnInit {
   }
 
   getDropdownData(){
+    this.containerDropdownList=[];
     this._commonService.getDropdownData('CURRENCY').subscribe((res: any) => {
       if (res.hasOwnProperty('Data')) {
         this.currencyList = res.Data;
+      }
+    });
+    debugger;
+    this._cmService.getCMAvailable(this.status,this.currentLocation).subscribe((res: any) => {
+      if(res.ResponseCode==200){
+        this.containerDropdownList=res.Data;
+      }
+      if(res.ResponseCode==500){
+        this.containerDropdownList=[];
       }
     });
     
