@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 import { BOOKING } from 'src/app/models/booking';
 import { BookingService } from 'src/app/services/booking.service';
+import { locale as english } from 'src/app/@core/translate/booking/en';
+import { locale as hindi } from 'src/app/@core/translate/booking/hi';
 
 @Component({
   selector: 'app-booking-list',
@@ -18,8 +21,11 @@ export class BookingListComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _bookingService: BookingService,
-    private _router: Router
-  ) {}
+    private _router: Router,
+    private _coreTranslationService: CoreTranslationService
+  ) {
+    this._coreTranslationService.translate(english, hindi);
+  }
 
   ngOnInit(): void {
     this.bookingForm = this._formBuilder.group({

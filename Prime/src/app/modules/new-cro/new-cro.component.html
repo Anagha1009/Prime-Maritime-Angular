@@ -1,5 +1,5 @@
 <div class="section-title">
-    <h2>New CRO</h2>
+    <h2>{{'Header.title2'|translate}}</h2>
 </div>
 <div class="container">
     <div class="container mt-4">
@@ -7,11 +7,11 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <input type="text" class="form-control" [(ngModel)]="bookingNo">
-                    <label class="form-label">Booking No.</label>
+                    <label class="form-label">{{'Header.BookingNo'|translate}}</label>
                 </div>
             </div>
             <div class="col-md-3">
-                <button class="form-btn me-2" (click)="getBookingDetails()">Create CRO</button>
+                <button class="form-btn me-2" (click)="getBookingDetails()">{{'Header.CreateCro'|translate}}</button>
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
         <div class="col-md-3">
             <div class="services" style="font-size: 14px;">
                 <div class="icon-box text-start border" style="box-shadow: none;">
-                    <h6>Booking Details</h6>
+                    <h6>{{'Header.BookingDetails'|translate}}</h6>
                     <hr>
                     <p class="description text-danger">{{bookingDetails?.BOOKING_NO}}</p>
                     <p class="description"><i class="bx bxs-ship"></i> <span class="text-info">
@@ -29,7 +29,7 @@
 
                     <p class="description">{{bookingDetails?.POL}} <i class="bx bx-right-arrow-circle"></i>
                         {{bookingDetails?.POD}}</p>
-                    <h6 class="mt-3">Container Details</h6>
+                    <h6 class="mt-3">{{'Header.ContainerDetails'|translate}}</h6>
                     <hr>
                     <div *ngFor="let item of containerList">
                         <p class="description">{{item.CONTAINER_TYPE}} - {{item.CONTAINER_SIZE}}</p>
@@ -50,7 +50,7 @@
                                 <ng-option value="ICD">ICD</ng-option>
                                 <ng-option value="PORT">PORT</ng-option>
                             </ng-select>
-                            <label class="form-label-ddl">Stuffing Type<span class="text-danger">*</span></label>
+                            <label class="form-label-ddl">{{'Header.Stuffingtype'|translate}}<span class="text-danger">*</span></label>
                             <div *ngIf="submitted && f.STUFFING_TYPE.errors" class="invalid-feedback">Please
                                 select
                                 Stuffing Type</div>
@@ -68,7 +68,7 @@
                                     BCT-Bay Container Terminal
                                 </ng-option>
                             </ng-select>
-                            <label class="form-label-ddl">Cont Pickup Point<span class="text-danger">*</span></label>
+                            <label class="form-label-ddl">{{'Header.ContPickupPoint'|translate}}<span class="text-danger">*</span></label>
                             <div *ngIf="submitted && f.EMPTY_CONT_PCKP.errors" class="invalid-feedback">Please select
                                 Container Pickup Point</div>
                         </div>
@@ -85,7 +85,7 @@
                                     INSAJ6-ICD TUMB
                                 </ng-option>
                             </ng-select>
-                            <label class="form-label-ddl">Laden Act Location<span class="text-danger">*</span></label>
+                            <label class="form-label-ddl">{{'Header.LadenAcptLocation'|translate}}<span class="text-danger">*</span></label>
                             <div *ngIf="submitted && f.LADEN_ACPT_LOCATION.errors" class="invalid-feedback">Please select
                                 Laden act Location</div>
                         </div>
@@ -95,7 +95,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <input type="date" class="form-control" [ngClass]="{'invalid': submitted && f.CRO_VALIDITY_DATE.errors}"  formControlName="CRO_VALIDITY_DATE">
-                            <label class="form-label">CRO Validity Date <span class="text-danger">*</span></label>
+                            <label class="form-label">{{'Header.CroValidityDate'|translate}} <span class="text-danger">*</span></label>
                             <div *ngIf="submitted && f.CRO_VALIDITY_DATE.errors" class="invalid-feedback">Please select
                                 Cro Validity Date</div>
                         </div>
@@ -105,7 +105,7 @@
                             <div class="form-group">
                                 <input type="text"  [ngClass]="{'invalid':submitted && f.REMARKS.errors}" formControlName="REMARKS"
                                     class="form-control">
-                                <label class="form-label"> Remarks <span class="text-danger">*</span></label>
+                                <label class="form-label"> {{'Header.Remarks'|translate}} <span class="text-danger">*</span></label>
                                 <div *ngIf="submitted && f.REMARKS.errors" class="invalid-feedback">
                                     Please Enter Remarks
                                    </div>
@@ -116,7 +116,7 @@
                         <div class="form-group">
                             <input type="text"  [ngClass]="{'invalid':submitted && f.REQ_QUANTITY.errors}" formControlName="REQ_QUANTITY"
                                     class="form-control">
-                                <label class="form-label"> Required Qty<span class="text-danger">*</span></label>
+                                <label class="form-label">{{'Header.RequiredQuantity'|translate}}<span class="text-danger">*</span></label>
                                 <div *ngIf="submitted && f.REQ_QUANTITY.errors" class="invalid-feedback">
                                     Please Enter Required Quantity
                                  </div>
@@ -128,7 +128,7 @@
                         <div class="form-group">
                             <input type="text" [ngClass]="{'invalid': submitted && f.GROSS_WT.errors}" formControlName="REQ_QUANTITY"
                                     class="form-control">
-                                <label class="form-label"> Gross Weight<span class="text-danger">*</span></label>
+                                <label class="form-label"> {{'Header.GrossWeight'|translate}}<span class="text-danger">*</span></label>
                                 <div *ngIf="submitted && f.GROSS_WT.errors" class="invalid-feedback">
                                     Please Enter Gross Weight
                                    </div>
@@ -146,7 +146,7 @@
                                     Ton
                                 </ng-option>
                             </ng-select>
-                            <label class="form-label-ddl">Unit <span class="text-danger">*</span></label>
+                            <label class="form-label-ddl">{{'Header.Unit'|translate}} <span class="text-danger">*</span></label>
                             <div *ngIf="submitted && f.GROSS_WT_UNIT.errors" class="invalid-feedback">Please select
                                Unit</div>
                         </div>
@@ -162,7 +162,7 @@
                                     Bundles
                                 </ng-option>
                             </ng-select>
-                            <label class="form-label-ddl">Packages <span class="text-danger">*</span></label>
+                            <label class="form-label-ddl">{{'Header.Packages'|translate}} <span class="text-danger">*</span></label>
                             <div *ngIf="submitted && f.PACKAGES.errors" class="invalid-feedback">Please Select Packages
                             </div>
                         </div>
@@ -171,7 +171,7 @@
                         <div class="form-group">
                             <input type="text"[ngClass]="{'invalid': submitted && f.NO_OF_PACKAGES.errors}" formControlName="NO_OF_PACKAGES"
                                     class="form-control">
-                                <label class="form-label"> No of Packages<span class="text-danger">*</span></label>
+                                <label class="form-label">{{'Header.NoofPackages'|translate}} <span class="text-danger">*</span></label>
                                 <div *ngIf="submitted && f.NO_OF_PACKAGES.errors" class="invalid-feedback">Please Select No of Packages
                                    </div>
                         </div>
@@ -179,7 +179,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2 offset-md-10" style="text-align: right;">
-                        <button (click)="SaveCRO()" class="form-btn">Submit</button>
+                        <button (click)="SaveCRO()" class="form-btn">{{'Button.Submit'|translate}}</button>
                         <button #openBtn data-bs-toggle="modal" href="#mailModal"
                             class="form-btn d-none">Submit</button>
                     </div>
