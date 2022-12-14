@@ -6,6 +6,9 @@ import { BOOKING } from 'src/app/models/booking';
 import { QUOTATION } from 'src/app/models/quotation';
 import { BookingService } from 'src/app/services/booking.service';
 import { QuotationService } from 'src/app/services/quotation.service';
+import { locale as english } from 'src/app/@core/translate/booking/en';
+import { locale as hindi } from 'src/app/@core/translate/booking/hi';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 
 @Component({
   selector: 'app-split-booking',
@@ -21,11 +24,16 @@ export class SplitBookingComponent implements OnInit {
   previewDetails:boolean=false;
   previewNoData:boolean=false;
   submitted: boolean = false;
+ 
 
   constructor(private _formBuilder: FormBuilder,
     private _bookingService: BookingService,
     private _srrService:QuotationService,
-    private _router: Router) { }
+    private _router: Router,
+    private _coreTranslationService: CoreTranslationService)
+     { 
+      this._coreTranslationService.translate(english, hindi);
+    }
 
   ngOnInit(): void {
     this.splitBookingForm = this._formBuilder.group({

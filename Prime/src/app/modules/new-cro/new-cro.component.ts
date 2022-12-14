@@ -9,6 +9,10 @@ import { CommonService } from 'src/app/services/common.service';
 import { CRO } from 'src/app/models/cro';
 import { getTranslationDeclStmts } from '@angular/compiler/src/render3/view/template';
 import { HttpClient } from '@angular/common/http';
+import { locale as english } from 'src/app/@core/translate/cro/en';
+import { locale as hindi } from 'src/app/@core/translate/cro/hi';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
+
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -41,8 +45,9 @@ export class NewCroComponent implements OnInit {
     private _bookingService: BookingService,
     private _router: Router,
     private _commonService: CommonService,
-    private http: HttpClient
-  ) {}
+    private http: HttpClient,
+    private _coreTranslationService: CoreTranslationService
+  ) {this._coreTranslationService.translate(english, hindi);}
 
   ngOnInit(): void {
     this.croForm = this._formBuilder.group({
