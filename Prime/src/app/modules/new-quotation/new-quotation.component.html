@@ -195,7 +195,8 @@
                                 <div class="row mt-4">
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
-                                            <ng-select [ngClass]="{'invalid': submitted && f5.VESSEL_NAME.errors}"
+                                            <ng-select (change)="getVoyageList($event)"
+                                                [ngClass]="{'invalid': submitted && f5.VESSEL_NAME.errors}"
                                                 formControlName="VESSEL_NAME">
                                                 <ng-option value="" selected="true" disabled>
                                                     --Select--</ng-option>
@@ -212,9 +213,14 @@
                                     </div>
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
-                                            <input readonly [ngClass]="{'invalid': submitted && f5.VOYAGE_NO.errors}"
-                                                formControlName="VOYAGE_NO" type="text" class="form-control" />
-                                            <label class="form-label">Voyage No <span class="text-danger">
+                                            <ng-select [ngClass]="{'invalid': submitted3 && f6.VOYAGE_NO.errors}"
+                                                formControlName="VOYAGE_NO">
+                                                <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                                <ng-option *ngFor="let item of voyageList" value="{{item.CODE}}">
+                                                    {{item.CODE}}
+                                                </ng-option>
+                                            </ng-select>
+                                            <label class="form-label-ddl">Voyage No <span class="text-danger">
                                                     *</span></label>
                                             <div *ngIf="submitted && f5.VOYAGE_NO.errors" class="invalid-feedback">
                                                 Voyage No is required

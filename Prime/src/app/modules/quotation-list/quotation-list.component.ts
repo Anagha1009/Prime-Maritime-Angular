@@ -90,17 +90,23 @@ export class QuotationListComponent implements OnInit {
       }
     });
 
-    this._commonService.getDropdownData('VOYAGE_NO').subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.voyageList = res.Data;
-      }
-    });
-
     this._commonService
       .getDropdownData('SLOT_OPERATOR')
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.slotoperatorList = res.Data;
+        }
+      });
+  }
+
+  getVoyageList(event: any) {
+    this.slotDetailsForm.get('VOYAGE_NO')?.setValue('');
+    this.voyageList = [];
+    this._commonService
+      .getDropdownData('VOYAGE_NO', '', event)
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.voyageList = res.Data;
         }
       });
   }

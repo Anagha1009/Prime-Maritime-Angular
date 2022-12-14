@@ -1,5 +1,5 @@
 <div class="section-title">
-    <h2>M&R Request</h2>
+    <h2>{{'Header.title'|translate}}</h2>
 </div>
 <div class="container">
     <div class="container mt-4">
@@ -7,80 +7,80 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <input type="text" class="form-control" [(ngModel)]="containerNo">
-                    <label class="form-label">Container No.</label>
+                    <label class="form-label">{{'Header.containerNo'|translate}}</label>
                 </div>
             </div>
             <div class="col-md-3">
-                <button class="form-btn me-2" (click)="getContainerDetails()">Create MNR</button>
+                <button class="form-btn me-2" (click)="getContainerDetails()">{{'Button.createMNR' | translate}}</button>
             </div>
         </div>
     </div>
 
     <div class="col-md-5 mx-auto" *ngIf="!isRecords">
         <h5 class="text-center">Sorry! No records found !!</h5>
-        <img src="./../../../assets/img/doimg.jpg" class="img-fluid" alt="">
+        <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
     </div>
 
     <div class="row mt-5" *ngIf="isContainer">
         <div class="col-md-2">
             <div class="form-group">
-                <label class="label-header">Container No</label>
+                <label class="label-header">{{'Header.containerNo'|translate}}</label>
                 <label class="label-subheader">{{containerDetails?.CONTAINER_NO}}</label>
             </div>
             <div class="form-group">
-                <label class="label-header">Tare Weight</label>
+                <label class="label-header">{{'Header.tareWt'|translate}}</label>
                 <label class="label-subheader">2300 KGS</label>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label class="label-header">Size/Type</label>
+                <label class="label-header">{{'Header.sizeType'|translate}}</label>
                 <label
                     class="label-subheader">{{containerDetails?.CONTAINER_SIZE}}/{{containerDetails?.CONTAINER_TYPE}}</label>
             </div>
             <div class="form-group">
-                <label class="label-header">Pay Load Capacity</label>
+                <label class="label-header">{{'Header.payloadCapacity'|translate}}</label>
                 <label class="label-subheader">76567 KGS</label>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label class="label-header">CSC Details</label>
+                <label class="label-header">{{'Header.cscDetails'|translate}}</label>
                 <label class="label-subheader">F/BV/161/29</label>
             </div>
             <div class="form-group">
-                <label class="label-header">Gross Weight</label>
+                <label class="label-header">{{'Header.grossWt'|translate}}</label>
                 <label class="label-subheader">2434 KGS</label>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label class="label-header">Manufacturing Date</label>
-                <label class="label-subheader">Sep 12 1956</label>
+                <label class="label-header">{{'Header.manufacturingDate'|translate}}</label>
+                <label class="label-subheader">{{containerDetails?.MANUFACTURING_DATE | date:'mediumDate'}}</label>
             </div>
             <div class="form-group">
-                <label class="label-header">Currency/ Country</label>
+                <label class="label-header">{{'Header.currency'|translate}}</label>
                 <label class="label-subheader">INR/ India</label>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label class="label-header">Turn-in Date</label>
+                <label class="label-header">{{'Header.turninDate'|translate}}</label>
                 <label class="label-subheader">Sep 12 1956</label>
             </div>
 
             <div class="form-group">
-                <label class="label-header">Location</label>
+                <label class="label-header">{{'Header.location'|translate}}</label>
                 <label class="label-subheader">Nhava Sheva</label>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label class="label-header">Inspection</label>
+                <label class="label-header">{{'Header.inspection'|translate}}</label>
                 <label class="label-subheader">Sep 12 1956</label>
             </div>
             <div class="form-group">
-                <label class="label-header">Depot Name</label>
+                <label class="label-header">{{'Header.depotName'|translate}}</label>
                 <label class="label-subheader">ABC Depot</label>
             </div>
         </div>
@@ -90,29 +90,29 @@
     <div *ngIf="isContainer">
         <div class="row">
             <div class="col-md-6">
-                <h5 class="mb-4">M&R Details</h5>
+                <h5 class="mb-4">{{'Header.subtitle1'|translate}}</h5>
             </div>
             <div class="col-md-6" style="text-align: right;">
                 <button (click)="addNew()" class="form-btn">
-                    <i class="fa fa-plus me-2"></i>Add New</button>
+                    <i class="fa fa-plus me-2"></i>{{'Button.addNew'|translate}}</button>
             </div>
         </div>
         <div class="table-responsive">
             <table class="ratetable" style="font-size: 12px;">
                 <tr>
-                    <th>No</th>
-                    <th>Location</th>
-                    <th>Component</th>
-                    <th>Damage</th>
-                    <th>Repair</th>
-                    <th>Measurement(in CMS)</th>
-                    <th>Unit</th>
-                    <th>Responsibility</th>
-                    <th>Man hour</th>
-                    <th>Labour</th>
-                    <th>Material</th>
-                    <th>Total</th>
-                    <th>Remarks</th>
+                    <th>{{'Header.srNo'|translate}}</th>
+                    <th>{{'Header.Location'|translate}}</th>
+                    <th>{{'Header.component'|translate}}</th>
+                    <th>{{'Header.damage'|translate}}</th>
+                    <th>{{'Header.repair'|translate}}</th>
+                    <th>{{'Header.measurement'|translate}}</th>
+                    <th>{{'Header.unit'|translate}}</th>
+                    <th>{{'Header.responsibility'|translate}}</th>
+                    <th>{{'Header.manhr'|translate}}</th>
+                    <th>{{'Header.labour'|translate}}</th>
+                    <th>{{'Header.material'|translate}}</th>
+                    <th>{{'Header.total'|translate}}</th>
+                    <th>{{'Header.remarks'|translate}}</th>
                     <th>&nbsp;</th>
                 </tr>
                 <tr *ngFor="let item of f;let j = index" [formGroup]="f1(item)">
@@ -121,13 +121,13 @@
                     </td>
                     <td width="10%">
                         <div class="col-md-12">
-                            <label class="form-label3">Location</label>
+                            <label class="form-label3">{{'Header.Location'|translate}}</label>
                             <input formControlName="LOCATION" class="form-control3" type="text" />
                         </div>
                     </td>
                     <td width="10%">
                         <div class="col-md-12">
-                            <label class="form-label3">Component</label>
+                            <label class="form-label3">{{'Header.component'|translate}}</label>
                             <select formControlName="COMPONENT" class="form-control3">
                                 <option value="" selected disabled>--Select--</option>
                                 <option *ngFor="let item of componentList" value="{{item.CODE}}">
@@ -138,7 +138,7 @@
                     </td>
                     <td width="10%">
                         <div class="col-md-12">
-                            <label class="form-label3">Damage</label>
+                            <label class="form-label3">{{'Header.damage'|translate}}</label>
                             <select formControlName="DAMAGE" class="form-control3">
                                 <option value="" selected disabled>--Select--</option>
                                 <option *ngFor="let item of damageList" value="{{item.CODE}}">
@@ -149,7 +149,7 @@
                     </td>
                     <td width="10%">
                         <div class="col-md-12">
-                            <label class="form-label3">Repair</label>
+                            <label class="form-label3">{{'Header.repair'|translate}}</label>
                             <select formControlName="REPAIR" class="form-control3">
                                 <option value="" selected disabled>--Select--</option>
                                 <option *ngFor="let item of repairList" value="{{item.CODE}}">
@@ -173,13 +173,13 @@
                     </td>
                     <td width="5%">
                         <div class="col-md-12">
-                            <label class="form-label3">Unit</label>
+                            <label class="form-label3">{{'Header.unit'|translate}}</label>
                             <input formControlName="UNIT" class="form-control3" type="text" />
                         </div>
                     </td>
                     <td width="8%">
                         <div class="col-md-12">
-                            <label class="form-label3">Responsibility</label>
+                            <label class="form-label3">{{'Header.responsibility'|translate}}</label>
                             <select formControlName="RESPONSIBILITY" class="form-control3">
                                 <option value="" selected disabled>
                                     --Select--</option>
@@ -192,20 +192,20 @@
                     </td>
                     <td width="5%">
                         <div class="col-md-12">
-                            <label class="form-label3">Man hour</label>
+                            <label class="form-label3">{{'Header.manhr'|translate}}</label>
                             <input formControlName="MAN_HOUR" (keyup)="LabourCount(j)" class="form-control3"
                                 type="text" />
                         </div>
                     </td>
                     <td width="5%">
                         <div class="col-md-12">
-                            <label class="form-label3">Labour</label>
+                            <label class="form-label3">{{'Header.labour'|translate}}</label>
                             <input formControlName="LABOUR" readonly class="form-control3" type="text" />
                         </div>
                     </td>
                     <td width="5%">
                         <div class="col-md-12">
-                            <label class="form-label3">Material</label>
+                            <label class="form-label3">{{'Header.material'|translate}}</label>
                             <input formControlName="MATERIAL" class="form-control3" type="text" />
                         </div>
                     </td>
@@ -216,7 +216,7 @@
                     </td>
                     <td width="5%">
                         <div class="col-md-12">
-                            <label class="form-label3">Remarks</label>
+                            <label class="form-label3">{{'Header.remarks'|translate}}</label>
                             <textarea class="form-control3" formControlName="REMARKS" type="text"></textarea>
                         </div>
                     </td>
@@ -253,20 +253,20 @@
         </div>
 
         <div class="col-md-4 offset-md-8 text-end mt-3">
-            <h6>Fresh Damage :
+            <h6>{{'Header.freshDamage'|translate}} :
                 <small class="text-danger">{{TotalFreshDamageSum()}}</small> <br>
-                W & T damage :
+                {{'Header.wtDamage'|translate}} :
                 <small class="text-danger">{{TotalWTSum()}}</small> <br>
             </h6>
-            <h6>Tax :
+            <h6>{{'Header.tax'|translate}} :
                 <small class="text-danger">{{TaxTotal()}}</small><br>
-                Total :
+                {{'Header.total'|translate}} :
                 <small class="text-danger">{{FinalTotal()}}</small>
             </h6>
         </div>
         <hr>
 
-        <h5 class="mb-4 mt-5">File Upload</h5>
+        <h5 class="mb-4 mt-5">{{'Header.fileUpload'|translate}}</h5>
         <div class="row">
             <div class="col-md-4">
                 <div class="formbold-mb-5 formbold-file-input">
@@ -275,8 +275,8 @@
                     <label for="file">
                         <div>
                             <h3><i class="fa fa-file-pdf-o"></i></h3>
-                            <span class="formbold-drop-file">Upload</span>
-                            <small>Container Images</small>
+                            <span class="formbold-drop-file">{{'Header.upload'|translate}}</span>
+                            <small>{{'Header.containerImages'|translate}}</small>
                         </div>
                     </label>
                 </div>
@@ -291,7 +291,7 @@
         <hr>
         <div class="row mb-5">
             <div class="col-md-2 offset-md-10" style="text-align: right;">
-                <button (click)="submitRequest()" class="form-btn w-100">Save</button>
+                <button (click)="submitRequest()" class="form-btn w-100">{{'Button.save'|translate}}</button>
             </div>
         </div>
     </div>
