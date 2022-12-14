@@ -44,6 +44,7 @@ import { CtListComponent } from 'src/app/modules/ct-list/ct-list.component';
 import { TrackingComponent } from 'src/app/modules/tracking/tracking.component';
 import { TrackBookingComponent } from 'src/app/modules/track-booking/track-booking.component';
 import { LoadListComponent } from 'src/app/modules/load-list/load-list.component';
+import { NewTrackComponent } from 'src/app/modules/new-track/new-track.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from 'src/app/helpers/jwt.interceptor';
 import { TranslateModule } from '@ngx-translate/core';
@@ -87,6 +88,7 @@ import { TranslateModule } from '@ngx-translate/core';
     DetentionWaverRequestComponent,
     CtListComponent,
     TrackingComponent,
+    NewTrackComponent,
     TrackBookingComponent,
     LoadListComponent,
   ],

@@ -93,6 +93,7 @@ export class NewCmComponent implements OnInit {
       PREV_ACTIVITY: [''],
       ACTIVITY_DATE: ['',Validators.required],
       LOCATION:['',Validators.required],
+      CURRENT_LOCATION:[''],
       AGENT_CODE: [''],
       DEPO_CODE: [''],
       STATUS: [''],
@@ -223,49 +224,6 @@ export class NewCmComponent implements OnInit {
       });
     }
     
-    // if(this.currentUser=="agent"){
-    //   this.containerList.forEach((element) => {
-    //     add.push(
-    //       this._formBuilder.group({
-    //         ID:[element.ID],
-    //         BOOKING_NO: [element.BOOKING_NO],
-    //         CRO_NO: [element.CRO_NO],
-    //         CONTAINER_NO: [element.CONTAINER_NO],
-    //         ACTIVITY: [element.ACT_CODE],
-    //         PREV_ACTIVITY: [element.PREV_ACT_CODE],
-    //         ACTIVITY_DATE: [formatDate(element.ACTIVITY_DATE, 'yyyy-MM-dd', 'en')],
-    //         LOCATION: [element.LOCATION],
-    //         STATUS: [element.STATUS],
-    //         AGENT_CODE: [element.AGENT_CODE],
-    //         DEPO_CODE: [element.DEPO_CODE],
-    //         CREATED_BY: [element.CREATED_BY],
-    //         NEXT_ACTIVITY_LIST:[element.NEXT_ACTIVITY_LIST]
-    //       })
-    //     );
-    //   });
-
-    // }
-    // else{
-    //   this.containerList.forEach((element) => {
-    //     add.push(
-    //       this._formBuilder.group({
-    //         ID:[element.ID],
-    //         BOOKING_NO: [element.BOOKING_NO],
-    //         CRO_NO: [element.CRO_NO],
-    //         CONTAINER_NO: [element.CONTAINER_NO],
-    //         ACTIVITY: [element.ACT_CODE],
-    //         PREV_ACTIVITY: [element.PREV_ACT_CODE],
-    //         ACTIVITY_DATE: [formatDate(element.ACTIVITY_DATE, 'yyyy-MM-dd', 'en')],
-    //         LOCATION: [element.LOCATION],
-    //         STATUS: [element.STATUS],
-    //         AGENT_CODE: [element.AGENT_CODE],
-    //         DEPO_CODE: [element.DEPO_CODE],
-    //         CREATED_BY: [element.CREATED_BY],
-    //         NEXT_ACTIVITY_LIST:[element.NEXT_ACTIVITY_LIST]
-    //       })
-    //     );
-    //   });
-    // }
     
   }
 
@@ -281,14 +239,7 @@ export class NewCmComponent implements OnInit {
     });
     console.log(this.cmForm.value.CONTAINER_LIST2);
     this.cmForm.get('CONTAINER_LIST2')?.setValue(this.cmForm.value.CONTAINER_LIST2);
- 
-    // console.log(this.cmForm.getRawValue().CONTAINER_LIST2);
-    // this.cmForm.getRawValue().CONTAINER_LIST2.forEach((element: { ACTIVITY_DATE: any;STATUS:any; }) => {
-    //   element.ACTIVITY_DATE=formatDate(this.commonDate, 'yyyy-MM-dd', 'en');
-    //   element.STATUS=element.STATUS;
-    // });
-    // console.log(this.cmForm.getRawValue().CONTAINER_LIST2);
-    // this.cmForm.get('CONTAINER_LIST2')?.setValue(this.cmForm.getRawValue().CONTAINER_LIST2);
+
     
   }
 
@@ -453,31 +404,10 @@ export class NewCmComponent implements OnInit {
               });
             this.showFields=true;
           }
-          // alert("It seems like there is no such container, continue with the process to add it's first activity");
-          
-          // this._actService.getActivityList().subscribe((res: any) => {
-          //   if(res.ResponseCode==200){
-          //     this.activityList=res.Data;
-          //   }
-          // });
-          // const add=this.cmForm.get("NEXT_ACTIVITY_LIST_SINGLE") as FormArray;
-          // add.clear();
-          // this.activityList.forEach((element) => {
-          //   add.push(
-          //     this._formBuilder.group({
-          //       ID:[element.ID],
-          //       ACT_NAME: [element.ACT_NAME],
-          //       ACT_CODE: [element.ACT_CODE],
-          //       ACT_TYPE: [element.ACT_TYPE]
-          //     })
-          //    );
-          //   });
 
         }
        
       });
-      //this.showFields=true;
-      //console.log(this.cmForm.value);
       
     }
     
@@ -586,15 +516,9 @@ export class NewCmComponent implements OnInit {
       //this.cmForm.get('AGENT_CODE')?.setValue("");
       this.cmForm.get('DEPO_CODE')?.setValue(localStorage.getItem('usercode'));
     }
-    // if(this.currentUser=="agent"){
-    //   this.cmForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    //   this.cmForm.get('DEPO_CODE')?.setValue("");
-    // }
-    // else if(this.currentUser=="depo"){
-    //   this.cmForm.get('AGENT_CODE')?.setValue("");
-    //   this.cmForm.get('DEPO_CODE')?.setValue(localStorage.getItem('usercode'));
-    // }
+    
     this.cmForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.cmForm.get('CURRENT_LOCATION')?.setValue('Dammam');
     //console.log(JSON.stringify(this.cmForm.getRawValue()));
     console.log(this.cmForm.get('CONTAINER_MOVEMENT_LIST')?.value);
     if(this.cmForm.get('CONTAINER_MOVEMENT_LIST')?.value==''){
@@ -613,7 +537,7 @@ export class NewCmComponent implements OnInit {
           .subscribe((res:any)=>{
             if(res.responseCode==200){
               alert('Container Movement saved successfully !');
-              this._router.navigateByUrl('/home/tracking');
+              this._router.navigateByUrl('/home/new-track');
             }
             if(res.responseCode==500){
               alert('Container Movement failed !Try Again');
@@ -639,6 +563,7 @@ export class NewCmComponent implements OnInit {
     }
    
     this.cmForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.cmForm.get('CURRENT_LOCATION')?.setValue('Dammam');
 
     this.contTrack=new CONTAINER_TRACKING();
     this.contTrack.CONTAINER_NO= this.cmForm.get('CONTAINER_NO')?.value;
@@ -662,7 +587,7 @@ export class NewCmComponent implements OnInit {
           .subscribe((res:any)=>{
             if(res.responseCode==200){
               alert('Container Movement saved successfully !');
-              this._router.navigateByUrl('/home/tracking');
+              this._router.navigateByUrl('/home/new-track');
             }
             if(res.responseCode==500){
               alert('Container Movement failed !Try Again');
@@ -708,7 +633,7 @@ export class NewCmComponent implements OnInit {
   postSelectedContainerList(item: any, event: any, index: number) {
     debugger;
     
-    if(index==0){
+    if(item==1){
       const add = this.cmForm.get('CONTAINER_LIST2') as FormArray;
       const add1 = this.cmForm.get('CONTAINER_MOVEMENT_LIST') as FormArray;
       if (event.target.checked) {
@@ -721,7 +646,7 @@ export class NewCmComponent implements OnInit {
             true;
         }
       } else {
-        add.clear();
+        add1.clear();
         for (var i: number = 0; i < add.length; i++) {
           (document.getElementById('chck' + i) as HTMLInputElement).checked =
             false;
@@ -904,6 +829,7 @@ export class NewCmComponent implements OnInit {
           PREV_ACTIVITY: [''],
           ACTIVITY_DATE: [element.ACTIVITY_DATE],
           LOCATION: [element.LOCATION],
+          CURRENT_LOCATION: ['Dammam'],
           STATUS: [element.STATUS],
           AGENT_CODE: [this.agentXLCode],
           DEPO_CODE: [this.depoXLCode],
@@ -921,7 +847,7 @@ export class NewCmComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
           alert('Container Movement saved successfully !');
-          this._router.navigateByUrl('/home/tracking');
+          this._router.navigateByUrl('/home/new-track');
         }
       });
   }

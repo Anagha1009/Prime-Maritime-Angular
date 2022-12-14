@@ -47,6 +47,7 @@ import { TestMapComponent } from './pm-modules/test-map/test-map.component';
 import { PmCmComponent } from './pm-modules/pm-cm/pm-cm.component';
 import { PmLandingComponent } from './shared/pm-landing/pm-landing.component';
 import { PmQuotationDetailsComponent } from './pm-modules/pm-quotation-details/pm-quotation-details.component';
+import { NewTrackComponent } from './modules/new-track/new-track.component';
 import { SrrCalculatorComponent } from './pm-modules/srr-calculator/srr-calculator.component';
 import { TdrComponent } from './modules/tdr/tdr.component';
 
@@ -72,7 +73,7 @@ const routes: Routes = [
         component: PmCmComponent,
       },
       {
-        path: 'mr-request',
+        path: 'mnr-request',
         component: PmMrRequestComponent,
       },
       {
@@ -182,6 +183,10 @@ const routes: Routes = [
         component: TrackingComponent,
       },
       {
+        path: 'new-track',
+        component: NewTrackComponent,
+      },
+      {
         path: 'ct-list',
         component: CtListComponent,
       },
@@ -222,11 +227,11 @@ const routes: Routes = [
         component: PushNotificationComponent,
       },
       {
-        path: 'm&r-request',
+        path: 'mr-request',
         component: MrRequestComponent,
       },
       {
-        path: 'm&r-request-list',
+        path: 'mnr-request-list',
         component: MrRequestListComponent,
       },
       {
@@ -242,8 +247,8 @@ const routes: Routes = [
         component: TrackBookingComponent,
       },
       {
-        path:'test-map',
-        component:TestMapComponent,
+        path: 'test-map',
+        component: TestMapComponent,
       },
       {
         path:'tdr',

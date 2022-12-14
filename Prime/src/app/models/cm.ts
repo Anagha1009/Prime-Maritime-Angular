@@ -7,6 +7,7 @@ export class CONTAINER_MOVEMENT {
     PREV_ACTIVITY: any='';
     ACTIVITY_DATE: string;
     LOCATION: string;
+    CURRENT_LOCATION: string;
     STATUS: string;
     AGENT_CODE: any='';
     DEPO_CODE: any='';
