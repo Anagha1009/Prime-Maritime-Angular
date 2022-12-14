@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CmService } from 'src/app/services/cm.service';
 import { CommonService } from 'src/app/services/common.service';
@@ -11,41 +11,19 @@ import { ErService } from 'src/app/services/er.service';
   styleUrls: ['./new-er.component.scss']
 })
 export class NewErComponent implements OnInit {
+  tabs: string = '1';
   currentLocation:any='';
+  roleCode:any='';
+  isVessel:boolean=false;
   status:any='Available'
   erForm: FormGroup;
   submitted: boolean = false;
   disabled = false;
   public loadContent: boolean = false;
+  isScroll1: boolean = false;
+  isScroll2: boolean = false;
   currencyList: any[] = [];
-  dummyList: any[] = [
-    {
-      CONTAINER_NO: "RTEB67575347",
-      CONTAINER_TYPE: "Open Storage",
-      CONTAINER_SIZE: "40 ft",
-      SEAL_NO: "34dfcd3672",
-      MARKS_NOS: "sfdg",
-      DESC_OF_GOODS: "test",
-      GROSS_WEIGHT: 54776.00,
-      MEASUREMENT: "50",
-      AGENT_CODE: "0325",
-      AGENT_NAME: "agent",
-      CREATED_BY: "agent"
-    },
-    {
-      CONTAINER_NO: "RTEB67575347",
-      CONTAINER_TYPE: "Open Storage",
-      CONTAINER_SIZE: "40 ft",
-      SEAL_NO: "34dfcd3672",
-      MARKS_NOS: "sfdg",
-      DESC_OF_GOODS: "test",
-      GROSS_WEIGHT: 54776.00,
-      MEASUREMENT: "50",
-      AGENT_CODE: "0325",
-      AGENT_NAME: "agent",
-      CREATED_BY: "agent"
-    }
-  ];
+  
   containerDropdownList: any[] = [];
   selectedItems: any[] = [];
   dropdownSettings = {};
@@ -59,23 +37,7 @@ export class NewErComponent implements OnInit {
   ngOnInit(): void {
     this.currentLocation='Dammam';
     //this.currentLocation=localStorage.getItem('location');
-    // this.containerDropdownList = [
-    //   { item_id: 1, item_text: 'SIKU3034664' },
-    //   { item_id: 2, item_text: 'TLLU8316901' },
-    //   { item_id: 3, item_text: 'TCKU2125749' },
-    //   { item_id: 4, item_text: 'SEGU1759710' },
-    //   { item_id: 5, item_text: 'SEGU1900639' },
-    //   { item_id: 6, item_text: 'TCLU3387545' },
-    //   { item_id: 7, item_text: 'SIKU2952032' },
-    //   { item_id: 8, item_text: 'SEGU1561659' },
-    //   { item_id: 9, item_text: 'SEGU1706269' },
-    //   { item_id: 10, item_text: 'VSBU2058560' },
-    //   { item_id: 11, item_text: 'GESU1163666' },
-    //   { item_id: 12, item_text: 'SEGU1552683' },
-    //   { item_id: 13, item_text: 'SIKU3060792' },
-    //   { item_id: 14, item_text: 'SIKU3040374' },
-    //   { item_id: 15, item_text: 'TLLU8398406' }
-    // ];
+   
     this.getDropdownData();
     this.dropdownSettings = {
       singleSelection: false,
@@ -101,6 +63,10 @@ export class NewErComponent implements OnInit {
       REPO_NO: ['', Validators.required],
       LOAD_DEPOT: ['', Validators.required],
       DISCHARGE_DEPOT: ['', Validators.required],
+      LOAD_PORT: [''],
+      DISCHARGE_PORT: [''],
+      VESSEL_NAME:[''],
+      VOYAGE_NO:[''],
       MOVEMENT_DATE: ['', Validators.required],
       LIFT_ON_CHARGE: ['', Validators.required],
       LIFT_OFF_CHARGE: ['', Validators.required],
@@ -112,11 +78,14 @@ export class NewErComponent implements OnInit {
       STATUS: [''],
       AGENT_CODE: [''],
       AGENT_NAME: [''],
+      DEPO_CODE: [''],
       CREATED_BY: [''],
       CONTAINER_LIST: new FormControl(this.containerDropdownList, Validators.required),
+      CONTAINER_RATES:new FormArray([]),
+      SLOT_LIST:new FormArray([])
     });
-    
-    //this.getDropdownData();
+    this.getCurrent();
+    this.slotAllocation();
     this.loadContent = true;
   }
 
@@ -124,7 +93,109 @@ export class NewErComponent implements OnInit {
     return this.erForm.controls;
 
   }
+  get f5() {
+    var s = this.erForm.get('SLOT_LIST') as FormArray;
+    return s.controls;
+  }
+  f6(i: any) {
+    return i;
+  }
+  get f3() {
+    var s = this.erForm.get('CONTAINER_RATES') as FormArray;
+    return s.controls;
+  }
+  f4(i: any) {
+    return i;
+  }
+  addRates() {
+    var rateList = this.erForm.get('CONTAINER_RATES') as FormArray;
+    if(rateList?.length>=4){
+      this.isScroll2=true;
+    }
+    rateList.push(
+      this._formBuilder.group({
+        CONTAINER_TYPE: [''],
+        CHARGE_CODE: [''],
+        CURRENCY: ['USD'],
+        STANDARD_RATE: ['100'],
+        RATE_REQUESTED: [''],
+        PAYMENT_TERM: [''],
+        TRANSPORT_TYPE: [''],
+        REMARKS: ['NULL'],
+      })
+    );
+  }
 
+  slotAllocation() {
+    var slotDetails = this.erForm.get('SLOT_LIST') as FormArray;
+    if(slotDetails?.length>=3){
+      this.isScroll1=true;
+    }
+    slotDetails.push(
+      this._formBuilder.group({
+        SLOT_OPERATOR: [''],
+        NO_OF_SLOTS: [''],
+      })
+    );
+  }
+  getCurrent(){
+    //this.currentLocation=localStorage.getItem('location');
+    this.roleCode=localStorage.getItem('rolecode');
+    var rateList = this.erForm.get('CONTAINER_RATES') as FormArray;
+
+    //var ct = this.erForm.value.CONTAINER_TYPE;
+    rateList.clear();
+    rateList.push(
+      this._formBuilder.group({
+        CONTAINER_TYPE: [''],
+        CHARGE_CODE: [''],
+        CURRENCY: ['USD'],
+        STANDARD_RATE: ['100'],
+        RATE_REQUESTED: [''],
+        PAYMENT_TERM: [''],
+        TRANSPORT_TYPE: [''],
+        REMARKS: ['NULL'],
+      })
+    );
+    rateList.push(
+      this._formBuilder.group({
+        CONTAINER_TYPE: [''],
+        CHARGE_CODE: [''],
+        CURRENCY: ['USD'],
+        STANDARD_RATE: ['100'],
+        RATE_REQUESTED: [''],
+        PAYMENT_TERM: [''],
+        TRANSPORT_TYPE: [''],
+        REMARKS: ['NULL'],
+      })
+    );
+    rateList.push(
+      this._formBuilder.group({
+        CONTAINER_TYPE: [''],
+        CHARGE_CODE: [''],
+        CURRENCY: ['USD'],
+        STANDARD_RATE: ['100'],
+        RATE_REQUESTED: [''],
+        PAYMENT_TERM: [''],
+        TRANSPORT_TYPE: [''],
+        REMARKS: ['NULL'],
+      }),
+
+    );
+    rateList.push(
+      this._formBuilder.group({
+        CONTAINER_TYPE: [''],
+        CHARGE_CODE: [''],
+        CURRENCY: ['USD'],
+        STANDARD_RATE: ['100'],
+        RATE_REQUESTED: [''],
+        PAYMENT_TERM: [''],
+        TRANSPORT_TYPE: [''],
+        REMARKS: ['NULL'],
+      }),
+
+    );
+  }
   getDropdownData(){
     this.containerDropdownList=[];
     this._commonService.getDropdownData('CURRENCY').subscribe((res: any) => {
@@ -162,28 +233,31 @@ export class NewErComponent implements OnInit {
   saveER() {
     //debugger;
     this.submitted = true;
-    if(this.erForm.invalid){
-      return
+    // if(this.erForm.invalid){
+    //   return
+    // }
+    if(this.roleCode=='1'){
+      this.erForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
+      this.erForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
     }
-    alert("Hii")
-    
-    // this.erForm.get('REPO_NO')?.setValue(this.getRandomNumber("Repo"));
-    // this.erForm.get('CONTAINER_LIST')?.setValue(this.dummyList);
-    // this.erForm.get('NO_OF_CONTAINER')?.setValue(2);
-    // this.erForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
-    // this.erForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    // this.erForm.get('STATUS')?.setValue(1);
-    // this.erForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    if(this.roleCode=='3'){
+      this.erForm.get('DEPO_CODE')?.setValue(localStorage.getItem('usercode'));
+    }
+    this.erForm.get('REPO_NO')?.setValue(this.getRandomNumber("RP-"));
+    this.erForm.get('CONTAINER_LIST')?.setValue(this.selectedItems);
+    this.erForm.get('NO_OF_CONTAINER')?.setValue(this.selectedItems?.length);
+    this.erForm.get('STATUS')?.setValue(1);
+    this.erForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
 
-    // console.log(JSON.stringify(this.erForm.value));
-    // this._erService
-    //   .postERDetails(JSON.stringify(this.erForm.value))
-    //   .subscribe((res: any) => {
-    //     if (res.responseCode == 200) {
-    //       alert('Your Request has successfully placed!');
-    //       this._router.navigateByUrl('/home/booking-list');
-    //     }
-    //   });
+    console.log(JSON.stringify(this.erForm.value));
+    this._erService
+      .postERDetails(JSON.stringify(this.erForm.value))
+      .subscribe((res: any) => {
+        if (res.responseCode == 200) {
+          alert('Your Request has successfully placed!');
+          this._router.navigateByUrl('/home/booking-list');
+        }
+      });
 
   }
 
