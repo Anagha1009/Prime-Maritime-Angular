@@ -63,7 +63,7 @@
                                 (click)="getSRRDetails(item,'container')">Add
                                 More
                                 Containers</button>
-                            <button *ngIf="item.STATUS == 'Approved && item.BOOKINGS == 0'"
+                            <button *ngIf="item.STATUS == 'Approved' && item.BOOKINGS == 0"
                                 (click)="getSRRDetails(item,'rate')" class="form-btn-danger ms-2"
                                 style="font-size: 12px;">Counter
                                 Offer</button>

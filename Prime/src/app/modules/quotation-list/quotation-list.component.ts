@@ -168,7 +168,7 @@ export class QuotationListComponent implements OnInit {
         if (res.hasOwnProperty('Data')) {
           if (res.Data?.length > 0) {
             this.quotationList = res.Data;
-
+            console.log('bk ' + this.quotationList[1].BOOKINGS);
             if (this.quotationList?.length >= 4) {
               this.isScroll = true;
             } else {
