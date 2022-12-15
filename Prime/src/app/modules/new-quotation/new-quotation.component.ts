@@ -152,8 +152,6 @@ export class NewQuotationComponent implements OnInit {
     } else {
       this.tabs = index;
     }
-
-    this.tabs = index;
   }
 
   // ON SAVE
