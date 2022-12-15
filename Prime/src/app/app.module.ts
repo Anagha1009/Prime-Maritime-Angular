@@ -18,11 +18,12 @@ import { AgGridModule } from 'ag-grid-angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { TdrComponent } from './modules/tdr/tdr.component';
 // import { PmCmComponent } from './pm-modules/pm-cm/pm-cm.component';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, TdrComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

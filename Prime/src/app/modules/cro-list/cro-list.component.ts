@@ -9,6 +9,9 @@ import * as XLSX from 'xlsx';
 import { BlService } from 'src/app/services/bl.service';
 import { Bl } from 'src/app/models/bl';
 import { asLiteral } from '@angular/compiler/src/render3/view/util';
+import { locale as english } from 'src/app/@core/translate/cro/en';
+import { locale as hindi } from 'src/app/@core/translate/cro/hi';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -47,8 +50,9 @@ export class CroListComponent implements OnInit {
     private _router: Router,
     private _croService: CroService,
     private _commonService: CommonService,
-    private _blService: BlService
-  ) {}
+    private _blService: BlService,
+    private _coreTranslationService: CoreTranslationService
+  ) {this._coreTranslationService.translate(english, hindi);}
 
   ngOnInit(): void {
     this.croForm = this._formBuilder.group({

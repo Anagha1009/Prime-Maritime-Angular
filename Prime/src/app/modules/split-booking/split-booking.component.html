@@ -1,5 +1,5 @@
 <div class="section-title">
-    <h2>Rollover</h2>
+    <h2>{{'Header.title'|translate}}</h2>
 </div>
 
 <div class="container">
@@ -8,34 +8,34 @@
             <div class="col-md-3">
                 <div class="form-group" >
                     <input type="text" class="form-control" [(ngModel)]="bookingNo">
-                    <label class="form-label">Booking No.</label>
+                    <label class="form-label">{{'Header.BookingNo'|translate}}</label>
                 </div>
             </div>
             <div class="col-md-2">
                 
-                <button class="form-btn me-2" (click)="getBookingDetails()">Get Details</button>
+                <button class="form-btn me-2" (click)="getBookingDetails()">{{'Header.GetDetails'|translate}}</button>
             </div>
             <div class="col-md-7 text-start" *ngIf="previewDetails">
                 <div class="row">
                     <div class="col-md-6" > 
                         <h6>
-                            Booking No :
+                            {{'Header.BookingNo'|translate}} :
                             <small class="text-danger">{{booking.BOOKING_NO}}</small>
                         </h6>
                         <h6>
-                            Customer Name :
+                           {{'Header.CustomerName'|translate}} :
                             <small class="text-danger">{{booking.CUSTOMER_NAME}}</small>
                         </h6>
                     </div>
                     <div class="col-md-6">
                         <h6>
-                            Vessel :
+                            {{'Header.VesselName'|translate}}:
                             <small class="text-danger">{{booking.VESSEL_NAME}} - {{booking.VOYAGE_NO}}</small>
                         </h6>
                         <h6>
-                            POL :
+                            {{'Header.Pol'|translate}} :
                             <small class="text-danger">{{booking.POL}}</small>
-                            POD :
+                            {{'Header.Pod'|translate}}:
                             <small class="text-danger">{{booking.POD}}</small>
                         </h6>
                     </div>
@@ -63,7 +63,7 @@
             <div class="container mt-4">
                 <div class="row">
                     <div class="col-md-3">
-                        <h5 class="modal-title" id="exampleModalLabel">Booking Details</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">{{'Header.BookingDetails'|translate}}</h5>
                     </div>
 
                 </div>
@@ -76,8 +76,7 @@
                                 <div class="col-md-6 offset-md-6 text-end mb-1">
 
                                     <button (click)="slotAllocation()" class="form-btn">
-                                        <i class="fa fa-plus me-2"></i>Slot
-                                        Allocation</button>
+                                        <i class="fa fa-plus me-2"></i>{{'Header.slotAllocation'|translate}}</button>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -86,7 +85,7 @@
                                                 <div class="form-group">
                                                     <input type="text" [ngClass]="{'invalid':submitted && f2.VESSEL_NAME.errors}" formControlName="VESSEL_NAME"
                                                         class="form-control">
-                                                    <label class="form-label">Vessel Name <span class="text-danger">*</span></label>
+                                                    <label class="form-label">{{'Header.VesselName'|translate}} <span class="text-danger">*</span></label>
                                                     <div *ngIf="submitted && f2.VESSEL_NAME.errors" class="invalid-feedback">Please enter
                                                         Vessel name</div>
                                                 </div>
@@ -95,7 +94,7 @@
                                                 <div class="form-group">
                                                     <input type="text" [ngClass]="{'invalid':submitted && f2.VOYAGE_NO.errors}"  formControlName="VOYAGE_NO"
                                                     class="form-control">
-                                                    <label class="form-label"> Voyage No <span class="text-danger">*</span></label>
+                                                    <label class="form-label"> {{'Header.VoyageNo'|translate}}<span class="text-danger">*</span></label>
                                                     <div *ngIf="submitted && f2.VOYAGE_NO.errors" class="invalid-feedback">
                                                         Please Enter Voyage number
                                                     </div>
@@ -107,7 +106,7 @@
                                                 <div class="form-group">
                                                     <input type="text" [ngClass]="{'invalid':submitted && f2.MOTHER_VESSEL_NAME.errors}" formControlName="MOTHER_VESSEL_NAME"
                                                     class="form-control">
-                                                    <label class="form-label">Mother Vessel Name<span class="text-danger">*</span></label>
+                                                    <label class="form-label">{{'Header.MotherVesselName'|translate}}<span class="text-danger">*</span></label>
                                                     <div *ngIf="submitted && f2.MOTHER_VESSEL_NAME.errors"
                                                         class="invalid-feedback">Please enter
                                                         Mother Vessel Name</div>
@@ -117,7 +116,7 @@
                                                 <div class="form-group">
                                                     <input type="text"[ngClass]="{'invalid':submitted && f2.MOTHER_VOYAGE_NO.errors}" formControlName="MOTHER_VOYAGE_NO"
                                                     class="form-control">
-                                                    <label class="form-label">Mother Voyage No<span class="text-danger">*</span></label>
+                                                    <label class="form-label">{{'Header.MotherVoyageNo'|translate}}<span class="text-danger">*</span></label>
                                                     <div *ngIf="submitted && f2.MOTHER_VOYAGE_NO.errors"
                                                         class="invalid-feedback">Please enter
                                                         Mother Voyage number</div>
@@ -138,7 +137,7 @@
                                                                     <label class="mt-4"> {{j+1}}</label>
                                                                 </td>
                                                                 <td class="col-md">
-                                                                    <label class="form-label3">Slot Operator</label>
+                                                                    <label class="form-label3">{{'Header.slotOperator'|translate}}</label>
                                                                     <select class="form-control3"
                                                                         formControlName="SLOT_OPERATOR">
                                                                         <option value="" selected disabled>
@@ -148,7 +147,7 @@
                                                                     </select>
                                                                 </td>
                                                                 <td class="col-md">
-                                                                    <label class="form-label3">No of Slots</label>
+                                                                    <label class="form-label3">{{'Header.noOfSlots'|translate}}</label>
                                                                     <input class="form-control3"
                                                                         formControlName="NO_OF_SLOTS" type="text" />
                                                                 </td>
@@ -174,9 +173,9 @@
                 <div class="row  mt-4">
                     <div class="col-md-6 offset-md-6 text-end">
                         <button type="button" class="form-btn" (click)="cancelBooking()"
-                            style="margin-right: 6px;">Clear</button>
+                            style="margin-right: 6px;">{{'Button.clear'|translate}}</button>
                         <button type="button" class="form-btn" (click)="splitBooking()"
-                            style="margin-right: 6px;">Rollover</button>
+                            style="margin-right: 6px;">{{'Header.title2'|translate}}</button>
                     </div>
 
                 </div>

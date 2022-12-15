@@ -1,0 +1,118 @@
+<div class="section-title">
+    <h2>TDR</h2>
+</div>
+<div class="container mb-4">
+    <form [formGroup]="tdrForm">
+        <div class="col-md-8 mx-auto">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">Vessel Name<span class="text-danger">*</span></label>
+                        <input type="text" id="name" formControlName="VESSEL_NAME" class="form-control2">
+                        <div *ngIf="submitted && f.VESSEL_NAME.errors" class="invalid-feedback">Please Enter Vessel Name
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">Voyage No<span class="text-danger">*</span></label>
+                        <input type="text" id="address" formControlName="VOYAGE_NO" class="form-control2">
+                        <div *ngIf="submitted && f.VOYAGE_NO.errors" class="invalid-feedback">Please Enter Voyage Number
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">POL<span class="text-danger">*</span></label>
+                        <input type="text" id="CustomerEmail" formControlName="POL" class="form-control2">
+                        <div *ngIf="submitted && f.POL.errors" class="invalid-feedback">Please Enter POL </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">TERMINAL<span class="text-danger">*</span></label>
+                        <input type="text" id="gstin" formControlName="TERMINAL" class="form-control2">
+                        <div *ngIf="submitted && f.TERMINAL.errors" class="invalid-feedback">Please Enter Terminal
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label class="form-label2">ETA<span class="text-danger">*</span></label>
+                            <input type="Date" formControlName="ETA" class="form-control2">
+                            <div *ngIf="submitted && f.ETA.errors" class="invalid-feedback">Please Enter ETA</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">Pob Berthing<span class="text-danger">*</span></label>
+                        <input type="Date" formControlName="POB_BERTHING" class="form-control2">
+                        <div *ngIf="submitted && f.POB_BERTHING.errors" class="invalid-feedback">Please Enter Pob
+                            Berthing</div>
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">BERTHED<span class="text-danger">*</span></label>
+                        <input type="Date" formControlName="BERTHED" class="form-control2">
+                        <div *ngIf="submitted && f.BERTHED.errors" class="invalid-feedback">Please Enter BERTHED</div>
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">Operation Commenced<span class="text-danger">*</span></label>
+                        <input type="Date" formControlName="OPERATION_COMMMENCED" class="form-control2">
+                        <div *ngIf="submitted && f.OPERATION_COMMMENCED.errors" class="invalid-feedback">Please Enter
+                            Operation Commenced</div>
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">POB SAILING<span class="text-danger">*</span></label>
+                        <input type="Date" formControlName="POB_SAILING" class="form-control2">
+                        <div *ngIf="submitted && f.POB_SAILING.errors" class="invalid-feedback">Please Enter POb Sailing
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label2">SAILED<span class="text-danger">*</span></label>
+                            <input type="Date" formControlName="SAILED" class="form-control2">
+                            <div *ngIf="submitted && f.SAILED.errors" class="invalid-feedback">Please Enter sailed</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label2">ETD<span class="text-danger">*</span></label>
+                            <input type="Date" formControlName="ETD" class="form-control2">
+                            <div *ngIf="submitted && f.ETD.errors" class="invalid-feedback">Please Enter ETD</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label2">ETA NEXTPORT<span class="text-danger">*</span></label>
+                            <input type="Date" formControlName="ETA_NEXTPORT" class="form-control2">
+                            <div *ngIf="submitted && f.ETA_NEXTPORT.errors" class="invalid-feedback">Please Enter ETA
+                                NEXTPORT</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-2 offset-md-10" style="text-align: right;">
+                        <button (click)="InsertTdr()" class="form-btn w-100">Save</button>
+                    </div>
+                </div>
+
+            </div>

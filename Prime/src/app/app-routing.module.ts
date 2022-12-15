@@ -49,6 +49,7 @@ import { PmLandingComponent } from './shared/pm-landing/pm-landing.component';
 import { PmQuotationDetailsComponent } from './pm-modules/pm-quotation-details/pm-quotation-details.component';
 import { NewTrackComponent } from './modules/new-track/new-track.component';
 import { SrrCalculatorComponent } from './pm-modules/srr-calculator/srr-calculator.component';
+import { TdrComponent } from './modules/tdr/tdr.component';
 
 const routes: Routes = [
   {
@@ -249,6 +250,10 @@ const routes: Routes = [
         path: 'test-map',
         component: TestMapComponent,
       },
+      {
+        path:'tdr',
+        component:TdrComponent,
+      }
     ],
   },
 ];
