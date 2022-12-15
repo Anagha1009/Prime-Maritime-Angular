@@ -1,10 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LOADLIST } from 'src/app/models/loadlist';
 import { CommonService } from 'src/app/services/common.service';
 import { LoadListService } from 'src/app/services/load-list.service';
 import * as xlsx from 'xlsx';
+import { locale as english } from 'src/app/@core/translate/Loadlist/en';
+import { locale as hindi } from 'src/app/@core/translate/Loadlist/hi';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
+
 
 @Component({
   selector: 'app-load-list',
@@ -24,16 +28,21 @@ export class LoadListComponent implements OnInit {
   constructor(
     private _loadListService: LoadListService,
     private _formBuilder: FormBuilder,
-    private _commonService: CommonService
-  ) {}
+    private _commonService: CommonService,
+    private _coreTranslationService: CoreTranslationService,
+  ) {this._coreTranslationService.translate(english, hindi);}
 
   ngOnInit(): void {
     this.loadlistForm = this._formBuilder.group({
-      VESSEL_NAME: [''],
-      VOYAGE_NO: [''],
+      VESSEL_NAME: ['',Validators.required],
+      VOYAGE_NO: ['',Validators.required],
     });
     this.getDropdown();
   }
+
+  get f(){
+    return this.loadlistForm.controls;
+  } 
 
   exportToExcel() {
     const ws: xlsx.WorkSheet = xlsx.utils.table_to_sheet(
@@ -82,6 +91,7 @@ export class LoadListComponent implements OnInit {
   }
 
   GetLoadList() {
+    this.submitted=true
     this.isLoading = true;
     var loadListModel = new LOADLIST();
     loadListModel.VESSEL_NAME = this.loadlistForm.get('VESSEL_NAME')?.value;
