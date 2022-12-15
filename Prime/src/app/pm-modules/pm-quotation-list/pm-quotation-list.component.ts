@@ -13,6 +13,7 @@ export class PmQuotationListComponent implements OnInit {
   quotationList: any[] = [];
   quotationDetails: any;
   rateForm: FormGroup;
+  quotationForm: FormGroup;
 
   @ViewChild('RateModal') RateModal: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
@@ -27,9 +28,63 @@ export class PmQuotationListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.quotationForm = this._formBuilder.group({
+      SRR_NO: [''],
+      CUSTOMER_NAME: [''],
+      FROM_DATE: [''],
+      TO_DATE: [''],
+      STATUS: [''],
+    });
+
     this.rateForm = this._formBuilder.group({
       SRR_RATES: new FormArray([]),
     });
+
+    this.getQuotationList();
+  }
+
+  Search() {
+    var SRR_NO = this.quotationForm.value.SRR_NO;
+    var CUSTOMER_NAME = this.quotationForm.value.CUSTOMER_NAME;
+    var STATUS = this.quotationForm.value.STATUS;
+    var FROM_DATE = this.quotationForm.value.FROM_DATE;
+    var TO_DATE = this.quotationForm.value.TO_DATE;
+
+    if (
+      SRR_NO == '' &&
+      CUSTOMER_NAME == '' &&
+      STATUS == '' &&
+      FROM_DATE == '' &&
+      TO_DATE == ''
+    ) {
+      alert('Please enter atleast one filter to search !');
+      return;
+    } else if (FROM_DATE > TO_DATE) {
+      alert('From Date should be less than To Date !');
+      return;
+    }
+
+    this.quotation.SRR_NO = SRR_NO;
+    this.quotation.CUSTOMER_NAME = CUSTOMER_NAME;
+    this.quotation.STATUS = STATUS;
+    this.quotation.FROMDATE = FROM_DATE;
+    this.quotation.TODATE = TO_DATE;
+
+    this.getQuotationList();
+  }
+
+  Clear() {
+    this.quotationForm.get('SRR_NO')?.setValue('');
+    this.quotationForm.get('CUSTOMER_NAME')?.setValue('');
+    this.quotationForm.get('STATUS')?.setValue('');
+    this.quotationForm.get('FROM_DATE')?.setValue('');
+    this.quotationForm.get('TO_DATE')?.setValue('');
+
+    this.quotation.SRR_NO = '';
+    this.quotation.CUSTOMER_NAME = '';
+    this.quotation.STATUS = '';
+    this.quotation.FROMDATE = '';
+    this.quotation.TODATE = '';
 
     this.getQuotationList();
   }
