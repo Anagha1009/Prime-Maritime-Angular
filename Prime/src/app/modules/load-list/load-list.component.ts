@@ -9,7 +9,6 @@ import { locale as english } from 'src/app/@core/translate/Loadlist/en';
 import { locale as hindi } from 'src/app/@core/translate/Loadlist/hi';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 
-
 @Component({
   selector: 'app-load-list',
   templateUrl: './load-list.component.html',
@@ -29,20 +28,22 @@ export class LoadListComponent implements OnInit {
     private _loadListService: LoadListService,
     private _formBuilder: FormBuilder,
     private _commonService: CommonService,
-    private _coreTranslationService: CoreTranslationService,
-  ) {this._coreTranslationService.translate(english, hindi);}
+    private _coreTranslationService: CoreTranslationService
+  ) {
+    this._coreTranslationService.translate(english, hindi);
+  }
 
   ngOnInit(): void {
     this.loadlistForm = this._formBuilder.group({
-      VESSEL_NAME: ['',Validators.required],
-      VOYAGE_NO: ['',Validators.required],
+      VESSEL_NAME: ['', Validators.required],
+      VOYAGE_NO: ['', Validators.required],
     });
     this.getDropdown();
   }
 
-  get f(){
+  get f() {
     return this.loadlistForm.controls;
-  } 
+  }
 
   exportToExcel() {
     const ws: xlsx.WorkSheet = xlsx.utils.table_to_sheet(
@@ -91,7 +92,7 @@ export class LoadListComponent implements OnInit {
   }
 
   GetLoadList() {
-    this.submitted=true
+    this.submitted = true;
     this.isLoading = true;
     var loadListModel = new LOADLIST();
     loadListModel.VESSEL_NAME = this.loadlistForm.get('VESSEL_NAME')?.value;
@@ -116,11 +117,16 @@ export class LoadListComponent implements OnInit {
         this.VesselList = res.Data;
       }
     });
+  }
 
-    this._commonService.getDropdownData('VOYAGE_NO').subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.VoyageList = res.Data;
-      }
-    });
+  getVoyageList(event: any) {
+    this.VoyageList = [];
+    this._commonService
+      .getDropdownData('VOYAGE_NO', '', event)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.VoyageList = res.Data;
+        }
+      });
   }
 }

@@ -9,28 +9,33 @@
                     <div class="col-md-8 mx-auto">
                         <div class="form-group mt-5">
                             <label class="form-label-ddl">{{'Header.VesselName'|translate}} <span class="text-danger">
-                                *</span></label>
-                            <ng-select  [ngClass]="{'invalid':submitted && f.VESSEL_NAME.errors}" formControlName="VESSEL_NAME">
+                                    *</span></label>
+                            <ng-select (change)="getVoyageList($event)"
+                                [ngClass]="{'invalid':submitted && f.VESSEL_NAME.errors}" formControlName="VESSEL_NAME">
                                 <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                 <ng-option *ngFor="let item of VesselList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                 </ng-option>
                             </ng-select>
-                            <div *ngIf="submitted && f.VESSEL_NAME.errors" class="invalid-feedback">Please Select Status </div>
+                            <div *ngIf="submitted && f.VESSEL_NAME.errors" class="invalid-feedback">Please Select Status
+                            </div>
                         </div>
                         <div class="form-group mt-5">
                             <label class="form-label-ddl">{{'Header.VoyageNo'|translate}}<span class="text-danger">
-                                *</span></label>
-                            <ng-select [ngClass]="{'invalid':submitted && f.VOYAGE_NO.errors}" formControlName="VOYAGE_NO">
+                                    *</span></label>
+                            <ng-select [ngClass]="{'invalid':submitted && f.VOYAGE_NO.errors}"
+                                formControlName="VOYAGE_NO">
                                 <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                 <ng-option *ngFor="let item of VoyageList" value="{{item.CODE_DESC}}">{{item.CODE_DESC}}
                                 </ng-option>
                             </ng-select>
-                            <div *ngIf="submitted && f.VOYAGE_NO.errors" class="invalid-feedback">Please Enter Voyage no</div>
-                           
+                            <div *ngIf="submitted && f.VOYAGE_NO.errors" class="invalid-feedback">Please Enter Voyage no
+                            </div>
+
                         </div>
                         <div class="col-md-6 mx-auto mb-3 text-end">
-                            <button [disabled]="isLoading" (click)="GetLoadList()" class="form-btn-primary w-100">{{'Button.getLoadList'|translate}}
-                                  <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
+                            <button [disabled]="isLoading" (click)="GetLoadList()"
+                                class="form-btn-primary w-100">{{'Button.getLoadList'|translate}}
+                                <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
                         </div>
                     </div>
                 </form>
