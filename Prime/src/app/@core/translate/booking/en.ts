@@ -21,11 +21,6 @@ export const locale = {
         MotherVesselName:'Mother Vessel Name',
         MotherVoyageNo:'Mother Voyage No'
 
-
-
-
-
-
       },
       Button: {
         search: 'Search',
