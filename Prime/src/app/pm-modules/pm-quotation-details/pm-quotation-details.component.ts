@@ -11,6 +11,9 @@ import { QuotationService } from 'src/app/services/quotation.service';
 export class PmQuotationDetailsComponent implements OnInit {
   quotationDetails: any;
   rateForm: FormGroup;
+  collapse1: boolean = false;
+  collapse2: boolean = false;
+  collapse3: boolean = false;
 
   constructor(
     private _quotationService: QuotationService,

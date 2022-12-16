@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
+import { TDR } from '../models/tdr';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,15 @@ export class TdrService {
     return this.http.post<any>(
       this.BASE_URL + 'TDR/InsertTdr',
       tdr,
+      this.httpOptions
+    );
+  }
+
+  GetTdrList(tdr: TDR) {
+    return this.http.get<any>(
+      this.BASE_URL +
+      'TDR/GetTdrList?CREATED_BY=' +
+      tdr.CREATED_BY,
       this.httpOptions
     );
   }

@@ -26,13 +26,17 @@
 input[type="radio"] {
   &:checked {
     & + label {
-      color: #185ee0;
+      //  color: #185ee0;
       & > .notification {
         background-color: #185ee0;
         color: #fff;
       }
     }
   }
+}
+
+.ractive {
+  color: #185ee0;
 }
 
 input[id="radio-1"] {
