@@ -28,6 +28,8 @@ export class QuotationListComponent implements OnInit {
   voyageList: any[] = [];
   slotoperatorList: any[] = [];
   submitted: boolean = false;
+  isLoading: boolean = false;
+  isLoading1: boolean = false;
 
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
@@ -62,7 +64,7 @@ export class QuotationListComponent implements OnInit {
       SRR_ID: [''],
       SRR_NO: [''],
       VESSEL_NAME: ['', Validators.required],
-      VOYAGE_NO: [''],
+      VOYAGE_NO: ['', Validators.required],
       MOTHER_VESSEL_NAME: [''],
       MOTHER_VOYAGE_NO: [''],
       AGENT_CODE: [''],
@@ -137,7 +139,7 @@ export class QuotationListComponent implements OnInit {
     this.quotation.STATUS = STATUS;
     this.quotation.FROMDATE = FROM_DATE;
     this.quotation.TODATE = TO_DATE;
-
+    this.isLoading = true;
     this.getSRRList();
   }
 
@@ -154,6 +156,7 @@ export class QuotationListComponent implements OnInit {
     this.quotation.FROMDATE = '';
     this.quotation.TODATE = '';
 
+    this.isLoading = false;
     this.getSRRList();
   }
 
@@ -162,13 +165,13 @@ export class QuotationListComponent implements OnInit {
     this.quotation.OPERATION = 'GET_SRRLIST';
     this._quotationService.getSRRList(this.quotation).subscribe(
       (res: any) => {
-        debugger;
         this.quotationList = [];
         this.isScroll = false;
         if (res.hasOwnProperty('Data')) {
           if (res.Data?.length > 0) {
+            this.isLoading = false;
+            this.isLoading1 = false;
             this.quotationList = res.Data;
-            console.log('bk ' + this.quotationList[1].BOOKINGS);
             if (this.quotationList?.length >= 4) {
               this.isScroll = true;
             } else {
@@ -284,6 +287,7 @@ export class QuotationListComponent implements OnInit {
   }
 
   bookNow() {
+    this.submitted = true;
     this.slotDetailsForm.get('BOOKING_NO')?.setValue(this.getRandomNumber());
     this.slotDetailsForm.get('SRR_ID')?.setValue(this.quotationDetails?.SRR_ID);
     this.slotDetailsForm.get('SRR_NO')?.setValue(this.quotationDetails?.SRR_NO);
