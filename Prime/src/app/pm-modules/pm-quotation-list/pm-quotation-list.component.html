@@ -111,8 +111,7 @@
                         <div class="col-md-10">
                             <h6>POL : <small class="text-danger me-2">{{quotationDetails?.POL}}</small>
                                 POD : <small class="text-danger me-2">{{quotationDetails?.POD}}</small>
-                                Container : <small class="text-danger me-2">{{item1.CONTAINER_TYPE}} -
-                                    {{item1.CONTAINER_SIZE}} </small>
+                                Container : <small class="text-danger me-2">{{item1.CONTAINERS}}</small>
                                 Service Mode : <small class="text-danger">{{item1.SERVICE_MODE}}</small>
                             </h6>
                         </div>
@@ -138,7 +137,7 @@
                                 <label class="label-header">Requested Rate</label>
                             </div>
                             <div class="col-md-2">
-                                <label class="label-header">Approved Rate</label>
+                                <label class="label-header">Counter Rate</label>
                             </div>
                         </div>
                         <div *ngFor="let item of f1;let i = index" [formGroup]="f(item)">

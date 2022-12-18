@@ -40,10 +40,14 @@
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
-        <select (change)="setLanguage($event.target.value)" name="" id="">
-            <option value="en">English</option>
-            <option value="hi">Hindi</option>
-        </select>
+        <div class="col-1">
+            <select class="form-control ddl" (change)="setLanguage($event.target.value)" name="" id="">
+                <option value="en">English </option>
+                <option value="hi">Hindi</option>
+                <option value="ar">Arabic</option>
+            </select>
+        </div>
+        <!-- <img src="../../../assets/img/united-kingdom.png" /> -->
         <span class="text-light">Hi User !<a (click)="logout()"><i title="logout" style="font-size: 20px"
                     class='ms-2 pointer bx bx-user-x'></i></a></span>
     </div>

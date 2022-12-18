@@ -14,6 +14,7 @@ export class PmQuotationDetailsComponent implements OnInit {
   collapse1: boolean = false;
   collapse2: boolean = false;
   collapse3: boolean = false;
+  srrcal: boolean = false;
 
   constructor(
     private _quotationService: QuotationService,
@@ -24,7 +25,7 @@ export class PmQuotationDetailsComponent implements OnInit {
     this.rateForm = this._formBuilder.group({
       SRR_RATES: new FormArray([]),
     });
-    this.getDetails('AEJEA1-QAHMD1-7078198266933213');
+    this.getDetails('BHBAH-SADMM-6398667878112789');
   }
 
   getDetails(SRR_NO: string) {
@@ -50,5 +51,26 @@ export class PmQuotationDetailsComponent implements OnInit {
 
   f(i: any) {
     return i;
+  }
+
+  updateRate(item: any, value: string) {
+    var srrRates = this.rateForm.value.SRR_RATES.filter(
+      (x: any) => x.CONTAINER_TYPE === item
+    );
+
+    srrRates.forEach((element: any) => {
+      element.STATUS = value;
+    });
+
+    this._quotationService.approveRate(srrRates).subscribe((res: any) => {
+      if (res.responseCode == 200) {
+        if (value == 'Approved') {
+          alert('Rates are approved successfully !');
+        } else {
+          alert('Rates are rejected successfully !');
+        }
+        this.getDetails('BHBAH-SADMM-6398667878112789');
+      }
+    });
   }
 }

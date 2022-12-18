@@ -45,9 +45,14 @@
         </div>
     </form>
     <section class="services">
-        <div *ngIf="expRecords > 0" class="col-md-5 offset-md-7 pe-md-3 text-end">
-            <img height="30" width="40" src="assets/img/alert.gif">
-            <small class="text-danger">{{expRecords}} Request(s) about to expire</small>
+        <div class="row">
+            <div class="col-md-7 ps-md-5">
+                <small>Total Records : {{this.quotationList?.length}}/ 50</small>
+            </div>
+            <div *ngIf="expRecords > 0" class="col-md-5 pe-md-3 text-end">
+                <img height="30" width="40" src="assets/img/alert.gif">
+                <small class="text-danger">{{expRecords}} Request(s) about to expire</small>
+            </div>
         </div>
         <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
             <div [class]="isScroll ? 'force-overflow' : ''">
@@ -63,16 +68,12 @@
                                 <span class="bx bxs-ship me-2"></span>{{item.POD}}
                             </p>
                             <button class="form-btn-primary" style="font-size: 12px;"
-                                (click)="getSRRDetails(item,'container')">Add
-                                More
-                                Containers</button>
+                                (click)="getSRRDetails(item,'container')">{{'Button.addMoreContainers'|translate}}</button>
                             <button *ngIf="item.STATUS == 'Approved' && item.BOOKINGS == 0"
                                 (click)="getSRRDetails(item,'rate')" class="form-btn-danger ms-2"
-                                style="font-size: 12px;">Counter
-                                Offer</button>
-                            <a #rateModal class="d-none" data-bs-toggle="modal" href="#counterRateModal">Add
-                                More
-                                Containers</a>
+                                style="font-size: 12px;">{{'Button.counterOffer'|translate}}</button>
+                            <a #rateModal class="d-none" data-bs-toggle="modal" href="#counterRateModal">Counter
+                                Offer</a>
                             <a #containerModal class="d-none" data-bs-toggle="modal" href="#containerModal">Add
                                 More
                                 Containers</a>
@@ -105,8 +106,8 @@
                             </p>
                         </div>
                         <div class="col-md-2 text-end" *ngIf="item.STATUS == 'Approved'">
-                            <button (click)="openBookingModal(i)" class="form-btn rounded-pill">Book
-                                Now</button>
+                            <button (click)="openBookingModal(i)"
+                                class="form-btn rounded-pill">{{'Button.bookNow'|translate}}</button>
                             <button class="form-btn d-none" #openBtn data-bs-toggle="modal" href="#bookingModal">Book
                                 Now</button>
                             <h6 *ngIf="item.BOOKINGS > 0" class="pe-2 mt-2">{{item.BOOKINGS}} Booking(s)</h6>
@@ -265,8 +266,7 @@
                     <div class="row description" *ngFor="let item of f2;let i = index" [formGroup]="f1(item)">
                         <div class="col-md-4 mt-2">
                             <label class="label-header">Container</label>
-                            <label class="label-subheader">{{containerList[i].CONTAINER_TYPE}} -
-                                {{containerList[i].CONTAINER_SIZE}}</label>
+                            <label class="label-subheader">{{containerList[i].CONTAINER_TYPE}}</label>
                         </div>
                         <div class="col-md-4 mt-2">
                             <label class="label-header">Service Mode</label>
@@ -297,10 +297,9 @@
                     <div class="col-md-12" *ngFor="let item1 of containerList">
                         <div class="row">
                             <div class="col-md-6">
-                                <h6>Container : <small class="text-danger me-2">{{item1.CONTAINER_TYPE}}
-                                        -
-                                        {{item1.CONTAINER_SIZE}} </small>
-                                    Service Mode : <small class="text-danger">{{item1.SERVICE_MODE}}</small>
+                                <h6>Container : <small class="text-danger me-2">{{item1.CONTAINER_TYPE}} </small>
+                                    Service Mode : <small class="text-danger me-2">{{item1.SERVICE_MODE}}</small>
+                                    Status : <small class="text-danger">{{item1.STATUS}}</small>
                                 </h6>
                             </div>
                         </div>
@@ -310,22 +309,19 @@
                                     <label class="label-header">Charge Code</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="label-header">Standard Rate</label>
-                                </div>
-                                <div class="col-md-2">
                                     <label class="label-header">Payment</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="label-header">Place of Payment</label>
-                                </div>
-                                <!-- <div class="col-md-2">
-                                    <label class="label-header">Requested Rate</label>
-                                </div> -->
-                                <div class="col-md-2">
-                                    <label class="label-header">Approved Rate</label>
+                                    <label class="label-header">Standard Rate</label>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="label-header">Counter Rate</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="label-header">Requested Rate</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="label-header">Remarks</label>
                                 </div>
                             </div>
                             <div *ngFor="let item of f3;let i = index" [formGroup]="f1(item)">
@@ -334,18 +330,12 @@
                                         <label class="label-subheader">{{item.value.CHARGE_CODE}}</label>
                                     </div>
                                     <div class="col-md-2 mt-2">
+                                        <label class="label-subheader">{{item.value.PAYMENT_TERM}} -
+                                            {{item.value.TRANSPORT_TYPE}}</label>
+                                    </div>
+                                    <div class="col-md-2 mt-2">
                                         <label class="label-subheader">100 USD</label>
                                     </div>
-                                    <div class="col-md-2 mt-2">
-                                        <label class="label-subheader">{{item.value.PAYMENT_TERM}}</label>
-                                    </div>
-                                    <div class="col-md-2 mt-2">
-                                        <label class="label-subheader">{{item.value.TRANSPORT_TYPE}}</label>
-                                    </div>
-                                    <!-- <div class="col-md-2 mt-2">
-                                        <label class="label-subheader">{{item.value.RATE_REQUESTED}}
-                                            {{item.value.CURRENCY}}</label>
-                                    </div> -->
                                     <div class="col-md-2 mt-2">
                                         <label class="label-subheader">{{item.value.APPROVED_RATE}}
                                             {{item.value.CURRENCY}}</label>
@@ -353,15 +343,22 @@
                                     <div class="col-md-2 mt-1">
                                         <input formControlName="RATE_REQUESTED" class="form-control3" type="text" />
                                     </div>
+                                    <div class="col-md-2 mt-1">
+                                        <label class="label-subheader">{{item.value.REMARKS == '' ? '-' :
+                                            item.value.REMARKS }}</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-2 offset-md-10" *ngIf="item1.STATUS == 'Approved'">
+                            <button type="button" (click)="counterRate(item1.CONTAINER_TYPE)"
+                                class="form-btn w-100">Counter</button>
+                        </div>
                         <hr>
                     </div>
-
                 </div>
                 <div class="modal-footer">
-                    <button type="button" (click)="counterRate()" class="form-btn-primary me-2">Submit</button>
+
                 </div>
             </div>
         </div>

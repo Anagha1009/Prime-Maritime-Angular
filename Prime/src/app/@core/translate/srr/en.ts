@@ -12,6 +12,9 @@ export const locale = {
       newRequest: 'New Rate Request',
       search: 'Search',
       clear: 'Clear',
+      addMoreContainers: 'Add More Containers',
+      counterOffer: 'Counter Offer',
+      bookNow: 'Book Now',
     },
   },
 };
