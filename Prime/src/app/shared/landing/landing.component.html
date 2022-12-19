@@ -79,14 +79,16 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input class="form-control" style="background: transparent;" />
-                                            <label class="form-label text-light">Container No</label>
+                                            <input class="form-control" style="background: transparent; color: white;" [(ngModel)]="bookingNo" />
+                                            <label class="form-label text-light">Booking No</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mx-auto">
-                                        <button class="form-btn rounded-pill w-100">Track Container</button>
+                                        <button class="form-btn rounded-pill w-100" (click)="getTracking()"  >
+                                            Track your Container
+                                        </button>
                                     </div>
                                 </div>
                             </div>
