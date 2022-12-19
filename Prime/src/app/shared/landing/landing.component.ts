@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
@@ -18,7 +19,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
   isquotation: boolean = true;
-  constructor() {}
+  bookingNo: string = '';
+
+  constructor(
+    private _router: Router
+  ) { }
 
   ngOnInit(): void {
     this.loadJsFile([
@@ -41,5 +46,21 @@ export class LandingComponent implements OnInit {
       node.type = 'text/javascript';
       document.getElementsByTagName('head')[0].appendChild(node);
     });
+  }
+
+  getTracking() {
+
+    //this._router.navigate(['/home/track-booking'], { queryParams: { bookingNo: this.bookingNo } });
+    if (this.bookingNo == "") {
+      alert("Please enter booking no!")
+    }
+    else {
+      const url = this._router.serializeUrl(this._router.createUrlTree(
+        ['/home/track-booking'], { queryParams: { bookingNo: this.bookingNo } }
+      ));
+
+      window.open(url, '_blank');
+    }
+
   }
 }

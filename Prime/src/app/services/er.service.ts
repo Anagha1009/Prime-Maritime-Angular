@@ -15,10 +15,11 @@ export class ErService {
   };
   constructor(private _http: HttpClient) {}
 
-  postERDetails(ER:any){
+  postERDetails(ER:any,isVessel:boolean){
     debugger;
     return this._http.post<any>(
-      this.BASE_URL + 'ER/InsertER',
+      this.BASE_URL + 'ER/InsertER?isVessel='+
+      isVessel,
       ER,
       this.httpOptions
     );

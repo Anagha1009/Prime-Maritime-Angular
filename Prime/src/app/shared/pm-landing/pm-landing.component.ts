@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SrrReportService } from 'src/app/services/srr-report.service';
 
 
 @Component({
@@ -15,40 +16,137 @@ import { Component, OnInit } from '@angular/core';
   ],
 })
 export class PmLandingComponent implements OnInit {
-  
-  constructor() {}
 
-  ngOnInit(): void {}
-  chartOptions = {
-	  theme: "light2",
-	  animationEnabled: true,
-	  title:{
-		text: "Waste Generation and Urbanization by Region"
-	  },
-	  axisX: {
-		title: "Urbanization Rate",
-		titleFontSize: 13,
-		suffix: "%"
-	  },
-	  axisY: {
-		title: "Waste Generation per capita (kg/capita/day)",
-		titleFontSize: 13,
-		includeZero: true
-	  },
-	  data: [{
-		type: "bubble",
-		indexLabel: "{z}",
-		color: "#8ecbc7",
-		toolTipContent: "<span style='\"'color: {color};'\"'>{name}</span> <br/> {x}: {y}, {z}",
-		dataPoints: [
-			{ x: 35, y: 0.5, z: 334, name: "South Asia" },
-			{ x: 38, y: 0.5, z: 174, name: "Sub-Saharan Africa" },
-			{ x: 57, y: 0.5, z: 468, name: "East Asia and Pacific" },
-			{ x: 64, y: 0.7, z: 129, name: "Middle East and North Africa" },
-			{ x: 70, y: 1.25, z: 392, name: "Europe and Central Asia" },
-			{ x: 80, y: 1, z: 231, name: "Latin America" },
-			{ x: 82, y: 2.21, z: 289, name: "North America" }
-		]
-	  }]
-	}	
+  chartOptions1:any;
+
+  srrCountList: any[] = [];
+
+  constructor(
+    private _srrReportService: SrrReportService
+  ) { }
+
+  ngOnInit(): void {
+    this.getSRRCountList();
+
+    this.getCharts()
+  }
+
+  getSRRCountList() {
+    this._srrReportService.getSRRCountList().subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        // this.srrCountList = res.Data;
+      //  debugger
+        // res.Data.forEach((element:any) => {
+        //   this.srrCountList.push({label:element.MONTH,y:element.TOTAL});
+        // });
+        this.srrCountList = [
+          { label: "Jan", y: 3.98 },
+          { label: "Feb", y: 1.11 },
+          { label: "Mar", y: 2.4 },
+          { label: "Apr", y: 3.63 },
+          { label: "May", y: 3.24 },
+          { label: "Jun", y: 3.08 },
+          { label: "Jul", y: 1.03 },
+          { label: "Aug", y: 1.14 },
+          { label: "Sep", y: 1.26 },
+          { label: "Oct", y: 1.36 },
+          { label: "Nov", y: 1.13 },
+          { label: "Dec", y: 1.79 }
+        ]  
+      }
+    });
+
+  }
+
+  getCharts(){
+    this.chartOptions1 = {
+      animationEnabled: true,
+      title: {
+        text: "SRR Monthly Calculation"
+      },
+      axisX: {
+        title: "Months"
+      },
+      axisY: {
+        title: "Count"
+      },
+      toolTip: {
+        shared: true
+      },
+      legend: {
+        cursor: "pointer",
+        itemclick: function (e: any) {
+          if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+            e.dataSeries.visible = false;
+          } else {
+            e.dataSeries.visible = true;
+          }
+          e.chart.render();
+        }
+      },
+      data: [{
+        type: "spline",
+        showInLegend: true,
+        name: "Total SRR",
+        dataPoints: this.getSRRCountList()
+      },
+      {
+        type: "spline",
+        showInLegend: true,
+        name: "SRR Approved",
+        dataPoints: [
+          { label: "Jan", y: 1.98 },
+          { label: "Feb", y: 2.11 },
+          { label: "Mar", y: 1.4 },
+          { label: "Apr", y: 0.63 },
+          { label: "May", y: 1.24 },
+          { label: "Jun", y: 1.08 },
+          { label: "Jul", y: 1.03 },
+          { label: "Aug", y: 1.14 },
+          { label: "Sep", y: 1.26 },
+          { label: "Oct", y: 1.36 },
+          { label: "Nov", y: 1.13 },
+          { label: "Dec", y: 1.79 }
+        ]
+      },
+      {
+        type: "spline",
+        showInLegend: true,
+        name: "SRR Requested",
+        dataPoints: [
+          { label: "Jan", y: 2.98 },
+          { label: "Feb", y: 3.11 },
+          { label: "Mar", y: 2.4 },
+          { label: "Apr", y: 0.63 },
+          { label: "May", y: 0.24 },
+          { label: "Jun", y: 0.08 },
+          { label: "Jul", y: 0.03 },
+          { label: "Aug", y: 0.14 },
+          { label: "Sep", y: 0.26 },
+          { label: "Oct", y: 0.36 },
+          { label: "Nov", y: 1.13 },
+          { label: "Dec", y: 1.79 }
+        ]
+      },
+      {
+        type: "spline",
+        showInLegend: true,
+        name: "SRR Rejected",
+        dataPoints: [
+          { label: "Jan", y: 5.24 },
+          { label: "Feb", y: 4.09 },
+          { label: "Mar", y: 3.92 },
+          { label: "Apr", y: 2.75 },
+          { label: "May", y: 2.03 },
+          { label: "Jun", y: 1.55 },
+          { label: "Jul", y: 0.93 },
+          { label: "Aug", y: 1.16 },
+          { label: "Sep", y: 1.61 },
+          { label: "Oct", y: 3.24 },
+          { label: "Nov", y: 5.67 },
+          { label: "Dec", y: 6.06 }
+        ]
+      }]
+    }
+  }
 }
