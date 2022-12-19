@@ -1,45 +1,51 @@
-<div class="container-fluid">
-    <ul class="multi-steps mt-5">
-        <li #step1 class="is-active">Quotation
-            <div #p1 class="progress-bar">
+<div class="container container-fluid mt-5">
+    <div class="col-md-6">
+        <h6>
+            Booking No : <small class="text-danger me-2">{{bookingNO}}</small>
+        </h6>
+    </div>
+    <ul class="multi-steps mt-5" id="stepper" *ngIf="isTracking">
+        <li class="step is-active">Booking
+            <div class="progress-bar">
             </div>
             <div class="progress-bar__bar">
-                <div #icon1 class="train" style="bottom: 1.9rem;width: 20%;" onclick="this.style.left='255px'">
+                <div class="train" style="bottom: 1.9rem;width: 20%;">
                     <img src="../../../assets/img/quote-icon.png" width="100%">
                 </div>
             </div>
         </li>
-        <li #step2>CRO<div #p2 class="progress-bar"></div>
+        <li class="step">CRO<div class="progress-bar"></div>
             <div class="progress-bar__bar">
-                <div #icon2 class="train" style="bottom: 1rem;width: 27%;" onclick="this.style.left='245px'">
+                <div class="train" style="bottom: 1rem;width: 27%;">
                     <img src="../../../assets/img/container2.jpg" width="100%">
                 </div>
             </div>
         </li>
-        <li #step3>BL<div #p3 class="progress-bar"></div>
+        <li class="step">BL<div class="progress-bar"></div>
             <div class="progress-bar__bar">
-                <div #icon3 class="train" style="width: 20%;bottom:1.7rem" onclick="this.style.left='260px'">
+                <div class="train" style="width: 20%;bottom:1.7rem">
                     <img src="../../../assets/img/972617.png" width="100%">
                 </div>
             </div>
         </li>
-        <li #step4>Vessel Sailed<div #p4 class="progress-bar"></div>
+        <li class="step">Vessel Sailed<div class="progress-bar"></div>
             <div class="progress-bar__bar">
-                <div #icon4 class="train" style="bottom: 1.3rem;width: 35%;" onclick="this.style.left='230px'">
+                <div class="train" style="bottom: 1.3rem;width: 35%;">
                     <img src="../../../assets/img/cargoship2.png" width="100%">
                 </div>
             </div>
         </li>
-        <li #step5>DO<div #p5 class="progress-bar"></div>
+        <li class="step">DO<div class="progress-bar"></div>
             <div class="progress-bar__bar">
-                <div #icon5 class="train w-25" style="bottom: 1.8rem" onclick="this.style.left='260px'">
+                <div class="train w-25" style="bottom: 1.8rem">
                     <img src="../../../assets/img/truck-icon.jpg" width="100%">
                 </div>
             </div>
         </li>
-        <li #step6>Release</li>
+        <li class="step">Release</li>
     </ul>
+    <div class="col-md-5 mx-auto" *ngIf="!isTracking">
+        <h5 class="text-center">Sorry! No Tracking found !!</h5>
+        <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
+    </div>
 </div>
-<br>
-<br>
-<button (click)="next()">Next Step</button>
