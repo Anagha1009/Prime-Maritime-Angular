@@ -1,7 +1,7 @@
-import { Booking } from './booking';
+import { BOOKING } from './booking';
 
 describe('Booking', () => {
   it('should create an instance', () => {
-    expect(new Booking()).toBeTruthy();
+    expect(new BOOKING()).toBeTruthy();
   });
 });

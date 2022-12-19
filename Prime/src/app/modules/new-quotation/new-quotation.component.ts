@@ -49,6 +49,9 @@ export class NewQuotationComponent implements OnInit {
   portList: any[] = [];
   submitted3: boolean = false;
   isVoyageAdded: boolean = false;
+  isActive1: boolean = true;
+  isActive2: boolean = false;
+  isActive3: boolean = false;
   //Files
   isUploadedPOL: boolean = false;
   POLAcceptanceFile: string = '';
@@ -129,7 +132,26 @@ export class NewQuotationComponent implements OnInit {
   }
 
   onchangeTab(index: any) {
-    this.tabs = index;
+    if (index == '2') {
+      if (this.quotationForm.invalid) {
+        alert('Please complete SRR Details');
+        this.tabs = '1';
+      } else {
+        this.tabs = index;
+      }
+    } else if (index == '3') {
+      if (this.quotationForm.invalid) {
+        alert('Please complete SRR Details');
+        this.tabs = '1';
+      } else if (this.commoditiesForm.invalid) {
+        alert('Please complete Commodity Details');
+        this.tabs = '2';
+      } else {
+        this.tabs = index;
+      }
+    } else {
+      this.tabs = index;
+    }
   }
 
   // ON SAVE
@@ -192,7 +214,6 @@ export class NewQuotationComponent implements OnInit {
 
   openModal() {
     this.submitted1 = true;
-
     if (this.containerForm.invalid) {
       return;
     }
@@ -267,6 +288,7 @@ export class NewQuotationComponent implements OnInit {
     );
 
     this.containerForm.reset();
+    this.containerForm.get('CONTAINER_SIZE')?.setValue('NULL');
     this.containerForm.get('CONTAINER_TYPE')?.setValue('');
     this.containerForm.get('SERVICE_MODE')?.setValue('');
 
@@ -512,6 +534,12 @@ export class NewQuotationComponent implements OnInit {
   }
 
   getDropdown() {
+    this._commonService.getDropdownData('PORT').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.portList = res.Data;
+      }
+    });
+
     this._commonService.getDropdownData('ICD').subscribe((res: any) => {
       if (res.hasOwnProperty('Data')) {
         this.icdList = res.Data;
@@ -575,6 +603,7 @@ export class NewQuotationComponent implements OnInit {
 
   getServiceName(event: any) {
     this.servicenameList = [];
+    this.quotationForm.get('SERVICE_NAME')?.setValue('');
     this._commonService
       .getDropdownData('SERVICE_NAME', event, '')
       .subscribe((res: any) => {
@@ -586,49 +615,12 @@ export class NewQuotationComponent implements OnInit {
 
   getServiceName1(event: any) {
     this.servicenameList1 = [];
+    this.slotDetailsForm.get('SERVICE_NAME')?.setValue('');
     this._commonService
       .getDropdownData('SERVICE_NAME', event, '')
       .subscribe((res: any) => {
         if (res.hasOwnProperty('Data')) {
           this.servicenameList1 = res.Data;
-        }
-      });
-  }
-
-  getPortList(event: any, value: string) {
-    if (value == 'POL') {
-      this.polList = [];
-    } else if (value == 'POD') {
-      this.podList = [];
-    } else if (value == 'TS1') {
-      this.ts1List = [];
-    } else if (value == 'TS2') {
-      this.ts2List = [];
-    }
-    this._commonService
-      .getDropdownData('PORT', '', event.target.value)
-      .subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          if (value == 'POL') {
-            this.polList = res.Data;
-          } else if (value == 'POD') {
-            this.podList = res.Data;
-          } else if (value == 'TS1') {
-            this.ts1List = res.Data;
-          } else if (value == 'TS2') {
-            this.ts2List = res.Data;
-          }
-        }
-      });
-  }
-
-  getPortList1(event: any) {
-    this.portList = [];
-    this._commonService
-      .getDropdownData('PORT', '', event.target.value)
-      .subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.portList = res.Data;
         }
       });
   }
