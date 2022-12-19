@@ -1,4 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { BookingService } from 'src/app/services/booking.service';
 
 @Component({
   selector: 'app-track-booking',
@@ -6,70 +8,67 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./track-booking.component.scss'],
 })
 export class TrackBookingComponent implements OnInit {
-  @ViewChild('step1') step1: ElementRef;
-  @ViewChild('step2') step2: ElementRef;
-  @ViewChild('step3') step3: ElementRef;
-  @ViewChild('step4') step4: ElementRef;
-  @ViewChild('step5') step5: ElementRef;
-  @ViewChild('step6') step6: ElementRef;
-  @ViewChild('p1') p1: ElementRef;
-  @ViewChild('p2') p2: ElementRef;
-  @ViewChild('p3') p3: ElementRef;
-  @ViewChild('p4') p4: ElementRef;
-  @ViewChild('p5') p5: ElementRef;
-  @ViewChild('icon1') icon1: ElementRef;
-  @ViewChild('icon2') icon2: ElementRef;
-  @ViewChild('icon3') icon3: ElementRef;
-  @ViewChild('icon4') icon4: ElementRef;
-  @ViewChild('icon5') icon5: ElementRef;
-  step: string = 'step1';
 
-  constructor() {}
+  bookingNO: string = '';
+  isTracking: boolean = true;
+  currentStep = 1;
 
-  ngOnInit(): void {}
+  constructor(
+    private _activatedRoute: ActivatedRoute,
+    private _bookingservice: BookingService
+  ) { }
 
-  next() {
-    if (this.step === 'step1') {
-      this.step = 'step2';
+  ngOnInit(): void {
 
-      this.step1.nativeElement.classList.remove('is-active');
-      this.step2.nativeElement.classList.add('is-active');
-      this.p1.nativeElement.classList.add('progress-bar--success');
+    this._activatedRoute.queryParams.subscribe(params => {
+      this.bookingNO = params['bookingNo'];
+    });
 
-      this.icon1.nativeElement.click();
-    } else if (this.step === 'step2') {
-      this.step = 'step3';
+    this.getTrackingDetail();
+  }
 
-      this.step2.nativeElement.classList.remove('is-active');
-      this.step3.nativeElement.classList.add('is-active');
-      this.p2.nativeElement.classList.add('progress-bar--success');
 
-      this.icon2.nativeElement.click();
-    } else if (this.step === 'step3') {
-      this.step = 'step4';
+  Tracking() {
 
-      this.step3.nativeElement.classList.remove('is-active');
-      this.step4.nativeElement.classList.add('is-active');
-      this.p3.nativeElement.classList.add('progress-bar--success');
+    const steps = Array.from(document.getElementsByClassName('step'));
+    const progess = document.getElementsByClassName('progress-bar');
+    const icon = document.getElementsByClassName('train');
 
-      this.icon3.nativeElement.click();
-    } else if (this.step === 'step4') {
-      this.step = 'step5';
+    Array.from(steps).forEach((step, index) => {
+      let stepNum = index + 1;
 
-      this.step4.nativeElement.classList.remove('is-active');
-      this.step5.nativeElement.classList.add('is-active');
-      this.p4.nativeElement.classList.add('progress-bar--success');
+      if (stepNum === this.currentStep + 1) {
+        step.classList.add('is-active');
+      }
+      else {
+        step.classList.remove('is-active');
+      }
 
-      this.icon4.nativeElement.click();
-    } else if (this.step === 'step5') {
-      this.step = 'step6';
+      if (stepNum <= this.currentStep) {
+        progess[index].classList.add('progress-bar--success');
+        icon[index].classList.toggle('mystyle');
+      }
+    });
 
-      this.step5.nativeElement.classList.remove('is-active');
-      // this.step6.nativeElement.classList.add('is-active');
-      this.step = 'complete';
-      this.p5.nativeElement.classList.add('progress-bar--success');
+  }
 
-      this.icon5.nativeElement.click();
-    }
+  getTrackingDetail() {
+    this._bookingservice.getTrackingDetail(this.bookingNO).subscribe((res: any) => {
+      console.log(JSON.stringify(res));
+      if (res.ResponseCode == 200) {
+        console.log("res" + res.Data)
+        if (res.Data == 0) {
+          this.isTracking = false;
+        }
+        else {
+          this.isTracking = true;
+          this.currentStep = res.Data;
+          this.Tracking();
+        }
+      }
+      else{
+        this.isTracking = false;
+      }
+    })
   }
 }
