@@ -4,8 +4,8 @@
 <div class="container mb-4">
     <form [formGroup]="tdrForm">
         <div class="col-md-8 mx-auto mt-5">
-            <div class="row">
-                <div class="col mt-3">
+            <div class="row mt-3">
+                <div class="col-md-4">
                     <div class="form-group">
                         <ng-select (change)="getVoyageList($event)"
                             [ngClass]="{'invalid': submitted && f.VESSEL_NAME.errors}" formControlName="VESSEL_NAME">
@@ -19,41 +19,49 @@
                                 *</span></label>
                         <div *ngIf="submitted && f.VESSEL_NAME.errors" class="invalid-feedback">Vessel Name is required
                         </div>
-                        
+
                     </div>
                 </div>
-                <div class="col mt-3">
-                    <div class="form-group"> <ng-select
-                        [ngClass]="{'invalid': submitted && f.VOYAGE_NO.errors}"
-                        formControlName="VOYAGE_NO">
-                        <ng-option value="" selected="true" disabled>
-                            --Select--</ng-option>
-                        <ng-option *ngFor="let item of voyageList"
-                            value="{{item.CODE}}">
-                            {{item.CODE_DESC}}
-                        </ng-option>
-                    </ng-select>
-                    <label class="form-label-ddl">{{'Header.VoyageNo'|translate}}<span
-                            class="text-danger">
-                            *</span></label>
-                    <div *ngIf="submitted && f.VOYAGE_NO.errors"
-                        class="invalid-feedback">Voyage No is required
-                    </div>
+                <div class="col-md-4">
+                    <div class="form-group"> <ng-select [ngClass]="{'invalid': submitted && f.VOYAGE_NO.errors}"
+                            formControlName="VOYAGE_NO">
+                            <ng-option value="" selected="true" disabled>
+                                --Select--</ng-option>
+                            <ng-option *ngFor="let item of voyageList" value="{{item.CODE}}">
+                                {{item.CODE_DESC}}
+                            </ng-option>
+                        </ng-select>
+                        <label class="form-label-ddl">{{'Header.VoyageNo'|translate}}<span class="text-danger">
+                                *</span></label>
+                        <div *ngIf="submitted && f.VOYAGE_NO.errors" class="invalid-feedback">Voyage No is required
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label2">{{'Header.POL'|translate}}<span class="text-danger">*</span></label>
-                        <input type="text" id="CustomerEmail" [ngClass]="{'invalid':submitted && f.POL.errors}" formControlName="POL" class="form-control2">
+                        <ng-select [ngClass]="{'invalid': submitted && f.POL.errors}" formControlName="POL">
+                            <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                            <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                ({{item.CODE}})
+                            </ng-option>
+                        </ng-select>
+                        <label class="form-label-ddl">{{'Header.POL'|translate}}<span class="text-danger">
+                                *</span></label>
                         <div *ngIf="submitted && f.POL.errors" class="invalid-feedback">Please Enter POL </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label2">{{'Header.terminal'|translate}}<span class="text-danger">*</span></label>
-                        <input type="text" id="gstin" [ngClass]="{'invalid':submitted && f.TERMINAL.errors}" formControlName="TERMINAL" class="form-control2">
+                        <ng-select [ngClass]="{'invalid': submitted && f.TERMINAL.errors}" formControlName="TERMINAL">
+                            <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                            <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                ({{item.CODE}})
+                            </ng-option>
+                        </ng-select>
+                        <label class="form-label-ddl">{{'Header.terminal'|translate}}<span class="text-danger">
+                                *</span></label>
                         <div *ngIf="submitted && f.TERMINAL.errors" class="invalid-feedback">Please Enter Terminal
                         </div>
                     </div>
@@ -61,33 +69,46 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <div class="form-group">
-                            <label class="form-label2">{{'Header.eta'|translate}}<span class="text-danger">*</span></label>
-                            <input type="Date" [ngClass]="{'invalid':submitted && f.ETA.errors}" formControlName="ETA" class="form-control2">
+                            <input type="date" onkeypress="return false"
+                                [ngClass]="{'invalid':submitted && f.ETA.errors}" formControlName="ETA"
+                                class="form-control">
+                            <label class="form-label">{{'Header.eta'|translate}}<span
+                                    class="text-danger">*</span></label>
                             <div *ngIf="submitted && f.ETA.errors" class="invalid-feedback">Please Enter ETA</div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label2">{{'Header.pobBerthing'|translate}}<span class="text-danger">*</span></label>
-                        <input type="Date" [ngClass]="{'invalid':submitted && f.POB_BERTHING.errors}"  formControlName="POB_BERTHING" class="form-control2">
+                        <input type="date" onkeypress="return false"
+                            [ngClass]="{'invalid':submitted && f.POB_BERTHING.errors}" formControlName="POB_BERTHING"
+                            class="form-control">
+                        <label class="form-label">{{'Header.pobBerthing'|translate}}<span
+                                class="text-danger">*</span></label>
                         <div *ngIf="submitted && f.POB_BERTHING.errors" class="invalid-feedback">Please Enter Pob
                             Berthing</div>
                     </div>
-
                 </div>
+            </div>
+            <div class="row mt-3">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label2">{{'Header.berthed'|translate}}<span class="text-danger">*</span></label>
-                        <input type="Date" [ngClass]="{'invalid':submitted && f.BERTHED.errors}"  formControlName="BERTHED" class="form-control2">
+                        <input type="date" onkeypress="return false"
+                            [ngClass]="{'invalid':submitted && f.BERTHED.errors}" formControlName="BERTHED"
+                            class="form-control">
+                        <label class="form-label">{{'Header.berthed'|translate}}<span
+                                class="text-danger">*</span></label>
                         <div *ngIf="submitted && f.BERTHED.errors" class="invalid-feedback">Please Enter BERTHED</div>
                     </div>
 
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label2">{{'Header.operationCommenced'|translate}}<span class="text-danger">*</span></label>
-                        <input type="Date" [ngClass]="{'invalid':submitted && f.OPERATION_COMMMENCED.errors}"  formControlName="OPERATION_COMMMENCED" class="form-control2">
+                        <input type="date" onkeypress="return false"
+                            [ngClass]="{'invalid':submitted && f.OPERATION_COMMMENCED.errors}"
+                            formControlName="OPERATION_COMMMENCED" class="form-control">
+                        <label class="form-label">{{'Header.operationCommenced'|translate}}<span
+                                class="text-danger">*</span></label>
                         <div *ngIf="submitted && f.OPERATION_COMMMENCED.errors" class="invalid-feedback">Please Enter
                             Operation Commenced</div>
                     </div>
@@ -95,86 +116,96 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label2">{{'Header.pobSailing'|translate}}<span class="text-danger">*</span></label>
-                        <input type="Date" [ngClass]="{'invalid':submitted && f.POB_SAILING.errors}" formControlName="POB_SAILING" class="form-control2">
+                        <input type="date" onkeypress="return false"
+                            [ngClass]="{'invalid':submitted && f.POB_SAILING.errors}" formControlName="POB_SAILING"
+                            class="form-control">
+                        <label class="form-label">{{'Header.pobSailing'|translate}}<span
+                                class="text-danger">*</span></label>
                         <div *ngIf="submitted && f.POB_SAILING.errors" class="invalid-feedback">Please Enter POb Sailing
                         </div>
                     </div>
-
                 </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="form-label2">{{'Header.sailed'|translate}}<span class="text-danger">*</span></label>
-                            <input type="Date" [ngClass]="{'invalid':submitted && f.SAILED.errors}"  formControlName="SAILED" class="form-control2">
-                            <div *ngIf="submitted && f.SAILED.errors" class="invalid-feedback">Please Enter sailed</div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="form-label2">{{'Header.etd'|translate}}<span class="text-danger">*</span></label>
-                            <input type="Date" [ngClass]="{'invalid':submitted && f.ETD.errors}" formControlName="ETD" class="form-control2">
-                            <div *ngIf="submitted && f.ETD.errors" class="invalid-feedback">Please Enter ETD</div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="form-label2">{{'Header.etaNextport'|translate}}<span class="text-danger">*</span></label>
-                            <input type="Date" [ngClass]="{'invalid':submitted && f.ETA_NEXTPORT.errors}" formControlName="ETA_NEXTPORT" class="form-control2">
-                            <div *ngIf="submitted && f.ETA_NEXTPORT.errors" class="invalid-feedback">Please Enter ETA NEXTPORT</div>
-                        </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="date" onkeypress="return false"
+                            [ngClass]="{'invalid':submitted && f.SAILED.errors}" formControlName="SAILED"
+                            class="form-control">
+                        <label class="form-label">{{'Header.sailed'|translate}}<span
+                                class="text-danger">*</span></label>
+                        <div *ngIf="submitted && f.SAILED.errors" class="invalid-feedback">Please Enter sailed</div>
                     </div>
                 </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-2 offset-md-10" style="text-align: right;">
-                        <button (click)="InsertTdr()" class="form-btn w-100">{{'Button.save'|translate}}</button>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="date" onkeypress="return false" [ngClass]="{'invalid':submitted && f.ETD.errors}"
+                            formControlName="ETD" class="form-control">
+                        <label class="form-label">{{'Header.etd'|translate}}<span class="text-danger">*</span></label>
+                        <div *ngIf="submitted && f.ETD.errors" class="invalid-feedback">Please Enter ETD</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="date" onkeypress="return false"
+                            [ngClass]="{'invalid':submitted && f.ETA_NEXTPORT.errors}" formControlName="ETA_NEXTPORT"
+                            class="form-control">
+                        <label class="form-label">{{'Header.etaNextport'|translate}}<span
+                                class="text-danger">*</span></label>
+                        <div *ngIf="submitted && f.ETA_NEXTPORT.errors" class="invalid-feedback">Please Enter ETA
+                            NextPort</div>
                     </div>
                 </div>
             </div>
-        
-  <div class="col-md-12 mx-auto mt-5">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Sr. No</th>
-          <th>VESSEL NAME</th>
-          <th>VOYAGE NO</th>
-          <th>POL</th>
-          <th>TERMINAL</th>
-          <th>ETA</th>
-          <th>POB BERTHING</th>
-          <th>BERTHED</th>
-          <th>OPERATION COMMMENCED</th>
-          <th>POB SAILING</th>
-          <th>SAILED</th>
-          <th>ETD</th>
-          <th>ETA NEXTPORT</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of tdrList; let i = index">
-          <td>{{i+1}}</td>
-          <td>{{item.VESSEL_NAME}}</td>
-          <td>{{item.VOYAGE_NO}}</td>
-          <td>{{item.POL}}</td>
-          <td>{{item.TERMINAL}}</td>
-          <td>{{item.ETA}}</td>
-          <td>{{item.POB_BERTHING}}</td>
-          <td>{{item.BERTHED}}</td>
-          <td>{{item.OPERATION_COMMENCED}}</td>
-          <td>{{item.POB_SAILING}}</td>
-          <td>{{item.SAILED}}</td>
-          <td>{{item.ETD}}</td>
-          <td>{{item.ETA_NEXTPORT}}</td>
-          <td>
-           <i class="fa fa-pencil mx-2 pointer text-success"></i>
-            <i class="fa fa-trash ms-2 pointer text-danger"></i>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+
+            <div class="row mb-3">
+                <div class="col-md-2 offset-md-10" style="text-align: right;">
+                    <button (click)="InsertTdr()" class="form-btn w-100">{{'Button.save'|translate}}</button>
+                </div>
+            </div>
+
+
+            <div class="col-md-12 mx-auto mt-5">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>VESSEL NAME</th>
+                            <th>VOYAGE NO</th>
+                            <th>POL</th>
+                            <th>TERMINAL</th>
+                            <th>ETA</th>
+                            <th>POB BERTHING</th>
+                            <th>BERTHED</th>
+                            <th>OPERATION COMMMENCED</th>
+                            <th>POB SAILING</th>
+                            <th>SAILED</th>
+                            <th>ETD</th>
+                            <th>ETA NEXTPORT</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of tdrList; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{item.VESSEL_NAME}}</td>
+                            <td>{{item.VOYAGE_NO}}</td>
+                            <td>{{item.POL}}</td>
+                            <td>{{item.TERMINAL}}</td>
+                            <td>{{item.ETA}}</td>
+                            <td>{{item.POB_BERTHING}}</td>
+                            <td>{{item.BERTHED}}</td>
+                            <td>{{item.OPERATION_COMMENCED}}</td>
+                            <td>{{item.POB_SAILING}}</td>
+                            <td>{{item.SAILED}}</td>
+                            <td>{{item.ETD}}</td>
+                            <td>{{item.ETA_NEXTPORT}}</td>
+                            <td>
+                                <i class="fa fa-pencil mx-2 pointer text-success"></i>
+                                <i class="fa fa-trash ms-2 pointer text-danger"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        
