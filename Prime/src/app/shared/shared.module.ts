@@ -10,6 +10,7 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 import { PmSidebarComponent } from './pm-sidebar/pm-sidebar.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { PmLayoutModule } from '../layout/pm-layout/pm-layout.module';
+import { DataTablesModule } from 'angular-datatables';
 
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
@@ -23,7 +24,7 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     CanvasJSChart,
     PmSidebarComponent,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, DataTablesModule],
   exports: [
     HeaderComponent,
     FooterComponent,
