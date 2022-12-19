@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 import { CmService } from 'src/app/services/cm.service';
 import { CommonService } from 'src/app/services/common.service';
 import { CroService } from 'src/app/services/cro.service';
 import { ErService } from 'src/app/services/er.service';
-
+import { locale as english } from 'src/app/@core/translate/er/en';
+import { locale as hindi } from 'src/app/@core/translate/er/hi';
+import { locale as arabic } from 'src/app/@core/translate/er/ar';
 @Component({
   selector: 'app-new-er',
   templateUrl: './new-er.component.html',
@@ -41,7 +44,8 @@ export class NewErComponent implements OnInit {
     private _commonService:CommonService,
     private _cmService:CmService,
     private _croService: CroService,
-    private _router: Router) { }
+    private _coreTranslationService: CoreTranslationService,
+    private _router: Router) { this._coreTranslationService.translate(english,hindi,arabic);}
 
   ngOnInit(): void {
     this.currentLocation='Dammam';
