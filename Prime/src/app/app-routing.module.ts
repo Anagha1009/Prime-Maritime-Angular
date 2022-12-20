@@ -50,6 +50,7 @@ import { PmQuotationDetailsComponent } from './pm-modules/pm-quotation-details/p
 import { NewTrackComponent } from './modules/new-track/new-track.component';
 import { SrrCalculatorComponent } from './pm-modules/srr-calculator/srr-calculator.component';
 import { TdrComponent } from './modules/tdr/tdr.component';
+import { ErListComponent } from './modules/er-list/er-list.component';
 
 const routes: Routes = [
   {
@@ -121,6 +122,10 @@ const routes: Routes = [
       {
         path: 'new-er',
         component: NewErComponent,
+      },
+      {
+        path: 'er-list',
+        component: ErListComponent,
       },
       {
         path: 'new-do',

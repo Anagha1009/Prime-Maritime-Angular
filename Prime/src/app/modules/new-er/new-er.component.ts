@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
@@ -38,6 +38,8 @@ export class NewErComponent implements OnInit {
   containerDropdownList: any[] = [];
   selectedItems: any[] = [];
   dropdownSettings = {};
+  @ViewChild('openBtn') openBtn: ElementRef;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(private _formBuilder: FormBuilder,
     private _erService: ErService,
