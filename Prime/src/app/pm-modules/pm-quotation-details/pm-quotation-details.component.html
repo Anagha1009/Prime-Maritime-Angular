@@ -42,7 +42,7 @@
                     <div class="col-md-4">
                         <label class="label-header">Status</label>
                         <label><span style="font-size: 10px;"
-                                [class]="quotationDetails?.STATUS == 'Approved' ? 'badge rounded-pill bg-success me-2' : 'badge rounded-pill bg-secondary me-2'">{{quotationDetails?.STATUS}}</span></label>
+                                [class]="quotationDetails?.STATUS == 'Approved' ? 'badge rounded-pill bg-success me-2' : quotationDetails?.STATUS == 'Requested' ? 'badge rounded-pill bg-warning me-2': quotationDetails?.STATUS == 'Countered' ? 'badge rounded-pill bg-info me-2' : 'badge rounded-pill bg-danger me-2'">{{quotationDetails?.STATUS}}</span></label>
                     </div>
                 </div>
             </div>
@@ -58,9 +58,12 @@
             <div class="row">
                 <div class="col-md-10">
                     <h6>
-                        Container : <small class="text-danger me-2">{{item1.CONTAINERS}}</small>
-                        Service Mode : <small class="text-danger me-2">{{item1.SERVICE_MODE}}</small>
-                        Status : <small class="text-danger me-2">{{item1.STATUS}}</small>
+                        Container : <small class="text-dark me-2">{{item1.CONTAINERS}}</small>
+                        Service Mode : <small class="text-dark me-2">{{item1.SERVICE_MODE}}</small>
+                        Status : <small
+                            [class]="item1.STATUS == 'Requested' ? 'text-warning me-2' : item1.STATUS == 'Approved' ? 'text-success me-2':  item1.STATUS == 'Rejected' ? 'text-danger me-2': 'text-info me-2'">
+                            {{item1.STATUS == 'Approved' ? item1.STATUS + ' by ' + item1.CREATED_BY :
+                            item1.STATUS}}</small>
                     </h6>
                 </div>
             </div>
@@ -73,13 +76,13 @@
                         <label class="label-header">Payment</label>
                     </div>
                     <div class="col-md-2">
-                        <label class="label-header">Standard Rate</label>
+                        <label class="label-header">Standard</label>
                     </div>
                     <div class="col-md-2">
-                        <label class="label-header">Requested Rate</label>
+                        <label class="label-header">Requested</label>
                     </div>
                     <div class="col-md-2">
-                        <label class="label-header">Counter Rate</label>
+                        <label class="label-header">Countered</label>
                     </div>
                     <div class="col-md-2">
                         <label class="label-header">Remarks</label>
@@ -102,20 +105,28 @@
                                 {{item.value.CURRENCY}}</label>
                         </div>
                         <div class="col-md-2 mt-1">
-                            <input class="form-control3" formControlName="APPROVED_RATE" type="text" />
+                            <input *ngIf="item1.STATUS == 'Requested'" class="form-control3"
+                                formControlName="APPROVED_RATE" type="text" />
+                            <label *ngIf="item1.STATUS != 'Requested'"
+                                class="label-subheader">{{item.value.APPROVED_RATE}}</label>
                         </div>
                         <div class="col-md-2 mt-1">
-                            <textarea class="form-control3" formControlName="REMARKS" type="text"></textarea>
+                            <textarea *ngIf="item1.STATUS == 'Requested'" class="form-control3"
+                                formControlName="REMARKS" type="text"></textarea>
+                            <label *ngIf="item1.STATUS != 'Requested'"
+                                class="label-subheader">{{item.value.REMARKS}}</label>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row mt-2" *ngIf="item1.STATUS == 'Requested'">
-                <div class="col-md-6 offset-md-6" style="text-align: right;">
+                <div class="col-md-6 offset-md-6 text-end">
                     <button type="button" (click)="updateRate(item1.CONTAINER_TYPE,'Approved')"
-                        class="form-btn-success me-2">Approve</button>
-                    <button type="button" class="form-btn-danger"
+                        class="form-btn-success btn-sm me-2">Approve</button>
+                    <button type="button" class="form-btn-danger btn-sm me-2"
                         (click)="updateRate(item1.CONTAINER_TYPE,'Rejected')">Reject</button>
+                    <button type="button" class="form-btn-info btn-sm"
+                        (click)="updateRate(item1.CONTAINER_TYPE,'Countered')">Counter</button>
                 </div>
             </div>
             <hr>

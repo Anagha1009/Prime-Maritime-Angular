@@ -49,9 +49,7 @@ export class NewQuotationComponent implements OnInit {
   portList: any[] = [];
   submitted3: boolean = false;
   isVoyageAdded: boolean = false;
-  isActive1: boolean = true;
-  isActive2: boolean = false;
-  isActive3: boolean = false;
+  isLoading: boolean = false;
   //Files
   isUploadedPOL: boolean = false;
   POLAcceptanceFile: string = '';
@@ -132,26 +130,28 @@ export class NewQuotationComponent implements OnInit {
   }
 
   onchangeTab(index: any) {
-    if (index == '2') {
-      if (this.quotationForm.invalid) {
-        alert('Please complete SRR Details');
-        this.tabs = '1';
-      } else {
-        this.tabs = index;
-      }
-    } else if (index == '3') {
-      if (this.quotationForm.invalid) {
-        alert('Please complete SRR Details');
-        this.tabs = '1';
-      } else if (this.commoditiesForm.invalid) {
-        alert('Please complete Commodity Details');
-        this.tabs = '2';
-      } else {
-        this.tabs = index;
-      }
-    } else {
-      this.tabs = index;
-    }
+    // if (index == '2') {
+    //   if (this.quotationForm.invalid) {
+    //     alert('Please complete SRR Details');
+    //     this.tabs = '1';
+    //   } else {
+    //     this.tabs = index;
+    //   }
+    // } else if (index == '3') {
+    //   if (this.quotationForm.invalid) {
+    //     alert('Please complete SRR Details');
+    //     this.tabs = '1';
+    //   } else if (this.commoditiesForm.invalid) {
+    //     alert('Please complete Commodity Details');
+    //     this.tabs = '2';
+    //   } else {
+    //     this.tabs = index;
+    //   }
+    // } else {
+    //   this.tabs = index;
+    // }
+
+    this.tabs = index;
   }
 
   // ON SAVE
@@ -233,7 +233,7 @@ export class NewQuotationComponent implements OnInit {
         RATE_REQUESTED: [''],
         PAYMENT_TERM: [''],
         TRANSPORT_TYPE: [''],
-        REMARKS: ['NULL'],
+        REMARKS: [''],
       })
     );
 
@@ -297,6 +297,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   saveContainer() {
+    this.isLoading = true;
     var POL = this.quotationForm.value.POL;
     var POD = this.quotationForm.value.POD;
     var SRRNO = this.getRandomNumber(POL, POD);
@@ -333,6 +334,7 @@ export class NewQuotationComponent implements OnInit {
           }
 
           if (this.isVesselVal) {
+            this.isLoading = true;
             this.slotDetailsForm
               .get('BOOKING_NO')
               ?.setValue(this.getRandomBookingNumber());
@@ -355,11 +357,13 @@ export class NewQuotationComponent implements OnInit {
               .booking(JSON.stringify(this.slotDetailsForm.value))
               .subscribe((res: any) => {
                 if (res.responseCode == 200) {
+                  this.isLoading = false;
                   alert('Your quotation has been submitted successfully !');
                   this._router.navigateByUrl('/home/quotation-list');
                 }
               });
           } else {
+            this.isLoading = false;
             alert('Your quotation has been submitted successfully !');
             this._router.navigateByUrl('/home/quotation-list');
           }
@@ -464,6 +468,7 @@ export class NewQuotationComponent implements OnInit {
       WIDTH: [''],
       HEIGHT: [''],
       WEIGHT: ['', Validators.required],
+      WEIGHT_UNIT: ['', Validators.required],
       COMMODITY_TYPE: ['', Validators.required],
       IMO_CLASS: ['', Validators.required],
       UN_NO: ['', Validators.required],

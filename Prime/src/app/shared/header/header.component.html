@@ -7,28 +7,29 @@
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li [class]="item.menuName == 'Finance' || item.menuName == 'Bookings' || item.menuName == 'Container Movement' || item.menuName == 'Operations' ? 'dropdown' : ''"
+                <li [class]="item.menuName == 'Finance' || item.menuName == 'Bookings'  || item.menuName == 'बुकिंग' || item.menuName == 'الحجوزات' || item.menuName == 'Container Movement' || item.menuName == 'कंटेनर मूवमेंट' || item.menuName == 'كونتينر موفمنة' || item.menuName == 'Operations' || item.menuName == 'संचालन' || item.menuName == 'عمليات' ? 'dropdown' : ''"
                     *ngFor="let item of menuList">
                     <a href="{{item.menuLink}}">{{item.menuName}}
-                        <i *ngIf="item.menuName == 'Finance' || item.menuName == 'Bookings' || item.menuName == 'Container Movement' || item.menuName == 'Operations'"
+                        <i *ngIf="item.menuName == 'Finance' || item.menuName == 'Bookings' || item.menuName == 'बुकिंग' || item.menuName == 'الحجوزات' || item.menuName == 'Container Movement' || item.menuName == 'कंटेनर मूवमेंट' || item.menuName == 'كونتينر موفمنة' || item.menuName == 'Operations' || item.menuName == 'संचालन' || item.menuName == 'عمليات'"
                             class="bi bi-chevron-down"></i>
                     </a>
-                    <ul *ngIf="item.menuName == 'Bookings'">
-                        <li><a href="home/booking-list">Booking List</a></li>
-                        <li><a href="home/split-booking">Rollover</a></li>
-                        <li><a href="home/er-list">Empty Repo Local</a></li>
+                    <ul *ngIf="item.menuName == 'Bookings' || item.menuName == 'बुकिंग' || item.menuName == 'الحجوزات'">
+                        <li><a href="home/booking-list">{{'Menu.bookingList'|translate}}</a></li>
+                        <li><a href="home/split-booking">{{'Menu.rollover'|translate}}</a></li>
+                        <li><a href="home/er-list">{{'Menu.emptyRepoLocal'|translate}}</a></li>
                     </ul>
-                    <ul *ngIf="item.menuName == 'Operations'">
-                        <li><a href="home/cro-list">CRO</a></li>
-                        <li><a href="home/new-bl">BL</a></li>
-                        <li><a href="home/do-list">DO</a></li>
-                        <li><a href="home/tdr">TDR</a></li>
-                        <li><a href="home/load-list">Load List</a></li>
+                    <ul *ngIf="item.menuName == 'Operations' || item.menuName == 'संचालन' || item.menuName == 'عمليات'">
+                        <li><a href="home/cro-list">{{'Menu.CRO'|translate}}</a></li>
+                        <li><a href="home/new-bl">{{'Menu.BL'|translate}}</a></li>
+                        <li><a href="home/do-list">{{'Menu.DO'|translate}}</a></li>
+                        <li><a href="home/tdr">{{'Menu.TDR'|translate}}</a></li>
+                        <li><a href="home/load-list">{{'Menu.loadList'|translate}}</a></li>
                     </ul>
-                    <ul *ngIf="item.menuName == 'Container Movement'">
-                        <li><a href="home/new-cm">Movement</a></li>
-                        <li><a href="home/new-track">Tracking</a></li>
-                        <li><a href="home/ct-list">History</a></li>
+                    <ul
+                        *ngIf="item.menuName == 'Container Movement' || item.menuName == 'कंटेनर मूवमेंट' || item.menuName == 'كونتينر موفمنة'">
+                        <li><a href="home/new-cm">{{'Menu.movement'|translate}}</a></li>
+                        <li><a href="home/new-track">{{'Menu.tracking'|translate}}</a></li>
+                        <li><a href="home/ct-list">{{'Menu.history'|translate}}</a></li>
                     </ul>
                     <ul *ngIf="item.menuName == 'Finance'">
                         <li><a href="#">TDR</a></li>

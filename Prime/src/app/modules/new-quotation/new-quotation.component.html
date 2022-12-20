@@ -349,13 +349,6 @@
                                     Commodity Type</div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-4 mb-4"
-                            *ngIf="commodityType == 'NORMAL'  || commodityType == 'HAZ'|| commodityType == 'SP'">
-                            <div class="form-group">
-                                <input type="text" class="form-control" />
-                                <label class="form-label">Weight</label>
-                            </div>
-                        </div> -->
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'FLEXIBAG'">
                             <div class="form-group">
                                 <input type="text" formControlName="FLASH_POINT"
@@ -391,13 +384,30 @@
                                 <label class="form-label-ddl">UOM <span class="text-danger"> *</span></label>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4" *ngIf="commodityType == 'NORMAL'">
+                        <div class="col-md-2 mb-4" *ngIf="commodityType == 'NORMAL'">
                             <div class="form-group">
-                                <input type="text" [ngClass]="{'invalid': submitted2 && f2.REMARKS.errors}"
-                                    formControlName="REMARKS" class="form-control" />
-                                <label class="form-label">Remarks <span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.REMARKS.errors" class="invalid-feedback">
-                                    Please enter Remarks
+                                <input type="text" formControlName="WEIGHT" maxlength="5"
+                                    (keypress)="numericOnly($event)"
+                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
+                                <label class="form-label">Weight <span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
+                                    Please enter Weight
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-4" *ngIf="commodityType == 'NORMAL'">
+                            <div class="form-group">
+                                <ng-select formControlName="WEIGHT_UNIT"
+                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT_UNIT.errors}">
+                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                    <ng-option value="KG">Kg</ng-option>
+                                    <ng-option value="MT">MT</ng-option>
+                                    <ng-option value="TN">Tons</ng-option>
+                                    <ng-option value="GL">Gallons</ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">Unit<span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.WEIGHT_UNIT.errors" class="invalid-feedback">
+                                    Please enter Weight Unit
                                 </div>
                             </div>
                         </div>
@@ -591,7 +601,8 @@
                             <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOD">
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{PODAcceptanceFile}}</span>
-                                    <button (click)="isUploadedPOD = false"><span class="bx bx-circle"></span></button>
+                                    <button (click)="isUploadedPOD = false"><span
+                                            class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -610,7 +621,7 @@
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{VslOpAcceptanceFile}}</span>
                                     <button (click)="isUploadedVslOp = false"><span
-                                            class="bx bx-circle"></span></button>
+                                            class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -628,7 +639,7 @@
                             <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedTS">
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{TSAcceptanceFile}}</span>
-                                    <button (click)="isUploadedTS = false"><span class="bx bx-circle"></span></button>
+                                    <button (click)="isUploadedTS = false"><span class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -649,7 +660,7 @@
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{ShpLOYAcceptanceFile}}</span>
                                     <button (click)="isUploadedShpLOY = false"><span
-                                            class="bx bx-circle"></span></button>
+                                            class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -668,7 +679,7 @@
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{VslOpApAcceptanceFile}}</span>
                                     <button (click)="isUploadedVslOpAp = false"><span
-                                            class="bx bx-circle"></span></button>
+                                            class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -689,7 +700,7 @@
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{VslOpAp2AcceptanceFile}}</span>
                                     <button (click)="isUploadedVslOpAp2 = false"><span
-                                            class="bx bx-circle"></span></button>
+                                            class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -707,7 +718,8 @@
                             <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedSur">
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{SurAcceptanceFile}}</span>
-                                    <button (click)="isUploadedSur = false"><span class="bx bx-circle"></span></button>
+                                    <button (click)="isUploadedSur = false"><span
+                                            class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -715,12 +727,11 @@
                     <div class="row" *ngIf="commodityType == 'NORMAL'">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="WEIGHT" maxlength="5"
-                                    (keypress)="numericOnly($event)"
-                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
-                                <label class="form-label">Weight <span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
-                                    Please enter Weight
+                                <input type="text" [ngClass]="{'invalid': submitted2 && f2.REMARKS.errors}"
+                                    formControlName="REMARKS" class="form-control" />
+                                <label class="form-label">Remarks <span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.REMARKS.errors" class="invalid-feedback">
+                                    Please enter Remarks
                                 </div>
                             </div>
                         </div>
@@ -1030,7 +1041,8 @@
                     </div>
                     <div class="row" *ngIf="isContainer">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="saveContainer()" class="form-btn w-100">Submit</button>
+                            <button [disabled]="isLoading" (click)="saveContainer()" class="form-btn w-100">Submit <span
+                                    *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
                         </div>
                     </div>
                 </div>
