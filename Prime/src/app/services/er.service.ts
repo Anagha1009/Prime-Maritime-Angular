@@ -25,22 +25,39 @@ export class ErService {
     );
   }
 
-  getERList(ER: any) {
+  getERList(agentCode:any,depoCode:any) {
     return this._http.get<any>(
       this.BASE_URL +
         'ER/GetERList?AGENT_CODE=' +
-        ER.AGENT_CODE,
+        agentCode+
+        '&DEPO_CODE='+
+        depoCode,
       this.httpOptions
     );
   }
 
-  getERDetails(ER: any) {
+  getERDetails(erNo:any,agentCode:any,depoCode:any) {
     return this._http.get<any>(
       this.BASE_URL +
-        'ER/GetERDetails?ER_NO=' +
-        ER.DO_NO+
+        'ER/GetERDetails?REPO_NO=' +
+        erNo+
         '&AGENT_CODE='+
-        ER.AGENT_CODE,
+        agentCode+
+        '&DEPO_CODE='+
+        depoCode,
+      this.httpOptions
+    );
+  }
+
+  getERContainerDetails(erNo:any,agentCode:any,depoCode:any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'ER/GetERContainerDetails?REPO_NO=' +
+        erNo+
+        '&AGENT_CODE='+
+        agentCode+
+        '&DEPO_CODE='+
+        depoCode,
       this.httpOptions
     );
   }

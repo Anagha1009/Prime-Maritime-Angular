@@ -232,12 +232,19 @@
                 </div>
                 <div class="col-md-12">
                     <div class="row">
-                        <tbody>
-                            <tr *ngFor="let img of imgList">
-                                <td><img [src]="img" alt="picture" style="width:60px; height:60px;"></td>
-                            </tr>
-                        </tbody>
+                        <div class="col-md-3" *ngFor="let img of imgList">
+                            <div class="formbold-file-list formbold-mb-5">
+                                <div class="formbold-file-item">
+                                     <span class="formbold-file-name" *ngIf="img.filE_NAME.split('_')[1].length<=15">{{img.filE_NAME.split('_')[1]}}</span>
+                                     <span class="formbold-file-name" *ngIf="img.filE_NAME.split('_')[1].length>15">{{img.filE_NAME.split('_')[1].substring(0,7)}}...{{img.filE_NAME.split('_')[1].split('.')[1]}}</span>
+                                     <button><span
+                                      class="bx bx-x-circle"></span></button>
+                                </div>
+                           </div>
+                        </div>
+
                     </div>
+                    
                 </div>
             </div>
             <div class="modal-footer">

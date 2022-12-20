@@ -1,0 +1,185 @@
+<div class="section-title">
+    <h2>Empty Repo</h2>
+</div>
+
+<div class="container">
+    <form class="mx-5" [formGroup]="erListForm">
+        <div class="col-md-6 offset-md-6 text-end">
+            <button class="form-btn-primary" routerLink="/home/new-er">New Empty Repo</button>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label2">Repo No</label>
+                    <input formControlName="DO_NO" type="text" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">From Date</label>
+                    <input formControlName="FROM_DATE" type="date" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">To Date</label>
+                    <input formControlName="TO_DATE" type="date" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-3 mt-4">
+                <button class="form-btn me-2" (click)="Search()">Search</button>
+                <button class="form-btn" (click)="Clear()">Clear</button>
+            </div>
+        </div>
+    </form>
+    <section class="services" *ngIf="previewNoData">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-7 text-end">
+                    <h5>Sorry! No records found</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-5 mt-3 pt-5 mb-5">
+                    <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" *ngIf="previewList">
+        <div class="container">
+            <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
+                <div [class]="isScroll ? 'force-overflow' : ''">
+                    <div class="icon-box icon-box-cyan text-start" *ngFor="let item of erList; let i = index">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <h4 class="title"><a (click)="getERDetails(item.REPO_NO)">{{item.REPO_NO}} - </a>
+                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Truck'"><img  src="/assets/img/delivery.png"></span>
+                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Rail'"><img  src="/assets/img/train.png"></span>
+                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Vessel'"><img  src="/assets/img/cruise.png"></span>
+                                </h4>
+                                <p class="description" *ngIf="item.MODE_OF_TRANSPORT!='Vessel'"><img src="/assets/img/warehouse.png" height="13px" width="13px"> {{item.LOAD_DEPOT}} <i
+                                    class='bx bxs-right-arrow-circle mx-2'></i> <img src="/assets/img/warehouse.png" height="13px" width="13px">
+                                    {{item.DISCHARGE_DEPOT}} </p>
+
+                                <p class="description" *ngIf="item.MODE_OF_TRANSPORT=='Vessel'"><img src="/assets/img/warehouse.png" height="13px" width="13px"> {{item.LOAD_DEPOT}} <i
+                                    class='bx bxs-right-arrow-circle mx-2'></i> <span class="bx bxs-ship me-2"> </span>{{item.LOAD_PORT}}
+                                    <i class='bx bxs-right-arrow-circle mx-2'></i> <span class="bx bxs-ship me-2"> </span>{{item.DISCHARGE_PORT}} 
+                                    <i class='bx bxs-right-arrow-circle mx-2'></i> <img src="/assets/img/warehouse.png" height="13px" width="13px"> {{item.DISCHARGE_DEPOT}}
+                                </p>
+                                <p class="description"><i class='bx bx-time-five'></i> <span class="text-info">
+                                        Movement Date: {{item.MOVEMENT_DATE | date:'mediumDate'}}
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-md-2 text-end" *ngIf="!item.CRO_NO">
+                                <button (click)="openBookingModal(item)" class="form-btn rounded-pill">CREATE
+                                    CRO</button>
+                                <button class="form-btn d-none" #openBtn data-bs-toggle="modal" href="#croModal">Book
+                                    Now</button>
+                    
+                            </div>
+                            <div class="col-md-2 text-end" *ngIf="item.CRO_NO">
+                                <a><img src="/assets/img/visibility.png" height="24px" width="24px"></a>
+                            </div>
+                            <!-- <div class="col-md-5 text-end">
+                                <span style="font-size: 15px;"
+                                    class="badge rounded-pill bg-success ms-3">{{item.BL_NO}}</span>
+                                <div class="description" style="font-size:large;color: purple;"> <span
+                                        class="bx bxs-ship"></span> {{item.ARRIVAL_DATE | date:'mediumDate'}}</div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal fade" id="croModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title w-100 text-center" id="exampleModalLabel">Create CRO</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+                
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="erCROForm">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-8 mx-auto">
+                                <div class="form-group">    
+                                    <label class="form-label2"> Repo No. <span class="text-danger">*</span></label>
+                                    <input type="text" [ngClass]="{'invalid':submitted1 && f1.REPO_NO.errors}" formControlName="REPO_NO"
+                                    class="form-control2" readonly>
+                                    <div *ngIf="submitted1 && f1.REPO_NO.errors" class="invalid-feedback">
+                                       Please Enter Repo No.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 mx-auto">
+                                <div class="form-group"> 
+                                    <label class="form-label2">Cont Pickup Point <span class="text-danger">*</span></label>
+                                    <select [ngClass]="{'invalid':submitted1 && f1.EMPTY_CONT_PCKP.errors}"  class="form-control2" formControlName="EMPTY_CONT_PCKP">
+                                        <option value="">--Select--</option>
+                                        <option value="ADTC-ADTC - Dammam">"ADTC-ADTC - Dammam"</option>
+                                        <option value="BCT-Bay Container Terminal">BCT-Bay Container Terminal</option>
+                                    </select>
+                                    <div *ngIf="submitted1 && f1.EMPTY_CONT_PCKP.errors" class="invalid-feedback">
+                                       Please Enter Pickup Point.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 mx-auto">
+                                <div class="form-group">    
+                                    <label class="form-label2"> CRO Validity Date <span class="text-danger">*</span></label>
+                                    <input formControlName="CRO_VALIDITY_DATE" type="date" class="form-control2" [ngClass]="{'invalid':submitted1 && f1.CRO_VALIDITY_DATE.errors}">
+                                    <div *ngIf="submitted1 && f1.CRO_VALIDITY_DATE.errors" class="invalid-feedback">
+                                       Please Enter CRO Validity Date
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 mx-auto">
+                                <div class="form-group"> 
+                                    <label class="form-label2"> Required Qty <span class="text-danger">*</span></label>
+                                    <input type="text" [ngClass]="{'invalid':submitted1 && f1.REQ_QUANTITY.errors}" formControlName="REQ_QUANTITY"
+                                    class="form-control2">
+                                    <div *ngIf="submitted1 && f1.REQ_QUANTITY.errors" class="invalid-feedback">
+                                       Please Enter Required Quantity
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+    
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6 text-end">
+                            <button class="form-btn w-50" (click)="cancelERCRO()">Clear</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="form-btn w-50" (click)="SaveCRO()">Save</button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
