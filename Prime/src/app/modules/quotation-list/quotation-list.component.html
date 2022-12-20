@@ -61,7 +61,7 @@
                         <div class="col-md-5">
                             <h4 class="title"><a (click)="getQuotationDetails(item.SRR_NO)">{{item.SRR_NO}}</a>
                                 <span style="font-size: 10px;"
-                                    [class]="item.STATUS == 'Approved' ? 'badge rounded-pill bg-success ms-3' : 'badge rounded-pill bg-secondary ms-3'">{{item.STATUS}}</span>
+                                    [class]="item.STATUS == 'Approved' ? 'badge rounded-pill bg-success ms-3' : item.STATUS == 'Countered' ? 'badge rounded-pill bg-info ms-3' : item.STATUS == 'Rejected' ? 'badge rounded-pill bg-danger ms-3' : 'badge rounded-pill bg-warning text-dark ms-3'">{{item.STATUS}}</span>
                             </h4>
                             <p class="description mb-2"><span class="bx bxs-ship me-2"></span>{{item.POL}} <i
                                     class='bx bxs-right-arrow-circle mx-2'></i>
@@ -69,9 +69,8 @@
                             </p>
                             <button class="form-btn-primary" style="font-size: 12px;"
                                 (click)="getSRRDetails(item,'container')">{{'Button.addMoreContainers'|translate}}</button>
-                            <button *ngIf="item.STATUS == 'Approved' && item.BOOKINGS == 0"
-                                (click)="getSRRDetails(item,'rate')" class="form-btn-danger ms-2"
-                                style="font-size: 12px;">{{'Button.counterOffer'|translate}}</button>
+                            <button (click)="getSRRDetails(item,'rate')" class="form-btn-danger ms-2"
+                                style="font-size: 12px;">{{'Button.rateDetails' |translate}}</button>
                             <a #rateModal class="d-none" data-bs-toggle="modal" href="#counterRateModal">Counter
                                 Offer</a>
                             <a #containerModal class="d-none" data-bs-toggle="modal" href="#containerModal">Add
@@ -289,7 +288,8 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Rate Details</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Rate Details : <small class="text-primary"
+                            style="font-size: 14px;">{{srrNo}}</small></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         #closeBtn2></button>
                 </div>
@@ -297,9 +297,12 @@
                     <div class="col-md-12" *ngFor="let item1 of containerList">
                         <div class="row">
                             <div class="col-md-6">
-                                <h6>Container : <small class="text-danger me-2">{{item1.CONTAINER_TYPE}} </small>
-                                    Service Mode : <small class="text-danger me-2">{{item1.SERVICE_MODE}}</small>
-                                    Status : <small class="text-danger">{{item1.STATUS}}</small>
+                                <h6>Container : <small class="text-dark me-2">{{item1.CONTAINER_TYPE}} </small>
+                                    Service Mode : <small class="text-dark me-2">{{item1.SERVICE_MODE}}</small>
+                                    Status : <small
+                                        [class]="item1.STATUS == 'Requested' ? 'text-warning me-2' : item1.STATUS == 'Approved' ? 'text-success me-2':  item1.STATUS == 'Rejected' ? 'text-danger me-2': 'text-info me-2'">
+                                        {{item1.STATUS == 'Approved' ? item1.STATUS + ' by ' + item1.CREATED_BY :
+                                        item1.STATUS}}</small>
                                 </h6>
                             </div>
                         </div>
@@ -312,16 +315,17 @@
                                     <label class="label-header">Payment</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="label-header">Standard Rate</label>
+                                    <label class="label-header">Standard</label>
                                 </div>
-                                <div class="col-md-2">
-                                    <label class="label-header">Counter Rate</label>
+                                <div class="col-md-2"
+                                    *ngIf="item1.STATUS == 'Countered'  || item1.STATUS == 'Approved'">
+                                    <label class="label-header">Countered</label>
                                 </div>
-                                <div class="col-md-2">
-                                    <label class="label-header">Requested Rate</label>
-                                </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2" *ngIf="item1.STATUS != 'Requested'">
                                     <label class="label-header">Remarks</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="label-header">Requested</label>
                                 </div>
                             </div>
                             <div *ngFor="let item of f3;let i = index" [formGroup]="f1(item)">
@@ -336,29 +340,39 @@
                                     <div class="col-md-2 mt-2">
                                         <label class="label-subheader">100 USD</label>
                                     </div>
-                                    <div class="col-md-2 mt-2">
-                                        <label class="label-subheader">{{item.value.APPROVED_RATE}}
+                                    <div class="col-md-2 mt-2"
+                                        *ngIf="item1.STATUS == 'Countered'  || item1.STATUS == 'Approved'">
+                                        <label
+                                            [class]="item.value.APPROVED_RATE > 0 ? 'text-success fw-bold label-subheader' : 'label-subheader'">{{item.value.APPROVED_RATE}}
                                             {{item.value.CURRENCY}}</label>
                                     </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input formControlName="RATE_REQUESTED" class="form-control3" type="text" />
+                                    <div class="col-md-2 mt-1" *ngIf="item1.STATUS != 'Requested'">
+                                        <label class="label-subheader">{{item.value.REMARKS == '' ? '-' :
+                                            item.value.REMARKS == null ? '-' : item.value.REMARKS }}</label>
                                     </div>
                                     <div class="col-md-2 mt-1">
-                                        <label class="label-subheader">{{item.value.REMARKS == '' ? '-' :
-                                            item.value.REMARKS }}</label>
+                                        <input *ngIf="item1.STATUS == 'Countered'" formControlName="RATE_REQUESTED"
+                                            class="form-control3" type="text" />
+                                        <label
+                                            [class]="item.value.APPROVED_RATE == 0 && item1.STATUS == 'Approved' ? 'text-success fw-bold label-subheader' : 'label-subheader'"
+                                            *ngIf="item1.STATUS != 'Countered'">{{item.value.RATE_REQUESTED}}
+                                            {{item.value.CURRENCY}}</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 offset-md-10" *ngIf="item1.STATUS == 'Approved'">
-                            <button type="button" (click)="counterRate(item1.CONTAINER_TYPE)"
-                                class="form-btn w-100">Counter</button>
+                        <div class="row mt-2" *ngIf="item1.STATUS == 'Countered'">
+                            <div class="col-md-6 offset-md-6 text-end">
+                                <button type="button" (click)="counterRate(item1.CONTAINER_TYPE,'Approved')"
+                                    class="form-btn-success btn-sm me-2">Approve</button>
+                                <button type="button" class="form-btn-danger btn-sm me-2"
+                                    (click)="counterRate(item1.CONTAINER_TYPE,'Rejected')">Reject</button>
+                                <button type="button" class="form-btn-info btn-sm"
+                                    (click)="counterRate(item1.CONTAINER_TYPE,'Countered')">Re-Counter</button>
+                            </div>
                         </div>
                         <hr>
                     </div>
-                </div>
-                <div class="modal-footer">
-
                 </div>
             </div>
         </div>

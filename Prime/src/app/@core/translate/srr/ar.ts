@@ -13,7 +13,7 @@ export const locale = {
       search: 'يبحث',
       clear: 'صافي',
       addMoreContainers: 'أضف المزيد من الحاويات',
-      counterOffer: 'عرض مضاد',
+      rateDetails: 'Rate Details',
       bookNow: 'احجز الآن',
     },
   },

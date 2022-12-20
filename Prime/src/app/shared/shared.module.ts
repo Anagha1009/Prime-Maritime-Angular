@@ -12,6 +12,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { PmLayoutModule } from '../layout/pm-layout/pm-layout.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
@@ -25,7 +26,13 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     CanvasJSChart,
     PmSidebarComponent,
   ],
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule.forRoot(),
+  ],
   exports: [
     HeaderComponent,
     FooterComponent,

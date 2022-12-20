@@ -13,7 +13,7 @@ export const locale = {
       search: 'Search',
       clear: 'Clear',
       addMoreContainers: 'Add More Containers',
-      counterOffer: 'Counter Offer',
+      rateDetails: 'Rate Details',
       bookNow: 'Book Now',
     },
   },
