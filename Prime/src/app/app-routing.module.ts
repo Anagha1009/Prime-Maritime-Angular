@@ -78,7 +78,7 @@ const routes: Routes = [
         component: PmMrRequestComponent,
       },
       {
-        path: 'quotation-details',
+        path: 'quotation-details/:SRR_NO',
         component: PmQuotationDetailsComponent,
       },
       {
@@ -256,9 +256,9 @@ const routes: Routes = [
         component: TestMapComponent,
       },
       {
-        path:'tdr',
-        component:TdrComponent,
-      }
+        path: 'tdr',
+        component: TdrComponent,
+      },
     ],
   },
 ];

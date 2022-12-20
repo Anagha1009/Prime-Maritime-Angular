@@ -25,7 +25,7 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     CanvasJSChart,
     PmSidebarComponent,
   ],
-  imports: [CommonModule, RouterModule,FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
   exports: [
     HeaderComponent,
     FooterComponent,

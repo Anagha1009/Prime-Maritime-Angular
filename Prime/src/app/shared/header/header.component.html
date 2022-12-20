@@ -22,11 +22,13 @@
                         <li><a href="home/cro-list">CRO</a></li>
                         <li><a href="home/new-bl">BL</a></li>
                         <li><a href="home/do-list">DO</a></li>
+                        <li><a href="home/tdr">TDR</a></li>
+                        <li><a href="home/load-list">Load List</a></li>
                     </ul>
                     <ul *ngIf="item.menuName == 'Container Movement'">
-                        <li><a href="/home/new-cm">Movement</a></li>
-                        <li><a href="/home/new-track">Tracking</a></li>
-                        <li><a href="/home/ct-list">History</a></li>
+                        <li><a href="home/new-cm">Movement</a></li>
+                        <li><a href="home/new-track">Tracking</a></li>
+                        <li><a href="home/ct-list">History</a></li>
                     </ul>
                     <ul *ngIf="item.menuName == 'Finance'">
                         <li><a href="#">TDR</a></li>
@@ -38,10 +40,14 @@
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
-        <select (change)="setLanguage($event.target.value)" name="" id="">
-            <option value="en">English</option>
-            <option value="hi">Hindi</option>
-        </select>
+        <div class="col-1">
+            <select class="form-control ddl" (change)="setLanguage($event.target.value)" name="" id="">
+                <option value="en">English </option>
+                <option value="hi">Hindi</option>
+                <option value="ar">Arabic</option>
+            </select>
+        </div>
+        <!-- <img src="../../../assets/img/united-kingdom.png" /> -->
         <span class="text-light">Hi User !<a (click)="logout()"><i title="logout" style="font-size: 20px"
                     class='ms-2 pointer bx bx-user-x'></i></a></span>
     </div>

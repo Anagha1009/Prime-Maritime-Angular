@@ -48,6 +48,7 @@ import { NewTrackComponent } from 'src/app/modules/new-track/new-track.component
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from 'src/app/helpers/jwt.interceptor';
 import { TranslateModule } from '@ngx-translate/core';
+import { TdrComponent } from 'src/app/modules/tdr/tdr.component';
 import { ErListComponent } from 'src/app/modules/er-list/er-list.component';
 
 @NgModule({
@@ -93,6 +94,7 @@ import { ErListComponent } from 'src/app/modules/er-list/er-list.component';
     NewTrackComponent,
     TrackBookingComponent,
     LoadListComponent,
+    TdrComponent,
   ],
   imports: [
     CommonModule,

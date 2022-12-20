@@ -7,6 +7,8 @@ import { CommonService } from 'src/app/services/common.service';
 import { QuotationService } from 'src/app/services/quotation.service';
 import { locale as english } from 'src/app/@core/translate/srr/en';
 import { locale as hindi } from 'src/app/@core/translate/srr/hi';
+import { locale as arabic } from 'src/app/@core/translate/srr/ar';
+import { AnyMxRecord } from 'dns';
 
 @Component({
   selector: 'app-quotation-list',
@@ -45,7 +47,7 @@ export class QuotationListComponent implements OnInit {
     private _commonService: CommonService,
     private _coreTranslationService: CoreTranslationService
   ) {
-    this._coreTranslationService.translate(english, hindi);
+    this._coreTranslationService.translate(english, hindi, arabic);
   }
 
   ngOnInit(): void {
@@ -214,6 +216,7 @@ export class QuotationListComponent implements OnInit {
             CONTAINER_SIZE: [element.CONTAINER_SIZE],
             SERVICE_MODE: [element.SERVICE_MODE],
             IMM_VOLUME_EXPECTED: [''],
+            STATUS: [element.STATUS],
             CREATED_BY: [localStorage.getItem('username')],
           })
         );
@@ -302,8 +305,6 @@ export class QuotationListComponent implements OnInit {
       .get('AGENT_CODE')
       ?.setValue(localStorage.getItem('usercode'));
 
-    console.log(JSON.stringify(this.slotDetailsForm.value));
-
     this.closeBtn.nativeElement.click();
 
     this._quotationService
@@ -364,7 +365,15 @@ export class QuotationListComponent implements OnInit {
     return true;
   }
 
-  counterRate() {
+  counterRate(item: any) {
+    var srrRates = this.rateForm.value.SRR_RATES.filter(
+      (x: any) => x.CONTAINER_TYPE === item
+    );
+
+    srrRates.forEach((element: any) => {
+      element.STATUS = 'Requested';
+    });
+
     this._quotationService
       .counterRate(this.rateForm.value.SRR_RATES)
       .subscribe((res: any) => {
