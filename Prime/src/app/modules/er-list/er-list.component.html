@@ -56,18 +56,18 @@
                         <div class="row">
                             <div class="col-md-10">
                                 <h4 class="title"><a (click)="getERDetails(item.REPO_NO)">{{item.REPO_NO}} - </a>
-                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Truck'"><img  src="/assets/img/delivery.png"></span>
-                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Rail'"><img  src="/assets/img/train.png"></span>
-                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Vessel'"><img  src="/assets/img/cruise.png"></span>
+                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Truck'"><img  src="assets/img/delivery.png"></span>
+                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Rail'"><img  src="assets/img/train.png"></span>
+                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Vessel'"><img  src="assets/img/cruise.png"></span>
                                 </h4>
-                                <p class="description" *ngIf="item.MODE_OF_TRANSPORT!='Vessel'"><img src="/assets/img/warehouse.png" height="13px" width="13px"> {{item.LOAD_DEPOT}} <i
-                                    class='bx bxs-right-arrow-circle mx-2'></i> <img src="/assets/img/warehouse.png" height="13px" width="13px">
+                                <p class="description" *ngIf="item.MODE_OF_TRANSPORT!='Vessel'"><img src="assets/img/warehouse.png" height="13px" width="13px"> {{item.LOAD_DEPOT}} <i
+                                    class='bx bxs-right-arrow-circle mx-2'></i> <img src="assets/img/warehouse.png" height="13px" width="13px">
                                     {{item.DISCHARGE_DEPOT}} </p>
 
-                                <p class="description" *ngIf="item.MODE_OF_TRANSPORT=='Vessel'"><img src="/assets/img/warehouse.png" height="13px" width="13px"> {{item.LOAD_DEPOT}} <i
+                                <p class="description" *ngIf="item.MODE_OF_TRANSPORT=='Vessel'"><img src="assets/img/warehouse.png" height="13px" width="13px"> {{item.LOAD_DEPOT}} <i
                                     class='bx bxs-right-arrow-circle mx-2'></i> <span class="bx bxs-ship me-2"> </span>{{item.LOAD_PORT}}
                                     <i class='bx bxs-right-arrow-circle mx-2'></i> <span class="bx bxs-ship me-2"> </span>{{item.DISCHARGE_PORT}} 
-                                    <i class='bx bxs-right-arrow-circle mx-2'></i> <img src="/assets/img/warehouse.png" height="13px" width="13px"> {{item.DISCHARGE_DEPOT}}
+                                    <i class='bx bxs-right-arrow-circle mx-2'></i> <img src="assets/img/warehouse.png" height="13px" width="13px"> {{item.DISCHARGE_DEPOT}}
                                 </p>
                                 <p class="description"><i class='bx bx-time-five'></i> <span class="text-info">
                                         Movement Date: {{item.MOVEMENT_DATE | date:'mediumDate'}}
@@ -82,14 +82,10 @@
                     
                             </div>
                             <div class="col-md-2 text-end" *ngIf="item.CRO_NO">
-                                <a><img src="/assets/img/visibility.png" height="24px" width="24px"></a>
+                                <button (click)="getERCRODetails(item.REPO_NO,item.CRO_NO,item.CRO_VALIDITY_DATE)" class="form-btn rounded-pill mb-2">View
+                                    PDF</button>
+                                <!-- <a (click)="getERCRODetails(item.REPO_NO,item.CRO_NO,item.CRO_VALIDITY_DATE)"><img src="/assets/img/visibility.png" height="24px" width="24px"></a> -->
                             </div>
-                            <!-- <div class="col-md-5 text-end">
-                                <span style="font-size: 15px;"
-                                    class="badge rounded-pill bg-success ms-3">{{item.BL_NO}}</span>
-                                <div class="description" style="font-size:large;color: purple;"> <span
-                                        class="bx bxs-ship"></span> {{item.ARRIVAL_DATE | date:'mediumDate'}}</div>
-                            </div> -->
                         </div>
                     </div>
                 </div>
