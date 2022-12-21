@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { COUNT } from 'src/app/models/count';
-import { CountService } from 'src/app/services/count.service';
-// import { ChartComponent } from '../pm-modules/chart/chart.component';
-import { data } from 'jquery';
-import {Chart,registerables} from 'node_modules/chart.js'
-Chart.register(...registerables);
+import { SrrReportService } from 'src/app/services/srr-report.service';
+
 
 @Component({
   selector: 'app-pm-landing',
@@ -20,92 +16,137 @@ Chart.register(...registerables);
   ],
 })
 export class PmLandingComponent implements OnInit {
-	countList: any[] = [];
-	
-  constructor(private service: CountService) {}
-  labeldata:any[]=[];
-  chartdata:any[]=[];
-  realdata:any[]=[];
-  colordata:any[]=[];
+
+  chartOptions1:any;
+
+  srrCountList: any[] = [];
+
+  constructor(
+    private _srrReportService: SrrReportService
+  ) { }
 
   ngOnInit(): void {
-    this.service.GetCount().subscribe(result=>{
-      this.chartdata=result;
-      if(this.chartdata!=null){
-        for(let i=0;i<this.chartdata.length;i++){
-          console.log(this.chartdata[i]);
-          this.labeldata.push(this.chartdata[i].year);
-          this.labeldata.push(this.chartdata[i].amount);
-          this.labeldata.push(this.chartdata[i].colorcode);
+    this.getSRRCountList();
 
-        }
-        this.RenderChart(this.labeldata,this.realdata,this.colordata,'pie','piechart');
+    this.getCharts()
+  }
+
+  getSRRCountList() {
+    this._srrReportService.getSRRCountList().subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        // this.srrCountList = res.Data;
+      //  debugger
+        // res.Data.forEach((element:any) => {
+        //   this.srrCountList.push({label:element.MONTH,y:element.TOTAL});
+        // });
+        this.srrCountList = [
+          { label: "Jan", y: 3.98 },
+          { label: "Feb", y: 1.11 },
+          { label: "Mar", y: 2.4 },
+          { label: "Apr", y: 3.63 },
+          { label: "May", y: 3.24 },
+          { label: "Jun", y: 3.08 },
+          { label: "Jul", y: 1.03 },
+          { label: "Aug", y: 1.14 },
+          { label: "Sep", y: 1.26 },
+          { label: "Oct", y: 1.36 },
+          { label: "Nov", y: 1.13 },
+          { label: "Dec", y: 1.79 }
+        ]  
       }
-    })
-  
-   }
+    });
 
-   RenderChart(labeldata:any,maindata:any,colordata:any,type:any,id:any,){
-    const myChart=new Chart(id,{
-      type:type,
-      data:{
-        labels:labeldata,
-        datasets:[{
-          label:'# of Votes',
-          data:maindata,
+  }
 
-          backgroundColor:colordata,
-          
-          borderColor:[
-            'rgba(255,99,132,0.2)'
-           
-          ],
-          borderWidth:1
-        }]
+  getCharts(){
+    this.chartOptions1 = {
+      animationEnabled: true,
+      title: {
+        text: "SRR Monthly Calculation"
       },
-      options:{
-        scales:{
-          y:{
-            beginAtZero:true
+      axisX: {
+        title: "Months"
+      },
+      axisY: {
+        title: "Count"
+      },
+      toolTip: {
+        shared: true
+      },
+      legend: {
+        cursor: "pointer",
+        itemclick: function (e: any) {
+          if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+            e.dataSeries.visible = false;
+          } else {
+            e.dataSeries.visible = true;
           }
+          e.chart.render();
         }
-      }
-    })
-  
-
-   }
-  // chartOptions = {
-	// animationEnabled: true,
-	// title: {
-	//   text: "Sales by Department"
-	// },
-	// data: [{
-	//   type: "pie",
-	//   startAngle: -90,
-	//   indexLabel: "{name}: {y}",
-	//   yValueFormatString: "#,###.##'%'",
-	//   dataPoints: [
-	// 	{ y: 5, name: "SRR" },
-	// 	{ y: 3, name: "BOOKING" },
-	// 	{ y: 2, name: "CRO" },
-		
-	//   ]
-	// }]
-	
-  // }	
-  
-
-  // GetCount() {
-  //   debugger
-  //   var pmModel = new COUNT();
-  //   pmModel.OPERATION='GET_COUNT';
-  //   this._countService.GetCount().subscribe((res: any) => {
-  //     debugger
-  //       if (res.ResponseCode == 200) {
-  //         this.countList = res.Data;
-
-  //       }
-		
-  //     });
-  // }
+      },
+      data: [{
+        type: "spline",
+        showInLegend: true,
+        name: "Total SRR",
+        dataPoints: this.getSRRCountList()
+      },
+      {
+        type: "spline",
+        showInLegend: true,
+        name: "SRR Approved",
+        dataPoints: [
+          { label: "Jan", y: 1.98 },
+          { label: "Feb", y: 2.11 },
+          { label: "Mar", y: 1.4 },
+          { label: "Apr", y: 0.63 },
+          { label: "May", y: 1.24 },
+          { label: "Jun", y: 1.08 },
+          { label: "Jul", y: 1.03 },
+          { label: "Aug", y: 1.14 },
+          { label: "Sep", y: 1.26 },
+          { label: "Oct", y: 1.36 },
+          { label: "Nov", y: 1.13 },
+          { label: "Dec", y: 1.79 }
+        ]
+      },
+      {
+        type: "spline",
+        showInLegend: true,
+        name: "SRR Requested",
+        dataPoints: [
+          { label: "Jan", y: 2.98 },
+          { label: "Feb", y: 3.11 },
+          { label: "Mar", y: 2.4 },
+          { label: "Apr", y: 0.63 },
+          { label: "May", y: 0.24 },
+          { label: "Jun", y: 0.08 },
+          { label: "Jul", y: 0.03 },
+          { label: "Aug", y: 0.14 },
+          { label: "Sep", y: 0.26 },
+          { label: "Oct", y: 0.36 },
+          { label: "Nov", y: 1.13 },
+          { label: "Dec", y: 1.79 }
+        ]
+      },
+      {
+        type: "spline",
+        showInLegend: true,
+        name: "SRR Rejected",
+        dataPoints: [
+          { label: "Jan", y: 5.24 },
+          { label: "Feb", y: 4.09 },
+          { label: "Mar", y: 3.92 },
+          { label: "Apr", y: 2.75 },
+          { label: "May", y: 2.03 },
+          { label: "Jun", y: 1.55 },
+          { label: "Jul", y: 0.93 },
+          { label: "Aug", y: 1.16 },
+          { label: "Sep", y: 1.61 },
+          { label: "Oct", y: 3.24 },
+          { label: "Nov", y: 5.67 },
+          { label: "Dec", y: 6.06 }
+        ]
+      }]
+    }
+  }
 }

@@ -23,15 +23,6 @@ export class PmSidebarComponent implements OnInit {
       // './../../../assets/pm-assets/js/dashboards-analytics.js',
       'https://buttons.github.io/buttons.js',
     ]);
-
-    // setTimeout(() => {
-    //   $('#datatableexample').DataTable({
-    //     pagingType: 'full_numbers',
-    //     pageLength: 5,
-    //     processing: true,
-    //     lengthMenu: [5, 10, 25],
-    //   });
-    // }, 1);
   }
 
   public loadJsFile(url: any[]) {

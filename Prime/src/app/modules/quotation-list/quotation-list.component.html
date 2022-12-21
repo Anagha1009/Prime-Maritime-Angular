@@ -45,9 +45,14 @@
         </div>
     </form>
     <section class="services">
-        <div *ngIf="expRecords > 0" class="col-md-5 offset-md-7 pe-md-3 text-end">
-            <img height="30" width="40" src="assets/img/alert.gif">
-            <small class="text-danger">{{expRecords}} Request(s) about to expire</small>
+        <div class="row">
+            <div class="col-md-7 ps-md-5">
+                <small>Total Records : {{this.quotationList?.length}}/ 50</small>
+            </div>
+            <div *ngIf="expRecords > 0" class="col-md-5 pe-md-3 text-end">
+                <img height="30" width="40" src="assets/img/alert.gif">
+                <small class="text-danger">{{expRecords}} Request(s) about to expire</small>
+            </div>
         </div>
         <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
             <div [class]="isScroll ? 'force-overflow' : ''">
@@ -56,23 +61,18 @@
                         <div class="col-md-5">
                             <h4 class="title"><a (click)="getQuotationDetails(item.SRR_NO)">{{item.SRR_NO}}</a>
                                 <span style="font-size: 10px;"
-                                    [class]="item.STATUS == 'Approved' ? 'badge rounded-pill bg-success ms-3' : 'badge rounded-pill bg-secondary ms-3'">{{item.STATUS}}</span>
+                                    [class]="item.STATUS == 'Approved' ? 'badge rounded-pill bg-success ms-3' : item.STATUS == 'Countered' ? 'badge rounded-pill bg-info ms-3' : item.STATUS == 'Rejected' ? 'badge rounded-pill bg-danger ms-3' : 'badge rounded-pill bg-warning text-dark ms-3'">{{item.STATUS}}</span>
                             </h4>
                             <p class="description mb-2"><span class="bx bxs-ship me-2"></span>{{item.POL}} <i
                                     class='bx bxs-right-arrow-circle mx-2'></i>
                                 <span class="bx bxs-ship me-2"></span>{{item.POD}}
                             </p>
                             <button class="form-btn-primary" style="font-size: 12px;"
-                                (click)="getSRRDetails(item,'container')">Add
-                                More
-                                Containers</button>
-                            <button *ngIf="item.STATUS == 'Approved' && item.BOOKINGS == 0"
-                                (click)="getSRRDetails(item,'rate')" class="form-btn-danger ms-2"
-                                style="font-size: 12px;">Counter
-                                Offer</button>
-                            <a #rateModal class="d-none" data-bs-toggle="modal" href="#counterRateModal">Add
-                                More
-                                Containers</a>
+                                (click)="getSRRDetails(item,'container')">{{'Button.addMoreContainers'|translate}}</button>
+                            <button (click)="getSRRDetails(item,'rate')" class="form-btn-danger ms-2"
+                                style="font-size: 12px;">{{'Button.rateDetails' |translate}}</button>
+                            <a #rateModal class="d-none" data-bs-toggle="modal" href="#counterRateModal">Counter
+                                Offer</a>
                             <a #containerModal class="d-none" data-bs-toggle="modal" href="#containerModal">Add
                                 More
                                 Containers</a>
@@ -105,8 +105,8 @@
                             </p>
                         </div>
                         <div class="col-md-2 text-end" *ngIf="item.STATUS == 'Approved'">
-                            <button (click)="openBookingModal(i)" class="form-btn rounded-pill">Book
-                                Now</button>
+                            <button (click)="openBookingModal(i)"
+                                class="form-btn rounded-pill">{{'Button.bookNow'|translate}}</button>
                             <button class="form-btn d-none" #openBtn data-bs-toggle="modal" href="#bookingModal">Book
                                 Now</button>
                             <h6 *ngIf="item.BOOKINGS > 0" class="pe-2 mt-2">{{item.BOOKINGS}} Booking(s)</h6>
@@ -265,8 +265,7 @@
                     <div class="row description" *ngFor="let item of f2;let i = index" [formGroup]="f1(item)">
                         <div class="col-md-4 mt-2">
                             <label class="label-header">Container</label>
-                            <label class="label-subheader">{{containerList[i].CONTAINER_TYPE}} -
-                                {{containerList[i].CONTAINER_SIZE}}</label>
+                            <label class="label-subheader">{{containerList[i].CONTAINER_TYPE}}</label>
                         </div>
                         <div class="col-md-4 mt-2">
                             <label class="label-header">Service Mode</label>
@@ -289,7 +288,8 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Rate Details</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Rate Details : <small class="text-primary"
+                            style="font-size: 14px;">{{srrNo}}</small></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         #closeBtn2></button>
                 </div>
@@ -297,10 +297,12 @@
                     <div class="col-md-12" *ngFor="let item1 of containerList">
                         <div class="row">
                             <div class="col-md-6">
-                                <h6>Container : <small class="text-danger me-2">{{item1.CONTAINER_TYPE}}
-                                        -
-                                        {{item1.CONTAINER_SIZE}} </small>
-                                    Service Mode : <small class="text-danger">{{item1.SERVICE_MODE}}</small>
+                                <h6>Container : <small class="text-dark me-2">{{item1.CONTAINER_TYPE}} </small>
+                                    Service Mode : <small class="text-dark me-2">{{item1.SERVICE_MODE}}</small>
+                                    Status : <small
+                                        [class]="item1.STATUS == 'Requested' ? 'text-warning me-2' : item1.STATUS == 'Approved' ? 'text-success me-2':  item1.STATUS == 'Rejected' ? 'text-danger me-2': 'text-info me-2'">
+                                        {{item1.STATUS == 'Approved' ? item1.STATUS + ' by ' + item1.CREATED_BY :
+                                        item1.STATUS}}</small>
                                 </h6>
                             </div>
                         </div>
@@ -310,22 +312,20 @@
                                     <label class="label-header">Charge Code</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="label-header">Standard Rate</label>
-                                </div>
-                                <div class="col-md-2">
                                     <label class="label-header">Payment</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="label-header">Place of Payment</label>
+                                    <label class="label-header">Standard</label>
                                 </div>
-                                <!-- <div class="col-md-2">
-                                    <label class="label-header">Requested Rate</label>
-                                </div> -->
-                                <div class="col-md-2">
-                                    <label class="label-header">Approved Rate</label>
+                                <div class="col-md-2"
+                                    *ngIf="item1.STATUS == 'Countered'  || item1.STATUS == 'Approved'">
+                                    <label class="label-header">Countered</label>
+                                </div>
+                                <div class="col-md-2" *ngIf="item1.STATUS != 'Requested'">
+                                    <label class="label-header">Remarks</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="label-header">Counter Rate</label>
+                                    <label class="label-header">Requested</label>
                                 </div>
                             </div>
                             <div *ngFor="let item of f3;let i = index" [formGroup]="f1(item)">
@@ -334,34 +334,45 @@
                                         <label class="label-subheader">{{item.value.CHARGE_CODE}}</label>
                                     </div>
                                     <div class="col-md-2 mt-2">
+                                        <label class="label-subheader">{{item.value.PAYMENT_TERM}} -
+                                            {{item.value.TRANSPORT_TYPE}}</label>
+                                    </div>
+                                    <div class="col-md-2 mt-2">
                                         <label class="label-subheader">100 USD</label>
                                     </div>
-                                    <div class="col-md-2 mt-2">
-                                        <label class="label-subheader">{{item.value.PAYMENT_TERM}}</label>
-                                    </div>
-                                    <div class="col-md-2 mt-2">
-                                        <label class="label-subheader">{{item.value.TRANSPORT_TYPE}}</label>
-                                    </div>
-                                    <!-- <div class="col-md-2 mt-2">
-                                        <label class="label-subheader">{{item.value.RATE_REQUESTED}}
+                                    <div class="col-md-2 mt-2"
+                                        *ngIf="item1.STATUS == 'Countered'  || item1.STATUS == 'Approved'">
+                                        <label
+                                            [class]="item.value.APPROVED_RATE > 0 ? 'text-success fw-bold label-subheader' : 'label-subheader'">{{item.value.APPROVED_RATE}}
                                             {{item.value.CURRENCY}}</label>
-                                    </div> -->
-                                    <div class="col-md-2 mt-2">
-                                        <label class="label-subheader">{{item.value.APPROVED_RATE}}
-                                            {{item.value.CURRENCY}}</label>
+                                    </div>
+                                    <div class="col-md-2 mt-1" *ngIf="item1.STATUS != 'Requested'">
+                                        <label class="label-subheader">{{item.value.REMARKS == '' ? '-' :
+                                            item.value.REMARKS == null ? '-' : item.value.REMARKS }}</label>
                                     </div>
                                     <div class="col-md-2 mt-1">
-                                        <input formControlName="RATE_REQUESTED" class="form-control3" type="text" />
+                                        <input *ngIf="item1.STATUS == 'Countered'" formControlName="RATE_REQUESTED"
+                                            class="form-control3" type="text" />
+                                        <label
+                                            [class]="item.value.APPROVED_RATE == 0 && item1.STATUS == 'Approved' ? 'text-success fw-bold label-subheader' : 'label-subheader'"
+                                            *ngIf="item1.STATUS != 'Countered'">{{item.value.RATE_REQUESTED}}
+                                            {{item.value.CURRENCY}}</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="row mt-2" *ngIf="item1.STATUS == 'Countered'">
+                            <div class="col-md-6 offset-md-6 text-end">
+                                <button type="button" (click)="counterRate(item1.CONTAINER_TYPE,'Approved')"
+                                    class="form-btn-success btn-sm me-2">Approve</button>
+                                <button type="button" class="form-btn-danger btn-sm me-2"
+                                    (click)="counterRate(item1.CONTAINER_TYPE,'Rejected')">Reject</button>
+                                <button type="button" class="form-btn-info btn-sm"
+                                    (click)="counterRate(item1.CONTAINER_TYPE,'Countered')">Re-Counter</button>
+                            </div>
+                        </div>
                         <hr>
                     </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" (click)="counterRate()" class="form-btn-primary me-2">Submit</button>
                 </div>
             </div>
         </div>

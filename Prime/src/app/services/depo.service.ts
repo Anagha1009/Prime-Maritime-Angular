@@ -80,7 +80,8 @@ export class DepoService {
   }
 
   GetFiles(mrNo: string) {
-    return this._http.get<any>(this.BASE_URL + 'Depo/GetImage?MR_NO=' + mrNo);
+    return this._http.get<any>(this.BASE_URL + 'Depo/GetImage?MR_NO=' + mrNo,
+    this.httpOptions);
   }
 
 }

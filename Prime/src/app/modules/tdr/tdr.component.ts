@@ -10,7 +10,7 @@ import * as xlsx from 'xlsx';
 @Component({
   selector: 'app-tdr',
   templateUrl: './tdr.component.html',
-  styleUrls: ['./tdr.component.scss']
+  styleUrls: ['./tdr.component.scss'],
 })
 export class TdrComponent implements OnInit {
   submitted: boolean = false;
@@ -24,45 +24,55 @@ export class TdrComponent implements OnInit {
   @ViewChild('epltable', { static: false }) epltable: ElementRef;
 
   
+  portList: any[] = [];
+
   constructor(
     private _tdrService: TdrService,
     private _formBuilder: FormBuilder,
     private _commonService: CommonService,
-    private _coreTranslationService: CoreTranslationService,
-   
-  ) {this._coreTranslationService.translate(english, hindi); }
+    private _coreTranslationService: CoreTranslationService
+  ) {
+    this._coreTranslationService.translate(english, hindi);
+  }
 
   ngOnInit(): void {
     this.tdrForm = this._formBuilder.group({
-      VESSEL_NAME: ['',Validators.required],
-      VOYAGE_NO: ['',Validators.required],
-      POL:['',Validators.required],
-      TERMINAL:['',Validators.required],
-      ETA:['',Validators.required],
-      POB_BERTHING:['',Validators.required],
-      BERTHED:['',Validators.required],
-      OPERATION_COMMMENCED:['',Validators.required],
-      POB_SAILING:['',Validators.required],
-      SAILED:['',Validators.required],
-      ETD:['',Validators.required],
-      ETA_NEXTPORT:['',Validators.required],
-      CREATED_BY:['']
+      VESSEL_NAME: ['', Validators.required],
+      VOYAGE_NO: ['', Validators.required],
+      POL: ['', Validators.required],
+      TERMINAL: ['', Validators.required],
+      ETA: ['', Validators.required],
+      POB_BERTHING: ['', Validators.required],
+      BERTHED: ['', Validators.required],
+      OPERATION_COMMMENCED: ['', Validators.required],
+      POB_SAILING: ['', Validators.required],
+      SAILED: ['', Validators.required],
+      ETD: ['', Validators.required],
+      ETA_NEXTPORT: ['', Validators.required],
+      CREATED_BY: [''],
     });
-  this.getDropdown();
-  this.GetTdrList();
+
+    this.getDropdown();
+    this.GetTdrList();
   }
 
-  get f(){
+  get f() {
     return this.tdrForm.controls;
   }
 
   getDropdown() {
-    debugger
+    this._commonService.getDropdownData('PORT').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.portList = res.Data;
+      }
+    });
+
     this._commonService.getDropdownData('VESSEL_NAME').subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.vesselList = res.Data;
       }
     });
+
     this._commonService
       .getDropdownData('SLOT_OPERATOR')
       .subscribe((res: any) => {
@@ -70,7 +80,7 @@ export class TdrComponent implements OnInit {
           this.slotoperatorList = res.Data;
         }
       });
-  } 
+  }
 
   getVoyageList(event: any) {
     this.tdrForm.get('VOYAGE_NO')?.setValue('');
@@ -130,16 +140,17 @@ export class TdrComponent implements OnInit {
   }
 
   InsertTdr() {
-    this.submitted=true
-    if(this.tdrForm.invalid){
-      return
+    this.submitted = true;
+    if (this.tdrForm.invalid) {
+      return;
     }
     this.tdrForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
-    this._tdrService.InsertTdr(JSON.stringify(this.tdrForm.value)).subscribe((res: any) => {
+    this._tdrService
+      .InsertTdr(JSON.stringify(this.tdrForm.value))
+      .subscribe((res: any) => {
         if (res.responseCode == 200) {
           alert('Your record has been submitted successfully !');
-          this.GetTdrList()
-          
+          this.GetTdrList();
         }
       });
   }
@@ -163,8 +174,4 @@ export class TdrComponent implements OnInit {
         }
       });
   }
-
-
-  
-
 }

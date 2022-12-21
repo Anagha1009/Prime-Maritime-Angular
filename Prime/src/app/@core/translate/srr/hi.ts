@@ -12,6 +12,9 @@ export const locale = {
       newRequest: 'नई दर अनुरोध',
       search: 'खोज',
       clear: 'साफ़',
+      addMoreContainers: 'अधिक कंटेनर जोड़ें',
+      rateDetails: 'Rate Details',
+      bookNow: 'बुक करें',
     },
   },
 };

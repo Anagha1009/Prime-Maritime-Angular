@@ -1,7 +1,6 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-// import { DataTablesModule } from 'angular-datatables';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,12 +17,10 @@ import { AgGridModule } from 'ag-grid-angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { TdrComponent } from './modules/tdr/tdr.component';
-// import { PmCmComponent } from './pm-modules/pm-cm/pm-cm.component';
-
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
-  declarations: [AppComponent, TdrComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -34,7 +31,7 @@ import { TdrComponent } from './modules/tdr/tdr.component';
     ReactiveFormsModule,
     SimpleNotificationsModule.forRoot(),
     TranslateModule.forRoot(),
-    // DataTablesModule,
+    DataTablesModule,
     HttpClientModule,
     NgSelectModule,
     NgMultiSelectDropDownModule,

@@ -4,7 +4,8 @@
         <div class="section-title pt-3">
             <h2>Rate Request Details</h2>
         </div>
-        <div class="row mt-5">
+        <a href="/pm/quotation-list"><i class='bx bx-arrow-back'></i>Back to List</a>
+        <div class="row mt-3">
             <div class="col-md-9">
                 <div class="row">
                     <div class="col-md-4">
@@ -29,363 +30,40 @@
                     </div>
                     <div class="col-md-4">
                         <label class="label-header">Rate Validity</label>
-                        <label class="label-subheader">{{quotationDetails?.EFFECT_FROM |
+                        <label *ngIf="!quotationDetails?.IS_VESSELVALIDITY"
+                            class="label-subheader">{{quotationDetails?.EFFECT_FROM |
                             date:'mediumDate'}} - {{quotationDetails?.EFFECT_TO |
                             date:'mediumDate'}}</label>
+                        <label *ngIf="quotationDetails?.IS_VESSELVALIDITY"
+                            class="label-subheader">{{quotationDetails?.CREATED_DATE |
+                            date:'mediumDate'}} - {{quotationDetails?.ETA |
+                            date:'mediumDate'}}</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="label-header">Status</label>
+                        <label><span style="font-size: 10px;"
+                                [class]="quotationDetails?.STATUS == 'Approved' ? 'badge rounded-pill bg-success me-2' : quotationDetails?.STATUS == 'Requested' ? 'badge rounded-pill bg-warning me-2': quotationDetails?.STATUS == 'Countered' ? 'badge rounded-pill bg-info me-2' : 'badge rounded-pill bg-danger me-2'">{{quotationDetails?.STATUS}}</span></label>
                     </div>
                 </div>
             </div>
             <div class="col-md-3 text-end">
-                <span style="font-size: 10px;"
-                    [class]="quotationDetails?.STATUS == 'Approved' ? 'badge rounded-pill bg-success me-2' : 'badge rounded-pill bg-secondary me-2'">{{quotationDetails?.STATUS}}</span>
+
                 <div class="rounded-btn mt-3 me-2">
                     <a href="/pm/srr-calculator" title="SRR Calculator"><i class="bx bxs-magic-wand text-light"></i></a>
                 </div>
             </div>
         </div>
         <hr>
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="form-label2">POL</label>
-                        <input class="form-control2" readonly value="QAHMD" />
-
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="form-label2">POD</label>
-                        <select class="form-control2">
-                            <option value="">--Select--</option>
-                            <option value="INMUN">INMUN</option>
-                            <option value="INIX1">INIX1</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-7 scrollbar" id="style-3">
-                    <div class="force-overflow">
-                        <p class="rate-header pointer" (click)="collapse1 = !collapse1">Freight Rates</p>
-                        <div [class]="collapse1 ? 'collapse' : 'collapse show'">
-                            <div style="font-size: 14px;">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <label class="label-header">Charge Code</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="label-header">Standard Rate</label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label class="label-header">Requested Rate</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">Gross Freight</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">100 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">Net Freight</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">160 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">BAF</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">200 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <h6>Total</h6>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <h6>100 USD</h6>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <h6>0 USD</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="rate-header pointer" (click)="collapse2 = !collapse2">POL Income Rates</p>
-                        <div [class]="collapse2 ? 'collapse' : 'collapse show'">
-                            <div style="font-size: 14px;">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <label class="label-header">Charge Code</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="label-header">Standard Rate</label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label class="label-header">Requested Rate</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">BL Fee</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">5 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">Seal Fees</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">6 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">Terminal Rebate</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">5 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">MUC</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">2 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">THC</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">120 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">Survey</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">2 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <h6>Total</h6>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <h6>301 USD</h6>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <h6>0 USD</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="rate-header pointer" (click)="collapse3 = !collapse3">POD Income Rates</p>
-                        <div [class]="collapse3 ? 'collapse' : 'collapse show'">
-                            <div style="font-size: 14px;">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <label class="label-header">Charge Code</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="label-header">Standard Rate</label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label class="label-header">Requested Rate</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">BL Fee</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">5 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">Seal Fees</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">6 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">Terminal Rebate</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">5 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">MUC</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">2 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">THC</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">120 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <label class="label-subheader">Survey</label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <label class="label-subheader">2 USD</label>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <input class="form-control3" type="text" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 mt-2">
-                                        <h6>Total</h6>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <h6>301 USD</h6>
-                                    </div>
-                                    <div class="col-md-2 mt-1">
-                                        <h6>0 USD</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-5 border-start">
-                    <div class="row">
-                        <div class="col-5">
-                            <h6>Total Income : </h6>
-                        </div>
-                        <div class="col-4">
-                            <h6 class="text-danger">1574</h6>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-5">
-                            <h6>Total Expense : </h6>
-                        </div>
-                        <div class="col-4">
-                            <h6 class="text-danger">1405</h6>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-5">
-                            <h6>PNL : </h6>
-                        </div>
-                        <div class="col-4">
-                            <h6 class="text-info">169</h6>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-5">
-                            <h6>Laden Back : </h6>
-                        </div>
-                        <div class="col-4">
-                            <h6 class="text-danger">-150</h6>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-5">
-                            <h6>PNL : </h6>
-                        </div>
-                        <div class="col-4">
-                            <h6 class="text-info">19</h6>
-                        </div>
-                    </div>
-
-                    <hr>
-                    <div class="row">
-                        <div class="col-5">
-                            <h6>Laden Empty : </h6>
-                        </div>
-                        <div class="col-4">
-                            <h6 class="text-danger">-200</h6>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-5">
-                            <h6>PNL : </h6>
-                        </div>
-                        <div class="col-4">
-                            <h6 class="text-info">-31</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr>
-        <div class="col-md-12 mt-3 mb-5" style="font-size: 14px" *ngFor="let item1 of quotationDetails?.SRR_CONTAINERS">
+        <div class="col-md-12" style="font-size: 14px" *ngFor="let item1 of quotationDetails?.SRR_CONTAINERS">
             <div class="row">
                 <div class="col-md-10">
                     <h6>
-                        Container : <small class="text-danger me-2">{{item1.CONTAINER_TYPE}} -
-                            {{item1.CONTAINER_SIZE}} </small>
-                        Service Mode : <small class="text-danger">{{item1.SERVICE_MODE}}</small>
+                        Container : <small class="text-dark me-2">{{item1.CONTAINERS}}</small>
+                        Service Mode : <small class="text-dark me-2">{{item1.SERVICE_MODE}}</small>
+                        Status : <small
+                            [class]="item1.STATUS == 'Requested' ? 'text-warning me-2' : item1.STATUS == 'Approved' ? 'text-success me-2':  item1.STATUS == 'Rejected' ? 'text-danger me-2': 'text-info me-2'">
+                            {{item1.STATUS == 'Approved' ? item1.STATUS + ' by ' + item1.CREATED_BY :
+                            item1.STATUS}}</small>
                     </h6>
                 </div>
             </div>
@@ -395,19 +73,19 @@
                         <label class="label-header">Charge Code</label>
                     </div>
                     <div class="col-md-2">
-                        <label class="label-header">Standard Rate</label>
+                        <label class="label-header">Payment</label>
                     </div>
                     <div class="col-md-2">
-                        <label class="label-header">Payment Term</label>
+                        <label class="label-header">Standard</label>
                     </div>
                     <div class="col-md-2">
-                        <label class="label-header">Place of Payment</label>
+                        <label class="label-header">Requested</label>
                     </div>
                     <div class="col-md-2">
-                        <label class="label-header">Requested Rate</label>
+                        <label class="label-header">Countered</label>
                     </div>
                     <div class="col-md-2">
-                        <label class="label-header">Approved Rate</label>
+                        <label class="label-header">Remarks</label>
                     </div>
                 </div>
                 <div *ngFor="let item of f1;let i = index" [formGroup]="f(item)">
@@ -416,29 +94,380 @@
                             <label class="label-subheader">{{item.value.CHARGE_CODE}}</label>
                         </div>
                         <div class="col-md-2 mt-2">
+                            <label class="label-subheader">{{item.value.PAYMENT_TERM}} -
+                                {{item.value.TRANSPORT_TYPE}}</label>
+                        </div>
+                        <div class="col-md-2 mt-2">
                             <label class="label-subheader">100 USD</label>
-                        </div>
-                        <div class="col-md-2 mt-2">
-                            <label class="label-subheader">{{item.value.PAYMENT_TERM}}</label>
-                        </div>
-                        <div class="col-md-2 mt-2">
-                            <label class="label-subheader">{{item.value.TRANSPORT_TYPE}}</label>
                         </div>
                         <div class="col-md-2 mt-2">
                             <label class="label-subheader">{{item.value.RATE_REQUESTED}}
                                 {{item.value.CURRENCY}}</label>
                         </div>
                         <div class="col-md-2 mt-1">
-                            <input class="form-control3" formControlName="APPROVED_RATE" type="text" />
+                            <input *ngIf="item1.STATUS == 'Requested'" class="form-control3"
+                                formControlName="APPROVED_RATE" type="text" />
+                            <label *ngIf="item1.STATUS != 'Requested'"
+                                class="label-subheader">{{item.value.APPROVED_RATE}}</label>
+                        </div>
+                        <div class="col-md-2 mt-1">
+                            <textarea *ngIf="item1.STATUS == 'Requested'" class="form-control3"
+                                formControlName="REMARKS" type="text"></textarea>
+                            <label *ngIf="item1.STATUS != 'Requested'"
+                                class="label-subheader">{{item.value.REMARKS}}</label>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="row mt-2" *ngIf="item1.STATUS == 'Requested'">
+                <div class="col-md-6 offset-md-6 text-end">
+                    <button type="button" (click)="updateRate(item1.CONTAINER_TYPE,'Approved')"
+                        class="form-btn-success btn-sm me-2">Approve</button>
+                    <button type="button" class="form-btn-danger btn-sm me-2"
+                        (click)="updateRate(item1.CONTAINER_TYPE,'Rejected')">Reject</button>
+                    <button type="button" class="form-btn-info btn-sm"
+                        (click)="updateRate(item1.CONTAINER_TYPE,'Countered')">Counter</button>
+                </div>
+            </div>
             <hr>
-            <div class="row mt-2">
-                <div class="col-md-6 offset-md-6" style="text-align: right;">
-                    <button type="button" class="form-btn-success me-2">Approve</button>
-                    <button type="button" class="form-btn-danger">Reject</button>
+        </div>
+        <div class="col-md-12 mt-3 mb-5">
+            <h6 class="pointer" (click)="srrcal = !srrcal">SRR Calculator
+                <i *ngIf="!srrcal" class='bx bxs-down-arrow'></i>
+                <i *ngIf="srrcal" class='bx bxs-up-arrow'></i>
+            </h6>
+            <div *ngIf="srrcal">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="form-label2">POL</label>
+                            <input class="form-control2" readonly value="QAHMD" />
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="form-label2">POD</label>
+                            <select class="form-control2">
+                                <option value="">--Select--</option>
+                                <option value="INMUN">INMUN</option>
+                                <option value="INIX1">INIX1</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7 scrollbar" id="style-3">
+                        <div class="force-overflow">
+                            <p class="rate-header pointer" (click)="collapse1 = !collapse1">Freight Rates</p>
+                            <div [class]="collapse1 ? 'collapse' : 'collapse show'">
+                                <div style="font-size: 14px;">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label class="label-header">Charge Code</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="label-header">Standard Rate</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="label-header">Requested Rate</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">Gross Freight</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">100 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">Net Freight</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">160 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">BAF</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">200 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <h6>Total</h6>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <h6>100 USD</h6>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <h6>0 USD</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="rate-header pointer" (click)="collapse2 = !collapse2">POL Income Rates</p>
+                            <div [class]="collapse2 ? 'collapse' : 'collapse show'">
+                                <div style="font-size: 14px;">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label class="label-header">Charge Code</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="label-header">Standard Rate</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="label-header">Requested Rate</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">BL Fee</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">5 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">Seal Fees</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">6 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">Terminal Rebate</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">5 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">MUC</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">2 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">THC</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">120 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">Survey</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">2 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <h6>Total</h6>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <h6>301 USD</h6>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <h6>0 USD</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="rate-header pointer" (click)="collapse3 = !collapse3">POD Income Rates</p>
+                            <div [class]="collapse3 ? 'collapse' : 'collapse show'">
+                                <div style="font-size: 14px;">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label class="label-header">Charge Code</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="label-header">Standard Rate</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="label-header">Requested Rate</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">BL Fee</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">5 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">Seal Fees</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">6 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">Terminal Rebate</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">5 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">MUC</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">2 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">THC</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">120 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <label class="label-subheader">Survey</label>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label class="label-subheader">2 USD</label>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <input class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mt-2">
+                                            <h6>Total</h6>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <h6>301 USD</h6>
+                                        </div>
+                                        <div class="col-md-2 mt-1">
+                                            <h6>0 USD</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 border-start">
+                        <div class="row">
+                            <div class="col-5">
+                                <h6>Total Income : </h6>
+                            </div>
+                            <div class="col-4">
+                                <h6 class="text-danger">1574</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <h6>Total Expense : </h6>
+                            </div>
+                            <div class="col-4">
+                                <h6 class="text-danger">1405</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <h6>PNL : </h6>
+                            </div>
+                            <div class="col-4">
+                                <h6 class="text-info">169</h6>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-5">
+                                <h6>Laden Back : </h6>
+                            </div>
+                            <div class="col-4">
+                                <h6 class="text-danger">-150</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <h6>PNL : </h6>
+                            </div>
+                            <div class="col-4">
+                                <h6 class="text-info">19</h6>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-5">
+                                <h6>Laden Empty : </h6>
+                            </div>
+                            <div class="col-4">
+                                <h6 class="text-danger">-200</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <h6>PNL : </h6>
+                            </div>
+                            <div class="col-4">
+                                <h6 class="text-info">-31</h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

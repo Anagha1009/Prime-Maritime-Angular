@@ -75,8 +75,9 @@ export class PmMrRequestComponent implements OnInit {
         this.MRModal.nativeElement.click();
       }
     });
-
+    console.log(MR_NO);
     this._depoService.GetFiles(MR_NO).subscribe((res: any) => {
+      debugger;
       if (res.responseCode == 200) {
         this.imgList = res.data;
         console.log("Images-" + this.imgList);
