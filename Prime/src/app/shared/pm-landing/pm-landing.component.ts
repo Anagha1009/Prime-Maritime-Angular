@@ -12,7 +12,7 @@ import { SrrReportService } from 'src/app/services/srr-report.service';
     // './../../../assets/pm-assets/css/demo.css',
     // './../../../assets/pm-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css',
     // './../../../assets/pm-assets/vendor/css/pages/page-auth.css',
-    // './../../../assets/css/style.css',
+     './../../../assets/css/style.css',
   ],
 })
 export class PmLandingComponent implements OnInit {
