@@ -8,7 +8,6 @@ import { QuotationService } from 'src/app/services/quotation.service';
 import { locale as english } from 'src/app/@core/translate/srr/en';
 import { locale as hindi } from 'src/app/@core/translate/srr/hi';
 import { locale as arabic } from 'src/app/@core/translate/srr/ar';
-import { AnyMxRecord } from 'dns';
 
 @Component({
   selector: 'app-quotation-list',
@@ -159,7 +158,7 @@ export class QuotationListComponent implements OnInit {
     this.quotation.FROMDATE = '';
     this.quotation.TODATE = '';
 
-    this.isLoading = false;
+    this.isLoading1 = true;
     this.getSRRList();
   }
 
