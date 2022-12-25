@@ -62,8 +62,8 @@
                         Service Mode : <small class="text-dark me-2">{{item1.SERVICE_MODE}}</small>
                         Status : <small
                             [class]="item1.STATUS == 'Requested' ? 'text-warning me-2' : item1.STATUS == 'Approved' ? 'text-success me-2':  item1.STATUS == 'Rejected' ? 'text-danger me-2': 'text-info me-2'">
-                            {{item1.STATUS == 'Approved' ? item1.STATUS + ' by ' + item1.CREATED_BY :
-                            item1.STATUS}}</small>
+                            {{item1.STATUS == 'Requested' ? item1.STATUS :
+                            item1.STATUS + ' by ' + item1.CREATED_BY}}</small>
                     </h6>
                 </div>
             </div>
@@ -105,21 +105,26 @@
                                 {{item.value.CURRENCY}}</label>
                         </div>
                         <div class="col-md-2 mt-1">
-                            <input *ngIf="item1.STATUS == 'Requested'" class="form-control3"
-                                formControlName="APPROVED_RATE" type="text" />
-                            <label *ngIf="item1.STATUS != 'Requested'"
+                            <input
+                                *ngIf="item1.STATUS == 'Requested' || (item1.STATUS == 'Countered' && item1.CREATED_BY == 'agent')"
+                                class="form-control3" formControlName="APPROVED_RATE" type="text" />
+                            <label
+                                *ngIf="item1.STATUS == 'Approved' || (item1.STATUS == 'Countered' && item1.CREATED_BY != 'agent')"
                                 class="label-subheader">{{item.value.APPROVED_RATE}}</label>
                         </div>
                         <div class="col-md-2 mt-1">
-                            <textarea *ngIf="item1.STATUS == 'Requested'" class="form-control3"
-                                formControlName="REMARKS" type="text"></textarea>
-                            <label *ngIf="item1.STATUS != 'Requested'"
+                            <textarea
+                                *ngIf="item1.STATUS == 'Requested' || (item1.STATUS == 'Countered' && item1.CREATED_BY == 'agent')"
+                                class="form-control3" formControlName="REMARKS" type="text"></textarea>
+                            <label
+                                *ngIf="item1.STATUS == 'Approved' || (item1.STATUS == 'Countered' && item1.CREATED_BY != 'agent')"
                                 class="label-subheader">{{item.value.REMARKS}}</label>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row mt-2" *ngIf="item1.STATUS == 'Requested'">
+            <div class="row mt-2"
+                *ngIf="item1.STATUS == 'Requested' || (item1.STATUS == 'Countered' && item1.CREATED_BY == 'agent')">
                 <div class="col-md-6 offset-md-6 text-end">
                     <button type="button" (click)="updateRate(item1.CONTAINER_TYPE,'Approved')"
                         class="form-btn-success btn-sm me-2">Approve</button>
