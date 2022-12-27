@@ -12,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
 import { locale as english } from 'src/app/@core/translate/cro/en';
 import { locale as hindi } from 'src/app/@core/translate/cro/hi';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
+import { Convert } from 'igniteui-angular-core';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -23,6 +24,7 @@ const pdfMake = require('pdfmake/build/pdfmake.js');
 })
 export class NewCroComponent implements OnInit {
   croForm: FormGroup;
+  totalContainer:any=0;
   submitted: boolean = false;
   bookingDetails: any;
   containerList: any[] = [];
@@ -78,26 +80,37 @@ export class NewCroComponent implements OnInit {
 
   SaveCRO() {
     this.submitted = true;
+    this.totalContainer=0;
     if (this.croForm.invalid) {
       return;
     }
+    this.containerList.forEach((element:any)=>{
+      this.totalContainer+=element.IMM_VOLUME_EXPECTED;
+    });
+    if(Convert.toInt32(this.croForm.get('REQ_QUANTITY')?.value)>this.totalContainer){
+      alert('Required Quantity should always be less or equal to the containers in the booking');
 
-    this.croForm.get('BOOKING_ID')?.setValue(this.bookingDetails.ID);
-    this.croForm.get('BOOKING_NO')?.setValue(this.bookingDetails.BOOKING_NO);
+    }
+    else{
+      this.croForm.get('BOOKING_ID')?.setValue(this.bookingDetails.ID);
+      this.croForm.get('BOOKING_NO')?.setValue(this.bookingDetails.BOOKING_NO);
 
-    this.croForm.get('CRO_NO')?.setValue(this.getRandomNumber());
-    this.croForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
-    this.croForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    this.croForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+      this.croForm.get('CRO_NO')?.setValue(this.getRandomNumber());
+      this.croForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
+      this.croForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
+      this.croForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
 
-    this._croService
-      .insertCRO(JSON.stringify(this.croForm.value))
-      .subscribe((res: any) => {
-        if (res.responseCode == 200) {
-          this.croNo = res.data;
-          this.openBtn.nativeElement.click();
-        }
-      });
+      this._croService
+        .insertCRO(JSON.stringify(this.croForm.value))
+        .subscribe((res: any) => {
+          if (res.responseCode == 200) {
+            this.croNo = res.data;
+            this.openBtn.nativeElement.click();
+          }
+        });
+      
+    }
+    
   }
 
   getRandomNumber() {
