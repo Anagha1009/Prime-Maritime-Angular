@@ -6,6 +6,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { CroService } from 'src/app/services/cro.service';
 import { ErService } from 'src/app/services/er.service';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { formatDate } from '@angular/common';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -177,7 +178,7 @@ export class ErListComponent implements OnInit {
   getERDetails(erNo:any){
     debugger;
     localStorage.setItem('ER_NO', erNo);
-    this._router.navigateByUrl('home/do-details');
+    this._router.navigateByUrl('home/er-details');
   }
 
   //generateCROpdf
@@ -322,8 +323,8 @@ export class ErListComponent implements OnInit {
                   margin: [0, 0, 0, 5],
                   fontSize: 10,
                 },
-                { text: this.erDetails?.MOVEMENT_DATE, margin: [0, 0, 0, 5], fontSize: 10 },
-                { text: CRO_VALIDITY_DATE, margin: [0, 0, 0, 5], fontSize: 10 },
+                { text: formatDate(this.erDetails?.MOVEMENT_DATE, 'yyyy-MM-dd', 'en'), margin: [0, 0, 0, 5], fontSize: 10 },
+                { text: formatDate(CRO_VALIDITY_DATE, 'yyyy-MM-dd', 'en'), margin: [0, 0, 0, 5], fontSize: 10 },
               ],
               [
                 {
@@ -529,8 +530,8 @@ export class ErListComponent implements OnInit {
                   margin: [0, 0, 0, 5],
                   fontSize: 10,
                 },
-                { text: this.erDetails?.MOVEMENT_DATE, margin: [0, 0, 0, 5], fontSize: 10 },
-                { text: CRO_VALIDITY_DATE, margin: [0, 0, 0, 5], fontSize: 10 },
+                { text: this.erDetails?.MOVEMENT_DATE.split('T')[0], margin: [0, 0, 0, 5], fontSize: 10 },
+                { text: CRO_VALIDITY_DATE.split('T')[0], margin: [0, 0, 0, 5], fontSize: 10 },
               ],
               [
                 {

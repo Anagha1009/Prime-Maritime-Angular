@@ -50,12 +50,14 @@ import { JwtInterceptor } from 'src/app/helpers/jwt.interceptor';
 import { TranslateModule } from '@ngx-translate/core';
 import { TdrComponent } from 'src/app/modules/tdr/tdr.component';
 import { ErListComponent } from 'src/app/modules/er-list/er-list.component';
+import { ErDetailsComponent } from 'src/app/modules/er-details/er-details.component';
 
 @NgModule({
   declarations: [
     MainLayoutComponent,
     QuotationListComponent,
     QuotationDetailsComponent,
+    ErDetailsComponent,
     NewQuotationComponent,
     BookingListComponent,
     NewCroComponent,
