@@ -349,13 +349,6 @@
                                     Commodity Type</div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-4 mb-4"
-                            *ngIf="commodityType == 'NORMAL'  || commodityType == 'HAZ'|| commodityType == 'SP'">
-                            <div class="form-group">
-                                <input type="text" class="form-control" />
-                                <label class="form-label">Weight</label>
-                            </div>
-                        </div> -->
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'FLEXIBAG'">
                             <div class="form-group">
                                 <input type="text" formControlName="FLASH_POINT"
@@ -368,36 +361,46 @@
                         </div>
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'HAZ'">
                             <div class="form-group">
-                                <input type="text" formControlName="IMO_CLASS"
-                                    [ngClass]="{'invalid': submitted2 && f2.IMO_CLASS.errors}" class="form-control" />
-                                <label class="form-label">IMO Class Name <span class="text-danger"> *</span></label>
+                                <ng-select formControlName="IMO_CLASS" (change)="onchangeIMO($event)"
+                                    [ngClass]="{'invalid': submitted2 && f2.IMO_CLASS.errors}">
+                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                    <ng-option *ngFor="let item of imoclassList"
+                                        value="{{item.CODE}}">{{item.CODE}}</ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">IMO Class Name <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.IMO_CLASS.errors" class="invalid-feedback">
                                     Please enter IMO Class Name
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 mb-4" *ngIf="commodityType == 'REEFER'">
+
+                        <div class="col-md-2 mb-4"
+                            *ngIf="commodityType == 'NORMAL' || commodityType == 'REEFER' || commodityType == 'SP'">
                             <div class="form-group">
-                                <input type="text" class="form-control" />
-                                <label class="form-label">Temperature <span class="text-danger"> *</span></label>
+                                <input type="text" formControlName="WEIGHT" maxlength="5"
+                                    (keypress)="numericOnly($event)"
+                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
+                                <label class="form-label">Weight (per container)<span class="text-danger">
+                                        *</span></label>
+                                <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
+                                    Please enter Weight
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-2 mb-4" *ngIf="commodityType == 'REEFER'">
+                        <div class="col-md-2 mb-4"
+                            *ngIf="commodityType == 'NORMAL' || commodityType == 'REEFER' || commodityType == 'SP'">
                             <div class="form-group">
-                                <ng-select>
-                                    <ng-option>--Select--</ng-option>
-                                    <ng-option>C</ng-option>
+                                <ng-select formControlName="WEIGHT_UNIT"
+                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT_UNIT.errors}">
+                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                    <ng-option value="KG">Kg</ng-option>
+                                    <ng-option value="MT">MT</ng-option>
+                                    <ng-option value="TN">Tons</ng-option>
+                                    <ng-option value="GL">Gallons</ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">UOM <span class="text-danger"> *</span></label>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-4" *ngIf="commodityType == 'NORMAL'">
-                            <div class="form-group">
-                                <input type="text" [ngClass]="{'invalid': submitted2 && f2.REMARKS.errors}"
-                                    formControlName="REMARKS" class="form-control" />
-                                <label class="form-label">Remarks <span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.REMARKS.errors" class="invalid-feedback">
-                                    Please enter Remarks
+                                <label class="form-label-ddl">Unit<span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.WEIGHT_UNIT.errors" class="invalid-feedback">
+                                    Please enter Weight Unit
                                 </div>
                             </div>
                         </div>
@@ -405,9 +408,13 @@
                     <div class="row" *ngIf="commodityType == 'HAZ'|| commodityType == 'SP'">
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'HAZ'">
                             <div class="form-group">
-                                <input type="text" formControlName="UN_NO"
-                                    [ngClass]="{'invalid': submitted2 && f2.UN_NO.errors}" class="form-control" />
-                                <label class="form-label">UN No <span class="text-danger"> *</span></label>
+                                <ng-select formControlName="UN_NO" (change)="onchangeUN($event)"
+                                    [ngClass]="{'invalid': submitted2 && f2.UN_NO.errors}">
+                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                    <ng-option *ngFor="let item of unnoList"
+                                        value="{{item.CODE}}">{{item.CODE}}</ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">UN No <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.UN_NO.errors" class="invalid-feedback">
                                     Please enter UN No
                                 </div>
@@ -424,47 +431,80 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4" *ngIf="commodityType == 'HAZ'">
+                        <div class="col-md-2 mb-4" *ngIf="commodityType == 'HAZ'">
                             <div class="form-group">
-                                <input type="text" [ngClass]="{'invalid': submitted2 && f2.REMARKS.errors}"
-                                    formControlName="REMARKS" class="form-control" />
-                                <label class="form-label">Remarks <span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.REMARKS.errors" class="invalid-feedback">
-                                    Please enter Remarks
+                                <input type="text" formControlName="WEIGHT" maxlength="5"
+                                    (keypress)="numericOnly($event)"
+                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
+                                <label class="form-label">Weight (per container)<span class="text-danger">
+                                        *</span></label>
+                                <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
+                                    Please enter Weight
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-4" *ngIf="commodityType == 'HAZ'">
+                            <div class="form-group">
+                                <ng-select formControlName="WEIGHT_UNIT"
+                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT_UNIT.errors}">
+                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                    <ng-option value="KG">Kg</ng-option>
+                                    <ng-option value="MT">MT</ng-option>
+                                    <ng-option value="TN">Tons</ng-option>
+                                    <ng-option value="GL">Gallons</ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">Unit<span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.WEIGHT_UNIT.errors" class="invalid-feedback">
+                                    Please enter Weight Unit
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-4 mb-4" *ngIf="commodityType == 'SP'">
+                        <div class="col-md-2 mb-4" *ngIf="commodityType == 'SP'">
                             <div class="form-group">
-                                <input type="text" formControlName="LENGTH" class="form-control" />
-                                <label class="form-label">Length <span class="text-danger"> *</span></label>
+                                <input type="text" [ngClass]="{'invalid': submitted2 && f2.LENGTH.errors}"
+                                    formControlName="LENGTH" class="form-control" />
+                                <label class="form-label">Length (cms)<span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.LENGTH.errors" class="invalid-feedback">
+                                    Please enter Length
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4" *ngIf="commodityType == 'SP'">
+                        <div class="col-md-2 mb-4" *ngIf="commodityType == 'SP'">
                             <div class="form-group">
-                                <input type="text" formControlName="WIDTH" class="form-control" />
-                                <label class="form-label">Width <span class="text-danger"> *</span></label>
+                                <input type="text" [ngClass]="{'invalid': submitted2 && f2.WIDTH.errors}"
+                                    formControlName="WIDTH" class="form-control" />
+                                <label class="form-label">Width (cms)<span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.WIDTH.errors" class="invalid-feedback">
+                                    Please enter Width
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4" *ngIf="commodityType == 'SP'">
+                        <div class="col-md-2 mb-4" *ngIf="commodityType == 'SP'">
                             <div class="form-group">
-                                <input type="text" formControlName="HEIGHT" class="form-control" />
-                                <label class="form-label">Height <span class="text-danger"> *</span></label>
+                                <input type="text" [ngClass]="{'invalid': submitted2 && f2.HEIGHT.errors}"
+                                    formControlName="HEIGHT" class="form-control" />
+                                <label class="form-label">Height (cms)<span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.HEIGHT.errors" class="invalid-feedback">
+                                    Please enter Height
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row" *ngIf="commodityType == 'HAZ'">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="WEIGHT" maxlength="5"
-                                    (keypress)="numericOnly($event)"
-                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
-                                <label class="form-label">Weight <span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
-                                    Please enter Weight
-                                </div>
+                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <label class="form-label">Remarks</label>
                             </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <label class="label-header">IMO Class </label><small
+                                class="text-danger ms-1">{{commoditiesForm.value.IMO_CLASS_NAME}}</small>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <label class="label-header">UN No (Hazardous Material)</label><small
+                                class="text-danger ms-1">{{commoditiesForm.value.UN_NO_NAME}}</small>
                         </div>
                     </div>
                     <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
@@ -478,80 +518,79 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-2 mb-4">
                             <div class="form-group">
-                                <input type="text" [ngClass]="{'invalid': submitted2 && f2.REMARKS.errors}"
-                                    formControlName="REMARKS" class="form-control" />
-                                <label class="form-label">Remarks <span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.REMARKS.errors" class="invalid-feedback">
-                                    Please enter Remarks
+                                <input type="text" formControlName="WEIGHT" maxlength="5"
+                                    (keypress)="numericOnly($event)"
+                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
+                                <label class="form-label">Weight (per container)<span class="text-danger">
+                                        *</span></label>
+                                <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
+                                    Please enter Weight
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-4">
+                            <div class="form-group">
+                                <ng-select formControlName="WEIGHT_UNIT"
+                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT_UNIT.errors}">
+                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                    <ng-option value="KG">Kg</ng-option>
+                                    <ng-option value="MT">MT</ng-option>
+                                    <ng-option value="TN">Tons</ng-option>
+                                    <ng-option value="GL">Gallons</ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">Unit<span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.WEIGHT_UNIT.errors" class="invalid-feedback">
+                                    Please enter Weight Unit
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="WEIGHT" maxlength="5"
-                                    (keypress)="numericOnly($event)"
-                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
-                                <label class="form-label">Weight <span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
-                                    Please enter Weight
-                                </div>
+                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <label class="form-label">Remarks</label>
                             </div>
                         </div>
                     </div>
                     <div class="row" *ngIf="commodityType == 'REEFER'">
                         <div class="col-md-2 mb-4">
                             <div class="form-group">
-                                <input type="text" class="form-control" />
-                                <label class="form-label">Ventilation <span class="text-danger"> *</span></label>
+                                <input type="text" formControlName="VENTILATION"
+                                    [ngClass]="{'invalid': submitted2 && f2.VENTILATION.errors}"
+                                    (keypress)="numericOnly($event)" class="form-control" />
+                                <label class="form-label">Ventilation (°C)<span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.VENTILATION.errors" class="invalid-feedback">
+                                    Please enter Ventilation
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-2 mb-4">
                             <div class="form-group">
-                                <ng-select>
-                                    <ng-option>--Select--</ng-option>
-                                    <ng-option>20</ng-option>
-                                </ng-select>
-                                <label class="form-label-ddl">UOM <span class="text-danger"> *</span></label>
+                                <input type="text" formControlName="HUMIDITY"
+                                    [ngClass]="{'invalid': submitted2 && f2.HUMIDITY.errors}"
+                                    (keypress)="numericOnly($event)" class="form-control" />
+                                <label class="form-label">Humidity (°C)<span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.HUMIDITY.errors" class="invalid-feedback">
+                                    Please enter Humidity
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-2 mb-4">
                             <div class="form-group">
-                                <input type="text" class="form-control" />
-                                <label class="form-label">Humidity <span class="text-danger"> *</span></label>
-                            </div>
-                        </div>
-                        <div class="col-md-2 mb-4">
-                            <div class="form-group">
-                                <ng-select>
-                                    <ng-option>--Select--</ng-option>
-                                    <ng-option>20</ng-option>
-                                </ng-select>
-                                <label class="form-label-ddl">UOM <span class="text-danger"> *</span></label>
+                                <input type="text" formControlName="TEMPERATURE"
+                                    [ngClass]="{'invalid': submitted2 && f2.TEMPERATURE.errors}"
+                                    (keypress)="numericOnly($event)" class="form-control" />
+                                <label class="form-label">Temperature (°C)<span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.TEMPERATURE.errors" class="invalid-feedback">
+                                    Please enter Temperature
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" [ngClass]="{'invalid': submitted2 && f2.REMARKS.errors}"
-                                    formControlName="REMARKS" class="form-control" />
-                                <label class="form-label">Remarks <span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.REMARKS.errors" class="invalid-feedback">
-                                    Please enter Remarks
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="commodityType == 'REEFER'">
-                        <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <input type="text" formControlName="WEIGHT" maxlength="5"
-                                    (keypress)="numericOnly($event)"
-                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
-                                <label class="form-label">Weight <span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
-                                    Please enter Weight
-                                </div>
+                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <label class="form-label">Remarks</label>
                             </div>
                         </div>
                     </div>
@@ -591,7 +630,8 @@
                             <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOD">
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{PODAcceptanceFile}}</span>
-                                    <button (click)="isUploadedPOD = false"><span class="bx bx-circle"></span></button>
+                                    <button (click)="isUploadedPOD = false"><span
+                                            class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -610,7 +650,7 @@
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{VslOpAcceptanceFile}}</span>
                                     <button (click)="isUploadedVslOp = false"><span
-                                            class="bx bx-circle"></span></button>
+                                            class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -628,7 +668,7 @@
                             <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedTS">
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{TSAcceptanceFile}}</span>
-                                    <button (click)="isUploadedTS = false"><span class="bx bx-circle"></span></button>
+                                    <button (click)="isUploadedTS = false"><span class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -649,7 +689,7 @@
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{ShpLOYAcceptanceFile}}</span>
                                     <button (click)="isUploadedShpLOY = false"><span
-                                            class="bx bx-circle"></span></button>
+                                            class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -668,7 +708,7 @@
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{VslOpApAcceptanceFile}}</span>
                                     <button (click)="isUploadedVslOpAp = false"><span
-                                            class="bx bx-circle"></span></button>
+                                            class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -689,7 +729,7 @@
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{VslOpAp2AcceptanceFile}}</span>
                                     <button (click)="isUploadedVslOpAp2 = false"><span
-                                            class="bx bx-circle"></span></button>
+                                            class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -707,7 +747,8 @@
                             <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedSur">
                                 <div class="formbold-file-item">
                                     <span class="formbold-file-name">{{SurAcceptanceFile}}</span>
-                                    <button (click)="isUploadedSur = false"><span class="bx bx-circle"></span></button>
+                                    <button (click)="isUploadedSur = false"><span
+                                            class="bx bx-x-circle"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -715,13 +756,8 @@
                     <div class="row" *ngIf="commodityType == 'NORMAL'">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="WEIGHT" maxlength="5"
-                                    (keypress)="numericOnly($event)"
-                                    [ngClass]="{'invalid': submitted2 && f2.WEIGHT.errors}" class="form-control" />
-                                <label class="form-label">Weight <span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.WEIGHT.errors" class="invalid-feedback">
-                                    Please enter Weight
-                                </div>
+                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <label class="form-label">Remarks</label>
                             </div>
                         </div>
                     </div>
@@ -730,36 +766,50 @@
                             <button (click)="addCommodity()" class="form-btn-primary w-100">Add Commodity</button>
                         </div>
                     </div>
-                    <table style="font-size: 12px;" class="table align-middle my-3 bg-white"
-                        *ngIf="commodityList.length > 0">
-                        <thead class="bg-light">
-                            <tr>
-                                <th>Sr. No</th>
-                                <th>Commodity</th>
-                                <th>Commodity Type</th>
-                                <th *ngIf="commodityType == 'HAZ'">IMO Class</th>
-                                <th *ngIf="commodityType == 'HAZ'">UN No</th>
-                                <th *ngIf="commodityType == 'FLEXIBAG'">Flash Point</th>
-                                <th *ngIf="commodityType == 'FLEXIBAG'">CAS No</th>
-                                <th>Remarks</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of commodityList; let i = index">
-                                <td>{{ i + 1 }}</td>
-                                <td>{{ item.COMMODITY_NAME }}</td>
-                                <td>{{ item.COMMODITY_TYPE == 'HAZ' ? 'Hazardous' : item.COMMODITY_TYPE == 'FLEXIBAG' ?
-                                    'Flexi
-                                    Bag' : 'Normal' }}</td>
-                                <td *ngIf="commodityType == 'HAZ'">{{ item.IMO_CLASS }}</td>
-                                <td *ngIf="commodityType == 'HAZ'">{{ item.UN_NO }}</td>
-                                <td *ngIf="commodityType == 'FLEXIBAG'">{{ item.FLASH_POINT }}</td>
-                                <td *ngIf="commodityType == 'FLEXIBAG'">{{ item.CAS_NO }}</td>
-                                <td>{{ item.REMARKS }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="row" *ngIf="commodityList.length > 0">
+                    <div class="table-responsive">
+                        <table style="font-size: 12px;" class="table align-middle my-3 bg-white" *ngIf="f7?.length > 0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Sr. No</th>
+                                    <th>Commodity</th>
+                                    <th>Commodity Type</th>
+                                    <th>Weight</th>
+                                    <th>IMO Class</th>
+                                    <th>UN No</th>
+                                    <th>Flash Point</th>
+                                    <th>CAS No</th>
+                                    <th>Ventilation</th>
+                                    <th>Humidity</th>
+                                    <th>Temperature</th>
+                                    <th>L-W-H (cms)</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of f7; let i = index">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ item.value.COMMODITY_NAME }}</td>
+                                    <td>{{ item.value.COMMODITY_TYPE == 'HAZ' ? 'Hazardous' : item.value.COMMODITY_TYPE
+                                        ==
+                                        'FLEXIBAG' ?
+                                        'Flexi
+                                        Bag' : 'Normal' }}</td>
+                                    <td>{{item.value.WEIGHT}} ({{item.value.WEIGHT_UNIT}})</td>
+                                    <td>{{ item.value.IMO_CLASS }} {{imoclassNames}}</td>
+                                    <td>{{ item.value.UN_NO }} {{unno}}</td>
+                                    <td>{{ item.value.FLASH_POINT }}</td>
+                                    <td>{{ item.value.CAS_NO }}</td>
+                                    <td>{{ item.value.VENTILATION }}</td>
+                                    <td>{{ item.value.HUMIDITY }}</td>
+                                    <td>{{ item.value.TEMPERATURE }}</td>
+                                    <td>{{ item.value.LENGTH }} - {{ item.value.WIDTH }} - {{ item.value.HEIGHT }}
+                                    </td>
+                                    <td>{{ item.value.REMARKS }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row" *ngIf="f7.length > 0">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
                             <button (click)="saveCommodity()" class="form-btn w-100">Save</button>
                         </div>
@@ -790,7 +840,9 @@
                                 <ng-select formControlName="SERVICE_MODE"
                                     [ngClass]="{'invalid': submitted1 && f1.SERVICE_MODE.errors}">
                                     <ng-option value="" selected="true" disabled>--Select Service Mode--</ng-option>
-                                    <ng-option *ngFor="let item of servicetypeList" value="{{ item.CODE }}">
+                                    <ng-option *ngFor="let item of servicetypeList"
+                                        [disabled]="item.CODE == 'CFS/CY' ? true : item.CODE == 'CY/CFS' ? true : item.CODE == 'CY/CY' ? true : false "
+                                        value="{{ item.CODE }}">
                                         {{ item.CODE }}
                                     </ng-option>
                                 </ng-select>
@@ -893,54 +945,62 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <table class="table" style="font-size: 12px;">
+                                    <table class="table" style="font-size: 14px;">
                                         <tbody>
+                                            <tr>
+                                                <th>Charge Code</th>
+                                                <th>Currency</th>
+                                                <th>Payment</th>
+                                                <th>Place</th>
+                                                <th>Standard</th>
+                                                <th>Requested</th>
+                                                <th></th>
+                                            </tr>
                                             <tr *ngFor="let item of f3;let j = index;" [formGroup]="f4(item)">
-                                                <td class="col-md-2">
-                                                    <label class="form-label3">Charge Code</label>
-                                                    <select class="form-control3" formControlName="CHARGE_CODE">
-                                                        <option value="" selected>--Select--</option>
-                                                        <option value="Gross Freight">Gross Freight</option>
-                                                        <option value="THC">THC</option>
-                                                        <option value="EWRI">EWRI</option>
-                                                        <option value="TERMINAL REBATE">TERMINAL REBATE</option>
-                                                    </select>
-                                                </td>
-                                                <td class="col-md-1">
-                                                    <label class="form-label3">Currency</label>
-                                                    <select class="form-control3" formControlName="CURRENCY">
-                                                        <option value="" selected>--Select--</option>
-                                                        <option value="USD">USD</option>
-                                                        <option value="INR">INR</option>
-                                                        <option value="AUD">AUD</option>
-                                                    </select>
-                                                </td>
-                                                <td class="col-md-2"> <label class="form-label3">Standard
-                                                        Rate</label><input class="form-control3" readonly
-                                                        formControlName="STANDARD_RATE" type="text" /></td>
-                                                <td class="col-md-2">
-                                                    <label class="form-label3">Requested Rate</label><input
-                                                        class="form-control3" maxlength="5"
-                                                        (keypress)="numericOnly($event)"
-                                                        formControlName="RATE_REQUESTED" type="text" />
+                                                <td class="col-md-3">
+                                                    <div class="form-group">
+                                                        <ng-select formControlName="CHARGE_CODE">
+                                                            <ng-option value="" selected>--Select--</ng-option>
+                                                            <ng-option value="{{item.CODE}}"
+                                                                *ngFor="let item of chargecodeList">{{item.CODE_DESC}}
+                                                            </ng-option>
+                                                        </ng-select>
+                                                    </div>
                                                 </td>
                                                 <td class="col-md-2">
-                                                    <label class="form-label3">Payment Term</label>
-                                                    <select class="form-control3" formControlName="PAYMENT_TERM">
+                                                    <div class="form-group">
+                                                        <ng-select formControlName="CURRENCY">
+                                                            <ng-option value="" selected>--Select--</ng-option>
+                                                            <ng-option value="{{item.CODE}}"
+                                                                *ngFor="let item of currencyList2">{{item.CODE}}
+                                                            </ng-option>
+                                                        </ng-select>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <select class="form-control" formControlName="PAYMENT_TERM">
                                                         <option value="" selected>--Select--</option>
                                                         <option value="Prepaid">Prepaid</option>
                                                         <option value="Collect">Collect</option>
                                                     </select>
                                                 </td>
                                                 <td class="col-md-2">
-                                                    <label class="form-label3">Place of Payment</label>
-                                                    <select class="form-control3" formControlName="TRANSPORT_TYPE">
+                                                    <select class="form-control" formControlName="TRANSPORT_TYPE">
                                                         <option value="" selected>--Select--</option>
                                                         <option value="POL">POL</option>
                                                         <option value="POD">POD</option>
                                                     </select>
                                                 </td>
-                                                <td class="col-md-1 text-center"><i style="font-size: 15px;"
+                                                <td class="col-md-1">
+                                                    <input class="form-control" readonly formControlName="STANDARD_RATE"
+                                                        type="text" />
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <input class="form-control" maxlength="5"
+                                                        (keypress)="numericOnly($event)"
+                                                        formControlName="RATE_REQUESTED" type="text" />
+                                                </td>
+                                                <td class="text-center"><i style="font-size: 15px;"
                                                         class="fa fa-trash mt-4"></i></td>
                                             </tr>
                                         </tbody>
@@ -1030,7 +1090,8 @@
                     </div>
                     <div class="row" *ngIf="isContainer">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="saveContainer()" class="form-btn w-100">Submit</button>
+                            <button [disabled]="isLoading" (click)="saveContainer()" class="form-btn w-100">Submit <span
+                                    *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
                         </div>
                     </div>
                 </div>

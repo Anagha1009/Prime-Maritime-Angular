@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Convert } from 'igniteui-angular-core';
 import { SrrReportService } from 'src/app/services/srr-report.service';
 
 
@@ -12,24 +13,33 @@ import { SrrReportService } from 'src/app/services/srr-report.service';
     // './../../../assets/pm-assets/css/demo.css',
     // './../../../assets/pm-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css',
     // './../../../assets/pm-assets/vendor/css/pages/page-auth.css',
-    // './../../../assets/css/style.css',
+     './../../../assets/css/style.css',
   ],
 })
 export class PmLandingComponent implements OnInit {
 
   chartOptions1:any;
+  chartOptions3:any;
+  chartOptionsMain:any;
 
   srrCountList: any[] = [];
+  docCount:any;
+  multipleRange:any[]=[];
+  multipleDoc:any[]=[];
 
   constructor(
     private _srrReportService: SrrReportService
   ) { }
 
   ngOnInit(): void {
-    this.getSRRCountList();
-
+    //this.getSRRCountList();
+    this.getMySrrCountList();
+    this.getMyChart();
+    this.getMyDocCount();
+    this.getMainChart();
     this.getCharts()
   }
+
 
   getSRRCountList() {
     this._srrReportService.getSRRCountList().subscribe((res: any) => {
@@ -56,6 +66,100 @@ export class PmLandingComponent implements OnInit {
       }
     });
 
+  }
+
+  getMySrrCountList(){
+    this._srrReportService.getSRRCountList().subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.srrCountList = res.Data;
+        this.srrCountList.forEach((element:any) =>{
+          if(element.MONTH=='Dec'){
+            var p=(element.APPROVED)/(element.TOTAL)*100;
+            this.multipleRange.push(p.toFixed(1));
+            var q=(element.REQUESTED)/(element.TOTAL)*100;
+            this.multipleRange.push(q.toFixed(1));
+            var r=(element.REJECTED)/(element.TOTAL)*100;
+            this.multipleRange.push(r.toFixed(1));
+            this.getMyChart();
+          }
+
+        });
+      }
+    });
+    
+  
+  }
+  getMyDocCount(){
+    this._srrReportService.getCount().subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.docCount = res.Data;
+        var a=(this.docCount.BOOKING_COUNT)/100*100;
+        this.multipleDoc.push(a.toFixed(1));
+        var b=(this.docCount.CRO_COUNT)/100*100;
+        this.multipleDoc.push(b.toFixed(1));
+        var c=(this.docCount.SRR_COUNT)/100*100;
+        this.multipleDoc.push(c.toFixed(1));
+        this.getMainChart();
+        
+      }
+    });
+    
+  }
+
+  getMyChart(){
+    this.chartOptions3 = {
+      animationEnabled: true,
+      theme: "light",
+      exportEnabled: true,
+      title: {
+      text: "SRR MONTHLY CALCULATION"
+      },
+      subtitles: [{
+      text: "December 2022"
+      }],
+      data: [{
+      type: "pie", //change type to column, line, area, doughnut, etc
+      indexLabel: "{name}: {y}%",
+      dataPoints: [
+        { name: "SRR Approved", y: Convert.toDecimal(this.multipleRange[0]) },
+        { name: "SRR Requested", y: Convert.toDecimal(this.multipleRange[1]) },
+        { name: "SRR Rejected", y: Convert.toDecimal(this.multipleRange[2]) }
+      ]
+      }]
+    }
+    
+  }
+
+  getMainChart(){
+    this.chartOptionsMain = {
+      title:{
+        text: "Total Count Of Documents"
+      },
+      animationEnabled: true,
+      axisY: {
+        title: "Count in Percentage",
+        interval: 10,
+        maximum:100,
+        includeZero: true,
+        suffix: "%",
+      },
+      axisX:{
+        title: "Documents",
+     },
+      data: [{
+        type: "bar",
+        indexLabel: "{y}%",
+        //yValueFormatString: "#,###%",
+        dataPoints: [
+          { label:'BOOKING', y: Convert.toInt32(this.multipleDoc[0]) },
+          { label:'CRO', y: Convert.toInt32(this.multipleDoc[1]) },
+          { label:'SRR', y: Convert.toInt32(this.multipleDoc[2]) },
+          
+        ]
+        
+      }]
+    }	
+  
   }
 
   getCharts(){

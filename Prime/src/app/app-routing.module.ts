@@ -51,6 +51,7 @@ import { NewTrackComponent } from './modules/new-track/new-track.component';
 import { SrrCalculatorComponent } from './pm-modules/srr-calculator/srr-calculator.component';
 import { TdrComponent } from './modules/tdr/tdr.component';
 import { ErListComponent } from './modules/er-list/er-list.component';
+import { ErDetailsComponent } from './modules/er-details/er-details.component';
 
 const routes: Routes = [
   {
@@ -126,6 +127,10 @@ const routes: Routes = [
       {
         path: 'er-list',
         component: ErListComponent,
+      },
+      {
+        path: 'er-details',
+        component: ErDetailsComponent,
       },
       {
         path: 'new-do',

@@ -88,6 +88,23 @@
 .table tbody td.status .waiting:after {
   background: #f2be1d;
 }
+
+.table tbody td.status .countered {
+  background: #fdf5dd;
+  color: #54b4d3;
+}
+.table tbody td.status .countered:after {
+  background: #54b4d3;
+}
+
+.table tbody td.status .rejected {
+  background: #fdf5dd;
+  color: rgba(220, 53, 69);
+}
+.table tbody td.status .rejected:after {
+  background: rgba(220, 53, 69);
+}
+
 .table tbody td .img {
   width: 50px;
   height: 50px;

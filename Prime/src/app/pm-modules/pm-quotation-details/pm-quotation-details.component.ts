@@ -62,19 +62,55 @@ export class PmQuotationDetailsComponent implements OnInit {
       (x: any) => x.CONTAINER_TYPE === item
     );
 
+    var isCounterValid = true;
+    var isApproveValid = true;
+    var isRejectValid = true;
+
     srrRates.forEach((element: any) => {
       element.STATUS = value;
-    });
-
-    this._quotationService.approveRate(srrRates).subscribe((res: any) => {
-      if (res.responseCode == 200) {
-        if (value == 'Approved') {
-          alert('Rates are approved successfully !');
-        } else {
-          alert('Rates are rejected successfully !');
-        }
-        this.getDetails();
+      element.CREATED_BY = localStorage.getItem('username');
+      if (element.APPROVED_RATE == 0 && value == 'Countered') {
+        isCounterValid = false;
+      } else if (element.APPROVED_RATE != 0 && value == 'Approved') {
+        isApproveValid = false;
+      } else if (element.APPROVED_RATE != 0 && value == 'Rejected') {
+        isRejectValid = false;
       }
     });
+
+    if (!isCounterValid) {
+      alert('Counter Rate cannot be zero(0)');
+      return;
+    }
+
+    if (!isApproveValid || !isRejectValid) {
+      srrRates.forEach((element: any) => {
+        element.APPROVED_RATE = 0;
+        element.REMARKS = '';
+      });
+    }
+
+    if (
+      confirm(
+        value == 'Approved'
+          ? 'Are you sure want to approve this Rate ? Counter Rate will be marked zero(0) as you are approving the rates'
+          : value == 'Rejected'
+          ? 'Are you sure want to reject this Rate ? Counter Rate will be marked zero(0) as you are rejecting the rates'
+          : 'Are you sure want to counter this Rate ?'
+      )
+    ) {
+      this._quotationService.approveRate(srrRates).subscribe((res: any) => {
+        if (res.responseCode == 200) {
+          if (value == 'Approved') {
+            alert('Rates are approved successfully !');
+          } else if (value == 'Rejected') {
+            alert('Rates are rejected successfully !');
+          } else {
+            alert('Rates are countered successfully !');
+          }
+          this.getDetails();
+        }
+      });
+    }
   }
 }

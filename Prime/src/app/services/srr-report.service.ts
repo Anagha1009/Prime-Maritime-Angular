@@ -25,4 +25,12 @@ export class SrrReportService {
     );
   }
 
+  getCount() {
+    debugger;
+    return this._http.get<any>(
+      this.BASE_URL +'Count/GETCOUNT' ,
+      this.httpOptions
+    );
+  }
+
 }
