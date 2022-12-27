@@ -12,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
 import { locale as english } from 'src/app/@core/translate/cro/en';
 import { locale as hindi } from 'src/app/@core/translate/cro/hi';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
+import { Convert } from 'igniteui-angular-core';
 
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
@@ -24,6 +25,7 @@ const pdfMake = require('pdfmake/build/pdfmake.js');
 })
 export class NewCroComponent implements OnInit {
   croForm: FormGroup;
+  totalContainer:any=0;
   submitted: boolean = false;
   bookingDetails: any;
   containerList: any[] = [];
@@ -77,10 +79,20 @@ export class NewCroComponent implements OnInit {
 
   SaveCRO() {
     this.submitted = true;
+    this.totalContainer=0;
     if (this.croForm.invalid) {
       return;
     }
-    alert('Hii');
+    this.containerList.forEach((element:any)=>{
+      this.totalContainer+=element.IMM_VOLUME_EXPECTED;
+    });
+    if(Convert.toInt32(this.croForm.get('REQ_QUANTITY')?.value)>this.totalContainer){
+      alert('Required Quantity should always be less or equal to the containers in the booking');
+
+    }
+    else{
+      alert('cro saved successfully');
+    }
     // this.croForm.get('BOOKING_ID')?.setValue(this.bookingDetails.ID);
     // this.croForm.get('BOOKING_NO')?.setValue(this.bookingDetails.BOOKING_NO);
 
