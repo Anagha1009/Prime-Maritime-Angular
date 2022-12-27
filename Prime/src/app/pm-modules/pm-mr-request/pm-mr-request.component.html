@@ -91,7 +91,7 @@
                                 <td width="20%">
                                     <label class="label-header">Description</label>
                                 </td>
-                                <td width="25%">
+                                <td width="10%">
                                     <label class="label-header">LWH (Unit)</label>
                                 </td>
                                 <td width="5%">
@@ -235,16 +235,19 @@
                         <div class="col-md-3" *ngFor="let img of imgList">
                             <div class="formbold-file-list formbold-mb-5">
                                 <div class="formbold-file-item">
-                                     <span class="formbold-file-name" *ngIf="img.filE_NAME.split('_')[1].length<=15">{{img.filE_NAME.split('_')[1]}}</span>
-                                     <span class="formbold-file-name" *ngIf="img.filE_NAME.split('_')[1].length>15">{{img.filE_NAME.split('_')[1].substring(0,7)}}...{{img.filE_NAME.split('_')[1].split('.')[1]}}</span>
-                                     <button><span
-                                      class="bx bx-x-circle"></span></button>
+                                    <span class="formbold-file-name"
+                                        *ngIf="img.filE_NAME.split('_')[1].length<=15">{{img.filE_NAME.split('_')[1]}}</span>
+                                    <span class="formbold-file-name"
+                                        *ngIf="img.filE_NAME.split('_')[1].length>15">{{img.filE_NAME.split('_')[1].substring(0,7)}}...{{img.filE_NAME.split('_')[1].split('.')[1]}}</span>
+                                    <a target="_blank" href="{{BASE_URL + img.filE_PATH}}"><i
+                                            class="fa fa-eye text-dark ms-5" ></i></a>
+                                    <!-- <button (click)="download(BASE_URL + img.filE_PATH)" ><i class="fa fa-download text-dark" style="margin-left:20px;"></i></button> -->
                                 </div>
-                           </div>
+                            </div>
                         </div>
 
                     </div>
-                    
+
                 </div>
             </div>
             <div class="modal-footer">

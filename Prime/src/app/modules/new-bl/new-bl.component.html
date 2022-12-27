@@ -45,22 +45,50 @@
 
     </div>
     <div class="col-md-10 mx-auto" *ngIf="isBLForm">
-        <div class="text-end"><button (click)="tabs='1';isBLForm = false;" class="form-btn-primary">Re-Upload</button>
+        <div class="text-end">
+            <button (click)="tabs='1';isBLForm = false;" class="form-btn-primary">Re-Upload</button>
+
         </div>
+
         <form [formGroup]="blForm">
+            <!-- <div class="col-1 text-end">
+                <select class="form-control ddl" formControlName="BLType">
+                    <option value="Original" selected>Original</option>
+                    <option value="Draft">Draft</option>
+                </select>
+            </div> -->
+           
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Shipper Name</label>
-                        <input type="text" formControlName="SHIPPER" class="form-control2" />
+                        <textarea type="text" formControlName="SHIPPER" class="form-control2"
+                            style="overflow:hidden;height: max-content;"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Shipper Address</label>
+                        <textarea type="text" formControlName="SHIPPER_ADDRESS" class="form-control2"
+                            style="overflow:hidden;height: max-content;"></textarea>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Consignee Name</label>
-                        <input type="text" formControlName="CONSIGNEE" class="form-control2" />
+                        <textarea type="text" formControlName="CONSIGNEE" class="form-control2"
+                            style="overflow:hidden;height: max-content;"></textarea>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Consignee Address</label>
+                        <textarea type="text" formControlName="CONSIGNEE_ADDRESS" class="form-control2"
+                            style="overflow:hidden;height: max-content;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Notify Party</label>
@@ -73,8 +101,6 @@
                         <input formControlName="PRE_CARRIAGE_BY" type="text" class="form-control2" />
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Place of Receipt</label>
@@ -87,6 +113,8 @@
                         <input formControlName="VESSEL_NAME" type="text" class="form-control2" />
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Voyage No</label>
@@ -99,8 +127,6 @@
                         <input formControlName="PORT_OF_LOADING" type="text" class="form-control2" />
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Port of Discharge</label>
@@ -122,6 +148,20 @@
             </div>
             <h6 class="d-inline mt-3">Container Details</h6>
             <hr>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Marks & Numbers</label>
+                        <textarea class="form-control2" formControlName="MARKS_NOS"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label2">Description of Goods</label>
+                        <textarea type="text" class="form-control2" formControlName="DESC_OF_GOODS"></textarea>
+                    </div>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table" style="font-size: 12px;">
                     <thead>
@@ -130,8 +170,6 @@
                             <th>Sr No</th>
                             <th>Cont No</th>
                             <th>Cont Type</th>
-                            <th>Marks & Numbers</th>
-                            <th>Description of goods</th>
                             <th>Gross Weight</th>
                             <th>Measurement</th>
                         </tr>
@@ -143,12 +181,8 @@
                             </td>
                             <td class="col-md-1">{{i+1}}</td>
                             <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
-                            <td class="col-md-2">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_TYPE}} -
+                            <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_TYPE}} -
                                 {{blForm.value.CONTAINER_LIST2[i].CONTAINER_SIZE}}</td>
-                            <td class="col-md-3"><textarea formControlName="MARKS_NOS" class="form-control2"></textarea>
-                            </td>
-                            <td class="col-md-3"><textarea formControlName="DESC_OF_GOODS" type="text"
-                                    class="form-control2"></textarea></td>
                             <td class="col-md-1"><input formControlName="GROSS_WEIGHT" type="text" class="form-control2"
                                     style="height: calc(1rem + 0.75rem + 2px);" /></td>
                             <td class="col-md-1"><input formControlName="MEASUREMENT" type="text" class="form-control2"
@@ -228,6 +262,13 @@
                         <input type="text" formControlName="NO_OF_ORIGINAL_BL" class="form-control2" />
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                <label class="switch">
+                    <input type="checkbox" formControlName="BLType" class="switch-input">
+                    <span class="switch-label" data-on="Original" data-off="Draft"></span>
+                    <span class="switch-handle"></span>
+                </label>
             </div>
             <div class="row">
                 <div class="col-md-2 offset-md-10" style="text-align: right;">
