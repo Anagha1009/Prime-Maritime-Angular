@@ -101,7 +101,7 @@ export class NewQuotationComponent implements OnInit {
 
     var currentDate = new Date();
 
-    this.currentDate = this.getcurrentDate(currentDate);
+    this.currentDate = this._commonService.getcurrentDate(currentDate);
     this.quotationForm.get('EFFECT_FROM')?.setValue(this.currentDate);
 
     this.getEffectToDate(currentDate, 0);
@@ -600,29 +600,13 @@ export class NewQuotationComponent implements OnInit {
     });
   }
 
-  getcurrentDate(date: any) {
-    var todate: any = date.getDate();
-    if (todate < 10) {
-      todate = '0' + todate;
-    }
-
-    var month = date.getMonth() + 1;
-
-    if (month < 10) {
-      month = '0' + month;
-    }
-
-    var year = date.getFullYear();
-    return year + '-' + month + '-' + todate;
-  }
-
   getEffectToDate(e: any, param: any) {
     let x = new Date(param == 0 ? e : e.target.value);
 
     var newDate = new Date();
     newDate.setDate(x.getDate() + 15);
 
-    this.effectToDate = this.getcurrentDate(newDate);
+    this.effectToDate = this._commonService.getcurrentDate(newDate);
     this.quotationForm.get('EFFECT_TO')?.setValue(this.effectToDate);
   }
 

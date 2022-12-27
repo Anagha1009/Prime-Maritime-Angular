@@ -34,6 +34,9 @@
 </div>
 <section class="services">
     <div class="container">
+        <div class="col-md-12 ps-md-4">
+            <small>Total Records : {{this.croList?.length}}/ 50</small>
+        </div>
         <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
             <div [class]="isScroll ? 'force-overflow' : ''">
                 <div class="icon-box icon-box-cyan text-start" *ngFor="let item of croList">

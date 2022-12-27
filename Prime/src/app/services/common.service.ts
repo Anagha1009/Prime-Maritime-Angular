@@ -121,4 +121,20 @@ export class CommonService {
       //  lengthChange:true
     };
   }
+
+  getcurrentDate(date: any) {
+    var todate: any = date.getDate();
+    if (todate < 10) {
+      todate = '0' + todate;
+    }
+
+    var month = date.getMonth() + 1;
+
+    if (month < 10) {
+      month = '0' + month;
+    }
+
+    var year = date.getFullYear();
+    return year + '-' + month + '-' + todate;
+  }
 }
