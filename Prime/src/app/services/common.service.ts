@@ -72,7 +72,7 @@ export class CommonService {
   /* Data table configuration */
   destroyTableData() {
     setTimeout(() => {
-      $('.destorydatatable').DataTable().clear().destroy();
+      $('.destroydatatable').DataTable().clear().destroy();
     }, 1);
   }
 

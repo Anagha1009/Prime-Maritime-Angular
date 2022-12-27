@@ -14,7 +14,6 @@ import { locale as hindi } from 'src/app/@core/translate/cro/hi';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 import { Convert } from 'igniteui-angular-core';
 
-
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -49,7 +48,9 @@ export class NewCroComponent implements OnInit {
     private _commonService: CommonService,
     private http: HttpClient,
     private _coreTranslationService: CoreTranslationService
-  ) {this._coreTranslationService.translate(english, hindi);}
+  ) {
+    this._coreTranslationService.translate(english, hindi);
+  }
 
   ngOnInit(): void {
     this.croForm = this._formBuilder.group({
@@ -91,24 +92,25 @@ export class NewCroComponent implements OnInit {
 
     }
     else{
-      alert('cro saved successfully');
+      this.croForm.get('BOOKING_ID')?.setValue(this.bookingDetails.ID);
+      this.croForm.get('BOOKING_NO')?.setValue(this.bookingDetails.BOOKING_NO);
+
+      this.croForm.get('CRO_NO')?.setValue(this.getRandomNumber());
+      this.croForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
+      this.croForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
+      this.croForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+
+      this._croService
+        .insertCRO(JSON.stringify(this.croForm.value))
+        .subscribe((res: any) => {
+          if (res.responseCode == 200) {
+            this.croNo = res.data;
+            this.openBtn.nativeElement.click();
+          }
+        });
+      
     }
-    // this.croForm.get('BOOKING_ID')?.setValue(this.bookingDetails.ID);
-    // this.croForm.get('BOOKING_NO')?.setValue(this.bookingDetails.BOOKING_NO);
-
-    // this.croForm.get('CRO_NO')?.setValue(this.getRandomNumber());
-    // this.croForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
-    // this.croForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    // this.croForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
-
-    // this._croService
-    //   .insertCRO(JSON.stringify(this.croForm.value))
-    //   .subscribe((res: any) => {
-    //     if (res.responseCode == 200) {
-    //       this.croNo = res.data;
-    //       this.openBtn.nativeElement.click();
-    //     }
-    //   });
+    
   }
 
   getRandomNumber() {

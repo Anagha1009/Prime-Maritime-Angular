@@ -13,7 +13,7 @@ export const locale = {
       search: 'खोज',
       clear: 'साफ़',
       addMoreContainers: 'अधिक कंटेनर जोड़ें',
-      counterOffer: 'जवाबी - प्रस्ताव',
+      rateDetails: 'Rate Details',
       bookNow: 'बुक करें',
     },
   },

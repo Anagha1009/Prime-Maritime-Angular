@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="mt-3">
-                <table class="table table-responsive-xl destorydatatable" id="data-table-config">
+                <table class="table table-responsive-xl destroydatatable" id="data-table-config">
                     <thead>
                         <tr>
                             <th width="1%">&nbsp;</th>
@@ -77,7 +77,7 @@
                             <td width="10%">{{item.CREATED_DATE | date:'mediumDate'}}</td>
                             <td width="7%">{{item.CONTAINERS}}</td>
                             <td width="11%" class="status"><span
-                                    [class]="item.STATUS == 'Requested' ? 'waiting' : 'active'">{{item.STATUS}}</span>
+                                    [class]="item.STATUS == 'Requested' ? 'waiting' : item.STATUS == 'Countered' ? 'countered' : item.STATUS == 'Rejected' ? 'rejected' : 'active'">{{item.STATUS}}</span>
                             </td>
                             <td width="1%">
                                 <div class="pointer"><a (click)="getDetails(item.SRR_NO)"><i class='fa fa-eye'></i></a>

@@ -19,7 +19,6 @@ export class NewQuotationComponent implements OnInit {
   containerForm: FormGroup;
   commoditiesForm: FormGroup;
   commodityType: string = '';
-  commodityList: any[] = [];
   submitted2: boolean = false;
   submitted1: boolean = false;
   isContainer: boolean = false;
@@ -46,12 +45,16 @@ export class NewQuotationComponent implements OnInit {
   vesselList1: any[] = [];
   currencyList: any[] = [];
   currencyList1: any[] = [];
+  currencyList2: any[] = [];
   portList: any[] = [];
   submitted3: boolean = false;
   isVoyageAdded: boolean = false;
-  isActive1: boolean = true;
-  isActive2: boolean = false;
-  isActive3: boolean = false;
+  isLoading: boolean = false;
+  imoclassList: any[] = [];
+  imoclassNames: string = '';
+  unnoList: any[] = [];
+  unno: string = '';
+  chargecodeList: any[] = [];
   //Files
   isUploadedPOL: boolean = false;
   POLAcceptanceFile: string = '';
@@ -143,7 +146,7 @@ export class NewQuotationComponent implements OnInit {
       if (this.quotationForm.invalid) {
         alert('Please complete SRR Details');
         this.tabs = '1';
-      } else if (this.commoditiesForm.invalid) {
+      } else if (this.f7.length == 0) {
         alert('Please complete Commodity Details');
         this.tabs = '2';
       } else {
@@ -152,6 +155,16 @@ export class NewQuotationComponent implements OnInit {
     } else {
       this.tabs = index;
     }
+  }
+
+  onchangeIMO(event: any) {
+    var x: any = this.imoclassList.filter((x) => x.CODE == event);
+    this.commoditiesForm.value.IMO_CLASS_NAME = x[0].CODE_DESC;
+  }
+
+  onchangeUN(event: any) {
+    var x: any = this.unnoList.filter((x) => x.CODE == event);
+    this.commoditiesForm.value.UN_NO_NAME = x[0].CODE_DESC;
   }
 
   // ON SAVE
@@ -175,36 +188,106 @@ export class NewQuotationComponent implements OnInit {
       this.commoditiesForm.get('HAZ_APPROVAL_REF')?.disable();
       this.commoditiesForm.get('FLASH_POINT')?.disable();
       this.commoditiesForm.get('CAS_NO')?.disable();
+      this.commoditiesForm.get('VENTILATION')?.disable();
+      this.commoditiesForm.get('HUMIDITY')?.disable();
+      this.commoditiesForm.get('TEMPERATURE')?.disable();
+      this.commoditiesForm.get('LENGTH')?.disable();
+      this.commoditiesForm.get('WIDTH')?.disable();
+      this.commoditiesForm.get('HEIGHT')?.disable();
     } else if (this.commodityType == 'HAZ') {
       this.commoditiesForm.get('FLASH_POINT')?.disable();
       this.commoditiesForm.get('CAS_NO')?.disable();
+      this.commoditiesForm.get('VENTILATION')?.disable();
+      this.commoditiesForm.get('HUMIDITY')?.disable();
+      this.commoditiesForm.get('TEMPERATURE')?.disable();
+      this.commoditiesForm.get('LENGTH')?.disable();
+      this.commoditiesForm.get('WIDTH')?.disable();
+      this.commoditiesForm.get('HEIGHT')?.disable();
     } else if (this.commodityType == 'FLEXIBAG') {
       this.commoditiesForm.get('IMO_CLASS')?.disable();
       this.commoditiesForm.get('UN_NO')?.disable();
       this.commoditiesForm.get('HAZ_APPROVAL_REF')?.disable();
+      this.commoditiesForm.get('VENTILATION')?.disable();
+      this.commoditiesForm.get('HUMIDITY')?.disable();
+      this.commoditiesForm.get('TEMPERATURE')?.disable();
+      this.commoditiesForm.get('LENGTH')?.disable();
+      this.commoditiesForm.get('WIDTH')?.disable();
+      this.commoditiesForm.get('HEIGHT')?.disable();
+    } else if (this.commodityType == 'REEFER') {
+      this.commoditiesForm.get('IMO_CLASS')?.disable();
+      this.commoditiesForm.get('UN_NO')?.disable();
+      this.commoditiesForm.get('HAZ_APPROVAL_REF')?.disable();
+      this.commoditiesForm.get('FLASH_POINT')?.disable();
+      this.commoditiesForm.get('CAS_NO')?.disable();
+      this.commoditiesForm.get('LENGTH')?.disable();
+      this.commoditiesForm.get('WIDTH')?.disable();
+      this.commoditiesForm.get('HEIGHT')?.disable();
+    } else if (this.commodityType == 'SP') {
+      this.commoditiesForm.get('IMO_CLASS')?.disable();
+      this.commoditiesForm.get('UN_NO')?.disable();
+      this.commoditiesForm.get('HAZ_APPROVAL_REF')?.disable();
+      this.commoditiesForm.get('FLASH_POINT')?.disable();
+      this.commoditiesForm.get('CAS_NO')?.disable();
+      this.commoditiesForm.get('VENTILATION')?.disable();
+      this.commoditiesForm.get('HUMIDITY')?.disable();
+      this.commoditiesForm.get('TEMPERATURE')?.disable();
     }
 
     if (this.commoditiesForm.invalid) {
       return;
     }
 
-    var length = this.commoditiesForm.get('LENGTH')?.value;
-    this.commoditiesForm.get('LENGTH')?.setValue(length == '' ? 0 : +length);
-
-    var width = this.commoditiesForm.get('WIDTH')?.value;
-    this.commoditiesForm.get('WIDTH')?.setValue(width == '' ? 0 : +width);
-
-    var height = this.commoditiesForm.get('HEIGHT')?.value;
-    this.commoditiesForm.get('HEIGHT')?.setValue(height == '' ? 0 : +height);
-
-    var weight = this.commoditiesForm.get('WEIGHT')?.value;
-    this.commoditiesForm.get('WEIGHT')?.setValue(weight == '' ? 0 : +weight);
-
     var commodities = this.quotationForm.get('SRR_COMMODITIES') as FormArray;
-    commodities.push(this.commoditiesForm);
-    this.commodityList.push(this.commoditiesForm.value);
 
-    // this.commoditiesForm.reset();
+    debugger;
+    commodities.push(
+      this._formBuilder.group({
+        COMMODITY_NAME: [this.commoditiesForm.value.COMMODITY_NAME],
+        LENGTH: [
+          this.commoditiesForm.value.LENGTH == undefined
+            ? 0
+            : +this.commoditiesForm.value.LENGTH,
+        ],
+        WIDTH: [
+          this.commoditiesForm.value.WIDTH == undefined
+            ? 0
+            : +this.commoditiesForm.value.WIDTH,
+        ],
+        HEIGHT: [
+          this.commoditiesForm.value.HEIGHT == undefined
+            ? 0
+            : +this.commoditiesForm.value.HEIGHT,
+        ],
+
+        WEIGHT: [this.commoditiesForm.value.WEIGHT],
+        WEIGHT_UNIT: [this.commoditiesForm.value.WEIGHT_UNIT],
+        COMMODITY_TYPE: [this.commoditiesForm.value.COMMODITY_TYPE],
+        IMO_CLASS: [this.commoditiesForm.value.IMO_CLASS],
+        UN_NO: [this.commoditiesForm.value.UN_NO],
+        HAZ_APPROVAL_REF: [this.commoditiesForm.value.HAZ_APPROVAL_REF],
+        FLASH_POINT: [this.commoditiesForm.value.FLASH_POINT],
+        CAS_NO: [this.commoditiesForm.value.CAS_NO],
+        VENTILATION: [
+          this.commoditiesForm.value.VENTILATION == undefined
+            ? 0
+            : +this.commoditiesForm.value.VENTILATION,
+        ],
+        HUMIDITY: [
+          this.commoditiesForm.value.HUMIDITY == undefined
+            ? 0
+            : +this.commoditiesForm.value.HUMIDITY,
+        ],
+        TEMPERATURE: [
+          this.commoditiesForm.value.TEMPERATURE == undefined
+            ? 0
+            : +this.commoditiesForm.value.TEMPERATURE,
+        ],
+        REMARKS: [this.commoditiesForm.value.REMARKS],
+      })
+    );
+
+    this.f7;
+    this.commoditiesForm.reset();
     this.submitted2 = false;
   }
 
@@ -233,7 +316,7 @@ export class NewQuotationComponent implements OnInit {
         RATE_REQUESTED: [''],
         PAYMENT_TERM: [''],
         TRANSPORT_TYPE: [''],
-        REMARKS: ['NULL'],
+        REMARKS: [''],
       })
     );
 
@@ -297,6 +380,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   saveContainer() {
+    this.isLoading = true;
     var POL = this.quotationForm.value.POL;
     var POD = this.quotationForm.value.POD;
     var SRRNO = this.getRandomNumber(POL, POD);
@@ -333,6 +417,7 @@ export class NewQuotationComponent implements OnInit {
           }
 
           if (this.isVesselVal) {
+            this.isLoading = true;
             this.slotDetailsForm
               .get('BOOKING_NO')
               ?.setValue(this.getRandomBookingNumber());
@@ -355,11 +440,13 @@ export class NewQuotationComponent implements OnInit {
               .booking(JSON.stringify(this.slotDetailsForm.value))
               .subscribe((res: any) => {
                 if (res.responseCode == 200) {
+                  this.isLoading = false;
                   alert('Your quotation has been submitted successfully !');
                   this._router.navigateByUrl('/home/quotation-list');
                 }
               });
           } else {
+            this.isLoading = false;
             alert('Your quotation has been submitted successfully !');
             this._router.navigateByUrl('/home/quotation-list');
           }
@@ -460,17 +547,23 @@ export class NewQuotationComponent implements OnInit {
 
     this.commoditiesForm = this._formBuilder.group({
       COMMODITY_NAME: ['', Validators.required],
-      LENGTH: [''],
-      WIDTH: [''],
-      HEIGHT: [''],
+      LENGTH: ['', Validators.required],
+      WIDTH: ['', Validators.required],
+      HEIGHT: ['', Validators.required],
       WEIGHT: ['', Validators.required],
+      WEIGHT_UNIT: ['', Validators.required],
       COMMODITY_TYPE: ['', Validators.required],
       IMO_CLASS: ['', Validators.required],
+      IMO_CLASS_NAME: [''],
       UN_NO: ['', Validators.required],
+      UN_NO_NAME: [''],
       HAZ_APPROVAL_REF: ['', Validators.required],
       FLASH_POINT: ['', Validators.required],
       CAS_NO: ['', Validators.required],
-      REMARKS: ['', Validators.required],
+      VENTILATION: ['', Validators.required],
+      HUMIDITY: ['', Validators.required],
+      TEMPERATURE: ['', Validators.required],
+      REMARKS: [''],
     });
 
     this.slotDetailsForm = this._formBuilder.group({
@@ -597,18 +690,40 @@ export class NewQuotationComponent implements OnInit {
       if (res.ResponseCode == 200) {
         this.currencyList = res.Data;
         this.currencyList1 = res.Data;
+        this.currencyList2 = res.Data;
+      }
+    });
+
+    this._commonService.getDropdownData('IMO_CLASS').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.imoclassList = res.Data;
+      }
+    });
+
+    this._commonService.getDropdownData('UN_NO').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.unnoList = res.Data;
       }
     });
   }
 
   getServiceName(event: any) {
     this.servicenameList = [];
+    this.chargecodeList = [];
     this.quotationForm.get('SERVICE_NAME')?.setValue('');
     this._commonService
       .getDropdownData('SERVICE_NAME', event, '')
       .subscribe((res: any) => {
         if (res.hasOwnProperty('Data')) {
           this.servicenameList = res.Data;
+        }
+      });
+
+    this._commonService
+      .getDropdownData('CHARGE_CODE', event, '')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.chargecodeList = res.Data;
         }
       });
   }
@@ -670,6 +785,11 @@ export class NewQuotationComponent implements OnInit {
 
   get f6() {
     return this.voyageForm.controls;
+  }
+
+  get f7() {
+    var s = this.quotationForm.get('SRR_COMMODITIES') as FormArray;
+    return s.controls;
   }
 
   f4(i: any) {

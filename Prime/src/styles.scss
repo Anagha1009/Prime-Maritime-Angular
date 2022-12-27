@@ -83,6 +83,19 @@
   color: #fff;
 }
 
+.form-btn-info {
+  background: white;
+  border: 1px solid #54b4d3;
+  padding: 6px 18px;
+  color: #54b4d3;
+  transition: 0.4s;
+}
+
+.form-btn-info:hover {
+  background: #54b4d3;
+  color: #fff;
+}
+
 .form-group {
   position: relative;
   margin-bottom: 1.5rem;

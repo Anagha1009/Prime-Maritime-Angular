@@ -8,7 +8,6 @@ import { QuotationService } from 'src/app/services/quotation.service';
 import { locale as english } from 'src/app/@core/translate/srr/en';
 import { locale as hindi } from 'src/app/@core/translate/srr/hi';
 import { locale as arabic } from 'src/app/@core/translate/srr/ar';
-import { AnyMxRecord } from 'dns';
 
 @Component({
   selector: 'app-quotation-list',
@@ -32,6 +31,7 @@ export class QuotationListComponent implements OnInit {
   submitted: boolean = false;
   isLoading: boolean = false;
   isLoading1: boolean = false;
+  srrNo: string = '';
 
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
@@ -158,7 +158,7 @@ export class QuotationListComponent implements OnInit {
     this.quotation.FROMDATE = '';
     this.quotation.TODATE = '';
 
-    this.isLoading = false;
+    this.isLoading1 = true;
     this.getSRRList();
   }
 
@@ -199,6 +199,7 @@ export class QuotationListComponent implements OnInit {
   }
 
   getSRRDetails(item: any, value: string) {
+    this.srrNo = item.SRR_NO;
     var quotation = new QUOTATION();
     quotation.SRR_NO = item.SRR_NO;
     quotation.AGENT_CODE = localStorage.getItem('usercode');
@@ -365,13 +366,14 @@ export class QuotationListComponent implements OnInit {
     return true;
   }
 
-  counterRate(item: any) {
+  counterRate(item: any, value: string) {
     var srrRates = this.rateForm.value.SRR_RATES.filter(
       (x: any) => x.CONTAINER_TYPE === item
     );
 
     srrRates.forEach((element: any) => {
-      element.STATUS = 'Requested';
+      element.STATUS = value;
+      element.CREATED_BY = localStorage.getItem('username');
     });
 
     this._quotationService
