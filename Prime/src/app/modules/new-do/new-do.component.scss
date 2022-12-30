@@ -167,3 +167,20 @@
 .checkbox-primary input:checked ~ .checkmark:after {
   color: #40bfc1;
 }
+
+//modal
+.modal-content  {
+  -webkit-border-radius: 20px !important;
+  -moz-border-radius: 20px !important;
+  border-radius: 20px !important; 
+}
+
+.modal-header{
+  background-color: #8dbad2;
+  //color: white;
+}
+
+#exampleModalLabel{
+  color: white;
+  font-size: 25px;
+}
