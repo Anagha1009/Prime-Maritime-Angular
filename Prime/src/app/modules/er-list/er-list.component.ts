@@ -7,6 +7,8 @@ import { CroService } from 'src/app/services/cro.service';
 import { ErService } from 'src/app/services/er.service';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { formatDate } from '@angular/common';
+import { Convert } from 'igniteui-angular-core';
+import { HttpClient } from '@angular/common/http';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -19,6 +21,12 @@ const pdfMake = require('pdfmake/build/pdfmake.js');
 export class ErListComponent implements OnInit {
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
+  @ViewChild('openBtn1') openBtn1: ElementRef;
+  @ViewChild('closeBtn1') closeBtn1: ElementRef;
+  excelFile: File;
+  isLoading: boolean = false;
+  email: string = '';
+  fileData: any;
   er=new ER();
   croNo: string;
   agentCode:any='';
@@ -34,7 +42,7 @@ export class ErListComponent implements OnInit {
   erCROForm: FormGroup;
   submitted1: boolean = false;
 
-  constructor(private _erService: ErService,private _commonService: CommonService,private _router: Router,private _croService: CroService,private _formBuilder: FormBuilder) { }
+  constructor(private _erService: ErService,private _commonService: CommonService,private http: HttpClient,private _router: Router,private _croService: CroService,private _formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.erListForm = this._formBuilder.group({
@@ -112,15 +120,41 @@ export class ErListComponent implements OnInit {
     this.erCROForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
     this.erCROForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
 
-    this._croService
-      .insertCRO(JSON.stringify(this.erCROForm.value))
-      .subscribe((res: any) => {
-        if (res.responseCode == 200) {
-          this.croNo = res.data;
-          alert('CRO created successfully! Your CRO No. is '+this.croNo);
-          this.cancelERCRO();
+    this._erService.getERDetails(this.erCROForm.get('REPO_NO')?.value,this.agentCode,this.depoCode).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        debugger;
+        this.erDetails = res.Data;
+        if(Convert.toInt32(this.erCROForm.get('REQ_QUANTITY')?.value)==this.erDetails.NO_OF_CONTAINER){
+          this._croService
+          .insertCRO(JSON.stringify(this.erCROForm.value))
+          .subscribe((res: any) => {
+            if (res.responseCode == 200) {
+              this.croNo = res.data;
+              this.openBtn1.nativeElement.click();
+              // alert('CRO created successfully! Your CRO No. is '+this.croNo);
+              // this.cancelERCRO();
+            }
+          });
         }
-      });
+        else{
+          alert('Required Quantity should be equal to the number of containers since you can create only one CRO for a specific Container Repositioning!')
+        }
+        
+      }
+      if (res.ResponseCode == 500) {
+        alert("Invalid Repo No.");
+      }
+    });
+
+    // this._croService
+    //   .insertCRO(JSON.stringify(this.erCROForm.value))
+    //   .subscribe((res: any) => {
+    //     if (res.responseCode == 200) {
+    //       this.croNo = res.data;
+    //       alert('CRO created successfully! Your CRO No. is '+this.croNo);
+    //       this.cancelERCRO();
+    //     }
+    //   });
   }
 
 
@@ -145,11 +179,11 @@ export class ErListComponent implements OnInit {
     this.openBtn.nativeElement.click();
   }
   Search() {
-    var DO_NO = this.erListForm.value.DO_NO;
+    var REPO_NO = this.erListForm.value.REPO_NO;
     var FROM_DATE = this.erListForm.value.FROM_DATE;
     var TO_DATE = this.erListForm.value.TO_DATE;
     if (
-      DO_NO == '' &&
+      REPO_NO == '' &&
       FROM_DATE == '' &&
       TO_DATE == ''
     ) {
@@ -164,7 +198,7 @@ export class ErListComponent implements OnInit {
   }
 
   Clear() {
-    this.erListForm.get('DO_NO')?.setValue('');
+    this.erListForm.get('REPO_NO')?.setValue('');
     this.erListForm.get('FROM_DATE')?.setValue('');
     this.erListForm.get('TO_DATE')?.setValue('');
 
@@ -182,22 +216,19 @@ export class ErListComponent implements OnInit {
   }
 
   //generateCROpdf
-  getERCRODetails(REPO_NO:string,CRO_NO: string,CRO_VALIDITY_DATE:string) {
-    debugger;
-    console.log(REPO_NO);
-    console.log(CRO_NO);
-    console.log(CRO_VALIDITY_DATE);
-    this._erService.getERDetails(REPO_NO,this.agentCode,this.depoCode).subscribe((res: any) => {
+  getERCRODetails(CRO_NO: string) {
+    this.isLoading = true;
+    this._erService.getERDetails(this.erCROForm.get('REPO_NO')?.value,this.agentCode,this.depoCode).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         debugger;
         this.erDetails = res.Data;
         console.log(this.erDetails);
-        this._erService.getERContainerDetails(REPO_NO,this.agentCode,this.depoCode).subscribe((res: any) => {
+        this._erService.getERContainerDetails(this.erCROForm.get('REPO_NO')?.value,this.agentCode,this.depoCode).subscribe((res: any) => {
           debugger;
           if (res.ResponseCode == 200) {
             this.erContDetails = res.Data;
             console.log(this.erDetails);
-            this.generatePDF(CRO_NO,CRO_VALIDITY_DATE);
+            this.generatePDF(CRO_NO,this.erCROForm.get('CRO_VALIDITY_DATE')?.value);
           }
           if (res.ResponseCode == 500) {
             //this.previewNoData=true;
@@ -421,7 +452,38 @@ export class ErListComponent implements OnInit {
           },
         },
       };
-      pdfMake.createPdf(docDefinition).open();
+      //pdfMake.createPdf(docDefinition).open();
+      const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+      pdfDocGenerator.getBlob((blob: any) => {
+        this.http
+          .get('assets/img/SI.xlsx', {
+            responseType: 'blob',
+          })
+          .subscribe((data: any) => {
+            this.fileData = data;
+            const blob1 = new Blob([data], { type: 'application/vnd.ms-excel' });
+            this.excelFile = new File([blob1], 'SI.xlsx', {
+              type: 'application/vnd.ms-excel',
+            });
+  
+            const formData: FormData = new FormData();
+            formData.append('Attachments', blob);
+            formData.append('Attachments', this.excelFile);
+            console.log('excel ' + this.excelFile);
+            formData.append('ToEmail', this.email);
+            formData.append('Subject', 'CRO - ' + this.croNo);
+  
+            this._commonService.sendEmail(formData).subscribe((res: any) => {
+              this.isLoading = false;
+              alert('Your mail has been send successfully !');
+              this.closeBtn1.nativeElement.click();
+              this.submitted1=false;
+              this.cancelERCRO();
+              
+              //this._router.navigateByUrl('/home/cro-list');
+            });
+          });
+      });
 
     }
     else{
@@ -586,7 +648,39 @@ export class ErListComponent implements OnInit {
           },
         },
       };
-      pdfMake.createPdf(docDefinition).open();
+      //pdfMake.createPdf(docDefinition).open();
+      const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+      pdfDocGenerator.getBlob((blob: any) => {
+        this.http
+          .get('assets/img/SI.xlsx', {
+            responseType: 'blob',
+          })
+          .subscribe((data: any) => {
+            this.fileData = data;
+            const blob1 = new Blob([data], { type: 'application/vnd.ms-excel' });
+            this.excelFile = new File([blob1], 'SI.xlsx', {
+              type: 'application/vnd.ms-excel',
+            });
+  
+            const formData: FormData = new FormData();
+            formData.append('Attachments', blob);
+            formData.append('Attachments', this.excelFile);
+            console.log('excel ' + this.excelFile);
+            formData.append('ToEmail', this.email);
+            formData.append('Subject', 'CRO - ' + this.croNo);
+  
+            this._commonService.sendEmail(formData).subscribe((res: any) => {
+              this.isLoading = false;
+              alert('Your mail has been send successfully !');
+              this.closeBtn1.nativeElement.click();
+              this.submitted1=false;
+              this.cancelERCRO();
+              
+              //this._router.navigateByUrl('/home/cro-list');
+            });
+          });
+      });
+
     }
     
   }
