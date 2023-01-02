@@ -171,10 +171,37 @@
                         </div>
                         <div class="col-md-6">
                             <button class="form-btn w-50" (click)="SaveCRO()">Save</button>
+                            <button #openBtn1 data-bs-toggle="modal" href="#mailModal"
+                            class="form-btn d-none">Submit</button>
                             
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mailModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Send Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn1></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="text-center"><span class="text-danger">{{croNo}}</span> has successfully been
+                    created !
+                </h6>
+                <p class="text-center">Please provide email to send CRO and SI to shipper</p>
+                <div class="form-group col-md-8 mx-auto">
+                    <label class="form-label2">Email</label>
+                    <input class="form-control2" [(ngModel)]="email" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="isLoading" type="button" class="form-btn" (click)="getERCRODetails(croNo)">Send
+                    Email <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
             </div>
         </div>
     </div>

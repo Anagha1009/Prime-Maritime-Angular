@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Bl } from 'src/app/models/bl';
 import { BlService } from 'src/app/services/bl.service';
+import { MasterService } from 'src/app/services/master.service';
 import { DO } from '../../models/do';
 import { DoService } from '../../services/do.service';
 
@@ -14,6 +15,7 @@ import { DoService } from '../../services/do.service';
 export class NewDoComponent implements OnInit {
   bL=new Bl()
   doForm:FormGroup;
+  cpForm:FormGroup;
   deliverOrder =new DO();
   activeTab:string='Container';
   billNo:string='';
@@ -22,13 +24,21 @@ export class NewDoComponent implements OnInit {
   previewNoData:boolean=false;
   previewForm:boolean=false;
   submitted: boolean = false;
+  submitted1: boolean = false;
   dataVisible:boolean=false;
   containerList:any[]=[];
+  mstDepoList:any[]=[];
+  mstIcdList:any[]=[];
+  locationList:any[]=[];
+  clearingPartyList:any[]=[];
+  @ViewChild('openBtn') openBtn: ElementRef;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
 
 
   constructor(private _formBuilder: FormBuilder,
     private _dOService: DoService,
     private _blService:BlService,
+    private _mstService:MasterService,
     private _router: Router) { }
 
   ngOnInit(): void {
@@ -52,6 +62,62 @@ export class NewDoComponent implements OnInit {
       CONTAINER_LIST: new FormArray([]),
       CONTAINER_LIST2:new FormArray([]),
     });
+    this.cpForm = this._formBuilder.group({
+      ID: [0],
+      NAME: ['',Validators.required],
+      EMAIL_ID: ['',Validators.required],
+      CONTACT: [''],
+      ADDRESS: [''],
+      LOCATION: ['',Validators.required],
+      AGENT_CODE: [''],
+      CREATED_BY: ['']
+    });
+
+    this.getIcdList();
+    this.getDepoList();
+    this.getClearingParty();
+
+  }
+
+  get fcp() {
+    return this.cpForm.controls;
+  }
+
+  getClearingParty(){
+    this._mstService
+      .getCP()
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.clearingPartyList=res.Data;
+          console.log(this.clearingPartyList);
+        }
+      });
+
+  }
+  getIcdList(){
+    this._mstService
+      .getMstICD()
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.mstIcdList=res.Data;
+          this.locationList=this.mstIcdList;
+          
+        }
+      });
+
+  }
+
+  getDepoList(){
+    this._mstService
+      .getMstDEPO()
+      .subscribe((res: any) => {
+        debugger;
+        if (res.ResponseCode == 200) {
+          this.mstDepoList=res.Data;
+          this.locationList=this.locationList.concat(this.mstDepoList);
+
+        }
+      });
 
   }
 
@@ -83,6 +149,8 @@ export class NewDoComponent implements OnInit {
       this.previewNoData=true;
     }
     else{
+      // this.getIcdList();
+      // this.getDepoList();
       this.getDOAPI();
     }
   }
@@ -192,6 +260,38 @@ export class NewDoComponent implements OnInit {
     const add = this.doForm.get('CONTAINER_LIST2') as FormArray;
     add.push(item);
     console.log(item.value);
+  }
+
+  saveCP(){
+    debugger;
+    console.log("In cp");
+    this.submitted1=true;
+    if (this.cpForm.invalid) {
+      return;
+    }
+    this.cpForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
+    this.cpForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+
+    this._mstService
+      .postCP(JSON.stringify(this.cpForm.value))
+      .subscribe((res: any) => {
+        if(res.responseCode == 200) {
+          alert('Clearity Party has been saved successfully ! Proceed to Select');
+          this.getClearingParty();
+          this.closeBtn.nativeElement.click();
+          //this.cancelCP();
+        }
+      });
+
+  }
+
+  cancelCP(){
+    this.cpForm.get('NAME')?.setValue("");
+    this.cpForm.get('EMAIL_ID')?.setValue("");
+    this.cpForm.get('ADDRESS')?.setValue("");
+    this.cpForm.get('LOCATION')?.setValue("");
+    this.cpForm.get('CONTACT')?.setValue("");
+
   }
 
 }
