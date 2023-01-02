@@ -83,18 +83,6 @@ export class PmQuotationDetailsComponent implements OnInit {
       return;
     }
 
-    if (!isApproveValid) {
-      alert(
-        'Counter Rate will be marked zero(0) as you are approving the rates'
-      );
-    }
-
-    if (!isRejectValid) {
-      alert(
-        'Counter Rate will be marked zero(0) as you are rejecting the rates'
-      );
-    }
-
     if (!isApproveValid || !isRejectValid) {
       srrRates.forEach((element: any) => {
         element.APPROVED_RATE = 0;
@@ -102,17 +90,27 @@ export class PmQuotationDetailsComponent implements OnInit {
       });
     }
 
-    this._quotationService.approveRate(srrRates).subscribe((res: any) => {
-      if (res.responseCode == 200) {
-        if (value == 'Approved') {
-          alert('Rates are approved successfully !');
-        } else if (value == 'Rejected') {
-          alert('Rates are rejected successfully !');
-        } else {
-          alert('Rates are countered successfully !');
+    if (
+      confirm(
+        value == 'Approved'
+          ? 'Are you sure want to approve this Rate ? Counter Rate will be marked zero(0) as you are approving the rates'
+          : value == 'Rejected'
+          ? 'Are you sure want to reject this Rate ? Counter Rate will be marked zero(0) as you are rejecting the rates'
+          : 'Are you sure want to counter this Rate ?'
+      )
+    ) {
+      this._quotationService.approveRate(srrRates).subscribe((res: any) => {
+        if (res.responseCode == 200) {
+          if (value == 'Approved') {
+            alert('Rates are approved successfully !');
+          } else if (value == 'Rejected') {
+            alert('Rates are rejected successfully !');
+          } else {
+            alert('Rates are countered successfully !');
+          }
+          this.getDetails();
         }
-        this.getDetails();
-      }
-    });
+      });
+    }
   }
 }

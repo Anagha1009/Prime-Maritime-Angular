@@ -62,6 +62,15 @@ export class ErService {
     );
   }
 
+  getERRateDetails(erNo:any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'ER/GetERRateDetails?REPO_NO=' +
+        erNo,
+      this.httpOptions
+    );
+  }
+
 
   
 }

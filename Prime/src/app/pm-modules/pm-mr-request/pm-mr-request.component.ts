@@ -21,7 +21,7 @@ export class PmMrRequestComponent implements OnInit {
   repairList: any[] = [];
   isDeleted: boolean = false;
   imgList: any[] = [];
-  BASE_URL: string = environment.BASE_URL
+  BASE_URL: string = environment.BASE_URL2
 
   @ViewChild('MRModal') MRModal: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
@@ -75,18 +75,26 @@ export class PmMrRequestComponent implements OnInit {
         this.MRModal.nativeElement.click();
       }
     });
-    console.log(MR_NO);
+    //console.log(MR_NO);
     this._depoService.GetFiles(MR_NO).subscribe((res: any) => {
-      debugger;
       if (res.responseCode == 200) {
         this.imgList = res.data;
-        console.log("Images-" + this.imgList);
+        //console.log("Images-" + JSON.stringify(res.data));
       }
     });
-
-
-  
   }
+
+  download(filePath: string) {
+		fetch(filePath).then(response => response.blob()).then(blob => {
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filePath.replace(/^.*[\\\/]/, '');
+      link.click();
+    }).catch(console.error);
+
+	}
+
+
 
   get f1() {
     var r = this.mrForm.get('MR_REQ') as FormArray;

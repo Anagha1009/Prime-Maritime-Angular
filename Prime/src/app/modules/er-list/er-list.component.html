@@ -56,18 +56,18 @@
                         <div class="row">
                             <div class="col-md-10">
                                 <h4 class="title"><a (click)="getERDetails(item.REPO_NO)">{{item.REPO_NO}} - </a>
-                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Truck'"><img  src="/assets/img/delivery.png"></span>
-                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Rail'"><img  src="/assets/img/train.png"></span>
-                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Vessel'"><img  src="/assets/img/cruise.png"></span>
+                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Truck'"><img  src="assets/img/delivery.png"></span>
+                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Rail'"><img  src="assets/img/train.png"></span>
+                                    <span *ngIf="item.MODE_OF_TRANSPORT=='Vessel'"><img  src="assets/img/cruise.png"></span>
                                 </h4>
-                                <p class="description" *ngIf="item.MODE_OF_TRANSPORT!='Vessel'"><img src="/assets/img/warehouse.png" height="13px" width="13px"> {{item.LOAD_DEPOT}} <i
-                                    class='bx bxs-right-arrow-circle mx-2'></i> <img src="/assets/img/warehouse.png" height="13px" width="13px">
+                                <p class="description" *ngIf="item.MODE_OF_TRANSPORT!='Vessel'"><img src="assets/img/warehouse.png" height="13px" width="13px"> {{item.LOAD_DEPOT}} <i
+                                    class='bx bxs-right-arrow-circle mx-2'></i> <img src="assets/img/warehouse.png" height="13px" width="13px">
                                     {{item.DISCHARGE_DEPOT}} </p>
 
-                                <p class="description" *ngIf="item.MODE_OF_TRANSPORT=='Vessel'"><img src="/assets/img/warehouse.png" height="13px" width="13px"> {{item.LOAD_DEPOT}} <i
+                                <p class="description" *ngIf="item.MODE_OF_TRANSPORT=='Vessel'"><img src="assets/img/warehouse.png" height="13px" width="13px"> {{item.LOAD_DEPOT}} <i
                                     class='bx bxs-right-arrow-circle mx-2'></i> <span class="bx bxs-ship me-2"> </span>{{item.LOAD_PORT}}
                                     <i class='bx bxs-right-arrow-circle mx-2'></i> <span class="bx bxs-ship me-2"> </span>{{item.DISCHARGE_PORT}} 
-                                    <i class='bx bxs-right-arrow-circle mx-2'></i> <img src="/assets/img/warehouse.png" height="13px" width="13px"> {{item.DISCHARGE_DEPOT}}
+                                    <i class='bx bxs-right-arrow-circle mx-2'></i> <img src="assets/img/warehouse.png" height="13px" width="13px"> {{item.DISCHARGE_DEPOT}}
                                 </p>
                                 <p class="description"><i class='bx bx-time-five'></i> <span class="text-info">
                                         Movement Date: {{item.MOVEMENT_DATE | date:'mediumDate'}}
@@ -82,14 +82,10 @@
                     
                             </div>
                             <div class="col-md-2 text-end" *ngIf="item.CRO_NO">
-                                <a><img src="/assets/img/visibility.png" height="24px" width="24px"></a>
+                                <button (click)="getERCRODetails(item.REPO_NO,item.CRO_NO,item.CRO_VALIDITY_DATE)" class="form-btn rounded-pill mb-2">View
+                                    PDF</button>
+                                <!-- <a (click)="getERCRODetails(item.REPO_NO,item.CRO_NO,item.CRO_VALIDITY_DATE)"><img src="/assets/img/visibility.png" height="24px" width="24px"></a> -->
                             </div>
-                            <!-- <div class="col-md-5 text-end">
-                                <span style="font-size: 15px;"
-                                    class="badge rounded-pill bg-success ms-3">{{item.BL_NO}}</span>
-                                <div class="description" style="font-size:large;color: purple;"> <span
-                                        class="bx bxs-ship"></span> {{item.ARRIVAL_DATE | date:'mediumDate'}}</div>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -175,6 +171,8 @@
                         </div>
                         <div class="col-md-6">
                             <button class="form-btn w-50" (click)="SaveCRO()">Save</button>
+                            <button #openBtn1 data-bs-toggle="modal" href="#mailModal"
+                            class="form-btn d-none">Submit</button>
                             
                         </div>
                     </div>
@@ -183,3 +181,41 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="mailModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Send Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn1></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="text-center"><span class="text-danger">{{croNo}}</span> has successfully been
+                    created !
+                </h6>
+                <p class="text-center">Please provide email to send CRO and SI to shipper</p>
+                <div class="form-group col-md-8 mx-auto">
+                    <label class="form-label2">Email</label>
+                    <input class="form-control2" [(ngModel)]="email" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="isLoading" type="button" class="form-btn" (click)="getERCRODetails(croNo)">Send
+                    Email <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="col-md-12">
+    <div class="row">
+        <h4>TRACKING</h4>
+        <div class="col-md-2">
+            <div class="tk-blob" style="--time: 10s; --amount: 5; --fill: #56cbb9;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 747.2 726.7">
+                  <path d="M539.8 137.6c98.3 69 183.5 124 203 198.4 19.3 74.4-27.1 168.2-93.8 245-66.8 76.8-153.8 136.6-254.2 144.9-100.6 8.2-214.7-35.1-292.7-122.5S-18.1 384.1 7.4 259.8C33 135.6 126.3 19 228.5 2.2c102.1-16.8 213.2 66.3 311.3 135.4z"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+</div> -->

@@ -30,16 +30,19 @@ export class NewBlComponent implements OnInit {
   srrId: any;
   srrNo: any;
   chargeList: any[] = [];
+  allContainerType: any[] = [];
+  containerTypeList: any[] = [];
 
   constructor(
     private _formBuilder: FormBuilder,
     private _commonService: CommonService,
     private _blService: BlService,
     private _router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.blForm = this._formBuilder.group({
+      BLType: [true],
       BL_NO: [''],
       SRR_ID: [''],
       SRR_NO: [''],
@@ -57,6 +60,8 @@ export class NewBlComponent implements OnInit {
       PORT_OF_DISCHARGE: [''],
       PLACE_OF_DELIVERY: [''],
       FINAL_DESTINATION: [''],
+      MARKS_NOS: [''],
+      DESC_OF_GOODS: [''],
       TOTAL_CONTAINERS: [''],
       PREPAID_AT: [''],
       PAYABLE_AT: [''],
@@ -89,8 +94,6 @@ export class NewBlComponent implements OnInit {
           CONTAINER_TYPE: [element.CONTAINER_TYPE],
           CONTAINER_SIZE: [element.CONTAINER_SIZE],
           SEAL_NO: [element.SEAL_NO],
-          MARKS_NOS: [element.MARKS_NOS],
-          DESC_OF_GOODS: [element.DESC_OF_GOODS],
           GROSS_WEIGHT: [element.GROSS_WEIGHT],
           MEASUREMENT: [element.MEASUREMENT.toString()],
         })
@@ -114,6 +117,8 @@ export class NewBlComponent implements OnInit {
         this.chargeList = res.Data.SRR_RATES;
       }
     });
+
+
   }
 
   createBL() {
@@ -122,6 +127,9 @@ export class NewBlComponent implements OnInit {
     } else {
       this.blForm.get('BL_NO')?.setValue(this.getRandomNumber());
     }
+
+    var bltypevalue = this.blForm.get("BLType")?.value
+    this.blForm.get("BLType")?.setValue(bltypevalue ? "Original" : "Draft");
 
     var voyageNo = this.blForm.get('VOYAGE_NO')?.value;
     this.blForm.get('VOYAGE_NO')?.setValue(voyageNo.toString());
@@ -160,7 +168,7 @@ export class NewBlComponent implements OnInit {
       }
     });
 
-    this.generateBLPdf();
+    this.ContainerDescription();
   }
 
   getBLDetails() {
@@ -183,8 +191,6 @@ export class NewBlComponent implements OnInit {
             CONTAINER_TYPE: [element.CONTAINER_TYPE],
             CONTAINER_SIZE: [element.CONTAINER_SIZE],
             SEAL_NO: [element.SEAL_NO],
-            MARKS_NOS: [element.MARKS_NOS],
-            DESC_OF_GOODS: [element.DESC_OF_GOODS],
             GROSS_WEIGHT: [element.GROSS_WEIGHT],
             MEASUREMENT: [element.MEASUREMENT?.toString()],
           })
@@ -320,6 +326,8 @@ export class NewBlComponent implements OnInit {
             'PORT_OF_DISCHARGE',
             'PLACE_OF_DELIVERY',
             'FINAL_DESTINATION',
+            'MARKS_NOS',
+            'DESC_OF_GOODS',
           ];
 
           var keyArray1 = [
@@ -327,8 +335,6 @@ export class NewBlComponent implements OnInit {
             'CONTAINER_TYPE',
             'CONTAINER_SIZE',
             'SEAL_NO',
-            'MARKS_NOS',
-            'DESC_OF_GOODS',
             'GROSS_WEIGHT',
             'MEASUREMENT',
           ];
@@ -372,6 +378,8 @@ export class NewBlComponent implements OnInit {
                   element.PORT_OF_DISCHARGE,
                   element.PLACE_OF_DELIVERY,
                   element.FINAL_DESTINATION,
+                  element.MARKS_NOS,
+                  element.DESC_OF_GOODS,
                 ])
               ) {
                 isValid = false;
@@ -385,8 +393,6 @@ export class NewBlComponent implements OnInit {
                   element.CONTAINER_TYPE,
                   element.CONTAINER_SIZE,
                   element.SEAL_NO,
-                  element.MARKS_NOS,
-                  element.DESC_OF_GOODS,
                   element.GROSS_WEIGHT,
                   element.MEASUREMENT,
                 ])
@@ -450,16 +456,36 @@ export class NewBlComponent implements OnInit {
     return $(arr1).not(arr2).length === 0 && $(arr2).not(arr1).length === 0;
   }
 
+  ContainerDescription() {
+    this._commonService.getDropdownData('CONTAINER_TYPE').subscribe((res: any) => {
+      debugger
+      if (res.hasOwnProperty('Data')) {
+        this.allContainerType = res.Data;
+
+        this.containerTypeList = []
+        this.allContainerType.map(x => {
+          if (this.containerList.some(y => y.CONTAINER_SIZE === x.CODE)) {
+            this.containerTypeList.push(this.containerList.filter(y => y.CONTAINER_SIZE === x.CODE))
+          }
+
+        });
+        console.log("Desc" + JSON.stringify(this.containerTypeList));
+        this.generateBLPdf();
+      }
+    });
+
+  }
+
   async generateBLPdf() {
+
     const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
     this.ContainerList1 = [];
     this.ContainerList1.push(add.value);
 
     let docDefinition = {
-      // header: {
-      //   text: 'Bill of Lading',
-      //   margin: [10, 10, 0, 0],
-      // },
+
+      pageMargins: [40, 30, 40, 30],
+
       content: [
         {
           columns: [
@@ -658,29 +684,43 @@ export class NewBlComponent implements OnInit {
           ],
         },
         {
-          layout: 'lightHorizontalLines',
           table: {
             headerRows: 1,
-            widths: ['*', '*', '*', '*', '*', '*'],
             body: [
               [
-                { text: 'Container No', fontSize: 9 },
-                { text: 'Seal No', fontSize: 9 },
-                { text: 'No of Containers or pkgs.', fontSize: 9 },
-                { text: 'Description of goods', fontSize: 9 },
-                { text: 'Gross Weight', fontSize: 9 },
-                { text: 'Measurement', fontSize: 9 },
+                { text: 'Container Numbers, Seal Numbers and Marks', fontSize: 9, bold: true },
+                { text: 'Description of Packages and Goods', fontSize: 9, bold: true },
+                { text: 'Gross Cargo Weight', fontSize: 9, bold: true },
+                { text: 'Measurement', fontSize: 9, bold: true },
               ],
-              ...this.ContainerList1[0].map((p: any) => [
-                { text: p.CONTAINER_NO, fontSize: 9 },
-                { text: p.SEAL_NO, fontSize: 9 },
-                { text: '4', fontSize: 9 },
-                { text: p.DESC_OF_GOODS, fontSize: 9 },
-                { text: p.GROSS_WEIGHT, fontSize: 9 },
-                { text: p.MEASUREMENT, fontSize: 9 },
-              ]),
-            ],
+              ...this.containerTypeList.map((p: any) => [
+                {},
+                { text: p.length + ' X ' + p[0]?.CONTAINER_TYPE, fontSize: 9 },
+                {},
+                {},
+              ])
+            ]
           },
+          layout: {
+            hLineWidth: function (i: any, node: any) {
+              return 0;
+            },
+            vLineWidth: function (i: any, node: any) {
+              return (i === 0 || i === node.table.widths.length) ? 0 : 1;
+            },
+            hLineColor: function (i: any, node: any) {
+              return '';
+            },
+            vLineColor: function (i: any, node: any) {
+              return '';
+            },
+            hLineStyle: function (i: any, node: any) {
+              return 0;
+            },
+            vLineStyle: function (i: any, node: any) {
+              return { dash: { length: 4 } };
+            },
+          }
         },
         {
           text: 'Total No. of Containers or packages (in words)',
@@ -688,38 +728,53 @@ export class NewBlComponent implements OnInit {
           fontSize: 10,
           margin: [0, 20, 0, 0],
         },
-        { text: 'Four (4)', fontSize: 9, margin: [0, 0, 0, 20] },
+        { text: this.containerList.length, fontSize: 9 },
         {
-          layout: 'lightHorizontalLines',
+          canvas: [{ type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 }],
+          margin: [0, 20, 0, 20]
+        },
+        {
           table: {
             headerRows: 1,
             widths: ['*', '*', '*', '*', '*'],
             body: [
               [
-                { text: 'Freight and Charges', fontSize: 9 },
-                { text: 'Revenue Tons', fontSize: 9 },
-                { text: 'Rate Per', fontSize: 9 },
-                { text: 'Prepaid', fontSize: 9 },
-                { text: 'Collect', fontSize: 9 },
+                { text: 'Freight and Charges', fontSize: 9, bold: true },
+                { text: 'Revenue Tons', fontSize: 9, bold: true },
+                { text: 'Rate Per', fontSize: 9, bold: true },
+                { text: 'Prepaid', fontSize: 9, bold: true },
+                { text: 'Collect', fontSize: 9, bold: true },
               ],
-              // ...this.ContainerList1.map((p: any) => [
-              //   { text: p.CONTAINER_NO, fontSize: 9 },
-              //   { text: p.SEAL_NO, fontSize: 9 },
-              //   { text: p.QTY, fontSize: 9 },
-              //   { text: p.DESC_OF_GOODS, fontSize: 9 },
-              //   { text: p.GROSS_WEIGHT, fontSize: 9 },
-              //   { text: p.MEASUREMENT, fontSize: 9 },
-              // ]),
+              ['', '', '', '', ''],
+              ['', '', '', '', ''],
+              ['', '', '', '', ''],
+              ['', '', '', '', ''],
             ],
           },
+          layout: {
+            hLineWidth: function (i: any, node: any) {
+              return 0;
+            },
+            vLineWidth: function (i: any, node: any) {
+              return (i === 0 || i === node.table.widths.length) ? 0 : 1;
+            },
+            hLineColor: function (i: any, node: any) {
+              return '';
+            },
+            vLineColor: function (i: any, node: any) {
+              return '';
+            },
+            hLineStyle: function (i: any, node: any) {
+              return 0;
+            },
+            vLineStyle: function (i: any, node: any) {
+              return { dash: { length: 4 } };
+            },
+          }
         },
         {
-          text: '______________________________________________________________________________________________',
-          margin: [0, 0, 0, 70],
-        },
-        {
-          text: '______________________________________________________________________________________________',
-          margin: [0, 0, 0, 0],
+          canvas: [{ type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 }],
+          margin: [0, 20, 0, 0]
         },
         {
           columns: [
@@ -867,7 +922,7 @@ export class NewBlComponent implements OnInit {
           columns: [
             [
               {
-                text: 'ORIGINAL',
+                text: this.blForm.get('BLType')?.value,
                 bold: true,
                 fontSize: 20,
                 margin: [0, 5, 0, 0],
@@ -876,7 +931,50 @@ export class NewBlComponent implements OnInit {
             ],
           ],
         },
+        {
+
+          pageBreak: 'before',
+          table: {
+            headerRows: 1,
+            widths: ['*', '*', '*', '*', '*', '*'],
+            body: [
+              [
+                { text: 'Container No', fontSize: 9 },
+                { text: 'Seal No', fontSize: 9 },
+                { text: 'No of Containers or pkgs.', fontSize: 9 },
+                { text: 'Description of goods', fontSize: 9 },
+                { text: 'Gross Weight', fontSize: 9 },
+                { text: 'Measurement', fontSize: 9 },
+              ],
+              ...this.ContainerList1[0].map((p: any) => [
+                { text: p.CONTAINER_NO, fontSize: 9 },
+                { text: p.SEAL_NO, fontSize: 9 },
+                { text: '4', fontSize: 9 },
+                { text: p.DESC_OF_GOODS, fontSize: 9 },
+                { text: p.GROSS_WEIGHT, fontSize: 9 },
+                { text: p.MEASUREMENT, fontSize: 9 },
+              ]),
+            ],
+          },
+        },
       ],
+      footer: (currentPage: any, pageCount: any) => {
+        var t = {
+          layout: "noBorders",
+          fontSize: 8,
+          margin: [25, 0, 25, 0],
+          table: {
+            widths: ["*", "*"],
+            body: [
+              [
+                { text: "Page  " + currentPage.toString() + " of " + pageCount },
+              ]
+            ]
+          }
+        };
+
+        return t;
+      },
       styles: {
         sectionHeader: {
           bold: true,
@@ -886,6 +984,7 @@ export class NewBlComponent implements OnInit {
       },
     };
 
+    console.log("dfd " + JSON.stringify(this.containerTypeList))
     pdfMake.createPdf(docDefinition).open();
     // const pdfDocGenerator = pdfMake.createPdf(docDefinition);
     // pdfDocGenerator.getBlob((blob: any) => {
