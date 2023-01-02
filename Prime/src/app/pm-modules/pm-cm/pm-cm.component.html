@@ -25,7 +25,7 @@
                                         <!-- <button class="form-btn d-none" #openBtn data-bs-toggle="modal"
                                         href="#bookingModal">Book
                                         Now</button> -->
-                                        <button class="form-btn-primary" #openBtn data-bs-toggle="modal" href="#bookingModal">Upload Excel</button>
+                                        <button class="form-btn-primary" #openBtn data-bs-toggle="modal" href="#bookingModal">upload Excel</button>
                                     </div>
                                 </div>
     
@@ -51,7 +51,7 @@
                                             </div>
                                             <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload">
                                                 <div class="formbold-file-item">
-                                                    <span class="formbold-file-name">Container Movement File</span>
+                                                    <span class="formbold-file-name">{{'Header.ContainerMovementFile'|translate}}</span>
                                                     <button (click)="onUpload = false"><span class="bx bx-x-circle"></span></button>
                                                 </div>
                                             </div>
@@ -61,7 +61,8 @@
                                         <div class="modal-footer">
                                             <div class="col-md-5 mx-auto text-end">
                                                 <button id="openModalButton"  data-bs-toggle="modal" href="#previewModal" hidden  >Open Modal</button>
-                                                <button class="form-btn w-100"  (click)="openMyPreview()">Upload</button>
+                                                <button class="form-btn w-100"  (click)="openMyPreview()">Upload
+                                                </button>
                                             </div>
     
                                         </div>
@@ -72,7 +73,7 @@
                                 <div class="row" *ngIf="manually">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">Container No
+                                            <label class="form-label2">{{'Header.ContainerNo'|translate}}
                                                 <span class="text-danger">
                                                     *</span>
                                             </label>
@@ -82,13 +83,13 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4 mt-4">
-                                        <button type="button" class="form-btn" style="margin-left: 6px;" (click)="getSingleContainer()">Get Container</button>
+                                        <button type="button" class="form-btn" style="margin-left: 6px;" (click)="getSingleContainer()">{{'Button.GetContainer'|translate}}</button>
                                     </div>
                                 </div>
                                 <div class="row" *ngIf="!manually">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">Booking/CRO No<span class="text-danger">
+                                            <label class="form-label2"> {{'Header.BookingCRONo'|translate}}<span class="text-danger">
                                                 *</span></label>
                                             <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f.BKCR_NO.errors}" formControlName="BKCR_NO"/>
                                             <div *ngIf="submitted && f.BKCR_NO.errors" class="invalid-feedback">Please enter Booking / CRO 
@@ -97,7 +98,7 @@
                                     </div>
                                     
                                     <div class="col-md-4 mt-4">
-                                        <button type="button" class="form-btn" style="margin-left: 6px;" (click)="getContainerList()">Get Containers</button>
+                                        <button type="button" class="form-btn" style="margin-left: 6px;" (click)="getContainerList()">{{'Button.GetContainer'|translate}}</button>
                                     </div>
                                     
                                 </div>
@@ -120,7 +121,7 @@
                                 <div class="row" *ngIf="manually && showFields">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">Activity<span class="text-danger">
+                                            <label class="form-label2">{{'Header.Activity'|translate}}<span class="text-danger">
                                                 *</span></label>
                                             <ng-select formControlName="ACTIVITY" [ngClass]="{'invalid': submitted && f.ACTIVITY.errors}" style="margin-top: 10px;">
                                                 <ng-option value="" selected disabled>
@@ -135,7 +136,7 @@
                                     
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">Activity Date<span class="text-danger">
+                                            <label class="form-label2">{{'Header.ActivityDate'|translate}}<span class="text-danger">
                                                 *</span></label>
                                             <input formControlName="ACTIVITY_DATE" type="date" class="form-control2" [ngClass]="{'invalid': submitted && f.ACTIVITY_DATE.errors}" max="{{maxDate}}"/>
                                             <div *ngIf="submitted && f.ACTIVITY_DATE.errors" class="invalid-feedback">Please enter
@@ -145,7 +146,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">Location<span class="text-danger">
+                                            <label class="form-label2">{{'Header.Location'|translate}}<span class="text-danger">
                                                 *</span></label>
                                             <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f.LOCATION.errors}" formControlName="LOCATION"/>
                                             <div *ngIf="submitted && f.LOCATION.errors" class="invalid-feedback">Please enter
@@ -156,7 +157,7 @@
                                 <div class="row" *ngIf="manually && showFields">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">Status</label>
+                                            <label class="form-label2">{{'Header.Status'|translate}}</label>
                                         <ng-select formControlName="STATUS" [ngClass]="{'invalid': submitted && f.STATUS.errors}" style="margin-top: 10px;">
                                             <ng-option value="" selected disabled>
                                                 --Status--</ng-option>
@@ -170,7 +171,7 @@
                                    </div> 
                                    <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label2">Previous Activity</label>
+                                        <label class="form-label2">{{'Header.PreviousActivity'|translate}}</label>
                                         <input type="text" class="form-control2" [ngClass]="{'invalid': submitted && f.PREV_ACTIVITY.errors}" formControlName="PREV_ACTIVITY"/>
                                         <div *ngIf="submitted && f.PREV_ACTIVITY.errors" class="invalid-feedback">Please enter Previous
                                         Activity</div>

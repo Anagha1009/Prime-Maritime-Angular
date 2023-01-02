@@ -24,6 +24,8 @@ export const locale = {
         ContPickupPoint:'Container Pickup Point',
         CroValidityDate:'CRO Validity Date',
         RequiredQuantity:'Req Quantity',
+        Charges:'Charges',
+        SlotAllocation:'Slot Allocation'
       },
       Button: {
         CreateCRO:'Create CRO',

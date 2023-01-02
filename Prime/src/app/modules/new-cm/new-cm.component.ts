@@ -13,6 +13,10 @@ import { Activity } from 'src/app/models/activity-mapping';
 import { formatDate } from '@angular/common';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { map } from 'rxjs';
+import { locale as english } from 'src/app/@core/translate/cm/en';
+import { locale as hindi } from 'src/app/@core/translate/cm/hi';
+import { locale as arabic } from 'src/app/@core/translate/cm/ar';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 
 @Component({
   selector: 'app-new-cm',
@@ -79,7 +83,8 @@ export class NewCmComponent implements OnInit {
     private _blService:BlService,
     private _actService:ActivityService,
     private _router: Router,
-    private ntService:NotificationsService) { }
+    private _coreTranslationService: CoreTranslationService,
+    private ntService:NotificationsService) {this._coreTranslationService.translate(english,hindi,arabic); }
 
   ngOnInit(): void {
    

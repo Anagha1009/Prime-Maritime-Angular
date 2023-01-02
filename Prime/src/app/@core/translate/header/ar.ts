@@ -6,6 +6,7 @@ export const locale = {
       bookings: 'الحجوزات',
       operations: 'عمليات',
       bookingList: 'قائمة الحجز',
+      finance:'المالية',
       rollover: 'يتدحرج',
       emptyRepoLocal: 'فارغ الريبو المحلي',
       containerMovement: 'كونتينر موفمنة',
@@ -17,6 +18,9 @@ export const locale = {
       movement: 'حركة',
       tracking: 'تركنج',
       history: 'هيستر',
+      VDA:'',
+      FDA:'',
+      
     },
     Button: {
       newRequest: 'New Rate Request',

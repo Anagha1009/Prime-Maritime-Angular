@@ -7,6 +7,7 @@ export const locale = {
       operations: 'Operations',
       bookingList: 'Booking List',
       rollover: 'Rollover',
+      finance:'Finance',
       emptyRepoLocal: 'Empty Repo Local',
       containerMovement: 'Container Movement',
       CRO: 'CRO',
