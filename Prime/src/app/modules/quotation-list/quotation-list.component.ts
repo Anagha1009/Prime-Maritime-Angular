@@ -8,6 +8,7 @@ import { QuotationService } from 'src/app/services/quotation.service';
 import { locale as english } from 'src/app/@core/translate/srr/en';
 import { locale as hindi } from 'src/app/@core/translate/srr/hi';
 import { locale as arabic } from 'src/app/@core/translate/srr/ar';
+import { BookingService } from 'src/app/services/booking.service';
 
 @Component({
   selector: 'app-quotation-list',
@@ -27,16 +28,27 @@ export class QuotationListComponent implements OnInit {
   expRecords: any = 0;
   vesselList: any[] = [];
   voyageList: any[] = [];
+  portList: any[] = [];
+  voyageForm: FormGroup;
+  vesselList1: any[] = [];
+  currencyList: any[] = [];
+  currencyList1: any[] = [];
+  currencyList2: any[] = [];
+  isVoyageAdded: boolean = false;
+  servicenameList: any[] = [];
+  servicenameList1: any[] = [];
   slotoperatorList: any[] = [];
   submitted: boolean = false;
   isLoading: boolean = false;
   isLoading1: boolean = false;
   srrNo: string = '';
+  submitted3: boolean = false;
 
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('closeBtn1') closeBtn1: ElementRef;
   @ViewChild('closeBtn2') closeBtn2: ElementRef;
+  @ViewChild('closeBtn2') closeBtn3: ElementRef; 
   @ViewChild('containerModal') containerModal: ElementRef;
   @ViewChild('rateModal') rateModal: ElementRef;
 
@@ -45,12 +57,14 @@ export class QuotationListComponent implements OnInit {
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _commonService: CommonService,
+    private _bookingService: BookingService,
     private _coreTranslationService: CoreTranslationService
   ) {
     this._coreTranslationService.translate(english, hindi, arabic);
   }
 
   ngOnInit(): void {
+    this.getForm();
     this.quotationForm = this._formBuilder.group({
       SRR_NO: [''],
       CUSTOMER_NAME: [''],
@@ -88,9 +102,16 @@ export class QuotationListComponent implements OnInit {
   }
 
   getDropdown() {
+    this._commonService.getDropdownData('PORT').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.portList = res.Data;
+      }
+    });
     this._commonService.getDropdownData('VESSEL_NAME').subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.vesselList = res.Data;
+        this.vesselList1 = res.Data;
+        
       }
     });
 
@@ -101,6 +122,15 @@ export class QuotationListComponent implements OnInit {
           this.slotoperatorList = res.Data;
         }
       });
+
+      this._commonService.getDropdownData('CURRENCY').subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.currencyList = res.Data;
+          this.currencyList1 = res.Data;
+          this.currencyList2 = res.Data;
+        }
+      });
+  
   }
 
   getVoyageList(event: any) {
@@ -248,6 +278,22 @@ export class QuotationListComponent implements OnInit {
       });
   }
 
+  getServiceName1(event: any) {
+    this.servicenameList1 = [];
+    this.slotDetailsForm.get('SERVICE_NAME')?.setValue('');
+    this._commonService
+      .getDropdownData('SERVICE_NAME', event, '')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.servicenameList1 = res.Data;
+        }
+      });
+  }
+
+  get f6() {
+    return this.voyageForm.controls;
+  }
+
   getQuotationDetails(SRR_NO: any) {
     localStorage.setItem('SRR_NO', SRR_NO);
     this._router.navigateByUrl('home/quotation-details');
@@ -262,6 +308,36 @@ export class QuotationListComponent implements OnInit {
         NO_OF_SLOTS: [''],
       })
     );
+  }
+
+  
+  insertVoyage() {
+    this.submitted3 = true;
+
+    if (this.voyageForm.invalid) {
+      return;
+    }
+
+    this.voyageForm
+      .get('CREATED_BY')
+      ?.setValue(localStorage.getItem('username'));
+
+    this._bookingService
+      .insertVoyage(JSON.stringify(this.voyageForm.value))
+      .subscribe((res: any) => {
+        if (res.responseCode == 200) {
+          alert('Voyage added successfully !');
+          this.slotDetailsForm
+            .get('VOYAGE_NO')
+            ?.setValue(this.voyageForm.get('VOYAGE_NO')?.value);
+          this.slotDetailsForm
+            .get('VESSEL_NAME')
+            ?.setValue(this.voyageForm.get('VESSEL_NAME')?.value);
+
+          this.isVoyageAdded = true;
+          this.closeBtn3.nativeElement.click();
+        }
+      });
   }
 
   openBookingModal(i: any) {
@@ -386,4 +462,28 @@ export class QuotationListComponent implements OnInit {
         }
       });
   }
+
+  getForm() {
+    this.voyageForm = this._formBuilder.group({
+      VESSEL_NAME: ['', Validators.required],
+      VOYAGE_NO: ['', Validators.required],
+      ATA: ['', Validators.required],
+      ATD: ['', Validators.required],
+      IMM_CURR: ['', Validators.required],
+      IMM_CURR_RATE: ['', Validators.required],
+      EXP_CURR: ['', Validators.required],
+      EXP_CURR_RATE: ['', Validators.required],
+      TERMINAL_CODE: ['', Validators.required],
+      SERVICE_NAME: ['', Validators.required],
+      VIA_NO: ['', Validators.required],
+      PORT_CODE: ['', Validators.required],
+      ETA: ['', Validators.required],
+      ETD: ['', Validators.required],
+      CREATED_BY: [''],
+    });
+  }
+
+
+
+  
 }
