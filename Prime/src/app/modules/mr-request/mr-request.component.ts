@@ -38,6 +38,12 @@ export class MrRequestComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+
+  }
+
+  getAllDetails(){
+
     this.mrForm = this._formBuilder.group({
       MR_LIST: new FormArray([
         this._formBuilder.group({
@@ -83,9 +89,9 @@ export class MrRequestComponent implements OnInit {
       this._containerService.GetContainerMasterDetails(container).subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.containerDetails = res.Data;
-          //console.log(JSON.stringify(this.containerDetails));
           this.isContainer = true;
           this.isRecords = true;
+          this.getAllDetails();
         } else if (res.ResponseCode == 500) {
           this.isRecords = false;
           this.isContainer = false;

@@ -238,8 +238,10 @@
                                         <thead>
                                             <tr>
                                                 <th>
-                                                    <label class="checkbox-wrap checkbox-primary" style="margin-bottom: 10px;">
-                                                        <input type="checkbox" (change)="postSelectedContainerList(1,$event,-1)">
+                                                    <label class="checkbox-wrap checkbox-primary"
+                                                        style="margin-bottom: 10px;">
+                                                        <input type="checkbox"
+                                                            (change)="postSelectedContainerList(1,$event,-1)">
                                                         <span class="checkmark"></span>
                                                     </label>
                                                 </th>
@@ -286,8 +288,8 @@
                                                             --Activity--</ng-option>
                                                         <ng-option *ngFor=" let act of
                                                         cmForm.value.CONTAINER_LIST2[i].NEXT_ACTIVITY_LIST"
-                                                            value="{{act.split('-')[0]}}">
-                                                            {{act.split('-')[0]}}-{{act.split('-')[1]}}
+                                                            value="{{act?.split('-')[0]}}">
+                                                            {{act?.split('-')[0]}}-{{act.split('-')[1]}}
                                                         </ng-option>
                                                     </ng-select>
 

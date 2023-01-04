@@ -18,6 +18,9 @@ export const locale = {
       movement: 'गतिविधि',
       tracking: 'ट्रैकिंग ',
       history: 'हिस्ट्री',
+      containerAllotment: 'कंटेनर आवंटन',
+      mnrRequest: 'एम & आर अनुरोध',
+      containerTracking: 'कंटेनर ट्रैकिंग',
     },
     Button: {
       newRequest: 'New Rate Request',

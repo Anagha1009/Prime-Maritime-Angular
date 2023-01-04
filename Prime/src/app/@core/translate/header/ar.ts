@@ -20,7 +20,9 @@ export const locale = {
       history: 'هيستر',
       VDA:'',
       FDA:'',
-      
+      containerAllotment: 'تخصيص الحاويات',
+      mnrRequest: 'طلب M&R',
+      containerTracking: 'تتبع الحاويات',
     },
     Button: {
       newRequest: 'New Rate Request',
