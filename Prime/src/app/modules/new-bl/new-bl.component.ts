@@ -38,7 +38,7 @@ export class NewBlComponent implements OnInit {
     private _commonService: CommonService,
     private _blService: BlService,
     private _router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.blForm = this._formBuilder.group({
@@ -117,8 +117,6 @@ export class NewBlComponent implements OnInit {
         this.chargeList = res.Data.SRR_RATES;
       }
     });
-
-
   }
 
   createBL() {
@@ -128,8 +126,8 @@ export class NewBlComponent implements OnInit {
       this.blForm.get('BL_NO')?.setValue(this.getRandomNumber());
     }
 
-    var bltypevalue = this.blForm.get("BLType")?.value
-    this.blForm.get("BLType")?.setValue(bltypevalue ? "Original" : "Draft");
+    var bltypevalue = this.blForm.get('BLType')?.value;
+    this.blForm.get('BLType')?.setValue(bltypevalue ? 'Original' : 'Draft');
 
     var voyageNo = this.blForm.get('VOYAGE_NO')?.value;
     this.blForm.get('VOYAGE_NO')?.setValue(voyageNo.toString());
@@ -158,6 +156,7 @@ export class NewBlComponent implements OnInit {
       if (res.ResponseCode == 200) {
         this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
         this.blForm.get('SRR_NO')?.setValue(res.Data.SRR_NO);
+
         this._blService
           .createBL(JSON.stringify(this.blForm.value))
           .subscribe((res: any) => {
@@ -277,6 +276,7 @@ export class NewBlComponent implements OnInit {
     var extension = file.name.split('.').pop();
     var array = ['csv', 'xls', 'xlsx'];
 
+    debugger;
     if (
       ev.target.files[0].type ==
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -457,33 +457,33 @@ export class NewBlComponent implements OnInit {
   }
 
   ContainerDescription() {
-    this._commonService.getDropdownData('CONTAINER_TYPE').subscribe((res: any) => {
-      debugger
-      if (res.hasOwnProperty('Data')) {
-        this.allContainerType = res.Data;
+    this._commonService
+      .getDropdownData('CONTAINER_TYPE')
+      .subscribe((res: any) => {
+        debugger;
+        if (res.hasOwnProperty('Data')) {
+          this.allContainerType = res.Data;
 
-        this.containerTypeList = []
-        this.allContainerType.map(x => {
-          if (this.containerList.some(y => y.CONTAINER_SIZE === x.CODE)) {
-            this.containerTypeList.push(this.containerList.filter(y => y.CONTAINER_SIZE === x.CODE))
-          }
+          this.containerTypeList = [];
+          this.allContainerType.map((x) => {
+            if (this.containerList.some((y) => y.CONTAINER_TYPE === x.CODE)) {
+              this.containerTypeList.push(
+                this.containerList.filter((y) => y.CONTAINER_TYPE === x.CODE)
+              );
+            }
+          });
 
-        });
-        console.log("Desc" + JSON.stringify(this.containerTypeList));
-        this.generateBLPdf();
-      }
-    });
-
+          this.generateBLPdf();
+        }
+      });
   }
 
   async generateBLPdf() {
-
     const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
     this.ContainerList1 = [];
     this.ContainerList1.push(add.value);
 
     let docDefinition = {
-
       pageMargins: [40, 30, 40, 30],
 
       content: [
@@ -688,8 +688,16 @@ export class NewBlComponent implements OnInit {
             headerRows: 1,
             body: [
               [
-                { text: 'Container Numbers, Seal Numbers and Marks', fontSize: 9, bold: true },
-                { text: 'Description of Packages and Goods', fontSize: 9, bold: true },
+                {
+                  text: 'Container Numbers, Seal Numbers and Marks',
+                  fontSize: 9,
+                  bold: true,
+                },
+                {
+                  text: 'Description of Packages and Goods',
+                  fontSize: 9,
+                  bold: true,
+                },
                 { text: 'Gross Cargo Weight', fontSize: 9, bold: true },
                 { text: 'Measurement', fontSize: 9, bold: true },
               ],
@@ -698,15 +706,15 @@ export class NewBlComponent implements OnInit {
                 { text: p.length + ' X ' + p[0]?.CONTAINER_TYPE, fontSize: 9 },
                 {},
                 {},
-              ])
-            ]
+              ]),
+            ],
           },
           layout: {
             hLineWidth: function (i: any, node: any) {
               return 0;
             },
             vLineWidth: function (i: any, node: any) {
-              return (i === 0 || i === node.table.widths.length) ? 0 : 1;
+              return i === 0 || i === node.table.widths.length ? 0 : 1;
             },
             hLineColor: function (i: any, node: any) {
               return '';
@@ -720,7 +728,7 @@ export class NewBlComponent implements OnInit {
             vLineStyle: function (i: any, node: any) {
               return { dash: { length: 4 } };
             },
-          }
+          },
         },
         {
           text: 'Total No. of Containers or packages (in words)',
@@ -730,8 +738,10 @@ export class NewBlComponent implements OnInit {
         },
         { text: this.containerList.length, fontSize: 9 },
         {
-          canvas: [{ type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 }],
-          margin: [0, 20, 0, 20]
+          canvas: [
+            { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
+          ],
+          margin: [0, 20, 0, 20],
         },
         {
           table: {
@@ -756,7 +766,7 @@ export class NewBlComponent implements OnInit {
               return 0;
             },
             vLineWidth: function (i: any, node: any) {
-              return (i === 0 || i === node.table.widths.length) ? 0 : 1;
+              return i === 0 || i === node.table.widths.length ? 0 : 1;
             },
             hLineColor: function (i: any, node: any) {
               return '';
@@ -770,11 +780,13 @@ export class NewBlComponent implements OnInit {
             vLineStyle: function (i: any, node: any) {
               return { dash: { length: 4 } };
             },
-          }
+          },
         },
         {
-          canvas: [{ type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 }],
-          margin: [0, 20, 0, 0]
+          canvas: [
+            { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
+          ],
+          margin: [0, 20, 0, 0],
         },
         {
           columns: [
@@ -932,7 +944,6 @@ export class NewBlComponent implements OnInit {
           ],
         },
         {
-
           pageBreak: 'before',
           table: {
             headerRows: 1,
@@ -960,17 +971,19 @@ export class NewBlComponent implements OnInit {
       ],
       footer: (currentPage: any, pageCount: any) => {
         var t = {
-          layout: "noBorders",
+          layout: 'noBorders',
           fontSize: 8,
           margin: [25, 0, 25, 0],
           table: {
-            widths: ["*", "*"],
+            widths: ['*', '*'],
             body: [
               [
-                { text: "Page  " + currentPage.toString() + " of " + pageCount },
-              ]
-            ]
-          }
+                {
+                  text: 'Page  ' + currentPage.toString() + ' of ' + pageCount,
+                },
+              ],
+            ],
+          },
         };
 
         return t;
@@ -984,11 +997,6 @@ export class NewBlComponent implements OnInit {
       },
     };
 
-    console.log("dfd " + JSON.stringify(this.containerTypeList))
     pdfMake.createPdf(docDefinition).open();
-    // const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-    // pdfDocGenerator.getBlob((blob: any) => {
-    //   console.log(blob);
-    // });
   }
 }
