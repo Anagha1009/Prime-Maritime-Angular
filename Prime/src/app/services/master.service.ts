@@ -54,4 +54,38 @@ export class MasterService {
       this.httpOptions
     );
   }
+
+  getMstICD(){
+    debugger;
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetMstICD',
+      this.httpOptions
+
+    );
+  }
+
+  getMstDEPO(){
+    debugger;
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetMstDEPO',
+      this.httpOptions
+    );
+
+  }
+
+  getCP(){
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetClearingPartyList',
+      this.httpOptions
+    );
+  }
+
+  postCP(cp:any){
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/InsertCP',
+      cp,
+      this.httpOptions
+    );
+
+  }
 }
