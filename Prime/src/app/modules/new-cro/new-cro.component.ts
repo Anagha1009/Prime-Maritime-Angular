@@ -391,9 +391,19 @@ export class NewCroComponent implements OnInit {
         .subscribe((data: any) => {
           this.fileData = data;
           const blob1 = new Blob([data], { type: 'application/vnd.ms-excel' });
-          this.excelFile = new File([blob1], 'report.xlsx', {
+          this.excelFile = new File([blob1], 'SI.xlsx', {
             type: 'application/vnd.ms-excel',
           });
+
+          const body : string =
+          'Customer Name: ' + this.croDetails?.CUSTOMER_NAME + '<br/>' +
+          'POL: ' + this.croDetails?.POL + '<br/>' +
+          'POD: ' + this.croDetails?.POD + '<br/>' +
+          'CRO No - ' + this.croDetails?.CRO_NO + '<br/>' +
+          'No. of Containers: ' + '' + '<br/>' +
+          'Vessel Name: ' + '<br/>' +
+          'ETA: ' + '<br/>' 
+          console.log(body);
 
           const formData: FormData = new FormData();
           formData.append('Attachments', blob);
@@ -401,6 +411,7 @@ export class NewCroComponent implements OnInit {
           console.log('excel ' + this.excelFile);
           formData.append('ToEmail', this.email);
           formData.append('Subject', 'CRO - ' + this.croDetails?.CRO_NO);
+          formData.append('Body', body );
 
           this._commonService.sendEmail(formData).subscribe((res: any) => {
             this.isLoading = false;
