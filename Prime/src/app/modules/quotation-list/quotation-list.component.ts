@@ -240,7 +240,7 @@ export class QuotationListComponent implements OnInit {
 
   addContainer() {
     this._quotationService
-      .insertContainer(JSON.stringify(this.containerForm.value))
+      .insertContainer(JSON.stringify(this.containerForm.value.SRR_CONTAINERS))
       .subscribe((res: any) => {
         this.closeBtn1.nativeElement.click();
         alert('Your container has been added successfully !');
