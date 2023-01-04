@@ -19,6 +19,7 @@ export class DoListComponent implements OnInit {
   doListForm:FormGroup;
   previewNoData:boolean=false;
   previewList:boolean=false;
+  isLoading: boolean = false;
 
   constructor(private _dOService: DoService,private _blService:BlService,private _router: Router,private _formBuilder: FormBuilder) { }
 
@@ -37,9 +38,9 @@ export class DoListComponent implements OnInit {
     this.previewNoData=false;
     this.dO.AGENT_CODE = localStorage.getItem('usercode');
     this.dO.OPERATION = 'GET_DOLIST';
+    this.isLoading = true;
     this._dOService.getDOList(this.dO).subscribe(
       (res: any) => {
-        debugger;
         this.doList = [];
         this.isScroll = false;
         if (res.hasOwnProperty('Data')) {
@@ -48,6 +49,7 @@ export class DoListComponent implements OnInit {
             //getContainerCount
             this.getContainerCount();
             this.previewList=true;
+            this.isLoading = false;
             if (this.doList?.length >= 4) {
               this.isScroll = true;
             } else {
