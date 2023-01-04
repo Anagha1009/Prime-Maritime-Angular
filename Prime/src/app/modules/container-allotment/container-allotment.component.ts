@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -20,6 +21,7 @@ export class ContainerAllotmentComponent implements OnInit {
   isCRO: boolean = false;
   bookingNo: any;
   isrecord: boolean = true;
+  croDetails: any;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -71,6 +73,7 @@ export class ContainerAllotmentComponent implements OnInit {
       CRO_NO: [''],
       TO_LOCATION: [''],
       MOVEMENT_DATE: [''],
+      DEPO_CODE: [''],
       CREATED_BY: [''],
       CONTAINER_LIST1: new FormControl(this.containerDropdownList),
       CONTAINER_LIST: new FormArray([]),
@@ -78,6 +81,7 @@ export class ContainerAllotmentComponent implements OnInit {
   }
 
   get f() {
+    console.log(this.containerForm.controls);
     return this.containerForm.controls;
   }
 
@@ -100,6 +104,10 @@ export class ContainerAllotmentComponent implements OnInit {
       .get('CREATED_BY')
       ?.setValue(localStorage.getItem('username'));
 
+    this.containerForm
+      .get('DEPO_CODE')
+      ?.setValue(localStorage.getItem('usercode'));
+
     this.containerForm.get('BOOKING_NO')?.setValue(this.bookingNo);
 
     this._depoService
@@ -120,6 +128,7 @@ export class ContainerAllotmentComponent implements OnInit {
     this.containerForm.get('CRO_NO')?.setValue(this.croNo);
     this._croService.getCRODetails(cro).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
+        this.croDetails = res.Data;
         this.bookingNo = res.Data.BOOKING_NO;
         this.isCRO = true;
         this.isrecord = true;

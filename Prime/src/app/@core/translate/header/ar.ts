@@ -17,6 +17,9 @@ export const locale = {
       movement: 'حركة',
       tracking: 'تركنج',
       history: 'هيستر',
+      containerAllotment: 'تخصيص الحاويات',
+      mnrRequest: 'طلب M&R',
+      containerTracking: 'تتبع الحاويات',
     },
     Button: {
       newRequest: 'New Rate Request',

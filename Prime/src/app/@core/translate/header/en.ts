@@ -17,6 +17,9 @@ export const locale = {
       movement: 'Movement',
       tracking: 'Tracking',
       history: 'History',
+      containerAllotment: 'Container Allotment',
+      mnrRequest: 'M&R Request',
+      containerTracking: 'Container Tracking',
     },
     Button: {
       newRequest: 'New Rate Request',
