@@ -43,6 +43,7 @@ export class NewCroComponent implements OnInit {
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
   excelFile: File;
+  pdfFile: File;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -391,16 +392,42 @@ export class NewCroComponent implements OnInit {
         .subscribe((data: any) => {
           this.fileData = data;
           const blob1 = new Blob([data], { type: 'application/vnd.ms-excel' });
-          this.excelFile = new File([blob1], 'report.xlsx', {
+          this.excelFile = new File([blob1], 'SI.xlsx', {
             type: 'application/vnd.ms-excel',
           });
 
+          const blob2 = new Blob([blob], { type: 'application/pdf' });
+          this.pdfFile = new File([blob2], 'CRO.pdf', {
+            type: 'application/pdf',
+          });
+
+          const body: string =
+            'Customer Name: ' +
+            this.croDetails?.CUSTOMER_NAME +
+            '<br/>' +
+            'POL: ' +
+            this.croDetails?.POL +
+            '<br/>' +
+            'POD: ' +
+            this.croDetails?.POD +
+            '<br/>' +
+            'CRO No - ' +
+            this.croDetails?.CRO_NO +
+            '<br/>' +
+            'No. of Containers: ' +
+            '' +
+            '<br/>' +
+            'Vessel Name: ' +
+            '<br/>' +
+            'ETA: ' +
+            '<br/>';
+
           const formData: FormData = new FormData();
-          formData.append('Attachments', blob);
+          formData.append('Attachments', this.pdfFile);
           formData.append('Attachments', this.excelFile);
-          console.log('excel ' + this.excelFile);
           formData.append('ToEmail', this.email);
           formData.append('Subject', 'CRO - ' + this.croDetails?.CRO_NO);
+          formData.append('Body', body);
 
           this._commonService.sendEmail(formData).subscribe((res: any) => {
             this.isLoading = false;

@@ -1,7 +1,7 @@
 <div class="section-title">
     <h2>Container Allotment</h2>
 </div>
-<div class="container">
+<div class="container mb-5">
     <div class="col-md-10 mx-auto">
         <div class="row mt-5">
             <div class="col-md-4">
@@ -12,6 +12,18 @@
             </div>
             <div class="col-md-4">
                 <button class="form-btn" (click)="getDetails()">Get Details</button>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row" *ngIf="isCRO">
+                <div class="col-md-4">
+                    <h6>Booking No : <small class="text-danger">{{croDetails.BOOKING_NO}}</small></h6>
+                </div>
+                <div class="col-md-4">
+                    <h6>Container Details : <small class="text-danger"
+                            *ngFor="let item of croDetails.ContainerList; let i = index">{{item.CONTAINER_TYPE}} x
+                            {{item.IMM_VOLUME_EXPECTED}}</small><span *ngIf="i > 0"> | </span></h6>
+                </div>
             </div>
         </div>
         <form [formGroup]="containerForm">
@@ -65,7 +77,7 @@
                     <td>{{f.CRO_NO.value}}</td>
                     <td>{{item.item_text}}</td>
                     <td>{{f.TO_LOCATION.value}}</td>
-                    <td>{{f.CRO_NO.MOVEMENT_DATE}}</td>
+                    <td>{{f.MOVEMENT_DATE.value | date:'mediumDate'}}</td>
                     <td><i class='bx bxs-trash-alt'></i></td>
                 </tr>
             </tbody>
