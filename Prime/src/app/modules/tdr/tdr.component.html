@@ -156,50 +156,58 @@
                             NextPort</div>
                     </div>
                 </div>
+                <div class="col-md-4 offset-md-8" style="text-align: right;">
+                    <button [disabled]="isLoading" (click)="InsertTdr()" class="form-btn me-2"
+                        class="form-btn me-2">Save
+                        <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
+                    <button type="button" (click)="ClearForm()" class="form-btn me-2"
+                        class="form-btn me-2">Clear</button>
+
+                </div>
             </div>
-        
-  <div class="col-md-12 mx-auto mt-5" #epltable>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Sr. No</th>
-          <th>VESSEL NAME</th>
-          <th>VOYAGE NO</th>
-          <th>POL</th>
-          <th>TERMINAL</th>
-          <th>ETA</th>
-          <th>POB BERTHING</th>
-          <th>BERTHED</th>
-          <th>OPERATION COMMMENCED</th>
-          <th>POB SAILING</th>
-          <th>SAILED</th>
-          <th>ETD</th>
-          <th>ETA NEXTPORT</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of tdrList; let i = index">
-          <td>{{i+1}}</td>
-          <td>{{item.VESSEL_NAME}}</td>
-          <td>{{item.VOYAGE_NO}}</td>
-          <td>{{item.POL}}</td>
-          <td>{{item.TERMINAL}}</td>
-          <td>{{item.ETA}}</td>
-          <td>{{item.POB_BERTHING}}</td>
-          <td>{{item.BERTHED}}</td>
-          <td>{{item.OPERATION_COMMENCED}}</td>
-          <td>{{item.POB_SAILING}}</td>
-          <td>{{item.SAILED}}</td>
-          <td>{{item.ETD}}</td>
-          <td>{{item.ETA_NEXTPORT}}</td>
-          <td>
-           <i class="fa fa-pencil mx-2 pointer text-success"></i>
-            <i class="fa fa-trash ms-2 pointer text-danger"></i>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+
+            <div class="col-md-12 mx-auto mt-5 d-none" #epltable>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>VESSEL NAME</th>
+                            <th>VOYAGE NO</th>
+                            <th>POL</th>
+                            <th>TERMINAL</th>
+                            <th>ETA</th>
+                            <th>POB BERTHING</th>
+                            <th>BERTHED</th>
+                            <th>OPERATION COMMMENCED</th>
+                            <th>POB SAILING</th>
+                            <th>SAILED</th>
+                            <th>ETD</th>
+                            <th>ETA NEXTPORT</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of tdrList; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{item.VESSEL_NAME}}</td>
+                            <td>{{item.VOYAGE_NO}}</td>
+                            <td>{{item.POL}}</td>
+                            <td>{{item.TERMINAL}}</td>
+                            <td>{{item.ETA}}</td>
+                            <td>{{item.POB_BERTHING}}</td>
+                            <td>{{item.BERTHED}}</td>
+                            <td>{{item.OPERATION_COMMENCED}}</td>
+                            <td>{{item.POB_SAILING}}</td>
+                            <td>{{item.SAILED}}</td>
+                            <td>{{item.ETD}}</td>
+                            <td>{{item.ETA_NEXTPORT}}</td>
+                            <td>
+                                <i class="fa fa-pencil mx-2 pointer text-success"></i>
+                                <i class="fa fa-trash ms-2 pointer text-danger"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
         </div>
-        

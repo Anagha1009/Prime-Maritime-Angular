@@ -31,11 +31,11 @@
                         <li><a href="home/new-track">{{'Menu.tracking'|translate}}</a></li>
                         <li><a href="home/ct-list">{{'Menu.history'|translate}}</a></li>
                     </ul>
-                    <ul *ngIf="item.menuName == 'Finance'">
-                        <li><a href="#">TDR</a></li>
-                        <li><a href="#">VDA</a></li>
-                        <li><a href="#">FDA</a></li>
-                        <li><a href="#">Invoice</a></li>
+                    <ul *ngIf="item.menuName == 'Finance'|| item.menuName == 'वित्त' || item.menuName == ' المالية'">
+                        <li><a href="#">{{'Menu.TDR'|translate}}</a></li>
+                        <li><a href="#">{{'Menu.VDA'|translate}}</a></li>
+                        <li><a href="#">{{'Menu.FDA'|transalte}}</a></li>
+                        <li><a href="#">{{'Menu.Invoice'|translate}}</a></li>
                     </ul>
                 </li>
             </ul>

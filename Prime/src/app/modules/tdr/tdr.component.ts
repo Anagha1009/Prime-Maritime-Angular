@@ -151,6 +151,7 @@ export class TdrComponent implements OnInit {
         if (res.responseCode == 200) {
           alert('Your record has been submitted successfully !');
           this.GetTdrList();
+          this.exportToExcel();
         }
       });
   }
@@ -167,11 +168,18 @@ export class TdrComponent implements OnInit {
           this.tdrList = res.Data;
           if (this.tdrList.length > 0) {
             setTimeout(() => {
-              this.exportToExcel();
               this.isLoading = false;
             }, 20);
           }
         }
       });
   }
+
+  ClearForm(){
+    this.tdrForm.reset()
+    this.tdrForm.get('VESSEL_NAME')?.setValue("")
+    this.tdrForm.get('VOYAGE_NO')?.setValue("")
+
+  }
+  
 }
