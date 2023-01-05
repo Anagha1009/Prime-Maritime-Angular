@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { QUOTATION } from 'src/app/models/quotation';
 import { BookingService } from 'src/app/services/booking.service';
 import { CommonService } from 'src/app/services/common.service';
 import { PartyService } from 'src/app/services/party.service';
@@ -385,13 +386,27 @@ export class NewQuotationComponent implements OnInit {
         CONTAINER_TYPE: [ct],
         CHARGE_CODE: [''],
         CURRENCY: ['USD'],
-        STANDARD_RATE: ['100'],
+        STANDARD_RATE: ['0'],
         RATE_REQUESTED: [''],
         PAYMENT_TERM: [''],
         TRANSPORT_TYPE: [''],
         REMARKS: [''],
       })
     );
+
+    this.chargecodeList = [];
+    this._commonService
+      .getDropdownData(
+        'CHARGE_CODE',
+        this.quotationForm.get('POL')?.value,
+        this.quotationForm.get('POD')?.value,
+        this.containerForm.get('IMM_VOLUME_EXPECTED')?.value
+      )
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.chargecodeList = res.Data;
+        }
+      });
 
     this.RateModal.nativeElement.click();
 
@@ -408,7 +423,7 @@ export class NewQuotationComponent implements OnInit {
         CONTAINER_TYPE: [ct],
         CHARGE_CODE: [''],
         CURRENCY: ['USD'],
-        STANDARD_RATE: ['100'],
+        STANDARD_RATE: ['0'],
         RATE_REQUESTED: [''],
         PAYMENT_TERM: [''],
         TRANSPORT_TYPE: [''],
@@ -434,7 +449,7 @@ export class NewQuotationComponent implements OnInit {
     containers.push(
       this._formBuilder.group({
         CONTAINER_TYPE: [this.containerForm.value.CONTAINER_TYPE],
-        CONTAINER_SIZE: ['NULL'],
+        CONTAINER_SIZE: [0],
         SERVICE_MODE: [this.containerForm.value.SERVICE_MODE],
         POD_FREE_DAYS: [this.containerForm.value.POD_FREE_DAYS],
         POL_FREE_DAYS: [this.containerForm.value.POL_FREE_DAYS],
@@ -768,21 +783,12 @@ export class NewQuotationComponent implements OnInit {
 
   getServiceName(event: any) {
     this.servicenameList = [];
-    this.chargecodeList = [];
     this.quotationForm.get('SERVICE_NAME')?.setValue('');
     this._commonService
       .getDropdownData('SERVICE_NAME', event, '')
       .subscribe((res: any) => {
         if (res.hasOwnProperty('Data')) {
           this.servicenameList = res.Data;
-        }
-      });
-
-    this._commonService
-      .getDropdownData('CHARGE_CODE', event, '')
-      .subscribe((res: any) => {
-        if (res.hasOwnProperty('Data')) {
-          this.chargecodeList = res.Data;
         }
       });
   }
@@ -1007,5 +1013,20 @@ export class NewQuotationComponent implements OnInit {
 
   s1(i: any) {
     return i;
+  }
+
+  getRate(event: any, i: number) {
+    var srr = new QUOTATION();
+    srr.POL = this.quotationForm.get('POL')?.value;
+    srr.POD = this.quotationForm.get('POD')?.value;
+    srr.CHARGE = event;
+    srr.CONTAINER_TYPE = this.containerForm.get('CONTAINER_TYPE')?.value;
+
+    const add = this.quotationForm.get('SRR_RATES1') as FormArray;
+
+    this._quotationService.getRate(srr).subscribe((res: any) => {
+      add.controls[i].get('STANDARD_RATE')?.setValue('');
+      add.controls[i].get('STANDARD_RATE')?.setValue(res.Data);
+    });
   }
 }
