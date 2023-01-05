@@ -1,5 +1,5 @@
 <div class="section-title">
-    <h2>Empty Repo</h2>
+    <h2>{{'Header.title'|translate}}</h2>
 </div>
 <section class="services">
     <div>
@@ -18,23 +18,23 @@
                                 <div class="col-md-3 mx-auto">
                                     <div class="tabs">
                                         <input type="radio" (click)="tabs = '1'" class="d-none" id="radio-1" name="tabs" checked />
-                                        <label class="tab" for="radio-1">Truck</label>
+                                        <label class="tab" for="radio-1">{{'Header.Truck'|translate}}</label>
                                         <input type="radio" (click)="tabs = '2'" class="d-none" id="radio-2" name="tabs" />
-                                        <label class="tab" for="radio-2">Rail</label>
+                                        <label class="tab" for="radio-2">{{'Header.Rail'|translate}}</label>
                                         <input type="radio" (click)="tabs = '3'" class="d-none" id="radio-3" name="tabs" />
-                                        <label class="tab" for="radio-3">Vessel</label>
+                                        <label class="tab" for="radio-3">{{'Header.Vessel'|translate}}</label>
                                         <span class="glider"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6 offset-md-6 text-end">
                                     <button class="form-btn-primary" #openBtn data-bs-toggle="modal"
-                                        href="#croModal">Create CRO</button>
+                                        href="#croModal">{{'Button.CreateCRO'|translate}}</button>
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col-md-4" *ngIf="tabs=='1' || tabs=='2' || tabs=='3'">
                                     <div class="form-group">
-                                        <label class="form-label2">Load Depot<span class="text-danger">*</span></label>
+                                        <label class="form-label2">{{'Header.LoadDepot'|translate}}<span class="text-danger">*</span></label>
                                         <ng-select [ngClass]="{'invalid': submitted && f.LOAD_DEPOT.errors}"
                                             formControlName="LOAD_DEPOT" style="margin-top: 10px;" (change)="getAvailableContainers($event)">
                                             <ng-option value="" selected="true" disabled>--Select Load DEPOT--
@@ -59,7 +59,7 @@
                                 
                                 <div class="col-md-4" *ngIf="tabs=='1' || tabs=='2'">
                                     <div class="form-group">
-                                        <label class="form-label2">Discharge Depot<span
+                                        <label class="form-label2">{{'Header.DischargeDepot'|translate}}<span
                                                 class="text-danger">*</span></label>
                                         <ng-select [ngClass]="{'invalid': submitted && f.DISCHARGE_DEPOT.errors}"
                                             formControlName="DISCHARGE_DEPOT" style="margin-top: 10px;">
@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="col-md-4" *ngIf="tabs=='3'">
                                     <div class="form-group">
-                                        <label class="form-label2">Load Port<span class="text-danger">*</span></label>
+                                        <label class="form-label2">{{'Header.LoadPort'|translate}}<span class="text-danger">*</span></label>
                                         <ng-select [ngClass]="{'invalid': submitted && f.LOAD_PORT.errors}"
                                             formControlName="LOAD_PORT" style="margin-top: 10px;">
                                             <ng-option value="" selected="true" disabled>--Select LOAD PORT--
@@ -108,7 +108,7 @@
                                 
                                 <div class="col-md-4 mt-2" *ngIf="tabs=='1' || tabs=='2'|| tabs=='3'">
                                     <div class="form-group">
-                                        <label class="form-label2">Movement Date <span
+                                        <label class="form-label2">{{'Header.MovementDate'|translate}}<span
                                             class="text-danger">*</span></label>
                                         <input type="date" class="form-control"
                                             [ngClass]="{'invalid': submitted && f.MOVEMENT_DATE.errors}"
@@ -143,7 +143,7 @@
                             <div class="row mt-2">
                                 <div class="col-md-4" *ngIf="tabs=='1' || tabs=='2'">
                                     <div class="form-group">
-                                        <label class="form-label2"  style="margin-bottom: 13px;">Container <span class="text-danger">*</span></label>
+                                        <label class="form-label2"  style="margin-bottom: 13px;">{{'Header.Container'|translate}} <span class="text-danger">*</span></label>
                                         <ng-multiselect-dropdown #multiSelect [placeholder]="'Select Container'"
                                             [settings]="dropdownSettings" [data]="containerDropdownList"
                                             [(ngModel)]="selectedItems" [formControl]="f.CONTAINER_LIST"
@@ -167,7 +167,7 @@
                                        
                                         <input type="text"  [ngClass]="{'invalid':submitted && f.REMARKS.errors}" formControlName="REMARKS"
                                         class="form-control" style="margin-top: 10px;">
-                                    <label class="form-label"> Remarks <span class="text-danger">*</span></label>
+                                    <label class="form-label"> {{'Header.Remarks'|translate}}<span class="text-danger">*</span></label>
                                     <div *ngIf="submitted && f.REMARKS.errors" class="invalid-feedback">
                                         Please Enter Remarks
                                        </div>
@@ -202,7 +202,7 @@
                                 
                                 <div class="col-md-4" *ngIf="tabs=='3'">
                                     <div class="form-group">
-                                        <label class="form-label2">Discharge Port<span
+                                        <label class="form-label2">{{'Header.DischargePort'|translate}}<span
                                                 class="text-danger">*</span></label>
                                         <ng-select [ngClass]="{'invalid': submitted && f.DISCHARGE_PORT.errors}"
                                             formControlName="DISCHARGE_PORT" style="margin-top: 10px;">
@@ -227,7 +227,7 @@
                                 
                                 <div class="col-md-4" *ngIf="tabs=='3'">
                                     <div class="form-group">
-                                        <label class="form-label2">Discharge Depot<span
+                                        <label class="form-label2">{{'Header.DischargePort'|translate}}<span
                                                 class="text-danger">*</span></label>
                                         <ng-select [ngClass]="{'invalid': submitted && f.DISCHARGE_DEPOT.errors}"
                                             formControlName="DISCHARGE_DEPOT" style="margin-top: 10px;">
@@ -252,7 +252,7 @@
                                 
                                 <div class="col-md-4" *ngIf="tabs=='3'">
                                     <div class="form-group">
-                                        <label class="form-label2">Vessel Name<span class="text-danger">*</span></label>
+                                        <label class="form-label2">{{'Header.VesselName'|translate}}<span class="text-danger">*</span></label>
                                         <ng-select (change)="getVoyageList($event)"
                                             [ngClass]="{'invalid': submitted && f.VESSEL_NAME.errors}"
                                             formControlName="VESSEL_NAME" style="margin-top: 10px;">
@@ -290,7 +290,7 @@
                             <div class="row">
                                 <div class="col-md-4" *ngIf="tabs=='3'">
                                     <div class="form-group">
-                                        <label class="form-label2">Voyage No<span class="text-danger">*</span></label>
+                                        <label class="form-label2">{{'Header.VoyageNo'|translate}}<span class="text-danger">*</span></label>
                                         <ng-select
                                             [ngClass]="{'invalid': submitted && f.VOYAGE_NO.errors}"
                                             formControlName="VOYAGE_NO" style="margin-top: 10px;">
@@ -310,7 +310,7 @@
                                
                                 <div class="col-md-4" *ngIf="tabs=='3'">
                                     <div class="form-group">
-                                        <label class="form-label2"  style="margin-bottom: 13px;">Container <span class="text-danger">*</span></label>
+                                        <label class="form-label2"  style="margin-bottom: 13px;">{{'Header.Container'|translate}} <span class="text-danger">*</span></label>
                                         <ng-multiselect-dropdown #multiSelect [placeholder]="'Select Container'"
                                             [settings]="dropdownSettings" [data]="containerDropdownList"
                                             [(ngModel)]="selectedItems" [formControl]="f.CONTAINER_LIST"
@@ -334,7 +334,7 @@
                                        
                                         <input type="text"  [ngClass]="{'invalid':submitted && f.REMARKS.errors}" formControlName="REMARKS"
                                         class="form-control" style="margin-top: 10px;">
-                                    <label class="form-label"> Remarks <span class="text-danger">*</span></label>
+                                    <label class="form-label"> {{'Header.Remarks'|translate}}<span class="text-danger">*</span></label>
                                     <div *ngIf="submitted && f.REMARKS.errors" class="invalid-feedback">
                                         Please Enter Remarks
                                        </div>
@@ -347,11 +347,11 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h6>Charges <span class="text-danger">*</span></h6>
+                                            <h6>{{'Header.Charges'|translate}} <span class="text-danger">*</span></h6>
                                         </div>
                                         <div class="col-md-6" style="text-align: right;">
                                             <button (click)="addRates()" class="form-btn">
-                                                <i class="fa fa-plus me-1"></i>Add Rates</button>
+                                                <i class="fa fa-plus me-1"></i>{{'Button.AddRate'|translate}}</button>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -362,7 +362,7 @@
                                                         <tbody>
                                                             <tr *ngFor="let item of f3;let j = index;" [formGroup]="f4(item)">
                                                                 <td class="col-md-4">
-                                                                    <label class="form-label3">Charge Code</label>
+                                                                    <label class="form-label3">{{'Header.ChargeCode'|translate}}</label>
                                                                     <select class="form-control3" formControlName="CHARGE_CODE" [ngClass]="{'invalid': submitted && item.controls.CHARGE_CODE.errors?.required}">
                                                                         <!-- <option value="" selected disabled> -->
                                                                         <option value="" selected>
@@ -378,7 +378,7 @@
                                                                     
                                                                 </td>
                                                                 <td class="col-md-3">
-                                                                    <label class="form-label3">Currency</label>
+                                                                    <label class="form-label3">{{'Header.Currency'|translate}}</label>
                                                                     <select class="form-control3" formControlName="CURRENCY" [ngClass]="{'invalid': submitted && item.controls.CURRENCY.errors?.required}">
                                                                         <option value="" >--Select--</option>
                                                                         <option value="USD">USD</option>
@@ -389,8 +389,8 @@
                                                                         Please select
                                                                         Currency</div>
                                                                 </td>
-                                                                <td class="col-md-3"> <label class="form-label3">Standard
-                                                                        Rate</label><input class="form-control3" readonly
+                                                                <td class="col-md-3"> <label class="form-label3">{{'Header.StandardRate'|translate}}
+                                                                        </label><input class="form-control3" readonly
                                                                         formControlName="STANDARD_RATE" type="text" [ngClass]="{'invalid': submitted && item.controls.STANDARD_RATE.errors?.required}"/>
                                                                         <div *ngIf="submitted && item.controls.STANDARD_RATE.errors?.required" class="invalid-feedback">
                                                                             Please select
@@ -422,7 +422,7 @@
                                        </div>
                                        <div class="col-md-6" style="text-align: right;">
                                          <button (click)="slotAllocation()" class="form-btn">
-                                        <i class="fa fa-plus me-1"></i>Add Slot</button>
+                                        <i class="fa fa-plus me-1"></i>{{'Button.AddSlot'|translate}}</button>
                                        </div>
                                     </div>
                                     <div class="row">
@@ -435,7 +435,7 @@
                                                                 [formGroup]="f6(item)">
                                                                 
                                                                 <td class="col-md-6">
-                                                                    <label class="form-label3">Slot Operator</label>
+                                                                    <label class="form-label3">{{'Header.SlotOperator'|translate}}</label>
                                                                     <select class="form-control3"
                                                                         formControlName="SLOT_OPERATOR" [ngClass]="{'invalid': submitted && item.controls.SLOT_OPERATOR.errors?.required}">
                                                                         <option value="" selected disabled>
@@ -448,7 +448,7 @@
                                                                         Slot Operator</div>
                                                                 </td>
                                                                 <td class="col-md-4">
-                                                                    <label class="form-label3">No of Slots</label>
+                                                                    <label class="form-label3">{{'Header.NoOfSlots'|translate}}</label>
                                                                     <input class="form-control3"
                                                                         formControlName="NO_OF_SLOTS" type="text" [ngClass]="{'invalid': submitted && item.controls.NO_OF_SLOTS.errors?.required}"/>
                                                                     <div *ngIf="submitted && item.controls.NO_OF_SLOTS.errors?.required" class="invalid-feedback">
@@ -482,11 +482,11 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h6>Charges <span class="text-danger">*</span></h6>
+                                            <h6>{{'Header.Charges'|translate}}<span class="text-danger">*</span></h6>
                                         </div>
                                         <div class="col-md-6" style="text-align: right;">
                                             <button (click)="addRates()" class="form-btn">
-                                                <i class="fa fa-plus me-1"></i>Add Rates</button>
+                                                <i class="fa fa-plus me-1"></i>{{'Button.AddRate'|translate}}</button>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -497,7 +497,7 @@
                                                         <tbody>
                                                             <tr *ngFor="let item of f3;let j = index;" [formGroup]="f4(item)">
                                                                 <td class="col-md-4">
-                                                                    <label class="form-label3">Charge Code</label>
+                                                                    <label class="form-label3">{{'Header.ChargeCode'|translate}}</label>
                                                                     <select class="form-control3" formControlName="CHARGE_CODE" [ngClass]="{'invalid': submitted && item.controls.CHARGE_CODE.errors?.required}">
                                                                         <option value="" selected disabled>
                                                                             --Charge
@@ -511,7 +511,7 @@
                                                                         Charge Code</div>
                                                                 </td>
                                                                 <td class="col-md-2">
-                                                                    <label class="form-label3">Currency</label>
+                                                                    <label class="form-label3">{{'Header.Currency'|translate}}</label>
                                                                     <select class="form-control3" formControlName="CURRENCY" [ngClass]="{'invalid': submitted && item.controls.CURRENCY.errors?.required}">
                                                                         <option value="" selected>--Select--</option>
                                                                         <option value="USD">USD</option>
@@ -522,8 +522,8 @@
                                                                         Please select
                                                                         Currency</div>
                                                                 </td>
-                                                                <td class="col-md-2"> <label class="form-label3">Standard
-                                                                        Rate</label><input class="form-control3" readonly
+                                                                <td class="col-md-2"> <label class="form-label3">{{'Header.StandardRate'|translate}}
+                                                                        </label><input class="form-control3" readonly
                                                                         formControlName="STANDARD_RATE" type="text" [ngClass]="{'invalid': submitted && item.controls.STANDARD_RATE.errors?.required}"/>
                                                                         <div *ngIf="submitted && item.controls.STANDARD_RATE.errors?.required" class="invalid-feedback">
                                                                             Please select
@@ -687,8 +687,8 @@
             <div class="row  mt-4 mb-4">
                 <div class="col-md-6 offset-md-6 text-end">
                     <button type="button" class="form-btn" style="margin-right: 6px;"
-                        (click)="cancelER()">Clear</button>
-                    <button type="button" class="form-btn" style="margin-right: 6px;" (click)="saveER()">Save</button>
+                        (click)="cancelER()">{{'Button.Clear'|translate}}</button>
+                    <button type="button" class="form-btn" style="margin-right: 6px;" (click)="saveER()">{{'Button.Save'|translate}}</button>
                 </div>
 
             </div>
@@ -713,7 +713,7 @@
                         <div class="row">
                             <div class="col-md-8 mx-auto">
                                 <div class="form-group">    
-                                    <label class="form-label2"> Repo No. <span class="text-danger">*</span></label>
+                                    <label class="form-label2"> {{'Header.RepoNo'|translate}} <span class="text-danger">*</span></label>
                                     <input type="text"  [ngClass]="{'invalid':submitted1 && f1.REPO_NO.errors}" formControlName="REPO_NO"
                                     class="form-control2">
                                     <div *ngIf="submitted1 && f1.REPO_NO.errors" class="invalid-feedback">
@@ -725,7 +725,7 @@
                         <div class="row">
                             <div class="col-md-8 mx-auto">
                                 <div class="form-group"> 
-                                    <label class="form-label2">Cont Pickup Point <span class="text-danger">*</span></label>
+                                    <label class="form-label2">{{'Header.ContPickupPoint'|translate}}<span class="text-danger">*</span></label>
                                     <select [ngClass]="{'invalid':submitted1 && f1.EMPTY_CONT_PCKP.errors}"  class="form-control2" formControlName="EMPTY_CONT_PCKP">
                                         <option value="">--Select--</option>
                                         <option value="ADTC-ADTC - Dammam">"ADTC-ADTC - Dammam"</option>
@@ -741,7 +741,7 @@
                         <div class="row">
                             <div class="col-md-8 mx-auto">
                                 <div class="form-group">    
-                                    <label class="form-label2"> CRO Validity Date <span class="text-danger">*</span></label>
+                                    <label class="form-label2"> {{'Header.CroValidityDate'|translate}} <span class="text-danger">*</span></label>
                                     <input formControlName="CRO_VALIDITY_DATE" type="date" class="form-control2" [ngClass]="{'invalid':submitted1 && f1.CRO_VALIDITY_DATE.errors}">
                                     <div *ngIf="submitted1 && f1.CRO_VALIDITY_DATE.errors" class="invalid-feedback">
                                        Please Enter CRO Validity Date
@@ -753,7 +753,7 @@
                         <div class="row">
                             <div class="col-md-8 mx-auto">
                                 <div class="form-group"> 
-                                    <label class="form-label2"> Required Qty <span class="text-danger">*</span></label>
+                                    <label class="form-label2"> {{'Header.RequiredQuantity'|translate}} <span class="text-danger">*</span></label>
                                     <input type="text" [ngClass]="{'invalid':submitted1 && f1.REQ_QUANTITY.errors}" formControlName="REQ_QUANTITY"
                                     class="form-control2">
                                     <div *ngIf="submitted1 && f1.REQ_QUANTITY.errors" class="invalid-feedback">
@@ -772,10 +772,10 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-6 text-end">
-                            <button class="form-btn w-50" (click)="cancelERCRO()">Clear</button>
+                            <button class="form-btn w-50" (click)="cancelERCRO()">{{'Button.Clear'|translate}}</button>
                         </div>
                         <div class="col-md-6">
-                            <button class="form-btn w-50" (click)="SaveCRO()">Save</button>
+                            <button class="form-btn w-50" (click)="SaveCRO()">{{'Button.Save'|translate}}</button>
                             <button #openBtn1 data-bs-toggle="modal" href="#mailModal"
                             class="form-btn d-none">Submit</button>
                             

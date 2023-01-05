@@ -60,6 +60,7 @@ export class DoListComponent implements OnInit {
         }
         if (res.ResponseCode == 500) {
           this.previewNoData=true;
+          this.isLoading=false;
         }
       },
       (error: any) => {

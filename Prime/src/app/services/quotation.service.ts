@@ -15,7 +15,7 @@ export class QuotationService {
     }),
   };
 
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) { }
 
   getData() {
     return this._http.get('https://www.testjsonapi.com/users/');
@@ -24,20 +24,20 @@ export class QuotationService {
   getSRRList(quotation: QUOTATION) {
     return this._http.get<any>(
       this.BASE_URL +
-        'SRR/GetSRRList?SRR_NO=' +
-        quotation.SRR_NO +
-        '&CUSTOMER_NAME=' +
-        quotation.CUSTOMER_NAME +
-        '&STATUS=' +
-        quotation.STATUS +
-        '&FROMDATE=' +
-        quotation.FROMDATE +
-        '&TODATE=' +
-        quotation.TODATE +
-        '&AGENT_CODE=' +
-        quotation.AGENT_CODE +
-        '&OPERATION=' +
-        quotation.OPERATION,
+      'SRR/GetSRRList?SRR_NO=' +
+      quotation.SRR_NO +
+      '&CUSTOMER_NAME=' +
+      quotation.CUSTOMER_NAME +
+      '&STATUS=' +
+      quotation.STATUS +
+      '&FROMDATE=' +
+      quotation.FROMDATE +
+      '&TODATE=' +
+      quotation.TODATE +
+      '&AGENT_CODE=' +
+      quotation.AGENT_CODE +
+      '&OPERATION=' +
+      quotation.OPERATION,
       this.httpOptions
     );
   }
@@ -45,10 +45,10 @@ export class QuotationService {
   getSRRDetails(srr: QUOTATION) {
     return this._http.get<any>(
       this.BASE_URL +
-        'SRR/GetSRRBySRRNO?SRR_NO=' +
-        srr.SRR_NO +
-        '&AGENT_CODE=' +
-        srr.AGENT_CODE,
+      'SRR/GetSRRBySRRNO?SRR_NO=' +
+      srr.SRR_NO +
+      '&AGENT_CODE=' +
+      srr.AGENT_CODE,
       this.httpOptions
     );
   }
@@ -77,8 +77,8 @@ export class QuotationService {
     );
   }
 
-  uploadFiles(file: any) {
-    return this._http.post<any>(this.BASE_URL + 'SRR/UploadFiles', file);
+  uploadFiles(file: any, srrNo: string) {
+    return this._http.post<any>(this.BASE_URL + 'SRR/UploadFiles?SRR_NO=' + srrNo, file);
   }
 
   approveRate(rootobject: any) {

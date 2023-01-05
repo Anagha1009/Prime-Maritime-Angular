@@ -147,6 +147,23 @@ input[id="radio-4"] {
   transition: 0.25s ease-out;
 }
 
+//modal
+.modal-content  {
+  -webkit-border-radius: 20px !important;
+  -moz-border-radius: 20px !important;
+  border-radius: 20px !important; 
+}
+
+.modal-header{
+  background-color: #8dbad2;
+  //color: white;
+}
+
+#exampleModalLabel{
+  color: white;
+  font-size: 25px;
+}
+
 @media (max-width: 700px) {
   .tabs {
     transform: scale(0.6);
