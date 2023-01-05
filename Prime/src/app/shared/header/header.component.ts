@@ -77,6 +77,36 @@ export class HeaderComponent implements OnInit {
         },
         { menuName: 'Finance', menuLink: 'javascript:void(0)' }
       );
+    } else if (param == 'depo') {
+      this.menuList.push(
+        {
+          menuName:
+            this.selectedLanguage == 'en'
+              ? english.data.Menu.containerAllotment
+              : this.selectedLanguage == 'hi'
+              ? hindi.data.Menu.containerAllotment
+              : arabic.data.Menu.containerAllotment,
+          menuLink: 'home/quotation-list',
+        },
+        {
+          menuName:
+            this.selectedLanguage == 'en'
+              ? english.data.Menu.mnrRequest
+              : this.selectedLanguage == 'hi'
+              ? hindi.data.Menu.mnrRequest
+              : arabic.data.Menu.mnrRequest,
+          menuLink: 'javascript:void(0)',
+        },
+        {
+          menuName:
+            this.selectedLanguage == 'en'
+              ? english.data.Menu.containerMovement
+              : this.selectedLanguage == 'hi'
+              ? hindi.data.Menu.containerMovement
+              : arabic.data.Menu.containerMovement,
+          menuLink: 'javascript:void(0)',
+        }
+      );
     }
   }
 

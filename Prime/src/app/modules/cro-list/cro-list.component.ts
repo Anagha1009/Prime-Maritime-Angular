@@ -56,7 +56,7 @@ export class CroListComponent implements OnInit {
 
   ngOnInit(): void {
     this.croForm = this._formBuilder.group({
-      CRO_NO: [''],
+      CRO_NO: [''],  
       CUSTOMER_NAME: [''],
       FROM_DATE: [''],
       TO_DATE: [''],

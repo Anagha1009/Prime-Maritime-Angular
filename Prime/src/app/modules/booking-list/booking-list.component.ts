@@ -17,6 +17,7 @@ export class BookingListComponent implements OnInit {
   bookingList: any[] = [];
   isScroll: boolean = false;
   bookingForm: FormGroup;
+  expRecords: any = 0;
 
   constructor(
     private _formBuilder: FormBuilder,

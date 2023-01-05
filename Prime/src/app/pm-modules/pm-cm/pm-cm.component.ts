@@ -8,6 +8,10 @@ import { CONTAINER_MOVEMENT, CONTAINER_TRACKING } from 'src/app/models/cm';
 import { ActivityService } from 'src/app/services/activity.service';
 import { BlService } from 'src/app/services/bl.service';
 import { CmService } from 'src/app/services/cm.service';
+import { locale as english } from 'src/app/@core/translate/cm/en';
+import { locale as hindi } from 'src/app/@core/translate/cm/hi';
+import { locale as arabic } from 'src/app/@core/translate/cm/ar';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 
 @Component({
   selector: 'app-pm-cm',
@@ -72,7 +76,8 @@ export class PmCmComponent implements OnInit {
     private _blService:BlService,
     private _actService:ActivityService,
     private _router: Router,
-    private ntService:NotificationsService) { }
+    private ntService:NotificationsService,
+    private _coreTranslationService: CoreTranslationService) {this._coreTranslationService.translate(english,hindi,arabic); }
 
   ngOnInit(): void {
    

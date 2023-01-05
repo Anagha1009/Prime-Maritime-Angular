@@ -7,6 +7,7 @@ export const locale = {
       operations: 'Operations',
       bookingList: 'Booking List',
       rollover: 'Rollover',
+      finance:'Finance',
       emptyRepoLocal: 'Empty Repo Local',
       containerMovement: 'Container Movement',
       CRO: 'CRO',
@@ -17,6 +18,9 @@ export const locale = {
       movement: 'Movement',
       tracking: 'Tracking',
       history: 'History',
+      containerAllotment: 'Container Allotment',
+      mnrRequest: 'M&R Request',
+      containerTracking: 'Container Tracking',
     },
     Button: {
       newRequest: 'New Rate Request',
