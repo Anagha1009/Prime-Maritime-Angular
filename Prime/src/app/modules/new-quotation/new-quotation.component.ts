@@ -102,7 +102,7 @@ export class NewQuotationComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _commonService: CommonService,
     private _router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
@@ -199,26 +199,27 @@ export class NewQuotationComponent implements OnInit {
   }
 
   onchangeTab(index: any) {
-    if (index == '2') {
-      if (this.quotationForm.invalid) {
-        alert('Please complete SRR Details');
-        this.tabs = '1';
-      } else {
-        this.tabs = index;
-      }
-    } else if (index == '3') {
-      if (this.quotationForm.invalid) {
-        alert('Please complete SRR Details');
-        this.tabs = '1';
-      } else if (this.f7.length == 0) {
-        alert('Please complete Commodity Details');
-        this.tabs = '2';
-      } else {
-        this.tabs = index;
-      }
-    } else {
-      this.tabs = index;
-    }
+    // if (index == '2') {
+    //   if (this.quotationForm.invalid) {
+    //     alert('Please complete SRR Details');
+    //     this.tabs = '1';
+    //   } else {
+    //     this.tabs = index;
+    //   }
+    // } else if (index == '3') {
+    //   if (this.quotationForm.invalid) {
+    //     alert('Please complete SRR Details');
+    //     this.tabs = '1';
+    //   } else if (this.f7.length == 0) {
+    //     alert('Please complete Commodity Details');
+    //     this.tabs = '2';
+    //   } else {
+    //     this.tabs = index;
+    //   }
+    // } else {
+    //   this.tabs = index;
+    // }
+    this.tabs=index;
   }
 
   onchangeIMO(event: any) {
@@ -452,6 +453,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   saveContainer() {
+    debugger
     this.isLoading = true;
     var POL = this.quotationForm.value.POL;
     var POD = this.quotationForm.value.POD;
@@ -475,7 +477,8 @@ export class NewQuotationComponent implements OnInit {
       this.quotationForm.get('IS_VESSELVALIDITY')?.setValue(true);
     }
 
-    console.log(JSON.stringify(this.quotationForm.value));
+    console.log("Form" + JSON.stringify(this.quotationForm.value));
+
     this._quotationService
       .insertSRR(JSON.stringify(this.quotationForm.value))
       .subscribe((res: any) => {
@@ -485,7 +488,7 @@ export class NewQuotationComponent implements OnInit {
             this.commodityType == 'FLEXIBAG' ||
             this.commodityType == 'SP'
           ) {
-            this.uploadFilestoDB();
+            this.uploadFilestoDB(SRRNO);
           }
 
           if (this.isVesselVal) {
@@ -893,13 +896,13 @@ export class NewQuotationComponent implements OnInit {
 
   // FILE UPLOAD
 
-  fileUpload(event: any, value: string) {
+  fileUpload(event: any, value: string, commodityType: string) {
     if (
       event.target.files[0].type == 'application/pdf' ||
       event.target.files[0].type ==
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
       event.target.files[0].type ==
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
       event.target.files[0].type == 'application/xls' ||
       event.target.files[0].type == 'application/xlsx' ||
       event.target.files[0].type == 'application/doc'
@@ -914,7 +917,12 @@ export class NewQuotationComponent implements OnInit {
       return;
     }
 
-    this.fileList.push(event.target.files[0]);
+    this.fileList.push({
+      "FILE": event.target.files[0],
+      "COMMODITY_TYPE": commodityType
+    });
+
+    console.log('File List' + JSON.stringify(this.fileList));
 
     if (value == 'POL') {
       this.isUploadedPOL = true;
@@ -957,13 +965,15 @@ export class NewQuotationComponent implements OnInit {
     }
   }
 
-  uploadFilestoDB() {
+  uploadFilestoDB(SRRNO: string) {
     const payload = new FormData();
     this.fileList.forEach((element: any) => {
-      payload.append('formFile', element);
+      payload.append('FILE', element.FILE);
+      payload.append('COMMODITY_TYPE', element.COMMODITY_TYPE);
     });
 
-    //this._srrService.uploadFiles(payload).subscribe();
+    console.log("payload" + JSON.stringify(payload))
+    this._quotationService.uploadFiles(payload, SRRNO).subscribe();
   }
 
   isVesselValidity(e: any) {

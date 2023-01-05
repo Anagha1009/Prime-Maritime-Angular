@@ -608,7 +608,7 @@
                     <div class="row" *ngIf="commodityType == 'HAZ'">
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOL">
-                                <input type="file" (change)="fileUpload($event,'POL')" name="file" id="file" />
+                                <input type="file" (change)="fileUpload($event,'POL','HAZ')" name="file" id="file" />
                                 <label for="file">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -627,7 +627,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOD">
-                                <input type="file" (change)="fileUpload($event,'POD')" name="file1" id="file1" />
+                                <input type="file" (change)="fileUpload($event,'POD','HAZ')" name="file1" id="file1" />
                                 <label for="file1">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -646,7 +646,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOp">
-                                <input type="file" (change)="fileUpload($event,'VslOp')" name="file3" id="file3" />
+                                <input type="file" (change)="fileUpload($event,'VslOp','HAZ')" name="file3" id="file3" />
                                 <label for="file3">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -685,7 +685,7 @@
                     <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedShpLOY">
-                                <input type="file" (change)="fileUpload($event,'ShpLOY')" name="file4" id="file4" />
+                                <input type="file" (change)="fileUpload($event,'ShpLOY','FLEXIBAG')" name="file4" id="file4" />
                                 <label for="file4">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -704,7 +704,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOpAp">
-                                <input type="file" (change)="fileUpload($event,'VslOpAp')" name="file5" id="file5" />
+                                <input type="file" (change)="fileUpload($event,'VslOpAp','FLEXIBAG')" name="file5" id="file5" />
                                 <label for="file5">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -725,7 +725,7 @@
                     <div class="row" *ngIf="commodityType == 'SP'">
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOpAp2">
-                                <input type="file" (change)="fileUpload($event,'VslOpAp2')" name="file6" id="file6" />
+                                <input type="file" (change)="fileUpload($event,'VslOpAp2','SP')" name="file6" id="file6" />
                                 <label for="file6">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -744,7 +744,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedSur">
-                                <input type="file" (change)="fileUpload($event,'Sur')" name="file7" id="file7" />
+                                <input type="file" (change)="fileUpload($event,'Sur','SP')" name="file7" id="file7" />
                                 <label for="file7">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
