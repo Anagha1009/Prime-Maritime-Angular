@@ -88,4 +88,18 @@ export class QuotationService {
   counterRate(rootobject: any) {
     return this._http.post<any>(this.BASE_URL + 'SRR/CounterRate', rootobject);
   }
+
+  getRate(srr: QUOTATION) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'SRR/GetRate?POL=' +
+        srr.POL +
+        '&POD=' +
+        srr.POD +
+        '&CHARGE=' +
+        srr.CHARGE +
+        '&CONT_TYPE=' +
+        srr.CONTAINER_TYPE
+    );
+  }
 }
