@@ -199,27 +199,27 @@ export class NewQuotationComponent implements OnInit {
   }
 
   onchangeTab(index: any) {
-    // if (index == '2') {
-    //   if (this.quotationForm.invalid) {
-    //     alert('Please complete SRR Details');
-    //     this.tabs = '1';
-    //   } else {
-    //     this.tabs = index;
-    //   }
-    // } else if (index == '3') {
-    //   if (this.quotationForm.invalid) {
-    //     alert('Please complete SRR Details');
-    //     this.tabs = '1';
-    //   } else if (this.f7.length == 0) {
-    //     alert('Please complete Commodity Details');
-    //     this.tabs = '2';
-    //   } else {
-    //     this.tabs = index;
-    //   }
-    // } else {
-    //   this.tabs = index;
-    // }
-    this.tabs=index;
+    if (index == '2') {
+      if (this.quotationForm.invalid) {
+        alert('Please complete SRR Details');
+        this.tabs = '1';
+      } else {
+        this.tabs = index;
+      }
+    } else if (index == '3') {
+      if (this.quotationForm.invalid) {
+        alert('Please complete SRR Details');
+        this.tabs = '1';
+      } else if (this.f7.length == 0) {
+        alert('Please complete Commodity Details');
+        this.tabs = '2';
+      } else {
+        this.tabs = index;
+      }
+    } else {
+      this.tabs = index;
+    }
+    // this.tabs=index;
   }
 
   onchangeIMO(event: any) {
