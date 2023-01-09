@@ -7,6 +7,7 @@ import { ContainerService } from 'src/app/services/container.service';
 import { DepoService } from 'src/app/services/depo.service';
 import { locale as english } from 'src/app/@core/translate/mnr/en';
 import { locale as hindi } from 'src/app/@core/translate/mnr/hi';
+import{locale as arabic} from 'src/app/@core/translate/mnr/ar';
 
 @Component({
   selector: 'app-mr-request',
@@ -34,7 +35,7 @@ export class MrRequestComponent implements OnInit {
     private _containerService: ContainerService,
     private _coreTranslationService: CoreTranslationService
   ) {
-    this._coreTranslationService.translate(english, hindi);
+    this._coreTranslationService.translate(english, hindi,arabic);
   }
 
   ngOnInit(): void {

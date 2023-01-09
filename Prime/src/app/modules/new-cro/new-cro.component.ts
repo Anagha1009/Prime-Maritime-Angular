@@ -200,8 +200,8 @@ export class NewCroComponent implements OnInit {
                 bold: true,
               },
               { text: this.croDetails?.ADDRESS },
-              { text: 'a@shds.sfdf' },
-              { text: '6473463' },
+              { text: this.croDetails?.EMAIL },
+              { text: this.croDetails?.CONTACT },
             ],
             [
               {
@@ -276,8 +276,8 @@ export class NewCroComponent implements OnInit {
                 margin: [0, 0, 0, 5],
                 fontSize: 10,
               },
-              { text: 'sfd@ytrstdr', margin: [0, 0, 0, 5], fontSize: 10 },
-              { text: '7687675', margin: [0, 0, 0, 5], fontSize: 10 },
+              { text: this.croDetails?.EMAIL, margin: [0, 0, 0, 5], fontSize: 10 },
+              { text: this.croDetails?.CONTACT, margin: [0, 0, 0, 5], fontSize: 10 },
               { text: '10/22/23', margin: [0, 0, 0, 5], fontSize: 10 },
             ],
             [

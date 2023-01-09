@@ -27,7 +27,10 @@ export const locale = {
         CroValidityDate:'सीआरओ वैधता तिथि',
         RequiredQuantity:'अनुरोध मात्रा',
         Charges:'प्रभार',
-        SlotAllocation:'स्लॉट आवंटन'
+        SlotAllocation:'स्लॉट आवंटन',
+        NewEmptyRepo:'नया खाली रेपो',
+        FromDate:'की तिथि से',
+        ToDate:'तारीख तक',
       },
       Button: {
         CreateCRO:'सीआरओ बनाएं',
@@ -35,6 +38,7 @@ export const locale = {
         AddRate: 'दर जोड़ें',
         Clear:'स्पष्ट',
         Save:'सहेजें',
+        Search:'खोज'
       },
     },
   };
