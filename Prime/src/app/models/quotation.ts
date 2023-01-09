@@ -4,9 +4,10 @@ export class QUOTATION {
   STATUS: string = '';
   AGENT_CODE: any = 0;
   OPERATION: string = '';
-  POL:string='';
-  POD:string='';
+  POL: string = '';
+  POD: string = '';
   FROMDATE: string = '';
   TODATE: string = '';
+  CHARGE: string = '';
+  CONTAINER_TYPE: string = '';
 }
-

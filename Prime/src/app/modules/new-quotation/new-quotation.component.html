@@ -129,6 +129,15 @@
                             <div class="form-group">
                                 <ng-select [ngClass]="{'invalid': submitted && f.CUSTOMER_NAME.errors}"
                                     formControlName="CUSTOMER_NAME">
+                                    <ng-option value="M" disabled>
+                                        <button class="form-btn-primary" #openBtn5 data-bs-toggle="modal"
+                                            href="#custModal">Add Customer</button>
+                                            <!-- <button (click)="openCustModal()" class="form-btn-primary">Add
+                                                Customer</button>
+                                            <button id="openmymodal" data-bs-toggle="modal"
+                                                        href="#custModal" hidden>Open Modal</button> -->
+                                           <!-- <button #openBtn5 data-bs-toggle="modal" href="#custModal" class="d-none">Add Customer</button> -->
+                                      </ng-option>
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                     <ng-option *ngFor="let item of customerList"
                                         value="{{item.CODE}}">{{item.CODE_DESC}}
@@ -598,7 +607,7 @@
                     <div class="row" *ngIf="commodityType == 'HAZ'">
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOL">
-                                <input type="file" (change)="fileUpload($event,'POL')" name="file" id="file" />
+                                <input type="file" (change)="fileUpload($event,'POL','HAZ')" name="file" id="file" />
                                 <label for="file">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -617,7 +626,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOD">
-                                <input type="file" (change)="fileUpload($event,'POD')" name="file1" id="file1" />
+                                <input type="file" (change)="fileUpload($event,'POD','HAZ')" name="file1" id="file1" />
                                 <label for="file1">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -636,7 +645,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOp">
-                                <input type="file" (change)="fileUpload($event,'VslOp')" name="file3" id="file3" />
+                                <input type="file" (change)="fileUpload($event,'VslOp','HAZ')" name="file3" id="file3" />
                                 <label for="file3">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -675,7 +684,7 @@
                     <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedShpLOY">
-                                <input type="file" (change)="fileUpload($event,'ShpLOY')" name="file4" id="file4" />
+                                <input type="file" (change)="fileUpload($event,'ShpLOY','FLEXIBAG')" name="file4" id="file4" />
                                 <label for="file4">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -694,7 +703,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOpAp">
-                                <input type="file" (change)="fileUpload($event,'VslOpAp')" name="file5" id="file5" />
+                                <input type="file" (change)="fileUpload($event,'VslOpAp','FLEXIBAG')" name="file5" id="file5" />
                                 <label for="file5">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -715,7 +724,7 @@
                     <div class="row" *ngIf="commodityType == 'SP'">
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOpAp2">
-                                <input type="file" (change)="fileUpload($event,'VslOpAp2')" name="file6" id="file6" />
+                                <input type="file" (change)="fileUpload($event,'VslOpAp2','SP')" name="file6" id="file6" />
                                 <label for="file6">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -734,7 +743,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedSur">
-                                <input type="file" (change)="fileUpload($event,'Sur')" name="file7" id="file7" />
+                                <input type="file" (change)="fileUpload($event,'Sur','SP')" name="file7" id="file7" />
                                 <label for="file7">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -958,7 +967,8 @@
                                             <tr *ngFor="let item of f3;let j = index;" [formGroup]="f4(item)">
                                                 <td class="col-md-3">
                                                     <div class="form-group">
-                                                        <ng-select formControlName="CHARGE_CODE">
+                                                        <ng-select (change)="getRate($event,j)"
+                                                            formControlName="CHARGE_CODE">
                                                             <ng-option value="" selected>--Select--</ng-option>
                                                             <ng-option value="{{item.CODE}}"
                                                                 *ngFor="let item of chargecodeList">{{item.CODE_DESC}}
@@ -1302,3 +1312,108 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="custModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title w-100 text-center" id="exampleModalLabel">Add Customer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn5></button>
+                
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="partyForm">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-8 mx-auto">
+                                <div class="form-group">  
+                                    <label class="form-label2">Name<span class="text-danger">*</span></label>
+                                    <input type="text" id="name" [ngClass]="{'invalid':submitted5 && fcp.CUST_NAME.errors}" formControlName="CUST_NAME" class="form-control2">
+                                    <div *ngIf="submitted5 && fcp.CUST_NAME.errors" class="invalid-feedback">Please Enter Customer Name </div>  
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 mx-auto">
+                                <div class="form-group"> 
+                                    <label class="form-label2">Email<span class="text-danger">*</span></label>
+                                    <input type="text" id="CustomerEmail" [ngClass]="{'invalid':submitted5 && fcp.CUST_EMAIL.errors}"  formControlName="CUST_EMAIL" class="form-control2">
+                                    <div *ngIf="submitted5 && fcp.CUST_EMAIL.errors" class="invalid-feedback">Please Enter Customer Email </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-8 mx-auto">
+                                <div class="form-group"> 
+                                    <label class="form-label2">Location <span class="text-danger">*</span></label>
+                                    <input type="text" [ngClass]="{'invalid':submitted1 && fcp.LOCATION.errors}" formControlName="LOCATION"
+                                    class="form-control2">
+                                    <div *ngIf="submitted1 && fcp.LOCATION.errors" class="invalid-feedback">
+                                       Please Enter Location
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 mx-auto">
+                                <div class="form-group"> 
+                                    <label class="form-label2">Address<span class="text-danger">*</span></label>
+                                    <textarea type="text" id="address" [ngClass]="{'invalid':submitted5 && fcp.CUST_ADDRESS.errors}" formControlName="CUST_ADDRESS" class="form-control2" style="height:50px"></textarea>
+                                    <div *ngIf="submitted5 && fcp.CUST_ADDRESS.errors" class="invalid-feedback">Please Enter Customer Address </div>
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 mx-auto">
+                                <div class="form-group"> 
+                                    <label class="form-label2">GST IN<span class="text-danger">*</span></label>
+                                    <input type="text" id="gstin" [ngClass]="{'invalid':submitted5 && fcp.GSTIN.errors}" formControlName="GSTIN" class="form-control2">
+                                    <div *ngIf="submitted5 && fcp.GSTIN.errors" class="invalid-feedback">Please Enter GSTIN </div>
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 mx-auto">
+                                <div class="form-group"> 
+                                    <label class="form-label2">Type <span class="text-danger"> *</span></label>
+                                    <select formControlName="CUST_TYPE"  [ngClass]="{'invalid':submitted5 && fcp.CUST_TYPE.errors}"  class="form-control2">
+                                      <option value="" selected="true" disabled>--Select--</option>
+                                      <option value="Shipper">Shipper</option>
+                                      <option value="Consignee">Consignee</option>
+                                      <option value="Forwarder">Forwarder</option>
+                                    </select>
+                                    <div *ngIf="submitted5 && fcp.CUST_TYPE.errors" class="invalid-feedback">Please Select Customer Type </div>
+                                </div>
+                            </div>
+
+                        </div>
+    
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6 text-end">
+                            <button class="form-btn w-50" (click)="CancelPartyMaster()">Clear</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="form-btn w-50" (click)="InsertPartyMaster()">Save</button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
