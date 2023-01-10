@@ -71,19 +71,26 @@
                 <div class="row mt-4">
                     <form [formGroup]="splitBookingForm">
                         <div class="col-md-12">
-                            <div class="row">
-                                  <div class="col-md-6 offset-md-6 text-end mb-1">
+                            <div  class="row">
+                                <div  class="col-md-6 text-end">
+                                    <button data-bs-toggle="modal"  href="#voyageModal" class="form-btn rounded-pill">Add
+                                        Voyage</button>
+                                </div>
+                                <div  class="col-md-6 text-end">
                                     <button (click)="slotAllocation()" class="form-btn">
                                         <i class="fa fa-plus me-2"></i>{{'Header.slotAllocation'|translate}}</button>
                                 </div>
+
+                            </div>
+                            <div class="row">                             
+                                <!-- <div class="col-md-6 offset-md-6 text-end mb-1">
+                                    <button (click)="slotAllocation()" class="form-btn">
+                                        <i class="fa fa-plus me-2"></i>{{'Header.slotAllocation'|translate}}</button>
+                                </div> -->
                                 <div class="row">
+                                    
                                     <div class="col-md-6">
-                                         <div class="row">
-                                            <div class="col-md-6 offset-md-6 text-end mb-1">
-                                                <button data-bs-toggle="modal"  href="#voyageModal" class="form-btn rounded-pill">Add
-                                                    Voyage</button>
-                                            </div>
-                                        </div> 
+                                        
                                         <div class="row">
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-group">
