@@ -60,7 +60,10 @@ export class CalculatorComponent implements OnInit {
         //this.expCostList = res.Data.EXP_COSTLIST;
         debugger;
         var add = this.calcForm.get('EXP_COST_LIST') as FormArray;
-        //add.push(this._formBuilder.group(res.Data.EXP_COSTLIST));
+
+        res.Data.EXP_COSTLIST.forEach((element: any) => {
+          add.push(this._formBuilder.group(element));
+        });
       }
       if (res.Data.hasOwnProperty('EXP_REVENUELIST')) {
         this.expRevList = res.Data.EXP_REVENUELIST;

@@ -114,7 +114,9 @@ export class QuotationService {
         '&POD=' +
         srr.POD +
         '&CONTAINER_TYPE=' +
-        srr.CONTAINER_TYPE
+        srr.CONTAINER_TYPE +
+        '&SRR_NO=' +
+        srr.SRR_NO
     );
   }
 }
