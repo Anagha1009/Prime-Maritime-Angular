@@ -25,7 +25,12 @@ export const locale = {
         CroValidityDate:'CRO Validity Date',
         RequiredQuantity:'Req Quantity',
         Charges:'Charges',
-        SlotAllocation:'Slot Allocation'
+        SlotAllocation:'Slot Allocation',
+        NewEmptyRepo:'New Empty Repo',
+        FromDate:'From Date',
+        ToDate:'To Date',
+
+
       },
       Button: {
         CreateCRO:'Create CRO',
@@ -33,6 +38,7 @@ export const locale = {
         AddRate: 'Add Rate',
         Clear:'Clear',
         Save:'Save',
+        Search:'Search'
       },
     },
   };

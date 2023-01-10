@@ -9,7 +9,10 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { formatDate } from '@angular/common';
 import { Convert } from 'igniteui-angular-core';
 import { HttpClient } from '@angular/common/http';
-
+import { locale as english } from 'src/app/@core/translate/er/en';
+import { locale as hindi } from 'src/app/@core/translate/er/hi';
+import { locale as arabic } from 'src/app/@core/translate/er/ar';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -42,7 +45,12 @@ export class ErListComponent implements OnInit {
   erCROForm: FormGroup;
   submitted1: boolean = false;
 
-  constructor(private _erService: ErService,private _commonService: CommonService,private http: HttpClient,private _router: Router,private _croService: CroService,private _formBuilder: FormBuilder) { }
+  constructor(private _erService: ErService,private _commonService: CommonService,
+    private http: HttpClient,
+    private _router: Router,
+    private _croService: CroService,
+    private _formBuilder: FormBuilder,
+    private _coreTranslationService: CoreTranslationService,) { this._coreTranslationService.translate(english,hindi,arabic);}
 
   ngOnInit(): void {
     this.erListForm = this._formBuilder.group({

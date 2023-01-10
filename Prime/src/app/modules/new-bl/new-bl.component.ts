@@ -7,6 +7,10 @@ import { Bl } from 'src/app/models/bl';
 import { BlService } from 'src/app/services/bl.service';
 import { Router } from '@angular/router';
 import $ from 'jquery';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
+import { locale as english } from 'src/app/@core/translate/bl/en';
+import { locale as hindi } from 'src/app/@core/translate/bl/hi';
+import { locale as arabic } from 'src/app/@core/translate/bl/ar';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -37,8 +41,9 @@ export class NewBlComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _commonService: CommonService,
     private _blService: BlService,
-    private _router: Router
-  ) {}
+    private _router: Router,
+    private _coreTranslationService: CoreTranslationService
+  ) {this._coreTranslationService.translate(english, hindi, arabic);}
 
   ngOnInit(): void {
     this.blForm = this._formBuilder.group({

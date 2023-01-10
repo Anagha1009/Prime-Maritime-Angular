@@ -77,8 +77,7 @@
                                 <div class="row" *ngIf="manually">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label2">{{'Header.ContainerNo'|translate}}
-                                                <span class="text-danger">
+                                            <label class="form-label2">{{'Header.ContainerNo'|translate}}<span class="text-danger">
                                                     *</span>
                                             </label>
                                             <input type="text" class="form-control2"
@@ -339,9 +338,9 @@
                     <hr>
                     <div class="col-md-6 offset-md-6 text-end">
                         <button type="button" class="form-btn" style="margin-right: 6px;"
-                            (click)="resetContainerMovement()">Clear</button>
+                            (click)="resetContainerMovement()">{{'Button.Clear'|translate}}</button>
                         <button type="button" class="form-btn" style="margin-right: 6px;"
-                            (click)="saveContainerMovement()">Save Movement</button>
+                            (click)="saveContainerMovement()">{{'Button.SaveMovement'|translate}}</button>
                     </div>
                 </div>
 

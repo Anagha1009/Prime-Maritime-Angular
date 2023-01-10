@@ -5,6 +5,10 @@ import { Bl } from 'src/app/models/bl';
 import { DO } from 'src/app/models/do';
 import { BlService } from 'src/app/services/bl.service';
 import { DoService } from 'src/app/services/do.service';
+import {locale as english} from 'src/app/@core/translate/er/en';
+import {locale as hindi} from 'src/app/@core/translate/er/hi';
+import {locale as arabic} from 'src/app/@core/translate/er/ar';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 
 @Component({
   selector: 'app-do-list',
@@ -21,7 +25,12 @@ export class DoListComponent implements OnInit {
   previewList:boolean=false;
   isLoading: boolean = false;
 
-  constructor(private _dOService: DoService,private _blService:BlService,private _router: Router,private _formBuilder: FormBuilder) { }
+  constructor(private _dOService: DoService,
+    private _blService:BlService,
+    private _router: Router,
+    private _formBuilder: FormBuilder,
+    private _coreTranslationService:CoreTranslationService,
+    ) {this._coreTranslationService.translate(english,hindi,arabic);}
 
   ngOnInit(): void {
     this.doListForm = this._formBuilder.group({

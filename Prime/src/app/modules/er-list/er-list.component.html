@@ -1,34 +1,34 @@
 <div class="section-title">
-    <h2>Empty Repo</h2>
+    <h2>{{'Header.title'|translate}}</h2>
 </div>
 
 <div class="container">
     <form class="mx-5" [formGroup]="erListForm">
         <div class="col-md-6 offset-md-6 text-end">
-            <button class="form-btn-primary" routerLink="/home/new-er">New Empty Repo</button>
+            <button class="form-btn-primary" routerLink="/home/new-er">{{'Header.NewEmptyRepo'|translate}}</button>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label class="form-label2">Repo No</label>
+                    <label class="form-label2">{{'Header.RepoNo'|translate}}</label>
                     <input formControlName="DO_NO" type="text" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <label class="form-label2">From Date</label>
+                    <label class="form-label2">{{'Header.FromDate'|translate}}</label>
                     <input formControlName="FROM_DATE" type="date" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <label class="form-label2">To Date</label>
+                    <label class="form-label2">{{'Header.ToDate'|translate}}</label>
                     <input formControlName="TO_DATE" type="date" class="form-control2">
                 </div>
             </div>
             <div class="col-md-3 mt-4">
-                <button class="form-btn me-2" (click)="Search()">Search</button>
-                <button class="form-btn" (click)="Clear()">Clear</button>
+                <button class="form-btn me-2" (click)="Search()">{{'Button.Search'|translate}}</button>
+                <button class="form-btn" (click)="Clear()">{{'Button.Clear'|translate}}</button>
             </div>
         </div>
     </form>
