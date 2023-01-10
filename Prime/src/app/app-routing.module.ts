@@ -52,6 +52,7 @@ import { SrrCalculatorComponent } from './pm-modules/srr-calculator/srr-calculat
 import { TdrComponent } from './modules/tdr/tdr.component';
 import { ErListComponent } from './modules/er-list/er-list.component';
 import { ErDetailsComponent } from './modules/er-details/er-details.component';
+import { VoyageComponent } from './masters/voyage/voyage.component';
 import { CalculatorComponent } from './pm-modules/calculator/calculator.component';
 
 const routes: Routes = [
@@ -269,6 +270,10 @@ const routes: Routes = [
       {
         path: 'tdr',
         component: TdrComponent,
+      },
+      {
+        path:'voyage',
+        component:VoyageComponent,
       },
     ],
   },
