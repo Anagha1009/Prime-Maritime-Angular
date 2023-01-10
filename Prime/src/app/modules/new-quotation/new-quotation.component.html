@@ -1,5 +1,5 @@
 <div class="section-title">
-    <h2>New Rate Request</h2>
+    <h2>{{'Header.title'|translate}}</h2>
 </div>
 <div class="container mb-5">
     <div class="col-md-9 mx-auto">
@@ -24,7 +24,7 @@
                             <div class="form-group">
                                 <input type="text" maxlength="100" formControlName="PLACE_OF_RECEIPT"
                                     class="form-control">
-                                <label class="form-label">Place of Receipt</label>
+                                <label class="form-label">{{'Header.PlaceofReceipt'|translate}}</label>
                                 <div *ngIf="submitted && f.PLACE_OF_RECEIPT.errors" class="invalid-feedback">
                                     Place of
                                     Receipt is invalid</div>
@@ -39,7 +39,7 @@
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Port of Loading <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.PortofLoading'|translate}} <span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.POL.errors" class="invalid-feedback">Please select
                                     Port of Loading</div>
@@ -53,7 +53,7 @@
                                         {{item.CODE_DESC}} ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Port of Discharge <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.PortofDischarge'|translate}} <span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.POD.errors" class="invalid-feedback">Please select
                                     Port of Discharge</div>
@@ -65,7 +65,7 @@
                             <div class="form-group">
                                 <input type="text" maxlength="100" formControlName="PLACE_OF_DELIVERY"
                                     class="form-control">
-                                <label class="form-label">Place of Delivery</label>
+                                <label class="form-label">{{'Header.PlaceofDelivery'|translate}}</label>
                                 <div *ngIf="submitted && f.PLACE_OF_DELIVERY.errors" class="invalid-feedback">
                                     Place of
                                     Delivery is invalid</div>
@@ -80,7 +80,7 @@
                                     <ng-option *ngFor="let item of icdList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Final Destination <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.FinalDestination'|translate}} <span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.FINAL_DESTINATION.errors" class="invalid-feedback">Please
                                     select
@@ -95,7 +95,7 @@
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Transhipment 1</label>
+                                <label class="form-label-ddl">{{'Header.Transhipment1'|translate}}</label>
                             </div>
                         </div>
                     </div>
@@ -108,7 +108,7 @@
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Transhipment 2</label>
+                                <label class="form-label-ddl">{{'Header.Transhipment2'|translate}}</label>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -119,7 +119,7 @@
                                     <ng-option *ngFor="let item of servicenameList" value="{{item.CODE}}">{{item.CODE}}
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Service Name <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.ServiceName'|translate}} <span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">Please select
                                     Service</div>
@@ -144,7 +144,7 @@
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Customer Name <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.CustomerName'|translate}} <span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.CUSTOMER_NAME.errors" class="invalid-feedback">Please select
                                     Customer Name</div>
@@ -152,7 +152,7 @@
                         </div>
                     </div>
                     <hr>
-                    <h5 class="mb-4">Rate Validity</h5>
+                    <h5 class="mb-4">{{'Header.RateValidity'|translate}}</h5>
                     <div class="row">
                         <div class="col-md-4" *ngIf="!isVesselVal">
                             <div class="form-group">
@@ -160,7 +160,7 @@
                                     (change)="getEffectToDate($event, 1)" min={{currentDate}}
                                     formControlName="EFFECT_FROM" onkeypress="return false"
                                     class="form-control active" />
-                                <label class="form-label">Effect From <span class="text-danger">
+                                <label class="form-label">{{'Header.EffectFrom'|translate}} <span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.EFFECT_FROM.errors" class="invalid-feedback">Please enter
                                     Effect From</div>
@@ -171,7 +171,7 @@
                                 <input type="date" [ngClass]="{'invalid': submitted && f.EFFECT_TO.errors}"
                                     formControlName="EFFECT_TO" min={{currentDate}} onkeypress="return false"
                                     class="form-control active" />
-                                <label class="form-label">Valid Till <span class="text-danger">
+                                <label class="form-label">{{'Header.ValidTill'|translate}} <span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.EFFECT_TO.errors" class="invalid-feedback">Please enter
                                     Effect To</div>
@@ -182,7 +182,7 @@
                                 <div class="form-check form-switch">
                                     <input (change)="isVesselValidity($event)" class="form-check-input" type="checkbox"
                                         role="switch" />
-                                    <label class="form-check-label">Apply Vessel Validity</label>
+                                    <label class="form-check-label">{{'Header.ApplyVesselValidity'|translate}}</label>
                                 </div>
                             </div>
                         </div>
@@ -193,8 +193,7 @@
                         <div *ngIf="isVesselVal" [class]="!isVoyageAdded ? 'col-md-4' : 'col-md-4 offset-md-4'"
                             style="text-align: right;">
                             <button (click)="slotAllocation()" class="form-btn-primary">
-                                <i class="fa fa-plus me-2"></i>Slot
-                                Allocation</button>
+                                <i class="fa fa-plus me-2"></i>{{'Button.SlotAllocation'|translate}}</button>
                         </div>
                     </div>
                     <form [formGroup]="slotDetailsForm" *ngIf="isVesselVal">
@@ -212,7 +211,7 @@
                                                     {{item.CODE_DESC}}
                                                 </ng-option>
                                             </ng-select>
-                                            <label class="form-label-ddl">Vessel Name<span class="text-danger">
+                                            <label class="form-label-ddl">{{'Header.VesselName'|translate}}<span class="text-danger">
                                                     *</span></label>
                                             <div *ngIf="submitted && f5.VESSEL_NAME.errors" class="invalid-feedback">
                                                 Vessel Name is required
@@ -228,7 +227,7 @@
                                                     {{item.CODE}}
                                                 </ng-option>
                                             </ng-select>
-                                            <label class="form-label-ddl">Voyage No <span class="text-danger">
+                                            <label class="form-label-ddl">{{'Header.VoyageNo'|translate}} <span class="text-danger">
                                                     *</span></label>
                                             <div *ngIf="submitted && f5.VOYAGE_NO.errors" class="invalid-feedback">
                                                 Voyage No is required
@@ -241,15 +240,15 @@
                                         <div class="form-group">
                                             <input formControlName="MOTHER_VESSEL_NAME" type="text"
                                                 class="form-control" />
-                                            <label class="form-label">Mother Vessel Name</label>
+                                            <label class="form-label">{{'Header.MotherVesselName'|translate}}</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <input formControlName="MOTHER_VOYAGE_NO" type="text"
                                                 class="form-control" />
-                                            <label class="form-label">Mother Vessel Voyage
-                                                No</label>
+                                            <label class="form-label">{{'Header.MotherVesselVoyageNo'|translate}}
+                                                </label>
                                         </div>
                                     </div>
                                 </div>
@@ -264,7 +263,7 @@
                                                         <label class="mt-4"> {{j+1}}</label>
                                                     </td>
                                                     <td class="col-md-6">
-                                                        <label class="form-label3">Slot Operator</label>
+                                                        <label class="form-label3">{{'Header.SlotOperator'|translate}}</label>
                                                         <select class="form-control3" formControlName="SLOT_OPERATOR">
                                                             <option value="" selected disabled>
                                                                 --Slot
@@ -275,7 +274,7 @@
                                                         </select>
                                                     </td>
                                                     <td class="col-md-4">
-                                                        <label class="form-label3">No of Slots</label>
+                                                        <label class="form-label3">{{'Header.NoofSlots'|translate}}</label>
                                                         <input (keypress)="numericOnly($event)" class="form-control3"
                                                             formControlName="NO_OF_SLOTS" type="text" />
 
@@ -319,7 +318,7 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="saveQuotation()" class="form-btn w-100">Save</button>
+                            <button (click)="saveQuotation()" class="form-btn w-100">{{'Button.Save'|translate}}</button>
                         </div>
                     </div>
                 </div>

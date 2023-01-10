@@ -7,6 +7,7 @@ import { LoadListService } from 'src/app/services/load-list.service';
 import * as xlsx from 'xlsx';
 import { locale as english } from 'src/app/@core/translate/Loadlist/en';
 import { locale as hindi } from 'src/app/@core/translate/Loadlist/hi';
+import {locale as arabic} from 'src/app/@core/translate/Loadlist/ar';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 
 @Component({
@@ -30,7 +31,7 @@ export class LoadListComponent implements OnInit {
     private _commonService: CommonService,
     private _coreTranslationService: CoreTranslationService
   ) {
-    this._coreTranslationService.translate(english, hindi);
+    this._coreTranslationService.translate(english, hindi,arabic);
   }
 
   ngOnInit(): void {

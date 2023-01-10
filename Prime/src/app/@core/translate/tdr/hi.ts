@@ -19,7 +19,8 @@ export const locale = {
         
       },
       Button: {
-        save: ' सहेजें ',
+        Save: ' सहेजें ',
+        clear:'स्पष्ट'
 
         
         

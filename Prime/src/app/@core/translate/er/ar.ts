@@ -25,7 +25,10 @@ export const locale = {
         CroValidityDate:'تاريخ صلاحية CRO',
         RequiredQuantity:'مطلوب الكمية',
         Charges:'شحنة',
-        SlotAllocation:'تخصيص الفتحة'
+        SlotAllocation:'تخصيص الفتحة',
+        NewEmptyRepo:'ريبو فارغ جديد',
+        FromDate:'من التاريخ',
+        ToDate:'ان يذهب في موعد',
       },
       Button: {
         CreateCRO:'إنشاء CRO',
@@ -33,6 +36,7 @@ export const locale = {
         AddRate: 'إضافة معدل',
         Clear:'صافي',
         Save:'حفظ',
+        Search:'بحث'
       },
     },
   };

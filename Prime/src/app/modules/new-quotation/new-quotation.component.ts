@@ -1,12 +1,15 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 import { QUOTATION } from 'src/app/models/quotation';
 import { BookingService } from 'src/app/services/booking.service';
 import { CommonService } from 'src/app/services/common.service';
 import { PartyService } from 'src/app/services/party.service';
 import { QuotationService } from 'src/app/services/quotation.service';
-
+import { locale as english } from 'src/app/@core/translate/quotation/en';
+import {locale as hindi} from 'src/app/@core/translate/quotation/hi';
+import {locale as arabic} from 'src/app/@core/translate/quotation/ar'
 @Component({
   selector: 'app-new-quotation',
   templateUrl: './new-quotation.component.html',
@@ -102,8 +105,9 @@ export class NewQuotationComponent implements OnInit {
     private _bookingService: BookingService,
     private _formBuilder: FormBuilder,
     private _commonService: CommonService,
-    private _router: Router
-  ) { }
+    private _router: Router,
+    private _coreTranslationService: CoreTranslationService,
+  ) {this._coreTranslationService.translate(english,hindi,arabic);}
 
   ngOnInit(): void {
 

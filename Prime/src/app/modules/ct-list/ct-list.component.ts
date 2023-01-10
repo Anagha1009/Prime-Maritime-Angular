@@ -4,6 +4,11 @@ import { ColDef,ITextFilterParams, ValueFormatterParams } from 'ag-grid-communit
 import { contains, param } from 'jquery';
 import { filter, Observable } from 'rxjs';
 import { CmService } from 'src/app/services/cm.service';
+import {locale as english} from 'src/app/@core/translate/do/en';
+import {locale as hindi} from 'src/app/@core/translate/do/hi';
+import {locale as arabic} from 'src/app/@core/translate/do/ar';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
+
 
 @Component({
   selector: 'app-ct-list',
@@ -28,7 +33,7 @@ export class CtListComponent implements OnInit {
   suppressAndOrCondition: true,
   } as ITextFilterParams;
 
-  constructor(private _cmService:CmService,private _router:Router) { }
+  constructor(private _cmService:CmService,private _router:Router, private _coreTranslationService:CoreTranslationService,) {this._coreTranslationService.translate(english,hindi,arabic); }
 
   ngOnInit(): void {
     this.columnDefs=[
