@@ -16,6 +16,8 @@ import { SrrCalculatorComponent } from 'src/app/pm-modules/srr-calculator/srr-ca
 import { PmCmComponent } from 'src/app/pm-modules/pm-cm/pm-cm.component';
 import { PmMrRequestComponent } from 'src/app/pm-modules/pm-mr-request/pm-mr-request.component';
 import { DataTablesModule } from 'angular-datatables';
+import { CalculatorComponent } from 'src/app/pm-modules/calculator/calculator.component';
+import { PartyComponent } from 'src/app/masters/party/party.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { DataTablesModule } from 'angular-datatables';
     SrrCalculatorComponent,
     PmCmComponent,
     PmMrRequestComponent,
+    CalculatorComponent,
+    PartyComponent,
   ],
   imports: [
     CommonModule,

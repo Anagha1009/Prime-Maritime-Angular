@@ -1,102 +1,115 @@
-<div class="section-title">
-  <h2>Customer Master</h2>
-</div>
-<div class="container mb-4">
-  <form [formGroup]="partyForm">
-    <div class="col-md-8 mx-auto">
-      <div class="row">       
-        <div class="col-md-4">
-          <div class="form-group">
-            <label class="form-label2">Name<span class="text-danger">*</span></label>
-            <input type="text" id="name" [ngClass]="{'invalid':submitted && f.CUST_NAME.errors}" formControlName="CUST_NAME" class="form-control2">
-            <div *ngIf="submitted && f.CUST_NAME.errors" class="invalid-feedback">Please Enter Customer Name </div>
+<div class="container-fluid">
+  <app-pm-sidebar></app-pm-sidebar>
+  <div style="width:80%;margin-left: 20%;">
+
+    <div class="section-title">
+      <h2>Customer Master</h2>
+    </div>
+    <div class="container mb-4">
+      <form [formGroup]="partyForm">
+        <div class="col-md-8 mx-auto">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label2">Name<span class="text-danger">*</span></label>
+                <input type="text" id="name" [ngClass]="{'invalid':submitted && f.CUST_NAME.errors}"
+                  formControlName="CUST_NAME" class="form-control2">
+                <div *ngIf="submitted && f.CUST_NAME.errors" class="invalid-feedback">Please Enter Customer Name </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label2">Address<span class="text-danger">*</span></label>
+                <textarea type="text" id="address" [ngClass]="{'invalid':submitted && f.CUST_ADDRESS.errors}"
+                  formControlName="CUST_ADDRESS" class="form-control2"></textarea>
+                <div *ngIf="submitted && f.CUST_ADDRESS.errors" class="invalid-feedback">Please Enter Customer Address
+                </div>
+
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label2">Customer Email<span class="text-danger">*</span></label>
+                <input type="text" id="CustomerEmail" [ngClass]="{'invalid':submitted && f.CUST_EMAIL.errors}"
+                  formControlName="CUST_EMAIL" class="form-control2">
+                <div *ngIf="submitted && f.CUST_EMAIL.errors" class="invalid-feedback">Please Enter Customer Email
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label2">GST IN<span class="text-danger">*</span></label>
+                <input type="text" id="gstin" [ngClass]="{'invalid':submitted && f.GSTIN.errors}"
+                  formControlName="GSTIN" class="form-control2">
+                <div *ngIf="submitted && f.GSTIN.errors" class="invalid-feedback">Please Enter GSTIN </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label2">Type <span class="text-danger"> *</span></label>
+                <select formControlName="CUST_TYPE" [ngClass]="{'invalid':submitted && f.CUST_TYPE.errors}"
+                  class="form-control2">
+                  <option value="" selected="true" disabled>--Select--</option>
+                  <option value="Shipper">Shipper</option>
+                  <option value="Consignee">Consignee</option>
+                  <option value="Forwarder">Forwarder</option>
+                </select>
+                <div *ngIf="submitted && f.CUST_TYPE.errors" class="invalid-feedback">Please Select Customer Type </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label2">Status <span class="text-danger"> *</span></label>
+                <select class="form-control2" [ngClass]="{'invalid':submitted && f.STATUS.errors}"
+                  formControlName="STATUS">
+                  <option value="" selected="true" disabled>--Select--</option>
+                  <option value="true">Active</option>
+                  <option value="false">InActive</option>
+                </select>
+                <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-2 offset-md-10" style="text-align: right;">
+              <button *ngIf="!isUpdate" (click)="InsertPartyMaster()" class="form-btn w-100">Save</button>
+              <button *ngIf="isUpdate" (click)="UpdatePartyMaster()" class="form-btn w-100">Update</button>
+            </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label class="form-label2">Address<span class="text-danger">*</span></label>
-            <textarea type="text" id="address" [ngClass]="{'invalid':submitted && f.CUST_ADDRESS.errors}" formControlName="CUST_ADDRESS" class="form-control2"></textarea>
-            <div *ngIf="submitted && f.CUST_ADDRESS.errors" class="invalid-feedback">Please Enter Customer Address </div>
-          
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label class="form-label2">Customer Email<span class="text-danger">*</span></label>
-            <input type="text" id="CustomerEmail" [ngClass]="{'invalid':submitted && f.CUST_EMAIL.errors}"  formControlName="CUST_EMAIL" class="form-control2">
-            <div *ngIf="submitted && f.CUST_EMAIL.errors" class="invalid-feedback">Please Enter Customer Email </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="form-group">
-            <label class="form-label2">GST IN<span class="text-danger">*</span></label>
-            <input type="text" id="gstin" [ngClass]="{'invalid':submitted && f.GSTIN.errors}" formControlName="GSTIN" class="form-control2">
-            <div *ngIf="submitted && f.GSTIN.errors" class="invalid-feedback">Please Enter GSTIN </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label class="form-label2">Type <span class="text-danger"> *</span></label>
-            <select formControlName="CUST_TYPE"  [ngClass]="{'invalid':submitted && f.CUST_TYPE.errors}"  class="form-control2">
-              <option value="" selected="true" disabled>--Select--</option>
-              <option value="Shipper">Shipper</option>
-              <option value="Consignee">Consignee</option>
-              <option value="Forwarder">Forwarder</option>
-            </select>
-            <div *ngIf="submitted && f.CUST_TYPE.errors" class="invalid-feedback">Please Select Customer Type </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label class="form-label2">Status <span class="text-danger"> *</span></label>
-            <select class="form-control2" [ngClass]="{'invalid':submitted && f.STATUS.errors}" formControlName="STATUS">
-              <option value="" selected="true" disabled>--Select--</option>
-              <option value="true">Active</option>
-              <option value="false">InActive</option>
-            </select>
-            <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status </div>
-          </div>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-2 offset-md-10" style="text-align: right;">
-          <button *ngIf="!isUpdate" (click)="InsertPartyMaster()" class="form-btn w-100">Save</button>
-          <button *ngIf="isUpdate" (click)="UpdatePartyMaster()" class="form-btn w-100">Update</button>
-        </div>
+      </form>
+
+      <div class="col-md-10 mx-auto">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Sr. No</th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>GST</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of partyList; let i = index">
+              <td>{{i+1}}</td>
+              <td>{{item.CUST_NAME}}</td>
+              <td>{{item.CUST_TYPE}}</td>
+              <td>{{item.CUST_EMAIL}}</td>
+              <td>{{item.CUST_ADDRESS}}</td>
+              <td>{{item.GSTIN}}</td>
+              <td>
+                <i class="fa fa-pencil mx-2 pointer text-success" (click)="GetPartyMasterDetails(item.CUST_ID)"></i>
+                <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeletePartyMaster(item.CUST_ID)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </form>
-
-  <div class="col-md-10 mx-auto">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Sr. No</th>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Email</th>
-          <th>Address</th>
-          <th>GST</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of partyList; let i = index">
-          <td>{{i+1}}</td>
-          <td>{{item.CUST_NAME}}</td>
-          <td>{{item.CUST_TYPE}}</td>
-          <td>{{item.CUST_EMAIL}}</td>
-          <td>{{item.CUST_ADDRESS}}</td>
-          <td>{{item.GSTIN}}</td>
-          <td>
-           <i class="fa fa-pencil mx-2 pointer text-success" (click)="GetPartyMasterDetails(item.CUST_ID)"></i>
-            <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeletePartyMaster(item.CUST_ID)"></i>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
   </div>
 </div>
