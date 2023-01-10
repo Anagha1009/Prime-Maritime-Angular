@@ -18,10 +18,10 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
-import { VoyageComponent } from './masters/voyage/voyage.component';
+
 
 @NgModule({
-  declarations: [AppComponent, VoyageComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

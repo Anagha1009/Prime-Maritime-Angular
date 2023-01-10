@@ -1,4 +1,7 @@
-<div class="section-title">
+
+<div class="container-fluid">
+    <app-pm-sidebar></app-pm-sidebar>
+    <div style="width:80%;margin-left: 20%;"><div class="section-title">
     <h2>Currency Master</h2>
 </div>
 
@@ -32,7 +35,7 @@
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-md-2 offset-md-10" style="text-align: right">
+            <div class="col-md-4 offset-md-5" style="text-align: right">
                 <button *ngIf="!isUpdate" (click)="InsertCurrencyMaster()" class="form-btn me-2"
                     class="form-btn me-2">Save</button>
                 <button (click)="ClearForm()" class="form-btn me-2" class="form-btn me-2">Clear</button>
@@ -64,3 +67,6 @@
         </tbody>
     </table>
 </div>
+    </div>
+    </div>
+    
