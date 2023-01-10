@@ -18,6 +18,15 @@ import { PmMrRequestComponent } from 'src/app/pm-modules/pm-mr-request/pm-mr-req
 import { DataTablesModule } from 'angular-datatables';
 import { CalculatorComponent } from 'src/app/pm-modules/calculator/calculator.component';
 import { PartyComponent } from 'src/app/masters/party/party.component';
+import { ContainerSizeComponent } from 'src/app/masters/container-size/container-size.component';
+import { ContainerTypeComponent } from 'src/app/masters/container-type/container-type.component';
+import { CurrencyComponent } from 'src/app/masters/currency/currency.component';
+import { PortComponent } from 'src/app/masters/port/port.component';
+import { ServiceComponent } from 'src/app/masters/service/service.component';
+import { ServicetypeComponent } from 'src/app/masters/servicetype/servicetype.component';
+import { UnitComponent } from 'src/app/masters/unit/unit.component';
+import { VesselComponent } from 'src/app/masters/vessel/vessel.component';
+import { VoyageComponent } from 'src/app/masters/voyage/voyage.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +40,18 @@ import { PartyComponent } from 'src/app/masters/party/party.component';
     PmMrRequestComponent,
     CalculatorComponent,
     PartyComponent,
+    ContainerSizeComponent,
+    ContainerTypeComponent,
+    CurrencyComponent,
+    PortComponent,
+    ServiceComponent,
+    ServicetypeComponent,
+    UnitComponent,
+    VesselComponent,
+    VoyageComponent,
+    
+    
+    
   ],
   imports: [
     CommonModule,

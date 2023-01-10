@@ -96,6 +96,46 @@ const routes: Routes = [
         path: 'party',
         component: PartyComponent,
       },
+      {
+        path: 'container',
+        component: ContainerComponent,
+      },
+      {
+        path: 'containerSize',
+        component: ContainerSizeComponent,
+      },
+      {
+        path: 'containerType',
+        component: ContainerTypeComponent,
+      },
+      {
+        path: 'servicetype',
+        component: ServicetypeComponent,
+      },
+      {
+        path: 'currency',
+        component: CurrencyComponent,
+      },
+      {
+        path: 'unit',
+        component: UnitComponent,
+      },
+      {
+        path: 'port',
+        component: PortComponent,
+      },
+      {
+        path: 'vessel',
+        component: VesselComponent,
+      },
+      {
+        path: 'service',
+        component: ServiceComponent,
+      },
+      {
+        path:'voyage',
+        component:VoyageComponent,
+      },
     ],
   },
   {
@@ -163,30 +203,9 @@ const routes: Routes = [
         component: DoDetailsComponent,
       },
 
-      {
-        path: 'container',
-        component: ContainerComponent,
-      },
-      {
-        path: 'containerSize',
-        component: ContainerSizeComponent,
-      },
-      {
-        path: 'servicetype',
-        component: ServicetypeComponent,
-      },
-      {
-        path: 'currency',
-        component: CurrencyComponent,
-      },
-      {
-        path: 'unit',
-        component: UnitComponent,
-      },
-      {
-        path: 'port',
-        component: PortComponent,
-      },
+     
+      
+     
       {
         path: 'new-bl',
         component: NewBlComponent,
@@ -223,18 +242,8 @@ const routes: Routes = [
         path: 'container-allotment-list',
         component: ContainerAllotmentListComponent,
       },
-      {
-        path: 'vessel',
-        component: VesselComponent,
-      },
-      {
-        path: 'service',
-        component: ServiceComponent,
-      },
-      {
-        path: 'containerType',
-        component: ContainerTypeComponent,
-      },
+     
+     
       {
         path: 'manifest-list',
         component: ManifestListComponent,
@@ -271,10 +280,7 @@ const routes: Routes = [
         path: 'tdr',
         component: TdrComponent,
       },
-      {
-        path:'voyage',
-        component:VoyageComponent,
-      },
+     
     ],
   },
 ];

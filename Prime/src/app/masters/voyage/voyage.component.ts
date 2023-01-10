@@ -21,7 +21,7 @@ export class VoyageComponent implements OnInit {
   isVoyageAdded: boolean = false;
   servicenameList1: any[] = [];
 
-  @ViewChild('closeBtn3') closeBtn3: ElementRef;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
   
   constructor( private _formBuilder: FormBuilder,
     private _commonService: CommonService,
@@ -67,7 +67,7 @@ export class VoyageComponent implements OnInit {
           alert('Voyage added successfully !');
           
           this.isVoyageAdded = true;
-          this.closeBtn3.nativeElement.click();
+          this.closeBtn.nativeElement.click();
         }
       });
   }
