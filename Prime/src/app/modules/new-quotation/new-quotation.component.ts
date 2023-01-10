@@ -103,20 +103,20 @@ export class NewQuotationComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _commonService: CommonService,
     private _router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-
     this.getForm();
     this.partyForm = this._formBuilder.group({
-      CUST_ID:[0],
-      CUST_NAME: ['',Validators.required],
-      CUST_EMAIL: ['',Validators.required],
-      CUST_ADDRESS: ['',Validators.required],
-      CUST_TYPE: ['',Validators.required],
-      GSTIN: ['',Validators.required],
+      CUST_ID: [0],
+      CUST_NAME: ['', Validators.required],
+      CUST_EMAIL: ['', Validators.required],
+      LOCATION: ['', Validators.required],
+      CUST_ADDRESS: ['', Validators.required],
+      CUST_TYPE: ['', Validators.required],
+      GSTIN: ['', Validators.required],
       AGENT_CODE: [''],
-      STATUS: ['',Validators.required]
+      STATUS: ['', Validators.required],
     });
     this.getDropdown();
 
@@ -131,46 +131,49 @@ export class NewQuotationComponent implements OnInit {
   //Create Customer
   InsertPartyMaster() {
     debugger;
-    this.submitted5=true;
-    this.partyForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    this.partyForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.submitted5 = true;
+    this.partyForm
+      .get('AGENT_CODE')
+      ?.setValue(localStorage.getItem('usercode'));
+    this.partyForm
+      .get('CREATED_BY')
+      ?.setValue(localStorage.getItem('username'));
     this.partyForm.get('STATUS')?.setValue(true);
-    if(this.partyForm.invalid){
-      return
+    if (this.partyForm.invalid) {
+      return;
     }
 
-    
     console.log(JSON.stringify(this.partyForm.value));
-    this._partyService.postParty(JSON.stringify(this.partyForm.value)).subscribe((res: any) => {
+    this._partyService
+      .postParty(JSON.stringify(this.partyForm.value))
+      .subscribe((res: any) => {
         if (res.responseCode == 200) {
           alert('Your record has been submitted successfully !');
           this._commonService
-             .getDropdownData('CUSTOMER_NAME')
-             .subscribe((res: any) => {
-             if (res.hasOwnProperty('Data')) {
-              this.customerList = res.Data;
-            }
-          });
+            .getDropdownData('CUSTOMER_NAME')
+            .subscribe((res: any) => {
+              if (res.hasOwnProperty('Data')) {
+                this.customerList = res.Data;
+              }
+            });
           this.closeBtn5.nativeElement.click();
           //this.ClearForm()
         }
       });
   }
 
-  CancelPartyMaster(){
-    this.partyForm.get('CUST_NAME')?.setValue("");
-    this.partyForm.get('CUST_EMAIL')?.setValue("");
-    this.partyForm.get('CUST_ADDRESS')?.setValue("");
-    this.partyForm.get('CUST_TYPE')?.setValue("");
-    this.partyForm.get('GSTIN')?.setValue("");
-    this.partyForm.get('AGENT_CODE')?.setValue("");
-    this.partyForm.get('CREATED_BY')?.setValue("");
-
+  CancelPartyMaster() {
+    this.partyForm.get('CUST_NAME')?.setValue('');
+    this.partyForm.get('CUST_EMAIL')?.setValue('');
+    this.partyForm.get('CUST_ADDRESS')?.setValue('');
+    this.partyForm.get('CUST_TYPE')?.setValue('');
+    this.partyForm.get('GSTIN')?.setValue('');
+    this.partyForm.get('AGENT_CODE')?.setValue('');
+    this.partyForm.get('CREATED_BY')?.setValue('');
   }
 
-  get fcp(){
+  get fcp() {
     return this.partyForm.controls;
-
   }
   // ON CHANGE
 
@@ -200,27 +203,26 @@ export class NewQuotationComponent implements OnInit {
   }
 
   onchangeTab(index: any) {
-    // if (index == '2') {
-    //   if (this.quotationForm.invalid) {
-    //     alert('Please complete SRR Details');
-    //     this.tabs = '1';
-    //   } else {
-    //     this.tabs = index;
-    //   }
-    // } else if (index == '3') {
-    //   if (this.quotationForm.invalid) {
-    //     alert('Please complete SRR Details');
-    //     this.tabs = '1';
-    //   } else if (this.f7.length == 0) {
-    //     alert('Please complete Commodity Details');
-    //     this.tabs = '2';
-    //   } else {
-    //     this.tabs = index;
-    //   }
-    // } else {
-    //   this.tabs = index;
-    // }
-    this.tabs=index;
+    if (index == '2') {
+      if (this.quotationForm.invalid) {
+        alert('Please complete SRR Details');
+        this.tabs = '1';
+      } else {
+        this.tabs = index;
+      }
+    } else if (index == '3') {
+      if (this.quotationForm.invalid) {
+        alert('Please complete SRR Details');
+        this.tabs = '1';
+      } else if (this.f7.length == 0) {
+        alert('Please complete Commodity Details');
+        this.tabs = '2';
+      } else {
+        this.tabs = index;
+      }
+    } else {
+      this.tabs = index;
+    }
   }
 
   onchangeIMO(event: any) {
@@ -361,10 +363,10 @@ export class NewQuotationComponent implements OnInit {
     this.onchangeTab('3');
   }
 
-  openCustModal(){
-    this.submitted5=true;
+  openCustModal() {
+    this.submitted5 = true;
     this.partyForm.reset();
-    var element = document.getElementById("openmymodal") as HTMLElement;
+    var element = document.getElementById('openmymodal') as HTMLElement;
     element.click();
     //this.openBtn5.nativeElement.click();
   }
@@ -468,7 +470,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   saveContainer() {
-    debugger
+    debugger;
     this.isLoading = true;
     var POL = this.quotationForm.value.POL;
     var POD = this.quotationForm.value.POD;
@@ -492,7 +494,7 @@ export class NewQuotationComponent implements OnInit {
       this.quotationForm.get('IS_VESSELVALIDITY')?.setValue(true);
     }
 
-    console.log("Form" + JSON.stringify(this.quotationForm.value));
+    console.log('Form' + JSON.stringify(this.quotationForm.value));
 
     this._quotationService
       .insertSRR(JSON.stringify(this.quotationForm.value))
@@ -906,9 +908,9 @@ export class NewQuotationComponent implements OnInit {
     if (
       event.target.files[0].type == 'application/pdf' ||
       event.target.files[0].type ==
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
       event.target.files[0].type ==
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
       event.target.files[0].type == 'application/xls' ||
       event.target.files[0].type == 'application/xlsx' ||
       event.target.files[0].type == 'application/doc'
@@ -924,8 +926,8 @@ export class NewQuotationComponent implements OnInit {
     }
 
     this.fileList.push({
-      "FILE": event.target.files[0],
-      "COMMODITY_TYPE": commodityType
+      FILE: event.target.files[0],
+      COMMODITY_TYPE: commodityType,
     });
 
     console.log('File List' + JSON.stringify(this.fileList));
@@ -978,7 +980,7 @@ export class NewQuotationComponent implements OnInit {
       payload.append('COMMODITY_TYPE', element.COMMODITY_TYPE);
     });
 
-    console.log("payload" + JSON.stringify(payload))
+    console.log('payload' + JSON.stringify(payload));
     this._quotationService.uploadFiles(payload, SRRNO).subscribe();
   }
 

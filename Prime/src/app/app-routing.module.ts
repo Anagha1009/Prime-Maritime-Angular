@@ -52,6 +52,7 @@ import { SrrCalculatorComponent } from './pm-modules/srr-calculator/srr-calculat
 import { TdrComponent } from './modules/tdr/tdr.component';
 import { ErListComponent } from './modules/er-list/er-list.component';
 import { ErDetailsComponent } from './modules/er-details/er-details.component';
+import { CalculatorComponent } from './pm-modules/calculator/calculator.component';
 
 const routes: Routes = [
   {
@@ -85,6 +86,14 @@ const routes: Routes = [
       {
         path: 'srr-calculator',
         component: SrrCalculatorComponent,
+      },
+      {
+        path: 'calculator',
+        component: CalculatorComponent,
+      },
+      {
+        path: 'party',
+        component: PartyComponent,
       },
     ],
   },
@@ -152,10 +161,7 @@ const routes: Routes = [
         path: 'do-details',
         component: DoDetailsComponent,
       },
-      {
-        path: 'party',
-        component: PartyComponent,
-      },
+
       {
         path: 'container',
         component: ContainerComponent,
