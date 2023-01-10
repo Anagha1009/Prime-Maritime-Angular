@@ -159,7 +159,7 @@
                                         <tr *ngFor="let item of f; let j=index" [formGroup]="item">
                                             <td width="15%">{{j+1}}</td>
                                             <td width="40%">{{item.value.CHARGE_CODE}}</td>
-                                            <td width="25%"></td>
+                                            <td width="25%">{{item.value.RATE}}</td>
                                             <td width="20%"><input type="text" class="form-control2" /></td>
                                         </tr>
                                     </tbody>
