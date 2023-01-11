@@ -170,6 +170,7 @@ export class NewDoComponent implements OnInit {
     this.bL.fromDO=true;
     
     this._blService.getContainerList(this.bL).subscribe((res: any) => {
+      debugger;
       if (res.ResponseCode == 200) {
         this.containerList = res.Data;
         //this.previewDetails=true;
