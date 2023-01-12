@@ -92,4 +92,18 @@ export class QuotationService {
   GetFiles(SRR_NO:string, COMM_TYPE: any) {
     return this._http.get<any>(this.BASE_URL + 'SRR/GetSRRFiles?SRR_NO=' + SRR_NO + '&COMM_TYPE='+ COMM_TYPE);
   }
+  
+  getRate(srr: QUOTATION) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'SRR/GetRate?POL=' +
+        srr.POL +
+        '&POD=' +
+        srr.POD +
+        '&CHARGE=' +
+        srr.CHARGE +
+        '&CONT_TYPE=' +
+        srr.CONTAINER_TYPE
+    );
+  }
 }

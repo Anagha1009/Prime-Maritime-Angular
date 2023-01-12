@@ -508,7 +508,8 @@
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
-                            <label class="label-header">IMO Class </label><small
+                            <label class="label-header">IMO Class </label>
+                            <small
                                 class="text-danger ms-1">{{commoditiesForm.value.IMO_CLASS_NAME}}</small>
                         </div>
                         <div class="col-md-4 mb-4">
@@ -968,7 +969,8 @@
                                             <tr *ngFor="let item of f3;let j = index;" [formGroup]="f4(item)">
                                                 <td class="col-md-3">
                                                     <div class="form-group">
-                                                        <ng-select formControlName="CHARGE_CODE">
+                                                        <ng-select (change)="getRate($event,j)"
+                                                            formControlName="CHARGE_CODE">
                                                             <ng-option value="" selected>--Select--</ng-option>
                                                             <ng-option value="{{item.CODE}}"
                                                                 *ngFor="let item of chargecodeList">{{item.CODE_DESC}}

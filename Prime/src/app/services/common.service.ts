@@ -17,7 +17,12 @@ export class CommonService {
 
   constructor(private _http: HttpClient) {}
 
-  getDropdownData(key: string, port: string = '', value: string = '') {
+  getDropdownData(
+    key: string,
+    port: string = '',
+    value: string = '',
+    value1: number = 0
+  ) {
     return this._http.get<any>(
       this.BASE_URL +
         'Common/GetDropdownData?key=' +
@@ -25,7 +30,9 @@ export class CommonService {
         '&value=' +
         value +
         '&port=' +
-        port,
+        port +
+        '&value1=' +
+        value1,
       this.httpOptions
     );
   }

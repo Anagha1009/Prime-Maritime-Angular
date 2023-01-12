@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { QUOTATION } from 'src/app/models/quotation';
 import { BookingService } from 'src/app/services/booking.service';
 import { CommonService } from 'src/app/services/common.service';
 import { PartyService } from 'src/app/services/party.service';
@@ -108,14 +109,14 @@ export class NewQuotationComponent implements OnInit {
 
     this.getForm();
     this.partyForm = this._formBuilder.group({
-      CUST_ID:[0],
-      CUST_NAME: ['',Validators.required],
-      CUST_EMAIL: ['',Validators.required],
-      CUST_ADDRESS: ['',Validators.required],
-      CUST_TYPE: ['',Validators.required],
-      GSTIN: ['',Validators.required],
+      CUST_ID: [0],
+      CUST_NAME: ['', Validators.required],
+      CUST_EMAIL: ['', Validators.required],
+      CUST_ADDRESS: ['', Validators.required],
+      CUST_TYPE: ['', Validators.required],
+      GSTIN: ['', Validators.required],
       AGENT_CODE: [''],
-      STATUS: ['',Validators.required]
+      STATUS: ['', Validators.required]
     });
     this.getDropdown();
 
@@ -125,38 +126,39 @@ export class NewQuotationComponent implements OnInit {
     this.quotationForm.get('EFFECT_FROM')?.setValue(this.currentDate);
 
     this.getEffectToDate(currentDate, 0);
+
   }
 
   //Create Customer
   InsertPartyMaster() {
     debugger;
-    this.submitted5=true;
+    this.submitted5 = true;
     this.partyForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
     this.partyForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
     this.partyForm.get('STATUS')?.setValue(true);
-    if(this.partyForm.invalid){
+    if (this.partyForm.invalid) {
       return
     }
 
-    
+
     console.log(JSON.stringify(this.partyForm.value));
     this._partyService.postParty(JSON.stringify(this.partyForm.value)).subscribe((res: any) => {
-        if (res.responseCode == 200) {
-          alert('Your record has been submitted successfully !');
-          this._commonService
-             .getDropdownData('CUSTOMER_NAME')
-             .subscribe((res: any) => {
-             if (res.hasOwnProperty('Data')) {
+      if (res.responseCode == 200) {
+        alert('Your record has been submitted successfully !');
+        this._commonService
+          .getDropdownData('CUSTOMER_NAME')
+          .subscribe((res: any) => {
+            if (res.hasOwnProperty('Data')) {
               this.customerList = res.Data;
             }
           });
-          this.closeBtn5.nativeElement.click();
-          //this.ClearForm()
-        }
-      });
+        this.closeBtn5.nativeElement.click();
+        //this.ClearForm()
+      }
+    });
   }
 
-  CancelPartyMaster(){
+  CancelPartyMaster() {
     this.partyForm.get('CUST_NAME')?.setValue("");
     this.partyForm.get('CUST_EMAIL')?.setValue("");
     this.partyForm.get('CUST_ADDRESS')?.setValue("");
@@ -167,7 +169,7 @@ export class NewQuotationComponent implements OnInit {
 
   }
 
-  get fcp(){
+  get fcp() {
     return this.partyForm.controls;
 
   }
@@ -360,8 +362,8 @@ export class NewQuotationComponent implements OnInit {
     this.onchangeTab('3');
   }
 
-  openCustModal(){
-    this.submitted5=true;
+  openCustModal() {
+    this.submitted5 = true;
     this.partyForm.reset();
     var element = document.getElementById("openmymodal") as HTMLElement;
     element.click();
@@ -385,13 +387,27 @@ export class NewQuotationComponent implements OnInit {
         CONTAINER_TYPE: [ct],
         CHARGE_CODE: [''],
         CURRENCY: ['USD'],
-        STANDARD_RATE: ['100'],
+        STANDARD_RATE: ['0'],
         RATE_REQUESTED: [''],
         PAYMENT_TERM: [''],
         TRANSPORT_TYPE: [''],
         REMARKS: [''],
       })
     );
+
+    this.chargecodeList = [];
+    this._commonService
+      .getDropdownData(
+        'CHARGE_CODE',
+        this.quotationForm.get('POL')?.value,
+        this.quotationForm.get('POD')?.value,
+        this.containerForm.get('IMM_VOLUME_EXPECTED')?.value
+      )
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.chargecodeList = res.Data;
+        }
+      });
 
     this.RateModal.nativeElement.click();
 
@@ -408,7 +424,7 @@ export class NewQuotationComponent implements OnInit {
         CONTAINER_TYPE: [ct],
         CHARGE_CODE: [''],
         CURRENCY: ['USD'],
-        STANDARD_RATE: ['100'],
+        STANDARD_RATE: ['0'],
         RATE_REQUESTED: [''],
         PAYMENT_TERM: [''],
         TRANSPORT_TYPE: [''],
@@ -434,7 +450,7 @@ export class NewQuotationComponent implements OnInit {
     containers.push(
       this._formBuilder.group({
         CONTAINER_TYPE: [this.containerForm.value.CONTAINER_TYPE],
-        CONTAINER_SIZE: ['NULL'],
+        CONTAINER_SIZE: [0],
         SERVICE_MODE: [this.containerForm.value.SERVICE_MODE],
         POD_FREE_DAYS: [this.containerForm.value.POD_FREE_DAYS],
         POL_FREE_DAYS: [this.containerForm.value.POL_FREE_DAYS],
@@ -768,21 +784,12 @@ export class NewQuotationComponent implements OnInit {
 
   getServiceName(event: any) {
     this.servicenameList = [];
-    this.chargecodeList = [];
     this.quotationForm.get('SERVICE_NAME')?.setValue('');
     this._commonService
       .getDropdownData('SERVICE_NAME', event, '')
       .subscribe((res: any) => {
         if (res.hasOwnProperty('Data')) {
           this.servicenameList = res.Data;
-        }
-      });
-
-    this._commonService
-      .getDropdownData('CHARGE_CODE', event, '')
-      .subscribe((res: any) => {
-        if (res.hasOwnProperty('Data')) {
-          this.chargecodeList = res.Data;
         }
       });
   }
@@ -1007,5 +1014,20 @@ export class NewQuotationComponent implements OnInit {
 
   s1(i: any) {
     return i;
+  }
+
+  getRate(event: any, i: number) {
+    var srr = new QUOTATION();
+    srr.POL = this.quotationForm.get('POL')?.value;
+    srr.POD = this.quotationForm.get('POD')?.value;
+    srr.CHARGE = event;
+    srr.CONTAINER_TYPE = this.containerForm.get('CONTAINER_TYPE')?.value;
+
+    const add = this.quotationForm.get('SRR_RATES1') as FormArray;
+
+    this._quotationService.getRate(srr).subscribe((res: any) => {
+      add.controls[i].get('STANDARD_RATE')?.setValue('');
+      add.controls[i].get('STANDARD_RATE')?.setValue(res.Data);
+    });
   }
 }
