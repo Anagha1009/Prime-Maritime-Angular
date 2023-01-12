@@ -51,7 +51,6 @@ export class PartyComponent implements OnInit {
       STATUS: ['', Validators.required],
     });
 
-    this._commonService.getDTConfig('Party-List');
     this.GetPartyMasterList();
   }
 
@@ -66,7 +65,14 @@ export class PartyComponent implements OnInit {
     this._partyService.getPartyList(partyModel).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.partyList = res.Data;
-        this._commonService.getDTConfig('Party-List');
+        setTimeout(() => {
+          $('#data-table-config').DataTable({
+            pagingType: 'full_numbers',
+            pageLength: 5,
+            processing: true,
+            lengthMenu: [5, 10, 25],
+          });
+        }, 1);
       }
     });
   }

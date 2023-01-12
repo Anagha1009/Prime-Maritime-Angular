@@ -17,10 +17,6 @@ export class QuotationService {
 
   constructor(private _http: HttpClient) {}
 
-  getData() {
-    return this._http.get('https://www.testjsonapi.com/users/');
-  }
-
   getSRRList(quotation: QUOTATION) {
     return this._http.get<any>(
       this.BASE_URL +

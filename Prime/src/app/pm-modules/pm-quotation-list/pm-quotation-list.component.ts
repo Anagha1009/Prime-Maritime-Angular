@@ -44,13 +44,6 @@ export class PmQuotationListComponent implements OnInit {
     this.getQuotationList();
   }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      $('#data-table-config').DataTable().clear().destroy();
-      $('#data-table-config').DataTable();
-    }, 1);
-  }
-
   Search() {
     var SRR_NO = this.quotationForm.value.SRR_NO;
     var CUSTOMER_NAME = this.quotationForm.value.CUSTOMER_NAME;
@@ -102,6 +95,14 @@ export class PmQuotationListComponent implements OnInit {
     this._quotationService.getSRRList(this.quotation).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.quotationList = res.Data;
+        setTimeout(() => {
+          $('#data-table-config').DataTable({
+            pagingType: 'full_numbers',
+            pageLength: 5,
+            processing: true,
+            lengthMenu: [5, 10, 25],
+          });
+        }, 1);
       }
     });
   }
