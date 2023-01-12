@@ -15,9 +15,9 @@ export class PartyService {
     }),
   };
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {}
 
-  getPartyList(partymaster:PARTY) {
+  getPartyList(partymaster: PARTY) {
     return this._http.get<any>(
       this.BASE_URL +
         'Master/GetPartyMasterList?AGENT_CODE=' +
@@ -26,7 +26,7 @@ export class PartyService {
     );
   }
 
-  getPartyDetails(party:PARTY) {
+  getPartyDetails(party: PARTY) {
     return this._http.get<any>(
       this.BASE_URL +
         'Master/GetPartyMasterDetails?AGENT_CODE=' +
@@ -36,7 +36,7 @@ export class PartyService {
       this.httpOptions
     );
   }
- 
+
   postParty(party: any) {
     return this._http.post<any>(
       this.BASE_URL + 'Master/InsertPartyMaster',
@@ -45,28 +45,24 @@ export class PartyService {
     );
   }
 
-    deleteParty(party:PARTY){
-      debugger
-      return this._http.delete<any>(
-        this.BASE_URL+
+  deleteParty(party: PARTY) {
+    debugger;
+    return this._http.delete<any>(
+      this.BASE_URL +
         'Master/DeletePartyMasterDetails?AGENT_CODE=' +
         party.AGENT_CODE +
         '&CUSTOMER_ID=' +
         party.CUST_ID,
-        this.httpOptions
-      );
-    }
-
-    updateParty(party:any){
-      debugger
-      return this._http.post<any>(
-        this.BASE_URL+ 'Master/UpdatePartyMasterDetails',
-        party,
-        this.httpOptions
-      );
-    }
+      this.httpOptions
+    );
   }
 
- 
-  
-
+  updateParty(party: any) {
+    debugger;
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdatePartyMasterDetails',
+      party,
+      this.httpOptions
+    );
+  }
+}

@@ -10,11 +10,6 @@ import { QuotationService } from 'src/app/services/quotation.service';
 })
 export class CalculatorComponent implements OnInit {
   calcForm: FormGroup;
-  freightList: any[] = [];
-  impCostList: any[] = [];
-  impRevList: any[] = [];
-  expCostList: any[] = [];
-  expRevList: any[] = [];
 
   constructor(
     private _quotationService: QuotationService,
@@ -23,10 +18,10 @@ export class CalculatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.calcForm = this._formBuilder.group({
-      IMP_COST_LIST: new FormArray([]),
-      IMP_REV_LIST: new FormArray([]),
+      FREIGHT_LIST: new FormArray([]),
       EXP_COST_LIST: new FormArray([]),
-      EXP_REV_LIST: new FormArray([]),
+      IMP_COST_LIST: new FormArray([]),
+      LADEN_BACK_COST: [0],
     });
 
     this.getRates();
@@ -37,61 +32,105 @@ export class CalculatorComponent implements OnInit {
     srr.POL = 'INIXY';
     srr.POD = 'AEJEA';
     srr.CONTAINER_TYPE = '20DC';
-    srr.SRR_NO = 'INIXY-AEJEA-9122935167759038';
+    srr.SRR_NO = 'INIXY-AEJEA-657284290468676';
+    srr.NO_OF_CONTAINERS = 13;
 
     this._quotationService.getCalRate(srr).subscribe((res: any) => {
-      debugger;
       if (res.Data.hasOwnProperty('FREIGHTLIST')) {
-        this.freightList = res.Data.FREIGHTLIST;
-      }
-      if (res.Data.hasOwnProperty('IMP_COSTLIST')) {
-        this.impCostList = res.Data.IMP_COSTLIST;
-        // const add = this.calcForm.get('IMP_COST_LIST') as FormArray;
-        // add.clear();
-        // add.push(res.Data.IMP_COSTLIST);
-      }
-      if (res.Data.hasOwnProperty('IMP_REVENUELIST')) {
-        this.impRevList = res.Data.IMP_REVENUELIST;
-        // const add = this.calcForm.get('IMP_REV_LIST') as FormArray;
-        // add.clear();
-        // add.push(res.Data.IMP_REVENUELIST);
-      }
-      if (res.Data.hasOwnProperty('EXP_COSTLIST')) {
-        //this.expCostList = res.Data.EXP_COSTLIST;
-        debugger;
-        var add = this.calcForm.get('EXP_COST_LIST') as FormArray;
-
-        res.Data.EXP_COSTLIST.forEach((element: any) => {
-          add.push(this._formBuilder.group(element));
+        console.log(res.Data.FREIGHTLIST);
+        const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
+        add1.clear();
+        res.Data.FREIGHTLIST.forEach((element: any) => {
+          add1.push(this._formBuilder.group(element));
         });
       }
-      if (res.Data.hasOwnProperty('EXP_REVENUELIST')) {
-        this.expRevList = res.Data.EXP_REVENUELIST;
-        // const add = this.calcForm.get('EXP_REV_LIST') as FormArray;
-        // add.clear();
-        // add.push(res.Data.EXP_REVENUELIST);
+
+      if (res.Data.hasOwnProperty('IMP_COSTLIST')) {
+        const add2 = this.calcForm.get('IMP_COST_LIST') as FormArray;
+        add2.clear();
+        res.Data.IMP_COSTLIST.forEach((element: any) => {
+          add2.push(this._formBuilder.group(element));
+        });
+      }
+
+      if (res.Data.hasOwnProperty('EXP_COSTLIST')) {
+        var add3 = this.calcForm.get('EXP_COST_LIST') as FormArray;
+        add3.clear();
+        res.Data.EXP_COSTLIST.forEach((element: any) => {
+          add3.push(this._formBuilder.group(element));
+        });
+      }
+
+      if (res.Data.hasOwnProperty('LADEN_BACK_COST')) {
+        this.calcForm
+          .get('LADEN_BACK_COST')
+          ?.setValue(res.Data.LADEN_BACK_COST);
       }
     });
   }
 
-  get f() {
-    var x = this.calcForm.get('EXP_COST_LIST') as FormArray;
-
-    // x.push(
-    //   this._formBuilder.group({
-    //     POL: [''],
-    //     POD: [''],
-    //     CHARGE_CODE: [''],
-    //     IE: [''],
-    //     CHARGE_TYPE: [''],
-    //     CURRENCY: [''],
-    //     RATE: [''],
-    //   })
-    // );
+  get f0() {
+    var x = this.calcForm.get('FREIGHT_LIST') as FormArray;
     return x.controls;
   }
 
-  // f1(i: any) {
-  //   return i;
-  // }
+  get f() {
+    var x = this.calcForm.get('EXP_COST_LIST') as FormArray;
+    return x.controls;
+  }
+
+  get f1() {
+    var x = this.calcForm.get('IMP_COST_LIST') as FormArray;
+    return x.controls;
+  }
+
+  TotalIncome() {
+    const add = this.calcForm.get('EXP_COST_LIST') as FormArray;
+    const add1 = this.calcForm.get('IMP_COST_LIST') as FormArray;
+    const add2 = this.calcForm.get('FREIGHT_LIST') as FormArray;
+
+    var total = 0;
+
+    for (var i = 0; i < add2.length; i++) {
+      var rr = add2.at(i)?.get('RATE_REQUESTED')?.value;
+      total += +rr;
+    }
+
+    for (var i = 0; i < add.length; i++) {
+      var rr = add.at(i)?.get('RATE_REQUESTED')?.value;
+      total += +rr;
+    }
+
+    for (var i = 0; i < add1.length; i++) {
+      var rr = add1.at(i)?.get('RATE_REQUESTED')?.value;
+      total += +rr;
+    }
+
+    return Math.round(total * 100) / 100;
+  }
+
+  TotalExpense() {
+    const add = this.calcForm.get('EXP_COST_LIST') as FormArray;
+    const add1 = this.calcForm.get('IMP_COST_LIST') as FormArray;
+    const add2 = this.calcForm.get('FREIGHT_LIST') as FormArray;
+
+    var total = 0;
+
+    for (var i = 0; i < add2.length; i++) {
+      var rr = add2.at(i)?.get('RATE')?.value;
+      total += +rr;
+    }
+
+    for (var i = 0; i < add.length; i++) {
+      var rr = add.at(i)?.get('RATE')?.value;
+      total += +rr;
+    }
+
+    for (var i = 0; i < add1.length; i++) {
+      var rr = add1.at(i)?.get('RATE')?.value;
+      total += +rr;
+    }
+
+    return Math.round(total * 100) / 100;
+  }
 }
