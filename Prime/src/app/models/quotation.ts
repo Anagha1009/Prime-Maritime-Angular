@@ -10,4 +10,5 @@ export class QUOTATION {
   TODATE: string = '';
   CHARGE: string = '';
   CONTAINER_TYPE: string = '';
+  NO_OF_CONTAINERS: number = 0;
 }

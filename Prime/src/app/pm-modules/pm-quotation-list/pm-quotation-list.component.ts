@@ -41,7 +41,6 @@ export class PmQuotationListComponent implements OnInit {
       SRR_RATES: new FormArray([]),
     });
 
-    this._commonService.getDTConfig('PM-Quotation');
     this.getQuotationList();
   }
 
@@ -93,11 +92,17 @@ export class PmQuotationListComponent implements OnInit {
 
   getQuotationList() {
     this.quotation.OPERATION = 'GET_SRRLIST_PM';
-    this._commonService.destroyTableData();
     this._quotationService.getSRRList(this.quotation).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.quotationList = res.Data;
-        this._commonService.getDTConfig('PM-Quotation');
+        setTimeout(() => {
+          $('#data-table-config').DataTable({
+            pagingType: 'full_numbers',
+            pageLength: 5,
+            processing: true,
+            lengthMenu: [5, 10, 25],
+          });
+        }, 1);
       }
     });
   }
