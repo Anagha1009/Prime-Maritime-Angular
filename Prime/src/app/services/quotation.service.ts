@@ -116,7 +116,9 @@ export class QuotationService {
         '&CONTAINER_TYPE=' +
         srr.CONTAINER_TYPE +
         '&SRR_NO=' +
-        srr.SRR_NO
+        srr.SRR_NO +
+        '&NO_OF_CONTAINERS=' +
+        srr.NO_OF_CONTAINERS
     );
   }
 }

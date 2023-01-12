@@ -83,11 +83,17 @@ export class CommonService {
     }, 1);
   }
 
+  getDT() {
+    setTimeout(() => {
+      $('#data-table-config').DataTable();
+    }, 1);
+  }
+
   getDTConfig(fileName: any) {
     setTimeout(() => {
       $('#data-table-config').DataTable(this.getDataTableConfig(fileName));
       $('#data-table-config_filter input').attr('maxlength', 100);
-    }, 1);
+    }, 100);
   }
 
   getDataTableConfig(fileName: any): any {

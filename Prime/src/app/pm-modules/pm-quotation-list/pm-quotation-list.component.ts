@@ -41,8 +41,14 @@ export class PmQuotationListComponent implements OnInit {
       SRR_RATES: new FormArray([]),
     });
 
-    this._commonService.getDTConfig('PM-Quotation');
     this.getQuotationList();
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      $('#data-table-config').DataTable().clear().destroy();
+      $('#data-table-config').DataTable();
+    }, 1);
   }
 
   Search() {
@@ -93,11 +99,9 @@ export class PmQuotationListComponent implements OnInit {
 
   getQuotationList() {
     this.quotation.OPERATION = 'GET_SRRLIST_PM';
-    this._commonService.destroyTableData();
     this._quotationService.getSRRList(this.quotation).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.quotationList = res.Data;
-        this._commonService.getDTConfig('PM-Quotation');
       }
     });
   }
