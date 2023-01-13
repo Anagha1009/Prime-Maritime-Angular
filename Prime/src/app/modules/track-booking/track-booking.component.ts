@@ -8,28 +8,25 @@ import { BookingService } from 'src/app/services/booking.service';
   styleUrls: ['./track-booking.component.scss'],
 })
 export class TrackBookingComponent implements OnInit {
-
-  bookingNO: string = '';
+  bookingNO: any = '';
   isTracking: boolean = true;
   currentStep = 1;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _bookingservice: BookingService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-
-    this._activatedRoute.queryParams.subscribe(params => {
-      this.bookingNO = params['bookingNo'];
-    });
+    // this._activatedRoute.queryParams.subscribe((params) => {
+    //   this.bookingNO = params['bookingNo'];
+    // });
+    this.bookingNO = this._activatedRoute.snapshot.paramMap.get('BOOKING_NO');
 
     this.getTrackingDetail();
   }
 
-
   Tracking() {
-
     const steps = Array.from(document.getElementsByClassName('step'));
     const progess = document.getElementsByClassName('progress-bar');
     const icon = document.getElementsByClassName('train');
@@ -39,8 +36,7 @@ export class TrackBookingComponent implements OnInit {
 
       if (stepNum === this.currentStep + 1) {
         step.classList.add('is-active');
-      }
-      else {
+      } else {
         step.classList.remove('is-active');
       }
 
@@ -49,26 +45,25 @@ export class TrackBookingComponent implements OnInit {
         icon[index].classList.toggle('mystyle');
       }
     });
-
   }
 
   getTrackingDetail() {
-    this._bookingservice.getTrackingDetail(this.bookingNO).subscribe((res: any) => {
-      console.log(JSON.stringify(res));
-      if (res.ResponseCode == 200) {
-        console.log("res" + res.Data)
-        if (res.Data == 0) {
+    this._bookingservice
+      .getTrackingDetail(this.bookingNO)
+      .subscribe((res: any) => {
+        console.log(JSON.stringify(res));
+        if (res.ResponseCode == 200) {
+          console.log('res' + res.Data);
+          if (res.Data == 0) {
+            this.isTracking = false;
+          } else {
+            this.isTracking = true;
+            this.currentStep = res.Data;
+            this.Tracking();
+          }
+        } else {
           this.isTracking = false;
         }
-        else {
-          this.isTracking = true;
-          this.currentStep = res.Data;
-          this.Tracking();
-        }
-      }
-      else{
-        this.isTracking = false;
-      }
-    })
+      });
   }
 }

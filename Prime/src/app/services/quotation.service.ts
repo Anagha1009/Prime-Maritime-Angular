@@ -15,29 +15,25 @@ export class QuotationService {
     }),
   };
 
-  constructor(private _http: HttpClient) { }
-
-  getData() {
-    return this._http.get('https://www.testjsonapi.com/users/');
-  }
+  constructor(private _http: HttpClient) {}
 
   getSRRList(quotation: QUOTATION) {
     return this._http.get<any>(
       this.BASE_URL +
-      'SRR/GetSRRList?SRR_NO=' +
-      quotation.SRR_NO +
-      '&CUSTOMER_NAME=' +
-      quotation.CUSTOMER_NAME +
-      '&STATUS=' +
-      quotation.STATUS +
-      '&FROMDATE=' +
-      quotation.FROMDATE +
-      '&TODATE=' +
-      quotation.TODATE +
-      '&AGENT_CODE=' +
-      quotation.AGENT_CODE +
-      '&OPERATION=' +
-      quotation.OPERATION,
+        'SRR/GetSRRList?SRR_NO=' +
+        quotation.SRR_NO +
+        '&CUSTOMER_NAME=' +
+        quotation.CUSTOMER_NAME +
+        '&STATUS=' +
+        quotation.STATUS +
+        '&FROMDATE=' +
+        quotation.FROMDATE +
+        '&TODATE=' +
+        quotation.TODATE +
+        '&AGENT_CODE=' +
+        quotation.AGENT_CODE +
+        '&OPERATION=' +
+        quotation.OPERATION,
       this.httpOptions
     );
   }
@@ -45,10 +41,10 @@ export class QuotationService {
   getSRRDetails(srr: QUOTATION) {
     return this._http.get<any>(
       this.BASE_URL +
-      'SRR/GetSRRBySRRNO?SRR_NO=' +
-      srr.SRR_NO +
-      '&AGENT_CODE=' +
-      srr.AGENT_CODE,
+        'SRR/GetSRRBySRRNO?SRR_NO=' +
+        srr.SRR_NO +
+        '&AGENT_CODE=' +
+        srr.AGENT_CODE,
       this.httpOptions
     );
   }
@@ -78,7 +74,10 @@ export class QuotationService {
   }
 
   uploadFiles(file: any, srrNo: string) {
-    return this._http.post<any>(this.BASE_URL + 'SRR/UploadFiles?SRR_NO=' + srrNo, file);
+    return this._http.post<any>(
+      this.BASE_URL + 'SRR/UploadFiles?SRR_NO=' + srrNo,
+      file
+    );
   }
 
   approveRate(rootobject: any) {
@@ -104,6 +103,22 @@ export class QuotationService {
         srr.CHARGE +
         '&CONT_TYPE=' +
         srr.CONTAINER_TYPE
+    );
+  }
+
+  getCalRate(srr: QUOTATION) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'SRR/GetCalRates?POL=' +
+        srr.POL +
+        '&POD=' +
+        srr.POD +
+        '&CONTAINER_TYPE=' +
+        srr.CONTAINER_TYPE +
+        '&SRR_NO=' +
+        srr.SRR_NO +
+        '&NO_OF_CONTAINERS=' +
+        srr.NO_OF_CONTAINERS
     );
   }
 }

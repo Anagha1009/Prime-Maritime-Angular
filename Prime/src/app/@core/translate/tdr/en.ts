@@ -17,7 +17,8 @@ export const locale = {
       etaNextport: 'ETA NextPort',
     },
     Button: {
-      save: ' SAVE ',
+      Save: ' SAVE ',
+      clear:'clear'
     },
   },
 };

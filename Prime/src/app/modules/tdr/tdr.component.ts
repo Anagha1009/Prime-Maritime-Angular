@@ -5,6 +5,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { TDR } from 'src/app/models/tdr';
 import { locale as english } from 'src/app/@core/translate/tdr/en';
 import { locale as hindi } from 'src/app/@core/translate/tdr/hi';
+import {locale as arabic} from 'src/app/@core/translate/tdr/ar';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 import * as xlsx from 'xlsx';
 @Component({
@@ -32,7 +33,7 @@ export class TdrComponent implements OnInit {
     private _commonService: CommonService,
     private _coreTranslationService: CoreTranslationService
   ) {
-    this._coreTranslationService.translate(english, hindi);
+    this._coreTranslationService.translate(english, hindi,arabic);
   }
 
   ngOnInit(): void {

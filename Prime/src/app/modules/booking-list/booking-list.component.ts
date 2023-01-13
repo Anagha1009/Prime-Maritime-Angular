@@ -6,6 +6,7 @@ import { BOOKING } from 'src/app/models/booking';
 import { BookingService } from 'src/app/services/booking.service';
 import { locale as english } from 'src/app/@core/translate/booking/en';
 import { locale as hindi } from 'src/app/@core/translate/booking/hi';
+import {locale as arabic} from 'src/app/@core/translate/booking/ar';
 
 @Component({
   selector: 'app-booking-list',
@@ -25,7 +26,7 @@ export class BookingListComponent implements OnInit {
     private _router: Router,
     private _coreTranslationService: CoreTranslationService
   ) {
-    this._coreTranslationService.translate(english, hindi);
+    this._coreTranslationService.translate(english, hindi,arabic);
   }
 
   ngOnInit(): void {

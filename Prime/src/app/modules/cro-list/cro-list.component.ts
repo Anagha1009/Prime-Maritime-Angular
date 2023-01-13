@@ -11,6 +11,7 @@ import { Bl } from 'src/app/models/bl';
 import { asLiteral } from '@angular/compiler/src/render3/view/util';
 import { locale as english } from 'src/app/@core/translate/cro/en';
 import { locale as hindi } from 'src/app/@core/translate/cro/hi';
+import{locale as arabic} from 'src/app/@core/translate/cro/ar';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
@@ -52,7 +53,7 @@ export class CroListComponent implements OnInit {
     private _commonService: CommonService,
     private _blService: BlService,
     private _coreTranslationService: CoreTranslationService
-  ) {this._coreTranslationService.translate(english, hindi);}
+  ) {this._coreTranslationService.translate(english, hindi,arabic);}
 
   ngOnInit(): void {
     this.croForm = this._formBuilder.group({
@@ -655,7 +656,6 @@ export class CroListComponent implements OnInit {
                 bold: true,
               },
               { text: this.croDetails?.ADDRESS },
-              { text: 'a@shds.sfdf' },
               { text: '6473463' },
             ],
             [
@@ -731,9 +731,10 @@ export class CroListComponent implements OnInit {
                 margin: [0, 0, 0, 5],
                 fontSize: 10,
               },
-              { text: 'sfd@ytrstdr', margin: [0, 0, 0, 5], fontSize: 10 },
-              { text: '7687675', margin: [0, 0, 0, 5], fontSize: 10 },
-              { text: '10/22/23', margin: [0, 0, 0, 5], fontSize: 10 },
+              { text: this.croDetails?.EMAIL,
+                margin:[0,0,0,5],
+                fontsize:10,
+              }
             ],
             [
               {

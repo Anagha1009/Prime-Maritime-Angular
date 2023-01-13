@@ -19,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -31,7 +32,7 @@ import { DataTablesModule } from 'angular-datatables';
     ReactiveFormsModule,
     SimpleNotificationsModule.forRoot(),
     TranslateModule.forRoot(),
-    DataTablesModule,
+    DataTablesModule.forRoot(),
     HttpClientModule,
     NgSelectModule,
     NgMultiSelectDropDownModule,

@@ -1,5 +1,5 @@
 <div class="section-title">
-    <h2>New Rate Request</h2>
+    <h2>{{'Header.title'|translate}}</h2>
 </div>
 <div class="container mb-5">
     <div class="col-md-9 mx-auto">
@@ -24,7 +24,7 @@
                             <div class="form-group">
                                 <input type="text" maxlength="100" formControlName="PLACE_OF_RECEIPT"
                                     class="form-control">
-                                <label class="form-label">Place of Receipt</label>
+                                <label class="form-label">{{'Header.PlaceofReceipt'|translate}}</label>
                                 <div *ngIf="submitted && f.PLACE_OF_RECEIPT.errors" class="invalid-feedback">
                                     Place of
                                     Receipt is invalid</div>
@@ -39,7 +39,8 @@
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Port of Loading <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.PortofLoading'|translate}} <span
+                                        class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.POL.errors" class="invalid-feedback">Please select
                                     Port of Loading</div>
@@ -53,7 +54,8 @@
                                         {{item.CODE_DESC}} ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Port of Discharge <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.PortofDischarge'|translate}} <span
+                                        class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.POD.errors" class="invalid-feedback">Please select
                                     Port of Discharge</div>
@@ -65,7 +67,7 @@
                             <div class="form-group">
                                 <input type="text" maxlength="100" formControlName="PLACE_OF_DELIVERY"
                                     class="form-control">
-                                <label class="form-label">Place of Delivery</label>
+                                <label class="form-label">{{'Header.PlaceofDelivery'|translate}}</label>
                                 <div *ngIf="submitted && f.PLACE_OF_DELIVERY.errors" class="invalid-feedback">
                                     Place of
                                     Delivery is invalid</div>
@@ -80,7 +82,8 @@
                                     <ng-option *ngFor="let item of icdList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Final Destination <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.FinalDestination'|translate}} <span
+                                        class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.FINAL_DESTINATION.errors" class="invalid-feedback">Please
                                     select
@@ -95,7 +98,7 @@
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Transhipment 1</label>
+                                <label class="form-label-ddl">{{'Header.Transhipment1'|translate}}</label>
                             </div>
                         </div>
                     </div>
@@ -108,7 +111,7 @@
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Transhipment 2</label>
+                                <label class="form-label-ddl">{{'Header.Transhipment2'|translate}}</label>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -119,7 +122,8 @@
                                     <ng-option *ngFor="let item of servicenameList" value="{{item.CODE}}">{{item.CODE}}
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Service Name <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.ServiceName'|translate}} <span
+                                        class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">Please select
                                     Service</div>
@@ -132,19 +136,20 @@
                                     <ng-option value="M" disabled>
                                         <button class="form-btn-primary" #openBtn5 data-bs-toggle="modal"
                                             href="#custModal">Add Customer</button>
-                                            <!-- <button (click)="openCustModal()" class="form-btn-primary">Add
+                                        <!-- <button (click)="openCustModal()" class="form-btn-primary">Add
                                                 Customer</button>
                                             <button id="openmymodal" data-bs-toggle="modal"
                                                         href="#custModal" hidden>Open Modal</button> -->
-                                           <!-- <button #openBtn5 data-bs-toggle="modal" href="#custModal" class="d-none">Add Customer</button> -->
-                                      </ng-option>
+                                        <!-- <button #openBtn5 data-bs-toggle="modal" href="#custModal" class="d-none">Add Customer</button> -->
+                                    </ng-option>
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                     <ng-option *ngFor="let item of customerList"
                                         value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Customer Name <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.CustomerName'|translate}} <span
+                                        class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.CUSTOMER_NAME.errors" class="invalid-feedback">Please select
                                     Customer Name</div>
@@ -152,7 +157,7 @@
                         </div>
                     </div>
                     <hr>
-                    <h5 class="mb-4">Rate Validity</h5>
+                    <h5 class="mb-4">{{'Header.RateValidity'|translate}}</h5>
                     <div class="row">
                         <div class="col-md-4" *ngIf="!isVesselVal">
                             <div class="form-group">
@@ -160,7 +165,7 @@
                                     (change)="getEffectToDate($event, 1)" min={{currentDate}}
                                     formControlName="EFFECT_FROM" onkeypress="return false"
                                     class="form-control active" />
-                                <label class="form-label">Effect From <span class="text-danger">
+                                <label class="form-label">{{'Header.EffectFrom'|translate}} <span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.EFFECT_FROM.errors" class="invalid-feedback">Please enter
                                     Effect From</div>
@@ -171,7 +176,7 @@
                                 <input type="date" [ngClass]="{'invalid': submitted && f.EFFECT_TO.errors}"
                                     formControlName="EFFECT_TO" min={{currentDate}} onkeypress="return false"
                                     class="form-control active" />
-                                <label class="form-label">Valid Till <span class="text-danger">
+                                <label class="form-label">{{'Header.ValidTill'|translate}} <span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.EFFECT_TO.errors" class="invalid-feedback">Please enter
                                     Effect To</div>
@@ -182,7 +187,7 @@
                                 <div class="form-check form-switch">
                                     <input (change)="isVesselValidity($event)" class="form-check-input" type="checkbox"
                                         role="switch" />
-                                    <label class="form-check-label">Apply Vessel Validity</label>
+                                    <label class="form-check-label">{{'Header.ApplyVesselValidity'|translate}}</label>
                                 </div>
                             </div>
                         </div>
@@ -193,8 +198,7 @@
                         <div *ngIf="isVesselVal" [class]="!isVoyageAdded ? 'col-md-4' : 'col-md-4 offset-md-4'"
                             style="text-align: right;">
                             <button (click)="slotAllocation()" class="form-btn-primary">
-                                <i class="fa fa-plus me-2"></i>Slot
-                                Allocation</button>
+                                <i class="fa fa-plus me-2"></i>{{'Button.SlotAllocation'|translate}}</button>
                         </div>
                     </div>
                     <form [formGroup]="slotDetailsForm" *ngIf="isVesselVal">
@@ -212,7 +216,8 @@
                                                     {{item.CODE_DESC}}
                                                 </ng-option>
                                             </ng-select>
-                                            <label class="form-label-ddl">Vessel Name<span class="text-danger">
+                                            <label class="form-label-ddl">{{'Header.VesselName'|translate}}<span
+                                                    class="text-danger">
                                                     *</span></label>
                                             <div *ngIf="submitted && f5.VESSEL_NAME.errors" class="invalid-feedback">
                                                 Vessel Name is required
@@ -228,7 +233,8 @@
                                                     {{item.CODE}}
                                                 </ng-option>
                                             </ng-select>
-                                            <label class="form-label-ddl">Voyage No <span class="text-danger">
+                                            <label class="form-label-ddl">{{'Header.VoyageNo'|translate}} <span
+                                                    class="text-danger">
                                                     *</span></label>
                                             <div *ngIf="submitted && f5.VOYAGE_NO.errors" class="invalid-feedback">
                                                 Voyage No is required
@@ -241,15 +247,15 @@
                                         <div class="form-group">
                                             <input formControlName="MOTHER_VESSEL_NAME" type="text"
                                                 class="form-control" />
-                                            <label class="form-label">Mother Vessel Name</label>
+                                            <label class="form-label">{{'Header.MotherVesselName'|translate}}</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <input formControlName="MOTHER_VOYAGE_NO" type="text"
                                                 class="form-control" />
-                                            <label class="form-label">Mother Vessel Voyage
-                                                No</label>
+                                            <label class="form-label">{{'Header.MotherVesselVoyageNo'|translate}}
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -264,7 +270,8 @@
                                                         <label class="mt-4"> {{j+1}}</label>
                                                     </td>
                                                     <td class="col-md-6">
-                                                        <label class="form-label3">Slot Operator</label>
+                                                        <label
+                                                            class="form-label3">{{'Header.SlotOperator'|translate}}</label>
                                                         <select class="form-control3" formControlName="SLOT_OPERATOR">
                                                             <option value="" selected disabled>
                                                                 --Slot
@@ -275,7 +282,8 @@
                                                         </select>
                                                     </td>
                                                     <td class="col-md-4">
-                                                        <label class="form-label3">No of Slots</label>
+                                                        <label
+                                                            class="form-label3">{{'Header.NoofSlots'|translate}}</label>
                                                         <input (keypress)="numericOnly($event)" class="form-control3"
                                                             formControlName="NO_OF_SLOTS" type="text" />
 
@@ -319,7 +327,8 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="saveQuotation()" class="form-btn w-100">Save</button>
+                            <button (click)="saveQuotation()"
+                                class="form-btn w-100">{{'Button.Save'|translate}}</button>
                         </div>
                     </div>
                 </div>
@@ -647,7 +656,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOp">
-                                <input type="file" (change)="fileUpload($event,'VslOp','HAZ')" name="file3" id="file3" />
+                                <input type="file" (change)="fileUpload($event,'VslOp','HAZ')" name="file3"
+                                    id="file3" />
                                 <label for="file3">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -686,7 +696,8 @@
                     <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedShpLOY">
-                                <input type="file" (change)="fileUpload($event,'ShpLOY','FLEXIBAG')" name="file4" id="file4" />
+                                <input type="file" (change)="fileUpload($event,'ShpLOY','FLEXIBAG')" name="file4"
+                                    id="file4" />
                                 <label for="file4">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -705,7 +716,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOpAp">
-                                <input type="file" (change)="fileUpload($event,'VslOpAp','FLEXIBAG')" name="file5" id="file5" />
+                                <input type="file" (change)="fileUpload($event,'VslOpAp','FLEXIBAG')" name="file5"
+                                    id="file5" />
                                 <label for="file5">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -726,7 +738,8 @@
                     <div class="row" *ngIf="commodityType == 'SP'">
                         <div class="col-md-4">
                             <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOpAp2">
-                                <input type="file" (change)="fileUpload($event,'VslOpAp2','SP')" name="file6" id="file6" />
+                                <input type="file" (change)="fileUpload($event,'VslOpAp2','SP')" name="file6"
+                                    id="file6" />
                                 <label for="file6">
                                     <div>
                                         <h3><i class="fa fa-file-pdf-o"></i></h3>
@@ -851,7 +864,7 @@
                                     [ngClass]="{'invalid': submitted1 && f1.SERVICE_MODE.errors}">
                                     <ng-option value="" selected="true" disabled>--Select Service Mode--</ng-option>
                                     <ng-option *ngFor="let item of servicetypeList"
-                                        [disabled]="item.CODE == 'CFS/CY' ? true : item.CODE == 'CY/CFS' ? true : item.CODE == 'CY/CY' ? true : false "
+                                        [disabled]="item.CODE == 'CFS/CY' ? true : item.CODE == 'CY/CFS' ? true : item.CODE == 'CFS/CFS' ? true : false "
                                         value="{{ item.CODE }}">
                                         {{ item.CODE }}
                                     </ng-option>
@@ -897,7 +910,7 @@
                                     formControlName="IMM_VOLUME_EXPECTED"
                                     [ngClass]="{'invalid': submitted1 && f1.IMM_VOLUME_EXPECTED.errors}"
                                     class="form-control" />
-                                <label class="form-label">Imm Volume Expected <span class="text-danger">
+                                <label class="form-label">Immediate Volume Expected <span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted1 && f1.IMM_VOLUME_EXPECTED.errors" class="invalid-feedback">Please
                                     enter
@@ -1321,85 +1334,84 @@
             <div class="modal-header">
                 <h5 class="modal-title w-100 text-center" id="exampleModalLabel">Add Customer</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn5></button>
-                
+
             </div>
             <div class="modal-body">
                 <form [formGroup]="partyForm">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-8 mx-auto">
-                                <div class="form-group">  
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label class="form-label2">Name<span class="text-danger">*</span></label>
-                                    <input type="text" id="name" [ngClass]="{'invalid':submitted5 && fcp.CUST_NAME.errors}" formControlName="CUST_NAME" class="form-control2">
-                                    <div *ngIf="submitted5 && fcp.CUST_NAME.errors" class="invalid-feedback">Please Enter Customer Name </div>  
-                                    
+                                    <input type="text" id="name"
+                                        [ngClass]="{'invalid':submitted5 && fcp.CUST_NAME.errors}"
+                                        formControlName="CUST_NAME" class="form-control2">
+                                    <div *ngIf="submitted5 && fcp.CUST_NAME.errors" class="invalid-feedback">Please
+                                        Enter Customer Name </div>
+
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8 mx-auto">
-                                <div class="form-group"> 
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label class="form-label2">Email<span class="text-danger">*</span></label>
-                                    <input type="text" id="CustomerEmail" [ngClass]="{'invalid':submitted5 && fcp.CUST_EMAIL.errors}"  formControlName="CUST_EMAIL" class="form-control2">
-                                    <div *ngIf="submitted5 && fcp.CUST_EMAIL.errors" class="invalid-feedback">Please Enter Customer Email </div>
-                                    
+                                    <input type="text" id="CustomerEmail"
+                                        [ngClass]="{'invalid':submitted5 && fcp.CUST_EMAIL.errors}"
+                                        formControlName="CUST_EMAIL" class="form-control2">
+                                    <div *ngIf="submitted5 && fcp.CUST_EMAIL.errors" class="invalid-feedback">Please
+                                        Enter Customer Email </div>
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="row">
-                            <div class="col-md-8 mx-auto">
-                                <div class="form-group"> 
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label class="form-label2">Location <span class="text-danger">*</span></label>
-                                    <input type="text" [ngClass]="{'invalid':submitted1 && fcp.LOCATION.errors}" formControlName="LOCATION"
-                                    class="form-control2">
-                                    <div *ngIf="submitted1 && fcp.LOCATION.errors" class="invalid-feedback">
-                                       Please Enter Location
+                                    <input type="text" [ngClass]="{'invalid':submitted5 && fcp.LOCATION.errors}"
+                                        formControlName="LOCATION" class="form-control2">
+                                    <div *ngIf="submitted5 && fcp.LOCATION.errors" class="invalid-feedback">
+                                        Please Enter Location
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8 mx-auto">
-                                <div class="form-group"> 
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label class="form-label2">Address<span class="text-danger">*</span></label>
-                                    <textarea type="text" id="address" [ngClass]="{'invalid':submitted5 && fcp.CUST_ADDRESS.errors}" formControlName="CUST_ADDRESS" class="form-control2" style="height:50px"></textarea>
-                                    <div *ngIf="submitted5 && fcp.CUST_ADDRESS.errors" class="invalid-feedback">Please Enter Customer Address </div>
-                                    
+                                    <textarea type="text" id="address"
+                                        [ngClass]="{'invalid':submitted5 && fcp.CUST_ADDRESS.errors}"
+                                        formControlName="CUST_ADDRESS" class="form-control2"
+                                        style="height:50px"></textarea>
+                                    <div *ngIf="submitted5 && fcp.CUST_ADDRESS.errors" class="invalid-feedback">Please
+                                        Enter Customer Address </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="row">
-                            <div class="col-md-8 mx-auto">
-                                <div class="form-group"> 
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label class="form-label2">GST IN<span class="text-danger">*</span></label>
-                                    <input type="text" id="gstin" [ngClass]="{'invalid':submitted5 && fcp.GSTIN.errors}" formControlName="GSTIN" class="form-control2">
-                                    <div *ngIf="submitted5 && fcp.GSTIN.errors" class="invalid-feedback">Please Enter GSTIN </div>
-                                    
+                                    <input type="text" id="gstin" [ngClass]="{'invalid':submitted5 && fcp.GSTIN.errors}"
+                                        formControlName="GSTIN" class="form-control2">
+                                    <div *ngIf="submitted5 && fcp.GSTIN.errors" class="invalid-feedback">Please Enter
+                                        GSTIN </div>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8 mx-auto">
-                                <div class="form-group"> 
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label class="form-label2">Type <span class="text-danger"> *</span></label>
-                                    <select formControlName="CUST_TYPE"  [ngClass]="{'invalid':submitted5 && fcp.CUST_TYPE.errors}"  class="form-control2">
-                                      <option value="" selected="true" disabled>--Select--</option>
-                                      <option value="Shipper">Shipper</option>
-                                      <option value="Consignee">Consignee</option>
-                                      <option value="Forwarder">Forwarder</option>
+                                    <select formControlName="CUST_TYPE"
+                                        [ngClass]="{'invalid':submitted5 && fcp.CUST_TYPE.errors}"
+                                        class="form-control2">
+                                        <option value="" selected="true" disabled>--Select--</option>
+                                        <option value="Shipper">Shipper</option>
+                                        <option value="Consignee">Consignee</option>
+                                        <option value="Forwarder">Forwarder</option>
                                     </select>
-                                    <div *ngIf="submitted5 && fcp.CUST_TYPE.errors" class="invalid-feedback">Please Select Customer Type </div>
+                                    <div *ngIf="submitted5 && fcp.CUST_TYPE.errors" class="invalid-feedback">Please
+                                        Select Customer Type </div>
                                 </div>
                             </div>
-
                         </div>
-    
                     </div>
-
                 </form>
             </div>
             <div class="modal-footer">
@@ -1410,7 +1422,6 @@
                         </div>
                         <div class="col-md-6">
                             <button class="form-btn w-50" (click)="InsertPartyMaster()">Save</button>
-                            
                         </div>
                     </div>
                 </div>
@@ -1418,4 +1429,3 @@
         </div>
     </div>
 </div>
-

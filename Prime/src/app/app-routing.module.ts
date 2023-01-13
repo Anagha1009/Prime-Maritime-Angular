@@ -52,6 +52,8 @@ import { SrrCalculatorComponent } from './pm-modules/srr-calculator/srr-calculat
 import { TdrComponent } from './modules/tdr/tdr.component';
 import { ErListComponent } from './modules/er-list/er-list.component';
 import { ErDetailsComponent } from './modules/er-details/er-details.component';
+import { VoyageComponent } from './masters/voyage/voyage.component';
+import { CalculatorComponent } from './pm-modules/calculator/calculator.component';
 
 const routes: Routes = [
   {
@@ -85,6 +87,54 @@ const routes: Routes = [
       {
         path: 'srr-calculator',
         component: SrrCalculatorComponent,
+      },
+      {
+        path: 'calculator',
+        component: CalculatorComponent,
+      },
+      {
+        path: 'party',
+        component: PartyComponent,
+      },
+      {
+        path: 'container',
+        component: ContainerComponent,
+      },
+      {
+        path: 'containerSize',
+        component: ContainerSizeComponent,
+      },
+      {
+        path: 'containerType',
+        component: ContainerTypeComponent,
+      },
+      {
+        path: 'servicetype',
+        component: ServicetypeComponent,
+      },
+      {
+        path: 'currency',
+        component: CurrencyComponent,
+      },
+      {
+        path: 'unit',
+        component: UnitComponent,
+      },
+      {
+        path: 'port',
+        component: PortComponent,
+      },
+      {
+        path: 'vessel',
+        component: VesselComponent,
+      },
+      {
+        path: 'service',
+        component: ServiceComponent,
+      },
+      {
+        path: 'voyage',
+        component: VoyageComponent,
       },
     ],
   },
@@ -152,34 +202,7 @@ const routes: Routes = [
         path: 'do-details',
         component: DoDetailsComponent,
       },
-      {
-        path: 'party',
-        component: PartyComponent,
-      },
-      {
-        path: 'container',
-        component: ContainerComponent,
-      },
-      {
-        path: 'containerSize',
-        component: ContainerSizeComponent,
-      },
-      {
-        path: 'servicetype',
-        component: ServicetypeComponent,
-      },
-      {
-        path: 'currency',
-        component: CurrencyComponent,
-      },
-      {
-        path: 'unit',
-        component: UnitComponent,
-      },
-      {
-        path: 'port',
-        component: PortComponent,
-      },
+
       {
         path: 'new-bl',
         component: NewBlComponent,
@@ -216,18 +239,7 @@ const routes: Routes = [
         path: 'container-allotment-list',
         component: ContainerAllotmentListComponent,
       },
-      {
-        path: 'vessel',
-        component: VesselComponent,
-      },
-      {
-        path: 'service',
-        component: ServiceComponent,
-      },
-      {
-        path: 'containerType',
-        component: ContainerTypeComponent,
-      },
+
       {
         path: 'manifest-list',
         component: ManifestListComponent,
@@ -253,7 +265,7 @@ const routes: Routes = [
         component: LoadListComponent,
       },
       {
-        path: 'track-booking',
+        path: 'track-booking/:BOOKING_NO',
         component: TrackBookingComponent,
       },
       {

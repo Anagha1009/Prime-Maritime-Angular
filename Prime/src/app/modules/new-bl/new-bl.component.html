@@ -1,13 +1,13 @@
 <div class="section-title">
-    <h2>Bill of Lading</h2>
+    <h2>{{'Header.title'|translate}}</h2>
 </div>
 <div class="container mb-5">
     <div class="col-md-4 mx-auto mt-5" *ngIf="!isBLForm">
         <div class="tabs">
             <input type="radio" (click)="tabs = '1'" class="d-none" id="radio-1" name="tabs" checked />
-            <label class="tab" for="radio-1">New BL</label>
+            <label class="tab" for="radio-1">{{'Header.NewBL'|translate}}</label>
             <input type="radio" (click)="tabs = '2'" class="d-none" id="radio-2" name="tabs" />
-            <label class="tab" for="radio-2">Split BL</label>
+            <label class="tab" for="radio-2">{{'Header.SplitBL'|translate}}</label>
             <span class="glider"></span>
         </div>
     </div>
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="col-md-5 mx-auto text-end">
-            <button class="form-btn w-100" (click)="getBLForm()">Upload</button>
+            <button class="form-btn w-100" (click)="getBLForm()">{{'Button.Upload'|translate}}</button>
         </div>
     </div>
     <div *ngIf="!isBLForm && tabs=='2'">
