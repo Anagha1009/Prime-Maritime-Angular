@@ -28,7 +28,7 @@
                         <td>{{item.DEPO_CODE}}</td>
                         <td>{{item.DEPO_NAME}}</td>
                         <td class="status">
-                            <span [class]="item.STATUS == 'Requested' ? 'waiting' : 'active'">
+                            <span [class]="item.STATUS == 'Requested' ? 'waiting' : item.STATUS == 'Rejected' ? 'rejected' : 'active'">
                                 {{item.STATUS}}
                             </span>
                         </td>
@@ -251,8 +251,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="form-btn-success me-2" (click)="approveRate()">Approve</button>
-                <button type="button" class="form-btn-danger">Reject</button>
+                <button type="button" class="form-btn-success me-2" (click)="approveRate('Approved')">Approve</button>
+                <button type="button" class="form-btn-danger" (click)="approveRate('Rejected')">Reject</button>
             </div>
         </div>
     </div>

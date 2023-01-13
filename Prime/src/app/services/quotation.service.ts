@@ -88,6 +88,10 @@ export class QuotationService {
     return this._http.post<any>(this.BASE_URL + 'SRR/CounterRate', rootobject);
   }
 
+  GetFiles(SRR_NO:string, COMM_TYPE: any) {
+    return this._http.get<any>(this.BASE_URL + 'SRR/GetSRRFiles?SRR_NO=' + SRR_NO + '&COMM_TYPE='+ COMM_TYPE);
+  }
+  
   getRate(srr: QUOTATION) {
     return this._http.get<any>(
       this.BASE_URL +

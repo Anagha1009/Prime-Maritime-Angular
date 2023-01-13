@@ -36,7 +36,7 @@ export class PmMrRequestComponent implements OnInit {
 
     this.mrForm = this._formBuilder.group({
       MR_REQ: new FormArray([]),
-      MR_REQ1: new FormArray([]),
+      MR_REQ1: new FormArray([]),      
     });
 
     this.getMRList();
@@ -106,12 +106,13 @@ export class PmMrRequestComponent implements OnInit {
     return r.controls;
   }
 
-  approveRate() {
+  approveRate(status:string) {
     var mrList = this.mrForm.get('MR_REQ');
     for (var i = 0; i < mrList?.value.length; i++) {
       this.mrForm.value.MR_REQ[i].TAX = this.TaxTotal();
       this.mrForm.value.MR_REQ[i].FINAL_TOTAL = this.FinalTotal();
-    }
+      this.mrForm.value.MR_REQ[i].STATUS = status
+    }   
 
     this._depoService
       .approveRate(this.mrForm.value.MR_REQ)

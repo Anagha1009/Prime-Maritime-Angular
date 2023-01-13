@@ -222,7 +222,24 @@
             <div id="collapse-4" class="collapse" role="tabpanel" aria-labelledby="heading-2"
                 data-bs-parent="#accordion">
                 <div class="card-body">
-                    
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3" *ngFor="let file of fileList">
+                                <div class="formbold-file-list formbold-mb-5">
+                                    <div class="formbold-file-item">
+                                        <span class="formbold-file-name"
+                                            *ngIf="file.filE_NAME.split('_')[1].length<=15">{{file.filE_NAME.split('_')[1]}}</span>
+                                        <span class="formbold-file-name"
+                                            *ngIf="file.filE_NAME.split('_')[1].length>15">{{file.filE_NAME.split('_')[1].substring(0,7)}}...{{file.filE_NAME.split('_')[1].split('.')[1]}}</span>
+                                        <a target="_blank" href="{{BASE_URL + file.filE_PATH}}"><i
+                                                class="fa fa-eye text-dark ms-5" ></i></a>
+                                    </div>
+                                </div>
+                            </div>
+    
+                        </div>
+    
+                    </div>
                 </div>
             </div>
         </div>
