@@ -61,7 +61,7 @@ export class PartyComponent implements OnInit {
   GetPartyMasterList() {
     var partyModel = new PARTY();
     partyModel.AGENT_CODE = '';
-    this._commonService.destroyTableData();
+    this._commonService.destroyDT();
     this._partyService.getPartyList(partyModel).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.partyList = res.Data;

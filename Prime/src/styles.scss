@@ -525,3 +525,9 @@ input:-webkit-autofill:focus {
 .pointer {
   cursor: pointer !important;
 }
+
+/*---DATATABLES---*/
+
+.dataTables_wrapper .dataTables_filter input {
+  margin-bottom: 8px;
+}
