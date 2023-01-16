@@ -1,0 +1,128 @@
+<div class="container-fluid">
+    <app-pm-sidebar></app-pm-sidebar>
+    <div style="width:80%;margin-left: 20%;"> 
+<div class="section-title">
+    <h2>Vessel Schedule </h2>
+</div>
+<div class="container mb-4">
+    <form [formGroup]="ScheduleForm">
+        <div class="col-md-8 mx-auto">
+            <div class="row">
+                <div class="col-md-4 mt-4">
+                    <div class="form-group">
+                        <label class="form-label-ddl"> Vessel Name<span class="text-danger">*</span></label>
+                        <ng-select [ngClass]="{'invalid':submitted && f.VESSEL_NAME.errors}" formControlName="VESSEL_NAME">
+                            <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                            <ng-option *ngFor="let item of vesselList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                ({{item.CODE}})
+                            </ng-option>
+                        </ng-select>
+                        <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">Please Select Vessel Name</div>
+                      
+                    </div>
+                </div>
+                <div class="col-md-4 mt-4">
+                    <div class="form-group">
+                        <label class="form-label-ddl">Service Name <span class="text-danger">
+                                *</span></label>
+                        <ng-select [ngClass]="{'invalid':submitted && f.SERVICE_NAME.errors}" formControlName="SERVICE_NAME">
+                            <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                            <ng-option *ngFor="let item of servicenameList1" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                ({{item.CODE}})
+                            </ng-option>
+                        </ng-select>
+                        <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">Please Select Service Name</div> 
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2"> VIA NO<span class="text-danger">*</span></label>
+                        <input type="text" id="name" [ngClass]="{'invalid':submitted && f.VIA_NO.errors}" formControlName="VIA_NO" class="form-control2">
+                    </div>
+                    <div *ngIf="submitted && f. VIA_NO.errors" class="invalid-feedback">Please Enter VIA NO</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mt-4">
+                    <div class="form-group">
+                        <label class="form-label-ddl"> Port <span class="text-danger">*</span></label>
+                        <ng-select (change)="getServiceName1($event)" [ngClass]="{'invalid':submitted && f.PORT_CODE.errors}" formControlName="PORT_CODE">
+                            <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                            <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                ({{item.CODE}})
+                            </ng-option>
+                        </ng-select>
+                        <div *ngIf="submitted && f. PORT_CODE.errors" class="invalid-feedback">Please Select Port</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2"> ETA<span class="text-danger">*</span></label>
+                        <input type="date" id="name" [ngClass]="{'invalid':submitted && f.ETA.errors}" formControlName="ETA" class="form-control2">
+                    </div>
+                    <div *ngIf="submitted && f.ETA.errors" class="invalid-feedback">Please Enter ETA</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2"> ETD<span class="text-danger">*</span></label>
+                        <input type="date" id="name" [ngClass]="{'invalid':submitted && f.ETD.errors}" formControlName="ETD" class="form-control2">
+                    </div>
+                    <div *ngIf="submitted && f. ETD.errors" class="invalid-feedback">Please Enter ETD</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label2">Status <span class="text-danger"> *</span></label>
+                        <select class="form-control2" [ngClass]="{'invalid':submitted && f.STATUS.errors}" formControlName="STATUS">
+                            <option value="" selected="true" disabled>--Select--</option>
+                            <option value="true">Active</option>
+                            <option value="false">InActive</option>
+                        </select>
+                        <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 offset-md-5" style="text-align: right">
+                    <button class="form-btn me-2" *ngIf="!isUpdate" class="form-btn me-2"
+                        (click)="InsertSchedule()">Save</button>
+                    <button class="form-btn me-2" (click)="Clear()">Clear</button>
+                    <button class="form-btn me-2" *ngIf="isUpdate" class="form-btn me-2"
+                        (click)="UpdateSchedule()">Update</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="col-md-10 mx-auto">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Vessel Name</th>
+                    <th>Service Name</th>
+                    <th> Port </th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of ScheduleList; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.VESSEL_NAME}}</td>
+                    <td>{{item.SERVICE_NAME}}</td>
+                    <td>{{item.PORT_CODE}}</td>
+                    <td>{{item.STATUS}}</td>
+                    <td>
+                        <i class="fa fa-pencil mx-2 pointer text-success" (click)="GetScheduleDetails(item.ID)"></i>
+                        <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteSchedule(item.ID)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+ </div>
+          </div> 
