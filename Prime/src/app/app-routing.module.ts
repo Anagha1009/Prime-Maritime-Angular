@@ -54,6 +54,10 @@ import { ErListComponent } from './modules/er-list/er-list.component';
 import { ErDetailsComponent } from './modules/er-details/er-details.component';
 import { VoyageComponent } from './masters/voyage/voyage.component';
 import { CalculatorComponent } from './pm-modules/calculator/calculator.component';
+import { LinerComponent } from './masters/liner/liner.component';
+import { LinerServiceComponent } from './masters/liner-service/liner-service.component';
+import { Component } from 'ag-grid-community';
+import { ScheduleComponent } from './masters/schedule/schedule.component';
 
 const routes: Routes = [
   {
@@ -136,6 +140,19 @@ const routes: Routes = [
         path:'voyage',
         component:VoyageComponent,
       },
+      {
+        path:'liner',
+        component:LinerComponent,
+      },
+      {
+        path:'linerService',
+        component:LinerServiceComponent,
+      },
+      {
+        path:'schedule',
+        component:ScheduleComponent,
+         }
+     
     ],
   },
   {

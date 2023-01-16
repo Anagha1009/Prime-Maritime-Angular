@@ -19,9 +19,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
 
-
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
