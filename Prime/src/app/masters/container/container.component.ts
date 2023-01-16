@@ -135,9 +135,7 @@ export class ContainerComponent implements OnInit {
 
   updateContainerMaster() {
     debugger;
-    this.containerForm
-      .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+    this.containerForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
 
     var status = this.containerForm.get('STATUS')?.value;
     this.containerForm.get('STATUS')?.setValue(status == 'true' ? true : false);

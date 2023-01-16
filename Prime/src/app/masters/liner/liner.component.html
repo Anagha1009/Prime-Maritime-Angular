@@ -1,0 +1,88 @@
+ <div class="container-fluid">
+    <app-pm-sidebar></app-pm-sidebar>
+    <div style="width:80%;margin-left: 20%;">
+  <div class="section-title">
+      <h2>Liner Master</h2>
+    </div>
+    <div class="container mb-4">
+      <form [formGroup]="LinerForm">
+        <div class="col-md-8 mx-auto">
+          <div class="row">       
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label2">Code<span class="text-danger">*</span></label>
+                <input type="text" id="name"  [ngClass]="{'invalid':submitted && f.CODE.errors}" formControlName="CODE"
+                 class="form-control2">
+                 <div *ngIf="submitted && f.CODE.errors" class="invalid-feedback">Please Enter Code </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label2">Liner Name<span class="text-danger">*</span></label>
+                <input type="text" id="no" [ngClass]="{'invalid':submitted && f.NAME.errors}" formControlName="NAME"  
+                 class="form-control2">
+                 <div *ngIf="submitted && f.CODE.errors" class="invalid-feedback">Please Enter Liner Name </div>
+              </div>
+            </div>
+        </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label2">Description<span class="text-danger">*</span></label>
+                <input type="text" id="gstin"  [ngClass]="{'invalid':submitted && f.DESCRIPTION.errors}" formControlName="DESCRIPTION" class="form-control2">
+                <div *ngIf="submitted && f.DESCRIPTION.errors" class="invalid-feedback">Please Enter Description</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label2">Status <span class="text-danger"> *</span></label>
+                <select class="form-control2"  [ngClass]="{'invalid':submitted && f.STATUS.errors}" formControlName="STATUS"  >
+                  <option value="" selected="true" disabled>--Select--</option>
+                  <option value="true">Active</option>
+                  <option value="false">InActive</option>
+                </select>
+                <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status</div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-4 offset-md-5" style="text-align: right">
+                <button  *ngIf="!isUpdate" class="form-btn me-2" class="form-btn me-2"  (click)="InsertLinerMaster()">Save</button>
+                <button (click)="ClearForm()" class="form-btn me-2">Clear</button>
+                    <button *ngIf="isUpdate" class="form-btn me-2"class="form-btn me-2" (click)="UpdateLiner()">Update</button>
+            </div>
+        </div>
+        </div>
+      </form>
+       <div class="col-md-10 mx-auto">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Sr. No</th>
+              <th>Liner Code</th>
+              <th>Liner Name</th>
+              <th>Description </th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of LinerList; let i = index">
+              <td>{{i+1}}</td>
+              <td>{{item.CODE}}</td>
+              <td>{{item.NAME}}</td>
+              <td>{{item.DESCRIPTION}}</td>
+              <td>{{item.STATUS}}</td>
+              <td>
+                <i class="fa fa-pencil mx-2 pointer text-success" (click)="GetLinerDetails(item.ID)" ></i>
+                <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteLinerList(item.ID)" ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    
+      </div>
+    </div>
+     </div>
+    </div> 
+    
