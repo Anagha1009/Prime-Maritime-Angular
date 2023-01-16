@@ -31,7 +31,7 @@ import { DataTablesModule } from 'angular-datatables';
     ReactiveFormsModule,
     SimpleNotificationsModule.forRoot(),
     TranslateModule.forRoot(),
-    DataTablesModule,
+    DataTablesModule.forRoot(),
     HttpClientModule,
     NgSelectModule,
     NgMultiSelectDropDownModule,

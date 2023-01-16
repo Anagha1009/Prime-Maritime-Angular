@@ -17,10 +17,6 @@ export class QuotationService {
 
   constructor(private _http: HttpClient) {}
 
-  getData() {
-    return this._http.get('https://www.testjsonapi.com/users/');
-  }
-
   getSRRList(quotation: QUOTATION) {
     return this._http.get<any>(
       this.BASE_URL +
@@ -92,6 +88,10 @@ export class QuotationService {
     return this._http.post<any>(this.BASE_URL + 'SRR/CounterRate', rootobject);
   }
 
+  GetFiles(SRR_NO:string, COMM_TYPE: any) {
+    return this._http.get<any>(this.BASE_URL + 'SRR/GetSRRFiles?SRR_NO=' + SRR_NO + '&COMM_TYPE='+ COMM_TYPE);
+  }
+  
   getRate(srr: QUOTATION) {
     return this._http.get<any>(
       this.BASE_URL +
@@ -114,7 +114,11 @@ export class QuotationService {
         '&POD=' +
         srr.POD +
         '&CONTAINER_TYPE=' +
-        srr.CONTAINER_TYPE
+        srr.CONTAINER_TYPE +
+        '&SRR_NO=' +
+        srr.SRR_NO +
+        '&NO_OF_CONTAINERS=' +
+        srr.NO_OF_CONTAINERS
     );
   }
 }

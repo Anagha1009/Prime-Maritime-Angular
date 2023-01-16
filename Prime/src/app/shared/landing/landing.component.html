@@ -35,7 +35,7 @@
                             [checked]="true" />
                         <label class="tab" for="radio-1">GET QUOTATION</label>
                         <input type="radio" (change)="isquotation = false" class="d-none" id="radio-2" name="tabs" />
-                        <label class="tab" for="radio-2">TRACK CONTAINER</label>
+                        <label class="tab" for="radio-2">TRACK YOUR BOOKING</label>
                         <span class="glider d-none"></span>
                     </div>
                     <div class="card  mt-2" style="background: transparent;">
@@ -79,16 +79,18 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input class="form-control" style="background: transparent; color: white;" [(ngModel)]="bookingNo" />
+                                            <input class="form-control" style="background: transparent; color: white;"
+                                                [(ngModel)]="bookingNo" />
                                             <label class="form-label text-light">Booking No</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mx-auto">
-                                        <button class="form-btn rounded-pill w-100" (click)="getTracking()"  >
-                                            Track your Container
-                                        </button>
+                                        <a class="form-btn rounded-pill w-100" target="_blank"
+                                            routerLink="/home/track-booking/{{bookingNo}}">
+                                            Track your Booking
+                                        </a>
                                     </div>
                                 </div>
                             </div>

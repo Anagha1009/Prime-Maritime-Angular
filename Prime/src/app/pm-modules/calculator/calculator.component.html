@@ -48,83 +48,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let item of freightList;let i = index">
+                                        <tr *ngFor="let item of f0;let i = index" [formGroup]="item">
                                             <td width="15%">{{i + 1}}</td>
-                                            <td width="40%">{{item.CHARGE}}</td>
-                                            <td width="25%">{{item.RATE}}</td>
-                                            <td width="20%"><input type="text" class="form-control2" /></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" role="tab" id="heading-2">
-                        <h6 class="mb-0">
-                            <a data-bs-toggle="collapse" href="#collapse-2" aria-expanded="false"
-                                aria-controls="collapse-2" data-abc="true" class="collapsed">
-                                POL Charges (Export Cost)
-                            </a>
-                        </h6>
-                    </div>
-                    <div id="collapse-2" class="collapse show" role="tabpanel" aria-labelledby="heading-2"
-                        data-bs-parent="#accordion">
-                        <div class="card-body">
-                            <div class="col-md-12">
-                                <table class="table" style="font-size: 12px;">
-                                    <thead>
-                                        <tr>
-                                            <th width="15%">No</th>
-                                            <th width="40%">Charge Code</th>
-                                            <th width="25%">Standard Rate</th>
-                                            <th width="20%">Requested</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of impCostList;let i = index">
-                                            <td width="15%">{{i + 1}}</td>
-                                            <td width="40%">{{item.CHARGE_CODE}}</td>
-                                            <td width="25%">{{item.RATE}}</td>
-                                            <td width="20%"><input type="text" class="form-control2" /></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" role="tab" id="heading-3">
-                        <h6 class="mb-0">
-                            <a data-bs-toggle="collapse" href="#collapse-3" aria-expanded="false"
-                                aria-controls="collapse-3" data-abc="true" class="collapsed">
-                                Import Revenue List
-                            </a>
-                        </h6>
-                    </div>
-                    <div id="collapse-3" class="collapse show" role="tabpanel" aria-labelledby="heading-3"
-                        data-bs-parent="#accordion">
-                        <div class="card-body">
-                            <div class="col-md-12">
-                                <table class="table" style="font-size: 12px;">
-                                    <thead>
-                                        <tr>
-                                            <th width="15%">No</th>
-                                            <th width="40%">Charge Code</th>
-                                            <th width="25%">Standard Rate</th>
-                                            <th width="20%">Requested</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of impRevList;let i = index">
-                                            <td width="15%">{{i + 1}}</td>
-                                            <td width="40%">{{item.CHARGE_CODE}}</td>
-                                            <td width="25%">{{item.RATE}}</td>
-                                            <td width="20%"><input type="text" class="form-control2" /></td>
+                                            <td width="40%">{{item.value.CHARGE}}</td>
+                                            <td width="25%">{{item.value.RATE}}</td>
+                                            <td width="20%"><input type="text" class="form-control2"
+                                                    formControlName="RATE_REQUESTED" /></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -137,7 +66,7 @@
                         <h6 class="mb-0">
                             <a data-bs-toggle="collapse" href="#collapse-4" aria-expanded="false"
                                 aria-controls="collapse-4" data-abc="true" class="collapsed">
-                                Export Cost List
+                                POL Charges
                             </a>
                         </h6>
                     </div>
@@ -159,8 +88,9 @@
                                         <tr *ngFor="let item of f; let j=index" [formGroup]="item">
                                             <td width="15%">{{j+1}}</td>
                                             <td width="40%">{{item.value.CHARGE_CODE}}</td>
-                                            <td width="25%"></td>
-                                            <td width="20%"><input type="text" class="form-control2" /></td>
+                                            <td width="25%">{{item.value.RATE}}</td>
+                                            <td width="20%"><input type="text" class="form-control2"
+                                                    formControlName="RATE_REQUESTED" /></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -173,7 +103,7 @@
                         <h6 class="mb-0">
                             <a data-bs-toggle="collapse" href="#collapse-5" aria-expanded="false"
                                 aria-controls="collapse-5" data-abc="true" class="collapsed">
-                                Export Revenue List
+                                POD Charges
                             </a>
                         </h6>
                     </div>
@@ -192,11 +122,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let item of expRevList;let i = index">
+                                        <tr *ngFor="let item of f1;let i = index" [formGroup]="item">
                                             <td width="15%">{{i + 1}}</td>
-                                            <td width="40%">{{item.CHARGE_CODE}}</td>
-                                            <td width="25%">{{item.RATE}}</td>
-                                            <td width="20%"><input type="text" class="form-control2" /></td>
+                                            <td width="40%">{{item.value.CHARGE_CODE}}</td>
+                                            <td width="25%">{{item.value.RATE}}</td>
+                                            <td width="20%"><input type="text" class="form-control2"
+                                                    formControlName="RATE_REQUESTED" /></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -212,7 +143,7 @@
                     <h6>Total Income : </h6>
                 </div>
                 <div class="col-4">
-                    <h6 class="text-danger">1574</h6>
+                    <h6 class="text-danger">{{TotalIncome()}}</h6>
                 </div>
             </div>
             <div class="row">
@@ -220,7 +151,7 @@
                     <h6>Total Expense : </h6>
                 </div>
                 <div class="col-4">
-                    <h6 class="text-danger">1405</h6>
+                    <h6 class="text-danger">{{TotalExpense()}}</h6>
                 </div>
             </div>
             <div class="row">
@@ -228,7 +159,7 @@
                     <h6>PNL : </h6>
                 </div>
                 <div class="col-4">
-                    <h6 class="text-info">169</h6>
+                    <h6 class="text-info">{{TotalIncome() - TotalExpense()}}</h6>
                 </div>
             </div>
             <hr>
@@ -237,7 +168,7 @@
                     <h6>Laden Back : </h6>
                 </div>
                 <div class="col-4">
-                    <h6 class="text-danger">-150</h6>
+                    <h6 class="text-danger">{{calcForm.value.LADEN_BACK_COST}}</h6>
                 </div>
             </div>
             <div class="row">
@@ -245,7 +176,7 @@
                     <h6>PNL : </h6>
                 </div>
                 <div class="col-4">
-                    <h6 class="text-info">19</h6>
+                    <h6 class="text-info">{{TotalIncome() - TotalExpense() - calcForm.value.LADEN_BACK_COST}}</h6>
                 </div>
             </div>
 

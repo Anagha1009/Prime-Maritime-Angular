@@ -137,8 +137,8 @@ const routes: Routes = [
         component: ServiceComponent,
       },
       {
-        path:'voyage',
-        component:VoyageComponent,
+        path: 'voyage',
+        component: VoyageComponent,
       },
       {
         path:'liner',
@@ -220,9 +220,6 @@ const routes: Routes = [
         component: DoDetailsComponent,
       },
 
-     
-      
-     
       {
         path: 'new-bl',
         component: NewBlComponent,
@@ -259,8 +256,7 @@ const routes: Routes = [
         path: 'container-allotment-list',
         component: ContainerAllotmentListComponent,
       },
-     
-     
+
       {
         path: 'manifest-list',
         component: ManifestListComponent,
@@ -286,7 +282,7 @@ const routes: Routes = [
         component: LoadListComponent,
       },
       {
-        path: 'track-booking',
+        path: 'track-booking/:BOOKING_NO',
         component: TrackBookingComponent,
       },
       {
@@ -297,7 +293,6 @@ const routes: Routes = [
         path: 'tdr',
         component: TdrComponent,
       },
-     
     ],
   },
 ];

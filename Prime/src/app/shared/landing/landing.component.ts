@@ -21,9 +21,7 @@ export class LandingComponent implements OnInit {
   isquotation: boolean = true;
   bookingNo: string = '';
 
-  constructor(
-    private _router: Router
-  ) { }
+  constructor(private _router: Router) {}
 
   ngOnInit(): void {
     this.loadJsFile([
@@ -49,18 +47,14 @@ export class LandingComponent implements OnInit {
   }
 
   getTracking() {
-
     //this._router.navigate(['/home/track-booking'], { queryParams: { bookingNo: this.bookingNo } });
-    if (this.bookingNo == "") {
-      alert("Please enter booking no!")
+    if (this.bookingNo == '') {
+      alert('Please enter booking no!');
+    } else {
+      // const url = this._router.serializeUrl(this._router.createUrlTree(
+      //   ['/home/track-booking'], { queryParams: { bookingNo: this.bookingNo } }
+      // ));
+      //window.open(url, '_blank');
     }
-    else {
-      const url = this._router.serializeUrl(this._router.createUrlTree(
-        ['/home/track-booking'], { queryParams: { bookingNo: this.bookingNo } }
-      ));
-
-      window.open(url, '_blank');
-    }
-
   }
 }

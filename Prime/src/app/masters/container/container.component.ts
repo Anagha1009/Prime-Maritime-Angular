@@ -17,6 +17,9 @@ export class ContainerComponent implements OnInit {
   data: any;
   isUpdate: boolean = false;
   container: CONTAINER;
+  contForm:FormGroup;
+  isLoading:boolean = false;
+  isLoading1:boolean = false;
 
   constructor(
     private _containerService: ContainerService,

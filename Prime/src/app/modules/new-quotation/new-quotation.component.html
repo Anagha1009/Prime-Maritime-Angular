@@ -39,7 +39,8 @@
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">{{'Header.PortofLoading'|translate}} <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.PortofLoading'|translate}} <span
+                                        class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.POL.errors" class="invalid-feedback">Please select
                                     Port of Loading</div>
@@ -53,7 +54,8 @@
                                         {{item.CODE_DESC}} ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">{{'Header.PortofDischarge'|translate}} <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.PortofDischarge'|translate}} <span
+                                        class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.POD.errors" class="invalid-feedback">Please select
                                     Port of Discharge</div>
@@ -80,7 +82,8 @@
                                     <ng-option *ngFor="let item of icdList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">{{'Header.FinalDestination'|translate}} <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.FinalDestination'|translate}} <span
+                                        class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.FINAL_DESTINATION.errors" class="invalid-feedback">Please
                                     select
@@ -119,7 +122,8 @@
                                     <ng-option *ngFor="let item of servicenameList" value="{{item.CODE}}">{{item.CODE}}
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">{{'Header.ServiceName'|translate}} <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.ServiceName'|translate}} <span
+                                        class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">Please select
                                     Service</div>
@@ -144,7 +148,8 @@
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">{{'Header.CustomerName'|translate}} <span class="text-danger">
+                                <label class="form-label-ddl">{{'Header.CustomerName'|translate}} <span
+                                        class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.CUSTOMER_NAME.errors" class="invalid-feedback">Please select
                                     Customer Name</div>
@@ -211,7 +216,8 @@
                                                     {{item.CODE_DESC}}
                                                 </ng-option>
                                             </ng-select>
-                                            <label class="form-label-ddl">{{'Header.VesselName'|translate}}<span class="text-danger">
+                                            <label class="form-label-ddl">{{'Header.VesselName'|translate}}<span
+                                                    class="text-danger">
                                                     *</span></label>
                                             <div *ngIf="submitted && f5.VESSEL_NAME.errors" class="invalid-feedback">
                                                 Vessel Name is required
@@ -227,7 +233,8 @@
                                                     {{item.CODE}}
                                                 </ng-option>
                                             </ng-select>
-                                            <label class="form-label-ddl">{{'Header.VoyageNo'|translate}} <span class="text-danger">
+                                            <label class="form-label-ddl">{{'Header.VoyageNo'|translate}} <span
+                                                    class="text-danger">
                                                     *</span></label>
                                             <div *ngIf="submitted && f5.VOYAGE_NO.errors" class="invalid-feedback">
                                                 Voyage No is required
@@ -248,7 +255,7 @@
                                             <input formControlName="MOTHER_VOYAGE_NO" type="text"
                                                 class="form-control" />
                                             <label class="form-label">{{'Header.MotherVesselVoyageNo'|translate}}
-                                                </label>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -263,7 +270,8 @@
                                                         <label class="mt-4"> {{j+1}}</label>
                                                     </td>
                                                     <td class="col-md-6">
-                                                        <label class="form-label3">{{'Header.SlotOperator'|translate}}</label>
+                                                        <label
+                                                            class="form-label3">{{'Header.SlotOperator'|translate}}</label>
                                                         <select class="form-control3" formControlName="SLOT_OPERATOR">
                                                             <option value="" selected disabled>
                                                                 --Slot
@@ -274,7 +282,8 @@
                                                         </select>
                                                     </td>
                                                     <td class="col-md-4">
-                                                        <label class="form-label3">{{'Header.NoofSlots'|translate}}</label>
+                                                        <label
+                                                            class="form-label3">{{'Header.NoofSlots'|translate}}</label>
                                                         <input (keypress)="numericOnly($event)" class="form-control3"
                                                             formControlName="NO_OF_SLOTS" type="text" />
 
@@ -318,7 +327,8 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button (click)="saveQuotation()" class="form-btn w-100">{{'Button.Save'|translate}}</button>
+                            <button (click)="saveQuotation()"
+                                class="form-btn w-100">{{'Button.Save'|translate}}</button>
                         </div>
                     </div>
                 </div>
@@ -507,7 +517,8 @@
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
-                            <label class="label-header">IMO Class </label><small
+                            <label class="label-header">IMO Class </label>
+                            <small
                                 class="text-danger ms-1">{{commoditiesForm.value.IMO_CLASS_NAME}}</small>
                         </div>
                         <div class="col-md-4 mb-4">
@@ -853,7 +864,7 @@
                                     [ngClass]="{'invalid': submitted1 && f1.SERVICE_MODE.errors}">
                                     <ng-option value="" selected="true" disabled>--Select Service Mode--</ng-option>
                                     <ng-option *ngFor="let item of servicetypeList"
-                                        [disabled]="item.CODE == 'CFS/CY' ? true : item.CODE == 'CY/CFS' ? true : item.CODE == 'CY/CY' ? true : false "
+                                        [disabled]="item.CODE == 'CFS/CY' ? true : item.CODE == 'CY/CFS' ? true : item.CODE == 'CFS/CFS' ? true : false "
                                         value="{{ item.CODE }}">
                                         {{ item.CODE }}
                                     </ng-option>
@@ -899,7 +910,7 @@
                                     formControlName="IMM_VOLUME_EXPECTED"
                                     [ngClass]="{'invalid': submitted1 && f1.IMM_VOLUME_EXPECTED.errors}"
                                     class="form-control" />
-                                <label class="form-label">Imm Volume Expected <span class="text-danger">
+                                <label class="form-label">Immediate Volume Expected <span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted1 && f1.IMM_VOLUME_EXPECTED.errors" class="invalid-feedback">Please
                                     enter
