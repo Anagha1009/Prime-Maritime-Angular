@@ -27,6 +27,9 @@ import { ServicetypeComponent } from 'src/app/masters/servicetype/servicetype.co
 import { UnitComponent } from 'src/app/masters/unit/unit.component';
 import { VesselComponent } from 'src/app/masters/vessel/vessel.component';
 import { VoyageComponent } from 'src/app/masters/voyage/voyage.component';
+import { LinerComponent } from 'src/app/masters/liner/liner.component';
+import { LinerServiceComponent } from 'src/app/masters/liner-service/liner-service.component';
+import { ScheduleComponent } from 'src/app/masters/schedule/schedule.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +52,9 @@ import { VoyageComponent } from 'src/app/masters/voyage/voyage.component';
     UnitComponent,
     VesselComponent,
     VoyageComponent,
+    LinerComponent,
+    LinerServiceComponent,
+    ScheduleComponent,
     
     
     

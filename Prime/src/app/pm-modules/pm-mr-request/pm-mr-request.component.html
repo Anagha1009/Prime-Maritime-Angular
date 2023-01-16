@@ -28,7 +28,7 @@
                         <td>{{item.DEPO_CODE}}</td>
                         <td>{{item.DEPO_NAME}}</td>
                         <td class="status">
-                            <span [class]="item.STATUS == 'Requested' ? 'waiting' : 'active'">
+                            <span [class]="item.STATUS == 'Requested' ? 'waiting' : item.STATUS == 'Rejected' ? 'rejected' : 'active'">
                                 {{item.STATUS}}
                             </span>
                         </td>
@@ -51,7 +51,7 @@
                 <h5 class="modal-title" id="exampleModalLabel">MR Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="overflow-x: auto;">
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-9">
@@ -72,47 +72,23 @@
                     </div>
                     <hr>
                 </div>
-                <div class="">
-                    <table class="table table-responsive-xl" style="font-size: 12px;">
+                <div class="table-responsive">
+                    <table class="ratetable" style="font-size: 12px;">
                         <tbody>
                             <tr>
-                                <td width="8%">
-                                    <label class="label-header">Location</label>
-                                </td>
-                                <td width="8%">
-                                    <label class="label-header">Component</label>
-                                </td>
-                                <td width="8%">
-                                    <label class="label-header">Damage</label>
-                                </td>
-                                <td width="8%">
-                                    <label class="label-header">Repair</label>
-                                </td>
-                                <td width="20%">
-                                    <label class="label-header">Description</label>
-                                </td>
-                                <td width="10%">
-                                    <label class="label-header">LWH (Unit)</label>
-                                </td>
-                                <td width="5%">
-                                    <label class="label-header">Responsibility</label>
-                                </td>
-                                <td width="5%">
-                                    <label class="label-header">Manhr</label>
-                                </td>
-                                <td width="5%">
-                                    <label class="label-header">Labour</label>
-                                </td>
-                                <td width="5%">
-                                    <label class="label-header">Material</label>
-                                </td>
-                                <td width="5%">
-                                    <label class="label-header">Total</label>
-                                </td>
-                                <td width="20%">
-                                    <label class="label-header">Remarks</label>
-                                </td>
-                                <td width="5%">&nbsp;</td>
+                                <th>Location</th>
+                                <th>Component</th>
+                                <th>Damage</th>
+                                <th>Repair</th>
+                                <th>Description</th>
+                                <th>LWH (Unit)</th>
+                                <th>Responsibility</th>
+                                <th>Manhr</th>
+                                <th>Labour</th>
+                                <th>Material</th>
+                                <th>Total</th>
+                                <th>Remarks</th>
+                                <th>&nbsp;</th>
                             </tr>
                             <tr *ngFor="let item of f1;let i = index" [formGroup]="f(item)">
                                 <td>{{item.value.LOCATION}}</td>
@@ -137,10 +113,10 @@
                                 </td>
                             </tr>
                             <tr *ngFor="let item of f2;let j = index" [formGroup]="f(item)">
-                                <td width="8%">
+                                <td>
                                     <input formControlName="LOCATION" class="form-control3" type="text" />
                                 </td>
-                                <td width="5%">
+                                <td>
                                     <select formControlName="COMPONENT" class="form-control3">
                                         <option value="" selected disabled>--Select--</option>
                                         <option *ngFor="let item of componentList" value="{{item.CODE}}">
@@ -148,7 +124,7 @@
                                         </option>
                                     </select>
                                 </td>
-                                <td width="5%">
+                                <td>
                                     <select formControlName="DAMAGE" class="form-control3">
                                         <option value="" selected disabled>--Select--</option>
                                         <option *ngFor="let item of damageList" value="{{item.CODE}}">
@@ -156,7 +132,7 @@
                                         </option>
                                     </select>
                                 </td>
-                                <td width="5%">
+                                <td>
                                     <select formControlName="REPAIR" class="form-control3">
                                         <option value="" selected disabled>--Select--</option>
                                         <option *ngFor="let item of repairList" value="{{item.CODE}}">
@@ -164,10 +140,10 @@
                                         </option>
                                     </select>
                                 </td>
-                                <td width="20%">
+                                <td>
                                     <textarea class="form-control3" formControlName="DESC" type="text"></textarea>
                                 </td>
-                                <td width="20%">
+                                <td>
                                     <div class="row">
                                         <div class="col-md-3">
                                             <input formControlName="LENGTH" class="form-control3" type="text" />
@@ -183,33 +159,33 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td width="5%">
+                                <td width="2%">
                                     <select formControlName="RESPONSIBILITY" class="form-control3">
                                         <option value="" selected disabled>
-                                            --Select--</option>
+                                            -Select-</option>
                                         <option value="S">S</option>
                                         <option value="C">C</option>
                                         <option value="T">T</option>
                                         <option value="O">O</option>
                                     </select>
                                 </td>
-                                <td width="5%">
+                                <td>
                                     <input formControlName="MAN_HOUR" (keyup)="LabourCount(j)" class="form-control3"
                                         type="text" />
                                 </td>
-                                <td width="5%">
+                                <td>
                                     <input formControlName="LABOUR" readonly class="form-control3" type="text" />
                                 </td>
-                                <td width="5%">
+                                <td>
                                     <input formControlName="MATERIAL" class="form-control3" type="text" />
                                 </td>
-                                <td width="5%">
+                                <td>
                                     {{Sum(j)}}
                                 </td>
-                                <td width="10%">
+                                <td>
                                     <textarea class="form-control3" formControlName="REMARKS" type="text"></textarea>
                                 </td>
-                                <td width="5%">
+                                <td>
                                     <a class="pointer" (click)="removeItem(j)">
                                         <i style="font-size:18px" class="fa fa-trash mt-3"></i>
                                     </a>
@@ -251,8 +227,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="form-btn-success me-2" (click)="approveRate()">Approve</button>
-                <button type="button" class="form-btn-danger">Reject</button>
+                <button type="button" class="form-btn-success me-2" (click)="approveRate('Approved')">Approve</button>
+                <button type="button" class="form-btn-danger" (click)="approveRate('Rejected')">Reject</button>
             </div>
         </div>
     </div>
