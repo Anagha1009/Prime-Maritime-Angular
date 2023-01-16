@@ -51,6 +51,7 @@ export class PmCmComponent implements OnInit {
   contTrack=new CONTAINER_TRACKING();
   prevData:any;
   activityList:any[]=[];
+  literalActivites:any[]=[];
 
   activityList1=[
     {ID:6,ACT_CODE:"HDMG",ACT_NAME:"Heavy damage"},
@@ -161,58 +162,208 @@ export class PmCmComponent implements OnInit {
 
   }
 
-  initializeMovementList(){
+  initializeMovementList() {
+    debugger;
     const add = this.cmForm.get('CONTAINER_LIST2') as FormArray;
     add.clear();
-    if(this.roleCode=="1"){
+    if (this.roleCode == '1') {
       debugger;
       this.containerList.forEach((element) => {
-        add.push(
-          this._formBuilder.group({
-            ID:[element.ID],
-            BOOKING_NO: [element.BOOKING_NO],
-            CRO_NO: [element.CRO_NO],
-            CONTAINER_NO: [element.CONTAINER_NO],
-            ACTIVITY: [element.ACT_CODE],
-            PREV_ACTIVITY: [element.PREV_ACT_CODE],
-            ACTIVITY_DATE: [formatDate(element.ACTIVITY_DATE, 'yyyy-MM-dd', 'en')],
-            LOCATION: [element.LOCATION],
-            STATUS: [element.STATUS],
-            AGENT_CODE: [element.AGENT_CODE],
-            DEPO_CODE: [element.DEPO_CODE],
-            CREATED_BY: [element.CREATED_BY],
-            NEXT_ACTIVITY_LIST:[element.NEXT_ACTIVITY_LIST.filter((s: string) => s.split('-')[2].includes(this.actBy))]
-          })
-        );
+        console.log(element.NEXT_ACTIVITY_LIST);
+        if(element.NEXT_ACTIVITY_LIST[0]==null){
+          this.activityList=[];
+          this.literalActivites=[];
+          this._actService.getActivityList().subscribe((res: any) => {
+            debugger;
+            if (res.ResponseCode == 200) {
+              this.activityList = res.Data;
+              console.log(this.activityList);
+              this.activityList = this.activityList.filter((s: any) =>
+                 s.ACTIVITY_BY.includes(this.actBy)
+              );
+              console.log("Filtered list1",this.activityList);
+              this.activityList.forEach((element)=>{
+                if(this.literalActivites.includes(element.ACT_NAME)==false){
+                  this.literalActivites.push(element.ACT_CODE+"-"+element.ACT_NAME);
+                }
+              });
+              console.log("activity strings",this.literalActivites);
+              console.log("Filtered list2",this.activityList);
+              add.push(
+                this._formBuilder.group({
+                  ID: [element.ID],
+                  BOOKING_NO: [element.BOOKING_NO],
+                  CRO_NO: [element.CRO_NO],
+                  CONTAINER_NO: [element.CONTAINER_NO],
+                  ACTIVITY: [element.ACT_CODE],
+                  PREV_ACTIVITY: [element.PREV_ACT_CODE],
+                  ACTIVITY_DATE: [
+                    formatDate(element.ACTIVITY_DATE, 'yyyy-MM-dd', 'en'),
+                  ],
+                  LOCATION: [element.LOCATION],
+                  STATUS: [element.STATUS],
+                  AGENT_CODE: [element.AGENT_CODE],
+                  DEPO_CODE: [element.DEPO_CODE],
+                  CREATED_BY: [element.CREATED_BY],
+                  NEXT_ACTIVITY_LIST: [this.literalActivites],
+                })
+              );
+            }
+          });
+        }
+        else{
+          add.push(
+            this._formBuilder.group({
+              ID: [element.ID],
+              BOOKING_NO: [element.BOOKING_NO],
+              CRO_NO: [element.CRO_NO],
+              CONTAINER_NO: [element.CONTAINER_NO],
+              ACTIVITY: [element.ACT_CODE],
+              PREV_ACTIVITY: [element.PREV_ACT_CODE],
+              ACTIVITY_DATE: [
+                formatDate(element.ACTIVITY_DATE, 'yyyy-MM-dd', 'en'),
+              ],
+              LOCATION: [element.LOCATION],
+              STATUS: [element.STATUS],
+              AGENT_CODE: [element.AGENT_CODE],
+              DEPO_CODE: [element.DEPO_CODE],
+              CREATED_BY: [element.CREATED_BY],
+              NEXT_ACTIVITY_LIST: [
+                element.NEXT_ACTIVITY_LIST.filter((s: string) =>
+                  s?.split('-')[2].includes(this.actBy)
+                ),
+              ],
+            })
+          );
+        }
       });
-      console.log(this.cmForm.get('CONTAINER_LIST2')?.value);
-
-    }
-    else{
+      
+    } else {
       this.containerList.forEach((element) => {
-        add.push(
-          this._formBuilder.group({
-            ID:[element.ID],
-            BOOKING_NO: [element.BOOKING_NO],
-            CRO_NO: [element.CRO_NO],
-            CONTAINER_NO: [element.CONTAINER_NO],
-            ACTIVITY: [element.ACT_CODE],
-            PREV_ACTIVITY: [element.PREV_ACT_CODE],
-            ACTIVITY_DATE: [formatDate(element.ACTIVITY_DATE, 'yyyy-MM-dd', 'en')],
-            LOCATION: [element.LOCATION],
-            STATUS: [element.STATUS],
-            AGENT_CODE: [element.AGENT_CODE],
-            DEPO_CODE: [element.DEPO_CODE],
-            CREATED_BY: [element.CREATED_BY],
-            NEXT_ACTIVITY_LIST:[element.NEXT_ACTIVITY_LIST.filter((s: string) => s.split('-')[2].includes(this.actBy))]
-          })
-        );
+        if(element.NEXT_ACTIVITY_LIST[0]==null){
+          this.activityList=[];
+          this.literalActivites=[];
+          this._actService.getActivityList().subscribe((res: any) => {
+            if (res.ResponseCode == 200) {
+              this.activityList = res.Data;
+              console.log(this.activityList);
+              
+              this.activityList = this.activityList.filter((s: any) =>
+                 s.ACTIVITY_BY.includes(this.actBy)
+              );
+              
+              console.log("Filtered list1",this.activityList);
+              this.activityList.forEach((element)=>{
+                if(this.literalActivites.includes(element.ACT_NAME)==false){
+                  this.literalActivites.push(element.ACT_CODE+"-"+element.ACT_NAME);
+                }
+              });
+              console.log("activity strings",this.literalActivites);
+              console.log("Filtered list2",this.activityList);
+            
+              add.push(
+                this._formBuilder.group({
+                  ID: [element.ID],
+                  BOOKING_NO: [element.BOOKING_NO],
+                  CRO_NO: [element.CRO_NO],
+                  CONTAINER_NO: [element.CONTAINER_NO],
+                  ACTIVITY: [element.ACT_CODE],
+                  PREV_ACTIVITY: [element.PREV_ACT_CODE],
+                  ACTIVITY_DATE: [
+                    formatDate(element.ACTIVITY_DATE, 'yyyy-MM-dd', 'en'),
+                  ],
+                  LOCATION: [element.LOCATION],
+                  STATUS: [element.STATUS],
+                  AGENT_CODE: [element.AGENT_CODE],
+                  DEPO_CODE: [element.DEPO_CODE],
+                  CREATED_BY: [element.CREATED_BY],
+                  NEXT_ACTIVITY_LIST: [this.literalActivites],
+                })
+              );
+              console.log(this.cmForm.get('CONTAINER_LIST2')?.value);
+            }
+          });
+        }
+        else{
+          add.push(
+            this._formBuilder.group({
+              ID: [element.ID],
+              BOOKING_NO: [element.BOOKING_NO],
+              CRO_NO: [element.CRO_NO],
+              CONTAINER_NO: [element.CONTAINER_NO],
+              ACTIVITY: [element.ACT_CODE],
+              PREV_ACTIVITY: [element.PREV_ACT_CODE],
+              ACTIVITY_DATE: [
+                formatDate(element.ACTIVITY_DATE, 'yyyy-MM-dd', 'en'),
+              ],
+              LOCATION: [element.LOCATION],
+              STATUS: [element.STATUS],
+              AGENT_CODE: [element.AGENT_CODE],
+              DEPO_CODE: [element.DEPO_CODE],
+              CREATED_BY: [element.CREATED_BY],
+              NEXT_ACTIVITY_LIST: [
+                element.NEXT_ACTIVITY_LIST.filter((s: string) =>
+                  s?.split('-')[2].includes(this.actBy)
+                ),
+              ],
+            })
+          );
+        }
       });
     }
-    
-    
-    
   }
+  // initializeMovementList(){
+  //   const add = this.cmForm.get('CONTAINER_LIST2') as FormArray;
+  //   add.clear();
+  //   if(this.roleCode=="1"){
+  //     debugger;
+  //     this.containerList.forEach((element) => {
+  //       add.push(
+  //         this._formBuilder.group({
+  //           ID:[element.ID],
+  //           BOOKING_NO: [element.BOOKING_NO],
+  //           CRO_NO: [element.CRO_NO],
+  //           CONTAINER_NO: [element.CONTAINER_NO],
+  //           ACTIVITY: [element.ACT_CODE],
+  //           PREV_ACTIVITY: [element.PREV_ACT_CODE],
+  //           ACTIVITY_DATE: [formatDate(element.ACTIVITY_DATE, 'yyyy-MM-dd', 'en')],
+  //           LOCATION: [element.LOCATION],
+  //           STATUS: [element.STATUS],
+  //           AGENT_CODE: [element.AGENT_CODE],
+  //           DEPO_CODE: [element.DEPO_CODE],
+  //           CREATED_BY: [element.CREATED_BY],
+  //           NEXT_ACTIVITY_LIST:[element.NEXT_ACTIVITY_LIST.filter((s: string) => s.split('-')[2].includes(this.actBy))]
+  //         })
+  //       );
+  //     });
+  //     console.log(this.cmForm.get('CONTAINER_LIST2')?.value);
+
+  //   }
+  //   else{
+  //     this.containerList.forEach((element) => {
+  //       add.push(
+  //         this._formBuilder.group({
+  //           ID:[element.ID],
+  //           BOOKING_NO: [element.BOOKING_NO],
+  //           CRO_NO: [element.CRO_NO],
+  //           CONTAINER_NO: [element.CONTAINER_NO],
+  //           ACTIVITY: [element.ACT_CODE],
+  //           PREV_ACTIVITY: [element.PREV_ACT_CODE],
+  //           ACTIVITY_DATE: [formatDate(element.ACTIVITY_DATE, 'yyyy-MM-dd', 'en')],
+  //           LOCATION: [element.LOCATION],
+  //           STATUS: [element.STATUS],
+  //           AGENT_CODE: [element.AGENT_CODE],
+  //           DEPO_CODE: [element.DEPO_CODE],
+  //           CREATED_BY: [element.CREATED_BY],
+  //           NEXT_ACTIVITY_LIST:[element.NEXT_ACTIVITY_LIST.filter((s: string) => s.split('-')[2].includes(this.actBy))]
+  //         })
+  //       );
+  //     });
+  //   }
+    
+    
+    
+  // }
 
   copyDate(){
     debugger;

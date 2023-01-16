@@ -233,12 +233,12 @@ export class NewQuotationComponent implements OnInit {
 
   onchangeIMO(event: any) {
     var x: any = this.imoclassList.filter((x) => x.CODE == event);
-    this.commoditiesForm.value.IMO_CLASS_NAME = x[0].CODE_DESC;
+    this.commoditiesForm.get('IMO_CLASS_NAME')?.setValue(x[0].CODE_DESC);
   }
 
   onchangeUN(event: any) {
-    var x: any = this.unnoList.filter((x) => x.CODE == event);
-    this.commoditiesForm.value.UN_NO_NAME = x[0].CODE_DESC;
+    var y: any = this.unnoList.filter((x) => x.CODE == event);
+    this.commoditiesForm.get('UN_NO_NAME')?.setValue(y[0].CODE_DESC);
   }
 
   // ON SAVE

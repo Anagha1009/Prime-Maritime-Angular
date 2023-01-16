@@ -282,7 +282,7 @@
                                                 <td>{{cmForm.value.CONTAINER_LIST2[i].PREV_ACTIVITY}}</td>
 
                                                 <td class="col-md-2">
-                                                    <ng-select formControlName="ACTIVITY">
+                                                    <ng-select formControlName="ACTIVITY" appendTo="body">
                                                         <ng-option value="" selected disabled>
                                                             --Activity--</ng-option>
                                                         <ng-option *ngFor=" let act of
@@ -307,7 +307,7 @@
                                                         class="form-control2" />
                                                 </td>
                                                 <td class="col-md-2">
-                                                    <ng-select formControlName="STATUS" [readonly]="isAgent">
+                                                    <ng-select formControlName="STATUS" [readonly]="isAgent" appendTo="body">
                                                         <ng-option value="" selected disabled>
                                                             --Status--</ng-option>
                                                         <ng-option *ngFor="let status of statusList"
