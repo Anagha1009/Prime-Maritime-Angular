@@ -1,8 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { stat } from 'fs';
-import { CONTAINER } from 'src/app/models/container';
 import { PARTY } from 'src/app/models/party';
 import { CommonService } from 'src/app/services/common.service';
 import { PartyService } from 'src/app/services/party.service';
@@ -16,11 +13,14 @@ export class PartyComponent implements OnInit {
   submitted: boolean = false;
   partyForm: FormGroup;
   partyList: any[] = [];
-  data: any;
   isUpdate: boolean = false;
   custForm: FormGroup;
   isLoading: boolean = false;
   isLoading1: boolean = false;
+  customer: PARTY = new PARTY();
+
+  @ViewChild('closeBtn') closeBtn: ElementRef;
+  @ViewChild('openModalPopup') openModalPopup: ElementRef;
 
   constructor(
     private _partyService: PartyService,
@@ -31,24 +31,33 @@ export class PartyComponent implements OnInit {
   ngOnInit(): void {
     this.partyForm = this._formBuilder.group({
       CUST_ID: [0],
-      CUST_NAME: ['', Validators.required],
-      CUST_EMAIL: ['', Validators.required],
-      CUST_ADDRESS: ['', Validators.required],
+      CUST_NAME: [
+        '',
+        [Validators.required, Validators.pattern('^[A-Za-z0-9? , _-]+$')],
+      ],
+      CUST_EMAIL: ['', [Validators.email]],
+      CUST_ADDRESS: [
+        '',
+        [Validators.required, Validators.pattern("^[a-zA-Z0-9s, '-]*$")],
+      ],
       CUST_TYPE: ['', Validators.required],
-      GSTIN: ['', Validators.required],
-      AGENT_CODE: [''],
+      GSTIN: [
+        '',
+        [
+          Validators.pattern(
+            '^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$'
+          ),
+        ],
+      ],
       STATUS: ['', Validators.required],
     });
 
     this.custForm = this._formBuilder.group({
-      CUST_ID: [0],
-      CUST_NAME: ['', Validators.required],
-      CUST_EMAIL: ['', Validators.required],
-      CUST_ADDRESS: ['', Validators.required],
-      CUST_TYPE: ['', Validators.required],
-      GSTIN: ['', Validators.required],
-      AGENT_CODE: [''],
-      STATUS: ['', Validators.required],
+      CUST_NAME: [''],
+      CUST_TYPE: [''],
+      STATUS: [''],
+      FROM_DATE: [''],
+      TO_DATE: [''],
     });
 
     this.GetPartyMasterList();
@@ -58,22 +67,63 @@ export class PartyComponent implements OnInit {
     return this.partyForm.controls;
   }
 
+  Search() {
+    var CUST_NAME = this.custForm.value.CUST_NAME;
+    var CUST_TYPE = this.custForm.value.CUST_TYPE;
+    var STATUS = this.custForm.value.STATUS;
+    var FROM_DATE = this.custForm.value.FROM_DATE;
+    var TO_DATE = this.custForm.value.TO_DATE;
+
+    if (
+      CUST_NAME == '' &&
+      CUST_TYPE == '' &&
+      STATUS == '' &&
+      FROM_DATE == '' &&
+      TO_DATE == ''
+    ) {
+      alert('Please enter atleast one filter to search !');
+      return;
+    } else if (FROM_DATE > TO_DATE) {
+      alert('From Date should be less than To Date !');
+      return;
+    }
+
+    this.customer.CUST_NAME = CUST_NAME;
+    this.customer.CUST_TYPE = CUST_TYPE;
+    this.customer.STATUS = STATUS;
+    this.customer.FROM_DATE = FROM_DATE;
+    this.customer.TO_DATE = TO_DATE;
+    this.isLoading = true;
+    this.GetPartyMasterList();
+  }
+
+  Clear() {
+    this.custForm.get('CUST_NAME')?.setValue('');
+    this.custForm.get('CUST_TYPE')?.setValue('');
+    this.custForm.get('STATUS')?.setValue('');
+    this.custForm.get('FROM_DATE')?.setValue('');
+    this.custForm.get('TO_DATE')?.setValue('');
+
+    this.customer.CUST_NAME = '';
+    this.customer.CUST_TYPE = '';
+    this.customer.STATUS = '';
+    this.customer.FROM_DATE = '';
+    this.customer.TO_DATE = '';
+
+    this.isLoading1 = true;
+    this.GetPartyMasterList();
+  }
+
   GetPartyMasterList() {
-    var partyModel = new PARTY();
-    partyModel.AGENT_CODE = '';
+    this.customer.AGENT_CODE = '';
     this._commonService.destroyDT();
-    this._partyService.getPartyList(partyModel).subscribe((res: any) => {
+    this._partyService.getPartyList(this.customer).subscribe((res: any) => {
+      this.isLoading = false;
+      this.isLoading1 = false;
       if (res.ResponseCode == 200) {
         this.partyList = res.Data;
-        setTimeout(() => {
-          $('#data-table-config').DataTable({
-            pagingType: 'full_numbers',
-            pageLength: 5,
-            processing: true,
-            lengthMenu: [5, 10, 25],
-          });
-        }, 1);
       }
+      this._commonService.getDT();
     });
   }
 
@@ -84,13 +134,8 @@ export class PartyComponent implements OnInit {
     }
 
     this.partyForm
-      .get('AGENT_CODE')
-      ?.setValue(localStorage.getItem('usercode'));
-    this.partyForm
       .get('CREATED_BY')
       ?.setValue(localStorage.getItem('username'));
-    var status = this.partyForm.get('STATUS')?.value;
-    this.partyForm.get('STATUS')?.setValue(status == 'true' ? true : false);
 
     this._partyService
       .postParty(JSON.stringify(this.partyForm.value))
@@ -98,7 +143,8 @@ export class PartyComponent implements OnInit {
         if (res.responseCode == 200) {
           alert('Your record has been submitted successfully !');
           this.GetPartyMasterList();
-          this.ClearForm();
+          this.submitted = false;
+          this.closeBtn.nativeElement.click();
         }
       });
   }
@@ -106,7 +152,6 @@ export class PartyComponent implements OnInit {
   DeletePartyMaster(partyID: number) {
     if (confirm('Are you sure want to delete this record ?')) {
       var partyModel = new PARTY();
-      partyModel.AGENT_CODE = localStorage.getItem('usercode');
       partyModel.CUST_ID = partyID;
 
       this._partyService.deleteParty(partyModel).subscribe((res: any) => {
@@ -120,38 +165,36 @@ export class PartyComponent implements OnInit {
 
   GetPartyMasterDetails(partyID: number) {
     var partyModel = new PARTY();
-    partyModel.AGENT_CODE = localStorage.getItem('usercode');
+    partyModel.AGENT_CODE = '';
     partyModel.CUST_ID = partyID;
 
     this._partyService.getPartyDetails(partyModel).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.partyForm.patchValue(res.Data);
-        this.partyForm.get('CUST_TYPE')?.setValue(res.Data.CUST_TYPE.trim());
         this.isUpdate = true;
       }
     });
   }
 
   UpdatePartyMaster() {
-    this.partyForm
-      .get('AGENT_CODE')
-      ?.setValue(localStorage.getItem('usercode'));
+    this.submitted = true;
+    if (this.partyForm.invalid) {
+      return;
+    }
+
     this.partyForm
       .get('CREATED_BY')
       ?.setValue(localStorage.getItem('username'));
 
-    var status = this.partyForm.get('STATUS')?.value;
-    this.partyForm.get('STATUS')?.setValue(status == 'true' ? true : false);
-
-    console.log('sfds ' + JSON.stringify(this.partyForm.value));
     this._partyService
       .updateParty(JSON.stringify(this.partyForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
           alert('Your party master has been Updated successfully !');
           this.GetPartyMasterList();
-          this.ClearForm();
+          this.submitted = false;
           this.isUpdate = false;
+          this.closeBtn.nativeElement.click();
         }
       });
   }
@@ -159,6 +202,18 @@ export class PartyComponent implements OnInit {
   ClearForm() {
     this.partyForm.reset();
     this.partyForm.get('CUST_TYPE')?.setValue('');
-    this.partyForm.get('STATUS')?.setValue('');
+    this.partyForm.get('CUST_ID')?.setValue(0);
+  }
+
+  openModal(custID: any = 0) {
+    debugger;
+    this.submitted = false;
+    this.ClearForm();
+
+    if (custID > 0) {
+      this.GetPartyMasterDetails(custID);
+    }
+
+    this.openModalPopup.nativeElement.click();
   }
 }

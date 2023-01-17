@@ -85,7 +85,7 @@ export class CommonService {
     setTimeout(() => {
       $('#data-table-config').DataTable({
         pagingType: 'full_numbers',
-        pageLength: 5,
+        pageLength: 10,
         processing: true,
         lengthMenu: [5, 10, 25],
       });
