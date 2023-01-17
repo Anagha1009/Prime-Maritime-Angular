@@ -5,67 +5,86 @@
       <h2>Customer Master</h2>
     </div>
     <div class="mb-4">
-      <form class="mx-5" [formGroup]="custForm">
+      <form [formGroup]="custForm">
         <div class="col-md-6 offset-md-6 text-end">
-          <button class="form-btn-primary" data-bs-toggle="modal" href="#customerModal">New Customer</button>
+          <button class="form-btn-primary" (click)="openModal()">New Customer</button>
+          <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#customerModal">New
+            Customer</button>
         </div>
         <div class="row">
           <div class="col-md-3">
             <div class="form-group">
               <label class="form-label2">Customer Name</label>
-              <input type="text" class="form-control2">
+              <input formControlName="CUST_NAME" type="text" class="form-control2">
             </div>
           </div>
           <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">Type</label>
-              <select class="form-control2">
-                <option value="">--Select--</option>
-                <option value="Approved">Approved</option>
-                <option value="Requested">Requested</option>
+              <select formControlName="CUST_TYPE" class="form-control2">
+                <option disabled value="">--Select--</option>
+                <option value="S">Shipper</option>
+                <option value="C">Consignee</option>
               </select>
             </div>
           </div>
           <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">Status</label>
-              <select class="form-control2">
-                <option value="">--Select--</option>
-                <option value="Approved">Approved</option>
-                <option value="Requested">Requested</option>
+              <select formControlName="STATUS" class="form-control2">
+                <option disabled value="">--Select--</option>
+                <option value=true>Active</option>
+                <option value=false>In-Active</option>
               </select>
             </div>
           </div>
-          <div class="col-md-3 mt-4">
-            <button class="form-btn me-2" [disabled]="isLoading">Search
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="form-label2">From Date</label>
+              <input formControlName="FROM_DATE" type="date" class="form-control2">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="form-label2">To Date</label>
+              <input formControlName="TO_DATE" type="date" class="form-control2">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 offset-md-9 text-end mb-3">
+            <button class="form-btn me-2" (click)="Search()" [disabled]="isLoading">Search
               <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
-            <button class="form-btn" [disabled]="isLoading1">Clear<span *ngIf="isLoading1"
+            <button class="form-btn-light" (click)="Clear()" [disabled]="isLoading1">Clear<span *ngIf="isLoading1"
                 class="fa fa-spinner fa-spin"></span></button>
           </div>
         </div>
       </form>
-      <table class="table table-bordered destroydatatable" id="data-table-config">
+      <table class="table table-bordered" id="data-table-config">
         <thead>
           <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>GST</th>
-            <th>Action</th>
+            <th width="1%">No</th>
+            <th width="30%">Name</th>
+            <th width="9%">Type</th>
+            <th width="10%">Email</th>
+            <th width="30%">Address</th>
+            <th width="10%">Status</th>
+            <th width="10%">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of partyList; let i = index">
-            <td>{{i+1}}</td>
-            <td>{{item.CUST_NAME}}</td>
-            <td>{{item.CUST_TYPE}}</td>
-            <td>{{item.CUST_EMAIL}}</td>
-            <td>{{item.CUST_ADDRESS}}</td>
-            <td>{{item.GSTIN}}</td>
-            <td>
-              <i class="fa fa-pencil mx-2 pointer text-success" (click)="GetPartyMasterDetails(item.CUST_ID)"></i>
+            <td width="1%">{{i+1}}</td>
+            <td width="30%">{{item.CUST_NAME}}</td>
+            <td width="9%">{{item.CUST_TYPE}}</td>
+            <td width="10%">{{item.CUST_EMAIL == null ? '-' : item.CUST_EMAIL == '' ? '-' : item.CUST_EMAIL}}</td>
+            <td width="30%">{{item.CUST_ADDRESS == null ? '-' : item.CUST_ADDRESS == '' ? '-' : item.CUST_ADDRESS}}</td>
+            <td width="10%" class="status"><span [class]="!item.STATUS ? 'rejected' : 'active'">{{item.STATUS ? 'Active'
+                :
+                'In-Active'}}</span>
+            </td>
+            <td width="10%">
+              <i class="fa fa-pencil mx-2 pointer text-success" (click)="openModal(item.CUST_ID)"></i>
               <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeletePartyMaster(item.CUST_ID)"></i>
             </td>
           </tr>
@@ -77,92 +96,93 @@
 
 <div class="modal fade" #customerModal id="customerModal" tabindex="-1" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-xl">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Customer Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn3></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
       </div>
       <div class="modal-body">
         <form [formGroup]="partyForm">
-          <div class="col-md-8 mx-auto">
+          <div class="col-md-12">
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-group">
-                  <label class="form-label2">Name<span class="text-danger">*</span></label>
-                  <input type="text" id="name" [ngClass]="{'invalid':submitted && f.CUST_NAME.errors}"
+                  <label class="form-label2">Name<span class="text-danger"> *</span></label>
+                  <input maxlength="100" type="text" id="name" [ngClass]="{'invalid':submitted && f.CUST_NAME.errors}"
                     formControlName="CUST_NAME" class="form-control2">
-                  <div *ngIf="submitted && f.CUST_NAME.errors" class="invalid-feedback">Please Enter Customer Name
+                  <div *ngIf="submitted && f.CUST_NAME.errors?.required" class="invalid-feedback">Name is required
+                  </div>
+                  <div *ngIf="submitted && f.CUST_NAME.errors?.pattern" class="invalid-feedback">Name is invalid
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-group">
-                  <label class="form-label2">Address<span class="text-danger">*</span></label>
-                  <textarea type="text" id="address" [ngClass]="{'invalid':submitted && f.CUST_ADDRESS.errors}"
-                    formControlName="CUST_ADDRESS" class="form-control2"></textarea>
-                  <div *ngIf="submitted && f.CUST_ADDRESS.errors" class="invalid-feedback">Please Enter Customer Address
+                  <label class="form-label2">Address<span class="text-danger"> *</span></label>
+                  <textarea maxlength="100" type="text" id="address"
+                    [ngClass]="{'invalid':submitted && f.CUST_ADDRESS.errors}" formControlName="CUST_ADDRESS"
+                    class="form-control2"></textarea>
+                  <div *ngIf="submitted && f.CUST_ADDRESS.errors?.required" class="invalid-feedback">Address is required
                   </div>
-
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label class="form-label2">Customer Email<span class="text-danger">*</span></label>
-                  <input type="text" id="CustomerEmail" [ngClass]="{'invalid':submitted && f.CUST_EMAIL.errors}"
-                    formControlName="CUST_EMAIL" class="form-control2">
-                  <div *ngIf="submitted && f.CUST_EMAIL.errors" class="invalid-feedback">Please Enter Customer Email
+                  <div *ngIf="submitted && f.CUST_ADDRESS.errors?.pattern" class="invalid-feedback">Address is invalid
                   </div>
                 </div>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-group">
-                  <label class="form-label2">GST IN<span class="text-danger">*</span></label>
-                  <input type="text" id="gstin" [ngClass]="{'invalid':submitted && f.GSTIN.errors}"
-                    formControlName="GSTIN" class="form-control2">
-                  <div *ngIf="submitted && f.GSTIN.errors" class="invalid-feedback">Please Enter GSTIN </div>
+                  <label class="form-label2">Email</label>
+                  <input maxlength="255" type="text" id="CustomerEmail"
+                    [ngClass]="{'invalid':submitted && f.CUST_EMAIL.errors}" formControlName="CUST_EMAIL"
+                    class="form-control2">
+                  <div *ngIf="submitted && f.CUST_EMAIL.errors?.email" class="invalid-feedback">Email is invalid
+                  </div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label2">GST No</label>
+                  <input maxlength="15" type="text" id="gstin" [ngClass]="{'invalid':submitted && f.GSTIN.errors}"
+                    formControlName="GSTIN" class="form-control2">
+                  <div *ngIf="submitted && f.GSTIN.errors?.pattern" class="invalid-feedback">GST No is invalid
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label class="form-label2">Type <span class="text-danger"> *</span></label>
                   <select formControlName="CUST_TYPE" [ngClass]="{'invalid':submitted && f.CUST_TYPE.errors}"
                     class="form-control2">
                     <option value="" selected="true" disabled>--Select--</option>
-                    <option value="Shipper">Shipper</option>
-                    <option value="Consignee">Consignee</option>
-                    <option value="Forwarder">Forwarder</option>
+                    <option value="S">Shipper</option>
+                    <option value="C">Consignee</option>
+                    <option value="F">Forwarder</option>
                   </select>
-                  <div *ngIf="submitted && f.CUST_TYPE.errors" class="invalid-feedback">Please Select Customer Type
+                  <div *ngIf="submitted && f.CUST_TYPE.errors" class="invalid-feedback">Type is required
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6 mt-4">
                 <div class="form-group">
-                  <label class="form-label2">Status <span class="text-danger"> *</span></label>
-                  <select class="form-control2" [ngClass]="{'invalid':submitted && f.STATUS.errors}"
-                    formControlName="STATUS">
-                    <option value="" selected="true" disabled>--Select--</option>
-                    <option value="true">Active</option>
-                    <option value="false">InActive</option>
-                  </select>
-                  <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status </div>
+                  <div class="form-check form-switch">
+                    <input formControlName="STATUS" class="form-check-input" type="checkbox" role="switch" />
+                    <label class="form-check-label">Status</label>
+                  </div>
+                  <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Status is required </div>
                 </div>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col-md-2 offset-md-10" style="text-align: right;">
-                <button *ngIf="!isUpdate" (click)="InsertPartyMaster()" class="form-btn w-100">Save</button>
-                <button *ngIf="isUpdate" (click)="UpdatePartyMaster()" class="form-btn w-100">Update</button>
               </div>
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="form-btn">Submit</button>
+        <button *ngIf="!isUpdate" (click)="InsertPartyMaster()" class="form-btn">Save</button>
+        <button *ngIf="isUpdate" (click)="UpdatePartyMaster()" class="form-btn">Update</button>
+        <button class="form-btn-light" (click)="ClearForm()">Clear</button>
       </div>
     </div>
   </div>

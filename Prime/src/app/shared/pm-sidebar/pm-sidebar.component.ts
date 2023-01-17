@@ -7,22 +7,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./pm-sidebar.component.scss'],
 })
 export class PmSidebarComponent implements OnInit {
+  ismenu: boolean = false;
   constructor(private _router: Router) {}
 
   ngOnInit(): void {
-    this.loadJsFile([
-      'assets/pm-assets/vendor/js/helpers.js',
-      'assets/pm-assets/js/config.js',
-      'assets/pm-assets/vendor/libs/jquery/jquery.js',
-      'assets/pm-assets/vendor/libs/popper/popper.js',
-      'assets/pm-assets/vendor/js/bootstrap.js',
-      'assets/pm-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js',
-      'assets/pm-assets/vendor/js/menu.js',
-      //'./../../../assets/pm-assets/vendor/libs/apex-charts/apexcharts.js',
-      'assets/pm-assets/js/main.js',
-      // './../../../assets/pm-assets/js/dashboards-analytics.js',
-      'https://buttons.github.io/buttons.js',
-    ]);
+    // this.loadJsFile([
+    //   'assets/pm-assets/vendor/js/helpers.js',
+    //   'assets/pm-assets/js/config.js',
+    //   'assets/pm-assets/vendor/libs/jquery/jquery.js',
+    //   'assets/pm-assets/vendor/libs/popper/popper.js',
+    //   'assets/pm-assets/vendor/js/bootstrap.js',
+    //   'assets/pm-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js',
+    //   'assets/pm-assets/vendor/js/menu.js',
+    //   //'./../../../assets/pm-assets/vendor/libs/apex-charts/apexcharts.js',
+    //   'assets/pm-assets/js/main.js',
+    //   // './../../../assets/pm-assets/js/dashboards-analytics.js',
+    //   'https://buttons.github.io/buttons.js',
+    // ]);
   }
 
   public loadJsFile(url: any[]) {

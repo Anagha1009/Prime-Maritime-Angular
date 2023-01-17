@@ -1,12 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { QUOTATION } from 'src/app/models/quotation';
 import { QuotationService } from 'src/app/services/quotation.service';
 import * as jquery from 'jquery';
 import { CommonService } from 'src/app/services/common.service';
-import { DataTableDirective } from 'angular-datatables';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-pm-quotation-list',
@@ -22,14 +20,6 @@ export class PmQuotationListComponent implements OnInit {
 
   readonly VAPID_PUBLIC_KEY =
     'BMhvJ95Ji0uVwIzhyeZwb133-4e7Hb_DtMP0-SKTFBcnbg_a7PlLCMD2ofLMNwNLZ5NqM-9pXOX4zDj64R-MXp4';
-
-  //prac
-  @ViewChild(DataTableDirective) datatableElement: DataTableDirective;
-
-  dtTrigger: Subject<any> = new Subject();
-  dtOptions: DataTables.Settings = {};
-  todoList: Array<any>;
-  showlist: boolean;
 
   constructor(
     private _quotationService: QuotationService,
@@ -51,7 +41,7 @@ export class PmQuotationListComponent implements OnInit {
       SRR_RATES: new FormArray([]),
     });
 
-    //this.getQuotationList();
+    this.getQuotationList();
   }
 
   Search() {
@@ -102,42 +92,14 @@ export class PmQuotationListComponent implements OnInit {
 
   getQuotationList() {
     this.quotation.OPERATION = 'GET_SRRLIST_PM';
+
+    this._commonService.destroyDT();
     this._quotationService.getSRRList(this.quotation).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.quotationList = res.Data;
-        this.dtTrigger.next;
       }
+      this._commonService.getDT();
     });
-  }
-
-  ngAfterViewInit(): void{
-    this.quotation.OPERATION = 'GET_SRRLIST_PM';
-    this._quotationService.getSRRList(this.quotation).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.quotationList = res.Data;
-        this.dtTrigger.next(true);
-      }
-    });
-    // $('#data-table-config').DataTable({
-    //   pagingType: 'full_numbers',
-    //   pageLength: 5,
-    //   processing: true,
-    //   lengthMenu: [5, 10, 25],
-    // });
-    // console.log("method call");
-    // setTimeout(() => {
-    //   $('#data-table-config').DataTable({
-    //     pagingType: 'full_numbers',
-    //     pageLength: 5,
-    //     processing: true,
-    //     lengthMenu: [5, 10, 25],
-    //   });
-    // });
-
-  }
-
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
   }
 
   getDetails(SRR_NO: string) {

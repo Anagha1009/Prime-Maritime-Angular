@@ -96,6 +96,19 @@
   color: #fff;
 }
 
+.form-btn-light {
+  background: white;
+  border: 1px solid black;
+  padding: 6px 18px;
+  color: black;
+  transition: 0.4s;
+}
+
+.form-btn-light:hover {
+  background: #f8f9fa;
+  color: black;
+}
+
 .form-group {
   position: relative;
   margin-bottom: 1.5rem;
@@ -524,4 +537,10 @@ input:-webkit-autofill:focus {
 
 .pointer {
   cursor: pointer !important;
+}
+
+/*---DATATABLES---*/
+
+.dataTables_wrapper .dataTables_filter input {
+  margin-bottom: 8px;
 }
