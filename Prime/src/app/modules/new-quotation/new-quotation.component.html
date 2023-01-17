@@ -22,9 +22,13 @@
                     <div class="row mt-3">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" maxlength="100" formControlName="PLACE_OF_RECEIPT"
-                                    class="form-control">
-                                <label class="form-label">{{'Header.PlaceofReceipt'|translate}}</label>
+                                <ng-select formControlName="PLACE_OF_RECEIPT">
+                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                    <ng-option *ngFor="let item of icdList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        ({{item.CODE}})
+                                    </ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">{{'Header.PlaceofReceipt'|translate}}</label>
                                 <div *ngIf="submitted && f.PLACE_OF_RECEIPT.errors" class="invalid-feedback">
                                     Place of
                                     Receipt is invalid</div>
@@ -35,7 +39,7 @@
                                 <ng-select (change)="getServiceName($event)"
                                     [ngClass]="{'invalid': submitted && f.POL.errors}" formControlName="POL">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    <ng-option [disabled]="item.CODE == this.quotationForm.get('POD').value ? true : false " *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -50,7 +54,8 @@
                             <div class="form-group">
                                 <ng-select [ngClass]="{'invalid': submitted && f.POD.errors}" formControlName="POD">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of portList;" value="{{item.CODE}}">
+                                    <ng-option *ngFor="let item of portList;" value="{{item.CODE}}"
+                                        [disabled]="item.CODE == this.quotationForm.get('POL').value ? true : false ">
                                         {{item.CODE_DESC}} ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -65,9 +70,13 @@
                     <div class="row">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" maxlength="100" formControlName="PLACE_OF_DELIVERY"
-                                    class="form-control">
-                                <label class="form-label">{{'Header.PlaceofDelivery'|translate}}</label>
+                                <ng-select formControlName="PLACE_OF_DELIVERY">
+                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                    <ng-option *ngFor="let item of icdList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        ({{item.CODE}})
+                                    </ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">{{'Header.PlaceofDelivery'|translate}}</label>
                                 <div *ngIf="submitted && f.PLACE_OF_DELIVERY.errors" class="invalid-feedback">
                                     Place of
                                     Delivery is invalid</div>
@@ -80,6 +89,8 @@
                                     <ng-option value="" selected="true" disabled>--Select--
                                     </ng-option>
                                     <ng-option *ngFor="let item of icdList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    </ng-option>
+                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}} ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
                                 <label class="form-label-ddl">{{'Header.FinalDestination'|translate}} <span
@@ -174,7 +185,7 @@
                         <div class="col-md-4" *ngIf="!isVesselVal">
                             <div class="form-group">
                                 <input type="date" [ngClass]="{'invalid': submitted && f.EFFECT_TO.errors}"
-                                    formControlName="EFFECT_TO" min={{currentDate}} onkeypress="return false"
+                                    formControlName="EFFECT_TO" min="{{this.quotationForm.get('EFFECT_FROM').value}}" onkeypress="return false"
                                     class="form-control active" />
                                 <label class="form-label">{{'Header.ValidTill'|translate}} <span class="text-danger">
                                         *</span></label>
@@ -340,7 +351,7 @@
                     <div class="row mt-3">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" class="form-control" formControlName="COMMODITY_NAME"
+                                <input type="text" class="form-control" maxlength="100" formControlName="COMMODITY_NAME"
                                     [ngClass]="{'invalid': submitted2 && f2.COMMODITY_NAME.errors}" />
                                 <label class="form-label">Commodity Name <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.COMMODITY_NAME.errors" class="invalid-feedback">
@@ -371,7 +382,7 @@
                             <div class="form-group">
                                 <input type="text" formControlName="FLASH_POINT"
                                     [ngClass]="{'invalid': submitted2 && f2.FLASH_POINT.errors}" class="form-control" />
-                                <label class="form-label">Flash Point <span class="text-danger"> *</span></label>
+                                <label class="form-label">Flash Point (&#8451;) <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.FLASH_POINT.errors" class="invalid-feedback">
                                     Please enter Flash Point
                                 </div>
@@ -512,14 +523,13 @@
                     <div class="row" *ngIf="commodityType == 'HAZ'">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <input type="text" formControlName="REMARKS" class="form-control" maxlength="100"  />
                                 <label class="form-label">Remarks</label>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
                             <label class="label-header">IMO Class </label>
-                            <small
-                                class="text-danger ms-1">{{commoditiesForm.value.IMO_CLASS_NAME}}</small>
+                            <small class="text-danger ms-1">{{commoditiesForm.value.IMO_CLASS_NAME}}</small>
                         </div>
                         <div class="col-md-4 mb-4">
                             <label class="label-header">UN No (Hazardous Material)</label><small
@@ -567,7 +577,7 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <input type="text" formControlName="REMARKS" class="form-control" maxlength="100" />
                                 <label class="form-label">Remarks</label>
                             </div>
                         </div>
@@ -608,7 +618,7 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <input type="text" formControlName="REMARKS" class="form-control" maxlength="100" />
                                 <label class="form-label">Remarks</label>
                             </div>
                         </div>
@@ -779,7 +789,7 @@
                     <div class="row" *ngIf="commodityType == 'NORMAL'">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="REMARKS" class="form-control" />
+                                <input type="text" formControlName="REMARKS" class="form-control" maxlength="100"  />
                                 <label class="form-label">Remarks</label>
                             </div>
                         </div>
@@ -806,28 +816,27 @@
                                     <th>Temperature</th>
                                     <th>L-W-H (cms)</th>
                                     <th>Remarks</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of f7; let i = index">
                                     <td>{{ i + 1 }}</td>
                                     <td>{{ item.value.COMMODITY_NAME }}</td>
-                                    <td>{{ item.value.COMMODITY_TYPE == 'HAZ' ? 'Hazardous' : item.value.COMMODITY_TYPE
-                                        ==
-                                        'FLEXIBAG' ?
-                                        'Flexi
-                                        Bag' : 'Normal' }}</td>
+                                    <td>{{ item.value.COMMODITY_TYPE == 'HAZ' ? 'Hazardous' : item.value.COMMODITY_TYPE == 'FLEXIBAG' ? 'Flexi Bag' : item.value.COMMODITY_TYPE == 'REEFER' ? 'Reefer' : item.value.COMMODITY_TYPE == 'SP' ? 'Special Equipment' : 'Normal' }}</td>
                                     <td>{{item.value.WEIGHT}} ({{item.value.WEIGHT_UNIT}})</td>
-                                    <td>{{ item.value.IMO_CLASS }} {{imoclassNames}}</td>
-                                    <td>{{ item.value.UN_NO }} {{unno}}</td>
-                                    <td>{{ item.value.FLASH_POINT }}</td>
-                                    <td>{{ item.value.CAS_NO }}</td>
+                                    <td>{{ item.value.IMO_CLASS == null ? '-': item.value.IMO_CLASS == '' ? '-' : item.value.IMO_CLASS }} {{imoclassNames}}</td>
+                                    <td>{{ item.value.UN_NO == null ? '-' : item.value.UN_NO == '' ? '-' : item.value.UN_NO}} {{unno}}</td>
+                                    <td>{{ item.value.FLASH_POINT == null ? '-' : item.value.FLASH_POINT == '' ? '-' : item.value.FLASH_POINT }}</td>
+                                    <td>{{ item.value.CAS_NO == null ? '-' : item.value.CAS_NO == '' ? '-' : item.value.CAS_NO }}</td>
                                     <td>{{ item.value.VENTILATION }}</td>
                                     <td>{{ item.value.HUMIDITY }}</td>
                                     <td>{{ item.value.TEMPERATURE }}</td>
                                     <td>{{ item.value.LENGTH }} - {{ item.value.WIDTH }} - {{ item.value.HEIGHT }}
                                     </td>
-                                    <td>{{ item.value.REMARKS }}</td>
+                                    <td>{{ item.value.REMARKS == null ? '-' : item.value.REMARKS == '' ? '-' : item.value.REMARKS }}</td>
+                                    <td><a class="pointer" (click)="removeCommodity(i)"><i style="font-size:18px"
+                                        class="fa fa-trash mt-3"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>
