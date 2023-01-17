@@ -3,6 +3,12 @@ export const locale = {
   data: {
     Header: {
       title: 'طلبات معدل',
+      title2:'تفاصيل SRR',
+      GeneralInfo:'معلومات عامة',
+      CommodityDetails:' تفاصيل السلع',
+      ContainerRateDetails:'تفاصيل الحاوية والسعر',
+
+
       requestNo: 'رقم الطلب',
       fromDate: 'من التاريخ',
       toDate: 'حتي اليوم',

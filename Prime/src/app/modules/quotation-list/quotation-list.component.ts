@@ -296,7 +296,7 @@ export class QuotationListComponent implements OnInit {
 
   getQuotationDetails(SRR_NO: any) {
     localStorage.setItem('SRR_NO', SRR_NO);
-    this._router.navigateByUrl('home/quotation-details');
+    this._router.navigateByUrl('home/srr-details');
   }
 
   slotAllocation() {
