@@ -3,6 +3,13 @@ export const locale = {
   data: {
     Header: {
       title: 'दर अनुरोध',
+      title2:'एसआरआर विवरण',
+      GeneralInfo:'सामान्य जानकारी',
+      CommodityDetails:'कमोडिटी विवरण',                        
+      ContainerRateDetails:'कंटेनर और दर विवरण',
+      
+
+
       requestNo: 'अनुरोध संख्या',
       fromDate: 'की तिथि से',
       toDate: 'तारीख तक',
