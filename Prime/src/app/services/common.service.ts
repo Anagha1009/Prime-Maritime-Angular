@@ -77,62 +77,19 @@ export class CommonService {
   }
 
   /* Data table configuration */
-  destroyTableData() {
-    setTimeout(() => {
-      $('.destroydatatable').DataTable().clear().destroy();
-    }, 1);
+  destroyDT() {
+    $('#data-table-config').DataTable().clear().destroy();
   }
 
   getDT() {
     setTimeout(() => {
-      $('#data-table-config').DataTable();
+      $('#data-table-config').DataTable({
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+        lengthMenu: [5, 10, 25],
+      });
     }, 1);
-  }
-
-  getDTConfig(fileName: any) {
-    setTimeout(() => {
-      $('#data-table-config').DataTable(this.getDataTableConfig(fileName));
-      $('#data-table-config_filter input').attr('maxlength', 100);
-    }, 100);
-  }
-
-  getDataTableConfig(fileName: any): any {
-    return {
-      pagingType: 'full_numbers',
-      pageLength: 25,
-      lengthMenu: [25, 50, 75],
-      scrollX: false,
-      scrollY: 300,
-      order: [],
-      columnDef: [{ orderable: false, targets: [0] }],
-      processing: true,
-      //"sDom": 't',
-      dom: 'Bfrtip',
-      destroy: true,
-      // orders: [[1, 'desc']],
-      // buttons: [
-      //       'csv'
-      //   ],
-      language: {
-        // "lengthMenu": '_MENU_ bản ghi trên trang',
-        search: '<i class="fa fa-search"></i>',
-        // "searchPlaceholder":'<i class="fa fa-search"></i>',
-        // placeholder:"<i class='icon-search'></i>",
-        // search: "_INPUT_",
-        searchPlaceholder: 'Search',
-      },
-      buttons: [
-        'pageLength',
-        {
-          extend: 'csv',
-          text: 'Export',
-          filename: fileName,
-          className: 'form-btn float-right mt-1 ms-5 py-1',
-        },
-      ],
-      //  lengthMenu: [ 10, 20, 50],
-      //  lengthChange:true
-    };
   }
 
   getcurrentDate(date: any) {
