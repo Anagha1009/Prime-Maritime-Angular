@@ -21,7 +21,16 @@ export class PartyService {
     return this._http.get<any>(
       this.BASE_URL +
         'Master/GetPartyMasterList?AGENT_CODE=' +
-        partymaster.AGENT_CODE,
+        partymaster.AGENT_CODE +
+        '&CUST_NAME=' +
+        partymaster.CUST_NAME +
+        '&CUST_TYPE=' +
+        partymaster.CUST_TYPE +
+        '&FROM_DATE=' +
+        partymaster.FROM_DATE +
+        '&TO_DATE=' +
+        partymaster.TO_DATE +
+        (partymaster.STATUS != '' ? '&STATUS=' + partymaster.STATUS : ''),
       this.httpOptions
     );
   }
@@ -46,19 +55,15 @@ export class PartyService {
   }
 
   deleteParty(party: PARTY) {
-    debugger;
     return this._http.delete<any>(
       this.BASE_URL +
-        'Master/DeletePartyMasterDetails?AGENT_CODE=' +
-        party.AGENT_CODE +
-        '&CUSTOMER_ID=' +
+        'Master/DeletePartyMasterDetails?CUSTOMER_ID=' +
         party.CUST_ID,
       this.httpOptions
     );
   }
 
   updateParty(party: any) {
-    debugger;
     return this._http.post<any>(
       this.BASE_URL + 'Master/UpdatePartyMasterDetails',
       party,
