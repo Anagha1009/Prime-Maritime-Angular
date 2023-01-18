@@ -86,7 +86,7 @@ export class HeaderComponent implements OnInit {
               : this.selectedLanguage == 'hi'
               ? hindi.data.Menu.containerAllotment
               : arabic.data.Menu.containerAllotment,
-          menuLink: 'home/quotation-list',
+          menuLink: 'home/container-allotment',
         },
         {
           menuName:
@@ -95,7 +95,7 @@ export class HeaderComponent implements OnInit {
               : this.selectedLanguage == 'hi'
               ? hindi.data.Menu.mnrRequest
               : arabic.data.Menu.mnrRequest,
-          menuLink: 'javascript:void(0)',
+          menuLink: 'home/mr-request',
         },
         {
           menuName:
