@@ -34,8 +34,6 @@ export class NewQuotationComponent implements OnInit {
   servicenameList1: any[] = [];
   servicetypeList: any[] = [];
   conindex: any = 0;
-  polList: any[] = [];
-  podList: any[] = [];
   ts1List: any[] = [];
   ts2List: any[] = [];
   customerList: any[] = [];
@@ -137,7 +135,6 @@ export class NewQuotationComponent implements OnInit {
 
   //Create Customer
   InsertPartyMaster() {
-    debugger;
     this.submitted5 = true;
     this.partyForm
       .get('AGENT_CODE')
@@ -205,6 +202,18 @@ export class NewQuotationComponent implements OnInit {
       this.commoditiesForm.get('CAS_NO')?.enable();
     }
 
+    if (this.commodityType == 'REEFER') {
+      this.commoditiesForm.get('VENTILATION')?.enable();
+      this.commoditiesForm.get('HUMIDITY')?.enable();
+      this.commoditiesForm.get('TEMPERATURE')?.enable();
+    }
+
+    if (this.commodityType == 'SP') {
+      this.commoditiesForm.get('LENGTH')?.enable();
+      this.commoditiesForm.get('WIDTH')?.enable();
+      this.commoditiesForm.get('HEIGHT')?.enable();
+    }
+
     this.commoditiesForm.get('REMARKS')?.setValue('');
     this.commoditiesForm.get('WEIGHT')?.setValue('');
   }
@@ -230,7 +239,7 @@ export class NewQuotationComponent implements OnInit {
     // } else {
     //   this.tabs = index;
     // }
-    this.tabs=index;
+    this.tabs = index;
   }
 
   onchangeIMO(event: any) {
@@ -315,7 +324,6 @@ export class NewQuotationComponent implements OnInit {
 
     var commodities = this.quotationForm.get('SRR_COMMODITIES') as FormArray;
 
-    debugger;
     commodities.push(
       this._formBuilder.group({
         COMMODITY_NAME: [this.commoditiesForm.value.COMMODITY_NAME],
@@ -404,6 +412,12 @@ export class NewQuotationComponent implements OnInit {
       })
     );
 
+    if (this.containerForm.get('IMM_VOLUME_EXPECTED')?.value > this.containerForm.get('TOTAL_VOLUME_EXPECTED')?.value) {
+      alert('Imm. Volume Expected should be less than Total Volume Expected ')
+      this.containerForm.get('IMM_VOLUME_EXPECTED')?.setValue('');
+      return;
+    }
+
     this.chargecodeList = [];
     this._commonService
       .getDropdownData(
@@ -478,7 +492,6 @@ export class NewQuotationComponent implements OnInit {
   }
 
   saveContainer() {
-    debugger;
     this.isLoading = true;
     var POL = this.quotationForm.value.POL;
     var POD = this.quotationForm.value.POD;
@@ -801,6 +814,7 @@ export class NewQuotationComponent implements OnInit {
           this.servicenameList = res.Data;
         }
       });
+
   }
 
   getServiceName1(event: any) {
@@ -916,9 +930,9 @@ export class NewQuotationComponent implements OnInit {
     if (
       event.target.files[0].type == 'application/pdf' ||
       event.target.files[0].type ==
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
       event.target.files[0].type ==
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
       event.target.files[0].type == 'application/xls' ||
       event.target.files[0].type == 'application/xlsx' ||
       event.target.files[0].type == 'application/doc'
@@ -1038,5 +1052,10 @@ export class NewQuotationComponent implements OnInit {
       add.controls[i].get('STANDARD_RATE')?.setValue('');
       add.controls[i].get('STANDARD_RATE')?.setValue(res.Data);
     });
+  }
+
+  removeCommodity(i: any) {
+    var s = this.quotationForm.get('SRR_COMMODITIES') as FormArray;
+    s.removeAt(i);
   }
 }

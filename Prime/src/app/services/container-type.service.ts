@@ -4,19 +4,19 @@ import { environment } from 'src/environments/environment.prod';
 import { TYPE } from '../models/type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ContainerTypeService {
-BASE_URL=environment.BASE_URL
+  BASE_URL = environment.BASE_URL;
 
-httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json;charset=UTF-8',
-  }),
-};
-  constructor(private _http: HttpClient) { }
-  
-  GetContainerTypeMasterList(typemaster:TYPE) {
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json;charset=UTF-8',
+    }),
+  };
+  constructor(private _http: HttpClient) {}
+
+  GetContainerTypeMasterList(typemaster: TYPE) {
     return this._http.get<any>(
       this.BASE_URL +
         'Master/GetContainerTypeMasterList?CREATED_BY=' +
@@ -33,29 +33,26 @@ httpOptions = {
     );
   }
 
-  GetContainerTypeDetails(type:TYPE){
+  GetContainerTypeDetails(ID: number) {
     return this._http.get<any>(
-      this.BASE_URL + 'Master/GetContainerTypeMasterDetails?ID='+
-      type.ID,
+      this.BASE_URL + 'Master/GetContainerTypeMasterDetails?ID=' + ID,
       this.httpOptions
-    )
+    );
   }
 
-  updateContainerType(type:any){
-    debugger
+  updateContainerType(type: any) {
+    debugger;
     return this._http.post<any>(
-      this.BASE_URL+ 'Master/UpdateConatinerTypeMaster',
+      this.BASE_URL + 'Master/UpdateConatinerTypeMaster',
       type,
       this.httpOptions
     );
   }
-   DeleteContainerType(ID: number) {
-     debugger;
+  DeleteContainerType(ID: number) {
+    debugger;
     return this._http.delete<any>(
-       this.BASE_URL + 'Master/DeleteContainerTypeMaster?ID=' + ID,
-     this.httpOptions
-   );
-   }
+      this.BASE_URL + 'Master/DeleteContainerTypeMaster?ID=' + ID,
+      this.httpOptions
+    );
+  }
 }
-
-
