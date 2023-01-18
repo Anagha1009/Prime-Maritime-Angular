@@ -36,6 +36,7 @@ export class NewBlComponent implements OnInit {
   chargeList: any[] = [];
   allContainerType: any[] = [];
   containerTypeList: any[] = [];
+  blHistoryList:any[]=[];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -80,8 +81,20 @@ export class NewBlComponent implements OnInit {
       CONTAINER_LIST: new FormArray([]),
       CONTAINER_LIST2: new FormArray([]),
     });
+
+    this.getBLHistory();
   }
 
+  getBLHistory() {
+    this._commonService.destroyDT();
+    this._blService.getBLHistory(localStorage.getItem('usercode')).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.blHistoryList = res.Data;
+      }
+      this._commonService.getDT();
+    });
+  }
+  
   getBLForm() {
     if (this.previewTable.length == 0) {
       alert('Please upload Shipping Instructions !');

@@ -5,6 +5,8 @@ import { QUOTATION } from 'src/app/models/quotation';
 import { QuotationService } from 'src/app/services/quotation.service';
 import * as jquery from 'jquery';
 import { CommonService } from 'src/app/services/common.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-pm-quotation-list',
@@ -14,10 +16,11 @@ import { CommonService } from 'src/app/services/common.service';
 export class PmQuotationListComponent implements OnInit {
   quotation = new QUOTATION();
   quotationList: any[] = [];
+  selectedQuotations:any[]=[];
   quotationDetails: any;
   rateForm: FormGroup;
   quotationForm: FormGroup;
-
+  showButtons:boolean=false;
   readonly VAPID_PUBLIC_KEY =
     'BMhvJ95Ji0uVwIzhyeZwb133-4e7Hb_DtMP0-SKTFBcnbg_a7PlLCMD2ofLMNwNLZ5NqM-9pXOX4zDj64R-MXp4';
 
@@ -34,7 +37,7 @@ export class PmQuotationListComponent implements OnInit {
       CUSTOMER_NAME: [''],
       FROM_DATE: [''],
       TO_DATE: [''],
-      STATUS: [''],
+      STATUS: ['']
     });
 
     this.rateForm = this._formBuilder.group({
@@ -105,4 +108,61 @@ export class PmQuotationListComponent implements OnInit {
   getDetails(SRR_NO: string) {
     this._router.navigateByUrl('/pm/quotation-details/' + SRR_NO);
   }
+
+  get f2() {
+    var x = this.quotationForm.get('SRR_MAIN_LIST') as FormArray;
+    return x.controls;
+  }
+
+  postSelectedRateRequest(item: any, event: any, index: number) {
+    debugger;
+    this.showButtons=false; 
+    if (event.target.checked) {
+      this.showButtons=true; 
+      this.selectedQuotations.push(item);
+    } else {
+      this.showButtons=true; 
+      this.selectedQuotations = this.selectedQuotations.filter(ele => ele.SRR_NO !== item.SRR_NO);
+    }
+    if (this.selectedQuotations?.length==0) {
+      this.showButtons=false; 
+    }
+    console.log(this.selectedQuotations);
+  }
+
+  approveQuotations(){
+    this.selectedQuotations.forEach((element)=>{
+      element.STATUS="Approved";
+    });
+    console.log(this.selectedQuotations);
+    this._quotationService.updateSRR(this.selectedQuotations).subscribe((res: any) => {
+      if(res.responseCode == 200) {
+        this.alertWithSuccess();
+        //alert("Updated Successfully");
+        // Swal.fire(
+        //   'Good job!',
+        //   'You clicked the button!',
+        //   'success'
+        // )
+        this.getQuotationList();
+      }
+    });
+  }
+  alertWithSuccess(){
+    Swal.fire('Congratulations!', 'Quotations are approved succesfully!', 'success');
+  }
+  rejectQuotations(){
+    this.selectedQuotations.forEach((element)=>{
+      element.STATUS="Rejected";
+    });
+    console.log(this.selectedQuotations);
+    this._quotationService.updateSRR(this.selectedQuotations).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        alert("Updated Successfully");
+        this.getQuotationList();
+      }
+    });
+
+  }
+
 }
