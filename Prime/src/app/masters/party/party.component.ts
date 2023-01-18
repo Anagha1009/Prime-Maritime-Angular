@@ -206,7 +206,6 @@ export class PartyComponent implements OnInit {
   }
 
   openModal(custID: any = 0) {
-    debugger;
     this.submitted = false;
     this.ClearForm();
 
