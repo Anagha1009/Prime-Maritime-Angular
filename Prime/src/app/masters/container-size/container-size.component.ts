@@ -72,7 +72,6 @@ export class ContainerSizeComponent implements OnInit {
           alert('Your record has been submitted successfully !');
           this.GetContainerSizeList();
           this.ClearForm();
-          this.submitted = false;
           this.closeBtn.nativeElement.click();
         }
       });
@@ -94,7 +93,6 @@ export class ContainerSizeComponent implements OnInit {
     this._masterService.GetMasterDetails(ID).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.sizeForm.patchValue(res.Data);
-        this.isUpdate = true;
       }
     });
   }
@@ -114,8 +112,6 @@ export class ContainerSizeComponent implements OnInit {
           alert('Your party master has been Updated successfully !');
           this.GetContainerSizeList();
           this.ClearForm();
-          this.isUpdate = false;
-          this.submitted = false;
           this.closeBtn.nativeElement.click();
         }
       });
@@ -140,9 +136,11 @@ export class ContainerSizeComponent implements OnInit {
 
   openModal(sizeID: any = 0) {
     this.submitted = false;
+    this.isUpdate = false;
     this.ClearForm();
 
     if (sizeID > 0) {
+      this.isUpdate = true;
       this.GetContainerSizeDetails(sizeID);
     }
 

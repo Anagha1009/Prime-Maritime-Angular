@@ -97,7 +97,7 @@
             <div class="form-group">
               <div class="form-check form-switch">
                 <input formControlName="STATUS" class="form-check-input" type="checkbox" role="switch" />
-                <label class="form-check-label">Status</label>
+                <label class="form-check-label">Status <span class="text-danger"> *</span></label>
               </div>
               <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Status is required </div>
             </div>
