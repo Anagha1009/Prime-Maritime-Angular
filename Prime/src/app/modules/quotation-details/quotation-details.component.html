@@ -1,14 +1,17 @@
 <div class="section-title">
-    <h2>Quotation Details</h2>
+    <h2>{{'Header.title2'|translate}}</h2>
 </div>
+
 <div class="container">
+    <a href="/home/quotation-list"><i class='bx bx-arrow-back'></i>Back to List</a>
+
     <div class="accordion mt-3" id="accordion" role="tablist">
         <div class="card">
             <div class="card-header" role="tab" id="heading-1">
                 <h6 class="mb-0">
                     <a data-bs-toggle="collapse" href="#collapse-1" aria-expanded="false" aria-controls="collapse-1"
                         data-abc="true" class="collapsed">
-                        General Info
+                        {{'Header.GeneralInfo'|translate}}
                     </a>
                 </h6>
             </div>
@@ -18,52 +21,61 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Ref No</label>
-                                <label class="label-subheader">{{quotation?.SRR_NO}}</label>
+                                <label class="label-header">SRR No</label>
+                                <label class="label-subheader">{{quotation?.SRR_NO==null ? '-':
+                                    quotation?.SRR_NO==''?'-':quotation?.SRR_NO}}
+                                </label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="label-header">Place of Receipt</label>
-                                <label class="label-subheader">{{quotation?.PLACE_OF_RECEIPT}}</label>
+                                <label class="label-subheader">{{quotation?.PLACE_OF_RECEIPT == null ? '-' :
+                                    quotation?.PLACE_OF_RECEIPT == '' ? '-' : quotation?.PLACE_OF_RECEIPT}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="label-header">Place of Delivery</label>
-                                <label class="label-subheader">{{quotation?.PLACE_OF_DELIVERY}}</label>
+                                <label class="label-subheader">{{quotation?.PLACE_OF_DELIVERY== null ? '-' :
+                                    quotation?.PLACE_OF_DELIVERY == '' ? '-' : quotation?.PLACE_OF_DELIVERY}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="label-header">Final Destination</label>
-                                <label class="label-subheader">{{quotation?.ORIGIN_ICD}}</label>
+                                <label class="label-subheader">{{quotation?.ORIGIN_ICD== null ? '-' :
+                                    quotation?.ORIGIN_ICD == '' ? '-' : quotation?.ORIGIN_ICD}}</label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">POL</label>
-                                <label class="label-subheader">{{quotation?.POL}}</label>
+                                <label class="label-header">Port of Loading</label>
+                                <label class="label-subheader">{{quotation?.POL== null ? '-' :
+                                    quotation?.POL == '' ? '-' : quotation?.POL}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">POD</label>
-                                <label class="label-subheader">{{quotation?.POD}}</label>
+                                <label class="label-header">Port of Discharge</label>
+                                <label class="label-subheader">{{quotation?.POD== null ? '-' :
+                                    quotation?.POD == '' ? '-' : quotation?.POD}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">TSP 1</label>
-                                <label class="label-subheader">{{quotation?.TSP_1}}</label>
+                                <label class="label-header">Transhipment 1</label>
+                                <label class="label-subheader">{{quotation?.TSP_1== null ? '-' :
+                                    quotation?.TSP_1 == '' ? '-' : quotation?.TSP_1}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">TSP 2</label>
-                                <label class="label-subheader">{{quotation?.TSP_2}}</label>
+                                <label class="label-header">Transhipment 2</label>
+                                <label class="label-subheader">{{quotation?.TSP_2== null ? '-' :
+                                    quotation?.TSP_2 == '' ? '-' : quotation?.TSP_2}}</label>
                             </div>
                         </div>
                     </div>
@@ -71,74 +83,35 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="label-header">Service Name</label>
-                                <label class="label-subheader">{{quotation?.SERVICE_NAME}}</label>
+                                <label class="label-subheader">{{quotation?.SERVICE_NAME== null ? '-'
+                                    :quotation?.SERVICE_NAME == '' ? '-' : quotation?.SERVICE_NAME}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="label-header">Effect From</label>
-                                <label class="label-subheader">{{quotation?.EFFECT_FROM}}</label>
+                                <label class="label-subheader">
+                                    {{quotation?.EFFECT_FROM |
+                                    date:'mediumDate'}} </label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="label-header">Effect To</label>
-                                <label class="label-subheader">{{quotation?.EFFECT_TO}}</label>
+                                <label class="label-subheader"> {{quotation?.EFFECT_TO |
+                                    date:'mediumDate'}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="label-header">Customer Name</label>
-                                <label class="label-subheader">{{quotation?.CUSTOMER_NAME}}</label>
+                                <label class="label-subheader">{{quotation?.CUSTOMER_NAME== null ? '-' :
+                                    quotation?.CUSTOMER_NAME == '' ? '-' : quotation?.CUSTOMER_NAME}}</label>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">Address</label>
-                                <label class="label-subheader">{{quotation?.ADDRESS}}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">Email</label>
-                                <label class="label-subheader">{{quotation?.EMAIL}}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">Contact</label>
-                                <label class="label-subheader">{{quotation?.CONTACT}}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">Shipper Name</label>
-                                <label class="label-subheader">{{quotation?.SHIPPER}}</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">Notify Party</label>
-                                <label class="label-subheader">{{quotation?.NOTIFY_PARTY}}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">Mty Repo</label>
-                                <label class="label-subheader">{{quotation?.MTY_REPO}}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-header">Other Parties</label>
-                                <label class="label-subheader">-</label>
-                            </div>
-                        </div>
-                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -147,20 +120,29 @@
                 <h6 class="mb-0">
                     <a class="collapsed" data-bs-toggle="collapse" href="#collapse-2" aria-expanded="false"
                         aria-controls="collapse-2" data-abc="true">
-                        Commodity Details
+                        {{'Header.CommodityDetails'|translate}}
                     </a>
                 </h6>
             </div>
             <div id="collapse-2" class="collapse" role="tabpanel" aria-labelledby="heading-2"
                 data-bs-parent="#accordion">
                 <div class="card-body">
-                    <table class="table">
-                        <thead>
+                        <table class="table table-bordered destroydatatable" id="data-table-config">
+                            <thead>
                             <tr>
                                 <th>Sr. No</th>
                                 <th>Commodity</th>
-                                <th>Type</th>
-                                <th>Details</th>
+                                <th>Commodity Type</th>
+                                <th>Weight</th>
+                                <th>IMO Class</th>
+                                <th>UN No</th>
+                                <th>Flash Point</th>
+                                <th>CAS No</th>
+                                <th>Ventilation</th>
+                                <th>Humidity</th>
+                                <th>Temperature</th>
+                                <th>L-W-H (cms)</th>
+                                <th>Remarks</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -168,26 +150,42 @@
                                 <td>{{i+1}}</td>
                                 <td>{{item.COMMODITY_NAME}}</td>
                                 <td>{{item.COMMODITY_TYPE}}</td>
-                                <td>{{item.REMARKS}}</td>
+                                <!-- <td>{{ item.value.COMMODITY_TYPE == 'HAZ' ? 'Hazardous' : item.value.COMMODITY_TYPE=='FLEXIBAG' ?'FlexiBag' : 'Normal' }}</td> -->
+                                <td>{{item.WEIGHT}} ({{item.WEIGHT_UNIT}})</td>
+                                <td>{{ item.IMO_CLASS }} {{imoclassNames}}{{commodityList?.IMO_CLASS== null ? '-' :
+                                    commodityList?.IMO_CLASS == '' ? '-' : commodityList?.IMO_CLASS}}</td>
+                                <td>{{ item.UN_NO }} {{unno}}{{commodityList?.UN_NO== null ? '-' :
+                                    commodityList?.UN_NO == '' ? '-' : commodityList?.UN_NO}}</td>
+                                <td>{{ item.FLASH_POINT }}{{commodityList?.FLASH_POINT== null ? '-' :
+                                    commodityList?.FLASH_POINT == '' ? '-' : commodityList?.FLASH_POINT}}</td>
+                                <td>{{ item.CAS_NO }}{{commodityList?.CAS_NO== null ? '-' :
+                                    commodityList?.CAS_NO == '' ? '-' : commodityList?.CAS_NO}}</td>
+                                <td>{{ item.VENTILATION }}</td>
+                                <td>{{ item.HUMIDITY }}</td>
+                                <td>{{ item.TEMPERATURE }}</td>
+                                <td>{{ item.LENGTH }} - {{ item.WIDTH }} - {{ item.HEIGHT }}</td>
+                                <td>{{ item.REMARKS }}{{commodityList?.REMARKS== null ? '-' :
+                                    commodityList?.REMARKS == '' ? '-' : commodityList?.REMARKS}}</td>
                             </tr>
                         </tbody>
-                    </table>
-                </div>
+                    </table> 
+                
             </div>
         </div>
+
         <div class="card">
             <div class="card-header" role="tab" id="heading-3">
                 <h6 class="mb-0">
                     <a class="collapsed" data-bs-toggle="collapse" href="#collapse-3" aria-expanded="false"
                         aria-controls="collapse-3" data-abc="true">
-                        Container & Rate Details
+                        {{'Header.ContainerRateDetails'|translate}}
                     </a>
                 </h6>
             </div>
             <div id="collapse-3" class="collapse" role="tabpanel" aria-labelledby="heading-3"
                 data-bs-parent="#accordion">
                 <div class="card-body">
-                    <table class="table">
+                    <table class="table table-bordered destroydatatable" id="data-table-config">
                         <thead>
                             <tr>
                                 <th>Sr. No</th>
@@ -203,10 +201,56 @@
                                 <td>{{item.CONTAINER_TYPE}}</td>
                                 <td>{{item.CONTAINER_SIZE}}</td>
                                 <td>{{item.SERVICE_MODE}}</td>
-                                <td><i class="fa fa-eye"></i></td>
+                                <td><a (click)="openRateDetailModal(i)"><i class="fa fa-eye text-dark"></i></a>
+                                    <button #RateDetailModal data-bs-toggle="modal" href="#rateDetailsModal"
+                                        class="d-none">Add
+                                        Rate</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" #rateDetailModal id="rateDetailsModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Rate Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            #closeBtn></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered ">
+                            <thead>
+                                <tr>
+                                    <th>SRR NO</th>
+                                    <th>Container Type</th>
+                                    <th>Charge Code</th>
+                                    <th>Transport Type</th>
+                                    <th>Payment Term</th>
+                                    <th>Currency</th>
+                                    <th>Standard</th>
+                                    <th>Requested</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of rateList; let i = index">
+                                    <td>{{item.SRR_NO}}</td>
+                                    <td>{{item.CONTAINER_TYPE}}</td>
+                                    <td>{{item.CHARGE_CODE}}</td>
+                                    <td>{{item.TRANSPORT_TYPE}}</td>
+                                    <td>{{item.PAYMENT_TERM}}</td>
+                                    <td>{{item.CURRENCY}}</td>
+                                    <td>{{item.STANDARD_RATE}}</td>
+                                    <td>{{item.RATE_REQUESTED}}</td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -232,16 +276,17 @@
                                         <span class="formbold-file-name"
                                             *ngIf="file.filE_NAME.split('_')[1].length>15">{{file.filE_NAME.split('_')[1].substring(0,7)}}...{{file.filE_NAME.split('_')[1].split('.')[1]}}</span>
                                         <a target="_blank" href="{{BASE_URL + file.filE_PATH}}"><i
-                                                class="fa fa-eye text-dark ms-5" ></i></a>
+                                                class="fa fa-eye text-dark ms-5"></i></a>
                                     </div>
                                 </div>
                             </div>
-    
+
                         </div>
-    
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>

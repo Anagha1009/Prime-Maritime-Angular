@@ -3,7 +3,14 @@ export const locale = {
   data: {
     Header: {
       title: 'Rate Requests',
+      title2:'SRR Details',
       requestNo: 'Request No',
+      GeneralInfo:'General Info',
+      CommodityDetails:'Commodity Details',
+      ContainerRateDetails:'Container & RateDetails',
+      
+
+
       fromDate: 'From Date',
       toDate: 'To Date',
       status: 'Status',

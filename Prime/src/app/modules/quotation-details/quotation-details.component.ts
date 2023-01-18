@@ -1,9 +1,14 @@
 
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { elementAt } from 'rxjs';
 import { QUOTATION } from 'src/app/models/quotation';
 import { QuotationService } from 'src/app/services/quotation.service';
 import { environment } from 'src/environments/environment.prod';
+import { CoreTranslationService } from 'src/app/@core/services/translation.service';
+import { locale as english } from 'src/app/@core/translate/srr/en';
+import { locale as hindi } from 'src/app/@core/translate/srr/hi';
+import { locale as arabic } from 'src/app/@core/translate/srr/ar';
 
 @Component({
   selector: 'app-quotation-details',
@@ -16,14 +21,24 @@ export class QuotationDetailsComponent implements OnInit {
   containerList: any[] = [];
   rateList: any[] = [];
   fileList: any[] = [];
-  BASE_URL: string = environment.BASE_URL2
+  BASE_URL: string = environment.BASE_URL2;
+  conindex: any = 0;
+  quotationForm: FormGroup;
+  containerForm: FormGroup;
+  @ViewChild('RateDetailModal') RateDetailModal: ElementRef;
 
-  constructor(private _quotationService: QuotationService) { }
+  constructor(private _quotationService: QuotationService,
+    private _coreTranslationService: CoreTranslationService,
+    private _formBuilder: FormBuilder,) {this._coreTranslationService.translate(english, hindi, arabic); }
 
   ngOnInit(): void {
     this.getQuotationDetails();
   }
-
+  openRateDetailModal(i: any) {
+    debugger
+    this.conindex = i;
+    this.RateDetailModal.nativeElement.click();
+  }
   getQuotationDetails() {
     var srr = new QUOTATION();
 
@@ -35,10 +50,10 @@ export class QuotationDetailsComponent implements OnInit {
         this.commodityList = res.Data.SRR_COMMODITIES;
         this.containerList = res.Data.SRR_CONTAINERS;
         this.rateList = res.Data.SRR_RATES;
+console.log("rateList"+ JSON.stringify(this.rateList))
+         //console.log("All data" + JSON.stringify(res.Data));
 
-        console.log("All data" + JSON.stringify(res.Data));
-
-        console.log("SRR_NO" + res.Data.SRR_NO);
+        // console.log("SRR_NO" + res.Data.SRR_NO);
 
         var srr_no = res.Data.SRR_NO;
         var commodityTypeList: any[] = [];
@@ -47,7 +62,7 @@ export class QuotationDetailsComponent implements OnInit {
           commodityTypeList.push(element.COMMODITY_TYPE)
         })
 
-        console.log("COMM LIST" + JSON.stringify(commodityTypeList));
+        // console.log("COMM LIST" + JSON.stringify(commodityTypeList));
 
         this._quotationService.GetFiles(srr_no, commodityTypeList).subscribe((res: any) => {
           if (res.responseCode == 200) {
@@ -57,5 +72,25 @@ export class QuotationDetailsComponent implements OnInit {
 
       }
     });
+  }
+
+
+  addRates() {
+    var rateList = this.quotationForm.get('SRR_RATES1') as FormArray;
+
+    var ct = this.containerForm.value.CONTAINER_TYPE;
+
+    rateList.push(
+      this._formBuilder.group({
+        CONTAINER_TYPE: [ct],
+        CHARGE_CODE: [''],
+        CURRENCY: ['USD'],
+        STANDARD_RATE: ['0'],
+        RATE_REQUESTED: [''],
+        PAYMENT_TERM: [''],
+        TRANSPORT_TYPE: [''],
+        REMARKS: ['NULL'],
+      })
+    );
   }
 }
