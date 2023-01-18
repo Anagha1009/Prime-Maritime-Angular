@@ -6,42 +6,60 @@
         </div>
         <div class="mb-4">
             <div class="col-md-6 offset-md-6 text-end">
-            <button class="form-btn-primary" data-bs-toggle="modal" href="#containerModal">New Container</button>
+            <button class="form-btn-primary" #openModalPopup data-bs-toggle="modal" href="#containerModal">New Container</button>
         </div>
         <form class="mx-5" [formGroup]="contForm">
             <div class="row">                
-                <div class="col-md-2">
+                <div class="col-md-2 mt-4">
                     <div class="form-group">
-                        <label class="form-label2">Container Type</label>
-                        <select class="form-control2">
-                            <option value="">--Select--</option>
-                            <option value="Approved">Approved</option>
-                            <option value="Requested">Requested</option>
-                        </select>
+                        <label class="form-label-ddl">Container Type <span class="text-danger"> *</span></label>
+
+                        <ng-select class="{'invalid': submitted && f.CONTAINER_TYPE.errors}" 
+                                    formControlName="CONTAINER_TYPE" class="form-Control2">
+                                    <ng-option value="" selected="true" disabled>--Select Container--</ng-option>
+                                    <ng-option *ngFor="let item of containerTypeList"
+                                        value="{{item.CODE}}">{{item.CODE_DESC}}</ng-option>
+                                </ng-select>
+                                <div *ngIf="submitted && f.CONTAINER_TYPE.errors" class="invalid-feedback">Please
+                                    select
+                                    Container</div>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label class="form-label2">Container Size</label>
-                        <select class="form-control2">
+                        <select class="form-control2" formControlName="CONTAINER_SIZE">
                             <option value="">--Select--</option>
-                            <option value="Approved">Approved</option>
-                            <option value="Requested">Requested</option>
+                            <option value="">20</option>
+                            <option value="">40</option>
                         </select>
                     </div>
                 </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                      <label class="form-label2">From Date</label>
+                      <input formControlName="ON_HIRE_DATE" type="date" class="form-control2">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label class="form-label2">To Date</label>
+                      <input formControlName="OFF_HIRE_DATE" type="date" class="form-control2">
+                    </div>
+                  </div>
                 <div class="col-md-3 mt-4">
-                    <button class="form-btn me-2" [disabled]="isLoading">Search
+                    <button class="form-btn me-2" (click)="Search()" [disabled]="isLoading">Search
                         <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
-                    <button class="form-btn" [disabled]="isLoading1">Clear<span
+                    <button class="form-btn" (click)="ClearForm()"[disabled]="isLoading1">Clear<span
                             *ngIf="isLoading1" class="fa fa-spinner fa-spin"></span></button>
                 </div>
+                
             </div>
         </form>
-            <table class="table table-bordered" style="font-size:12px">
-                <thead>
+        <table class="table table-bordered" id="data-table-config">
+            <thead>
                     <tr>
-                        <th>Sr. No</th>
+                        <th width="1%">Sr. No</th>
                         <th>Container No</th>
                         <th>Container Type - Size</th>
                         <th>On Hire</th>
@@ -54,17 +72,17 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of containerList; let i = index">
-                        <td>{{i+1}}</td>
+                        <td width="1%">{{i+1}}</td>
                         <td>{{item.CONTAINER_NO}}</td>
                         <td>{{item.CONTAINER_TYPE}} - {{item.CONTAINER_SIZE }}</td>
                         <td>{{item.ON_HIRE_DATE | date:'mediumDate'}}</td>
-                        <td>{{item.OFF_HIRE_DATE | date:'mediumDate'}}</td>
+                        <td>{{item.OFF_HIRE_DATE | date:'mediumDate'}}{{item.OFF_HIRE_DATE == null ? '-' : item.OFF_HIRE_DATE == '' ? '-' : item.OFF_HIRE_DATE}}</td>
                         <td>{{item.MANUFACTURING_DATE | date:'mediumDate'}}</td>
-                        <td>{{item.OWNER_NAME}}</td>
-                        <td>{{item.LESSOR_NAME}}</td>
+                        <td>{{item.OWNER_NAME}}{{item.OWNER_NAME == null ? '-' : item.OWNER_NAME == '' ? '-' : item.OWNER_NAME}}</td>
+                        <td>{{item.LESSOR_NAME}}{{item.LESSOR_NAME == null ? '-' : item.LESSOR_NAME == '' ? '-' : item.LESSOR_NAME}}</td>
                         <td>
                             <i class="fa fa-pencil mx-2 pointer text-success"
-                                (click)="GetContainerMasterDetails(item.ID)"></i>
+                                (click)="openModal(item.ID)"></i>
                             <i class="fa fa-trash ms-2 pointer text-danger"
                                 (click)="deleteContainerMaster(item.ID)"></i>
                         </td>
@@ -96,16 +114,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 mt-4">
                                     <div class="form-group">
-                                        <label class="form-label2">Container Type <span class="text-danger"> *</span></label>
-                                        <select [ngClass]="{'invalid': submitted && f.CONTAINER_TYPE.errors}"
-                                            formControlName="CONTAINER_TYPE" class="form-control2">
+                                        <label class="form-label-ddl">Container Type <span class="text-danger"> *</span></label>
+                                        <ng-select [ngClass]="{'invalid': submitted && f.CONTAINER_TYPE.errors}"
+                                            formControlName="CONTAINER_TYPE" >
                                             <option value="" selected="true" disabled>--Select--</option>
-                                            <option value="a">A</option>
-                                            <option value="b">B</option>
-                                            <option value="c">C</option>
-                                        </select>
+                                            <ng-option value="" selected="true" disabled>--Select Container--</ng-option>
+                                    <ng-option *ngFor="let item of containerTypeList"
+                                        value="{{item.CODE}}">{{item.CODE_DESC}}</ng-option>
+                                        </ng-select>
                                         <div *ngIf="submitted && f.CONTAINER_TYPE.errors" class="invalid-feedback">
                                             Please Select Container Type
                                         </div>
@@ -117,9 +135,8 @@
                                         <select [ngClass]="{'invalid':submitted && f.CONTAINER_SIZE.errors}"
                                             formControlName="CONTAINER_SIZE" class="form-control2">
                                             <option value="" selected="true" disabled>--Select--</option>
-                                            <option value="a">A</option>
-                                            <option value="b">B</option>
-                                            <option value="c">C</option>
+                                            <option value="a">20</option>
+                                            <option value="b">40</option>
                                         </select>
                                         <div *ngIf="submitted && f.CONTAINER_SIZE.errors" class="invalid-feedback">Please Select
                                             Container Size</div>
@@ -142,22 +159,18 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label2">On Hire Date<span class="text-danger">*</span></label>
-                                        <input type="date" [ngClass]="{'invalid': submitted && f.ON_HIRE_DATE.errors}"
-                                            formControlName="ON_HIRE_DATE" class="form-control2">
-        
-                                        <div *ngIf="submitted && f.ON_HIRE_DATE.errors" class="invalid-feedback">please Enter On
-                                            Hire
-                                            Date</div>
+                                        <label class="form-label2">On Hire Date</label>
+                                        <input formControlName="ON_HIRE_DATE" type="date" class="form-control2">
+                                        <div *ngIf="submitted && f.ON_HIRE_DATE.errors" class="invalid-feedback">Please Enter
+                                            ON Hire Date</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label2">Off Hire Date<span class="text-danger">*</span></label>
-                                        <input type="Date" [ngClass]="{'invalid':submitted && f.OFF_HIRE_DATE.errors}"
-                                            formControlName="OFF_HIRE_DATE" class="form-control2">
+                                        <label class="form-label2">Off Hire Date</label>
+                                        <input formControlName="OFF_HIRE_DATE" type="date" class="form-control2">
                                         <div *ngIf="submitted && f.OFF_HIRE_DATE.errors" class="invalid-feedback">Please Enter
-                                            Off Hire Date</div>
+                                            ON Hire Date</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
