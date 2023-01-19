@@ -10,8 +10,6 @@
             <label [class]="tabs == '2' ? 'tab ractive' : 'tab'" for="radio-2">Add Commodities</label>
             <input type="radio" class="d-none" (change)="onchangeTab('3')" id="radio-3" name="tabs" />
             <label [class]="tabs == '3' ? 'tab ractive' : 'tab'" for="radio-3">Add Container & Rates</label>
-            <!-- <input type="radio" class="d-none" (change)="onchangeTab('4')" id="radio-4" name="tabs" />
-            <label class="tab" for="radio-4">Add Rates</label> -->
             <span class="glider d-none"></span>
         </div>
     </div>
@@ -39,7 +37,9 @@
                                 <ng-select (change)="getServiceName($event)"
                                     [ngClass]="{'invalid': submitted && f.POL.errors}" formControlName="POL">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option [disabled]="item.CODE == this.quotationForm.get('POD').value ? true : false " *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    <ng-option
+                                        [disabled]="item.CODE == this.quotationForm.get('POD').value ? true : false "
+                                        *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -90,7 +90,8 @@
                                     </ng-option>
                                     <ng-option *ngFor="let item of icdList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                     </ng-option>
-                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}} ({{item.CODE}})
+                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
                                 <label class="form-label-ddl">{{'Header.FinalDestination'|translate}} <span
@@ -147,11 +148,6 @@
                                     <ng-option value="M" disabled>
                                         <button class="form-btn-primary" #openBtn5 data-bs-toggle="modal"
                                             href="#custModal">Add Customer</button>
-                                        <!-- <button (click)="openCustModal()" class="form-btn-primary">Add
-                                                Customer</button>
-                                            <button id="openmymodal" data-bs-toggle="modal"
-                                                        href="#custModal" hidden>Open Modal</button> -->
-                                        <!-- <button #openBtn5 data-bs-toggle="modal" href="#custModal" class="d-none">Add Customer</button> -->
                                     </ng-option>
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                     <ng-option *ngFor="let item of customerList"
@@ -185,8 +181,8 @@
                         <div class="col-md-4" *ngIf="!isVesselVal">
                             <div class="form-group">
                                 <input type="date" [ngClass]="{'invalid': submitted && f.EFFECT_TO.errors}"
-                                    formControlName="EFFECT_TO" min="{{this.quotationForm.get('EFFECT_FROM').value}}" onkeypress="return false"
-                                    class="form-control active" />
+                                    formControlName="EFFECT_TO" min="{{this.quotationForm.get('EFFECT_FROM').value}}"
+                                    onkeypress="return false" class="form-control active" />
                                 <label class="form-label">{{'Header.ValidTill'|translate}} <span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted && f.EFFECT_TO.errors" class="invalid-feedback">Please enter
@@ -311,30 +307,6 @@
                             </div>
                         </div>
                     </form>
-
-                    <!-- <div class="row">
-                        <div class="col-md-6 mb-4">
-                            <input type="text" maxlength="100" placeholder="Other Parties Name"
-                                formControlName="OTHER_PARTY_NAME" class="form-control w-50 mb-3" />
-                            <label class="radio-inline">
-                                <input type="radio" formControlName="OTHER_PARTY" id="inlineRadio1"
-                                    value="Brokerage Party"><span class="indicator"></span>
-                                Brokerage Party
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" formControlName="OTHER_PARTY" id="inlineRadio2"
-                                    value="Consignee"><span class="indicator"></span>Consignee
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" formControlName="OTHER_PARTY" id="inlineRadio3"
-                                    value="Forwarder"><span class="indicator"></span>Forwarder
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" formControlName="OTHER_PARTY" id="inlineRadio4" value="CHA"><span
-                                    class="indicator"></span>CHA
-                            </label>
-                        </div>
-                    </div> -->
                     <hr>
                     <div class="row">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
@@ -380,9 +352,10 @@
                         </div>
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'FLEXIBAG'">
                             <div class="form-group">
-                                <input type="text" formControlName="FLASH_POINT"
+                                <input type="text" formControlName="FLASH_POINT" (keypress)="numericOnly($event)" maxlength="4"
                                     [ngClass]="{'invalid': submitted2 && f2.FLASH_POINT.errors}" class="form-control" />
-                                <label class="form-label">Flash Point (&#8451;) <span class="text-danger"> *</span></label>
+                                <label class="form-label">Flash Point (&#8451;) <span class="text-danger">
+                                        *</span></label>
                                 <div *ngIf="submitted2 && f2.FLASH_POINT.errors" class="invalid-feedback">
                                     Please enter Flash Point
                                 </div>
@@ -523,7 +496,7 @@
                     <div class="row" *ngIf="commodityType == 'HAZ'">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="REMARKS" class="form-control" maxlength="100"  />
+                                <input type="text" formControlName="REMARKS" class="form-control" maxlength="100" />
                                 <label class="form-label">Remarks</label>
                             </div>
                         </div>
@@ -539,7 +512,7 @@
                     <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="CAS_NO"
+                                <input type="text" formControlName="CAS_NO" (keypress)="numericOnly($event)" maxlength="50"
                                     [ngClass]="{'invalid': submitted2 && f2.CAS_NO.errors}" class="form-control" />
                                 <label class="form-label">CAS No <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.CAS_NO.errors" class="invalid-feedback">
@@ -789,7 +762,7 @@
                     <div class="row" *ngIf="commodityType == 'NORMAL'">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="REMARKS" class="form-control" maxlength="100"  />
+                                <input type="text" formControlName="REMARKS" class="form-control" maxlength="100" />
                                 <label class="form-label">Remarks</label>
                             </div>
                         </div>
@@ -823,20 +796,27 @@
                                 <tr *ngFor="let item of f7; let i = index">
                                     <td>{{ i + 1 }}</td>
                                     <td>{{ item.value.COMMODITY_NAME }}</td>
-                                    <td>{{ item.value.COMMODITY_TYPE == 'HAZ' ? 'Hazardous' : item.value.COMMODITY_TYPE == 'FLEXIBAG' ? 'Flexi Bag' : item.value.COMMODITY_TYPE == 'REEFER' ? 'Reefer' : item.value.COMMODITY_TYPE == 'SP' ? 'Special Equipment' : 'Normal' }}</td>
+                                    <td>{{ item.value.COMMODITY_TYPE == 'HAZ' ? 'Hazardous' : item.value.COMMODITY_TYPE
+                                        == 'FLEXIBAG' ? 'Flexi Bag' : item.value.COMMODITY_TYPE == 'REEFER' ? 'Reefer' :
+                                        item.value.COMMODITY_TYPE == 'SP' ? 'Special Equipment' : 'Normal' }}</td>
                                     <td>{{item.value.WEIGHT}} ({{item.value.WEIGHT_UNIT}})</td>
-                                    <td>{{ item.value.IMO_CLASS == null ? '-': item.value.IMO_CLASS == '' ? '-' : item.value.IMO_CLASS }} {{imoclassNames}}</td>
-                                    <td>{{ item.value.UN_NO == null ? '-' : item.value.UN_NO == '' ? '-' : item.value.UN_NO}} {{unno}}</td>
-                                    <td>{{ item.value.FLASH_POINT == null ? '-' : item.value.FLASH_POINT == '' ? '-' : item.value.FLASH_POINT }}</td>
-                                    <td>{{ item.value.CAS_NO == null ? '-' : item.value.CAS_NO == '' ? '-' : item.value.CAS_NO }}</td>
+                                    <td>{{ item.value.IMO_CLASS == null ? '-': item.value.IMO_CLASS == '' ? '-' :
+                                        item.value.IMO_CLASS }} {{imoclassNames}}</td>
+                                    <td>{{ item.value.UN_NO == null ? '-' : item.value.UN_NO == '' ? '-' :
+                                        item.value.UN_NO}} {{unno}}</td>
+                                    <td>{{ item.value.FLASH_POINT == null ? '-' : item.value.FLASH_POINT == '' ? '-' :
+                                        item.value.FLASH_POINT }}</td>
+                                    <td>{{ item.value.CAS_NO == null ? '-' : item.value.CAS_NO == '' ? '-' :
+                                        item.value.CAS_NO }}</td>
                                     <td>{{ item.value.VENTILATION }}</td>
                                     <td>{{ item.value.HUMIDITY }}</td>
                                     <td>{{ item.value.TEMPERATURE }}</td>
                                     <td>{{ item.value.LENGTH }} - {{ item.value.WIDTH }} - {{ item.value.HEIGHT }}
                                     </td>
-                                    <td>{{ item.value.REMARKS == null ? '-' : item.value.REMARKS == '' ? '-' : item.value.REMARKS }}</td>
+                                    <td>{{ item.value.REMARKS == null ? '-' : item.value.REMARKS == '' ? '-' :
+                                        item.value.REMARKS }}</td>
                                     <td><a class="pointer" (click)="removeCommodity(i)"><i style="font-size:18px"
-                                        class="fa fa-trash mt-3"></i></a></td>
+                                                class="fa fa-trash mt-3"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -953,7 +933,7 @@
                     </div>
                     <div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                         aria-hidden="true">
-                        <div class="modal-dialog modal-xl">
+                        <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Rate Details</h5>
@@ -971,73 +951,58 @@
                                                         class="text-danger">{{containerForm.value.SERVICE_MODE}}</small>
                                                 </h6>
                                             </div>
-                                            <div class="col-md-6" style="text-align: right;">
-                                                <button (click)="addRates()" class="form-btn">
-                                                    <i class="fa fa-plus me-1"></i>Add Rates</button>
-                                            </div>
                                         </div>
                                     </div>
-                                    <table class="table" style="font-size: 14px;">
-                                        <tbody>
-                                            <tr>
-                                                <th>Charge Code</th>
-                                                <th>Currency</th>
-                                                <th>Payment</th>
-                                                <th>Place</th>
-                                                <th>Standard</th>
-                                                <th>Requested</th>
-                                                <th></th>
-                                            </tr>
-                                            <tr *ngFor="let item of f3;let j = index;" [formGroup]="f4(item)">
-                                                <td class="col-md-3">
-                                                    <div class="form-group">
-                                                        <ng-select (change)="getRate($event,j)"
-                                                            formControlName="CHARGE_CODE">
-                                                            <ng-option value="" selected>--Select--</ng-option>
-                                                            <ng-option value="{{item.CODE}}"
-                                                                *ngFor="let item of chargecodeList">{{item.CODE_DESC}}
-                                                            </ng-option>
-                                                        </ng-select>
-                                                    </div>
-                                                </td>
-                                                <td class="col-md-2">
-                                                    <div class="form-group">
-                                                        <ng-select formControlName="CURRENCY">
-                                                            <ng-option value="" selected>--Select--</ng-option>
-                                                            <ng-option value="{{item.CODE}}"
-                                                                *ngFor="let item of currencyList2">{{item.CODE}}
-                                                            </ng-option>
-                                                        </ng-select>
-                                                    </div>
-                                                </td>
-                                                <td class="col-md-2">
-                                                    <select class="form-control" formControlName="PAYMENT_TERM">
-                                                        <option value="" selected>--Select--</option>
-                                                        <option value="Prepaid">Prepaid</option>
-                                                        <option value="Collect">Collect</option>
-                                                    </select>
-                                                </td>
-                                                <td class="col-md-2">
-                                                    <select class="form-control" formControlName="TRANSPORT_TYPE">
-                                                        <option value="" selected>--Select--</option>
-                                                        <option value="POL">POL</option>
-                                                        <option value="POD">POD</option>
-                                                    </select>
-                                                </td>
-                                                <td class="col-md-1">
-                                                    <input class="form-control" readonly formControlName="STANDARD_RATE"
-                                                        type="text" />
-                                                </td>
-                                                <td class="col-md-2">
-                                                    <input class="form-control" maxlength="5"
-                                                        (keypress)="numericOnly($event)"
-                                                        formControlName="RATE_REQUESTED" type="text" />
-                                                </td>
-                                                <td class="text-center"><i style="font-size: 15px;"
-                                                        class="fa fa-trash mt-4"></i></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="table" style="font-size: 15px;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Charge Code</th>
+                                                    <th>Currency</th>
+                                                    <th>Payment</th>
+                                                    <th>Place</th>
+                                                    <th>Standard</th>
+                                                    <th>Requested</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of f3;let j = index;" [formGroup]="f4(item)">
+                                                    <td>{{item.value.CHARGE_CODE}}</td>
+                                                    <td>{{item.value.CURRENCY}}</td>
+                                                    <td>
+                                                        <select class="form-control2" (change)="OnPaymentTerm($event,j)"
+                                                            formControlName="PAYMENT_TERM">
+                                                            <option value="" selected>--Select--</option>
+                                                            <option value="Prepaid">Prepaid</option>
+                                                            <option value="Collect">Collect</option>
+                                                        </select>
+                                                        <span class="invalid-feedback"
+                                                            *ngIf="submiitedRate && f3[j].get('PAYMENT_TERM').errors">Please
+                                                            Select</span>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control2" formControlName="TRANSPORT_TYPE">
+                                                            <option value="" selected>--Select--</option>
+                                                            <option value="POL">POL</option>
+                                                            <option value="POD">POD</option>
+                                                        </select>
+                                                        <span class="invalid-feedback"
+                                                            *ngIf="submiitedRate && f3[j].get('TRANSPORT_TYPE').errors">Please
+                                                            Select</span>
+                                                    </td>
+                                                    <td>{{item.value.STANDARD_RATE}}</td>
+                                                    <td>
+                                                        <input class="form-control2" maxlength="5"
+                                                            (keypress)="numericOnly($event)"
+                                                            formControlName="RATE_REQUESTED" type="text" />
+                                                        <span class="invalid-feedback"
+                                                            *ngIf="submiitedRate && f3[j].get('RATE_REQUESTED').errors">Please
+                                                            Enter Requested Rate</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" (click)="submitRate()" class="form-btn">Submit</button>
@@ -1068,59 +1033,17 @@
                                                 class="d-none">Add
                                                 Rate</button>
                                         </td>
-                                        <td><i class="fa fa-trash"></i></td>
+                                        <td>
+                                            <a (click)="removeRate(i)">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
-                    <div class="modal fade" #rateDetailModal id="rateDetailsModal" tabindex="-1"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Rate Details</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                                        #closeBtn></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="services">
-                                        <div [class]="item.CONTAINER_TYPE == quotationForm?.value.SRR_CONTAINERS[conindex].CONTAINER_TYPE ? 'icon-box icon-box-cyan text-start' : ''"
-                                            *ngFor="let item of quotationForm?.value.SRR_RATES">
-                                            <div
-                                                *ngIf="item.CONTAINER_TYPE == quotationForm?.value.SRR_CONTAINERS[conindex].CONTAINER_TYPE">
-                                                <p class="description"> <span
-                                                        class="text-danger">{{item.CHARGE_CODE}}</span>
-                                                    | <span class="bx bx-dollar"></span>
-                                                    {{item.CURRENCY}} </p>
-                                                <div class="row description">
-                                                    <div class="col-md-6">
-                                                        <label class="label-header">Standard Rate</label>
-                                                        <label class="label-sub-header">{{item.STANDARD_RATE}}</label>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label class="label-header">Requested Rate</label>
-                                                        <label class="label-sub-header">{{item.RATE_REQUESTED}}</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row description">
-                                                    <div class="col-md-6">
-                                                        <label class="label-header">Payment Term</label>
-                                                        <label class="label-sub-header">{{item.PAYMENT_TERM}}</label>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label class="label-header">Place of Payment</label>
-                                                        <label class="label-sub-header">{{item.TRANSPORT_TYPE}}</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row" *ngIf="isContainer">
                         <div class="col-md-2 offset-md-10" style="text-align: right;">
                             <button [disabled]="isLoading" (click)="saveContainer()" class="form-btn w-100">Submit <span
@@ -1130,6 +1053,44 @@
                 </div>
             </div>
         </form>
+    </div>
+</div>
+
+<div class="modal fade" #rateDetailModal id="rateDetailsModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Rate Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table" style="font-size: 12px;">
+                        <thead>
+                            <tr>
+                                <th>Charge Code</th>
+                                <th>Currency</th>
+                                <th>Payment</th>
+                                <th>Place</th>
+                                <th>Standard</th>
+                                <th>Requested</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item1 of containerList[connIndex]?.RATE_LIST[0]">
+                                <td>{{item1.CHARGE_CODE}}</td>
+                                <td>{{item1.CURRENCY}}</td>
+                                <td>{{item1.PAYMENT_TERM}}</td>
+                                <td>{{item1.TRANSPORT_TYPE}}</td>
+                                <td>{{item1.STANDARD_RATE}}</td>
+                                <td>{{item1.RATE_REQUESTED}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

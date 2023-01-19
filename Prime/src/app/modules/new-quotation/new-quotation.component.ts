@@ -33,7 +33,6 @@ export class NewQuotationComponent implements OnInit {
   servicenameList: any[] = [];
   servicenameList1: any[] = [];
   servicetypeList: any[] = [];
-  conindex: any = 0;
   ts1List: any[] = [];
   ts2List: any[] = [];
   customerList: any[] = [];
@@ -88,6 +87,9 @@ export class NewQuotationComponent implements OnInit {
   SurAcceptanceFile: string = '';
   fileList: any[] = [];
   isTranshipment: boolean = false;
+  submiitedRate: boolean = false;
+  rateList:any[]= [];
+  connIndex:number=0;
 
   @ViewChild('RateModal') RateModal: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
@@ -147,7 +149,6 @@ export class NewQuotationComponent implements OnInit {
       return;
     }
 
-    console.log(JSON.stringify(this.partyForm.value));
     this._partyService
       .postParty(JSON.stringify(this.partyForm.value))
       .subscribe((res: any) => {
@@ -219,27 +220,27 @@ export class NewQuotationComponent implements OnInit {
   }
 
   onchangeTab(index: any) {
-    // if (index == '2') {
-    //   if (this.quotationForm.invalid) {
-    //     alert('Please complete SRR Details');
-    //     this.tabs = '1';
-    //   } else {
-    //     this.tabs = index;
-    //   }
-    // } else if (index == '3') {
-    //   if (this.quotationForm.invalid) {
-    //     alert('Please complete SRR Details');
-    //     this.tabs = '1';
-    //   } else if (this.f7.length == 0) {
-    //     alert('Please complete Commodity Details');
-    //     this.tabs = '2';
-    //   } else {
-    //     this.tabs = index;
-    //   }
-    // } else {
-    //   this.tabs = index;
-    // }
-    this.tabs = index;
+    if (index == '2') {
+      if (this.quotationForm.invalid) {
+        alert('Please complete SRR Details');
+        this.tabs = '1';
+      } else {
+        this.tabs = index;
+      }
+    } else if (index == '3') {
+      if (this.quotationForm.invalid) {
+        alert('Please complete SRR Details');
+        this.tabs = '1';
+      } else if (this.f7.length == 0) {
+        alert('Please complete Commodity Details');
+        this.tabs = '2';
+      } else {
+        this.tabs = index;
+      }
+    } else {
+      this.tabs = index;
+    }
+    //this.tabs = index;
   }
 
   onchangeIMO(event: any) {
@@ -384,7 +385,6 @@ export class NewQuotationComponent implements OnInit {
     this.partyForm.reset();
     var element = document.getElementById('openmymodal') as HTMLElement;
     element.click();
-    //this.openBtn5.nativeElement.click();
   }
 
   openModal() {
@@ -393,26 +393,54 @@ export class NewQuotationComponent implements OnInit {
       return;
     }
 
-    var rateList = this.quotationForm.get('SRR_RATES1') as FormArray;
+    var rateList = this.quotationForm.get('SRR_RATES') as FormArray;
 
     rateList.clear();
+    this.submiitedRate = false;
 
-    var ct = this.containerForm.value.CONTAINER_TYPE;
+    var srr = new QUOTATION();
+    srr.POL = this.quotationForm.get('POL')?.value;
+    srr.POD = this.quotationForm.get('POD')?.value;
+    srr.CONTAINER_TYPE = this.containerForm.value.CONTAINER_TYPE;
+    srr.NO_OF_CONTAINERS = this.containerForm.value.IMM_VOLUME_EXPECTED;
 
-    rateList.push(
-      this._formBuilder.group({
-        CONTAINER_TYPE: [ct],
-        CHARGE_CODE: [''],
-        CURRENCY: ['USD'],
-        STANDARD_RATE: ['0'],
-        RATE_REQUESTED: [''],
-        PAYMENT_TERM: [''],
-        TRANSPORT_TYPE: [''],
-        REMARKS: [''],
-      })
-    );
+    this._quotationService.getSRRRateList(srr).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
 
-    if (this.containerForm.get('IMM_VOLUME_EXPECTED')?.value > this.containerForm.get('TOTAL_VOLUME_EXPECTED')?.value) {
+        res.Data.FREIGHTLIST.forEach((element: any) => {
+          rateList.push(
+            this._formBuilder.group({
+              CONTAINER_TYPE: [element.CONTAINER_TYPE],
+              CHARGE_CODE: [element.CHARGE],
+              CURRENCY: [element.CURRENCY],
+              STANDARD_RATE: [element.RATE],
+              RATE_REQUESTED: ['', Validators.required],
+              PAYMENT_TERM: ['', Validators.required],
+              TRANSPORT_TYPE: ['', Validators.required],
+              REMARKS: [''],
+            })
+          );
+        });
+
+        res.Data.EXP_COSTLIST.forEach((element: any) => {
+          rateList.push(
+            this._formBuilder.group({
+              CONTAINER_TYPE: [element.CONTAINER_TYPE],
+              CHARGE_CODE: [element.CHARGE_CODE],
+              CURRENCY: [element.CURRENCY],
+              STANDARD_RATE: [element.RATE],
+              RATE_REQUESTED: ['', Validators.required],
+              PAYMENT_TERM: ['', Validators.required],
+              TRANSPORT_TYPE: ['', Validators.required],
+              REMARKS: [''],
+            })
+          );
+        });
+      }
+    });
+
+    if (Number(this.containerForm.get('IMM_VOLUME_EXPECTED')?.value) >
+      Number(this.containerForm.get('TOTAL_VOLUME_EXPECTED')?.value)) {
       alert('Imm. Volume Expected should be less than Total Volume Expected ')
       this.containerForm.get('IMM_VOLUME_EXPECTED')?.setValue('');
       return;
@@ -437,36 +465,20 @@ export class NewQuotationComponent implements OnInit {
     this.submitted1 = false;
   }
 
-  addRates() {
-    var rateList = this.quotationForm.get('SRR_RATES1') as FormArray;
-
-    var ct = this.containerForm.value.CONTAINER_TYPE;
-
-    rateList.push(
-      this._formBuilder.group({
-        CONTAINER_TYPE: [ct],
-        CHARGE_CODE: [''],
-        CURRENCY: ['USD'],
-        STANDARD_RATE: ['0'],
-        RATE_REQUESTED: [''],
-        PAYMENT_TERM: [''],
-        TRANSPORT_TYPE: [''],
-        REMARKS: ['NULL'],
-      })
-    );
-  }
-
   submitRate() {
-    const add = this.quotationForm.get('SRR_RATES1') as FormArray;
-    const add1 = this.quotationForm.get('SRR_RATES') as FormArray;
 
-    add.controls.forEach((control) => {
-      add1.push(control);
-    });
+    this.submiitedRate = true;
+
+    const add = this.quotationForm.get('SRR_RATES') as FormArray;
+
+    if (add.invalid) {
+      return
+    }
 
     this.containerList.push({
       Container: this.containerForm.value.CONTAINER_TYPE,
       ServiceMode: this.containerForm.value.SERVICE_MODE,
+      RATE_LIST: [add.value]
     });
 
     var containers = this.quotationForm.get('SRR_CONTAINERS') as FormArray;
@@ -515,8 +527,6 @@ export class NewQuotationComponent implements OnInit {
       this.quotationForm.get('IS_VESSELVALIDITY')?.setValue(true);
     }
 
-    console.log('Form' + JSON.stringify(this.quotationForm.value));
-
     this._quotationService
       .insertSRR(JSON.stringify(this.quotationForm.value))
       .subscribe((res: any) => {
@@ -547,8 +557,6 @@ export class NewQuotationComponent implements OnInit {
               .get('AGENT_CODE')
               ?.setValue(localStorage.getItem('usercode'));
 
-            console.log(JSON.stringify(this.slotDetailsForm.value));
-
             this._quotationService
               .booking(JSON.stringify(this.slotDetailsForm.value))
               .subscribe((res: any) => {
@@ -568,7 +576,8 @@ export class NewQuotationComponent implements OnInit {
   }
 
   openRateDetailModal(i: any) {
-    this.conindex = i;
+    this.connIndex = i
+    
     this.RateDetailModal.nativeElement.click();
   }
 
@@ -613,27 +622,7 @@ export class NewQuotationComponent implements OnInit {
       EFFECT_FROM: ['', Validators.required],
       EFFECT_TO: ['', Validators.required],
       IS_VESSELVALIDITY: [false],
-      // MTY_REPO: [false],
       CUSTOMER_NAME: ['', Validators.required],
-      // ADDRESS: ['', Validators.required],
-      // ADDRESS1: [''],
-      // EMAIL: [
-      //   '',
-      //   [
-      //     Validators.required,
-      //     Validators.pattern(
-      //       '^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$'
-      //     ),
-      //   ],
-      // ],
-      // CONTACT: ['', Validators.required],
-      // SHIPPER: [
-      //   '',
-      //   [Validators.required, Validators.pattern('^[A-Za-z0-9? , _-]+$')],
-      // ],
-      // NOTIFY_PARTY: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
-      // OTHER_PARTY: [''],
-      // OTHER_PARTY_NAME: [''],
       PLACE_OF_RECEIPT: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
       PLACE_OF_DELIVERY: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
       TSP_1: [''],
@@ -645,7 +634,6 @@ export class NewQuotationComponent implements OnInit {
       SRR_CONTAINERS: new FormArray([]),
       SRR_COMMODITIES: new FormArray([]),
       SRR_RATES: new FormArray([]),
-      SRR_RATES1: new FormArray([]),
     });
 
     this.containerForm = this._formBuilder.group({
@@ -864,7 +852,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   get f3() {
-    var s = this.quotationForm.get('SRR_RATES1') as FormArray;
+    var s = this.quotationForm.get('SRR_RATES') as FormArray;
     return s.controls;
   }
 
@@ -884,10 +872,6 @@ export class NewQuotationComponent implements OnInit {
   f4(i: any) {
     return i;
   }
-
-  // getAddress(e: any) {
-  //   this.quotationForm.get('ADDRESS1')?.setValue(e);
-  // }
 
   numericOnly(event: any): boolean {
     // restrict e,+,-,E characters in  input type number
@@ -952,8 +936,6 @@ export class NewQuotationComponent implements OnInit {
       COMMODITY_TYPE: commodityType,
     });
 
-    console.log('File List' + JSON.stringify(this.fileList));
-
     if (value == 'POL') {
       this.isUploadedPOL = true;
       this.POLAcceptanceFile = event.target.files[0].name;
@@ -1002,7 +984,6 @@ export class NewQuotationComponent implements OnInit {
       payload.append('COMMODITY_TYPE', element.COMMODITY_TYPE);
     });
 
-    console.log('payload' + JSON.stringify(payload));
     this._quotationService.uploadFiles(payload, SRRNO).subscribe();
   }
 
@@ -1046,7 +1027,7 @@ export class NewQuotationComponent implements OnInit {
     srr.CHARGE = event;
     srr.CONTAINER_TYPE = this.containerForm.get('CONTAINER_TYPE')?.value;
 
-    const add = this.quotationForm.get('SRR_RATES1') as FormArray;
+    const add = this.quotationForm.get('SRR_RATES') as FormArray;
 
     this._quotationService.getRate(srr).subscribe((res: any) => {
       add.controls[i].get('STANDARD_RATE')?.setValue('');
@@ -1057,5 +1038,20 @@ export class NewQuotationComponent implements OnInit {
   removeCommodity(i: any) {
     var s = this.quotationForm.get('SRR_COMMODITIES') as FormArray;
     s.removeAt(i);
+  }
+
+  OnPaymentTerm(event: any, i: number) {
+    const add = this.quotationForm.get('SRR_RATES') as FormArray;
+    if (event.target.value == 'Prepaid') {
+      add.at(i)?.get('TRANSPORT_TYPE')?.setValue('POL');
+    }
+    else if (event.target.value == 'Collect') {
+      add.at(i)?.get('TRANSPORT_TYPE')?.setValue('POD');
+    }
+  }
+
+  removeRate(i:any){
+    debugger
+    this.containerList.splice(i,1);
   }
 }
