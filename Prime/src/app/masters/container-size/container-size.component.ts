@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CONTAINER } from 'src/app/models/container';
 import { CommonService } from 'src/app/services/common.service';
 import { MasterService } from 'src/app/services/master.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-container-size',
@@ -43,7 +44,8 @@ export class ContainerSizeComponent implements OnInit {
       CODE: [''],
       CODE_DESC: [''],
       STATUS: [''],
-      CREATED_BY: [''],
+      FROM_DATE: [''],
+      TO_DATE: [''],
     });
 
     this.GetContainerSizeList();
@@ -69,10 +71,11 @@ export class ContainerSizeComponent implements OnInit {
       .InsertMaster(JSON.stringify(this.sizeForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your record has been submitted successfully !');
+          this._commonService.successMsg(
+            'Your record has been inserted successfully !'
+          );
           this.GetContainerSizeList();
           this.ClearForm();
-          this.submitted = false;
           this.closeBtn.nativeElement.click();
         }
       });
@@ -94,7 +97,6 @@ export class ContainerSizeComponent implements OnInit {
     this._masterService.GetMasterDetails(ID).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.sizeForm.patchValue(res.Data);
-        this.isUpdate = true;
       }
     });
   }
@@ -111,11 +113,11 @@ export class ContainerSizeComponent implements OnInit {
       .UpdateMaster(JSON.stringify(this.sizeForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your party master has been Updated successfully !');
+          this._commonService.successMsg(
+            'Your record has been updated successfully !'
+          );
           this.GetContainerSizeList();
           this.ClearForm();
-          this.isUpdate = false;
-          this.submitted = false;
           this.closeBtn.nativeElement.click();
         }
       });
@@ -128,21 +130,33 @@ export class ContainerSizeComponent implements OnInit {
   }
 
   DeleteContainerSize(ID: number) {
-    if (confirm('Are you sure want to delete this record ?')) {
-      this._masterService.DeleteMaster(ID).subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          alert('Your record has been deleted successfully !');
-          this.GetContainerSizeList();
-        }
-      });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._masterService.DeleteMaster(ID).subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+            this.GetContainerSizeList();
+          }
+        });
+      }
+    });
   }
 
   openModal(sizeID: any = 0) {
     this.submitted = false;
+    this.isUpdate = false;
     this.ClearForm();
 
     if (sizeID > 0) {
+      this.isUpdate = true;
       this.GetContainerSizeDetails(sizeID);
     }
 
