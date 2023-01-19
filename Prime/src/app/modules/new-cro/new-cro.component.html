@@ -103,30 +103,38 @@
                 <div class="row mt-4">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <input type="date" min="{{currentDate}}" class="form-control"
-                                [ngClass]="{'invalid': submitted && f.CRO_VALIDITY_DATE.errors}"
-                                formControlName="CRO_VALIDITY_DATE">
-                            <label class="form-label">{{'Header.CroValidityDate'|translate}} <span
-                                    class="text-danger">*</span></label>
-                            <div *ngIf="submitted && f.CRO_VALIDITY_DATE.errors" class="invalid-feedback">Please select
-                                Cro Validity Date</div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <input type="text" [ngClass]="{'invalid':submitted && f.REMARKS.errors}"
-                                formControlName="REMARKS" class="form-control">
-                            <label class="form-label"> {{'Header.Remarks'|translate}}</label>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
                             <input type="text" [ngClass]="{'invalid':submitted && f.REQ_QUANTITY.errors}"
                                 formControlName="REQ_QUANTITY" class="form-control">
                             <label class="form-label">{{'Header.RequiredQuantity'|translate}}<span class="text-danger">
                                     *</span></label>
                             <div *ngIf="submitted && f.REQ_QUANTITY.errors" class="invalid-feedback">
                                 Please Enter Required Quantity
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <ng-select [ngClass]="{'invalid': submitted && f.PACKAGES.errors}"
+                                formControlName="PACKAGES">
+                                <ng-option value="" selected="true" disabled>--Select Packages--</ng-option>
+                                <ng-option *ngFor="let item of packageList" value="{{item.CODE}}">
+                                    {{item.CODE_DESC}}
+                                </ng-option>
+                            </ng-select>
+                            <label class="form-label-ddl">{{'Header.Packages'|translate}} <span
+                                    class="text-danger">*</span></label>
+                            <div *ngIf="submitted && f.PACKAGES.errors" class="invalid-feedback">Please Select Packages
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" [ngClass]="{'invalid': submitted && f.NO_OF_PACKAGES.errors}"
+                                formControlName="NO_OF_PACKAGES" class="form-control">
+                            <label class="form-label">{{'Header.NoofPackages'|translate}} <span
+                                    class="text-danger">*</span></label>
+                            <div *ngIf="submitted && f.NO_OF_PACKAGES.errors" class="invalid-feedback">Please Select No
+                                of Packages
                             </div>
                         </div>
                     </div>
@@ -164,28 +172,20 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <ng-select [ngClass]="{'invalid': submitted && f.PACKAGES.errors}"
-                                formControlName="PACKAGES">
-                                <ng-option value="" selected="true" disabled>--Select Packages--</ng-option>
-                                <ng-option *ngFor="let item of packageList" value="{{item.CODE}}">
-                                    {{item.CODE_DESC}}
-                                </ng-option>
-                            </ng-select>
-                            <label class="form-label-ddl">{{'Header.Packages'|translate}} <span
+                            <input type="date" min="{{currentDate}}" class="form-control"
+                                [ngClass]="{'invalid': submitted && f.CRO_VALIDITY_DATE.errors}"
+                                formControlName="CRO_VALIDITY_DATE">
+                            <label class="form-label">{{'Header.CroValidityDate'|translate}} <span
                                     class="text-danger">*</span></label>
-                            <div *ngIf="submitted && f.PACKAGES.errors" class="invalid-feedback">Please Select Packages
-                            </div>
+                            <div *ngIf="submitted && f.CRO_VALIDITY_DATE.errors" class="invalid-feedback">Please select
+                                Cro Validity Date</div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <input type="text" [ngClass]="{'invalid': submitted && f.NO_OF_PACKAGES.errors}"
-                                formControlName="NO_OF_PACKAGES" class="form-control">
-                            <label class="form-label">{{'Header.NoofPackages'|translate}} <span
-                                    class="text-danger">*</span></label>
-                            <div *ngIf="submitted && f.NO_OF_PACKAGES.errors" class="invalid-feedback">Please Select No
-                                of Packages
-                            </div>
+                            <input type="text" [ngClass]="{'invalid':submitted && f.REMARKS.errors}"
+                                formControlName="REMARKS" class="form-control">
+                            <label class="form-label"> {{'Header.Remarks'|translate}}</label>
                         </div>
                     </div>
                 </div>

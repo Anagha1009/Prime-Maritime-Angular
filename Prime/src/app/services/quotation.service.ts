@@ -121,4 +121,20 @@ export class QuotationService {
         srr.NO_OF_CONTAINERS
     );
   }
+
+  getSRRRateList(srr:QUOTATION){
+    return this._http.get<any>(
+      this.BASE_URL +
+        'SRR/GetSRRRateList?POL=' +
+        srr.POL +
+        '&POD=' +
+        srr.POD +
+        '&CONTAINER_TYPE=' +
+        srr.CONTAINER_TYPE +
+        '&SRR_NO=' +
+        srr.SRR_NO +
+        '&NO_OF_CONTAINERS=' +
+        srr.NO_OF_CONTAINERS
+    );
+  }
 }
