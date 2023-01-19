@@ -7,7 +7,8 @@
     <div class="mb-4">
       <form [formGroup]="sizeForm1">
         <div class="col-md-6 offset-md-6 text-end">
-          <button (click)="openModal()" class="form-btn-primary">New Container Size</button>
+          <button (click)="openModal()" class="form-btn-primary"><i class="fa fa-plus me-1"></i>New Container
+            Size</button>
           <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#contSizeModal">New
             Container Size</button>
         </div>
@@ -25,13 +26,15 @@
           <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">From Date</label>
-              <input type="date" class="form-control2">
+              <input (change)="sizeForm1.get('TO_DATE')?.setValue('')" onkeypress="return false;"
+                formControlName="FROM_DATE" type="date" class="form-control2">
             </div>
           </div>
           <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">To Date</label>
-              <input type="date" class="form-control2">
+              <input onkeypress="return false;" [min]="sizeForm1.get('FROM_DATE')?.value" formControlName="TO_DATE"
+                type="date" class="form-control2">
             </div>
           </div>
           <div class="col-md-3 mt-4">

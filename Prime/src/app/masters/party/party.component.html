@@ -7,7 +7,7 @@
     <div class="mb-4">
       <form [formGroup]="custForm">
         <div class="col-md-6 offset-md-6 text-end">
-          <button class="form-btn-primary" (click)="openModal()">New Customer</button>
+          <button class="form-btn-primary" (click)="openModal()"><i class="fa fa-plus me-1"></i>New Customer</button>
           <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#customerModal">New
             Customer</button>
         </div>
@@ -41,13 +41,15 @@
           <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">From Date</label>
-              <input formControlName="FROM_DATE" type="date" class="form-control2">
+              <input (change)="custForm.get('TO_DATE')?.setValue('')" onkeypress="return false;"
+                formControlName="FROM_DATE" type="date" class="form-control2">
             </div>
           </div>
           <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">To Date</label>
-              <input formControlName="TO_DATE" type="date" class="form-control2">
+              <input onkeypress="return false;" [min]="custForm.get('FROM_DATE')?.value" formControlName="TO_DATE"
+                type="date" class="form-control2">
             </div>
           </div>
         </div>
