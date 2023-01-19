@@ -4,12 +4,18 @@
     <div style="width:80%;margin-left: 20%;"><div class="section-title">
     <h2>Service Type Master</h2>
 </div>
-
+<div class="mb-4">
+    <div class="col-md-6 offset-md-6 text-end">
+        <button class="form-btn-primary" (click)="openModal()">New Unit</button>
+        <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#typeModel">New
+          Unit </button>
+      </div>
 <div class="container">
-    <form [formGroup]="typeForm">
-        <div class="col-md-8 mx-auto">
+
+    <form [formGroup]="typeForm1">
+        <div class="col-md-10 mx-2">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="form-group">
                         <label class="form-label2">Code<span class="text-danger">*</span></label>
                         <input type="text" id="code"  [ngClass]="{'invalid':submitted && f.CODE.errors}" formControlName="CODE" class="form-control2">
@@ -19,11 +25,11 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label2">Description<span class="text-danger">*</span></label>
-                        <textarea type="text" id="desc" [ngClass]="{'invalid':submitted && f.CODE_DESC.errors}" formControlName="CODE_DESC" class="form-control2"></textarea>
+                        <input type="text" id="desc" [ngClass]="{'invalid':submitted && f.CODE_DESC.errors}" formControlName="CODE_DESC" class="form-control2">
                         <div *ngIf="submitted && f.CODE_DESC.errors" class="invalid-feedback">Please Enter Code Description </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="form-group">
                         <label class="form-label2">Status <span class="text-danger"> *</span></label>
                         <select class="form-control2" [ngClass]="{'invalid':submitted && f.STATUS.errors}" formControlName="STATUS">
@@ -34,23 +40,36 @@
                         <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status  </div>
                     </div>
                 </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                      <label class="form-label2">From Date</label>
+                      <input formControlName="ON_HIRE_DATE" type="date" class="form-control2">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label class="form-label2">To Date</label>
+                      <input formControlName="OFF_HIRE_DATE" type="date" class="form-control2">
+                    </div>
+                  </div>
             </div>
             <div class="row mb-3">
-                <div class="col-md-4 offset-md-5" style="text-align: right">
-                    <button *ngIf="!isUpdate" (click)="InsertServiceTypeMaster()" class="form-btn me-2">Save</button>
-                    <button (click)="ClearForm()" class="form-btn me-2">Clear</button>
-                    <button *ngIf="isUpdate" (click)="UpdateServiceTypeMaster()" class="form-btn">Update</button>
-                </div>
+                <div class="col-md-4 offset-md-8 mb-2" style="text-align: right">
+                    <button class="form-btn me-2" (click)="Search()" [disabled]="isLoading">Search
+                      <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
+                    <button class="form-btn me-2" (click)="ClearForm()" [disabled]="isLoading1">Clear<span *ngIf="isLoading1"
+                        class="fa fa-spinner fa-spin"></span></button>
+                  </div>
             </div>
         </div>
     </form>
-    <div class="col-md-10 mx-auto">
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="data-table-config">
             <thead>
                 <tr>
                     <th>Sr. No</th>
                     <th>Code</th>
                     <th>Description</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -59,14 +78,78 @@
                     <td>{{i+1}}</td>
                     <td>{{item.CODE}}</td>
                     <td>{{item.CODE_DESC}}</td>
+                    <td width="10%" class="status"><span [class]="!item.STATUS ? 'rejected' : 'active'">{{item.STATUS ? 'Active'
+                        :
+                        'In-Active'}}</span></td> 
                     <td>
-                        <i class="fa fa-pencil mx-2 pointer text-success"
-                            (click)="GetServiceTypeMasterDetails(item.ID)"></i>
+                        <i class="fa fa-pencil mx-2 pointer text-success"(click)="openModal(item.ID)"></i>
                         <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteServiceTypeMaster(item.ID)"></i>
                 </tr>
             </tbody>
         </table>
+    
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="typeModel" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Service Type Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    #closeBtn></button>
+            </div>
+<form [formGroup]="typeForm">
+    <div class="col-md-10 mx-2">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">Code<span class="text-danger">*</span></label>
+                    <input type="text" id="code"  [ngClass]="{'invalid':submitted && f.CODE.errors}" formControlName="CODE" class="form-control2">
+                    <div *ngIf="submitted && f.CODE.errors" class="invalid-feedback">Please Enter Code </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label2">Description<span class="text-danger">*</span></label>
+                    <input type="text" id="desc" [ngClass]="{'invalid':submitted && f.CODE_DESC.errors}" formControlName="CODE_DESC" class="form-control2">
+                    <div *ngIf="submitted && f.CODE_DESC.errors" class="invalid-feedback">Please Enter Code Description </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">Status <span class="text-danger"> *</span></label>
+                    <select class="form-control2" [ngClass]="{'invalid':submitted && f.STATUS.errors}" formControlName="STATUS">
+                        <option value="" selected="true" disabled>--Select--</option>
+                        <option value="true">Active</option>
+                        <option value="false">InActive</option>
+                    </select>
+                    <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status  </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                  <label class="form-label2">From Date</label>
+                  <input formControlName="ON_HIRE_DATE" type="date" class="form-control2">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="form-label2">To Date</label>
+                  <input formControlName="OFF_HIRE_DATE" type="date" class="form-control2">
+                </div>
+              </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4 offset-md-5" style="text-align: right">
+                <button *ngIf="!isUpdate" (click)="InsertServiceTypeMaster()" class="form-btn me-2">Save</button>
+                <button (click)="ClearForm()" class="form-btn me-2">Clear</button>
+                <button *ngIf="isUpdate" (click)="UpdateServiceTypeMaster()" class="form-btn">Update</button>
+            </div>
+        </div>
     </div>
-</div>
-</div>
+</form>
+        </div>
+        </div>
 </div>
