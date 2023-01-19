@@ -6,6 +6,13 @@
   color: #6e6e6e;
 }
 
+.scroll-list{
+  height: 70px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+}
+
 .scrollbar {
   height: 200px;
   overflow-y: scroll;

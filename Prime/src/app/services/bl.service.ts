@@ -89,4 +89,13 @@ export class BlService {
       '{"corpId": "HCCL","userId": "SOOD","customerId": "502432824"}'
     );
   }
+
+  getBLHistory(agentCode: any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'BL/GetBLHistory?AGENT_CODE=' +
+        agentCode,
+      this.httpOptions
+    );
+  }
 }

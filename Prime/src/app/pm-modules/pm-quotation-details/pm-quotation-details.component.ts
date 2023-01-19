@@ -10,7 +10,9 @@ import { QuotationService } from 'src/app/services/quotation.service';
   styleUrls: ['./pm-quotation-details.component.scss'],
 })
 export class PmQuotationDetailsComponent implements OnInit {
+  container:any='';
   quotationDetails: any;
+  commodityDetails:any;
   rateForm: FormGroup;
   collapse1: boolean = false;
   collapse2: boolean = false;
@@ -40,7 +42,11 @@ export class PmQuotationDetailsComponent implements OnInit {
       LADEN_BACK_COST: [0],
     });
 
-    this.getRates();
+    // this.quotationDetails.SRR_CONTAINERS.forEach((element:any)=>{
+    //   this.getRates(element);
+    // });
+  
+    //this.getRates()
   }
 
   getDetails() {
@@ -55,8 +61,20 @@ export class PmQuotationDetailsComponent implements OnInit {
         res.Data.SRR_RATES.forEach((element: any) => {
           add.push(this._formBuilder.group(element));
         });
+
+        this.commodityDetails=res.Data.SRR_COMMODITIES;
+
+        console.log(this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS);
+        this.container=this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS;
+        this.getRates(this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS);
       }
     });
+  }
+
+  onchangeContainer(event: any) {
+    debugger;
+    console.log(event);
+    this.getRates(event);
   }
 
   get f1() {
@@ -125,13 +143,16 @@ export class PmQuotationDetailsComponent implements OnInit {
     }
   }
 
-  getRates() {
+  getRates(container:any) {
+    debugger;
     var srr = new QUOTATION();
-    srr.POL = 'INIXY';
-    srr.POD = 'AEJEA';
-    srr.CONTAINER_TYPE = '20DC';
-    srr.SRR_NO = 'INIXY-AEJEA-657284290468676';
-    srr.NO_OF_CONTAINERS = 13;
+    srr.POL = this.quotationDetails?.SRR_NO.split('-')[0];
+    srr.POD = this.quotationDetails?.SRR_NO.split('-')[1];
+    srr.CONTAINER_TYPE = container.split('-')[0];
+    srr.SRR_NO = this.quotationDetails?.SRR_NO;
+    srr.NO_OF_CONTAINERS = container.split('-')[1];
+    
+    console.log(srr);
 
     this._quotationService.getCalRate(srr).subscribe((res: any) => {
       if (res.Data.hasOwnProperty('FREIGHTLIST')) {
@@ -144,6 +165,7 @@ export class PmQuotationDetailsComponent implements OnInit {
       }
 
       if (res.Data.hasOwnProperty('IMP_COSTLIST')) {
+        console.log(res.Data.IMP_COSTLIST);
         const add2 = this.calcForm.get('IMP_COST_LIST') as FormArray;
         add2.clear();
         res.Data.IMP_COSTLIST.forEach((element: any) => {
@@ -152,6 +174,7 @@ export class PmQuotationDetailsComponent implements OnInit {
       }
 
       if (res.Data.hasOwnProperty('EXP_COSTLIST')) {
+        console.log(res.Data.EXP_COSTLIST);
         var add3 = this.calcForm.get('EXP_COST_LIST') as FormArray;
         add3.clear();
         res.Data.EXP_COSTLIST.forEach((element: any) => {
@@ -160,12 +183,54 @@ export class PmQuotationDetailsComponent implements OnInit {
       }
 
       if (res.Data.hasOwnProperty('LADEN_BACK_COST')) {
+        console.log(res.Data.LADEN_BACK_COST);
         this.calcForm
           .get('LADEN_BACK_COST')
           ?.setValue(res.Data.LADEN_BACK_COST);
       }
     });
   }
+  // getRates() {
+  //   var srr = new QUOTATION();
+  //   srr.POL = 'INIXY';
+  //   srr.POD = 'AEJEA';
+  //   srr.CONTAINER_TYPE = '20DC';
+  //   srr.SRR_NO = 'INIXY-AEJEA-657284290468676';
+  //   srr.NO_OF_CONTAINERS = 13;
+
+  //   this._quotationService.getCalRate(srr).subscribe((res: any) => {
+  //     if (res.Data.hasOwnProperty('FREIGHTLIST')) {
+  //       console.log(res.Data.FREIGHTLIST);
+  //       const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
+  //       add1.clear();
+  //       res.Data.FREIGHTLIST.forEach((element: any) => {
+  //         add1.push(this._formBuilder.group(element));
+  //       });
+  //     }
+
+  //     if (res.Data.hasOwnProperty('IMP_COSTLIST')) {
+  //       const add2 = this.calcForm.get('IMP_COST_LIST') as FormArray;
+  //       add2.clear();
+  //       res.Data.IMP_COSTLIST.forEach((element: any) => {
+  //         add2.push(this._formBuilder.group(element));
+  //       });
+  //     }
+
+  //     if (res.Data.hasOwnProperty('EXP_COSTLIST')) {
+  //       var add3 = this.calcForm.get('EXP_COST_LIST') as FormArray;
+  //       add3.clear();
+  //       res.Data.EXP_COSTLIST.forEach((element: any) => {
+  //         add3.push(this._formBuilder.group(element));
+  //       });
+  //     }
+
+  //     if (res.Data.hasOwnProperty('LADEN_BACK_COST')) {
+  //       this.calcForm
+  //         .get('LADEN_BACK_COST')
+  //         ?.setValue(res.Data.LADEN_BACK_COST);
+  //     }
+  //   });
+  // }
 
   get f0() {
     var x = this.calcForm.get('FREIGHT_LIST') as FormArray;
