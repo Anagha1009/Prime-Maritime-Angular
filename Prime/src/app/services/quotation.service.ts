@@ -57,6 +57,15 @@ export class QuotationService {
     );
   }
 
+  updateSRR(rootobject:any){
+    return this._http.post<any>(
+      this.BASE_URL + 'SRR/UpdateSRR',
+      rootobject,
+      this.httpOptions
+    );
+
+  }
+
   insertContainer(rootobject: any) {
     return this._http.post<any>(
       this.BASE_URL + 'SRR/InsertContainer',

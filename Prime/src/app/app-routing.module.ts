@@ -168,7 +168,7 @@ const routes: Routes = [
         component: QuotationListComponent,
       },
       {
-        path: 'quotation-details',
+        path: 'srr-details',
         component: QuotationDetailsComponent,
       },
       {

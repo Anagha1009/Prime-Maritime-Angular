@@ -56,10 +56,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="alert" role="alert" *ngFor="let item of quotationList">
+                        <tr class="alert" role="alert" *ngFor="let item of quotationList;let i = index">
                             <td width="1%">
-                                <label class="checkbox-wrap checkbox-primary me-2">
+                                <!-- <label class="checkbox-wrap checkbox-primary me-2" *ngIf="item.STATUS=='Requested'">
                                     <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label> -->
+                                <label class="checkbox-wrap checkbox-primary me-2" [hidden]="item.STATUS!='Requested'">
+                                    <input type="checkbox" [disabled]="item.STATUS!='Requested'" (change)="postSelectedRateRequest(item,$event,i)">
                                     <span class="checkmark"></span>
                                 </label>
                             </td>
@@ -95,5 +99,10 @@
                 </table>
             </div>
         </div>
+        <div class="col-md-6 offset-md-6 text-end mt-5" *ngIf="showButtons">
+            <button type="button" class="form-btn-danger btn-sm me-2" (click)="rejectQuotations()">Reject</button>
+            <button type="button" class="form-btn-success btn-sm me-2" (click)="approveQuotations()">Approve</button>
+        </div>
+        
     </div>
 </div>
