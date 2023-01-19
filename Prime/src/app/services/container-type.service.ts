@@ -16,11 +16,9 @@ export class ContainerTypeService {
   };
   constructor(private _http: HttpClient) {}
 
-  GetContainerTypeMasterList(typemaster: TYPE) {
+  GetContainerTypeMasterList() {
     return this._http.get<any>(
-      this.BASE_URL +
-        'Master/GetContainerTypeMasterList?CREATED_BY=' +
-        typemaster.CREATED_BY,
+      this.BASE_URL + 'Master/GetContainerTypeMasterList',
       this.httpOptions
     );
   }

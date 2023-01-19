@@ -1,141 +1,174 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LINER } from 'src/app/models/liner';
 import { LINERSERVICE } from 'src/app/models/linerservice';
 import { CommonService } from 'src/app/services/common.service';
 import { LinerService } from 'src/app/services/liner.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-liner-service',
   templateUrl: './liner-service.component.html',
-  styleUrls: ['./liner-service.component.scss']
+  styleUrls: ['./liner-service.component.scss'],
 })
 export class LinerServiceComponent implements OnInit {
-
-  LinerServiceform:FormGroup;
-  ServiceList:any[]=[];
+  LinerServiceform: FormGroup;
+  LinerServiceform1: FormGroup;
+  ServiceList: any[] = [];
   submitted: boolean;
   isUpdate: boolean = false;
   portList: any[] = [];
-  linerService:LINERSERVICE;
-  
-  constructor(private _formBuilder: FormBuilder,
-    private _linerService:LinerService ,
-    private _commonService: CommonService,
-    private route: ActivatedRoute,
-    private _router: Router
-    ) { }
+  linerService: LINERSERVICE = new LINERSERVICE();
+  isLoading: boolean = false;
+  isLoading1: boolean = false;
+
+  @ViewChild('closeBtn') closeBtn: ElementRef;
+  @ViewChild('openModalPopup') openModalPopup: ElementRef;
+
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _linerService: LinerService,
+    private _commonService: CommonService
+  ) {}
 
   ngOnInit(): void {
     this.LinerServiceform = this._formBuilder.group({
       ID: [0],
-      LINER_CODE: ['',Validators.required],
-      SERVICE_NAME: ['',Validators.required],
-      PORT_CODE: ['',Validators.required],
-      STATUS: ['',Validators.required],
+      LINER_CODE: ['', Validators.required],
+      SERVICE_NAME: ['', Validators.required],
+      PORT_CODE: ['', Validators.required],
+      STATUS: ['', Validators.required],
       CREATED_BY: [''],
     });
+
+    this.LinerServiceform1 = this._formBuilder.group({
+      LINER_CODE: [''],
+      SERVICE_NAME: [''],
+      PORT_CODE: [''],
+      STATUS: [''],
+      FROM_DATE: [''],
+      TO_DATE: [''],
+    });
+
     this.GetServiceList();
     this.getDropDown();
   }
 
-
-  get f(){
-    return this. LinerServiceform.controls;
+  get f() {
+    return this.LinerServiceform.controls;
   }
+
+  Search() {}
+
+  Clear() {}
+
   GetServiceList() {
+    this._commonService.destroyDT();
+
     this._linerService.getServiceList().subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.ServiceList = res.Data;
-        console.log(res.Data)
       }
+      this._commonService.getDT();
     });
   }
 
   GetServiceDetails(ID: number) {
-    var serviceModel = new LINERSERVICE();
-  
-    serviceModel.ID = ID;
-
-    this._linerService.GetServiceDetails(serviceModel).subscribe((res: any) => {
+    this._linerService.GetServiceDetails(ID).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
-        this.LinerServiceform.patchValue(res.Data)        
-         this.isUpdate = true;
-
+        this.LinerServiceform.patchValue(res.Data);
       }
     });
   }
-
 
   InsertService() {
-    debugger
-    this.submitted=true
-    if(this.LinerServiceform.invalid){
-      return
+    this.submitted = true;
+    if (this.LinerServiceform.invalid) {
+      return;
     }
-    this.LinerServiceform.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
-    var status = this.LinerServiceform.get('STATUS')?.value;
-    this.LinerServiceform.get('STATUS')?.setValue(status == "true" ? true : false);
-   
-    this._linerService.postService(JSON.stringify(this.LinerServiceform.value)).subscribe((res: any) => {
-        if (res.responseCode == 200) {
-          alert('Your record has been submitted successfully !');
-          this.GetServiceList()
-          // this.ClearForm()
-        }
-      });
-  }
 
-getDropDown(){
-  this._commonService.getDropdownData('PORT').subscribe((res: any) => {
-    if (res.ResponseCode == 200) {
-      this.portList = res.Data;
-    }
-  });
-}
-
-UpdateService() {
-  debugger;
-  this.LinerServiceform.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
-
-  var status = this.LinerServiceform.get('STATUS')?.value;
-  this.LinerServiceform.get('STATUS')?.setValue(status == 'true' ? true : false);
-
-  console.log('sfds ' + JSON.stringify(this.LinerServiceform.value));
-  this._linerService
-    .updateliner(JSON.stringify(this.LinerServiceform.value))
-    .subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        alert('Your party master has been Updated successfully !');
-        this.GetServiceList()
-
-        this.LinerServiceform.setValue(this.linerService);
-        // this.ClearForm();
-        this.isUpdate = false;
-      }
-    });
-}
-
-DeleteService(ID: number) {
-  debugger;
-  if (confirm('Are you sure want to delete this record ?')) {
-    var serviceModel = new LINERSERVICE();
-    serviceModel.CREATED_BY = localStorage.getItem('username');
-    serviceModel.ID = ID;
+    this.LinerServiceform.get('CREATED_BY')?.setValue(
+      localStorage.getItem('username')
+    );
 
     this._linerService
-      .deleteService(serviceModel)
+      .postService(JSON.stringify(this.LinerServiceform.value))
       .subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          alert('Your record has been deleted successfully !');
-          this.GetServiceList()
+        if (res.responseCode == 200) {
+          this._commonService.successMsg(
+            'Your record has been inserted successfully !'
+          );
+          this.GetServiceList();
+          this.closeBtn.nativeElement.click();
         }
       });
   }
-}
 
-ClearForm(){
-  this.LinerServiceform.reset();
-}
+  getDropDown() {
+    this._commonService.getDropdownData('PORT').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.portList = res.Data;
+      }
+    });
+  }
+
+  UpdateService() {
+    this.submitted = true;
+    if (this.LinerServiceform.invalid) {
+      return;
+    }
+
+    this._linerService
+      .updateService(JSON.stringify(this.LinerServiceform.value))
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this._commonService.successMsg(
+            'Your record has been updated successfully !'
+          );
+          this.GetServiceList();
+          this.closeBtn.nativeElement.click();
+        }
+      });
+  }
+
+  DeleteService(ID: number) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._linerService.deleteService(ID).subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+            this.GetServiceList();
+          }
+        });
+      }
+    });
+  }
+
+  ClearForm() {
+    this.LinerServiceform.reset();
+    this.LinerServiceform.get('ID')?.setValue(0);
+    this.LinerServiceform.get('PORT_CODE')?.setValue('');
+  }
+
+  openModal(linerID: any = 0) {
+    this.submitted = false;
+    this.isUpdate = false;
+    this.ClearForm();
+
+    if (linerID > 0) {
+      this.isUpdate = true;
+      this.GetServiceDetails(linerID);
+    }
+
+    this.openModalPopup.nativeElement.click();
+  }
 }

@@ -47,14 +47,6 @@ export class LinerService {
     );
   }
 
-  // updateContainerMaster(container: any) {
-
-  //   return this._http.post<any>(
-  //     this.BASE_URL + 'Master/UpdateContainerMasterList',
-  //     container,
-  //     this.httpOptions
-  //   );
-  // }
   updateliner(liner: any) {
     return this._http.post<any>(
       this.BASE_URL + 'Master/UpdateLinerList',
@@ -78,13 +70,9 @@ export class LinerService {
     );
   }
 
-  GetServiceDetails(linerService: LINERSERVICE) {
+  GetServiceDetails(ID: number) {
     return this._http.get<any>(
-      this.BASE_URL +
-        'Master/GetServiceDetails?ID=' +
-        linerService.ID +
-        '&ID=' +
-        linerService.ID,
+      this.BASE_URL + 'Master/GetServiceDetails?ID=' + ID,
       this.httpOptions
     );
   }
@@ -97,9 +85,9 @@ export class LinerService {
     );
   }
 
-  deleteService(linerService: LINERSERVICE) {
+  deleteService(ID: number) {
     return this._http.delete<any>(
-      this.BASE_URL + 'Master/DeleteService?ID=' + linerService.ID,
+      this.BASE_URL + 'Master/DeleteService?ID=' + ID,
       this.httpOptions
     );
   }
