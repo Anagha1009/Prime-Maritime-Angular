@@ -114,7 +114,7 @@ export class LinerComponent implements OnInit {
     this._linerService
       .updateliner(JSON.stringify(this.LinerForm.value))
       .subscribe((res: any) => {
-        if (res.responseCode == 200) {
+        if (res.ResponseCode == 200) {
           alert('Your party master has been Updated successfully !');
           this.GetLinerList()
           this.LinerForm.setValue(this.liner);

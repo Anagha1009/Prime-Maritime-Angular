@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VESSEL } from 'src/app/models/vessel';
+import { CommonService } from 'src/app/services/common.service';
 import { VesselService } from 'src/app/services/vessel.service';
 
 @Component({
@@ -12,12 +13,21 @@ import { VesselService } from 'src/app/services/vessel.service';
 export class VesselComponent implements OnInit {
   submitted: boolean = false;
   vesselForm: FormGroup;
+  vesselForm1:FormGroup;
   data: any;
   isUpdate: boolean = false;
   vesselList: any[] = [];
+  isLoading: boolean = false;
+  isLoading1: boolean = false;
+
+  @ViewChild('closeBtn') closeBtn: ElementRef;
+
+  @ViewChild('openModalPopup') openModalPopup: ElementRef;
+
 
   constructor(
     private _vesselService: VesselService, private _formBuilder: FormBuilder,
+    private _commonService:CommonService,
     private route: ActivatedRoute,
     private _router: Router
   ) { }
@@ -33,6 +43,15 @@ export class VesselComponent implements OnInit {
       STATUS: ['',Validators.required],
       CREATED_BY: ['']
     });
+    this.vesselForm1=this._formBuilder.group({
+      VESSEL_NAME:[''],
+      IMO_NO:[''],
+      COUNTRY_CODE:[''],
+      VESSEL_CODE:[''],
+      STATUS:[''],
+      ON_HIRE_DATE:[''],
+      OFF_HIRE_DATE:['']
+    })
 
     this.GetVesselMasterList();
   }
@@ -40,16 +59,31 @@ export class VesselComponent implements OnInit {
   get f(){
     return this.vesselForm.controls;
   } 
+
   GetVesselMasterList() {
     var vesselModel = new VESSEL();
     vesselModel.CREATED_BY = localStorage.getItem('usercode');
+    this._commonService.destroyDT();
 
     this._vesselService.getVesselList(vesselModel).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.vesselList = res.Data;
       }
+      this._commonService.getDT();
     });
   }
+
+  openModal(ID: any = 0) {
+    this.submitted = false;
+    this.ClearForm();
+
+    if (ID > 0) {
+      this.GetVesselMasterDetails(ID);
+    }
+
+    this.openModalPopup.nativeElement.click();
+  }
+
 
   InsertVesselMaster() {
     debugger;
@@ -127,10 +161,10 @@ export class VesselComponent implements OnInit {
     }
   }
   
+  Search(){ }
 
   ClearForm(){
     this.vesselForm.reset()
-    this.vesselForm.get('VESSEL_NAME')?.setValue("")
     this.vesselForm.get('STATUS')?.setValue("")
 
   }

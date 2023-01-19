@@ -4,41 +4,31 @@
 <div class="section-title">
     <h2>Vessel Master</h2>
   </div>
+  <div class="mb-4">
+    <div class="col-md-6 offset-md-6 text-end">
+        <button class="form-btn-primary" (click)="openModal()">New Vessel</button>
+        <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#vesselModel">New
+          Vessel</button>
+      </div>
   <div class="container mb-4">
     <form [formGroup]="vesselForm">
-      <div class="col-md-8 mx-auto">
+      <div class="col-md-12 mx-2">
         <div class="row">       
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">Vessel Name<span class="text-danger">*</span></label>
               <input type="text" id="name"  [ngClass]="{'invalid':submitted && f.VESSEL_NAME.errors}"  formControlName="VESSEL_NAME" class="form-control2">
               <div *ngIf="submitted && f.VESSEL_NAME.errors" class="invalid-feedback">Please Enter Vessel Name </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">Imo No<span class="text-danger">*</span></label>
-              <textarea type="text" id="no" [ngClass]="{'invalid':submitted && f.IMO_NO.errors}" formControlName="IMO_NO"   class="form-control2"></textarea>
+              <input type="text" id="no" [ngClass]="{'invalid':submitted && f.IMO_NO.errors}" formControlName="IMO_NO"   class="form-control2">
               <div *ngIf="submitted && f.IMO_NO.errors" class="invalid-feedback">Please Enter Imo Number </div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label class="form-label2">Conuntry Code<span class="text-danger">*</span></label>
-              <input type="text" id="CustomerEmail" [ngClass]="{'invalid':submitted && f.COUNTRY_CODE.errors}"  formControlName="COUNTRY_CODE" class="form-control2">
-              <div *ngIf="submitted && f.COUNTRY_CODE.errors" class="invalid-feedback">Please Enter Country Code  </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label class="form-label2">Vessel Code<span class="text-danger">*</span></label>
-              <input type="text" id="gstin"  [ngClass]="{'invalid':submitted && f.VESSEL_CODE.errors}" formControlName="VESSEL_CODE" class="form-control2">
-              <div *ngIf="submitted && f.VESSEL_CODE.errors" class="invalid-feedback">Please Enter Vessel  Code  </div>
-            </div>
-          </div>
-          <div class="col-md-4">
+          </div> 
+          <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">Status <span class="text-danger"> *</span></label>
               <select class="form-control2" [ngClass]="{'invalid':submitted && f.STATUS.errors}" formControlName="STATUS"  >
@@ -49,17 +39,31 @@
               <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status     </div>
             </div>
           </div>
+          <div class="col-md-2">
+            <div class="form-group">
+                <label class="form-label2">Form Date<span class="text-danger">*</span></label>
+                <input type="date" [ngClass]="{'invalid':submitted && f.ON_HIRE_DATE.errors}" formControlName="ON_HIRE_DATE" formControlName="CODE" class="form-control2">
+                <div *ngIf="submitted && f.ON_HIRE_DATE.errors" class="invalid-feedback">Please Enter From date </div>
+            </div>
         </div>
-        <div class="row mb-3">
-          <div class="col-md-2 offset-md-10" style="text-align: right;">
-            <button  *ngIf="!isUpdate"  (click)="InsertVesselMaster()" class="form-btn w-100">Save</button>
-            <button *ngIf="isUpdate" (click)="UpdateVesselMaster()" class="form-btn w-100">Update</button>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="form-label2">To Date<span class="text-danger">*</span></label>
+                <input type="date" [ngClass]="{'invalid':submitted && f.OFF_HIRE_DATE.errors}" formControlName="OFF_HIRE_DATE" formControlName="CODE" class="form-control2">
+                <div *ngIf="submitted && f.OFF_HIRE_DATE.errors" class="invalid-feedback">Please Enter From date </div> 
+            </div>
+        </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 offset-md-9 text-end mb-3">
+            <button class="form-btn me-2" (click)="Search()" [disabled]="isLoading">Search
+                  <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
+              <button (click)="ClearForm()" class="form-btn me-2">Clear</button>
           </div>
-        </div>
+      </div>
       </div>
     </form>
-    <div class="col-md-10 mx-auto">
-      <table class="table table-bordered">
+      <table class="table table-bordered" id="data-table-config">
         <thead>
           <tr>
             <th>Sr. No</th>
@@ -67,6 +71,7 @@
             <th>Imo No</th>
             <th>Country Code</th>
             <th>Vessel Code</th>
+            <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -76,16 +81,83 @@
             <td>{{item.VESSEL_NAME}}</td>
             <td>{{item.IMO_NO}}</td>
             <td>{{item.COUNTRY_CODE}}</td>
-            <td>{{item.VESSEL_CODE}}</td>
+            <td>{{item.VESSEL_CODE}}{{item.VESSEL_CODE == null ? '-' : item.VESSEL_CODE == '' ? '-' : item.VESSEL_CODE}}</td>
+            <td width="10%" class="status"><span [class]="!item.STATUS ? 'rejected' : 'active'">{{item.STATUS ? 'Active'
+              :
+              'In-Active'}}</span></td> 
             <td>
-              <i class="fa fa-pencil mx-2 pointer text-success"(click)="GetVesselMasterDetails(item.ID)"></i>
+              <i class="fa fa-pencil mx-2 pointer text-success"(click)="openModal(item.ID)"></i>
               <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteVesselMaster(item.ID)" ></i>
             </td>
           </tr>
         </tbody>
       </table>
-  
+  </div>
+    
+  </div>
+  </div>
+  </div>
+  <div class="modal fade" id="vesselModel" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Vessel Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    #closeBtn></button>
+            </div>
+  <form [formGroup]="vesselForm">
+    <div class="col-md-12 mx-2">
+      <div class="row">       
+        <div class="col-md-2">
+          <div class="form-group">
+            <label class="form-label2">Vessel Name<span class="text-danger">*</span></label>
+            <input type="text" id="name"  [ngClass]="{'invalid':submitted && f.VESSEL_NAME.errors}"  formControlName="VESSEL_NAME" class="form-control2">
+            <div *ngIf="submitted && f.VESSEL_NAME.errors" class="invalid-feedback">Please Enter Vessel Name </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label class="form-label2">Imo No<span class="text-danger">*</span></label>
+            <input type="text" id="no" [ngClass]="{'invalid':submitted && f.IMO_NO.errors}" formControlName="IMO_NO"   class="form-control2">
+            <div *ngIf="submitted && f.IMO_NO.errors" class="invalid-feedback">Please Enter Imo Number </div>
+          </div>
+        </div> 
+        <div class="col-md-2">
+          <div class="form-group">
+            <label class="form-label2">Status <span class="text-danger"> *</span></label>
+            <select class="form-control2" [ngClass]="{'invalid':submitted && f.STATUS.errors}" formControlName="STATUS"  >
+              <option value="" selected="true" disabled>--Select--</option>
+              <option value="true">Active</option>
+              <option value="false">InActive</option>
+            </select>
+            <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status     </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+              <label class="form-label2">Form Date<span class="text-danger">*</span></label>
+              <input type="date" [ngClass]="{'invalid':submitted && f.ON_HIRE_DATE.errors}" formControlName="ON_HIRE_DATE" formControlName="CODE" class="form-control2">
+              <div *ngIf="submitted && f.ON_HIRE_DATE.errors" class="invalid-feedback">Please Enter From date </div>
+          </div>
+      </div>
+      <div class="col-md-2">
+          <div class="form-group">
+              <label class="form-label2">To Date<span class="text-danger">*</span></label>
+              <input type="date" [ngClass]="{'invalid':submitted && f.OFF_HIRE_DATE.errors}" formControlName="OFF_HIRE_DATE" formControlName="CODE" class="form-control2">
+              <div *ngIf="submitted && f.OFF_HIRE_DATE.errors" class="invalid-feedback">Please Enter From date </div> 
+          </div>
+      </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-md-4 offset-md-5" style="text-align: right">
+            <button *ngIf="!isUpdate" (click)="InsertUnitMaster()" class="form-btn me-2"
+                class="form-btn me-2">Save</button>
+            <button (click)="ClearForm()" class="form-btn me-2">Clear</button>
+            <button *ngIf="isUpdate" (click)="UpdateUnitMaster()" class="form-btn">Update</button>
+        </div>
     </div>
+    </div>
+  </form>
   </div>
   </div>
   </div>

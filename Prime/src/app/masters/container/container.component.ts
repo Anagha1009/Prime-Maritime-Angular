@@ -27,6 +27,8 @@ export class ContainerComponent implements OnInit {
   CONTAINER: CONTAINER = new CONTAINER();
   
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
+
 
 
 
@@ -102,6 +104,8 @@ export class ContainerComponent implements OnInit {
         if (res.responseCode == 200) {
           alert('Your record has been submitted successfully !');
           this.GetContainerMasterList();
+          this.closeBtn.nativeElement.click();
+
           this.ClearForm();
         }
       });
@@ -221,6 +225,8 @@ export class ContainerComponent implements OnInit {
           this.containerForm.setValue(this.container);
           this.ClearForm();
           this.isUpdate = false;
+          this.closeBtn.nativeElement.click();
+
         }
       });
   }

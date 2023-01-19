@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray,FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { SCHEDULE } from 'src/app/models/schedule';
@@ -21,6 +21,12 @@ export class ScheduleComponent implements OnInit {
   isUpdate: boolean = false;
   servicenameList1: any[] = [];
   slotDetailsForm: FormGroup;
+  isLoading: boolean = false;
+  isLoading1: boolean = false;
+  
+  @ViewChild('closeBtn') closeBtn: ElementRef;
+
+  @ViewChild('openModalPopup') openModalPopup: ElementRef;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -47,13 +53,29 @@ export class ScheduleComponent implements OnInit {
  this.GetScheduleList();
 
   }
+
+  openModal(ID: any = 0) {
+    this.submitted = false;
+    this.ClearForm();
+
+    if (ID > 0) {
+      this.GetScheduleDetails(ID);
+    }
+
+    this.openModalPopup.nativeElement.click();
+  }
+
   
   GetScheduleList() {
     this._scheduleService.getScheduleList().subscribe((res: any) => {
+      this._commonService.destroyDT();
+
       if (res.ResponseCode == 200) {
         this.ScheduleList = res.Data;
         console.log(res.Data)
       }
+      this._commonService.getDT();
+
     });
   }
 
@@ -85,11 +107,15 @@ export class ScheduleComponent implements OnInit {
         if (res.responseCode == 200) {
           alert('Your record has been submitted successfully !');
           this. GetScheduleList()
-          // this.ClearForm()
+          this.ClearForm()
         }
       });
   }
 
+  ClearForm() {
+    this.ScheduleForm.reset();
+    this.ScheduleForm.get('STATUS')?.setValue('');
+  }
 
 
   getDropdown() {
@@ -119,12 +145,12 @@ export class ScheduleComponent implements OnInit {
     this._scheduleService
       .updateSchedule(JSON.stringify(this.ScheduleForm.value))
       .subscribe((res: any) => {
-        if (res.responseCode == 200) {
+        if (res.ResponseCode == 200) {
           alert('Your party master has been Updated successfully !');
           this. GetScheduleList()
   
           this.ScheduleForm.setValue(this.ScheduleForm);
-          // this.ClearForm();
+          this.ClearForm();
           this.isUpdate = false;
         }
       });
@@ -159,6 +185,9 @@ export class ScheduleComponent implements OnInit {
         }
       });
   }
+
+  Search() {}
+
 
   Clear(){
     this.ScheduleForm.reset();

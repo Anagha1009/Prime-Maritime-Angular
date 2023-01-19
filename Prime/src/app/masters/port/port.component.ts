@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MASTER } from 'src/app/models/master';
+import { CommonService } from 'src/app/services/common.service';
 import { MasterService } from 'src/app/services/master.service';
 
 @Component({
@@ -10,14 +11,21 @@ import { MasterService } from 'src/app/services/master.service';
 })
 export class PortComponent implements OnInit {
   portForm: FormGroup;
+  portForm1:FormGroup;
   PortList: any;
   data: any;
   isUpdate: boolean = false;
+  isLoading: boolean = false;
+  isLoading1:boolean= false;
+
   submitted:boolean=false;
+
+  @ViewChild('openModalPopup') openModalPopup: ElementRef;
 
   constructor(
     private _masterService: MasterService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _commonService:CommonService,
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +36,19 @@ export class PortComponent implements OnInit {
       CODE_DESC: ['',Validators.required],
       STATUS: ['',Validators.required],
       PARENT_CODE: [''],
+      ON_HIRE_DATE:[''],
+      OFF_HIRE_DATE:[''],
       CREATED_BY: [''],
+    });
+    this.portForm1=this._formBuilder.group({
+      KEY_NAME: [''],
+      CODE: [''],
+      CODE_DESC: [''],
+      STATUS: [''],
+      PARENT_CODE: [''],
+      ON_HIRE_DATE:[''],
+      OFF_HIRE_DATE:[''],
+      CREATED_BY: ['']
     });
     this.GetPortMasterList();
   }
@@ -41,9 +61,13 @@ export class PortComponent implements OnInit {
 
   GetPortMasterList() {
     this._masterService.GetMasterList('PORT').subscribe((res: any) => {
+      this._commonService.destroyDT();
+
       if (res.ResponseCode == 200) {
         this.PortList = res.Data;
       }
+      this._commonService.getDT();
+
     });
   }
 
@@ -109,7 +133,21 @@ export class PortComponent implements OnInit {
     }
   }
 
+  openModal(ID: any = 0) {
+    this.submitted = false;
+    this.ClearForm();
+
+    if (ID > 0) {
+      this.GetPortMasterDetails(ID);
+    }
+
+    this.openModalPopup.nativeElement.click();
+  }
+
   ClearForm() {
     this.portForm.reset();
   }
+
+  Search() {} 
+
 }

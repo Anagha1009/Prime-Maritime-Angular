@@ -6,14 +6,15 @@
         </div>
         <div class="mb-4">
             <div class="col-md-6 offset-md-6 text-end">
+                <!-- <button (click)="openModal()" class="form-btn-primary">New Container </button> -->
+
             <button class="form-btn-primary" #openModalPopup data-bs-toggle="modal" href="#containerModal">New Container</button>
         </div>
-        <form class="mx-5" [formGroup]="contForm">
+        <form [formGroup]="contForm">
             <div class="row">                
                 <div class="col-md-2 mt-4">
                     <div class="form-group">
                         <label class="form-label-ddl">Container Type <span class="text-danger"> *</span></label>
-
                         <ng-select class="{'invalid': submitted && f.CONTAINER_TYPE.errors}" 
                                     formControlName="CONTAINER_TYPE" class="form-Control2">
                                     <ng-option value="" selected="true" disabled>--Select Container--</ng-option>

@@ -106,7 +106,7 @@ UpdateService() {
   this._linerService
     .updateliner(JSON.stringify(this.LinerServiceform.value))
     .subscribe((res: any) => {
-      if (res.responseCode == 200) {
+      if (res.ResponseCode == 200) {
         alert('Your party master has been Updated successfully !');
         this.GetServiceList()
 
