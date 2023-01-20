@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment.prod';
 import { CONTAINER } from '../models/container';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ContainerService {
   BASE_URL = environment.BASE_URL;
@@ -15,13 +15,13 @@ export class ContainerService {
     }),
   };
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {}
 
   GetContainerMasterList(containermaster: CONTAINER) {
     return this._http.get<any>(
       this.BASE_URL +
-      'Master/GetContainerMasterList?CONTAINER_NO=' +
-      containermaster.CONTAINER_NO,
+        'Master/GetContainerMasterList?CONTAINER_NO=' +
+        containermaster.CONTAINER_NO,
       this.httpOptions
     );
   }
@@ -34,19 +34,17 @@ export class ContainerService {
   }
 
   GetContainerMasterDetails(container: CONTAINER) {
-    debugger
     return this._http.get<any>(
       this.BASE_URL +
-      'Master/GetContainerMasterDetails?&ID=' +
-      container.ID +
-      '&CONTAINER_NO=' +
-      container.CONTAINER_NO,
+        'Master/GetContainerMasterDetails?&ID=' +
+        container.ID +
+        '&CONTAINER_NO=' +
+        container.CONTAINER_NO,
       this.httpOptions
     );
   }
 
   updateContainerMaster(container: any) {
-
     return this._http.post<any>(
       this.BASE_URL + 'Master/UpdateContainerMasterList',
       container,
@@ -55,12 +53,9 @@ export class ContainerService {
   }
 
   deleteContainerMaster(ID: number) {
-    debugger
     return this._http.delete<any>(
-      this.BASE_URL +
-      'Master/DeleteContainerMasterList?ID=' +
-       ID, 
-       this.httpOptions
+      this.BASE_URL + 'Master/DeleteContainerMasterList?ID=' + ID,
+      this.httpOptions
     );
   }
 }

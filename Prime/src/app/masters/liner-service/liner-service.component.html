@@ -1,91 +1,139 @@
- <div class="container-fluid">
-    <app-pm-sidebar></app-pm-sidebar>
-    <div style="width:80%;margin-left: 20%;"> 
-<div class="section-title">
-  <h2>LinerService Master</h2>
-</div>
-<div class="container mb-4">
-  <form [formGroup]="LinerServiceform">
-    <div class="col-md-8 mx-auto">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="form-group">
-            <label class="form-label2">Liner Code<span class="text-danger">*</span></label>
-            <input type="text" id="name" [ngClass]="{'invalid':submitted && f.LINER_CODE.errors}"  formControlName="LINER_CODE" class="form-control2">
-            <div *ngIf="submitted && f.LINER_CODE.errors" class="invalid-feedback">Please Enter Liner Code </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label class="form-label2">Service Name<span class="text-danger">*</span></label>
-            <input type="text" id="no" [ngClass]="{'invalid':submitted && f.SERVICE_NAME.errors}" formControlName="SERVICE_NAME" class="form-control2">
-            <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">Please Enter Service Name</div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4 mt-4">
-          <div class="form-group">
-            <label class="form-label-ddl">Start Port <span class="text-danger">
-              *</span></label>
-            <ng-select [ngClass]="{'invalid':submitted && f.PORT_CODE.errors}" formControlName="PORT_CODE">
-            <ng-option value="" selected="true" disabled>--Select--</ng-option>
-            <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
-                ({{item.CODE}})
-            </ng-option>
-        </ng-select>
-       <div *ngIf="submitted && f.PORT_CODE.errors" class="invalid-feedback">Please Enter Start port</div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label class="form-label2">Status <span class="text-danger"> *</span></label>
-            <select class="form-control2" [ngClass]="{'invalid':submitted && f.STATUS.errors}"formControlName="STATUS">
-              <option value="" selected="true" disabled>--Select--</option>
-              <option value="true">Active</option>
-              <option value="false">InActive</option>
-            </select>
-            <div *ngIf="submitted && f.PORT_CODE.errors" class="invalid-feedback">Please Enter Status</div>
-          </div>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-4 offset-md-5" style="text-align: right">
-          <button *ngIf="!isUpdate" class="form-btn me-2" class="form-btn me-2" (click)="InsertService()">Save</button>
-          <button (click)="ClearForm()" class="form-btn me-2">Clear</button>
-          <button *ngIf="isUpdate" class="form-btn me-2" class="form-btn me-2" (click)="UpdateService">Update</button>
-        </div>
-      </div>
+<div class="container-fluid">
+  <app-pm-sidebar></app-pm-sidebar>
+  <div style="width:80%;margin-left: 20%;">
+    <div class="section-title pt-3">
+      <h2>Liner Service Master</h2>
     </div>
-  </form>
-  <div class="col-md-10 mx-auto">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Sr. No</th>
-          <th>Liner Code</th>
-          <th>Service Name</th>
-          <th>Start Port </th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of ServiceList; let i = index">
-          <td>{{i+1}}</td>
-          <td>{{item.LINER_CODE}}</td>
-          <td>{{item.SERVICE_NAME}}</td>
-          <td>{{item.PORT_CODE}}</td>
-          <td>{{item.STATUS}}</td>
-          <td>
-            <i class="fa fa-pencil mx-2 pointer text-success" (click)="GetServiceDetails(item.ID) "></i>
-            <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteService(item.ID)"></i>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
+    <div class="mb-4">
+      <form [formGroup]="LinerServiceform1">
+        <div class="col-md-6 offset-md-6 text-end">
+          <button (click)="openModal()" class="form-btn-primary"><i class="fa fa-plus me-1"></i>New Liner
+            Service</button>
+          <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#linerModal">New
+            Liner Service</button>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label class="form-label2">Status</label>
+              <select class="form-control2">
+                <option disabled value="">--Select--</option>
+                <option value=true>Active</option>
+                <option value=false>In-Active</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="form-label2">From Date</label>
+              <input (change)="LinerServiceform1.get('TO_DATE')?.setValue('')" onkeypress="return false;"
+                formControlName="FROM_DATE" type="date" class="form-control2">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="form-label2">To Date</label>
+              <input onkeypress="return false;" [min]="LinerServiceform1.get('FROM_DATE')?.value"
+                formControlName="TO_DATE" type="date" class="form-control2">
+            </div>
+          </div>
+          <div class="col-md-3 mt-4">
+            <button class="form-btn me-2" (click)="Search()" [disabled]="isLoading">Search
+              <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
+            <button class="form-btn-light" (click)="Clear()" [disabled]="isLoading1">Clear<span *ngIf="isLoading1"
+                class="fa fa-spinner fa-spin"></span></button>
+          </div>
+        </div>
+      </form>
+      <table class="table table-bordered" id="data-table-config">
+        <thead>
+          <tr>
+            <th class="1%">No</th>
+            <th class="29%">Liner Code</th>
+            <th class="30%">Service Name</th>
+            <th class="20%">Start Port </th>
+            <th class="10%">Status</th>
+            <th class="10%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of ServiceList; let i = index">
+            <td class="1%">{{i+1}}</td>
+            <td class="29%">{{item.LINER_CODE}}</td>
+            <td class="30%">{{item.SERVICE_NAME}}</td>
+            <td class="20%">{{item.PORT_CODE}}</td>
+            <td class="10%" class="status"><span [class]="!item.STATUS ? 'rejected' : 'active'">{{item.STATUS ? 'Active'
+                :
+                'In-Active'}}</span></td>
+            <td class="10%">
+              <i class="fa fa-pencil mx-2 pointer text-success" (click)="openModal(item.ID) "></i>
+              <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteService(item.ID)"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
-</div>
+<div class="modal fade" #linerModal id="linerModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Liner Service Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="LinerServiceform">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label2">Liner Code<span class="text-danger"> *</span></label>
+                <input type="text" id="name" [ngClass]="{'invalid':submitted && f.LINER_CODE.errors}"
+                  formControlName="LINER_CODE" class="form-control2">
+                <div *ngIf="submitted && f.LINER_CODE.errors" class="invalid-feedback">Liner Code is required</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label2">Service Name<span class="text-danger"> *</span></label>
+                <input type="text" id="no" [ngClass]="{'invalid':submitted && f.SERVICE_NAME.errors}"
+                  formControlName="SERVICE_NAME" class="form-control2">
+                <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">Service Name is required
+                </div>
+              </div>
+            </div>
           </div>
+          <div class="row">
+            <div class="col-md-6 mt-4">
+              <div class="form-group">
+                <label class="form-label-ddl">Start Port <span class="text-danger"> *</span></label>
+                <ng-select [ngClass]="{'invalid':submitted && f.PORT_CODE.errors}" formControlName="PORT_CODE">
+                  <ng-option value="" disabled>--Select--</ng-option>
+                  <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                    ({{item.CODE}})
+                  </ng-option>
+                </ng-select>
+                <div *ngIf="submitted && f.PORT_CODE.errors" class="invalid-feedback">Start port is required</div>
+              </div>
+            </div>
+            <div class="col-md-6 mt-4">
+              <div class="form-group">
+                <div class="form-check form-switch">
+                  <input formControlName="STATUS" class="form-check-input" type="checkbox" role="switch" />
+                  <label class="form-check-label">Status <span class="text-danger"> *</span></label>
+                </div>
+                <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Status is required</div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="!isUpdate" (click)="InsertService()" class="form-btn">Save</button>
+        <button *ngIf="isUpdate" (click)="UpdateService()" class="form-btn">Update</button>
+        <button class="form-btn-light" (click)="ClearForm()">Clear</button>
+      </div>
+    </div>
+  </div>
+</div>

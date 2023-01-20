@@ -20,7 +20,6 @@ export class ContainerTypeComponent implements OnInit {
   isUpdate: boolean = false;
   isLoading: boolean = false;
   isLoading1: boolean = false;
-  conttype: CONTAINER = new CONTAINER();
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
@@ -65,13 +64,10 @@ export class ContainerTypeComponent implements OnInit {
   Clear() {}
 
   GetConatinerTypeMasterList() {
-    var containerTypeModel = new TYPE();
-    containerTypeModel.CREATED_BY = localStorage.getItem('usercode');
-
     this._commonService.destroyDT();
 
     this._containerTypeService
-      .GetContainerTypeMasterList(containerTypeModel)
+      .GetContainerTypeMasterList()
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.containerTypeList = res.Data;
@@ -98,7 +94,6 @@ export class ContainerTypeComponent implements OnInit {
             'Your record has been inserted successfully !'
           );
           this.GetConatinerTypeMasterList();
-          this.ClearForm();
           this.closeBtn.nativeElement.click();
         }
       });
@@ -120,10 +115,6 @@ export class ContainerTypeComponent implements OnInit {
       return;
     }
 
-    this.containerTypeForm
-      .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
-
     this._containerTypeService
       .updateContainerType(JSON.stringify(this.containerTypeForm.value))
       .subscribe((res: any) => {
@@ -132,7 +123,6 @@ export class ContainerTypeComponent implements OnInit {
             'Your record has been updated successfully !'
           );
           this.GetConatinerTypeMasterList();
-          this.ClearForm();
           this.closeBtn.nativeElement.click();
         }
       });

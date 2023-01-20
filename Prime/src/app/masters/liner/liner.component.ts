@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LINER } from 'src/app/models/liner';
 import { CommonService } from 'src/app/services/common.service';
 import { LinerService } from 'src/app/services/liner.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-liner',
@@ -88,23 +89,34 @@ export class LinerComponent implements OnInit {
       .postLiner(JSON.stringify(this.LinerForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your record has been submitted successfully !');
+          this._commonService.successMsg(
+            'Your record has been inserted successfully !'
+          );
           this.GetLinerList();
-          this.ClearForm();
           this.closeBtn.nativeElement.click();
         }
       });
   }
 
   DeleteLinerList(ID: number) {
-    if (confirm('Are you sure want to delete this record ?')) {
-      this._linerService.deleteLiner(ID).subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          alert('Your record has been deleted successfully !');
-          this.GetLinerList();
-        }
-      });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._linerService.deleteLiner(ID).subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+            this.GetLinerList();
+          }
+        });
+      }
+    });
   }
 
   UpdateLiner() {
@@ -113,17 +125,14 @@ export class LinerComponent implements OnInit {
       return;
     }
 
-    this.LinerForm.get('CREATED_BY')?.setValue(
-      localStorage.getItem('username')
-    );
-
     this._linerService
       .updateliner(JSON.stringify(this.LinerForm.value))
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
-          alert('Your party master has been Updated successfully !');
+          this._commonService.successMsg(
+            'Your record has been updated successfully !'
+          );
           this.GetLinerList();
-          this.ClearForm();
           this.closeBtn.nativeElement.click();
         }
       });
