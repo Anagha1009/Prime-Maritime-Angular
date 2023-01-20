@@ -54,12 +54,12 @@ export class ContainerService {
     );
   }
 
-  deleteContainerMaster(container: CONTAINER) {
+  deleteContainerMaster(ID: number) {
     debugger
     return this._http.delete<any>(
       this.BASE_URL +
       'Master/DeleteContainerMasterList?ID=' +
-       container.ID, 
+       ID, 
        this.httpOptions
     );
   }

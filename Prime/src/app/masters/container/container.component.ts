@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CONTAINER } from 'src/app/models/container';
 import { CommonService } from 'src/app/services/common.service';
 import { ContainerService } from 'src/app/services/container.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-container',
@@ -181,7 +183,23 @@ export class ContainerComponent implements OnInit {
     this.contForm.get('PICKUP_LOCATION')?.setValue('');
     this.contForm.get('DROP_LOCATION')?.setValue('');
   }
+  // Clear() {
+  //   this.contForm.get('CONTAINER_NO')?.setValue('');
+  //   this.contForm.get('CONTAINER_TYPE')?.setValue('');
+  //   this.contForm.get('CONTAINER_SIZE')?.setValue('');
+  //   this.contForm.get('STATUS')?.setValue('');
+  //   this.contForm.get('FROM_DATE')?.setValue('');
+  //   this.contForm.get('TO_DATE')?.setValue('');
 
+  //   this.contForm.CONTAINER_NO = '';
+  //   this.contForm.CUST_TYPE = '';
+  //   this.contForm.STATUS = '';
+  //   this.contForm.FROM_DATE = '';
+  //   this.contForm.TO_DATE = '';
+
+  //   this.isLoading1 = true;
+  //   this.GetContainerMasterList();
+  // }
   GetContainerMasterDetails(containerId: number) {
     var containerModel = new CONTAINER();
     containerModel.CREATED_BY = localStorage.getItem('usercode');
@@ -231,22 +249,44 @@ export class ContainerComponent implements OnInit {
       });
   }
 
-  deleteContainerMaster(containerId: number) {
-    debugger;
-    if (confirm('Are you sure want to delete this record ?')) {
-      var containerModel = new CONTAINER();
-      containerModel.CREATED_BY = localStorage.getItem('username');
-      containerModel.ID = containerId;
+  // deleteContainerMaster(containerId: number) {
+  //   debugger;
+  //   if (confirm('Are you sure want to delete this record ?')) {
+  //     var containerModel = new CONTAINER();
+  //     containerModel.CREATED_BY = localStorage.getItem('username');
+  //     containerModel.ID = containerId;
 
-      this._containerService
-        .deleteContainerMaster(containerModel)
-        .subscribe((res: any) => {
+  //     this._containerService
+  //       .deleteContainerMaster(containerModel)
+  //       .subscribe((res: any) => {
+  //         if (res.ResponseCode == 200) {
+  //           alert('Your record has been deleted successfully !');
+  //           this.GetContainerMasterList();
+  //         }
+  //       });
+  //   }
+  // }
+
+
+  deleteContainerMaster(ID: number) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._containerService.deleteContainerMaster(ID).subscribe((res: any) => {
           if (res.ResponseCode == 200) {
-            alert('Your record has been deleted successfully !');
+            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
             this.GetContainerMasterList();
           }
         });
-    }
+      }
+    });
   }
 
   openModal(ID: any = 0) {

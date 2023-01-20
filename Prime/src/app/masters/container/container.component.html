@@ -8,22 +8,22 @@
             <div class="col-md-6 offset-md-6 text-end">
                 <!-- <button (click)="openModal()" class="form-btn-primary">New Container </button> -->
 
-            <button class="form-btn-primary" #openModalPopup data-bs-toggle="modal" href="#containerModal">New Container</button>
+            <button class="form-btn-primary" #openModalPopup data-bs-toggle="modal" href="#containerModal" ><i class="fa fa-plus me-1"></i>New Container</button>
         </div>
         <form [formGroup]="contForm">
             <div class="row">                
                 <div class="col-md-2 mt-4">
                     <div class="form-group">
                         <label class="form-label-ddl">Container Type <span class="text-danger"> *</span></label>
-                        <ng-select class="{'invalid': submitted && f.CONTAINER_TYPE.errors}" 
+                        <ng-select 
                                     formControlName="CONTAINER_TYPE" class="form-Control2">
                                     <ng-option value="" selected="true" disabled>--Select Container--</ng-option>
                                     <ng-option *ngFor="let item of containerTypeList"
                                         value="{{item.CODE}}">{{item.CODE_DESC}}</ng-option>
                                 </ng-select>
-                                <div *ngIf="submitted && f.CONTAINER_TYPE.errors" class="invalid-feedback">Please
+                                <!-- <div *ngIf="submitted && f.CONTAINER_TYPE.errors" class="invalid-feedback">Please
                                     select
-                                    Container</div>
+                                    Container</div> -->
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -111,7 +111,7 @@
                                         <input type="text" [ngClass]="{'invalid':submitted && f.CONTAINER_NO.errors}"
                                             formControlName="CONTAINER_NO" class="form-control2">
                                         <div *ngIf="submitted && f.CONTAINER_NO.errors" class="invalid-feedback">
-                                            Please Enter Remarks
+                                            Please Enter Container Number
                                         </div>
                                     </div>
                                 </div>
@@ -147,31 +147,18 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label2">Status <span class="text-danger"> *</span></label>
-                                        <select [ngClass]="{'invalid':submitted && f.STATUS.errors}" class="form-control2"
-                                            formControlName="STATUS">
-                                            <option value="" selected="true" disabled>--Select--</option>
-                                            <option value=true>Active</option>
-                                            <option value=false>InActive</option>
-                                        </select>
-                                        <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
                                         <label class="form-label2">On Hire Date</label>
-                                        <input formControlName="ON_HIRE_DATE" type="date" class="form-control2">
+                                        <input [ngClass]="{'invalid':submitted && f.ON_HIRE_DATE.errors}"formControlName="ON_HIRE_DATE" type="date" class="form-control2">
                                         <div *ngIf="submitted && f.ON_HIRE_DATE.errors" class="invalid-feedback">Please Enter
-                                            ON Hire Date</div>
+                                            On Hire Date</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label2">Off Hire Date</label>
-                                        <input formControlName="OFF_HIRE_DATE" type="date" class="form-control2">
+                                        <input [ngClass]="{'invalid':submitted && f.OFF_HIRE_DATE.errors}" formControlName="OFF_HIRE_DATE" type="date" class="form-control2">
                                         <div *ngIf="submitted && f.OFF_HIRE_DATE.errors" class="invalid-feedback">Please Enter
-                                            ON Hire Date</div>
+                                            Off Hire Date</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -212,7 +199,7 @@
                                             [ngClass]="{'invalid':submitted && f.PICKUP_LOCATION.errors}"
                                             formControlName="PICKUP_LOCATION" class="form-control2">
                                         <div *ngIf="submitted && f.PICKUP_LOCATION.errors" class="invalid-feedback">Please Enter
-                                            Lessor Name</div>
+                                            Pickup Location</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -222,7 +209,7 @@
                                             [ngClass]="{'invalid':submitted && f.DROP_LOCATION.errors}"
                                             formControlName="DROP_LOCATION" class="form-control2">
                                         <div *ngIf="submitted && f.DROP_LOCATION.errors" class="invalid-feedback">Please Enter
-                                            Lessor Name</div>
+                                            Drop Location</div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -245,6 +232,15 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-4 mb-4 mt-md-3">
+                                        <div class="form-group">
+                                          <div class="form-check form-switch">
+                                            <input formControlName="STATUS" class="form-check-input" type="checkbox" role="switch" />
+                                            <label class="form-check-label">Status</label>
+                                          </div>
+                                          <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Status is required </div>
+                                        </div>
+                                      </div>
                                 </div>
                             </div>                            
                         </div>
