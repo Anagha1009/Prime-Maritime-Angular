@@ -1,5 +1,5 @@
 export class SCHEDULE {
-    ID:any=0;
+    ID:any;
     VESSEL_NAME:string='';
     SERVICE_NAME:string='';
     PORT_CODE:string='';

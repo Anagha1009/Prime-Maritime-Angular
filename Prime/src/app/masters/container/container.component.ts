@@ -161,7 +161,23 @@ export class ContainerComponent implements OnInit {
     this.containerForm.get('ID')?.setValue(0);
     this.containerForm.get('CONTAINER_SIZE')?.setValue('');
   }
+  // Clear() {
+  //   this.contForm.get('CONTAINER_NO')?.setValue('');
+  //   this.contForm.get('CONTAINER_TYPE')?.setValue('');
+  //   this.contForm.get('CONTAINER_SIZE')?.setValue('');
+  //   this.contForm.get('STATUS')?.setValue('');
+  //   this.contForm.get('FROM_DATE')?.setValue('');
+  //   this.contForm.get('TO_DATE')?.setValue('');
 
+  //   this.contForm.CONTAINER_NO = '';
+  //   this.contForm.CUST_TYPE = '';
+  //   this.contForm.STATUS = '';
+  //   this.contForm.FROM_DATE = '';
+  //   this.contForm.TO_DATE = '';
+
+  //   this.isLoading1 = true;
+  //   this.GetContainerMasterList();
+  // }
   GetContainerMasterDetails(containerId: number) {
     var containerModel = new CONTAINER();
     containerModel.ID = containerId;
