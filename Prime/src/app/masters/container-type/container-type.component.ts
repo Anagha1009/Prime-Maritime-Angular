@@ -115,10 +115,6 @@ export class ContainerTypeComponent implements OnInit {
       return;
     }
 
-    this.containerTypeForm
-      .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
-
     this._containerTypeService
       .updateContainerType(JSON.stringify(this.containerTypeForm.value))
       .subscribe((res: any) => {
