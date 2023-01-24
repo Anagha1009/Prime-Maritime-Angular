@@ -18,15 +18,19 @@ export class BookingService {
       'Content-Type': 'application/json;charset=UTF-8',
     }),
   };
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {}
 
   getBookingList(Booking: BOOKING) {
     return this._http.get<any>(
       this.BASE_URL +
-      'Booking/GetBookingList?AGENT_CODE=' +
-      Booking.AGENT_CODE +
-      '&BOOKING_NO=' +
-      Booking.BOOKING_NO,
+        'Booking/GetBookingList?AGENT_CODE=' +
+        Booking.AGENT_CODE +
+        '&BOOKING_NO=' +
+        Booking.BOOKING_NO +
+        '&FROM_DATE=' +
+        Booking.FROM_DATE +
+        '&TO_DATE=' +
+        Booking.TO_DATE,
       this.httpOptions
     );
   }
@@ -35,10 +39,10 @@ export class BookingService {
     debugger;
     return this._http.get<any>(
       this.BASE_URL +
-      'Booking/GetBookingDetails?AGENT_CODE=' +
-      Booking.AGENT_CODE +
-      '&BOOKING_NO=' +
-      Booking.BOOKING_NO,
+        'Booking/GetBookingDetails?AGENT_CODE=' +
+        Booking.AGENT_CODE +
+        '&BOOKING_NO=' +
+        Booking.BOOKING_NO,
       this.httpOptions
     );
   }
@@ -46,10 +50,10 @@ export class BookingService {
   validateSlots(Slots: SLOTS) {
     return this._http.get<any>(
       this.BASE_URL +
-      'Booking/ValidateSlots?SRR_NO=' +
-      Slots.SRR_NO +
-      '&NO_OF_SLOTS=' +
-      Slots.NO_OF_SLOTS,
+        'Booking/ValidateSlots?SRR_NO=' +
+        Slots.SRR_NO +
+        '&NO_OF_SLOTS=' +
+        Slots.NO_OF_SLOTS,
       this.httpOptions
     );
   }
@@ -74,9 +78,7 @@ export class BookingService {
 
   getTrackingDetail(BookingNo: string) {
     return this._http.get<any>(
-      this.BASE_URL +
-      'Booking/GetTrackingDetail?BOOKING_NO=' +
-      BookingNo,
+      this.BASE_URL + 'Booking/GetTrackingDetail?BOOKING_NO=' + BookingNo,
       this.httpOptions
     );
   }
