@@ -190,10 +190,6 @@ export class PartyComponent implements OnInit {
       return;
     }
 
-    this.partyForm
-      .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
-
     this._partyService
       .updateParty(JSON.stringify(this.partyForm.value))
       .subscribe((res: any) => {

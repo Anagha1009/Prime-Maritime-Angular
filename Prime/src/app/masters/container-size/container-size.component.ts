@@ -75,7 +75,6 @@ export class ContainerSizeComponent implements OnInit {
             'Your record has been inserted successfully !'
           );
           this.GetContainerSizeList();
-          this.ClearForm();
           this.closeBtn.nativeElement.click();
         }
       });
@@ -107,8 +106,6 @@ export class ContainerSizeComponent implements OnInit {
       return;
     }
 
-    this.sizeForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
-
     this._masterService
       .UpdateMaster(JSON.stringify(this.sizeForm.value))
       .subscribe((res: any) => {
@@ -117,13 +114,14 @@ export class ContainerSizeComponent implements OnInit {
             'Your record has been updated successfully !'
           );
           this.GetContainerSizeList();
-          this.ClearForm();
           this.closeBtn.nativeElement.click();
         }
       });
   }
 
   ClearForm() {
+    this.sizeForm.reset();
+
     this.sizeForm.get('STATUS')?.setValue('');
     this.sizeForm.get('CODE')?.setValue('');
     this.sizeForm.get('CODE_DESC')?.setValue('');

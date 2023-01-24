@@ -4,6 +4,8 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { SCHEDULE } from 'src/app/models/schedule';
 import { CommonService } from 'src/app/services/common.service';
 import { ScheduleService } from 'src/app/services/schedule.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-schedule',
@@ -155,23 +157,45 @@ export class ScheduleComponent implements OnInit {
         }
       });
   }
-  DeleteSchedule(ID: number) {
-    debugger;
-    if (confirm('Are you sure want to delete this record ?')) {
-      var scheduleModel = new SCHEDULE();
-      scheduleModel.CREATED_BY = localStorage.getItem('username');
-      scheduleModel.ID = ID;
+  // DeleteSchedule(ID: number) {
+  //   debugger;
+  //   if (confirm('Are you sure want to delete this record ?')) {
+  //     var scheduleModel = new SCHEDULE();
+  //     scheduleModel.CREATED_BY = localStorage.getItem('username');
+  //     scheduleModel.ID = ID;
   
-      this._scheduleService
-        .deleteSchedule(scheduleModel)
-        .subscribe((res: any) => {
+  //     this._scheduleService
+  //       .deleteSchedule(scheduleModel)
+  //       .subscribe((res: any) => {
+  //         if (res.ResponseCode == 200) {
+  //           alert('Your record has been deleted successfully !');
+  //           this. GetScheduleList()
+  //         }
+  //       });
+  //   }
+  // }
+
+  DeleteSchedule(ID: number) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._scheduleService.deleteSchedule(ID).subscribe((res: any) => {
           if (res.ResponseCode == 200) {
-            alert('Your record has been deleted successfully !');
-            this. GetScheduleList()
-          }
+            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+         this.GetScheduleList();
+}
         });
-    }
+      }
+    });
   }
+
   getServiceName1(event: any) {
     debugger
     this.servicenameList1 = [];
