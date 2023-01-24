@@ -2,6 +2,7 @@
     <h2>{{'Header.title2'|translate}}</h2>
 </div>
 <div class="container">
+    <a href="/home/cro-list"><i class='bx bx-arrow-back'></i>Back to List</a>
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-3">
@@ -49,9 +50,9 @@
                             <ng-select [ngClass]="{'invalid': submitted && f.STUFFING_TYPE.errors}"
                                 formControlName="STUFFING_TYPE">
                                 <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                <ng-option value="Factory">Factory</ng-option>
-                                <ng-option value="ICD">ICD</ng-option>
-                                <ng-option value="PORT">PORT</ng-option>
+                                <ng-option value="CFS">CFS</ng-option>
+                                <ng-option value="FACTORY">FACTORY</ng-option>
+                                <ng-option value="DOCK">DOCK</ng-option>
                             </ng-select>
                             <label class="form-label-ddl">{{'Header.Stuffingtype'|translate}}<span
                                     class="text-danger">*</span></label>
@@ -64,14 +65,13 @@
                         <div class="form-group">
                             <ng-select [ngClass]="{'invalid': submitted && f.EMPTY_CONT_PCKP.errors}"
                                 formControlName="EMPTY_CONT_PCKP">
-                                <ng-option value="" selected="true" disabled>--Select--
-                                </ng-option>
-                                <ng-option value="ADTC-ADTC - Dammam">
-                                    ADTC-ADTC - Dammam
-                                </ng-option>
-                                <ng-option value="BCT-Bay Container Terminal">
-                                    BCT-Bay Container Terminal
-                                </ng-option>
+                                <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                <ng-option *ngFor="let item of icdList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    ({{item.CODE}})</ng-option>
+                                <ng-option *ngFor="let item of cfsList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    ({{item.CODE}})</ng-option>
+                                <ng-option *ngFor="let item of depoList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    ({{item.CODE}})</ng-option>
                             </ng-select>
                             <label class="form-label-ddl">{{'Header.ContPickupPoint'|translate}}<span
                                     class="text-danger">*</span></label>
@@ -83,14 +83,11 @@
                         <div class="form-group">
                             <ng-select [ngClass]="{'invalid': submitted && f.LADEN_ACPT_LOCATION.errors}"
                                 formControlName="LADEN_ACPT_LOCATION">
-                                <ng-option value="" selected="true" disabled>--Select--
-                                </ng-option>
-                                <ng-option value="INMUN-MUNDRA">
-                                    INMUN-MUNDRA
-                                </ng-option>
-                                <ng-option value="INSAJ6-ICD TUMB">
-                                    INSAJ6-ICD TUMB
-                                </ng-option>
+                                <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    ({{item.CODE}})</ng-option>
+                                <ng-option *ngFor="let item of terminalList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    ({{item.CODE}})</ng-option>
                             </ng-select>
                             <label class="form-label-ddl">{{'Header.LadenAcptLocation'|translate}}<span
                                     class="text-danger">*</span></label>
@@ -103,8 +100,8 @@
                 <div class="row mt-4">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <input type="text" [ngClass]="{'invalid':submitted && f.REQ_QUANTITY.errors}"
-                                formControlName="REQ_QUANTITY" class="form-control">
+                            <input type="text" [ngClass]="{'invalid':submitted && f.REQ_QUANTITY.errors}" maxlength="10"
+                                formControlName="REQ_QUANTITY" class="form-control" (keypress)="numericOnly($event)">
                             <label class="form-label">{{'Header.RequiredQuantity'|translate}}<span class="text-danger">
                                     *</span></label>
                             <div *ngIf="submitted && f.REQ_QUANTITY.errors" class="invalid-feedback">
@@ -130,7 +127,8 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <input type="text" [ngClass]="{'invalid': submitted && f.NO_OF_PACKAGES.errors}"
-                                formControlName="NO_OF_PACKAGES" class="form-control">
+                                maxlength="10" formControlName="NO_OF_PACKAGES" class="form-control"
+                                (keypress)="numericOnly($event)">
                             <label class="form-label">{{'Header.NoofPackages'|translate}} <span
                                     class="text-danger">*</span></label>
                             <div *ngIf="submitted && f.NO_OF_PACKAGES.errors" class="invalid-feedback">Please Select No
@@ -142,8 +140,8 @@
                 <div class="row mt-4">
                     <div class="col-md-2">
                         <div class="form-group">
-                            <input type="text" [ngClass]="{'invalid': submitted && f.GROSS_WT.errors}"
-                                formControlName="GROSS_WT" class="form-control">
+                            <input type="text" [ngClass]="{'invalid': submitted && f.GROSS_WT.errors}" maxlength="10"
+                                formControlName="GROSS_WT" class="form-control" (keypress)="numericOnly($event)">
                             <label class="form-label"> {{'Header.GrossWeight'|translate}}<span class="text-danger">
                                     *</span></label>
                             <div *ngIf="submitted && f.GROSS_WT.errors" class="invalid-feedback">
@@ -155,14 +153,11 @@
                         <div class="form-group">
                             <ng-select [ngClass]="{'invalid': submitted && f.GROSS_WT_UNIT.errors}"
                                 formControlName="GROSS_WT_UNIT">
-                                <ng-option value="" selected="true" disabled>--Select Unit--
-                                </ng-option>
-                                <ng-option value="Kg">
-                                    Kg
-                                </ng-option>
-                                <ng-option value="Ton">
-                                    Ton
-                                </ng-option>
+                                <ng-option value="" selected="true" disabled>--Select Unit--</ng-option>
+                                <ng-option value="KG">Kg</ng-option>
+                                <ng-option value="MT">MT</ng-option>
+                                <ng-option value="TN">Tons</ng-option>
+                                <ng-option value="GL">Gallons</ng-option>
                             </ng-select>
                             <label class="form-label-ddl">{{'Header.Unit'|translate}} <span
                                     class="text-danger">*</span></label>
@@ -190,10 +185,11 @@
                     </div>
                 </div>
                 <div class="row mt-4">
-                    <div class="col-md-2 offset-md-10" style="text-align: right;">
-                        <button (click)="SaveCRO()" class="form-btn">{{'Button.Submit'|translate}}</button>
+                    <div class="col-md-4 offset-md-8" style="text-align: right;">
+                        <button (click)="SaveCRO()" class="form-btn me-2">{{'Button.Submit'|translate}}</button>
                         <button #openBtn data-bs-toggle="modal" href="#mailModal"
                             class="form-btn d-none">Submit</button>
+                        <button class="form-btn" (click)="ClearForm()">{{'Button.clear'|translate}}</button>
                     </div>
                 </div>
             </form>
@@ -220,6 +216,7 @@
                 <div class="form-group col-md-8 mx-auto">
                     <label class="form-label2">Email</label>
                     <input class="form-control2" [(ngModel)]="email" />
+                    <div *ngIf="!isemail && email == ''" class="invalid-feedback">Please Enter Email</div>
                 </div>
             </div>
             <div class="modal-footer">
