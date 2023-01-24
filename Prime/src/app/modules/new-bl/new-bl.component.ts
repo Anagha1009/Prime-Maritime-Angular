@@ -37,6 +37,7 @@ export class NewBlComponent implements OnInit {
   allContainerType: any[] = [];
   containerTypeList: any[] = [];
   blHistoryList:any[]=[];
+  hideHistory:boolean=false;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -58,6 +59,7 @@ export class NewBlComponent implements OnInit {
       CONSIGNEE: [''],
       CONSIGNEE_ADDRESS: [''],
       NOTIFY_PARTY: [''],
+      NOTIFY_PARTY_ADDRESS: [''],
       PRE_CARRIAGE_BY: [''],
       PLACE_OF_RECEIPT: [''],
       VESSEL_NAME: [''],
@@ -75,6 +77,7 @@ export class NewBlComponent implements OnInit {
       BL_ISSUE_DATE: [''],
       TOTAL_PREPAID: [''],
       NO_OF_ORIGINAL_BL: [''],
+      BL_STATUS:[''],
       AGENT_CODE: [''],
       AGENT_NAME: [''],
       CREATED_BY: [''],
@@ -94,13 +97,15 @@ export class NewBlComponent implements OnInit {
       this._commonService.getDT();
     });
   }
-  
+
   getBLForm() {
+    
     if (this.previewTable.length == 0) {
       alert('Please upload Shipping Instructions !');
       return;
     }
 
+    this.hideHistory=true;
     this.blForm.patchValue(this.previewTable[0]);
     const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
 
@@ -114,6 +119,7 @@ export class NewBlComponent implements OnInit {
           SEAL_NO: [element.SEAL_NO],
           GROSS_WEIGHT: [element.GROSS_WEIGHT],
           MEASUREMENT: [element.MEASUREMENT.toString()],
+          AGENT_SEAL_NO:[element.AGENT_SEAL_NO]
         })
       );
     });
@@ -146,6 +152,7 @@ export class NewBlComponent implements OnInit {
 
     var bltypevalue = this.blForm.get('BLType')?.value;
     this.blForm.get('BLType')?.setValue(bltypevalue ? 'Original' : 'Draft');
+    this.blForm.get('BL_STATUS')?.setValue(bltypevalue ? 'Finalized' : 'Drafted');
 
     var voyageNo = this.blForm.get('VOYAGE_NO')?.value;
     this.blForm.get('VOYAGE_NO')?.setValue(voyageNo.toString());
@@ -174,7 +181,6 @@ export class NewBlComponent implements OnInit {
       if (res.ResponseCode == 200) {
         this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
         this.blForm.get('SRR_NO')?.setValue(res.Data.SRR_NO);
-
         this._blService
           .createBL(JSON.stringify(this.blForm.value))
           .subscribe((res: any) => {
@@ -188,10 +194,11 @@ export class NewBlComponent implements OnInit {
     this.ContainerDescription();
   }
 
-  getBLDetails() {
+  getBLDetailsForEdit(BLNO:any){
+    this.hideHistory=true;
     var BL = new Bl();
     BL.AGENT_CODE = localStorage.getItem('usercode');
-    BL.BL_NO = this.blNo;
+    BL.BL_NO = BLNO;
 
     this._blService.getBLDetails(BL).subscribe((res: any) => {
       this.blForm.patchValue(res.Data);
@@ -215,12 +222,12 @@ export class NewBlComponent implements OnInit {
       });
 
       this.isBLForm = true;
-      this.isSplit = true;
+      this.isSplit = false;
 
-      this.blForm.get('TOTAL_CONTAINERS')?.setValue(contList.length);
+      this.blForm.get('TOTAL_CONTAINERS')?.setValue(this.containerList.length);
       var bl = new Bl();
       bl.AGENT_CODE = localStorage.getItem('usercode');
-      bl.BL_NO = this.isSplit ? this.blNo : '';
+      bl.BL_NO = this.isSplit ? BLNO : '';
       bl.BOOKING_NO = !this.isSplit ? this.blForm.get('BOOKING_NO')?.value : '';
 
       this._blService.getSRRDetails(bl).subscribe((res: any) => {
@@ -231,6 +238,59 @@ export class NewBlComponent implements OnInit {
           this.chargeList = res.Data.SRR_RATES;
         }
       });
+    });
+  }
+
+  getBLDetails() {
+    var BL = new Bl();
+    BL.AGENT_CODE = localStorage.getItem('usercode');
+    BL.BL_NO = this.blNo;
+
+    this._blService.getBLDetails(BL).subscribe((res: any) => {
+      if(res.ResponseCode==200){
+        this.hideHistory=true;
+        this.blForm.patchValue(res.Data);
+
+        var contList: any[] = res.Data.CONTAINER_LIST;
+
+        const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
+
+        add.clear();
+        contList.forEach((element) => {
+          add.push(
+            this._formBuilder.group({
+              CONTAINER_NO: [element.CONTAINER_NO],
+              CONTAINER_TYPE: [element.CONTAINER_TYPE],
+              CONTAINER_SIZE: [element.CONTAINER_SIZE],
+              SEAL_NO: [element.SEAL_NO],
+              GROSS_WEIGHT: [element.GROSS_WEIGHT],
+              MEASUREMENT: [element.MEASUREMENT?.toString()],
+            })
+          );
+        });
+
+        this.isBLForm = true;
+        this.isSplit = true;
+
+        this.blForm.get('TOTAL_CONTAINERS')?.setValue(contList.length);
+        var bl = new Bl();
+        bl.AGENT_CODE = localStorage.getItem('usercode');
+        bl.BL_NO = this.isSplit ? this.blNo : '';
+        bl.BOOKING_NO = !this.isSplit ? this.blForm.get('BOOKING_NO')?.value : '';
+
+        this._blService.getSRRDetails(bl).subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
+            this.blForm.get('SRR_NO')?.setValue(res.Data.SRR_NO);
+
+            this.chargeList = res.Data.SRR_RATES;
+          }
+        });
+
+      }
+      else if(res.ResponseCode==500){
+        alert("Sorry, the specified BL No. doesn't exist! Try entering an existing BL No. to split")
+      }
     });
   }
 
@@ -344,6 +404,8 @@ export class NewBlComponent implements OnInit {
             'PORT_OF_DISCHARGE',
             'PLACE_OF_DELIVERY',
             'FINAL_DESTINATION',
+            'NOTIFY_PARTY_ADDRESS',
+            'MERCHANT_REFERENCE_NO',
             'MARKS_NOS',
             'DESC_OF_GOODS',
           ];
@@ -355,6 +417,7 @@ export class NewBlComponent implements OnInit {
             'SEAL_NO',
             'GROSS_WEIGHT',
             'MEASUREMENT',
+            'AGENT_SEAL_NO'
           ];
 
           var keyXlArray: any = [];
@@ -396,6 +459,8 @@ export class NewBlComponent implements OnInit {
                   element.PORT_OF_DISCHARGE,
                   element.PLACE_OF_DELIVERY,
                   element.FINAL_DESTINATION,
+                  element.NOTIFY_PARTY_ADDRESS,
+                  element.MERCHANT_REFERENCE_NO,
                   element.MARKS_NOS,
                   element.DESC_OF_GOODS,
                 ])
@@ -413,6 +478,7 @@ export class NewBlComponent implements OnInit {
                   element.SEAL_NO,
                   element.GROSS_WEIGHT,
                   element.MEASUREMENT,
+                  element.AGENT_SEAL_NO
                 ])
               ) {
                 isValid = false;
@@ -472,6 +538,36 @@ export class NewBlComponent implements OnInit {
 
   isSameColumn(arr1: any, arr2: any) {
     return $(arr1).not(arr2).length === 0 && $(arr2).not(arr1).length === 0;
+  }
+
+  viewBL(BLNO:any){
+    var BL = new Bl();
+    BL.AGENT_CODE = localStorage.getItem('usercode');
+    BL.BL_NO = BLNO;
+
+    this._blService.getBLDetails(BL).subscribe((res: any) => {
+      this.blForm.patchValue(res.Data);
+
+      var contList: any[] = res.Data.CONTAINER_LIST;
+
+      const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
+
+      add.clear();
+      contList.forEach((element) => {
+        add.push(
+          this._formBuilder.group({
+            CONTAINER_NO: [element.CONTAINER_NO],
+            CONTAINER_TYPE: [element.CONTAINER_TYPE],
+            CONTAINER_SIZE: [element.CONTAINER_SIZE],
+            SEAL_NO: [element.SEAL_NO],
+            GROSS_WEIGHT: [element.GROSS_WEIGHT],
+            MEASUREMENT: [element.MEASUREMENT?.toString()],
+          })
+        );
+      });
+      this.ContainerDescription();
+    });
+
   }
 
   ContainerDescription() {
