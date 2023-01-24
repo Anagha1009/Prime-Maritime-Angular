@@ -6,7 +6,7 @@ import { BOOKING } from 'src/app/models/booking';
 import { BookingService } from 'src/app/services/booking.service';
 import { locale as english } from 'src/app/@core/translate/booking/en';
 import { locale as hindi } from 'src/app/@core/translate/booking/hi';
-import {locale as arabic} from 'src/app/@core/translate/booking/ar';
+import { locale as arabic } from 'src/app/@core/translate/booking/ar';
 
 @Component({
   selector: 'app-booking-list',
@@ -19,6 +19,8 @@ export class BookingListComponent implements OnInit {
   isScroll: boolean = false;
   bookingForm: FormGroup;
   expRecords: any = 0;
+  isLoading: boolean = false;
+  isLoading1: boolean = false;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -26,7 +28,7 @@ export class BookingListComponent implements OnInit {
     private _router: Router,
     private _coreTranslationService: CoreTranslationService
   ) {
-    this._coreTranslationService.translate(english, hindi,arabic);
+    this._coreTranslationService.translate(english, hindi, arabic);
   }
 
   ngOnInit(): void {
@@ -62,21 +64,24 @@ export class BookingListComponent implements OnInit {
     this.booking.BOOKING_NO = BOOKING_NO;
     this.booking.CUSTOMER_NAME = CUSTOMER_NAME;
     this.booking.STATUS = STATUS;
-
+    this.booking.FROM_DATE = FROM_DATE;
+    this.booking.TO_DATE = TO_DATE;
+    this.isLoading = true;
     this.getBookingList();
   }
 
   Clear() {
     this.bookingForm.get('BOOKING_NO')?.setValue('');
     this.bookingForm.get('CUSTOMER_NAME')?.setValue('');
-    this.bookingForm.get('STATUS')?.setValue('');
     this.bookingForm.get('FROM_DATE')?.setValue('');
     this.bookingForm.get('TO_DATE')?.setValue('');
 
     this.booking.BOOKING_NO = '';
     this.booking.CUSTOMER_NAME = '';
     this.booking.STATUS = '';
-
+    this.booking.FROM_DATE = '';
+    this.booking.TO_DATE = '';
+    this.isLoading1 = true;
     this.getBookingList();
   }
 
@@ -86,6 +91,8 @@ export class BookingListComponent implements OnInit {
     this._bookingService.getBookingList(this.booking).subscribe((res: any) => {
       this.isScroll = false;
       this.bookingList = [];
+      this.isLoading = false;
+      this.isLoading1 = false;
       if (res.ResponseCode == 200) {
         if (res.Data.length > 0) {
           this.bookingList = res.Data;

@@ -1,13 +1,10 @@
 export class BOOKING {
-  // BOOKING_NO: any = '';
-  // STATUS: string = '';
-  // AGENT_CODE: any = 0;
   ID: number;
   BOOKING_NO: any = '';
   SRR_ID: number;
   SRR_NO: string;
-  POL:string;
-  POD:string;
+  POL: string;
+  POD: string;
   VESSEL_NAME: string;
   VOYAGE_NO: string;
   MOTHER_VESSEL_NAME: string;
@@ -17,8 +14,10 @@ export class BOOKING {
   AGENT_NAME: string;
   STATUS: string;
   CREATED_BY: string;
-  IS_ROLLOVER:boolean = false;
+  IS_ROLLOVER: boolean = false;
   CONTAINER_LIST: SRRCONTAINER[];
+  FROM_DATE: string = '';
+  TO_DATE: string = '';
 }
 
 export class SRRCONTAINER {
