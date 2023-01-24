@@ -53,12 +53,12 @@ export class ScheduleService {
       this.httpOptions
     );
   }
-  deleteSchedule(schedule:SCHEDULE){
+  deleteSchedule(ID:number){
   
     return this._http.delete<any>(
       this.BASE_URL+
       'Master/DeleteSchedule?ID=' +
-      schedule.ID ,
+      ID ,
       this.httpOptions
     );
   }

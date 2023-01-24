@@ -1,5 +1,5 @@
 export class CONTAINER {
-    ID:any=0;
+    ID:any;
     CONTAINER_NO: string = '';
     CONTAINER_TYPE: string = '';
     CONTAINER_SIZE: string = '';

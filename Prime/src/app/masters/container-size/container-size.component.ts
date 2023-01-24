@@ -120,6 +120,8 @@ export class ContainerSizeComponent implements OnInit {
   }
 
   ClearForm() {
+    this.sizeForm.reset();
+
     this.sizeForm.get('STATUS')?.setValue('');
     this.sizeForm.get('CODE')?.setValue('');
     this.sizeForm.get('CODE_DESC')?.setValue('');
