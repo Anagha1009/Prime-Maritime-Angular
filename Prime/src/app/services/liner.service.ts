@@ -5,10 +5,10 @@ import { LINER } from '../models/liner';
 import { LINERSERVICE } from '../models/linerservice';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LinerService {
-  BASE_URL=environment.BASE_URL
+  BASE_URL = environment.BASE_URL;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -16,39 +16,28 @@ export class LinerService {
     }),
   };
 
-  constructor(private _http:HttpClient) { }
+  constructor(private _http: HttpClient) {}
 
   getLinerList() {
     return this._http.get<any>(
-      this.BASE_URL +
-    'Master/GetLinerList' ,
+      this.BASE_URL + 'Master/GetLinerList',
       this.httpOptions
     );
   }
 
-  GetLinerDetails(liner:LINER) {
-
+  GetLinerDetails(linerID: number) {
     return this._http.get<any>(
-      this.BASE_URL +
-        'Master/GetLinerDetails?ID=' +
-        liner.ID +
-        '&ID=' +
-        liner.ID,
+      this.BASE_URL + 'Master/GetLinerDetails?ID=' + linerID,
       this.httpOptions
     );
   }
-  deleteLiner(liner:LINER){
-  
+
+  deleteLiner(linerID: number) {
     return this._http.delete<any>(
-      this.BASE_URL+
-      'Master/DeleteLinerList?ID=' +
-      liner.ID ,
+      this.BASE_URL + 'Master/DeleteLinerList?ID=' + linerID,
       this.httpOptions
     );
   }
-
-
-
 
   postLiner(liner: any) {
     return this._http.post<any>(
@@ -58,18 +47,9 @@ export class LinerService {
     );
   }
 
-  // updateContainerMaster(container: any) {
-
-  //   return this._http.post<any>(
-  //     this.BASE_URL + 'Master/UpdateContainerMasterList',
-  //     container,
-  //     this.httpOptions
-  //   );
-  // }
-  updateliner(liner:any){
+  updateliner(liner: any) {
     return this._http.post<any>(
-      this.BASE_URL+
-      'Master/UpdateLinerList',
+      this.BASE_URL + 'Master/UpdateLinerList',
       liner,
       this.httpOptions
     );
@@ -77,8 +57,7 @@ export class LinerService {
 
   getServiceList() {
     return this._http.get<any>(
-      this.BASE_URL +
-    'Master/GetServiceList' ,
+      this.BASE_URL + 'Master/GetServiceList',
       this.httpOptions
     );
   }
@@ -91,37 +70,25 @@ export class LinerService {
     );
   }
 
-  GetServiceDetails(linerService:LINERSERVICE) {
-
+  GetServiceDetails(ID: number) {
     return this._http.get<any>(
-      this.BASE_URL +
-        'Master/GetServiceDetails?ID=' +
-        linerService.ID +
-        '&ID=' +
-        linerService.ID,
+      this.BASE_URL + 'Master/GetServiceDetails?ID=' + ID,
       this.httpOptions
     );
   }
 
-
-  updateService(linerService:any){
+  updateService(linerService: any) {
     return this._http.post<any>(
-      this.BASE_URL+
-      'Master/UpdateService',
+      this.BASE_URL + 'Master/UpdateService',
       linerService,
       this.httpOptions
     );
   }
 
-  deleteService(linerService:LINERSERVICE){
-  
+  deleteService(ID: number) {
     return this._http.delete<any>(
-      this.BASE_URL+
-      'Master/DeleteService?ID=' +
-      linerService.ID ,
+      this.BASE_URL + 'Master/DeleteService?ID=' + ID,
       this.httpOptions
     );
   }
-
-
 }

@@ -22,21 +22,21 @@ export class QuotationDetailsComponent implements OnInit {
   rateList: any[] = [];
   fileList: any[] = [];
   BASE_URL: string = environment.BASE_URL2;
-  conindex: any = 0;
   quotationForm: FormGroup;
   containerForm: FormGroup;
+  contRateList: any[] = [];
   @ViewChild('RateDetailModal') RateDetailModal: ElementRef;
 
   constructor(private _quotationService: QuotationService,
     private _coreTranslationService: CoreTranslationService,
-    private _formBuilder: FormBuilder,) {this._coreTranslationService.translate(english, hindi, arabic); }
+    private _formBuilder: FormBuilder,) { this._coreTranslationService.translate(english, hindi, arabic); }
 
   ngOnInit(): void {
     this.getQuotationDetails();
   }
   openRateDetailModal(i: any) {
-    debugger
-    this.conindex = i;
+    this.contRateList = [];
+    this.contRateList = this.rateList.filter(x => x.CONTAINER_TYPE == this.containerList[i].CONTAINER_TYPE);
     this.RateDetailModal.nativeElement.click();
   }
   getQuotationDetails() {
@@ -50,10 +50,6 @@ export class QuotationDetailsComponent implements OnInit {
         this.commodityList = res.Data.SRR_COMMODITIES;
         this.containerList = res.Data.SRR_CONTAINERS;
         this.rateList = res.Data.SRR_RATES;
-console.log("rateList"+ JSON.stringify(this.rateList))
-         //console.log("All data" + JSON.stringify(res.Data));
-
-        // console.log("SRR_NO" + res.Data.SRR_NO);
 
         var srr_no = res.Data.SRR_NO;
         var commodityTypeList: any[] = [];
@@ -61,8 +57,6 @@ console.log("rateList"+ JSON.stringify(this.rateList))
         res.Data.SRR_COMMODITIES.forEach((element: any) => {
           commodityTypeList.push(element.COMMODITY_TYPE)
         })
-
-        // console.log("COMM LIST" + JSON.stringify(commodityTypeList));
 
         this._quotationService.GetFiles(srr_no, commodityTypeList).subscribe((res: any) => {
           if (res.responseCode == 200) {

@@ -111,6 +111,7 @@ export class VoyageComponent implements OnInit {
       }
     });
   }
+  
 
 
 }

@@ -54,11 +54,9 @@ export class PartyService {
     );
   }
 
-  deleteParty(party: PARTY) {
+  deleteParty(ID: number) {
     return this._http.delete<any>(
-      this.BASE_URL +
-        'Master/DeletePartyMasterDetails?CUSTOMER_ID=' +
-        party.CUST_ID,
+      this.BASE_URL + 'Master/DeletePartyMasterDetails?CUSTOMER_ID=' + ID,
       this.httpOptions
     );
   }

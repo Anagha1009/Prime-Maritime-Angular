@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CommonService } from 'src/app/services/common.service';
 import { MasterService } from 'src/app/services/master.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-unit',
@@ -10,12 +12,20 @@ import { MasterService } from 'src/app/services/master.service';
 })
 export class UnitComponent implements OnInit {
   unitForm: any;
+  unitForm1:any;
   UnitList: any[] = [];
   isUpdate: boolean = false;
   submitted:boolean=false;
+  isLoading: boolean = false;
+  isLoading1: boolean = false;
+  
+  @ViewChild('closeBtn') closeBtn: ElementRef;
+
+  @ViewChild('openModalPopup') openModalPopup: ElementRef;
 
   constructor(
     private _masterService: MasterService,
+    private _commonService:CommonService,
     private _formBuilder: FormBuilder
   ) {}
 
@@ -29,6 +39,15 @@ export class UnitComponent implements OnInit {
       PARENT_CODE: [''],
       CREATED_BY: [''],
     });
+    this.unitForm1=this._formBuilder.group({
+      KEY_NAME:[''],
+      CODE:[''],
+      CODE_DESC:[''],
+      STATUS:[''],
+      PARENT_CODE:[''],
+      ON_HIRE_DATE:[''],
+      OFF_HIRE_DATE:['']
+    })
     this.GetUnitMasterList();
   }
   get f(){
@@ -59,9 +78,11 @@ export class UnitComponent implements OnInit {
 
   GetUnitMasterList() {
     this._masterService.GetMasterList('UNIT').subscribe((res: any) => {
+      this._commonService.destroyDT();
       if (res.ResponseCode == 200) {
         this.UnitList = res.Data;
       }
+      this._commonService.getDT();
     });
   }
 
@@ -91,17 +112,41 @@ export class UnitComponent implements OnInit {
       });
   }
 
+  
+
   DeleteUnitMaster(ID: number) {
-    debugger;
-    if (confirm('Are you sure want to delete this record ?')) {
-      this._masterService.DeleteMaster(ID).subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          alert('Your record has been deleted successfully !');
-          this.GetUnitMasterList();
-        }
-      });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._masterService.DeleteMaster(ID).subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+         this.GetUnitMasterList();
+}
+        });
+      }
+    });
   }
+
+  openModal(ID: any = 0) {
+    this.submitted = false;
+    this.ClearForm();
+
+    if (ID > 0) {
+      this.GetUnitMasterDetails(ID);
+    }
+
+    this.openModalPopup.nativeElement.click();
+  }
+
+  Search() {}
 
   ClearForm() {
     this.unitForm.reset();

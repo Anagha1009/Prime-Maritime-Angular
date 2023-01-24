@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PARTY } from 'src/app/models/party';
 import { CommonService } from 'src/app/services/common.service';
 import { PartyService } from 'src/app/services/party.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-party',
@@ -141,26 +142,34 @@ export class PartyComponent implements OnInit {
       .postParty(JSON.stringify(this.partyForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your record has been submitted successfully !');
+          this._commonService.successMsg(
+            'Your record has been inserted successfully !'
+          );
           this.GetPartyMasterList();
-          this.submitted = false;
           this.closeBtn.nativeElement.click();
         }
       });
   }
 
   DeletePartyMaster(partyID: number) {
-    if (confirm('Are you sure want to delete this record ?')) {
-      var partyModel = new PARTY();
-      partyModel.CUST_ID = partyID;
-
-      this._partyService.deleteParty(partyModel).subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          alert('Your record has been deleted successfully !');
-          this.GetPartyMasterList();
-        }
-      });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._partyService.deleteParty(partyID).subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+            this.GetPartyMasterList();
+          }
+        });
+      }
+    });
   }
 
   GetPartyMasterDetails(partyID: number) {
@@ -171,7 +180,6 @@ export class PartyComponent implements OnInit {
     this._partyService.getPartyDetails(partyModel).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.partyForm.patchValue(res.Data);
-        this.isUpdate = true;
       }
     });
   }
@@ -182,18 +190,14 @@ export class PartyComponent implements OnInit {
       return;
     }
 
-    this.partyForm
-      .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
-
     this._partyService
       .updateParty(JSON.stringify(this.partyForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your party master has been Updated successfully !');
+          this._commonService.successMsg(
+            'Your record has been updated successfully !'
+          );
           this.GetPartyMasterList();
-          this.submitted = false;
-          this.isUpdate = false;
           this.closeBtn.nativeElement.click();
         }
       });
@@ -207,9 +211,11 @@ export class PartyComponent implements OnInit {
 
   openModal(custID: any = 0) {
     this.submitted = false;
+    this.isUpdate = false;
     this.ClearForm();
 
     if (custID > 0) {
+      this.isUpdate = true;
       this.GetPartyMasterDetails(custID);
     }
 

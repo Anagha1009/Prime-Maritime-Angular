@@ -50,7 +50,8 @@ export class MasterService {
   DeleteMaster(ID: number) {
     debugger;
     return this._http.delete<any>(
-      this.BASE_URL + 'Master/DeleteMaster?ID=' + ID,
+      this.BASE_URL + 'Master/DeleteMaster?ID=' + 
+      ID,
       this.httpOptions
     );
   }

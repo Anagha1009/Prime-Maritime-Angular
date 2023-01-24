@@ -21,7 +21,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">SRR No</label>
+                                <label class="label-header">{{'Header.SRRNo'|translate}}</label>
                                 <label class="label-subheader">{{quotation?.SRR_NO==null ? '-':
                                     quotation?.SRR_NO==''?'-':quotation?.SRR_NO}}
                                 </label>
@@ -29,51 +29,51 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Place of Receipt</label>
+                                <label class="label-header">{{'Header.PlaceofReceipt'|translate}}</label>
                                 <label class="label-subheader">{{quotation?.PLACE_OF_RECEIPT == null ? '-' :
                                     quotation?.PLACE_OF_RECEIPT == '' ? '-' : quotation?.PLACE_OF_RECEIPT}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Place of Delivery</label>
+                                <label class="label-header">{{'Header.PlaceofDelivery'|translate}}</label>
                                 <label class="label-subheader">{{quotation?.PLACE_OF_DELIVERY== null ? '-' :
                                     quotation?.PLACE_OF_DELIVERY == '' ? '-' : quotation?.PLACE_OF_DELIVERY}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Final Destination</label>
-                                <label class="label-subheader">{{quotation?.ORIGIN_ICD== null ? '-' :
-                                    quotation?.ORIGIN_ICD == '' ? '-' : quotation?.ORIGIN_ICD}}</label>
+                                <label class="label-header">{{'Header.FinalDestination'|translate}}</label>
+                                <label class="label-subheader">{{quotation?.FINAL_DESTINATION== null ? '-' :
+                                    quotation?.FINAL_DESTINATION == '' ? '-' : quotation?.FINAL_DESTINATION}}</label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Port of Loading</label>
+                                <label class="label-header">{{'Header.PortofLoading'|translate}}</label>
                                 <label class="label-subheader">{{quotation?.POL== null ? '-' :
                                     quotation?.POL == '' ? '-' : quotation?.POL}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Port of Discharge</label>
+                                <label class="label-header">{{'Header.PortofDischarge'|translate}}</label>
                                 <label class="label-subheader">{{quotation?.POD== null ? '-' :
                                     quotation?.POD == '' ? '-' : quotation?.POD}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Transhipment 1</label>
+                                <label class="label-header">{{'Header.Transhipment1'|translate}}</label>
                                 <label class="label-subheader">{{quotation?.TSP_1== null ? '-' :
                                     quotation?.TSP_1 == '' ? '-' : quotation?.TSP_1}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Transhipment 2</label>
+                                <label class="label-header">{{'Header.Transhipment2'|translate}}</label>
                                 <label class="label-subheader">{{quotation?.TSP_2== null ? '-' :
                                     quotation?.TSP_2 == '' ? '-' : quotation?.TSP_2}}</label>
                             </div>
@@ -82,14 +82,14 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Service Name</label>
+                                <label class="label-header">{{'Header.ServiceName'|translate}}</label>
                                 <label class="label-subheader">{{quotation?.SERVICE_NAME== null ? '-'
                                     :quotation?.SERVICE_NAME == '' ? '-' : quotation?.SERVICE_NAME}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Effect From</label>
+                                <label class="label-header">{{'Header.EffectFrom'|translate}}</label>
                                 <label class="label-subheader">
                                     {{quotation?.EFFECT_FROM |
                                     date:'mediumDate'}} </label>
@@ -97,14 +97,14 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Effect To</label>
+                                <label class="label-header">{{'Header.EffectTo'|translate}}</label>
                                 <label class="label-subheader"> {{quotation?.EFFECT_TO |
                                     date:'mediumDate'}}</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="label-header">Customer Name</label>
+                                <label class="label-header">{{'Header.CustomerName'|translate}}</label>
                                 <label class="label-subheader">{{quotation?.CUSTOMER_NAME== null ? '-' :
                                     quotation?.CUSTOMER_NAME == '' ? '-' : quotation?.CUSTOMER_NAME}}</label>
                             </div>
@@ -237,7 +237,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of rateList; let i = index">
+                                <tr *ngFor="let item of contRateList; let i = index">
                                     <td>{{item.SRR_NO}}</td>
                                     <td>{{item.CONTAINER_TYPE}}</td>
                                     <td>{{item.CHARGE_CODE}}</td>
@@ -246,7 +246,6 @@
                                     <td>{{item.CURRENCY}}</td>
                                     <td>{{item.STANDARD_RATE}}</td>
                                     <td>{{item.RATE_REQUESTED}}</td>
-                                    
                                 </tr>
                             </tbody>
                         </table>
@@ -259,7 +258,7 @@
                 <h6 class="mb-0">
                     <a class="collapsed" data-bs-toggle="collapse" href="#collapse-4" aria-expanded="false"
                         aria-controls="collapse-2" data-abc="true">
-                        Commodity Files
+                        {{'Header.CommodityFiles'|translate}}
                     </a>
                 </h6>
             </div>

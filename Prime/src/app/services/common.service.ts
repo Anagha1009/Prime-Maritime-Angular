@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import * as jquery from 'jquery';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root',
@@ -106,5 +107,9 @@ export class CommonService {
 
     var year = date.getFullYear();
     return year + '-' + month + '-' + todate;
+  }
+
+  successMsg(msg: string) {
+    Swal.fire('Success!', msg, 'success');
   }
 }

@@ -7,7 +7,8 @@
     <div class="mb-4">
       <form [formGroup]="sizeForm1">
         <div class="col-md-6 offset-md-6 text-end">
-          <button (click)="openModal()" class="form-btn-primary">New Container Size</button>
+          <button (click)="openModal()" class="form-btn-primary"><i class="fa fa-plus me-1"></i>New Container
+            Size</button>
           <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#contSizeModal">New
             Container Size</button>
         </div>
@@ -25,13 +26,15 @@
           <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">From Date</label>
-              <input type="date" class="form-control2">
+              <input (change)="sizeForm1.get('TO_DATE')?.setValue('')" onkeypress="return false;"
+                formControlName="FROM_DATE" type="date" class="form-control2">
             </div>
           </div>
           <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">To Date</label>
-              <input type="date" class="form-control2">
+              <input onkeypress="return false;" [min]="sizeForm1.get('FROM_DATE')?.value" formControlName="TO_DATE"
+                type="date" class="form-control2">
             </div>
           </div>
           <div class="col-md-3 mt-4">
@@ -97,7 +100,7 @@
             <div class="form-group">
               <div class="form-check form-switch">
                 <input formControlName="STATUS" class="form-check-input" type="checkbox" role="switch" />
-                <label class="form-check-label">Status</label>
+                <label class="form-check-label">Status <span class="text-danger"> *</span></label>
               </div>
               <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Status is required </div>
             </div>
@@ -107,7 +110,7 @@
       <div class="modal-footer">
         <button *ngIf="!isUpdate" (click)="InsertContainerSize()" class="form-btn">Save</button>
         <button *ngIf="isUpdate" (click)="UpdateContainerSize()" class="form-btn">Update</button>
-        <button class="form-btn-light" (click)="ClearForm()">Clear</button>
+        <button class="form-btn me-2" (click)="ClearForm()">Clear</button>
       </div>
     </div>
   </div>

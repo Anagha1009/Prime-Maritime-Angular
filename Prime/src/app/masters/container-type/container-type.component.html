@@ -7,7 +7,8 @@
     <div class="mb-4">
       <form [formGroup]="containerTypeForm1">
         <div class="col-md-6 offset-md-6 text-end">
-          <button (click)="openModal()" class="form-btn-primary">New Container Type</button>
+          <button (click)="openModal()" class="form-btn-primary"><i class="fa fa-plus me-1"></i>New Container
+            Type</button>
           <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#contTypeModal">New
             Container Type</button>
         </div>
@@ -25,19 +26,21 @@
           <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">From Date</label>
-              <input type="date" class="form-control2">
+              <input (change)="containerTypeForm1.get('TO_DATE')?.setValue('')" onkeypress="return false;"
+                formControlName="FROM_DATE" type="date" class="form-control2">
             </div>
           </div>
           <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">To Date</label>
-              <input type="date" class="form-control2">
+              <input onkeypress="return false;" [min]="containerTypeForm1.get('FROM_DATE')?.value"
+                formControlName="TO_DATE" type="date" class="form-control2">
             </div>
           </div>
           <div class="col-md-3 mt-4">
             <button class="form-btn me-2" (click)="Search()" [disabled]="isLoading">Search
               <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
-            <button class="form-btn-light" (click)="Clear()" [disabled]="isLoading1">Clear<span *ngIf="isLoading1"
+            <button class="form-btn me-2" (click)="Clear()" [disabled]="isLoading1">Clear<span *ngIf="isLoading1"
                 class="fa fa-spinner fa-spin"></span></button>
           </div>
         </div>
@@ -155,9 +158,10 @@
               <div class="form-group">
                 <div class="form-check form-switch">
                   <input formControlName="STATUS" class="form-check-input" type="checkbox" role="switch" />
-                  <label class="form-check-label">Status</label>
+                  <label class="form-check-label">Status<span class="text-danger"> *</span></label>
                 </div>
-                <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status </div>
+                <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Status is required
+                </div>
               </div>
             </div>
           </div>
@@ -166,7 +170,7 @@
       <div class="modal-footer">
         <button *ngIf="!isUpdate" (click)="InsertContainerTypeMaster()" class="form-btn">Save</button>
         <button *ngIf="isUpdate" (click)="UpdateContainerTypeMaster()" class="form-btn">Update</button>
-        <button class="form-btn-light" (click)="ClearForm()">Clear</button>
+        <button class="form-btn me-2" (click)="ClearForm()">Clear</button>
       </div>
     </div>
   </div>
