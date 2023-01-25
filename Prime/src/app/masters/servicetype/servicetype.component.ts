@@ -133,6 +133,16 @@ export class ServicetypeComponent implements OnInit {
     this.typeForm.reset();
     this.typeForm.get('STATUS')?.setValue('');
   }
+  Clear() {
+    this.typeForm1.get('KEY_NAME')?.setValue('');
+    this.typeForm1.get('CODE')?.setValue('');
+    this.typeForm1.get('CODE_DESC')?.setValue('');
+    this.typeForm1.get('STATUS')?.setValue('');
+    this.typeForm1.get('ON_HIRE_DATE')?.setValue('');
+    this.typeForm1.get('OFF_HIRE_DATE')?.setValue(''); 
+    this.isLoading1 = true;
+    this.GetServiceTypeMasterList();
+  }
 
   openModal(ID: any = 0) {
     this.submitted = false;

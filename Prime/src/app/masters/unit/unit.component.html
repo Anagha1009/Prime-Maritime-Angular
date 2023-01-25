@@ -17,48 +17,43 @@
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label class="form-label2">Code<span class="text-danger">*</span></label>
+                        <label class="form-label2">Code</label>
                         <input type="text"  formControlName="CODE" formControlName="CODE" class="form-control2">
-                        <!-- <div *ngIf="submitted && f.CODE.errors" class="invalid-feedback">Please Enter Code </div> -->
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label2">Description<span class="text-danger">*</span></label>
+                        <label class="form-label2">Description</label>
                         <input type="text"   formControlName="CODE_DESC" class="form-control2">
-                        <!-- <div *ngIf="submitted && f.CODE_DESC.errors" class="invalid-feedback">Please Enter Code Description</div> -->
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label class="form-label2">Status <span class="text-danger"> *</span></label>
+                        <label class="form-label2">Status</label>
                         <select class="form-control2"  formControlName="STATUS">
                             <option value="" selected="true" disabled>--Select--</option>
                             <option value="true">Active</option>
                             <option value="false">InActive</option>
                         </select>
-                        <!-- <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select Status  </div> -->
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label class="form-label2">Form Date<span class="text-danger">*</span></label>
-                        <input type="date" [ngClass]="{'invalid':submitted && f.ON_HIRE_DATE.errors}" formControlName="ON_HIRE_DATE" formControlName="CODE" class="form-control2">
-                        <div *ngIf="submitted && f.ON_HIRE_DATE.errors" class="invalid-feedback">Please Enter From date </div>
+                        <label class="form-label2">Form Date</label>
+                        <input type="date"  formControlName="ON_HIRE_DATE" formControlName="CODE" class="form-control2">
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label class="form-label2">To Date<span class="text-danger">*</span></label>
-                        <input type="date" [ngClass]="{'invalid':submitted && f.OFF_HIRE_DATE.errors}" formControlName="OFF_HIRE_DATE" formControlName="CODE" class="form-control2">
-                        <div *ngIf="submitted && f.OFF_HIRE_DATE.errors" class="invalid-feedback">Please Enter From date </div> 
+                        <label class="form-label2">To Date</label>
+                        <input type="date"  formControlName="OFF_HIRE_DATE" formControlName="CODE" class="form-control2">
                     </div>
                 </div>
             </div>
                 <div class="col-md-4 offset-md-8 mb-2" style="text-align: right">
                     <button class="form-btn me-2" (click)="Search()" [disabled]="isLoading">Search
                         <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
-                    <button (click)="ClearForm()" class="form-btn me-2">Clear</button>
+                    <button (click)="Clear()" class="form-btn me-2">Clear</button>
                 </div>
             
         </div>
@@ -102,36 +97,39 @@
                     #closeBtn></button>
             </div>
 <form [formGroup]="unitForm">
-    <div class="col-md-10 mx-2">
+    <div class="col-md-10 mx-auto">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="form-group">
                     <label class="form-label2">Code<span class="text-danger">*</span></label>
                     <input type="text" [ngClass]="{'invalid':submitted && f.CODE.errors}" formControlName="CODE" formControlName="CODE" class="form-control2">
-                    <div *ngIf="submitted && f.CODE.errors" class="invalid-feedback">Please Enter Code </div>
+                    <div *ngIf="submitted && f.CODE.errors" class="invalid-feedback">Code is required </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="form-group">
                     <label class="form-label2">Description<span class="text-danger">*</span></label>
                     <input type="text" [ngClass]="{'invalid':submitted && f.CODE_DESC.errors}"  formControlName="CODE_DESC" class="form-control2">
-                    <div *ngIf="submitted && f.CODE_DESC.errors" class="invalid-feedback">Please Enter Code Description</div>
+                    <div *ngIf="submitted && f.CODE_DESC.errors" class="invalid-feedback">Code Description is required</div>
                 </div>
             </div>
-            <div class="col-md-4">
+        </div>
+        <div class="row">
+            <div class="col-md-5">
                 <div class="form-group">
                     <label class="form-label2">Form Date<span class="text-danger">*</span></label>
                     <input type="date" [ngClass]="{'invalid':submitted && f.ON_HIRE_DATE.errors}" formControlName="ON_HIRE_DATE" formControlName="CODE" class="form-control2">
                     <div *ngIf="submitted && f.ON_HIRE_DATE.errors" class="invalid-feedback">Please Enter From date </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="form-group">
                     <label class="form-label2">To Date<span class="text-danger">*</span></label>
                     <input type="date" [ngClass]="{'invalid':submitted && f.OFF_HIRE_DATE.errors}" formControlName="OFF_HIRE_DATE" formControlName="CODE" class="form-control2">
                     <div *ngIf="submitted && f.OFF_HIRE_DATE.errors" class="invalid-feedback">Please Enter From date </div> 
                 </div>
             </div>
+        </div>
             <div class="col-md-6 mt-4">
                 <div class="form-group">
                   <div class="form-check form-switch">
@@ -141,7 +139,7 @@
                   <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Status is required </div>
                 </div>
               </div>
-        </div>
+        
         <div class="modal-footer">
                 <button *ngIf="!isUpdate" (click)="InsertUnitMaster()" class="form-btn me-2"
                     class="form-btn me-2">Save</button>

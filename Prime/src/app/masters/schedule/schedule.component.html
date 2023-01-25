@@ -35,17 +35,17 @@
                             <div class="col-md-4 mt-4">
                                 <div class="form-group">
                                     <label class="form-label-ddl">Service Name <span class="text-danger">
-                                            *</span></label>
-                                    <ng-select [ngClass]="{'invalid':submitted && f.SERVICE_NAME.errors}"
-                                        formControlName="SERVICE_NAME">
-                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                        <ng-option *ngFor="let item of servicenameList1"
-                                            value="{{item.CODE}}">{{item.CODE_DESC}}
-                                            ({{item.CODE}})
-                                        </ng-option>
-                                    </ng-select>
-                                    <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">Please
-                                        Select Service Name</div>
+                                        *</span></label>
+                                <ng-select [ngClass]="{'invalid':submitted && f.SERVICE_NAME.errors}"
+                                    formControlName="SERVICE_NAME">
+                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                    <ng-option *ngFor="let item of servicenameList1"
+                                        value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        ({{item.CODE}})
+                                    </ng-option>
+                                </ng-select>
+                                <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">Please
+                                    Select Service Name</div>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -153,7 +153,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"> Unit Details</h5>
+                <h5 class="modal-title" id="exampleModalLabel"> Schedule Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
             </div>
             <div class="modal-body">
@@ -170,8 +170,8 @@
                                             ({{item.CODE}})
                                         </ng-option>
                                     </ng-select>
-                                    <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">Please
-                                        Select Vessel Name</div>
+                                    <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">
+                                        Vessel Name is required</div>
 
                                 </div>
                             </div>
@@ -187,8 +187,8 @@
                                             ({{item.CODE}})
                                         </ng-option>
                                     </ng-select>
-                                    <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">Please
-                                        Select Service Name</div>
+                                    <div *ngIf="submitted && f.SERVICE_NAME.errors" class="invalid-feedback">
+                                         Service Name is required</div>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -197,7 +197,7 @@
                                     <input type="text" id="name" [ngClass]="{'invalid':submitted && f.VIA_NO.errors}"
                                         formControlName="VIA_NO" class="form-control2">
                                 </div>
-                                <div *ngIf="submitted && f. VIA_NO.errors" class="invalid-feedback">Please Enter VIA NO
+                                <div *ngIf="submitted && f. VIA_NO.errors" class="invalid-feedback">  VIA NO is required
                                 </div>
                             </div>
                         </div>
@@ -214,8 +214,8 @@
                                             ({{item.CODE}})
                                         </ng-option>
                                     </ng-select>
-                                    <div *ngIf="submitted && f. PORT_CODE.errors" class="invalid-feedback">Please Select
-                                        Port</div>
+                                    <div *ngIf="submitted && f. PORT_CODE.errors" class="invalid-feedback"> 
+                                        Port Name is required</div>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -224,7 +224,7 @@
                                     <input type="date" id="name" [ngClass]="{'invalid':submitted && f.ETA.errors}"
                                         formControlName="ETA" class="form-control2">
                                 </div>
-                                <div *ngIf="submitted && f.ETA.errors" class="invalid-feedback">Please Enter ETA</div>
+                                <div *ngIf="submitted && f.ETA.errors" class="invalid-feedback">ETA is required</div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -232,7 +232,7 @@
                                     <input type="date" id="name" [ngClass]="{'invalid':submitted && f.ETD.errors}"
                                         formControlName="ETD" class="form-control2">
                                 </div>
-                                <div *ngIf="submitted && f. ETD.errors" class="invalid-feedback">Please Enter ETD</div>
+                                <div *ngIf="submitted && f. ETD.errors" class="invalid-feedback">ETD is required</div>
                             </div>
                         </div>
                         <div class="row">

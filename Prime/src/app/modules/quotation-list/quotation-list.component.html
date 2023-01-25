@@ -145,7 +145,8 @@
                                         <div class="col-md-12">
                                             <div class="row mb-2">
                                                 <div class="col-md-8">
-                                                    <h6>SRR NO:<small class="text-danger">INIXY-SADMM-995115620114104</small></h6>
+                                                    <h6>SRR NO:<small class="text-danger">
+                                                        {{quotationDetails?.SRR_NO}} </small></h6>
                                                     <h6>POL : <small class="text-danger">
                                                             {{quotationDetails?.POL}}</small>
                                                         POD :
@@ -239,8 +240,11 @@
                                                     <label class="mt-4"> {{j+1}}</label>
                                                 </td>
                                                 <td class="col-md-6">
-                                                    <label class="form-label3">Slot Operator</label>
-                                                    <select class="form-control3" formControlName="SLOT_OPERATOR">
+                                                    <label class="form-label3">Slot Operator<span
+                                                        class="text-danger">
+                                                        *</span></label>
+                                                    <select class="form-control3"  [ngClass]="{'invalid': submitted && f4.SLOT_OPERATOR.errors}"
+                                                    formControlName="SLOT_OPERATOR">
                                                         <option value="" selected disabled>
                                                             --Slot
                                                             Operator--</option>
@@ -248,11 +252,19 @@
                                                             value="{{item.CODE}}">
                                                             {{item.CODE_DESC}}</option>
                                                     </select>
+                                                    <div *ngIf="submitted && f4.SLOT_OPERATOR.errors"
+                                                    class="invalid-feedback">Slot Operator is required
+                                                </div>
                                                 </td>
                                                 <td class="col-md-4">
-                                                    <label class="form-label3">No of Slots</label>
-                                                    <input (keypress)="numericOnly($event)" class="form-control3"
+                                                    <label class="form-label3">No of Slots<span
+                                                        class="text-danger">
+                                                        *</span></label>
+                                                    <input (keypress)="numericOnly($event)" [ngClass]="{'invalid': submitted && f4.NO_OF_SLOTS.errors}"  class="form-control3"
                                                         formControlName="NO_OF_SLOTS" type="text" />
+                                                        <div *ngIf="submitted && f4.NO_OF_SLOTS.errors"
+                                                        class="invalid-feedback">No of Slots is required
+                                                    </div>
                                                 </td>
                                                 <td class="col-md-1">
                                                     <a (click)="removeItem(j)"><i style="font-size:15px"
@@ -297,8 +309,12 @@
                             <label class="label-subheader">{{containerList[i].SERVICE_MODE}}</label>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label2">No of Container</label>
-                            <input type="text" formControlName="IMM_VOLUME_EXPECTED" class="form-control2" />
+                            <label class="form-label2"><span Class="text-danger">*</span>No of Container</label>
+                            <input  (keypress)="numericOnly($event)"  maxlength="3" type="text"  id="NoOfContainers" 
+                            [ngClass]="{'invalid': submitted && f4.IMM_VOLUME_EXPECTED.errors}" formControlName="IMM_VOLUME_EXPECTED" class="form-control2">
+                            <div *ngIf="submitted && f4.IMM_VOLUME_EXPECTED.errors"
+                            class="invalid-feedback">No of Container is required
+                        </div>
                         </div>
                     </div>
                 </div>
