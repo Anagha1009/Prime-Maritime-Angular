@@ -3,29 +3,32 @@
 </div>
 <div class="container">
     <div class="mx-5" [formGroup]="bookingForm">
-
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
                     <label class="form-label2">{{'Header.BookingNo'|translate}}</label>
-                    <input formControlName="BOOKING_NO" type="text" class="form-control2">
+                    <input maxlength="30" formControlName="BOOKING_NO" type="text" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
                     <label class="form-label2">{{'Header.fromDate'|translate}}</label>
-                    <input formControlName="FROM_DATE" type="date" class="form-control2">
+                    <input (change)="bookingForm.get('TO_DATE')?.setValue('')" onkeypress="return false;"
+                        formControlName="FROM_DATE" type="date" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
                     <label class="form-label2">{{'Header.toDate'|translate}}</label>
-                    <input formControlName="TO_DATE" type="date" class="form-control2">
+                    <input onkeypress="return false;" [min]="bookingForm.get('FROM_DATE')?.value"
+                        formControlName="TO_DATE" type="date" class="form-control2">
                 </div>
             </div>
             <div class="col-md-4 mt-4">
-                <button class="form-btn me-2" (click)="Search()">{{'Button.search'|translate}}</button>
-                <button class="form-btn" (click)="Clear()">{{'Button.clear'|translate}}</button>
+                <button class="form-btn me-2" (click)="Search()">{{'Button.search'|translate}} <span *ngIf="isLoading"
+                        class="fa fa-spinner fa-spin"></span></button>
+                <button class="form-btn" (click)="Clear()">{{'Button.clear'|translate}} <span *ngIf="isLoading1"
+                        class="fa fa-spinner fa-spin"></span></button>
             </div>
         </div>
     </div>
@@ -41,24 +44,47 @@
                             <div class="col-md-5">
                                 <h4 class="title mb-0">{{item.BOOKING_NO}}</h4>
                                 <small class="mb-0 text-danger">{{item.SRR_NO}}</small>
-                                <p class="description mb-2"><span class="bx bxs-ship me-2"></span>{{item.POL}} <i
+                                <p class="description"><span class="bx bxs-ship me-2"></span>{{item.POL}} <i
                                         class='bx bxs-right-arrow-circle mx-2'></i>
                                     <span class="bx bxs-ship me-2"></span>{{item.POD}}
+                                    <span class="d-block text-success">Created : {{item.CREATED_DATE |
+                                        date:'mediumDate'}}</span>
+                                </p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="description" style="font-weight: 500;"> <span
+                                        class="bx bx-user me-2"></span>{{item.CUSTOMER_NAME}} </p>
+                                <p class="description"><span *ngFor="let sc of item.CONTAINERS?.split(', ')">
+                                        <img *ngIf="sc.substring(0,2) == '20'" height="25" width="30" class="me-2"
+                                            src="assets/img/container.png" />
+                                        <img *ngIf="sc.substring(0,2) == '40'" height="25" width="30" class="me-2"
+                                            src="assets/img/container (1).png" />
+                                        <span class="me-2">{{sc}} | </span>
+                                    </span></p>
+                                <p class="description"><span *ngFor="let comms of item.COMMODITY?.split(', ')">
+                                        <img *ngIf="comms.split('-')[0] == 'NORMAL'" height="18" width="20" class="pb-1"
+                                            src="assets/img/box.png" />
+                                        <img *ngIf="comms.split('-')[0] == 'HAZ'" height="18" width="20" class="pb-1"
+                                            src="assets/img/fire.png" />
+                                        <img *ngIf="comms.split('-')[0] == 'REEFER'" height="23" width="25" class="pb-1"
+                                            src="assets/img/fish.png" />
+                                        <img *ngIf="comms.split('-')[0] == 'FLEXIBAG'" height="18" width="18"
+                                            class="pb-1" src="assets/img/waterdroplet.png" />
+                                        {{comms.split('-')[1]}} , </span>
                                 </p>
                             </div>
                             <div class="col-md-4">
-                                <p class="description" style="font-weight: 500;"> <span
-                                        class="bx bx-user me-2"></span>{{item.CUSTOMER_NAME}} </p>
-                                <p class="description"><span class="bx bxs-truck me-2"></span>{{item.CONTAINERS}} </p>
-                                <p class="description"><i class='bx bxs-package me-2'></i>{{item.COMMODITY}} Kg</p>
-                            </div>
-                            <div class="col-md-3">
-                                <p class="description"><i class="bx bxs-ship me-2"></i> <span
-                                        class="text-info">{{item.VESSEL_NAME}} - {{item.VOYAGE_NO}}</span>
+                                <p class="description" style="font-weight: 500;"><i class="bx bxs-ship me-2"></i> <span
+                                        class="text-info">{{item.VESSEL_NAME}} -
+                                        {{item.VOYAGE_NO}}</span>
                                 </p>
-                                <p class="description"><i class='bx bx-history me-2'></i> ETA : {{item.ETA |
-                                    date:'mediumDate'}} - ETD : {{item.ETD | date:'mediumDate'}}</p>
-                                <p class="description"><i class='bx bx-street-view me-2'></i>Slot : {{item.SLOTS}}</p>
+                                <p class="description"><i class='bx bx-history me-2'></i> <span
+                                        style="font-weight: 500;">ETA</span> : {{item.ETA
+                                    |
+                                    date:'mediumDate'}} - <span style="font-weight: 500;">ETD</span> : {{item.ETD |
+                                    date:'mediumDate'}}</p>
+                                <p class="description"><i class='bx bx-street-view me-2'></i><span
+                                        style="font-weight: 500;">Slot</span> : {{item.SLOTS}}</p>
                             </div>
                             <!-- <div class="col-md-1 rounded-btn">
                                 <a href="#"><i class="fa fa-eye"></i></a>
