@@ -36,6 +36,8 @@ export class UnitComponent implements OnInit {
       CODE: ['',Validators.required],
       CODE_DESC: ['',Validators.required],
       STATUS: ['',Validators.required],
+      ON_HIRE_DATE:[''],
+      OFF_HIRE_DATE:[''],
       PARENT_CODE: [''],
       CREATED_BY: [''],
     });
@@ -150,6 +152,18 @@ export class UnitComponent implements OnInit {
 
   ClearForm() {
     this.unitForm.reset();
+    this.unitForm.get('ID')?.setValue(0);
     this.unitForm.get('STATUS')?.setValue('');
+  }
+  Clear() {
+    this.unitForm1.get('KEY_NAME')?.setValue('');
+    this.unitForm1.get('CODE')?.setValue('');
+    this.unitForm1.get('CODE_DESC')?.setValue('');
+    this.unitForm1.get('STATUS')?.setValue('');
+    this.unitForm1.get('FROM_DATE')?.setValue('');
+    this.unitForm1.get('TO_DATE')?.setValue('');
+
+    this.isLoading1 = true;
+    this.GetUnitMasterList();
   }
 }

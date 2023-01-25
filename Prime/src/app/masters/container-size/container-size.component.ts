@@ -57,7 +57,9 @@ export class ContainerSizeComponent implements OnInit {
 
   Search() {}
 
-  Clear() {}
+  Clear() {
+    
+  }
 
   InsertContainerSize() {
     this.submitted = true;
