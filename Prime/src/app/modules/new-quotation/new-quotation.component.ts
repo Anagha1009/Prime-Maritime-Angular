@@ -10,6 +10,9 @@ import { QuotationService } from 'src/app/services/quotation.service';
 import { locale as english } from 'src/app/@core/translate/quotation/en';
 import { locale as hindi } from 'src/app/@core/translate/quotation/hi';
 import { locale as arabic } from 'src/app/@core/translate/quotation/ar';
+import { JsonpInterceptor } from '@angular/common/http';
+import { SSL_OP_TLS_ROLLBACK_BUG } from 'constants';
+
 @Component({
   selector: 'app-new-quotation',
   templateUrl: './new-quotation.component.html',
@@ -88,8 +91,8 @@ export class NewQuotationComponent implements OnInit {
   fileList: any[] = [];
   isTranshipment: boolean = false;
   submiitedRate: boolean = false;
-  rateList:any[]= [];
-  connIndex:number=0;
+  rateList: any[] = [];
+  connIndex: number = 0;
 
   @ViewChild('RateModal') RateModal: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
@@ -153,7 +156,7 @@ export class NewQuotationComponent implements OnInit {
       .postParty(JSON.stringify(this.partyForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your record has been submitted successfully !');
+          this._commonService.successMsg('Your record has been submitted successfully !');
           this._commonService
             .getDropdownData('CUSTOMER_NAME')
             .subscribe((res: any) => {
@@ -220,27 +223,27 @@ export class NewQuotationComponent implements OnInit {
   }
 
   onchangeTab(index: any) {
-    if (index == '2') {
-      if (this.quotationForm.invalid) {
-        alert('Please complete SRR Details');
-        this.tabs = '1';
-      } else {
-        this.tabs = index;
-      }
-    } else if (index == '3') {
-      if (this.quotationForm.invalid) {
-        alert('Please complete SRR Details');
-        this.tabs = '1';
-      } else if (this.f7.length == 0) {
-        alert('Please complete Commodity Details');
-        this.tabs = '2';
-      } else {
-        this.tabs = index;
-      }
-    } else {
-      this.tabs = index;
-    }
-    //this.tabs = index;
+    // if (index == '2') {
+    //   if (this.quotationForm.invalid) {
+    //     alert('Please complete SRR Details');
+    //     this.tabs = '1';
+    //   } else {
+    //     this.tabs = index;
+    //   }
+    // } else if (index == '3') {
+    //   if (this.quotationForm.invalid) {
+    //     alert('Please complete SRR Details');
+    //     this.tabs = '1';
+    //   } else if (this.f7.length == 0) {
+    //     alert('Please complete Commodity Details');
+    //     this.tabs = '2';
+    //   } else {
+    //     this.tabs = index;
+    //   }
+    // } else {
+    //   this.tabs = index;
+    // }
+    this.tabs = index;
   }
 
   onchangeIMO(event: any) {
@@ -504,6 +507,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   saveContainer() {
+
     this.isLoading = true;
     var POL = this.quotationForm.value.POL;
     var POD = this.quotationForm.value.POD;
@@ -526,6 +530,8 @@ export class NewQuotationComponent implements OnInit {
       this.quotationForm.get('EFFECT_TO')?.setValue('');
       this.quotationForm.get('IS_VESSELVALIDITY')?.setValue(true);
     }
+
+    this.quotationForm.value.SRR_RATES = this.containerList.map(x => x.RATE_LIST).flat(2);
 
     this._quotationService
       .insertSRR(JSON.stringify(this.quotationForm.value))
@@ -562,13 +568,13 @@ export class NewQuotationComponent implements OnInit {
               .subscribe((res: any) => {
                 if (res.responseCode == 200) {
                   this.isLoading = false;
-                  alert('Your quotation has been submitted successfully !');
+                  this._commonService.successMsg('Your quotation has been submitted successfully !' + '<br>' + 'SRR No. is - ' + SRRNO);
                   this._router.navigateByUrl('/home/quotation-list');
                 }
               });
           } else {
             this.isLoading = false;
-            alert('Your quotation has been submitted successfully !');
+            this._commonService.successMsg('Your quotation has been submitted successfully !' + '<br>' + 'SRR No. is - ' + SRRNO);
             this._router.navigateByUrl('/home/quotation-list');
           }
         }
@@ -577,7 +583,7 @@ export class NewQuotationComponent implements OnInit {
 
   openRateDetailModal(i: any) {
     this.connIndex = i
-    
+
     this.RateDetailModal.nativeElement.click();
   }
 
@@ -596,7 +602,7 @@ export class NewQuotationComponent implements OnInit {
       .insertVoyage(JSON.stringify(this.voyageForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Voyage added successfully !');
+          this._commonService.successMsg('Voyage added successfully !');
           this.slotDetailsForm
             .get('VOYAGE_NO')
             ?.setValue(this.voyageForm.get('VOYAGE_NO')?.value);
@@ -1050,8 +1056,7 @@ export class NewQuotationComponent implements OnInit {
     }
   }
 
-  removeRate(i:any){
-    debugger
-    this.containerList.splice(i,1);
+  removeRate(i: any) {
+    this.containerList.splice(i, 1);
   }
 }

@@ -44,8 +44,8 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="label-header">{{'Header.FinalDestination'|translate}}</label>
-                                <label class="label-subheader">{{quotation?.ORIGIN_ICD== null ? '-' :
-                                    quotation?.ORIGIN_ICD == '' ? '-' : quotation?.ORIGIN_ICD}}</label>
+                                <label class="label-subheader">{{quotation?.FINAL_DESTINATION== null ? '-' :
+                                    quotation?.FINAL_DESTINATION == '' ? '-' : quotation?.FINAL_DESTINATION}}</label>
                             </div>
                         </div>
                     </div>
@@ -237,7 +237,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of rateList; let i = index">
+                                <tr *ngFor="let item of contRateList; let i = index">
                                     <td>{{item.SRR_NO}}</td>
                                     <td>{{item.CONTAINER_TYPE}}</td>
                                     <td>{{item.CHARGE_CODE}}</td>
@@ -246,7 +246,6 @@
                                     <td>{{item.CURRENCY}}</td>
                                     <td>{{item.STANDARD_RATE}}</td>
                                     <td>{{item.RATE_REQUESTED}}</td>
-                                    
                                 </tr>
                             </tbody>
                         </table>

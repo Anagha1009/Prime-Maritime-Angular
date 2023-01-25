@@ -94,19 +94,16 @@
                                 </span>
                             </p>
                             <p class="description">
-                                <!-- <span class='bx bxs-wallet me-2'>
-                                
-                            </span>Rate : <span
-                                    class="text-success">{{item.TOTAL_RATE_REQUESTED}}
-                                </span> -->
-                                <img *ngIf="item.COMMODITY?.split('-')[0] == 'NORMAL'" height="20" width="25"
-                                    class="me-2" src="assets/img/box.png" />
-                                <img *ngIf="item.COMMODITY?.split('-')[0] == 'HAZARDOUS'" height="23" width="25"
-                                    class="me-2" src="assets/img/fire.png" />
-                                <img *ngIf="item.COMMODITY?.split('-')[0] == 'REEFER'" height="23" width="25"
-                                    class="me-2" src="assets/img/fish.png" />
-                                {{item.COMMODITY?.split('-')[1]}}
-                                <!-- <img *ngIf="item.DAYS <= 3" height="30" width="40" class="mb-1" src="assets/img/alert.gif"> -->
+                                <span *ngFor="let comms of item.COMMODITY?.split(', ')">
+                                    <img *ngIf="comms.split('-')[0] == 'NORMAL'" height="18" width="20" class="pb-1"
+                                        src="assets/img/box.png" />
+                                    <img *ngIf="comms.split('-')[0] == 'HAZ'" height="18" width="20" class="pb-1"
+                                        src="assets/img/fire.png" />
+                                    <img *ngIf="comms.split('-')[0] == 'REEFER'" height="23" width="25" class="pb-1"
+                                        src="assets/img/fish.png" />
+                                    <img *ngIf="comms.split('-')[0] == 'FLEXIBAG'" height="18" width="18" class="pb-1"
+                                        src="assets/img/waterdroplet.png" />
+                                    {{comms.split('-')[1]}} , </span>
                             </p>
                             <p *ngIf="!item.IS_VESSELVALIDITY" class="description text-secondary">Validity : <span
                                     class="">{{item.EFFECT_FROM
@@ -154,10 +151,11 @@
                                                     </h6>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <button data-bs-toggle="modal" href="#voyageModal" class="form-btn w-100">Add
+                                                    <button data-bs-toggle="modal" href="#voyageModal"
+                                                        class="form-btn w-100">Add
                                                         Voyage</button>
                                                 </div>
-                        
+
                                                 <div class="row mt-4">
                                                     <div class="col-md-6 mb-4">
                                                         <div class="form-group">
@@ -427,7 +425,7 @@
     </div>
 </div>
 
- <div class="modal fade" #voyageModal id="voyageModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div class="modal fade" #voyageModal id="voyageModal" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">

@@ -36,9 +36,15 @@ export class NewCroComponent implements OnInit {
   bookingNo: string = '';
   isRecords: boolean = true;
   email: string = '';
-  currentDate: string = '';
   packageList: any[] = [];
   isLoading: boolean = false;
+  currentDate: string = '';
+  icdList: any[] = [];
+  cfsList: any[] = [];
+  depoList: any[] = [];
+  portList: any[] = [];
+  terminalList: any[] = [];
+  isemail: boolean = true;
 
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
@@ -58,9 +64,9 @@ export class NewCroComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    var currentDate = new Date();
 
-    this.currentDate = this._commonService.getcurrentDate(currentDate);
+    var newDate = new Date();
+    this.currentDate = this._commonService.getcurrentDate(newDate);
 
     this.croForm = this._formBuilder.group({
       CRO_NO: [''],
@@ -83,6 +89,7 @@ export class NewCroComponent implements OnInit {
     });
 
     this.getDropdown();
+
   }
 
   getDropdown() {
@@ -91,6 +98,37 @@ export class NewCroComponent implements OnInit {
         this.packageList = res.Data;
       }
     });
+
+    this._commonService.getDropdownData('PORT').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.portList = res.Data;
+      }
+    });
+
+    this._commonService.getDropdownData('ICD').subscribe((res: any) => {
+      if (res.hasOwnProperty('Data')) {
+        this.icdList = res.Data;
+      }
+    });
+
+    this._commonService.getDropdownData('TERMINAL').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.terminalList = res.Data;
+      }
+    });
+
+    this._commonService.getDropdownData('CFS').subscribe((res: any) => {
+      if (res.hasOwnProperty('Data')) {
+        this.cfsList = res.Data;
+      }
+    });
+
+    this._commonService.getDropdownData('DEPO').subscribe((res: any) => {
+      if (res.hasOwnProperty('Data')) {
+        this.depoList = res.Data;
+      }
+    });
+
   }
 
   get f() {
@@ -136,7 +174,23 @@ export class NewCroComponent implements OnInit {
             this.openBtn.nativeElement.click();
           }
         });
+      this.openBtn.nativeElement.click();
     }
+  }
+
+  numericOnly(event: any): boolean {
+    // restrict e,+,-,E characters in  input type number
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode == 101 || charCode == 69 || charCode == 45 || charCode == 43) {
+      return false;
+    }
+    const reg = /^-?\d*(\.\d{0,2})?$/;
+    let input = event.target.value + String.fromCharCode(event.charCode);
+
+    if (!reg.test(input)) {
+      event.preventDefault();
+    }
+    return true;
   }
 
   getRandomNumber() {
@@ -160,14 +214,26 @@ export class NewCroComponent implements OnInit {
         this.isRecords = false;
       }
     });
+
+    var currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 5);
+
+    var x = this._commonService.getcurrentDate(currentDate);
+    this.croForm.get('CRO_VALIDITY_DATE')?.setValue(x);
+
   }
 
   getCRODetails(CRO_NO: string) {
-    this.isLoading = true;
     var cro = new CRO();
     cro.AGENT_CODE = localStorage.getItem('usercode');
     cro.CRO_NO = CRO_NO;
 
+    if (this.email == '') {
+      this.isemail = false;
+      return;
+    }
+
+    this.isLoading = true;
     this._croService.getCRODetails(cro).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.croDetails = res.Data;
@@ -437,5 +503,18 @@ export class NewCroComponent implements OnInit {
           });
         });
     });
+  }
+
+  ClearForm() {
+    this.croForm.reset();
+    this.croForm.get('STUFFING_TYPE')?.setValue('');
+    this.croForm.get('EMPTY_CONT_PCKP')?.setValue('');
+    this.croForm.get('LADEN_ACPT_LOCATION')?.setValue('');
+    this.croForm.get('PACKAGES')?.setValue('');
+    this.croForm.get('GROSS_WT_UNIT')?.setValue('');
+    var currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 5);
+    var x = this._commonService.getcurrentDate(currentDate);
+    this.croForm.get('CRO_VALIDITY_DATE')?.setValue(x);
   }
 }

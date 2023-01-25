@@ -64,7 +64,6 @@ export class PmQuotationDetailsComponent implements OnInit {
 
         this.commodityDetails=res.Data.SRR_COMMODITIES;
 
-        console.log(this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS);
         this.container=this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS;
         this.getRates(this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS);
       }
@@ -73,7 +72,6 @@ export class PmQuotationDetailsComponent implements OnInit {
 
   onchangeContainer(event: any) {
     debugger;
-    console.log(event);
     this.getRates(event);
   }
 
@@ -155,8 +153,8 @@ export class PmQuotationDetailsComponent implements OnInit {
     console.log(srr);
 
     this._quotationService.getCalRate(srr).subscribe((res: any) => {
+      debugger
       if (res.Data.hasOwnProperty('FREIGHTLIST')) {
-        console.log(res.Data.FREIGHTLIST);
         const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
         add1.clear();
         res.Data.FREIGHTLIST.forEach((element: any) => {
@@ -164,26 +162,23 @@ export class PmQuotationDetailsComponent implements OnInit {
         });
       }
 
-      if (res.Data.hasOwnProperty('IMP_COSTLIST')) {
-        console.log(res.Data.IMP_COSTLIST);
-        const add2 = this.calcForm.get('IMP_COST_LIST') as FormArray;
+      if (res.Data.hasOwnProperty('POL_EXP')) {
+        const add2 = this.calcForm.get('EXP_COST_LIST') as FormArray;
         add2.clear();
-        res.Data.IMP_COSTLIST.forEach((element: any) => {
+        res.Data.POL_EXP.forEach((element: any) => {
           add2.push(this._formBuilder.group(element));
         });
       }
 
-      if (res.Data.hasOwnProperty('EXP_COSTLIST')) {
-        console.log(res.Data.EXP_COSTLIST);
-        var add3 = this.calcForm.get('EXP_COST_LIST') as FormArray;
+      if (res.Data.hasOwnProperty('POD_IMP')) {
+        var add3 = this.calcForm.get('IMP_COST_LIST') as FormArray;
         add3.clear();
-        res.Data.EXP_COSTLIST.forEach((element: any) => {
+        res.Data.POD_IMP.forEach((element: any) => {
           add3.push(this._formBuilder.group(element));
         });
       }
 
       if (res.Data.hasOwnProperty('LADEN_BACK_COST')) {
-        console.log(res.Data.LADEN_BACK_COST);
         this.calcForm
           .get('LADEN_BACK_COST')
           ?.setValue(res.Data.LADEN_BACK_COST);
@@ -273,6 +268,7 @@ export class PmQuotationDetailsComponent implements OnInit {
   }
 
   TotalExpense() {
+    debugger
     const add = this.calcForm.get('EXP_COST_LIST') as FormArray;
     const add1 = this.calcForm.get('IMP_COST_LIST') as FormArray;
     const add2 = this.calcForm.get('FREIGHT_LIST') as FormArray;
@@ -280,12 +276,12 @@ export class PmQuotationDetailsComponent implements OnInit {
     var total = 0;
 
     for (var i = 0; i < add2.length; i++) {
-      var rr = add2.at(i)?.get('RATE')?.value;
+      var rr = add2.at(i)?.get('STANDARD_RATE')?.value;
       total += +rr;
     }
 
     for (var i = 0; i < add.length; i++) {
-      var rr = add.at(i)?.get('RATE')?.value;
+      var rr = add.at(i)?.get('STANDARD_RATE')?.value;
       total += +rr;
     }
 
