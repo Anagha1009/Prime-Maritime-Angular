@@ -144,6 +144,8 @@ export class NewBlComponent implements OnInit {
   }
 
   createBL() {
+    debugger;
+    console.log("Inside Create BL");
     if (this.isSplit) {
       this.blForm.get('BL_NO')?.setValue(this.blNo + '-1');
     } else {
@@ -184,13 +186,19 @@ export class NewBlComponent implements OnInit {
         this._blService
           .createBL(JSON.stringify(this.blForm.value))
           .subscribe((res: any) => {
-            if (res.responseCode == 200) {
-              //  this._router.navigateByUrl('/home/quotation-list');
+            if (res.ResponseCode == 200) {
+              //this._router.navigateByUrl('/home/new-bl');
+              
             }
           });
+          //this.ContainerDescription();
       }
     });
-
+    this.getBLHistory();
+    this.tabs='1';
+    this.isBLForm = false;
+    this.hideHistory=false;
+    
     this.ContainerDescription();
   }
 
@@ -574,7 +582,6 @@ export class NewBlComponent implements OnInit {
     this._commonService
       .getDropdownData('CONTAINER_TYPE')
       .subscribe((res: any) => {
-        debugger;
         if (res.hasOwnProperty('Data')) {
           this.allContainerType = res.Data;
 
@@ -586,7 +593,6 @@ export class NewBlComponent implements OnInit {
               );
             }
           });
-
           this.generateBLPdf();
         }
       });
