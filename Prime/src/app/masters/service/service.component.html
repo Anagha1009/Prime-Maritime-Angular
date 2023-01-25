@@ -75,11 +75,11 @@
             <div class="col-md-4 offset-md-10 mb-2" style="text-align: right">
                 <button class="form-btn me-2" (click)="Search()" [disabled]="isLoading">Search
                         <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
-                    <button (click)="ClearForm()" class="form-btn me-2">Clear</button>
+                    <button (click)="Clear()" class="form-btn me-2">Clear</button>
                 </div>
             
         </div>
-    </form>
+    </form>Clear
     <table class="table table-bordered" id="data-table-config">
         <thead>
                 <tr>
@@ -121,7 +121,7 @@
                         #closeBtn></button>
                 </div>
     <form [formGroup]="serviceForm">
-        <div class="col-md-6 mx-4">
+        <div class="col-md-10  mx-auto">
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">

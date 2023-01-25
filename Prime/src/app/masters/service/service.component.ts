@@ -120,6 +120,8 @@ export class ServiceComponent implements OnInit {
         if (res.responseCode == 200) {
           alert('Your record has been submitted successfully !');
           this.GetServiceMasterList();
+          this.ClearForm();
+
           
         }
       });
@@ -204,7 +206,24 @@ export class ServiceComponent implements OnInit {
   ClearForm()
   {
     this.serviceForm.reset()
+    this.serviceForm.get('LINER_CODE')?.setValue('');
+    this.serviceForm.get('SERVICE_NAME')?.setValue('');
+    this.serviceForm.get('PORT_CODE')?.setValue('');
+    this.serviceForm.get('STATUS')?.setValue('');
+    this.serviceForm.get('ON_HIRE_DATE')?.setValue('');
+    this.serviceForm.get('OFF_HIRE_DATE')?.setValue('');
     this.serviceForm.get('STATUS')?.setValue("")
+  }
+
+  Clear() {
+    this.serviceForm1.get('LINER_CODE')?.setValue('');
+    this.serviceForm1.get('SERVICE_NAME')?.setValue('');
+    this.serviceForm1.get('PORT_CODE')?.setValue('');
+    this.serviceForm1.get('STATUS')?.setValue('');
+    this.serviceForm1.get('ON_HIRE_DATE')?.setValue('');
+    this.serviceForm1.get('OFF_HIRE_DATE')?.setValue('');
+    this.isLoading1 = true;
+    this.GetServiceMasterList();
   }
 
 }

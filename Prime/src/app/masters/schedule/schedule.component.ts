@@ -13,7 +13,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit {
-  ScheduleForm:FormGroup
+  ScheduleForm:FormGroup;
+  ScheduleForm1:FormGroup;
   servicenameList: any[] = [];
   ScheduleList:any[]=[];
   portList:any[]=[];
@@ -51,6 +52,15 @@ export class ScheduleComponent implements OnInit {
       STATUS: ['',Validators.required],
       CREATED_BY: [''],
     });
+    this.ScheduleForm1=this._formBuilder.group({
+      VESSEL_NAME: ['',Validators.required],
+      SERVICE_NAME: ['',Validators.required],
+      PORT_CODE: ['',Validators.required],
+      VIA_NO:['',Validators.required],
+      ETA:['',Validators.required],
+      ETD:['',Validators.required],
+      STATUS: ['',Validators.required],
+    })
  this.getDropdown() ;
  this.GetScheduleList();
 

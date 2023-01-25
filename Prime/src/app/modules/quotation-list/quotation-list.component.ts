@@ -9,6 +9,8 @@ import { locale as english } from 'src/app/@core/translate/srr/en';
 import { locale as hindi } from 'src/app/@core/translate/srr/hi';
 import { locale as arabic } from 'src/app/@core/translate/srr/ar';
 import { BookingService } from 'src/app/services/booking.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-quotation-list',
@@ -81,6 +83,9 @@ export class QuotationListComponent implements OnInit {
       SRR_NO: [''],
       VESSEL_NAME: ['', Validators.required],
       VOYAGE_NO: ['', Validators.required],
+      SLOT_OPERATOR:['',Validators.required],
+      NO_OF_SLOTS:['',Validators.required],
+      IMM_VOLUME_EXPECTED:['',Validators.required],
       MOTHER_VESSEL_NAME: [''],
       MOTHER_VOYAGE_NO: [''],
       AGENT_CODE: [''],
@@ -269,6 +274,10 @@ export class QuotationListComponent implements OnInit {
   }
 
   addContainer() {
+    this.submitted = true;
+    if (this.slotDetailsForm.invalid) {
+      return;
+    }
     this._quotationService
       .insertContainer(JSON.stringify(this.containerForm.value.SRR_CONTAINERS))
       .subscribe((res: any) => {
@@ -388,7 +397,7 @@ export class QuotationListComponent implements OnInit {
       .booking(JSON.stringify(this.slotDetailsForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your booking is placed successfully !');
+          this. _commonService.successMsg('Your booking is placed successfully !');
           this._router.navigateByUrl('/home/booking-list');
         }
       });

@@ -61,7 +61,16 @@ export class ContainerTypeComponent implements OnInit {
 
   Search() {}
 
-  Clear() {}
+  Clear() {
+    this.containerTypeForm1.get('CONT_TYPE_CODE')?.setValue('');
+    this.containerTypeForm1.get('CONT_TYPE')?.setValue('');
+    this.containerTypeForm1.get('CONT_SIZE')?.setValue('');
+    this.containerTypeForm1.get('STATUS')?.setValue('');
+    this.containerTypeForm1.get('FROM_DATE')?.setValue('');
+    this.containerTypeForm1.get('TO_DATE')?.setValue('');
+    this.isLoading1 = true;
+    this.GetConatinerTypeMasterList();
+  }
 
   GetConatinerTypeMasterList() {
     this._commonService.destroyDT();

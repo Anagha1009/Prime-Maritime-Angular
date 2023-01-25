@@ -154,6 +154,7 @@ export class CroListComponent implements OnInit {
     this._croService.getCRODetails(cro).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.croDetails = res.Data;
+        console.log(this.croDetails);
         this.generatePDF();
       }
     });
@@ -660,8 +661,10 @@ export class CroListComponent implements OnInit {
             ],
             [
               {
+                // text:this.croDetails?.FROM_DATE,
                 text: `Date: ${new Date().toLocaleString()}`,
-                alignment: 'right',
+                bold: true,
+                 alignment: 'right',
               },
               {
                 text: `CRO No : ${this.croDetails?.CRO_NO}`,
@@ -734,7 +737,20 @@ export class CroListComponent implements OnInit {
               { text: this.croDetails?.EMAIL,
                 margin:[0,0,0,5],
                 fontsize:10,
+              },
+              {
+                text:this.croDetails?.CUST_CONTACT,
+                margin:[0,0,0,5],
+                fontSize:10,
+              },
+              {
+                // text:this.croDetails?.FROM_DATE,
+                text: `Date: ${new Date().toLocaleString()}`,
+                margin:[0,0,0,5],
+                fontSize:10
               }
+              
+               
             ],
             [
               {
@@ -762,7 +778,7 @@ export class CroListComponent implements OnInit {
                 fontSize: 10,
               },
               {
-                text: 'FPD:',
+                text: 'Final Destination:',
                 margin: [0, 0, 0, 5],
                 bold: true,
                 fontSize: 10,
@@ -773,17 +789,29 @@ export class CroListComponent implements OnInit {
                 bold: true,
                 fontSize: 10,
               },
+              {
+                text:'Vessel:',
+                margin:[0,0,0,5],
+                bold:true,
+                fontSize:10
+              }
             ],
             [
               {
-                text: 'RTREcdfsgdfs',
+                text: this.croDetails?.SHIPPER,
                 margin: [0, 0, 0, 5],
                 fontSize: 10,
+                // text: 'RTREcdfsgdfs',
+                // margin: [0, 0, 0, 5],
+                // fontSize: 10,
               },
               {
-                text: 'CY/CY',
-                margin: [0, 0, 0, 5],
-                fontSize: 10,
+                text:this.croDetails?.ContainerList.SERVICE_MODE,
+                margin:[0,0,0,5],
+                fontSize:10,
+                // text: 'CY/CY',
+                // margin: [0,0, 0, 5],
+                // fontSize: 10,
               },
               {
                 text: this.croDetails?.POL,
@@ -796,15 +824,23 @@ export class CroListComponent implements OnInit {
                 fontSize: 10,
               },
               {
-                text: 'Mundra',
-                margin: [0, 0, 0, 5],
-                fontSize: 10,
+                text:this.croDetails?.FINAL_DESTINATION,
+                margin:[0,0,0,5],
+                fontSize:10
+                // text: 'Mundra',
+                // margin: [0, 0, 0, 5],
+                // fontSize: 10,
               },
               {
                 text: this.croDetails?.BookingDetails.VOYAGE_NO,
                 margin: [0, 0, 0, 5],
                 fontSize: 10,
               },
+              {
+                text:this.croDetails?.BookingDetails.VESSEL_NAME,
+                margin:[0, 0, 0, 5],
+                fontSize:10,
+              }
             ],
           ],
         },
