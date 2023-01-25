@@ -506,6 +506,10 @@ export class NewQuotationComponent implements OnInit {
     this.closeBtn.nativeElement.click();
   }
 
+  getct(value:any){
+    return this.containerList.some(x=>x.Container == value);
+  }
+
   saveContainer() {
 
     this.isLoading = true;
