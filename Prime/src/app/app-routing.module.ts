@@ -58,6 +58,7 @@ import { LinerComponent } from './masters/liner/liner.component';
 import { LinerServiceComponent } from './masters/liner-service/liner-service.component';
 import { Component } from 'ag-grid-community';
 import { ScheduleComponent } from './masters/schedule/schedule.component';
+import { NewContainerMovementComponent } from './modules/new-container-movement/new-container-movement.component';
 
 const routes: Routes = [
   {
@@ -141,18 +142,17 @@ const routes: Routes = [
         component: VoyageComponent,
       },
       {
-        path:'liner',
-        component:LinerComponent,
+        path: 'liner',
+        component: LinerComponent,
       },
       {
-        path:'linerService',
-        component:LinerServiceComponent,
+        path: 'linerService',
+        component: LinerServiceComponent,
       },
       {
-        path:'schedule',
-        component:ScheduleComponent,
-         }
-     
+        path: 'schedule',
+        component: ScheduleComponent,
+      },
     ],
   },
   {
@@ -227,6 +227,10 @@ const routes: Routes = [
       {
         path: 'new-cm',
         component: NewCmComponent,
+      },
+      {
+        path: 'new-container-movement',
+        component: NewContainerMovementComponent,
       },
       {
         path: 'tracking',

@@ -64,7 +64,6 @@ export class NewCroComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     var newDate = new Date();
     this.currentDate = this._commonService.getcurrentDate(newDate);
 
@@ -89,7 +88,6 @@ export class NewCroComponent implements OnInit {
     });
 
     this.getDropdown();
-
   }
 
   getDropdown() {
@@ -128,7 +126,6 @@ export class NewCroComponent implements OnInit {
         this.depoList = res.Data;
       }
     });
-
   }
 
   get f() {
@@ -141,41 +138,22 @@ export class NewCroComponent implements OnInit {
     if (this.croForm.invalid) {
       return;
     }
-    this.containerList.forEach((element: any) => {
-      this.totalContainer += element.IMM_VOLUME_EXPECTED;
-    });
-    if (
-      Convert.toInt32(this.croForm.get('REQ_QUANTITY')?.value) >
-      this.totalContainer
-    ) {
-      alert(
-        'Required Quantity should always be less or equal to the containers in the booking'
-      );
-    } else {
-      this.croForm.get('BOOKING_ID')?.setValue(this.bookingDetails.ID);
-      this.croForm.get('BOOKING_NO')?.setValue(this.bookingDetails.BOOKING_NO);
+    this.croForm.get('BOOKING_ID')?.setValue(this.bookingDetails.ID);
+    this.croForm.get('BOOKING_NO')?.setValue(this.bookingDetails.BOOKING_NO);
 
-      this.croForm.get('CRO_NO')?.setValue(this.getRandomNumber());
-      this.croForm
-        .get('AGENT_NAME')
-        ?.setValue(localStorage.getItem('username'));
-      this.croForm
-        .get('AGENT_CODE')
-        ?.setValue(localStorage.getItem('usercode'));
-      this.croForm
-        .get('CREATED_BY')
-        ?.setValue(localStorage.getItem('username'));
+    this.croForm.get('CRO_NO')?.setValue(this.getRandomNumber());
+    this.croForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
+    this.croForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
+    this.croForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
 
-      this._croService
-        .insertCRO(JSON.stringify(this.croForm.value))
-        .subscribe((res: any) => {
-          if (res.responseCode == 200) {
-            this.croNo = res.data;
-            this.openBtn.nativeElement.click();
-          }
-        });
-      this.openBtn.nativeElement.click();
-    }
+    this._croService
+      .insertCRO(JSON.stringify(this.croForm.value))
+      .subscribe((res: any) => {
+        if (res.responseCode == 200) {
+          this.croNo = res.data;
+          this.openBtn.nativeElement.click();
+        }
+      });
   }
 
   numericOnly(event: any): boolean {
@@ -220,7 +198,6 @@ export class NewCroComponent implements OnInit {
 
     var x = this._commonService.getcurrentDate(currentDate);
     this.croForm.get('CRO_VALIDITY_DATE')?.setValue(x);
-
   }
 
   getCRODetails(CRO_NO: string) {
@@ -342,8 +319,16 @@ export class NewCroComponent implements OnInit {
                 margin: [0, 0, 0, 5],
                 fontSize: 10,
               },
-              { text: this.croDetails?.EMAIL, margin: [0, 0, 0, 5], fontSize: 10 },
-              { text: this.croDetails?.CONTACT, margin: [0, 0, 0, 5], fontSize: 10 },
+              {
+                text: this.croDetails?.EMAIL,
+                margin: [0, 0, 0, 5],
+                fontSize: 10,
+              },
+              {
+                text: this.croDetails?.CONTACT,
+                margin: [0, 0, 0, 5],
+                fontSize: 10,
+              },
               { text: '10/22/23', margin: [0, 0, 0, 5], fontSize: 10 },
             ],
             [
