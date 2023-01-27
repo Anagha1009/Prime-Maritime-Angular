@@ -58,12 +58,8 @@
                     <tbody>
                         <tr class="alert" role="alert" *ngFor="let item of quotationList;let i = index">
                             <td width="1%">
-                                <!-- <label class="checkbox-wrap checkbox-primary me-2" *ngIf="item.STATUS=='Requested'">
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label> -->
                                 <label class="checkbox-wrap checkbox-primary me-2" [hidden]="item.STATUS!='Requested'">
-                                    <input type="checkbox" [disabled]="item.STATUS!='Requested'" (change)="postSelectedRateRequest(item,$event,i)">
+                                    <input type="checkbox" [disabled]="item.STATUS!='Requested'" (change)="postSelectedRateRequest(item,$event)">
                                     <span class="checkmark"></span>
                                 </label>
                             </td>

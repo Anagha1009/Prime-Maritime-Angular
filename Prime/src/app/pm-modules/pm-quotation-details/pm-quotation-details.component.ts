@@ -185,47 +185,6 @@ export class PmQuotationDetailsComponent implements OnInit {
       }
     });
   }
-  // getRates() {
-  //   var srr = new QUOTATION();
-  //   srr.POL = 'INIXY';
-  //   srr.POD = 'AEJEA';
-  //   srr.CONTAINER_TYPE = '20DC';
-  //   srr.SRR_NO = 'INIXY-AEJEA-657284290468676';
-  //   srr.NO_OF_CONTAINERS = 13;
-
-  //   this._quotationService.getCalRate(srr).subscribe((res: any) => {
-  //     if (res.Data.hasOwnProperty('FREIGHTLIST')) {
-  //       console.log(res.Data.FREIGHTLIST);
-  //       const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
-  //       add1.clear();
-  //       res.Data.FREIGHTLIST.forEach((element: any) => {
-  //         add1.push(this._formBuilder.group(element));
-  //       });
-  //     }
-
-  //     if (res.Data.hasOwnProperty('IMP_COSTLIST')) {
-  //       const add2 = this.calcForm.get('IMP_COST_LIST') as FormArray;
-  //       add2.clear();
-  //       res.Data.IMP_COSTLIST.forEach((element: any) => {
-  //         add2.push(this._formBuilder.group(element));
-  //       });
-  //     }
-
-  //     if (res.Data.hasOwnProperty('EXP_COSTLIST')) {
-  //       var add3 = this.calcForm.get('EXP_COST_LIST') as FormArray;
-  //       add3.clear();
-  //       res.Data.EXP_COSTLIST.forEach((element: any) => {
-  //         add3.push(this._formBuilder.group(element));
-  //       });
-  //     }
-
-  //     if (res.Data.hasOwnProperty('LADEN_BACK_COST')) {
-  //       this.calcForm
-  //         .get('LADEN_BACK_COST')
-  //         ?.setValue(res.Data.LADEN_BACK_COST);
-  //     }
-  //   });
-  // }
 
   get f0() {
     var x = this.calcForm.get('FREIGHT_LIST') as FormArray;

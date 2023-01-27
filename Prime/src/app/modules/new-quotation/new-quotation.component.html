@@ -838,8 +838,8 @@
                                 <ng-select [ngClass]="{'invalid': submitted1 && f1.CONTAINER_TYPE.errors}"
                                     formControlName="CONTAINER_TYPE">
                                     <ng-option value="" selected="true" disabled>--Select Container--</ng-option>
-                                    <ng-option *ngFor="let item of containerTypeList"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}}</ng-option>
+                                    <ng-option *ngFor="let item of containerTypeList" 
+                                    [disabled]="getct(item.CODE)" value="{{item.CODE}}">{{item.CODE_DESC}}</ng-option>
                                 </ng-select>
                                 <label class="form-label-ddl">Container <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted1 && f1.CONTAINER_TYPE.errors" class="invalid-feedback">Please
