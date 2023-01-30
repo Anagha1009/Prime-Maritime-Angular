@@ -33,7 +33,7 @@ export class CommonService {
         '&port=' +
         port +
         '&value1=' +
-        value1,
+        value1 ,
       this.httpOptions
     );
   }

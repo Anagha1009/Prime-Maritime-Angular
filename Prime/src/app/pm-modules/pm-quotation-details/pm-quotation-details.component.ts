@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { QUOTATION } from 'src/app/models/quotation';
+import { CommonService } from 'src/app/services/common.service';
 import { QuotationService } from 'src/app/services/quotation.service';
 
 @Component({
@@ -24,7 +25,8 @@ export class PmQuotationDetailsComponent implements OnInit {
   constructor(
     private _quotationService: QuotationService,
     private _formBuilder: FormBuilder,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private _commonService: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -42,11 +44,6 @@ export class PmQuotationDetailsComponent implements OnInit {
       LADEN_BACK_COST: [0],
     });
 
-    // this.quotationDetails.SRR_CONTAINERS.forEach((element:any)=>{
-    //   this.getRates(element);
-    // });
-  
-    //this.getRates()
   }
 
   getDetails() {
@@ -129,11 +126,11 @@ export class PmQuotationDetailsComponent implements OnInit {
       this._quotationService.approveRate(srrRates).subscribe((res: any) => {
         if (res.responseCode == 200) {
           if (value == 'Approved') {
-            alert('Rates are approved successfully !');
+            this._commonService.successMsg('Rates are approved successfully !');
           } else if (value == 'Rejected') {
-            alert('Rates are rejected successfully !');
+            this._commonService.successMsg('Rates are rejected successfully !');
           } else {
-            alert('Rates are countered successfully !');
+            this._commonService.successMsg('Rates are countered successfully !');
           }
           this.getDetails();
         }
