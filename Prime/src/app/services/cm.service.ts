@@ -61,6 +61,14 @@ export class CmService {
     );
   }
 
+  uploadContMov(CM: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'ContainerMovement/UploadContainerMovement',
+      CM,
+      this.httpOptions
+    );
+  }
+
   //for tracking view
   getContainerMovementBooking(bkNo: any, croNo: any) {
     return this._http.get<any>(

@@ -12,7 +12,13 @@
             </div>
         </div>
         <div class="col-md-6 offset-md-2 text-end">
-            <button class="form-btn-primary" #openBtn data-bs-toggle="modal" href="#bookingModal">Upload Excel</button>
+            <button (click)="downloadFile()" class="form-btn-danger me-2">Download
+                Excel Format</button>
+            <button class="form-btn-primary" (click)="openUploadModal()">Upload Excel</button>
+            <button class="d-none" #openBtn data-bs-toggle="modal" href="#uploadModal">Upload
+                Excel</button>
+            <i class="d-none" #openModalPopup data-bs-toggle="modal" href="#containerModal">
+            </i>
         </div>
     </div>
     <div class="row" *ngIf="ismanually">
@@ -21,11 +27,11 @@
                 <label class="form-label2">Container No<span class="text-danger">
                         *</span>
                 </label>
-                <input type="text" class="form-control2" />
+                <input formControlName="CONTAINER_NO" type="text" class="form-control2" />
             </div>
         </div>
         <div class="col-md-4 mt-4">
-            <button type="button" class="form-btn">Get Container</button>
+            <button type="button" (click)="getContainerData()" class="form-btn">Get Container</button>
         </div>
     </div>
     <div class="row" *ngIf="!ismanually">
@@ -41,46 +47,128 @@
             <button type="button" (click)="getCMList()" class="form-btn">Get Container</button>
         </div>
     </div>
-    <div class="table-responsive" *ngIf="containerMovementList.length > 0">
+    <div class="table-responsive" *ngIf="containerMovementList.length > 0 && !ismanually && isGetContainer">
         <table class="ratetable" id="data-table-config">
             <thead>
                 <tr>
-                    <th>No.</th>
-                    <th>Container No</th>
-                    <th>Previous Activity</th>
-                    <th>Current Activity</th>
-                    <th>Activity Date</th>
-                    <th>Location</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th width="1%">No.</th>
+                    <th width="10%">Container No</th>
+                    <th width="20%">Previous Activity</th>
+                    <th width="20%">Current Activity</th>
+                    <th width="10%">Activity Date</th>
+                    <th width="10%">Location</th>
+                    <th width="20%">Status</th>
+                    <th width="9%">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of containerMovementList;let i=index">
-                    <td>{{i + 1}}</td>
-                    <td>{{item.CONTAINER_NO}}</td>
-                    <td>{{item.PREV_ACT_CODE == '' || item.PREV_ACT_CODE == null ? '-' : item.PREV_ACT_CODE}}
+                    <td width="1%">{{i + 1}}</td>
+                    <td width="10%">{{item.CONTAINER_NO}}</td>
+                    <td width="20%">{{item.PREV_ACT_CODE == '' || item.PREV_ACT_CODE == null ? '-' :
+                        item.PREV_ACT_CODE}}
                         <span
                             *ngIf="!item.PREV_ACT_CODE == '' || !item.PREV_ACT_CODE == null">(</span>{{item.PREV_ACT_NAME}}<span
                             *ngIf="!item.PREV_ACT_CODE == '' || !item.PREV_ACT_CODE == null">)</span>
                     </td>
-                    <td>{{item.CURR_ACT_CODE}} ({{item.CURR_ACT_NAME}})</td>
-                    <td>{{item.ACTIVITY_DATE | date:'mediumDate'}}</td>
-                    <td>{{item.LOCATION}}</td>
-                    <td class="status"><span
+                    <td width="20%">{{item.CURR_ACT_CODE}} ({{item.CURR_ACT_NAME}})</td>
+                    <td width="10%">{{item.ACTIVITY_DATE | date:'mediumDate'}}</td>
+                    <td width="10%">{{item.LOCATION}}</td>
+                    <td width="20%" class="status"><span
                             [class]="item.STATUS == 'Hold' ? 'waiting' : item.STATUS == 'Empty' ? 'countered' : item.STATUS == 'Damage' ? 'rejected' : 'active'">{{item.STATUS}}</span>
                     </td>
-                    <td>
-                        <i (click)="getCM(item)" class="fa fa-eye mx-2 pointer text-dark"></i>
+                    <td width="9%">
                         <i (click)="getCM(item)" class="fa fa-pencil ms-2 pointer text-success"></i>
-                        <i class="d-none" #openModalPopup data-bs-toggle="modal" href="#containerModal">
-                        </i>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <div class="col-md-8" *ngIf="!isnoRecord && ismanually && isGetContainer1">
+        <form [formGroup]="containerMovementForm">
+            <h6>Previous : <small class="text-danger">{{containerMovementForm.value.PREV_ACT_NAME == '' ||
+                    containerMovementForm.value.PREV_ACT_NAME == null ? '-' :
+                    containerMovementForm.value.PREV_ACT_NAME}}
+                    <span
+                        *ngIf="containerMovementForm.value.PREV_ACT_CODE != null">(</span>{{containerMovementForm.value.PREV_ACT_CODE}}<span
+                        *ngIf="containerMovementForm.value.PREV_ACT_CODE != null">)</span></small>
+            </h6>
+            <h6>Current : <small class="text-danger">{{containerMovementForm.value.CURR_ACT_NAME}}
+                    ({{containerMovementForm.value.CURR_ACT_CODE2}})</small></h6>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label2">Container No
+                        </label>
+                        <input readonly type="text" formControlName="CONTAINER_NO" class="form-control2" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label2">Next Activity<span class="text-danger">
+                                *</span></label>
+                        <select class="form-control2" [ngClass]="{'invalid': submitted && f.CURR_ACT_CODE.errors}"
+                            formControlName="CURR_ACT_CODE">
+                            <option value="" disabled>--Select--</option>
+                            <option value="{{item.NEXT_ACT_CODE}}"
+                                *ngFor="let item of containerMovementForm.value.NEXT_ACTIVITY_LIST" value="">
+                                {{item.NEXT_ACT_NAME}} ({{item.NEXT_ACT_CODE}})</option>
+                        </select>
+                        <div *ngIf="submitted && f.CURR_ACT_CODE.errors" class="invalid-feedback">Next Activity is
+                            required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label2">Status<span class="text-danger">
+                                *</span></label>
+                        <select class="form-control2" formControlName="STATUS"
+                            [ngClass]="{'invalid': submitted && f.STATUS.errors}">
+                            <option value="" disabled>--Select--</option>
+                            <option value="Emergency Repair">Emergency Repair</option>
+                            <option value="Full">Full</option>
+                            <option value="Empty">Empty</option>
+                            <option value="Damage">Damage</option>
+                            <option value="Hold">Hold</option>
+                            <option value="Awaiting Survey">Awaiting Survey</option>
+                            <option value="Available">Available</option>
+                            <option value="Awaiting Repair">Awaiting Repair</option>
+                        </select>
+                        <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Status is
+                            required</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label2">Location
+                        </label>
+                        <input type="text" formControlName="LOCATION" value="" class="form-control2" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label2">Activity Date
+                        </label>
+                        <input type="date" formControlName="ACTIVITY_DATE" onkeypress="return false"
+                            class="form-control2" />
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="col-md-6 offset-md-6 text-end">
+                <button type="button" (click)="updateMovement()" class="form-btn">Update Movement</button>
+            </div>
+        </form>
+    </div>
     <div class="col-md-5 mx-auto" *ngIf="containerMovementList.length == 0 && isGetContainer">
+        <h5 class="text-center">Sorry! No records found !!</h5>
+        <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
+    </div>
+    <div class="col-md-5 mx-auto" *ngIf="isnoRecord && ismanually && isGetContainer1">
         <h5 class="text-center">Sorry! No records found !!</h5>
         <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
     </div>
@@ -93,11 +181,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
             </div>
             <div class="modal-body" [formGroup]="containerMovementForm">
-                <h6>Previous : <small class="text-danger">{{containerMovementForm.value.PREV_ACT_CODE == '' ||
-                        containerMovementForm.value.PREV_ACT_CODE == null ? '-' :
-                        containerMovementForm.value.PREV_ACT_CODE}}
+                <h6>Previous : <small class="text-danger">{{containerMovementForm.value.PREV_ACT_NAME == '' ||
+                        containerMovementForm.value.PREV_ACT_NAME == null ? '-' :
+                        containerMovementForm.value.PREV_ACT_NAME}}
                         <span
-                            *ngIf="containerMovementForm.value.PREV_ACT_CODE != null">(</span>{{containerMovementForm.value.PREV_ACT_NAME}}<span
+                            *ngIf="containerMovementForm.value.PREV_ACT_CODE != null">(</span>{{containerMovementForm.value.PREV_ACT_CODE}}<span
                             *ngIf="containerMovementForm.value.PREV_ACT_CODE != null">)</span></small>
                 </h6>
                 <h6>Current : <small class="text-danger">{{containerMovementForm.value.CURR_ACT_NAME}}
@@ -114,12 +202,15 @@
                         <div class="form-group">
                             <label class="form-label2">Next Activity<span class="text-danger">
                                     *</span></label>
-                            <select class="form-control2" formControlName="CURR_ACT_CODE">
-                                <option value="">--Select--</option>
+                            <select class="form-control2" [ngClass]="{'invalid': submitted && f.CURR_ACT_CODE.errors}"
+                                formControlName="CURR_ACT_CODE">
+                                <option value="" disabled>--Select--</option>
                                 <option value="{{item.NEXT_ACT_CODE}}"
                                     *ngFor="let item of containerMovementForm.value.NEXT_ACTIVITY_LIST" value="">
                                     {{item.NEXT_ACT_NAME}} ({{item.NEXT_ACT_CODE}})</option>
                             </select>
+                            <div *ngIf="submitted && f.CURR_ACT_CODE.errors" class="invalid-feedback">Next Activity is
+                                required</div>
                         </div>
                     </div>
                 </div>
@@ -128,8 +219,9 @@
                         <div class="form-group">
                             <label class="form-label2">Status<span class="text-danger">
                                     *</span></label>
-                            <select class="form-control2" formControlName="STATUS">
-                                <option value="">--Select--</option>
+                            <select class="form-control2" formControlName="STATUS"
+                                [ngClass]="{'invalid': submitted && f.STATUS.errors}">
+                                <option value="" disabled>--Select--</option>
                                 <option value="Emergency Repair">Emergency Repair</option>
                                 <option value="Full">Full</option>
                                 <option value="Empty">Empty</option>
@@ -139,6 +231,8 @@
                                 <option value="Available">Available</option>
                                 <option value="Awaiting Repair">Awaiting Repair</option>
                             </select>
+                            <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Status is
+                                required</div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -162,6 +256,85 @@
             </div>
             <div class="modal-footer">
                 <button type="button" (click)="updateMovement()" class="form-btn">Update Movement</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="uploadModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upload Movement
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn1></button>
+            </div>
+            <div class="modal-body">
+                <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload">
+                    <input type="file" (change)="onFileChange($event)" name="file" id="file" />
+                    <label for="file">
+                        <div>
+                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                            <span class="formbold-drop-file">Upload</span>
+                            <span class="formbold-file-item">Container Movement File</span>
+                        </div>
+                    </label>
+                </div>
+                <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload">
+                    <div class="formbold-file-item">
+                        <span class="formbold-file-name">Container Movement File</span>
+                        <button (click)="onUpload = false;files=[]"><span class="bx bx-x-circle"></span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-5 mx-auto text-end">
+                    <button (click)="openPreviewModal()" class="form-btn w-100">Upload</button>
+                    <button #openModalPopup1 data-bs-toggle="modal" href="#previewModal"
+                        class="form-btn w-100 d-none">Upload</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="previewModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Preview Container Movement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn2></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table-bordered ratetable" id="data-table-config">
+                        <thead>
+                            <tr>
+                                <th>Booking/CRO No</th>
+                                <th>Container No</th>
+                                <th>Activity</th>
+                                <th>Activity Date</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor=" let data of cmTable">
+                                <td>{{data['BOOKING_NO / CRO_NO']}}</td>
+                                <td>{{data.CONTAINER_NO}}</td>
+                                <td>{{data.ACTIVITY}}</td>
+                                <td>{{data.ACTIVITY_DATE | date: 'dd/MM/yyyy'}}</td>
+                                <td>{{data.LOCATION}}</td>
+                                <td>{{data.STATUS}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-5 mx-auto text-end">
+                    <button (click)="upload()" class="form-btn w-100">Upload</button>
+                </div>
             </div>
         </div>
     </div>
