@@ -11,9 +11,9 @@ import { QuotationService } from 'src/app/services/quotation.service';
   styleUrls: ['./pm-quotation-details.component.scss'],
 })
 export class PmQuotationDetailsComponent implements OnInit {
-  container:any='';
+  container: any = '';
   quotationDetails: any;
-  commodityDetails:any;
+  commodityDetails: any;
   rateForm: FormGroup;
   collapse1: boolean = false;
   collapse2: boolean = false;
@@ -43,7 +43,6 @@ export class PmQuotationDetailsComponent implements OnInit {
       IMP_COST_LIST: new FormArray([]),
       LADEN_BACK_COST: [0],
     });
-
   }
 
   getDetails() {
@@ -59,9 +58,9 @@ export class PmQuotationDetailsComponent implements OnInit {
           add.push(this._formBuilder.group(element));
         });
 
-        this.commodityDetails=res.Data.SRR_COMMODITIES;
+        this.commodityDetails = res.Data.SRR_COMMODITIES;
 
-        this.container=this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS;
+        this.container = this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS;
         this.getRates(this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS);
       }
     });
@@ -69,7 +68,7 @@ export class PmQuotationDetailsComponent implements OnInit {
 
   onchangeContainer(event: any) {
     debugger;
-    this.getRates(event);
+    this.getRates(event.target.value);
   }
 
   get f1() {
@@ -130,7 +129,9 @@ export class PmQuotationDetailsComponent implements OnInit {
           } else if (value == 'Rejected') {
             this._commonService.successMsg('Rates are rejected successfully !');
           } else {
-            this._commonService.successMsg('Rates are countered successfully !');
+            this._commonService.successMsg(
+              'Rates are countered successfully !'
+            );
           }
           this.getDetails();
         }
@@ -138,7 +139,7 @@ export class PmQuotationDetailsComponent implements OnInit {
     }
   }
 
-  getRates(container:any) {
+  getRates(container: any) {
     debugger;
     var srr = new QUOTATION();
     srr.POL = this.quotationDetails?.SRR_NO.split('-')[0];
@@ -146,11 +147,11 @@ export class PmQuotationDetailsComponent implements OnInit {
     srr.CONTAINER_TYPE = container.split('-')[0];
     srr.SRR_NO = this.quotationDetails?.SRR_NO;
     srr.NO_OF_CONTAINERS = container.split('-')[1];
-    
+
     console.log(srr);
 
     this._quotationService.getCalRate(srr).subscribe((res: any) => {
-      debugger
+      debugger;
       if (res.Data.hasOwnProperty('FREIGHTLIST')) {
         const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
         add1.clear();
@@ -224,7 +225,7 @@ export class PmQuotationDetailsComponent implements OnInit {
   }
 
   TotalExpense() {
-    debugger
+    debugger;
     const add = this.calcForm.get('EXP_COST_LIST') as FormArray;
     const add1 = this.calcForm.get('IMP_COST_LIST') as FormArray;
     const add2 = this.calcForm.get('FREIGHT_LIST') as FormArray;

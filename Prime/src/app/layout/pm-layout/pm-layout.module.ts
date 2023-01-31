@@ -55,10 +55,8 @@ import { ScheduleComponent } from 'src/app/masters/schedule/schedule.component';
     LinerComponent,
     LinerServiceComponent,
     ScheduleComponent,
-    
-    
-    
   ],
+
   imports: [
     CommonModule,
     RouterModule,

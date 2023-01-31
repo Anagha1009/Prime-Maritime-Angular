@@ -67,26 +67,7 @@ export class NewCmComponent implements OnInit {
   prevData: any;
   activityList: any[] = [];
 
-  activityList1 = [
-    { ID: 6, ACT_CODE: 'HDMG', ACT_NAME: 'Heavy damage' },
-    { ID: 7, ACT_CODE: 'HOLD', ACT_NAME: 'Hold' },
-    { ID: 10, ACT_CODE: 'LOST', ACT_NAME: 'LOST container' },
-    { ID: 12, ACT_CODE: 'LSTY', ACT_NAME: 'Longstay unit' },
-    { ID: 35, ACT_CODE: 'SSTR', ACT_NAME: 'Sent for stripping' },
-  ];
-  statusList = [
-    { ID: 1, DESC: 'Emergency Repair' },
-    { ID: 2, DESC: 'Full' },
-    { ID: 3, DESC: 'Empty' },
-    { ID: 4, DESC: 'Damage' },
-    { ID: 5, DESC: 'Hold' },
-    { ID: 6, DESC: 'Unknown' },
-    { ID: 7, DESC: 'Awaiting Survey' },
-    { ID: 8, DESC: 'Available' },
-    { ID: 9, DESC: 'Awaiting Repair' },
-  ];
-
-  constructor(
+   constructor(
     private _formBuilder: FormBuilder,
     private _cmService: CmService,
     private _blService: BlService,
