@@ -20,6 +20,8 @@ export class ContainerTypeComponent implements OnInit {
   isUpdate: boolean = false;
   isLoading: boolean = false;
   isLoading1: boolean = false;
+  type: TYPE = new TYPE();
+
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
@@ -59,7 +61,40 @@ export class ContainerTypeComponent implements OnInit {
     return this.containerTypeForm.controls;
   }
 
-  Search() {}
+  Search() {
+    debugger
+    var  CONT_TYPE_CODE = this.containerTypeForm1.value.CONT_TYPE_CODE;
+    var  CONT_TYPE = this.containerTypeForm1.value. CONT_TYPE;
+    var CONT_SIZE=this.containerTypeForm1.value. CONT_SIZE;
+    var STATUS = this.containerTypeForm1.value.STATUS;
+    var FROM_DATE = this.containerTypeForm1.value.FROM_DATE;
+    var TO_DATE = this.containerTypeForm1.value.TO_DATE;
+
+    if (
+      CONT_TYPE_CODE == '' &&
+      CONT_TYPE == '' && 
+      CONT_SIZE == '' &&
+      STATUS == '' &&
+      FROM_DATE == '' &&
+      TO_DATE == ''
+    ) {
+      alert('Please enter atleast one filter to search !');
+      return;
+    } else if (FROM_DATE > TO_DATE) {
+      alert('From Date should be less than To Date !');
+      return;
+    }
+
+    this.type.CONT_TYPE_CODE = CONT_TYPE_CODE;
+    this.type.CONT_TYPE = CONT_TYPE;
+    this.type.CONT_SIZE=CONT_SIZE;
+    this.type.STATUS = STATUS;
+    this.type.FROM_DATE = FROM_DATE;
+    this.type.TO_DATE = TO_DATE;
+    this.isLoading = true;
+    this.GetConatinerTypeMasterList();
+  }
+
 
   Clear() {
     this.containerTypeForm1.get('CONT_TYPE_CODE')?.setValue('');
@@ -73,10 +108,11 @@ export class ContainerTypeComponent implements OnInit {
   }
 
   GetConatinerTypeMasterList() {
+    var typeModel = new TYPE();
     this._commonService.destroyDT();
 
     this._containerTypeService
-      .GetContainerTypeMasterList()
+      .GetContainerTypeMasterList(this.type)
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.containerTypeList = res.Data;

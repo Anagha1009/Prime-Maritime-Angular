@@ -308,10 +308,9 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label2"><span Class="text-danger">*</span>No of Container</label>
-                            <input  (keypress)="numericOnly($event)"  maxlength="3" type="text"  id="NoOfContainers" 
-                            [ngClass]="{'invalid': submitted && f4.IMM_VOLUME_EXPECTED.errors}" formControlName="IMM_VOLUME_EXPECTED" class="form-control2">
-                            <div *ngIf="submitted && f4.IMM_VOLUME_EXPECTED.errors"
-                            class="invalid-feedback">No of Container is required
+                            <input  (keypress)="numericOnly($event)"  maxlength="3" type="text"  id="ImmVolumeExpected" 
+                            [ngClass]="{'invalid': submitted2 && f2.IMM_VOLUME_EXPECTED.errors}" formControlName="IMM_VOLUME_EXPECTED" class="form-control2">
+                            <div *ngIf="submitted2 && f2.IMM_VOLUME_EXPECTED.errors" class="invalid-feedback">No of Container is required
                         </div>
                         </div>
                     </div>

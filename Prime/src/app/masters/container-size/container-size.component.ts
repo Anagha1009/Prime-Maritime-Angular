@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CONTAINER } from 'src/app/models/container';
+import { SIZE } from 'src/app/models/size';
 import { CommonService } from 'src/app/services/common.service';
 import { MasterService } from 'src/app/services/master.service';
 import Swal from 'sweetalert2';
@@ -18,7 +19,7 @@ export class ContainerSizeComponent implements OnInit {
   isUpdate: boolean = false;
   isLoading: boolean = false;
   isLoading1: boolean = false;
-  contsize: CONTAINER = new CONTAINER();
+  size: SIZE = new SIZE();
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
@@ -36,6 +37,8 @@ export class ContainerSizeComponent implements OnInit {
       CODE: ['', Validators.required],
       CODE_DESC: ['', Validators.required],
       STATUS: ['', Validators.required],
+      FROM_DATE:['',Validators.required],
+      TO_DATE:['',Validators.required],
       CREATED_BY: [''],
     });
 
@@ -55,7 +58,36 @@ export class ContainerSizeComponent implements OnInit {
     return this.sizeForm.controls;
   }
 
-  Search() {}
+  Search() {
+    debugger
+    var CODE =this.sizeForm.value.CODE;
+    var CODE_DESC=this.sizeForm.value.sizeForm1;
+    var STATUS = this.sizeForm.value.STATUS;
+    var FROM_DATE = this.sizeForm.value.FROM_DATE;
+    var TO_DATE = this.sizeForm.value.TO_DATE;
+
+    if (
+      CODE == ''  &&
+      CODE_DESC == '' &&
+      STATUS == '' &&
+      FROM_DATE == '' &&
+      TO_DATE == '' 
+    ) {
+      alert('Please enter atleast one filter to search !');
+      return;
+    } else if (FROM_DATE > TO_DATE) {
+      alert('From Date should be less than To Date !');
+      return;
+    }
+   
+
+    this.size.STATUS = STATUS;
+    this.size.FROM_DATE = FROM_DATE;
+    this.size.TO_DATE = TO_DATE;
+    this.isLoading = true;
+    this.GetContainerSizeList();
+  }
+
 
   Clear() {
     

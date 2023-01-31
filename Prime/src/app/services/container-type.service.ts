@@ -16,10 +16,23 @@ export class ContainerTypeService {
   };
   constructor(private _http: HttpClient) {}
 
-  GetContainerTypeMasterList() {
+  GetContainerTypeMasterList(ContainerType:TYPE) {
     return this._http.get<any>(
-      this.BASE_URL + 'Master/GetContainerTypeMasterList',
-      this.httpOptions
+      this.BASE_URL + 'Master/GetContainerTypeMasterList?CONT_TYPE_CODE'+
+      '&CONT_TYPE_CODE='+
+      ContainerType.CONT_TYPE_CODE +
+      '&CONT_TYPE='+
+      ContainerType.CONT_TYPE +
+      '&CONT_SIZE='+
+      ContainerType.CONT_SIZE +
+      '&FROM_DATE=' +
+      ContainerType.FROM_DATE +
+      '&TO_DATE=' +
+      ContainerType.TO_DATE +
+       (ContainerType.STATUS != '' ? '&STATUS=' + ContainerType.STATUS : ''),
+    this.httpOptions
+
+      
     );
   }
 
