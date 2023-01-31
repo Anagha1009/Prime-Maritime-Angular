@@ -6,7 +6,9 @@ export class SCHEDULE {
     VIA_NO:string='';
     ETA:Date;
     ETD:Date;
-    STATUS:boolean;
+    STATUS: string = '';
+    FROM_DATE: string = '';
+    TO_DATE: string = '';
     CREATED_BY :any;
     CREATED_DATE :Date;
     UPDATED_BY:string='';

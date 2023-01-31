@@ -167,11 +167,36 @@ export class PortComponent implements OnInit {
     this.openModalPopup.nativeElement.click();
   }
 
-  ClearForm() {
-    debugger
-    this.portForm.reset();
-    this.portForm.get('STATUS')?.setValue('');
+  // ClearForm() {
+  //   debugger
+  //   this.portForm.reset();
+  //   this.portForm.get('STATUS')?.setValue('');
 
+  // }
+
+  ClearForm() {
+    this.portForm.reset();
+    this.portForm.get('KEY_NAME')?.setValue('');
+    this.portForm.get('CODE')?.setValue('');
+    this.portForm.get('CODE_DESC')?.setValue('');
+    this.portForm.get('STATUS')?.setValue('');
+    this.portForm.get('ON_HIRE_DATE')?.setValue('');
+    this.portForm.get('OFF_HIRE_DATE')?.setValue('');
+
+  }
+
+  Clear() {
+    this.portForm1.get('KEY_NAME')?.setValue('');
+    this.portForm1.get('CODE')?.setValue('');
+    this.portForm1.get('CODE_DESC')?.setValue('');
+    this.portForm1.get('STATUS')?.setValue('');
+    this.portForm1.get('ON_HIRE_DATE')?.setValue('');
+    this.portForm1.get('OFF_HIRE_DATE')?.setValue('');
+
+
+    
+    this.isLoading1 = true;
+    this.GetPortMasterList();
   }
 
   Search() {} 

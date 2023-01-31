@@ -38,8 +38,8 @@ export class CurrencyComponent implements OnInit {
       CODE_DESC: ['',Validators.required],
       STATUS: ['',Validators.required],
       PARENT_CODE: [''],
-      ON_HIRE_DATE:[''],
-      OFF_HIRE_DATE:[''],
+      ON_HIRE_DATE:['',Validators.required],
+      OFF_HIRE_DATE:['',Validators.required],
       CREATED_BY: [''],
     });
     this.currencyForm1 = this._formBuilder.group({
@@ -47,6 +47,8 @@ export class CurrencyComponent implements OnInit {
       CODE: [''],
       CODE_DESC: [''],
       STATUS: [''],
+      ON_HIRE_DATE:[''],
+      OFF_HIRE_DATE:[''],
       CREATED_BY: [''],
     });
 
@@ -171,5 +173,19 @@ export class CurrencyComponent implements OnInit {
     this.currencyForm.get('CODE')?.setValue('');
     this.currencyForm.get('CODE_DESC')?.setValue('');
     this.currencyForm.get('STATUS')?.setValue('');
+    this.currencyForm.get('ON_HIRE_DATE')?.setValue('');
+    this.currencyForm.get('OFF_HIRE_DATE')?.setValue('');
+
+  }
+
+  Clear() {
+    this.currencyForm1.get('KEY_NAME')?.setValue('');
+    this.currencyForm1.get('CODE')?.setValue('');
+    this.currencyForm1.get('CODE_DESC')?.setValue('');
+    this.currencyForm1.get('STATUS')?.setValue('');
+    this.currencyForm1.get('ON_HIRE_DATE')?.setValue('');
+    this.currencyForm1.get('OFF_HIRE_DATE')?.setValue(''); 
+    this.isLoading1 = true;
+    this.GetCurrencyMasterList();
   }
 }

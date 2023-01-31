@@ -22,7 +22,8 @@
                             <div class="form-group">
                                 <ng-select formControlName="PLACE_OF_RECEIPT">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of icdList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    <ng-option *ngFor="let item of placeofRecpList"
+                                        value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -39,7 +40,7 @@
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                     <ng-option
                                         [disabled]="item.CODE == this.quotationForm.get('POD').value ? true : false "
-                                        *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        *ngFor="let item of polList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -52,9 +53,10 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <ng-select [ngClass]="{'invalid': submitted && f.POD.errors}" formControlName="POD">
+                                <ng-select (change)="onChangePOD($event)"
+                                    [ngClass]="{'invalid': submitted && f.POD.errors}" formControlName="POD">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of portList;" value="{{item.CODE}}"
+                                    <ng-option *ngFor="let item of podList;" value="{{item.CODE}}"
                                         [disabled]="item.CODE == this.quotationForm.get('POL').value ? true : false ">
                                         {{item.CODE_DESC}} ({{item.CODE}})
                                     </ng-option>
@@ -72,7 +74,8 @@
                             <div class="form-group">
                                 <ng-select formControlName="PLACE_OF_DELIVERY">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of icdList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    <ng-option *ngFor="let item of placeofDelList"
+                                        value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -88,10 +91,8 @@
                                     formControlName="FINAL_DESTINATION">
                                     <ng-option value="" selected="true" disabled>--Select--
                                     </ng-option>
-                                    <ng-option *ngFor="let item of icdList" value="{{item.CODE}}">{{item.CODE_DESC}}
-                                    </ng-option>
-                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
-                                        ({{item.CODE}})
+                                    <ng-option *ngFor="let item of finalDestList"
+                                        value="{{item.CODE}}">{{item.CODE_DESC}} ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
                                 <label class="form-label-ddl">{{'Header.FinalDestination'|translate}} <span
@@ -106,7 +107,9 @@
                             <div class="form-group">
                                 <ng-select formControlName="TSP_1">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    <ng-option
+                                        [disabled]="item.CODE == this.quotationForm.get('POL').value ? true : false || item.CODE == this.quotationForm.get('POD').value ? true : false "
+                                        *ngFor="let item of podList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -119,7 +122,9 @@
                             <div class="form-group">
                                 <ng-select formControlName="TSP_2">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    <ng-option
+                                        [disabled]="item.CODE == this.quotationForm.get('POL').value ? true : false || item.CODE == this.quotationForm.get('POD').value ? true : false "
+                                        *ngFor="let item of podList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -233,7 +238,7 @@
                                     </div>
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
-                                            <ng-select [ngClass]="{'invalid': submitted3 && f6.VOYAGE_NO.errors}"
+                                            <ng-select [ngClass]="{'invalid': submitted && f5.VOYAGE_NO.errors}"
                                                 formControlName="VOYAGE_NO">
                                                 <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                                 <ng-option *ngFor="let item of voyageList" value="{{item.CODE}}">
@@ -352,8 +357,9 @@
                         </div>
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'FLEXIBAG'">
                             <div class="form-group">
-                                <input type="text" formControlName="FLASH_POINT" (keypress)="numericOnly($event)" maxlength="4"
-                                    [ngClass]="{'invalid': submitted2 && f2.FLASH_POINT.errors}" class="form-control" />
+                                <input type="text" formControlName="FLASH_POINT" (keypress)="numericOnly($event)"
+                                    maxlength="4" [ngClass]="{'invalid': submitted2 && f2.FLASH_POINT.errors}"
+                                    class="form-control" />
                                 <label class="form-label">Flash Point (&#8451;) <span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted2 && f2.FLASH_POINT.errors" class="invalid-feedback">
@@ -512,8 +518,9 @@
                     <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
-                                <input type="text" formControlName="CAS_NO" (keypress)="numericOnly($event)" maxlength="50"
-                                    [ngClass]="{'invalid': submitted2 && f2.CAS_NO.errors}" class="form-control" />
+                                <input type="text" formControlName="CAS_NO" (keypress)="numericOnly($event)"
+                                    maxlength="50" [ngClass]="{'invalid': submitted2 && f2.CAS_NO.errors}"
+                                    class="form-control" />
                                 <label class="form-label">CAS No <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.CAS_NO.errors" class="invalid-feedback">
                                     Please enter CAS No
@@ -838,7 +845,7 @@
                                 <ng-select [ngClass]="{'invalid': submitted1 && f1.CONTAINER_TYPE.errors}"
                                     formControlName="CONTAINER_TYPE">
                                     <ng-option value="" selected="true" disabled>--Select Container--</ng-option>
-                                    <ng-option *ngFor="let item of containerTypeList"
+                                    <ng-option *ngFor="let item of containerTypeList" [disabled]="getct(item.CODE)"
                                         value="{{item.CODE}}">{{item.CODE_DESC}}</ng-option>
                                 </ng-select>
                                 <label class="form-label-ddl">Container <span class="text-danger"> *</span></label>
@@ -1122,9 +1129,10 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="text" [ngClass]="{'invalid': submitted3 && f6.VOYAGE_NO.errors}"
-                                    maxlength="100" formControlName="VOYAGE_NO" class="form-control">
-                                <label class="form-label">Voyage No <span class="text-danger">
+                                <input type="text" maxlength="100" formControlName="VOYAGE_NO" class="form-control">
+                                <label class="form-label"
+                                    [ngClass]="{'invalid': submitted3 && f6.VOYAGE_NO.errors}">Voyage No <span
+                                        class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted3 && f6.VOYAGE_NO.errors" class="invalid-feedback">
                                     Voyage No is required</div>
@@ -1251,7 +1259,7 @@
                                     [ngClass]="{'invalid': submitted3 && f6.PORT_CODE.errors}"
                                     formControlName="PORT_CODE">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    <ng-option *ngFor="let item of podList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
