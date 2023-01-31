@@ -112,4 +112,13 @@ export class CommonService {
   successMsg(msg: string) {
     Swal.fire('Success!', msg, 'success');
   }
+
+  warnMsg(msg: string) {
+    Swal.fire('Oops!', msg, 'warning');
+  }
+
+  errorMsg(msg: string) {
+    Swal.fire('Error!', msg, 'error');
+  }
+  
 }

@@ -72,6 +72,14 @@ export class BlService {
     );
   }
 
+  updateBL(bl: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'BL/UpdateBL',
+      bl,
+      this.httpOptions
+    );
+  }
+
   getCargoManifestList(BL: CARGO_MANIFEST) {
     return this._http.get<any>(
       this.BASE_URL +
