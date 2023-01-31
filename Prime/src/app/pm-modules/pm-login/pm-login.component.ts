@@ -60,6 +60,7 @@ export class PmLoginComponent implements OnInit {
           localStorage.setItem('usercode', res.userCode);
           localStorage.setItem('portcode', res.port);
           localStorage.setItem('depocode', res.depo);
+          localStorage.setItem('countrycode', res.countrycode);
 
           if (res.roleCode == '1') {
             this._router.navigateByUrl('/home/quotation-list');

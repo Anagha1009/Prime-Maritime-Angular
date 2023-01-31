@@ -16,7 +16,7 @@ export class CommonService {
     }),
   };
 
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) { }
 
   getDropdownData(
     key: string,
@@ -26,14 +26,14 @@ export class CommonService {
   ) {
     return this._http.get<any>(
       this.BASE_URL +
-        'Common/GetDropdownData?key=' +
-        key +
-        '&value=' +
-        value +
-        '&port=' +
-        port +
-        '&value1=' +
-        value1,
+      'Common/GetDropdownData?key=' +
+      key +
+      '&value=' +
+      value +
+      '&port=' +
+      port +
+      '&value1=' +
+      value1,
       this.httpOptions
     );
   }
@@ -111,5 +111,29 @@ export class CommonService {
 
   successMsg(msg: string) {
     Swal.fire('Success!', msg, 'success');
+  }
+
+  getRandomNumber(prefix:string) {
+    var d: any = new Date();
+
+    var month = d.getMonth() + 1;
+    if (month < 10) {
+      month = '0' + month;
+    }
+
+    var date = d.getDate();
+    if (date < 10) {
+      date = '0' + date;
+    }
+    
+    var num = d.getFullYear() + '' + month + '' + date + '' + d.getHours() + '' + d.getMinutes() + '' + d.getSeconds() + '' + d.getMilliseconds();
+    return prefix + num;
+  }
+
+  CheckRandomNo(RandomNo: string) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Common/CheckRandomNuber?RANDOM_NO=' + RandomNo,
+      this.httpOptions
+    );
   }
 }

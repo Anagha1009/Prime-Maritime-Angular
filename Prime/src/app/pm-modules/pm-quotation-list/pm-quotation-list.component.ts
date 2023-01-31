@@ -16,11 +16,11 @@ import Swal from 'sweetalert2';
 export class PmQuotationListComponent implements OnInit {
   quotation = new QUOTATION();
   quotationList: any[] = [];
-  selectedQuotations:any[]=[];
+  selectedQuotations: any[] = [];
   quotationDetails: any;
   rateForm: FormGroup;
   quotationForm: FormGroup;
-  showButtons:boolean=false;
+  showButtons: boolean = false;
   readonly VAPID_PUBLIC_KEY =
     'BMhvJ95Ji0uVwIzhyeZwb133-4e7Hb_DtMP0-SKTFBcnbg_a7PlLCMD2ofLMNwNLZ5NqM-9pXOX4zDj64R-MXp4';
 
@@ -29,7 +29,7 @@ export class PmQuotationListComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _commonService: CommonService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.quotationForm = this._formBuilder.group({
@@ -114,55 +114,54 @@ export class PmQuotationListComponent implements OnInit {
     return x.controls;
   }
 
-  postSelectedRateRequest(item: any, event: any, index: number) {
-    debugger;
-    this.showButtons=false; 
+  postSelectedRateRequest(item: any, event: any) {
+    this.showButtons = false;
     if (event.target.checked) {
-      this.showButtons=true; 
+      this.showButtons = true;
       this.selectedQuotations.push(item);
     } else {
-      this.showButtons=true; 
+      this.showButtons = true;
       this.selectedQuotations = this.selectedQuotations.filter(ele => ele.SRR_NO !== item.SRR_NO);
     }
-    if (this.selectedQuotations?.length==0) {
-      this.showButtons=false; 
+    if (this.selectedQuotations?.length == 0) {
+      this.showButtons = false;
     }
-    console.log(this.selectedQuotations);
+
   }
 
-  approveQuotations(){
-    this.selectedQuotations.forEach((element)=>{
-      element.STATUS="Approved";
+  approveQuotations() {
+    this.selectedQuotations.forEach((element) => {
+      element.STATUS = "Approved";
+      element.CREATED_BY = localStorage.getItem('username');
+      element.APPROVED_RATE = 0;
+      element.REMARKS = '';
     });
-    console.log(this.selectedQuotations);
+
     this._quotationService.updateSRR(this.selectedQuotations).subscribe((res: any) => {
-      if(res.responseCode == 200) {
-        this.alertWithSuccess();
-        //alert("Updated Successfully");
-        // Swal.fire(
-        //   'Good job!',
-        //   'You clicked the button!',
-        //   'success'
-        // )
+      if (res.responseCode == 200) {
+        this._commonService.successMsg('Quotations are approved succesfully!');
         this.getQuotationList();
       }
     });
+    this.selectedQuotations = [];
   }
-  alertWithSuccess(){
-    Swal.fire('Congratulations!', 'Quotations are approved succesfully!', 'success');
-  }
-  rejectQuotations(){
-    this.selectedQuotations.forEach((element)=>{
-      element.STATUS="Rejected";
+
+  rejectQuotations() {
+    this.selectedQuotations.forEach((element) => {
+      element.STATUS = "Rejected";
+      element.CREATED_BY = localStorage.getItem('username');
+      element.APPROVED_RATE = 0;
+      element.REMARKS = '';
     });
-    console.log(this.selectedQuotations);
+
     this._quotationService.updateSRR(this.selectedQuotations).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
-        alert("Updated Successfully");
+        this._commonService.successMsg('Quotations are Rejected succesfully!');
         this.getQuotationList();
       }
     });
 
+    this.selectedQuotations = [];
   }
 
 }

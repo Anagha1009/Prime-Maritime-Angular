@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { QUOTATION } from 'src/app/models/quotation';
+import { CommonService } from 'src/app/services/common.service';
 import { QuotationService } from 'src/app/services/quotation.service';
 
 @Component({
@@ -24,7 +25,8 @@ export class PmQuotationDetailsComponent implements OnInit {
   constructor(
     private _quotationService: QuotationService,
     private _formBuilder: FormBuilder,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private _commonService: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -42,11 +44,6 @@ export class PmQuotationDetailsComponent implements OnInit {
       LADEN_BACK_COST: [0],
     });
 
-    // this.quotationDetails.SRR_CONTAINERS.forEach((element:any)=>{
-    //   this.getRates(element);
-    // });
-  
-    //this.getRates()
   }
 
   getDetails() {
@@ -129,11 +126,11 @@ export class PmQuotationDetailsComponent implements OnInit {
       this._quotationService.approveRate(srrRates).subscribe((res: any) => {
         if (res.responseCode == 200) {
           if (value == 'Approved') {
-            alert('Rates are approved successfully !');
+            this._commonService.successMsg('Rates are approved successfully !');
           } else if (value == 'Rejected') {
-            alert('Rates are rejected successfully !');
+            this._commonService.successMsg('Rates are rejected successfully !');
           } else {
-            alert('Rates are countered successfully !');
+            this._commonService.successMsg('Rates are countered successfully !');
           }
           this.getDetails();
         }
@@ -185,47 +182,6 @@ export class PmQuotationDetailsComponent implements OnInit {
       }
     });
   }
-  // getRates() {
-  //   var srr = new QUOTATION();
-  //   srr.POL = 'INIXY';
-  //   srr.POD = 'AEJEA';
-  //   srr.CONTAINER_TYPE = '20DC';
-  //   srr.SRR_NO = 'INIXY-AEJEA-657284290468676';
-  //   srr.NO_OF_CONTAINERS = 13;
-
-  //   this._quotationService.getCalRate(srr).subscribe((res: any) => {
-  //     if (res.Data.hasOwnProperty('FREIGHTLIST')) {
-  //       console.log(res.Data.FREIGHTLIST);
-  //       const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
-  //       add1.clear();
-  //       res.Data.FREIGHTLIST.forEach((element: any) => {
-  //         add1.push(this._formBuilder.group(element));
-  //       });
-  //     }
-
-  //     if (res.Data.hasOwnProperty('IMP_COSTLIST')) {
-  //       const add2 = this.calcForm.get('IMP_COST_LIST') as FormArray;
-  //       add2.clear();
-  //       res.Data.IMP_COSTLIST.forEach((element: any) => {
-  //         add2.push(this._formBuilder.group(element));
-  //       });
-  //     }
-
-  //     if (res.Data.hasOwnProperty('EXP_COSTLIST')) {
-  //       var add3 = this.calcForm.get('EXP_COST_LIST') as FormArray;
-  //       add3.clear();
-  //       res.Data.EXP_COSTLIST.forEach((element: any) => {
-  //         add3.push(this._formBuilder.group(element));
-  //       });
-  //     }
-
-  //     if (res.Data.hasOwnProperty('LADEN_BACK_COST')) {
-  //       this.calcForm
-  //         .get('LADEN_BACK_COST')
-  //         ?.setValue(res.Data.LADEN_BACK_COST);
-  //     }
-  //   });
-  // }
 
   get f0() {
     var x = this.calcForm.get('FREIGHT_LIST') as FormArray;
