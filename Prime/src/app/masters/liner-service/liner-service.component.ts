@@ -59,7 +59,42 @@ export class LinerServiceComponent implements OnInit {
     return this.LinerServiceform.controls;
   }
 
-  Search() {}
+  Search() {
+    debugger
+    var  LINER_CODE = this.LinerServiceform.value.LINER_CODE;
+    var  SERVICE_NAME = this.LinerServiceform.value. SERVICE_NAME;
+    var PORT_CODE=this.LinerServiceform.value. PORT_CODE;
+    var VIA_NO=this.LinerServiceform.value.VIA_NO;
+    var STATUS = this.LinerServiceform.value.STATUS;
+    var FROM_DATE = this.LinerServiceform.value.FROM_DATE;
+    var TO_DATE = this.LinerServiceform.value.TO_DATE;
+
+    if (
+      LINER_CODE == '' &&
+      SERVICE_NAME == '' && 
+      PORT_CODE == '' &&
+      VIA_NO == '' &&
+      STATUS == '' &&
+      FROM_DATE == '' &&
+      TO_DATE == '' 
+    ) {
+      alert('Please enter atleast one filter to search !');
+      return;
+    } else if (FROM_DATE > TO_DATE) {
+      alert('From Date should be less than To Date !');
+      return;
+    }
+
+    // this.schedule.LINER_CODE = LINER_CODE;
+    // this.schedule.SERVICE_NAME = SERVICE_NAME;
+    
+    // this.schedule.PORT_CODE=PORT_CODE;
+    // this.schedule.STATUS = STATUS;
+    // this.schedule.FROM_DATE = FROM_DATE;
+    // this.schedule.TO_DATE = TO_DATE;
+    // this.isLoading = true;
+    // this.GetScheduleList();
+  }
 
   Clear() {}
 

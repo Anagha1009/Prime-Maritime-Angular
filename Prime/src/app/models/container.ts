@@ -17,6 +17,8 @@ export class CONTAINER {
     UPDATED_BY:string='';
     UPDATED_DATE:Date;  
     OPERATION: string = '';
-    STATUS:boolean;
+    STATUS:string='';
+    FROM_DATE: string = '';
+    TO_DATE: string = '';
     AGENT_CODE: any = 0;
 }

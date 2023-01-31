@@ -18,10 +18,20 @@ export class LinerService {
 
   constructor(private _http: HttpClient) {}
 
-  getLinerList() {
+  getLinerList(Liner:LINER) {
     return this._http.get<any>(
-      this.BASE_URL + 'Master/GetLinerList',
-      this.httpOptions
+      this.BASE_URL + 'Master/GetLinerList?NAME=' +
+      Liner.NAME +
+      '&CODE='+
+      Liner.CODE +
+      '&DESCRIPTION='+
+      Liner.DESCRIPTION +
+      '&FROM_DATE=' +
+      Liner.FROM_DATE +
+      '&TO_DATE=' +
+      Liner.TO_DATE +
+       (Liner.STATUS != '' ? '&STATUS=' + Liner.STATUS : ''),
+    this.httpOptions
     );
   }
 

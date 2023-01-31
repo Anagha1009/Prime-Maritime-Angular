@@ -6,7 +6,9 @@ export class TYPE {
     ISO_CODE:string;
     TEUS:string;
     OUT_DIM:string;
-    STATUS:boolean;
+    STATUS: string = '';
+    FROM_DATE: string = '';
+    TO_DATE: string = '';
     CREATED_BY :any;
 
 }

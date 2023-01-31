@@ -48,17 +48,6 @@
                                     Select Service Name</div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="form-label2"> VIA NO<span class="text-danger">*</span></label>
-                                    <input type="text" id="name" [ngClass]="{'invalid':submitted && f.VIA_NO.errors}"
-                                        formControlName="VIA_NO" class="form-control2">
-                                </div>
-                                <div *ngIf="submitted && f. VIA_NO.errors" class="invalid-feedback">Please Enter VIA NO
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-4 mt-4">
                                 <div class="form-group">
                                     <label class="form-label-ddl"> Port <span class="text-danger">*</span></label>
@@ -75,22 +64,6 @@
                                         Port</div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="form-label2"> ETA<span class="text-danger">*</span></label>
-                                    <input type="date" id="name" [ngClass]="{'invalid':submitted && f.ETA.errors}"
-                                        formControlName="ETA" class="form-control2">
-                                </div>
-                                <div *ngIf="submitted && f.ETA.errors" class="invalid-feedback">Please Enter ETA</div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="form-label2"> ETD<span class="text-danger">*</span></label>
-                                    <input type="date" id="name" [ngClass]="{'invalid':submitted && f.ETD.errors}"
-                                        formControlName="ETD" class="form-control2">
-                                </div>
-                                <div *ngIf="submitted && f. ETD.errors" class="invalid-feedback">Please Enter ETD</div>
-                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
@@ -104,9 +77,24 @@
                                     </select>
                                     <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Please Select
                                         Status</div>
-                                </div>
+                                </div>             
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label2">From Date</label>
+                                    <input (change)="ScheduleForm.get('TO_DATE')?.setValue('')" onkeypress="return false;"
+                                      formControlName="FROM_DATE" type="date" class="form-control2">
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label class="form-label2">To Date</label>
+                                    <input onkeypress="return false;" [min]="ScheduleForm.get('FROM_DATE')?.value"
+                                      formControlName="TO_DATE" type="date" class="form-control2">
+                                  </div>
+                                </div>
                         </div>
+                       
 
                         <div class="col-md-4 offset-md-10 mb-2" style="text-align: right">
                             <button class="form-btn me-2" (click)="Search()" [disabled]="isLoading">Search
@@ -157,7 +145,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
             </div>
             <div class="modal-body">
-                <form [formGroup]="ScheduleForm">
+                <form [formGroup]="ScheduleForm1">
                         <div class="row">
                             <div class="col-md-4 mt-4">
                                 <div class="form-group">

@@ -50,6 +50,8 @@ export class ServicetypeComponent implements OnInit {
       ON_HIRE_DATE:[''],
       OFF_HIRE_DATE:[''],
       PARENT_CODE: [''],
+      FROM_DATE:[''],
+      TO_DATE:[''],
       CREATED_BY: [''],
     })
 

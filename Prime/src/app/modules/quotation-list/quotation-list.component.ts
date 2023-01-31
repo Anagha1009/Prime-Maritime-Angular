@@ -41,6 +41,7 @@ export class QuotationListComponent implements OnInit {
   servicenameList1: any[] = [];
   slotoperatorList: any[] = [];
   submitted: boolean = false;
+  submitted2:boolean=false;
   isLoading: boolean = false;
   isLoading1: boolean = false;
   srrNo: string = '';
@@ -85,7 +86,6 @@ export class QuotationListComponent implements OnInit {
       VOYAGE_NO: ['', Validators.required],
       SLOT_OPERATOR:['',Validators.required],
       NO_OF_SLOTS:['',Validators.required],
-      IMM_VOLUME_EXPECTED:['',Validators.required],
       MOTHER_VESSEL_NAME: [''],
       MOTHER_VOYAGE_NO: [''],
       AGENT_CODE: [''],
@@ -251,7 +251,7 @@ export class QuotationListComponent implements OnInit {
             CONTAINER_TYPE: [element.CONTAINER_TYPE],
             CONTAINER_SIZE: [element.CONTAINER_SIZE],
             SERVICE_MODE: [element.SERVICE_MODE],
-            IMM_VOLUME_EXPECTED: [''],
+            IMM_VOLUME_EXPECTED: ['',Validators.required],
             STATUS: [element.STATUS],
             CREATED_BY: [localStorage.getItem('username')],
           })
@@ -274,15 +274,17 @@ export class QuotationListComponent implements OnInit {
   }
 
   addContainer() {
-    this.submitted = true;
-    if (this.slotDetailsForm.invalid) {
+    this.submitted2 = true;
+    if (this.containerForm.invalid) {
       return;
     }
     this._quotationService
       .insertContainer(JSON.stringify(this.containerForm.value.SRR_CONTAINERS))
       .subscribe((res: any) => {
         this.closeBtn1.nativeElement.click();
-        alert('Your container has been added successfully !');
+         this. _commonService.successMsg('Your container has been added successfully  !');
+
+        //  alert('Your container has been added successfully !');
         this.getSRRList();
       });
   }
