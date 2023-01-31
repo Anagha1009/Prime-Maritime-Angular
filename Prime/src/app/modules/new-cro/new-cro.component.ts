@@ -194,8 +194,7 @@ export class NewCroComponent implements OnInit {
   }
 
   getRandomNumber() {
-    var num = Math.floor(Math.random() * 1e16).toString();
-    return 'CRO' + num;
+   return this._commonService.getRandomNumber('CRO');
   }
 
   getBookingDetails() {
@@ -497,7 +496,7 @@ export class NewCroComponent implements OnInit {
 
           this._commonService.sendEmail(formData).subscribe((res: any) => {
             this.isLoading = false;
-            alert('Your mail has been send successfully !');
+            this._commonService.successMsg('Your mail has been send successfully !');
             this.closeBtn.nativeElement.click();
             this._router.navigateByUrl('/home/cro-list');
           });
