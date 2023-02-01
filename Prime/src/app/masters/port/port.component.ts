@@ -96,6 +96,11 @@ export class PortComponent implements OnInit {
   }
 
   UpdatePortMaster() {
+    this.submitted = true;
+    if (this.portForm.invalid) {
+      return;
+    }
+
     this.portForm.get('KEY_NAME')?.setValue('PORT');
 
     this._masterService
