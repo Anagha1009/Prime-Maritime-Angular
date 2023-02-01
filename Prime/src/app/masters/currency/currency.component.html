@@ -66,7 +66,7 @@
                                 :
                                 'In-Active'}}</span></td>
                         <td width="25%">
-                            <i class="fa fa-pencil mx-2 pointer text-success" (click)="openModal(item.ID)(item.ID)"></i>
+                            <i class="fa fa-pencil mx-2 pointer text-success" (click)="openModal(item.ID)"></i>
                             <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteCurrencyMaster(item.ID)"></i>
                     </tr>
                 </tbody>
@@ -113,7 +113,6 @@
                     class="form-btn me-2">Save</button>
                 <button (click)="ClearForm()" class="form-btn me-2" class="form-btn me-2">Clear</button>
                 <button *ngIf="isUpdate" (click)="UpdateCurrencyMaster()" class="form-btn">Update</button>
-
             </div>
         </div>
     </div>
