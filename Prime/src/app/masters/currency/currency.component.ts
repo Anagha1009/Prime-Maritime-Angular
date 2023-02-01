@@ -100,10 +100,6 @@ export class CurrencyComponent implements OnInit {
   }
 
   UpdateCurrencyMaster() {
-    this.currencyForm
-      .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
-
     this.currencyForm.get('KEY_NAME')?.setValue('CURRENCY');
 
     this._masterService
