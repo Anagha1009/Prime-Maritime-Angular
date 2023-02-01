@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MASTER } from 'src/app/models/master';
 import { CommonService } from 'src/app/services/common.service';
 import { MasterService } from 'src/app/services/master.service';
 import Swal from 'sweetalert2';
@@ -12,20 +13,20 @@ import Swal from 'sweetalert2';
 })
 export class UnitComponent implements OnInit {
   unitForm: any;
-  unitForm1:any;
+  unitForm1: any;
   UnitList: any[] = [];
   isUpdate: boolean = false;
-  submitted:boolean=false;
+  submitted: boolean = false;
   isLoading: boolean = false;
   isLoading1: boolean = false;
-  
-  @ViewChild('closeBtn') closeBtn: ElementRef;
+  master: MASTER = new MASTER();
 
+  @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
 
   constructor(
     private _masterService: MasterService,
-    private _commonService:CommonService,
+    private _commonService: CommonService,
     private _formBuilder: FormBuilder
   ) {}
 
@@ -33,34 +34,33 @@ export class UnitComponent implements OnInit {
     this.unitForm = this._formBuilder.group({
       ID: [0],
       KEY_NAME: [''],
-      CODE: ['',Validators.required],
-      CODE_DESC: ['',Validators.required],
-      STATUS: ['',Validators.required],
-      ON_HIRE_DATE:[''],
-      OFF_HIRE_DATE:[''],
+      CODE: ['', Validators.required],
+      CODE_DESC: ['', Validators.required],
+      STATUS: ['', Validators.required],
+      ON_HIRE_DATE: [''],
+      OFF_HIRE_DATE: [''],
       PARENT_CODE: [''],
       CREATED_BY: [''],
     });
-    this.unitForm1=this._formBuilder.group({
-      KEY_NAME:[''],
-      CODE:[''],
-      CODE_DESC:[''],
-      STATUS:[''],
-      PARENT_CODE:[''],
-      ON_HIRE_DATE:[''],
-      OFF_HIRE_DATE:['']
-    })
+    this.unitForm1 = this._formBuilder.group({
+      KEY_NAME: [''],
+      CODE: [''],
+      CODE_DESC: [''],
+      STATUS: [''],
+      PARENT_CODE: [''],
+      ON_HIRE_DATE: [''],
+      OFF_HIRE_DATE: [''],
+    });
     this.GetUnitMasterList();
   }
-  get f(){
+  get f() {
     return this.unitForm.controls;
   }
- 
 
   InsertUnitMaster() {
-    this.submitted=true
-    if(this.unitForm.invalid){
-      return
+    this.submitted = true;
+    if (this.unitForm.invalid) {
+      return;
     }
     this.unitForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
     var status = this.unitForm.get('STATUS')?.value;
@@ -79,8 +79,9 @@ export class UnitComponent implements OnInit {
   }
 
   GetUnitMasterList() {
-    this._masterService.GetMasterList('UNIT').subscribe((res: any) => {
-      this._commonService.destroyDT();
+    this._commonService.destroyDT();
+    this.master.KEY_NAME = 'UNIT';
+    this._masterService.GetMasterList(this.master).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.UnitList = res.Data;
       }
@@ -114,8 +115,6 @@ export class UnitComponent implements OnInit {
       });
   }
 
-  
-
   DeleteUnitMaster(ID: number) {
     Swal.fire({
       title: 'Are you sure?',
@@ -130,8 +129,8 @@ export class UnitComponent implements OnInit {
         this._masterService.DeleteMaster(ID).subscribe((res: any) => {
           if (res.ResponseCode == 200) {
             Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
-         this.GetUnitMasterList();
-}
+            this.GetUnitMasterList();
+          }
         });
       }
     });

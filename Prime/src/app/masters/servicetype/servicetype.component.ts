@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { combineLatest } from 'rxjs';
+import { MASTER } from 'src/app/models/master';
 import { CommonService } from 'src/app/services/common.service';
 import { MasterService } from 'src/app/services/master.service';
 import Swal from 'sweetalert2';
-
 
 @Component({
   selector: 'app-servicetype',
@@ -14,60 +14,58 @@ import Swal from 'sweetalert2';
 export class ServicetypeComponent implements OnInit {
   submitted: boolean = false;
   typeForm: FormGroup;
-  typeForm1:FormGroup;
+  typeForm1: FormGroup;
   TypeList: any[] = [];
   isUpdate: boolean = false;
   isLoading: boolean = false;
   isLoading1: boolean = false;
+  master: MASTER = new MASTER();
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
-
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
 
   constructor(
     private _masterService: MasterService,
     private _formBuilder: FormBuilder,
-    private _commonService:CommonService
+    private _commonService: CommonService
   ) {}
 
   ngOnInit(): void {
     this.typeForm = this._formBuilder.group({
       ID: [0],
       KEY_NAME: [''],
-      CODE: ['',Validators.required],
-      CODE_DESC: ['',Validators.required],
-      STATUS: ['',Validators.required],
-      ON_HIRE_DATE:[''],
-      OFF_HIRE_DATE:[''],
+      CODE: ['', Validators.required],
+      CODE_DESC: ['', Validators.required],
+      STATUS: ['', Validators.required],
+      ON_HIRE_DATE: [''],
+      OFF_HIRE_DATE: [''],
       PARENT_CODE: [''],
       CREATED_BY: [''],
     });
-    this.typeForm1=this._formBuilder.group({
+    this.typeForm1 = this._formBuilder.group({
       KEY_NAME: [''],
-      CODE: ['',Validators.required],
-      CODE_DESC: ['',Validators.required],
-      STATUS: ['',Validators.required],
-      ON_HIRE_DATE:[''],
-      OFF_HIRE_DATE:[''],
+      CODE: ['', Validators.required],
+      CODE_DESC: ['', Validators.required],
+      STATUS: ['', Validators.required],
+      ON_HIRE_DATE: [''],
+      OFF_HIRE_DATE: [''],
       PARENT_CODE: [''],
-      FROM_DATE:[''],
-      TO_DATE:[''],
+      FROM_DATE: [''],
+      TO_DATE: [''],
       CREATED_BY: [''],
-    })
+    });
 
     this.GetServiceTypeMasterList();
   }
 
-  get f(){
+  get f() {
     return this.typeForm.controls;
   }
 
-  
   InsertServiceTypeMaster() {
-
-    this.submitted=true
-    if(this.typeForm.invalid){
-      return
+    this.submitted = true;
+    if (this.typeForm.invalid) {
+      return;
     }
     this.typeForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
     var status = this.typeForm.get('STATUS')?.value;
@@ -88,14 +86,14 @@ export class ServicetypeComponent implements OnInit {
   }
 
   GetServiceTypeMasterList() {
-    this._masterService.GetMasterList('SERVICE_TYPE').subscribe((res: any) => {
+    this.master.KEY_NAME = 'SERVICE_TYPE';
+    this._masterService.GetMasterList(this.master).subscribe((res: any) => {
       this._commonService.destroyDT();
 
       if (res.ResponseCode == 200) {
         this.TypeList = res.Data;
       }
       this._commonService.getDT();
-
     });
   }
 
@@ -123,13 +121,11 @@ export class ServicetypeComponent implements OnInit {
           this.ClearForm();
           this.isUpdate = false;
           this.closeBtn.nativeElement.click();
-
         }
       });
   }
 
   Search() {}
-
 
   ClearForm() {
     this.typeForm.reset();
@@ -141,7 +137,7 @@ export class ServicetypeComponent implements OnInit {
     this.typeForm1.get('CODE_DESC')?.setValue('');
     this.typeForm1.get('STATUS')?.setValue('');
     this.typeForm1.get('ON_HIRE_DATE')?.setValue('');
-    this.typeForm1.get('OFF_HIRE_DATE')?.setValue(''); 
+    this.typeForm1.get('OFF_HIRE_DATE')?.setValue('');
     this.isLoading1 = true;
     this.GetServiceTypeMasterList();
   }
@@ -157,7 +153,6 @@ export class ServicetypeComponent implements OnInit {
     this.openModalPopup.nativeElement.click();
   }
 
-  
   DeleteServiceTypeMaster(ID: number) {
     Swal.fire({
       title: 'Are you sure?',
@@ -172,8 +167,8 @@ export class ServicetypeComponent implements OnInit {
         this._masterService.DeleteMaster(ID).subscribe((res: any) => {
           if (res.ResponseCode == 200) {
             Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
-         this.GetServiceTypeMasterList();
-}
+            this.GetServiceTypeMasterList();
+          }
         });
       }
     });
