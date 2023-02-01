@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { combineLatest } from 'rxjs';
 import { MASTER } from 'src/app/models/master';
 import { CommonService } from 'src/app/services/common.service';
 import { MasterService } from 'src/app/services/master.service';
@@ -97,7 +96,11 @@ export class ServicetypeComponent implements OnInit {
   }
 
   UpdateServiceTypeMaster() {
-    this.typeForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.submitted = true;
+    if (this.typeForm.invalid) {
+      return;
+    }
+
     this.typeForm.get('KEY_NAME')?.setValue('SERVICE_TYPE');
 
     this._masterService
