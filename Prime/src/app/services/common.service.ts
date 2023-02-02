@@ -113,6 +113,14 @@ export class CommonService {
     Swal.fire('Success!', msg, 'success');
   }
 
+  warnMsg(msg: string) {
+    Swal.fire('Oops!', msg, 'warning');
+  }
+
+  errorMsg(msg: string) {
+    Swal.fire('Error!', msg, 'error');
+  }
+  
   getRandomNumber(prefix:string) {
     var d: any = new Date();
 
