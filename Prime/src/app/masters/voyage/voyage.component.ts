@@ -211,9 +211,18 @@ export class VoyageComponent implements OnInit {
   }
 
   Search() {
-    var STATUS = this.voyageForm1.value.STATUS;
-    var FROM_DATE = this.voyageForm1.value.FROM_DATE;
-    var TO_DATE = this.voyageForm1.value.TO_DATE;
+    var STATUS =
+      this.voyageForm1.value.STATUS == null
+        ? ''
+        : this.voyageForm1.value.STATUS;
+    var FROM_DATE =
+      this.voyageForm1.value.FROM_DATE == null
+        ? ''
+        : this.voyageForm1.value.FROM_DATE;
+    var TO_DATE =
+      this.voyageForm1.value.TO_DATE == null
+        ? ''
+        : this.voyageForm1.value.TO_DATE;
 
     if (STATUS == '' && FROM_DATE == '' && TO_DATE == '') {
       alert('Please enter atleast one filter to search !');

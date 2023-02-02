@@ -39,7 +39,7 @@
           <div class="col-md-3 mt-4">
             <button class="form-btn me-2" (click)="Search()" [disabled]="isLoading">Search
               <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
-            <button class="form-btn me-2" (click)="Clear()" [disabled]="isLoading1">Clear<span *ngIf="isLoading1"
+            <button class="form-btn-light me-2" (click)="Clear()" [disabled]="isLoading1">Clear<span *ngIf="isLoading1"
                 class="fa fa-spinner fa-spin"></span></button>
           </div>
         </div>
@@ -132,7 +132,7 @@
       <div class="modal-footer">
         <button *ngIf="!isUpdate" (click)="InsertLinerMaster()" class="form-btn">Save</button>
         <button *ngIf="isUpdate" (click)="UpdateLiner()" class="form-btn">Update</button>
-        <button class="form-btn me-2" (click)="ClearForm()">Clear</button>
+        <button class="form-btn-light me-2" (click)="ClearForm()">Clear</button>
       </div>
     </div>
   </div>

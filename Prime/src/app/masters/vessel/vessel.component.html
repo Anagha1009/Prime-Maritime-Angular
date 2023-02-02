@@ -53,7 +53,7 @@
           <div class="col-md-3 offset-md-9 text-end mb-3">
             <button class="form-btn me-2" (click)="Search()" [disabled]="isLoading">Search
               <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
-            <button (click)="Clear()" class="form-btn me-2">Clear</button>
+            <button (click)="Clear()" class="form-btn-light me-2">Clear</button>
           </div>
         </div>
       </form>
@@ -153,7 +153,7 @@
       <div class="modal-footer">
         <button *ngIf="!isUpdate" (click)="InsertVesselMaster()" class="form-btn me-2"
           class="form-btn me-2">Save</button>
-        <button (click)="ClearForm()" class="form-btn me-2">Clear</button>
+        <button (click)="ClearForm()" class="form-btn-light me-2">Clear</button>
         <button *ngIf="isUpdate" (click)="UpdateVesselMaster()" class="form-btn">Update</button>
       </div>
     </div>
