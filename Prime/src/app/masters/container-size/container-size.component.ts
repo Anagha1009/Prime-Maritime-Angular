@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CONTAINER } from 'src/app/models/container';
+import { MASTER } from 'src/app/models/master';
 import { SIZE } from 'src/app/models/size';
 import { CommonService } from 'src/app/services/common.service';
 import { MasterService } from 'src/app/services/master.service';
@@ -20,6 +20,7 @@ export class ContainerSizeComponent implements OnInit {
   isLoading: boolean = false;
   isLoading1: boolean = false;
   size: SIZE = new SIZE();
+  master: MASTER = new MASTER();
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
@@ -37,15 +38,10 @@ export class ContainerSizeComponent implements OnInit {
       CODE: ['', Validators.required],
       CODE_DESC: ['', Validators.required],
       STATUS: ['', Validators.required],
-      FROM_DATE:['',Validators.required],
-      TO_DATE:['',Validators.required],
       CREATED_BY: [''],
     });
 
     this.sizeForm1 = this._formBuilder.group({
-      KEY_NAME: [''],
-      CODE: [''],
-      CODE_DESC: [''],
       STATUS: [''],
       FROM_DATE: [''],
       TO_DATE: [''],
@@ -59,27 +55,17 @@ export class ContainerSizeComponent implements OnInit {
   }
 
   Search() {
-    debugger
-    var CODE =this.sizeForm.value.CODE;
-    var CODE_DESC=this.sizeForm.value.sizeForm1;
-    var STATUS = this.sizeForm.value.STATUS;
-    var FROM_DATE = this.sizeForm.value.FROM_DATE;
-    var TO_DATE = this.sizeForm.value.TO_DATE;
+    var STATUS = this.sizeForm1.value.STATUS;
+    var FROM_DATE = this.sizeForm1.value.FROM_DATE;
+    var TO_DATE = this.sizeForm1.value.TO_DATE;
 
-    if (
-      CODE == ''  &&
-      CODE_DESC == '' &&
-      STATUS == '' &&
-      FROM_DATE == '' &&
-      TO_DATE == '' 
-    ) {
+    if (STATUS == '' && FROM_DATE == '' && TO_DATE == '') {
       alert('Please enter atleast one filter to search !');
       return;
     } else if (FROM_DATE > TO_DATE) {
       alert('From Date should be less than To Date !');
       return;
     }
-   
 
     this.size.STATUS = STATUS;
     this.size.FROM_DATE = FROM_DATE;
@@ -88,10 +74,7 @@ export class ContainerSizeComponent implements OnInit {
     this.GetContainerSizeList();
   }
 
-
-  Clear() {
-    
-  }
+  Clear() {}
 
   InsertContainerSize() {
     this.submitted = true;
@@ -116,14 +99,14 @@ export class ContainerSizeComponent implements OnInit {
 
   GetContainerSizeList() {
     this._commonService.destroyDT();
-    this._masterService
-      .GetMasterList('CONTAINER_SIZE')
-      .subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.SizeList = res.Data;
-        }
-        this._commonService.getDT();
-      });
+
+    this.master.KEY_NAME = 'CONTAINER_SIZE';
+    this._masterService.GetMasterList(this.master).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.SizeList = res.Data;
+      }
+      this._commonService.getDT();
+    });
   }
 
   GetContainerSizeDetails(ID: number) {

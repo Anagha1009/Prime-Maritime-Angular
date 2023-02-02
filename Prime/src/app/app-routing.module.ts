@@ -27,7 +27,6 @@ import { NewBlComponent } from './modules/new-bl/new-bl.component';
 import { NewCmComponent } from './modules/new-cm/new-cm.component';
 import { PmLoginComponent } from './pm-modules/pm-login/pm-login.component';
 import { VesselComponent } from './masters/vessel/vessel.component';
-import { ServiceComponent } from './masters/service/service.component';
 import { ContainerTypeComponent } from './masters/container-type/container-type.component';
 import { DepoDashboardComponent } from './modules/depo-dashboard/depo-dashboard.component';
 import { ContainerAllotmentComponent } from './modules/container-allotment/container-allotment.component';
@@ -132,10 +131,6 @@ const routes: Routes = [
       {
         path: 'vessel',
         component: VesselComponent,
-      },
-      {
-        path: 'service',
-        component: ServiceComponent,
       },
       {
         path: 'voyage',

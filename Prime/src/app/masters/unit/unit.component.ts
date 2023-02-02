@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MASTER } from 'src/app/models/master';
 import { CommonService } from 'src/app/services/common.service';
 import { MasterService } from 'src/app/services/master.service';
 import Swal from 'sweetalert2';
@@ -12,20 +13,20 @@ import Swal from 'sweetalert2';
 })
 export class UnitComponent implements OnInit {
   unitForm: any;
-  unitForm1:any;
+  unitForm1: any;
   UnitList: any[] = [];
   isUpdate: boolean = false;
-  submitted:boolean=false;
+  submitted: boolean = false;
   isLoading: boolean = false;
   isLoading1: boolean = false;
-  
-  @ViewChild('closeBtn') closeBtn: ElementRef;
+  master: MASTER = new MASTER();
 
+  @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
 
   constructor(
     private _masterService: MasterService,
-    private _commonService:CommonService,
+    private _commonService: CommonService,
     private _formBuilder: FormBuilder
   ) {}
 
@@ -33,54 +34,52 @@ export class UnitComponent implements OnInit {
     this.unitForm = this._formBuilder.group({
       ID: [0],
       KEY_NAME: [''],
-      CODE: ['',Validators.required],
-      CODE_DESC: ['',Validators.required],
-      STATUS: ['',Validators.required],
-      ON_HIRE_DATE:[''],
-      OFF_HIRE_DATE:[''],
-      PARENT_CODE: [''],
+      CODE: ['', Validators.required],
+      CODE_DESC: ['', Validators.required],
+      STATUS: ['', Validators.required],
       CREATED_BY: [''],
     });
-    this.unitForm1=this._formBuilder.group({
-      KEY_NAME:[''],
-      CODE:[''],
-      CODE_DESC:[''],
-      STATUS:[''],
-      PARENT_CODE:[''],
-      ON_HIRE_DATE:[''],
-      OFF_HIRE_DATE:['']
-    })
+
+    this.unitForm1 = this._formBuilder.group({
+      STATUS: [''],
+      FROM_DATE: [''],
+      TO_DATE: [''],
+    });
+
     this.GetUnitMasterList();
   }
-  get f(){
+
+  get f() {
     return this.unitForm.controls;
   }
- 
 
   InsertUnitMaster() {
-    this.submitted=true
-    if(this.unitForm.invalid){
-      return
+    this.submitted = true;
+    if (this.unitForm.invalid) {
+      return;
     }
     this.unitForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
-    var status = this.unitForm.get('STATUS')?.value;
-    this.unitForm.get('STATUS')?.setValue(status == 'true' ? true : false);
     this.unitForm.get('KEY_NAME')?.setValue('UNIT');
 
     this._masterService
       .InsertMaster(JSON.stringify(this.unitForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your record has been submitted successfully !');
-          this.ClearForm();
+          this._commonService.successMsg(
+            'Your record has been inserted successfully !'
+          );
           this.GetUnitMasterList();
+          this.closeBtn.nativeElement.click();
         }
       });
   }
 
   GetUnitMasterList() {
-    this._masterService.GetMasterList('UNIT').subscribe((res: any) => {
-      this._commonService.destroyDT();
+    this._commonService.destroyDT();
+    this.master.KEY_NAME = 'UNIT';
+    this._masterService.GetMasterList(this.master).subscribe((res: any) => {
+      this.isLoading = false;
+      this.isLoading1 = false;
       if (res.ResponseCode == 200) {
         this.UnitList = res.Data;
       }
@@ -92,29 +91,29 @@ export class UnitComponent implements OnInit {
     this._masterService.GetMasterDetails(ID).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.unitForm.patchValue(res.Data);
-        this.isUpdate = true;
       }
     });
   }
 
   UpdateUnitMaster() {
-    this.unitForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
-    var status = this.unitForm.get('STATUS')?.value;
-    this.unitForm.get('STATUS')?.setValue(status == 'true' ? true : false);
+    this.submitted = true;
+    if (this.unitForm.invalid) {
+      return;
+    }
+
     this.unitForm.get('KEY_NAME')?.setValue('UNIT');
     this._masterService
       .UpdateMaster(JSON.stringify(this.unitForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your Unit master has been Updated successfully !');
+          this._commonService.successMsg(
+            'Your record has been Updated successfully !'
+          );
           this.GetUnitMasterList();
-          this.ClearForm();
-          this.isUpdate = false;
+          this.closeBtn.nativeElement.click();
         }
       });
   }
-
-  
 
   DeleteUnitMaster(ID: number) {
     Swal.fire({
@@ -130,8 +129,8 @@ export class UnitComponent implements OnInit {
         this._masterService.DeleteMaster(ID).subscribe((res: any) => {
           if (res.ResponseCode == 200) {
             Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
-         this.GetUnitMasterList();
-}
+            this.GetUnitMasterList();
+          }
         });
       }
     });
@@ -139,30 +138,48 @@ export class UnitComponent implements OnInit {
 
   openModal(ID: any = 0) {
     this.submitted = false;
+    this.isUpdate = false;
     this.ClearForm();
 
     if (ID > 0) {
+      this.isUpdate = true;
       this.GetUnitMasterDetails(ID);
     }
 
     this.openModalPopup.nativeElement.click();
   }
 
-  Search() {}
+  Search() {
+    var STATUS =
+      this.unitForm1.value.STATUS == null ? '' : this.unitForm1.value.STATUS;
+    var FROM_DATE =
+      this.unitForm1.value.FROM_DATE == null
+        ? ''
+        : this.unitForm1.value.FROM_DATE;
+    var TO_DATE =
+      this.unitForm1.value.TO_DATE == null ? '' : this.unitForm1.value.TO_DATE;
+
+    if (STATUS == '' && FROM_DATE == '' && TO_DATE == '') {
+      alert('Please enter atleast one filter to search !');
+    }
+
+    this.master.STATUS = STATUS;
+    this.master.FROM_DATE = FROM_DATE;
+    this.master.TO_DATE = TO_DATE;
+
+    this.isLoading = true;
+    this.GetUnitMasterList();
+  }
 
   ClearForm() {
     this.unitForm.reset();
     this.unitForm.get('ID')?.setValue(0);
-    this.unitForm.get('STATUS')?.setValue('');
   }
-  Clear() {
-    this.unitForm1.get('KEY_NAME')?.setValue('');
-    this.unitForm1.get('CODE')?.setValue('');
-    this.unitForm1.get('CODE_DESC')?.setValue('');
-    this.unitForm1.get('STATUS')?.setValue('');
-    this.unitForm1.get('FROM_DATE')?.setValue('');
-    this.unitForm1.get('TO_DATE')?.setValue('');
 
+  Clear() {
+    this.unitForm1.reset();
+    this.unitForm1.get('STATUS')?.setValue('');
+    this.master = new MASTER();
     this.isLoading1 = true;
     this.GetUnitMasterList();
   }

@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MASTER } from 'src/app/models/master';
 import { CommonService } from 'src/app/services/common.service';
 import { MasterService } from 'src/app/services/master.service';
 import Swal from 'sweetalert2';
@@ -11,22 +12,21 @@ import Swal from 'sweetalert2';
 })
 export class CurrencyComponent implements OnInit {
   currencyForm: FormGroup;
-  currencyForm1:FormGroup;
-  currencymasterForm:FormGroup;
+  currencyForm1: FormGroup;
+  currencymasterForm: FormGroup;
   CurrencyList: any[] = [];
   isUpdate: boolean = false;
   isLoading: boolean = false;
   isLoading1: boolean = false;
-  submitted:boolean=false;
+  submitted: boolean = false;
+  master: MASTER = new MASTER();
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
-
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
-
 
   constructor(
     private _masterService: MasterService,
-    private _commonService:CommonService,
+    private _commonService: CommonService,
     private _formBuilder: FormBuilder
   ) {}
 
@@ -34,67 +34,60 @@ export class CurrencyComponent implements OnInit {
     this.currencyForm = this._formBuilder.group({
       ID: [0],
       KEY_NAME: [''],
-      CODE: ['',Validators.required],
-      CODE_DESC: ['',Validators.required],
-      STATUS: ['',Validators.required],
-      PARENT_CODE: [''],
-      ON_HIRE_DATE:['',Validators.required],
-      OFF_HIRE_DATE:['',Validators.required],
-      CREATED_BY: [''],
-    });
-    this.currencyForm1 = this._formBuilder.group({
-      KEY_NAME: [''],
-      CODE: [''],
-      CODE_DESC: [''],
-      STATUS: [''],
-      ON_HIRE_DATE:[''],
-      OFF_HIRE_DATE:[''],
+      CODE: ['', Validators.required],
+      CODE_DESC: ['', Validators.required],
+      STATUS: ['', Validators.required],
       CREATED_BY: [''],
     });
 
-    
+    this.currencyForm1 = this._formBuilder.group({
+      STATUS: [''],
+      FROM_DATE: [''],
+      TO_DATE: [''],
+    });
+
     this.GetCurrencyMasterList();
   }
 
-  get f(){
+  get f() {
     return this.currencyForm.controls;
   }
 
   InsertCurrencyMaster() {
-    this.submitted=true
-    if(this.currencyForm.invalid){
-      return
-
+    this.submitted = true;
+    if (this.currencyForm.invalid) {
+      return;
     }
+
     this.currencyForm
       .get('CREATED_BY')
       ?.setValue(localStorage.getItem('username'));
-    var status = this.currencyForm.get('STATUS')?.value;
-    this.currencyForm.get('STATUS')?.setValue(status == 'true' ? true : false);
+
     this.currencyForm.get('KEY_NAME')?.setValue('CURRENCY');
 
     this._masterService
       .InsertMaster(JSON.stringify(this.currencyForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your record has been submitted successfully !');
+          this._commonService.successMsg(
+            'Your record has been inserted successfully !'
+          );
           this.GetCurrencyMasterList();
           this.closeBtn.nativeElement.click();
-
-          this.ClearForm();
         }
       });
   }
 
   GetCurrencyMasterList() {
-    this._masterService.GetMasterList('CURRENCY').subscribe((res: any) => {
-      this._commonService.destroyDT();
-
+    this._commonService.destroyDT();
+    this.master.KEY_NAME = 'CURRENCY';
+    this._masterService.GetMasterList(this.master).subscribe((res: any) => {
+      this.isLoading = false;
+      this.isLoading1 = false;
       if (res.ResponseCode == 200) {
         this.CurrencyList = res.Data;
       }
       this._commonService.getDT();
-
     });
   }
 
@@ -102,35 +95,29 @@ export class CurrencyComponent implements OnInit {
     this._masterService.GetMasterDetails(ID).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.currencyForm.patchValue(res.Data);
-        this.isUpdate = true;
       }
     });
   }
 
   UpdateCurrencyMaster() {
-    this.currencyForm
-      .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
-    var status = this.currencyForm.get('STATUS')?.value;
-    this.currencyForm.get('STATUS')?.setValue(status == 'true' ? true : false);
-
+    this.submitted = true;
+    if (this.currencyForm.invalid) {
+      return;
+    }
     this.currencyForm.get('KEY_NAME')?.setValue('CURRENCY');
 
     this._masterService
       .UpdateMaster(JSON.stringify(this.currencyForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your Service Type master has been Updated successfully !');
+          this._commonService.successMsg(
+            'Your record has been Updated successfully !'
+          );
           this.GetCurrencyMasterList();
-          this.ClearForm();
-
-          this.isUpdate = false;
           this.closeBtn.nativeElement.click();
-
         }
       });
   }
-
 
   DeleteCurrencyMaster(ID: number) {
     Swal.fire({
@@ -146,45 +133,61 @@ export class CurrencyComponent implements OnInit {
         this._masterService.DeleteMaster(ID).subscribe((res: any) => {
           if (res.ResponseCode == 200) {
             Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
-          this.GetCurrencyMasterList();
-}
+            this.GetCurrencyMasterList();
+          }
         });
       }
     });
   }
-  
+
   openModal(ID: any = 0) {
-    debugger;
     this.submitted = false;
+    this.isUpdate = false;
     this.ClearForm();
 
     if (ID > 0) {
+      this.isUpdate = true;
       this.GetCurrencyMasterDetails(ID);
     }
 
     this.openModalPopup.nativeElement.click();
   }
 
-  Search() {}
+  Search() {
+    var STATUS =
+      this.currencyForm1.value.STATUS == null
+        ? ''
+        : this.currencyForm1.value.STATUS;
+    var FROM_DATE =
+      this.currencyForm1.value.FROM_DATE == null
+        ? ''
+        : this.currencyForm1.value.FROM_DATE;
+    var TO_DATE =
+      this.currencyForm1.value.TO_DATE == null
+        ? ''
+        : this.currencyForm1.value.TO_DATE;
+
+    if (STATUS == '' && FROM_DATE == '' && TO_DATE == '') {
+      alert('Please enter atleast one filter to search !');
+    }
+
+    this.master.STATUS = STATUS;
+    this.master.FROM_DATE = FROM_DATE;
+    this.master.TO_DATE = TO_DATE;
+
+    this.isLoading = true;
+    this.GetCurrencyMasterList();
+  }
 
   ClearForm() {
     this.currencyForm.reset();
-    this.currencyForm.get('KEY_NAME')?.setValue('');
-    this.currencyForm.get('CODE')?.setValue('');
-    this.currencyForm.get('CODE_DESC')?.setValue('');
-    this.currencyForm.get('STATUS')?.setValue('');
-    this.currencyForm.get('ON_HIRE_DATE')?.setValue('');
-    this.currencyForm.get('OFF_HIRE_DATE')?.setValue('');
-
+    this.currencyForm.get('ID')?.setValue(0);
   }
 
   Clear() {
-    this.currencyForm1.get('KEY_NAME')?.setValue('');
-    this.currencyForm1.get('CODE')?.setValue('');
-    this.currencyForm1.get('CODE_DESC')?.setValue('');
+    this.currencyForm1.reset();
     this.currencyForm1.get('STATUS')?.setValue('');
-    this.currencyForm1.get('ON_HIRE_DATE')?.setValue('');
-    this.currencyForm1.get('OFF_HIRE_DATE')?.setValue(''); 
+    this.master = new MASTER();
     this.isLoading1 = true;
     this.GetCurrencyMasterList();
   }

@@ -22,7 +22,6 @@ import { ContainerSizeComponent } from 'src/app/masters/container-size/container
 import { ContainerTypeComponent } from 'src/app/masters/container-type/container-type.component';
 import { CurrencyComponent } from 'src/app/masters/currency/currency.component';
 import { PortComponent } from 'src/app/masters/port/port.component';
-import { ServiceComponent } from 'src/app/masters/service/service.component';
 import { ServicetypeComponent } from 'src/app/masters/servicetype/servicetype.component';
 import { UnitComponent } from 'src/app/masters/unit/unit.component';
 import { VesselComponent } from 'src/app/masters/vessel/vessel.component';
@@ -47,7 +46,6 @@ import { ScheduleComponent } from 'src/app/masters/schedule/schedule.component';
     ContainerTypeComponent,
     CurrencyComponent,
     PortComponent,
-    ServiceComponent,
     ServicetypeComponent,
     UnitComponent,
     VesselComponent,

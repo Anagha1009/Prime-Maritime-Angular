@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
-import { VESSEL } from '../models/vessel';
+import { SCHEDULE, VESSEL, VOYAGE } from '../models/vessel';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VesselService {
   BASE_URL = environment.BASE_URL;
@@ -15,13 +15,21 @@ export class VesselService {
     }),
   };
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {}
 
-  getVesselList(vesselmaster:VESSEL) {
+  getVesselList(vessel: VESSEL) {
     return this._http.get<any>(
       this.BASE_URL +
-        'Master/GetVesselMasterList?CREATED_BY=' +
-        vesselmaster.CREATED_BY,
+        'Master/GetVesselMasterList?VESSEL_NAME=' +
+        vessel.VESSEL_NAME +
+        '&IMO_NO=' +
+        vessel.IMO_NO +
+        '&STATUS=' +
+        vessel.STATUS +
+        '&FROM_DATE=' +
+        vessel.FROM_DATE +
+        '&TO_DATE=' +
+        vessel.TO_DATE,
       this.httpOptions
     );
   }
@@ -34,36 +42,106 @@ export class VesselService {
     );
   }
 
-  
-  getVesselDetails(vessel:VESSEL) {
+  getVesselDetails(ID: number) {
     return this._http.get<any>(
-      this.BASE_URL +
-        'Master/GetVesselMasterDetails?CREATED_BY=' +
-        vessel.CREATED_BY +
-        '&ID=' +
-        vessel.ID,
+      this.BASE_URL + 'Master/GetVesselMasterDetails?ID=' + ID,
       this.httpOptions
     );
   }
-  UpdateVesselMaster(vessel:any){
-    debugger
+
+  UpdateVesselMaster(vessel: any) {
+    debugger;
     return this._http.post<any>(
-      this.BASE_URL+ 'Master/UpdateVesselMasterList',
+      this.BASE_URL + 'Master/UpdateVesselMasterList',
       vessel,
       this.httpOptions
     );
   }
 
-  DeleteVesselMaster(vessel:VESSEL){
-    debugger
+  DeleteVesselMaster(ID: number) {
     return this._http.delete<any>(
-      this.BASE_URL+
-      'Master/DeleteVesselMasterList?CREATED_BY=' +
-      vessel.CREATED_BY +
-      '&ID=' +
-      vessel.ID,
+      this.BASE_URL + 'Master/DeleteVesselMasterList?ID=' + ID,
       this.httpOptions
     );
   }
 
+  getScheduleList(schedule: SCHEDULE) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'Master/GetScheduleList?VESSEL_NAME=' +
+        schedule.VESSEL_NAME +
+        '&PORT_CODE=' +
+        schedule.PORT_CODE +
+        '&ETA=' +
+        schedule.ETA +
+        '&ETD=' +
+        schedule.ETD +
+        (schedule.STATUS != '' ? '&STATUS=' + schedule.STATUS : ''),
+      this.httpOptions
+    );
+  }
+
+  GetScheduleDetails(ID: number) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetScheduleDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  postSchedule(schedule: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/InsertSchedule',
+      schedule,
+      this.httpOptions
+    );
+  }
+
+  updateSchedule(schedule: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateSchedule',
+      schedule,
+      this.httpOptions
+    );
+  }
+
+  deleteSchedule(ID: number) {
+    return this._http.delete<any>(
+      this.BASE_URL + 'Master/DeleteSchedule?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  getVoyageList(voyage: VOYAGE) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'Master/GetVoyageList?FROM_DATE=' +
+        voyage.FROM_DATE +
+        '&TO_DATE=' +
+        voyage.TO_DATE +
+        (voyage.STATUS != '' ? '&STATUS=' + voyage.STATUS : ''),
+      this.httpOptions
+    );
+  }
+
+  GetVoyageDetails(ID: number) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetVoyageDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  updateVoyage(schedule: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateVoyage',
+      schedule,
+      this.httpOptions
+    );
+  }
+
+  deleteVoyage(ID: number) {
+    return this._http.delete<any>(
+      this.BASE_URL + 'Master/DeleteVoyage?ID=' + ID,
+      this.httpOptions
+    );
+  }
 }

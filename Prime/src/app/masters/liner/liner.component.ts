@@ -17,10 +17,9 @@ export class LinerComponent implements OnInit {
   LinerList: any[] = [];
   submitted: boolean;
   isUpdate: boolean = false;
-  liner: LINER = new LINER();
   isLoading: boolean = false;
   isLoading1: boolean = false;
-  Liner:LINER=new LINER();
+  Liner: LINER = new LINER();
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
@@ -38,29 +37,26 @@ export class LinerComponent implements OnInit {
       CODE: ['', Validators.required],
       DESCRIPTION: ['', Validators.required],
       STATUS: ['', Validators.required],
-      FROM_DATE:[''],
-      TO_DATE:[''],
+      FROM_DATE: [''],
+      TO_DATE: [''],
       CREATED_BY: [''],
     });
 
     this.LinerForm1 = this._formBuilder.group({
-      NAME: [''],
-      CODE: [''],
-      DESCRIPTION: [''],
-      FROM_DATE:[''],
-      TO_DATE:[''],
       STATUS: [''],
+      FROM_DATE: [''],
+      TO_DATE: [''],
     });
 
     this.GetLinerList();
   }
 
   GetLinerList() {
-    var LinerModel = new LINER();
-
     this._commonService.destroyDT();
     this._linerService.getLinerList(this.Liner).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
+        this.isLoading = false;
+        this.isLoading1 = false;
         this.LinerList = res.Data;
       }
       this._commonService.getDT();
@@ -72,32 +68,22 @@ export class LinerComponent implements OnInit {
   }
 
   Search() {
-    debugger
-    // var  NAME = this.LinerForm1.value.NAME;
-    // var  CODE = this.LinerForm1.value. CODE;
-    // var DESCRIPTION=this.LinerForm1.value. DESCRIPTION;
-    var STATUS = this.LinerForm1.value.STATUS;
-    var FROM_DATE = this.LinerForm1.value.FROM_DATE;
-    var TO_DATE = this.LinerForm1.value.TO_DATE;
+    var STATUS =
+      this.LinerForm1.value.STATUS == null ? '' : this.LinerForm1.value.STATUS;
+    var FROM_DATE =
+      this.LinerForm1.value.FROM_DATE == null
+        ? ''
+        : this.LinerForm1.value.FROM_DATE;
+    var TO_DATE =
+      this.LinerForm1.value.TO_DATE == null
+        ? ''
+        : this.LinerForm1.value.TO_DATE;
 
-    if (
-      // NAME == '' &&
-      // CODE == '' && 
-      // DESCRIPTION == '' &&
-      STATUS == '' &&
-      FROM_DATE == '' &&
-      TO_DATE == ''
-    ) {
+    if (STATUS == '' && FROM_DATE == '' && TO_DATE == '') {
       alert('Please enter atleast one filter to search !');
-      return;
-    } else if (FROM_DATE > TO_DATE) {
-      alert('From Date should be less than To Date !');
       return;
     }
 
-    // this.Liner.NAME = NAME;
-    // this.Liner.CODE = CODE;
-    // this.Liner.DESCRIPTION=DESCRIPTION;
     this.Liner.STATUS = STATUS;
     this.Liner.FROM_DATE = FROM_DATE;
     this.Liner.TO_DATE = TO_DATE;
@@ -105,7 +91,13 @@ export class LinerComponent implements OnInit {
     this.GetLinerList();
   }
 
-  Clear() {}
+  Clear() {
+    this.LinerForm1.reset();
+    this.LinerForm1.get('STATUS')?.setValue('');
+    this.Liner = new LINER();
+    this.isLoading1 = true;
+    this.GetLinerList();
+  }
 
   GetLinerDetails(ID: number) {
     this._linerService.GetLinerDetails(ID).subscribe((res: any) => {

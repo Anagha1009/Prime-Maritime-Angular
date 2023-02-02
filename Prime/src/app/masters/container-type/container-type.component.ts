@@ -1,7 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CONTAINER } from 'src/app/models/container';
 import { TYPE } from 'src/app/models/type';
 import { CommonService } from 'src/app/services/common.service';
 import { ContainerTypeService } from 'src/app/services/container-type.service';
@@ -21,7 +19,6 @@ export class ContainerTypeComponent implements OnInit {
   isLoading: boolean = false;
   isLoading1: boolean = false;
   type: TYPE = new TYPE();
-
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
@@ -62,32 +59,24 @@ export class ContainerTypeComponent implements OnInit {
   }
 
   Search() {
-    debugger
-    var  CONT_TYPE_CODE = this.containerTypeForm1.value.CONT_TYPE_CODE;
-    var  CONT_TYPE = this.containerTypeForm1.value. CONT_TYPE;
-    var CONT_SIZE=this.containerTypeForm1.value. CONT_SIZE;
-    var STATUS = this.containerTypeForm1.value.STATUS;
-    var FROM_DATE = this.containerTypeForm1.value.FROM_DATE;
-    var TO_DATE = this.containerTypeForm1.value.TO_DATE;
+    var STATUS =
+      this.containerTypeForm1.value.STATUS == null
+        ? ''
+        : this.containerTypeForm1.value.STATUS;
+    var FROM_DATE =
+      this.containerTypeForm1.value.FROM_DATE == null
+        ? ''
+        : this.containerTypeForm1.value.FROM_DATE;
+    var TO_DATE =
+      this.containerTypeForm1.value.TO_DATE == null
+        ? ''
+        : this.containerTypeForm1.value.TO_DATE;
 
-    if (
-      CONT_TYPE_CODE == '' &&
-      CONT_TYPE == '' && 
-      CONT_SIZE == '' &&
-      STATUS == '' &&
-      FROM_DATE == '' &&
-      TO_DATE == ''
-    ) {
+    if (STATUS == '' && FROM_DATE == '' && TO_DATE == '') {
       alert('Please enter atleast one filter to search !');
-      return;
-    } else if (FROM_DATE > TO_DATE) {
-      alert('From Date should be less than To Date !');
       return;
     }
 
-    this.type.CONT_TYPE_CODE = CONT_TYPE_CODE;
-    this.type.CONT_TYPE = CONT_TYPE;
-    this.type.CONT_SIZE=CONT_SIZE;
     this.type.STATUS = STATUS;
     this.type.FROM_DATE = FROM_DATE;
     this.type.TO_DATE = TO_DATE;
@@ -95,25 +84,22 @@ export class ContainerTypeComponent implements OnInit {
     this.GetConatinerTypeMasterList();
   }
 
-
   Clear() {
-    this.containerTypeForm1.get('CONT_TYPE_CODE')?.setValue('');
-    this.containerTypeForm1.get('CONT_TYPE')?.setValue('');
-    this.containerTypeForm1.get('CONT_SIZE')?.setValue('');
+    this.containerTypeForm1.reset();
     this.containerTypeForm1.get('STATUS')?.setValue('');
-    this.containerTypeForm1.get('FROM_DATE')?.setValue('');
-    this.containerTypeForm1.get('TO_DATE')?.setValue('');
+    this.type = new TYPE();
     this.isLoading1 = true;
     this.GetConatinerTypeMasterList();
   }
 
   GetConatinerTypeMasterList() {
-    var typeModel = new TYPE();
     this._commonService.destroyDT();
 
     this._containerTypeService
       .GetContainerTypeMasterList(this.type)
       .subscribe((res: any) => {
+        this.isLoading = false;
+        this.isLoading1 = false;
         if (res.ResponseCode == 200) {
           this.containerTypeList = res.Data;
         }

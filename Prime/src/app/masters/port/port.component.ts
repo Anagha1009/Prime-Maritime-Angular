@@ -12,84 +12,77 @@ import Swal from 'sweetalert2';
 })
 export class PortComponent implements OnInit {
   portForm: FormGroup;
-  portForm1:FormGroup;
+  portForm1: FormGroup;
   PortList: any;
   data: any;
   isUpdate: boolean = false;
   isLoading: boolean = false;
-  isLoading1:boolean= false;
+  isLoading1: boolean = false;
+  submitted: boolean = false;
+  master: MASTER = new MASTER();
 
-  submitted:boolean=false;
-
+  @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
 
   constructor(
     private _masterService: MasterService,
     private _formBuilder: FormBuilder,
-    private _commonService:CommonService,
+    private _commonService: CommonService
   ) {}
 
   ngOnInit(): void {
     this.portForm = this._formBuilder.group({
       ID: [0],
       KEY_NAME: [''],
-      CODE: ['',Validators.required],
-      CODE_DESC: ['',Validators.required],
-      STATUS: ['',Validators.required],
-      PARENT_CODE: [''],
-      ON_HIRE_DATE:[''],
-      OFF_HIRE_DATE:[''],
+      CODE: ['', Validators.required],
+      CODE_DESC: ['', Validators.required],
+      STATUS: ['', Validators.required],
       CREATED_BY: [''],
     });
-    this.portForm1=this._formBuilder.group({
-      KEY_NAME: [''],
-      CODE: [''],
-      CODE_DESC: [''],
+
+    this.portForm1 = this._formBuilder.group({
       STATUS: [''],
-      PARENT_CODE: [''],
-      ON_HIRE_DATE:[''],
-      OFF_HIRE_DATE:[''],
-      CREATED_BY: ['']
+      FROM_DATE: [''],
+      TO_DATE: [''],
     });
+
     this.GetPortMasterList();
   }
 
-  get f(){
+  get f() {
     return this.portForm.controls;
   }
 
-  
-
   GetPortMasterList() {
-    this._masterService.GetMasterList('PORT').subscribe((res: any) => {
-      this._commonService.destroyDT();
-
+    this._commonService.destroyDT();
+    this.master.KEY_NAME = 'PORT';
+    this._masterService.GetMasterList(this.master).subscribe((res: any) => {
+      this.isLoading = false;
+      this.isLoading1 = false;
       if (res.ResponseCode == 200) {
         this.PortList = res.Data;
       }
       this._commonService.getDT();
-
     });
   }
 
   InsertPortMaster() {
-
-    this.submitted=true
-    if(this.portForm.invalid){
-      return
+    this.submitted = true;
+    if (this.portForm.invalid) {
+      return;
     }
     this.portForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
-    var status = this.portForm.get('STATUS')?.value;
-    this.portForm.get('STATUS')?.setValue(status == 'true' ? true : false);
     this.portForm.get('KEY_NAME')?.setValue('PORT');
 
     this._masterService
       .InsertMaster(JSON.stringify(this.portForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your record has been submitted successfully !');
+          this._commonService.successMsg(
+            'Your record has been inserted successfully !'
+          );
           this.GetPortMasterList();
-          this.ClearForm();
+          this.closeBtn.nativeElement.click();
         }
       });
   }
@@ -98,15 +91,15 @@ export class PortComponent implements OnInit {
     this._masterService.GetMasterDetails(ID).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.portForm.patchValue(res.Data);
-        this.isUpdate = true;
       }
     });
   }
 
   UpdatePortMaster() {
-    this.portForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
-    var status = this.portForm.get('STATUS')?.value;
-    this.portForm.get('STATUS')?.setValue(status == 'true' ? true : false);
+    this.submitted = true;
+    if (this.portForm.invalid) {
+      return;
+    }
 
     this.portForm.get('KEY_NAME')?.setValue('PORT');
 
@@ -114,25 +107,14 @@ export class PortComponent implements OnInit {
       .UpdateMaster(JSON.stringify(this.portForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your  Port master has been Updated successfully !');
+          this._commonService.successMsg(
+            'Your record has been Updated successfully !'
+          );
           this.GetPortMasterList();
-          this.ClearForm();
-          this.isUpdate = false;
+          this.closeBtn.nativeElement.click();
         }
       });
   }
-
-  // DeletePortMaster(ID: number) {
-  //   debugger;
-  //   if (confirm('Are you sure want to delete this record ?')) {
-  //     this._masterService.DeleteMaster(ID).subscribe((res: any) => {
-  //       if (res.ResponseCode == 200) {
-  //         alert('Your record has been deleted successfully !');
-  //         this.GetPortMasterList();
-  //       }
-  //     });
-  //   }
-  // }
 
   DeletePortMaster(ID: number) {
     Swal.fire({
@@ -154,51 +136,52 @@ export class PortComponent implements OnInit {
       }
     });
   }
-  
 
   openModal(ID: any = 0) {
     this.submitted = false;
+    this.isUpdate = false;
     this.ClearForm();
 
     if (ID > 0) {
+      this.isUpdate = true;
       this.GetPortMasterDetails(ID);
     }
 
     this.openModalPopup.nativeElement.click();
   }
 
-  // ClearForm() {
-  //   debugger
-  //   this.portForm.reset();
-  //   this.portForm.get('STATUS')?.setValue('');
-
-  // }
-
   ClearForm() {
     this.portForm.reset();
-    this.portForm.get('KEY_NAME')?.setValue('');
-    this.portForm.get('CODE')?.setValue('');
-    this.portForm.get('CODE_DESC')?.setValue('');
-    this.portForm.get('STATUS')?.setValue('');
-    this.portForm.get('ON_HIRE_DATE')?.setValue('');
-    this.portForm.get('OFF_HIRE_DATE')?.setValue('');
-
+    this.portForm.get('ID')?.setValue(0);
   }
 
   Clear() {
-    this.portForm1.get('KEY_NAME')?.setValue('');
-    this.portForm1.get('CODE')?.setValue('');
-    this.portForm1.get('CODE_DESC')?.setValue('');
+    this.portForm1.reset();
     this.portForm1.get('STATUS')?.setValue('');
-    this.portForm1.get('ON_HIRE_DATE')?.setValue('');
-    this.portForm1.get('OFF_HIRE_DATE')?.setValue('');
-
-
-    
+    this.master = new MASTER();
     this.isLoading1 = true;
     this.GetPortMasterList();
   }
 
-  Search() {} 
+  Search() {
+    var STATUS =
+      this.portForm1.value.STATUS == null ? '' : this.portForm1.value.STATUS;
+    var FROM_DATE =
+      this.portForm1.value.FROM_DATE == null
+        ? ''
+        : this.portForm1.value.FROM_DATE;
+    var TO_DATE =
+      this.portForm1.value.TO_DATE == null ? '' : this.portForm1.value.TO_DATE;
 
+    if (STATUS == '' && FROM_DATE == '' && TO_DATE == '') {
+      alert('Please enter atleast one filter to search !');
+    }
+
+    this.master.STATUS = STATUS;
+    this.master.FROM_DATE = FROM_DATE;
+    this.master.TO_DATE = TO_DATE;
+
+    this.isLoading = true;
+    this.GetPortMasterList();
+  }
 }
