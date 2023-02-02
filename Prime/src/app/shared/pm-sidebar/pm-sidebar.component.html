@@ -34,13 +34,13 @@
             </a>
             <ul id="style-3" [class]="ismenu ? 'menu-sub d-block scrollbar' : 'menu-sub d-none scrollbar'">
                 <div class="force-overflow">
-                    <li class="menu-item">
-                        <a href="/pm/party" class="menu-link">
+                    <li [class]="submenu == 'party' ? 'menu-item active' : 'menu-item'">
+                        <a (click)="redirectToSubMenu('party')" class="menu-link pointer">
                             <div data-i18n="Accordion">Customer</div>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a href="/pm/container" class="menu-link">
+                    <li [class]="submenu == 'container' ? 'menu-item active' : 'menu-item'">
+                        <a (click)="redirectToSubMenu('container')" class="menu-link pointer">
                             <div data-i18n="Alerts">Container</div>
                         </a>
                     </li>
@@ -49,52 +49,52 @@
                             <div data-i18n="Badges">Container Size</div>
                         </a>
                     </li> -->
-                    <li class="menu-item">
+                    <li [class]="submenu == 'containerType' ? 'menu-item active' : 'menu-item'">
                         <a href="/pm/containerType" class="menu-link">
                             <div data-i18n="Buttons">Container Type</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li [class]="submenu == 'currency' ? 'menu-item active' : 'menu-item'">
                         <a href="/pm/currency" class="menu-link">
                             <div data-i18n="Carousel">Currency</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li [class]="submenu == 'port' ? 'menu-item active' : 'menu-item'">
                         <a href="/pm/port" class="menu-link">
                             <div data-i18n="Collapse">Port</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li [class]="submenu == 'serviceType' ? 'menu-item active' : 'menu-item'">
                         <a href="/pm/servicetype" class="menu-link">
                             <div data-i18n="Footer">Service Type</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li [class]="submenu == 'unit' ? 'menu-item active' : 'menu-item'">
                         <a href="/pm/unit" class="menu-link">
                             <div data-i18n="List Groups">Unit</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li [class]="submenu == 'vessel' ? 'menu-item active' : 'menu-item'">
                         <a href="/pm/vessel" class="menu-link">
                             <div data-i18n="Modals">Vessel</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li [class]="submenu == 'voyage' ? 'menu-item active' : 'menu-item'">
                         <a href="/pm/voyage" class="menu-link">
                             <div data-i18n="Navbar">Voyage</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li [class]="submenu == 'liner' ? 'menu-item active' : 'menu-item'">
                         <a href="/pm/liner" class="menu-link">
                             <div data-i18n="Navbar">Liner</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li [class]="submenu == 'linerService' ? 'menu-item active' : 'menu-item'">
                         <a href="/pm/linerService" class="menu-link">
                             <div data-i18n="Navbar">Liner Service</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li [class]="submenu == 'vesselSchedule' ? 'menu-item active' : 'menu-item'">
                         <a href="/pm/schedule" class="menu-link">
                             <div data-i18n="Navbar">Vessel Schedule</div>
                         </a>
