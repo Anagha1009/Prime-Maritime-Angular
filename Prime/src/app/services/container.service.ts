@@ -20,8 +20,17 @@ export class ContainerService {
   GetContainerMasterList(containermaster: CONTAINER) {
     return this._http.get<any>(
       this.BASE_URL +
-        'Master/GetContainerMasterList?CONTAINER_NO=' +
-        containermaster.CONTAINER_NO,
+        'GetContainerMasterList?CONTAINER_NO=' +
+        containermaster.CONTAINER_NO +
+        '&CONTAINER_TYPE='+
+        containermaster.CONTAINER_TYPE +
+        '&CONTAINER_SIZE='+
+        containermaster.CONTAINER_SIZE +
+        '&FROM_DATE=' +
+        containermaster.FROM_DATE +
+      '&TO_DATE=' +
+      containermaster.TO_DATE +
+       (containermaster.STATUS != '' ? '&STATUS=' + containermaster.STATUS : ''),
       this.httpOptions
     );
   }

@@ -18,11 +18,19 @@ export class ScheduleService {
   constructor(private _http:HttpClient) { }
 
 
-  getScheduleList() {
+  getScheduleList(schedule:SCHEDULE) {
     return this._http.get<any>(
       this.BASE_URL +
-    'Master/GetScheduleList' ,
-      this.httpOptions
+    'Master/GetScheduleList?VESSEL_NAME=' +
+    schedule.VESSEL_NAME +
+    '&SERVICE_NAME='+
+    schedule.SERVICE_NAME +
+    '&PORT_CODE=' +
+    schedule.PORT_CODE +
+    '&VIA_NO=' +
+    schedule.VIA_NO +
+     (schedule.STATUS != '' ? '&STATUS=' + schedule.STATUS : ''),
+  this.httpOptions
     );
   }
 

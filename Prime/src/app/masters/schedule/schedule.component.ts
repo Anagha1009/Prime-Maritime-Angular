@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray,FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ThisMonthExpression } from 'igniteui-angular-core';
 import { SCHEDULE } from 'src/app/models/schedule';
 import { CommonService } from 'src/app/services/common.service';
 import { ScheduleService } from 'src/app/services/schedule.service';
@@ -13,7 +14,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit {
-  ScheduleForm:FormGroup
+  ScheduleForm:FormGroup;
+  ScheduleForm1:FormGroup;
   servicenameList: any[] = [];
   ScheduleList:any[]=[];
   portList:any[]=[];
@@ -25,7 +27,7 @@ export class ScheduleComponent implements OnInit {
   slotDetailsForm: FormGroup;
   isLoading: boolean = false;
   isLoading1: boolean = false;
-  
+  schedule: SCHEDULE = new SCHEDULE();
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
@@ -50,7 +52,20 @@ export class ScheduleComponent implements OnInit {
       ETD:['',Validators.required],
       STATUS: ['',Validators.required],
       CREATED_BY: [''],
+      FROM_DATE:[''],
+      TO_DATE:['']
     });
+    this.ScheduleForm1=this._formBuilder.group({
+      VESSEL_NAME: ['',Validators.required],
+      SERVICE_NAME: ['',Validators.required],
+      PORT_CODE: ['',Validators.required],
+      VIA_NO:['',Validators.required],
+      ETA:['',Validators.required],
+      ETD:['',Validators.required],
+      STATUS: ['',Validators.required],
+      FROM_DATE:[''],
+      TO_DATE:['']
+    })
  this.getDropdown() ;
  this.GetScheduleList();
 
@@ -69,7 +84,8 @@ export class ScheduleComponent implements OnInit {
 
   
   GetScheduleList() {
-    this._scheduleService.getScheduleList().subscribe((res: any) => {
+    var schedule = new SCHEDULE();
+    this._scheduleService.getScheduleList(this.schedule).subscribe((res: any) => {
       this._commonService.destroyDT();
 
       if (res.ResponseCode == 200) {
@@ -210,7 +226,42 @@ export class ScheduleComponent implements OnInit {
       });
   }
 
-  Search() {}
+  Search() {
+    debugger
+    var  VESSEL_NAME = this.ScheduleForm.value.VESSEL_NAME;
+    var  SERVICE_NAME = this.ScheduleForm.value. SERVICE_NAME;
+    var PORT_CODE=this.ScheduleForm.value. PORT_CODE;
+    var VIA_NO=this.ScheduleForm.value.VIA_NO;
+    var STATUS = this.ScheduleForm.value.STATUS;
+    var FROM_DATE = this.ScheduleForm.value.FROM_DATE;
+    var TO_DATE = this.ScheduleForm.value.TO_DATE;
+
+    if (
+      VESSEL_NAME == '' &&
+      SERVICE_NAME == '' && 
+      PORT_CODE == '' &&
+      VIA_NO == '' &&
+      STATUS == '' &&
+      FROM_DATE == '' &&
+      TO_DATE == '' 
+    ) {
+      alert('Please enter atleast one filter to search !');
+      return;
+    } else if (FROM_DATE > TO_DATE) {
+      alert('From Date should be less than To Date !');
+      return;
+    }
+
+    this.schedule.VESSEL_NAME = VESSEL_NAME;
+    this.schedule.SERVICE_NAME = SERVICE_NAME;
+    
+    this.schedule.PORT_CODE=PORT_CODE;
+    this.schedule.STATUS = STATUS;
+    this.schedule.FROM_DATE = FROM_DATE;
+    this.schedule.TO_DATE = TO_DATE;
+    this.isLoading = true;
+    this.GetScheduleList();
+  }
 
 
   Clear(){

@@ -50,6 +50,8 @@ export class ServicetypeComponent implements OnInit {
       ON_HIRE_DATE:[''],
       OFF_HIRE_DATE:[''],
       PARENT_CODE: [''],
+      FROM_DATE:[''],
+      TO_DATE:[''],
       CREATED_BY: [''],
     })
 
@@ -132,6 +134,16 @@ export class ServicetypeComponent implements OnInit {
   ClearForm() {
     this.typeForm.reset();
     this.typeForm.get('STATUS')?.setValue('');
+  }
+  Clear() {
+    this.typeForm1.get('KEY_NAME')?.setValue('');
+    this.typeForm1.get('CODE')?.setValue('');
+    this.typeForm1.get('CODE_DESC')?.setValue('');
+    this.typeForm1.get('STATUS')?.setValue('');
+    this.typeForm1.get('ON_HIRE_DATE')?.setValue('');
+    this.typeForm1.get('OFF_HIRE_DATE')?.setValue(''); 
+    this.isLoading1 = true;
+    this.GetServiceTypeMasterList();
   }
 
   openModal(ID: any = 0) {

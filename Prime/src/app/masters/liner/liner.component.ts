@@ -20,6 +20,7 @@ export class LinerComponent implements OnInit {
   liner: LINER = new LINER();
   isLoading: boolean = false;
   isLoading1: boolean = false;
+  Liner:LINER=new LINER();
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
@@ -37,6 +38,8 @@ export class LinerComponent implements OnInit {
       CODE: ['', Validators.required],
       DESCRIPTION: ['', Validators.required],
       STATUS: ['', Validators.required],
+      FROM_DATE:[''],
+      TO_DATE:[''],
       CREATED_BY: [''],
     });
 
@@ -44,6 +47,8 @@ export class LinerComponent implements OnInit {
       NAME: [''],
       CODE: [''],
       DESCRIPTION: [''],
+      FROM_DATE:[''],
+      TO_DATE:[''],
       STATUS: [''],
     });
 
@@ -51,8 +56,10 @@ export class LinerComponent implements OnInit {
   }
 
   GetLinerList() {
+    var LinerModel = new LINER();
+
     this._commonService.destroyDT();
-    this._linerService.getLinerList().subscribe((res: any) => {
+    this._linerService.getLinerList(this.Liner).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.LinerList = res.Data;
       }
@@ -64,7 +71,40 @@ export class LinerComponent implements OnInit {
     return this.LinerForm.controls;
   }
 
-  Search() {}
+  Search() {
+    debugger
+    // var  NAME = this.LinerForm1.value.NAME;
+    // var  CODE = this.LinerForm1.value. CODE;
+    // var DESCRIPTION=this.LinerForm1.value. DESCRIPTION;
+    var STATUS = this.LinerForm1.value.STATUS;
+    var FROM_DATE = this.LinerForm1.value.FROM_DATE;
+    var TO_DATE = this.LinerForm1.value.TO_DATE;
+
+    if (
+      // NAME == '' &&
+      // CODE == '' && 
+      // DESCRIPTION == '' &&
+      STATUS == '' &&
+      FROM_DATE == '' &&
+      TO_DATE == ''
+    ) {
+      alert('Please enter atleast one filter to search !');
+      return;
+    } else if (FROM_DATE > TO_DATE) {
+      alert('From Date should be less than To Date !');
+      return;
+    }
+
+    // this.Liner.NAME = NAME;
+    // this.Liner.CODE = CODE;
+    // this.Liner.DESCRIPTION=DESCRIPTION;
+    this.Liner.STATUS = STATUS;
+    this.Liner.FROM_DATE = FROM_DATE;
+    this.Liner.TO_DATE = TO_DATE;
+    this.isLoading = true;
+    this.GetLinerList();
+  }
+
   Clear() {}
 
   GetLinerDetails(ID: number) {

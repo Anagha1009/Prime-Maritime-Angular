@@ -12,6 +12,7 @@ import { locale as hindi } from 'src/app/@core/translate/quotation/hi';
 import { locale as arabic } from 'src/app/@core/translate/quotation/ar';
 import { JsonpInterceptor } from '@angular/common/http';
 import { SSL_OP_TLS_ROLLBACK_BUG } from 'constants';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-new-quotation',
@@ -31,7 +32,9 @@ export class NewQuotationComponent implements OnInit {
   submitted1: boolean = false;
   isContainer: boolean = false;
   containerList: any[] = [];
-  icdList: any[] = [];
+  placeofRecpList: any[] = [];
+  placeofDelList: any[] = [];
+  finalDestList: any[] = [];
   containersizeList: any[] = [];
   servicenameList: any[] = [];
   servicenameList1: any[] = [];
@@ -51,7 +54,8 @@ export class NewQuotationComponent implements OnInit {
   currencyList: any[] = [];
   currencyList1: any[] = [];
   currencyList2: any[] = [];
-  portList: any[] = [];
+  polList: any[] = [];
+  podList: any[] = [];
   submitted3: boolean = false;
   isVoyageAdded: boolean = false;
   isLoading: boolean = false;
@@ -506,6 +510,10 @@ export class NewQuotationComponent implements OnInit {
     this.closeBtn.nativeElement.click();
   }
 
+  getct(value: any) {
+    return this.containerList.some(x => x.Container == value);
+  }
+
   saveContainer() {
 
     this.isLoading = true;
@@ -718,15 +726,26 @@ export class NewQuotationComponent implements OnInit {
   }
 
   getDropdown() {
-    this._commonService.getDropdownData('PORT').subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.portList = res.Data;
+
+    var portcode: any = localStorage.getItem('portcode')
+
+    this._commonService.getDropdownData('PLACE_OF_RECEIPT', portcode).subscribe((res: any) => {
+      if (res.hasOwnProperty('Data')) {
+        this.placeofRecpList = res.Data;
       }
     });
 
-    this._commonService.getDropdownData('ICD').subscribe((res: any) => {
-      if (res.hasOwnProperty('Data')) {
-        this.icdList = res.Data;
+    var countrycode: any = localStorage.getItem('countrycode')
+
+    this._commonService.getDropdownData('PORT', '', countrycode).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.polList = res.Data;
+      }
+    });
+
+    this._commonService.getDropdownData('PORT').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.podList = res.Data;
       }
     });
 
@@ -808,6 +827,26 @@ export class NewQuotationComponent implements OnInit {
           this.servicenameList = res.Data;
         }
       });
+
+  }
+
+  onChangePOD(event: any) {
+
+    this.placeofDelList = [];
+    this.quotationForm.get('PLACE_OF_DELIVERY')?.setValue('');
+    this._commonService.getDropdownData('PLACE_OF_DELIVERY', event).subscribe((res: any) => {
+      if (res.hasOwnProperty('Data')) {
+        this.placeofDelList = res.Data;
+      }
+    });
+
+    this.finalDestList = [];
+    this.quotationForm.get('FINAL_DESTINATION')?.setValue('');
+    this._commonService.getDropdownData('FINAL_DESTINATION', event).subscribe((res: any) => {
+      if (res.hasOwnProperty('Data')) {
+        this.finalDestList = res.Data;
+      }
+    });
 
   }
 

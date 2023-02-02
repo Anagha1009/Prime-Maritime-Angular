@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment.prod';
 import { CONTAINER_MOVEMENT, CONTAINER_TRACKING } from '../models/cm';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CmService {
   BASE_URL = environment.BASE_URL;
@@ -14,91 +14,108 @@ export class CmService {
       'Content-Type': 'application/json;charset=UTF-8',
     }),
   };
+
   constructor(private _http: HttpClient) {}
 
-  postContainerMovement(CM:any,fromXL:boolean){
-    debugger;
+  postContainerMovement(CM: any, fromXL: boolean) {
     return this._http.post<any>(
-      this.BASE_URL + 'ContainerMovement/InsertContainerMovement?fromXL='+
-      fromXL,
+      this.BASE_URL +
+        'ContainerMovement/InsertContainerMovement?fromXL=' +
+        fromXL,
       CM,
       this.httpOptions
     );
   }
 
-  getContainerMovement(CM:CONTAINER_MOVEMENT){
-    debugger;
+  //LIST
+  getContainerMovement(CM: CONTAINER_MOVEMENT) {
     return this._http.get<any>(
       this.BASE_URL +
-        'ContainerMovement/GetContainerMovementList?AGENT_CODE=' +
-        CM.AGENT_CODE +
-        '&DEPO_CODE=' +
-        CM.DEPO_CODE +
-        '&BOOKING_NO=' +
+        'ContainerMovement/GetContainerMovementList?BOOKING_NO=' +
         CM.BOOKING_NO +
-        '&CRO_NO='+
-        CM.CRO_NO+
-        '&CONTAINER_NO='+
+        '&CRO_NO=' +
+        CM.CRO_NO,
+      this.httpOptions
+    );
+  }
+
+  //SINGLE
+  getContMov(CM: CONTAINER_MOVEMENT) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'ContainerMovement/GetContainerMovement?BOOKING_NO=' +
+        CM.BOOKING_NO +
+        '&CRO_NO=' +
+        CM.CRO_NO +
+        '&CONTAINER_NO=' +
         CM.CONTAINER_NO,
       this.httpOptions
     );
-  
+  }
+
+  updateContMov(CM: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'ContainerMovement/UpdateContainerMovement',
+      CM,
+      this.httpOptions
+    );
+  }
+
+  uploadContMov(CM: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'ContainerMovement/UploadContainerMovement',
+      CM,
+      this.httpOptions
+    );
   }
 
   //for tracking view
-  getContainerMovementBooking(bkNo:any,croNo:any){
-    debugger;
+  getContainerMovementBooking(bkNo: any, croNo: any) {
     return this._http.get<any>(
       this.BASE_URL +
         'ContainerMovement/GetContainerMovementBooking?BOOKING_NO=' +
         bkNo +
-        '&CRO_NO='+
+        '&CRO_NO=' +
         croNo,
       this.httpOptions
     );
-  
   }
 
-  getSingleCM(contNo:any){
-    debugger;
+  getSingleCM(contNo: any) {
     return this._http.get<any>(
-      this.BASE_URL+
-      'ContainerMovement/GetSingleContainerMovement?CONTAINER_NO='+
-      contNo,
+      this.BASE_URL +
+        'ContainerMovement/GetSingleContainerMovement?CONTAINER_NO=' +
+        contNo,
       this.httpOptions
     );
   }
 
   //for empty repo
-  getCMAvailable(status:any,currentLocation:any){
-    debugger;
+  getCMAvailable(status: any, currentLocation: any) {
     return this._http.get<any>(
-      this.BASE_URL+
-      'ContainerMovement/GetCMAvailable?STATUS='+
-      status +
-      '&CURRENT_LOCATION='+
-      currentLocation,
+      this.BASE_URL +
+        'ContainerMovement/GetCMAvailable?STATUS=' +
+        status +
+        '&CURRENT_LOCATION=' +
+        currentLocation,
       this.httpOptions
     );
   }
 
-  getTrackingHistory(contNo:any){
+  getTrackingHistory(contNo: any) {
     return this._http.get<any>(
-      this.BASE_URL+
-      'ContainerMovement/GetContainerTrackingList?CONTAINER_NO='+
-      contNo,
+      this.BASE_URL +
+        'ContainerMovement/GetContainerTrackingList?CONTAINER_NO=' +
+        contNo,
       this.httpOptions
     );
   }
 
-  postTrackingHistory(ct:CONTAINER_TRACKING){
+  postTrackingHistory(ct: CONTAINER_TRACKING) {
     return this._http.post<any>(
       this.BASE_URL + 'ContainerMovement/InsertContainerTracking',
       ct,
       this.httpOptions
     );
-
   }
-
-
 }
