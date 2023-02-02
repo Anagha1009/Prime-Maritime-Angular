@@ -385,7 +385,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label2">Issue Date</label>
-                                <input type="date" formControlName="BL_ISSUE_DATE" class="form-control2" [ngClass]="{'invalid': submitted && blf.BL_ISSUE_DATE.errors}"/>
+                                <input type="date" formControlName="BL_ISSUE_DATE" class="form-control2" [ngClass]="{'invalid': submitted && blf.BL_ISSUE_DATE.errors}" min="{{minDate}}"/>
                                 <div *ngIf="submitted && blf.BL_ISSUE_DATE.errors" class="invalid-feedback">Please
                                     Enter BL Issue Date</div>
                             </div>
