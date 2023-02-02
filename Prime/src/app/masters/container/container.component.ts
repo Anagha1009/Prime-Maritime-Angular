@@ -1,7 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { CONTAINER } from 'src/app/models/container';
 import { CommonService } from 'src/app/services/common.service';
 import { ContainerService } from 'src/app/services/container.service';
@@ -17,8 +16,6 @@ export class ContainerComponent implements OnInit {
   containerForm: FormGroup;
   containerList: any[] = [];
   containerTypeList: any[] = [];
-
-  data: any;
   isUpdate: boolean = false;
   container: CONTAINER = new CONTAINER();
   contForm: FormGroup;
