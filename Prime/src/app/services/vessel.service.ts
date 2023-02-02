@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
-import { SCHEDULE, VESSEL } from '../models/vessel';
+import { SCHEDULE, VESSEL, VOYAGE } from '../models/vessel';
 
 @Injectable({
   providedIn: 'root',
@@ -95,6 +95,7 @@ export class VesselService {
       this.httpOptions
     );
   }
+
   updateSchedule(schedule: any) {
     return this._http.post<any>(
       this.BASE_URL + 'Master/UpdateSchedule',
@@ -102,9 +103,44 @@ export class VesselService {
       this.httpOptions
     );
   }
+
   deleteSchedule(ID: number) {
     return this._http.delete<any>(
       this.BASE_URL + 'Master/DeleteSchedule?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  getVoyageList(voyage: VOYAGE) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'Master/GetVoyageList?FROM_DATE=' +
+        voyage.FROM_DATE +
+        '&TO_DATE=' +
+        voyage.TO_DATE +
+        (voyage.STATUS != '' ? '&STATUS=' + voyage.STATUS : ''),
+      this.httpOptions
+    );
+  }
+
+  GetVoyageDetails(ID: number) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetVoyageDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  updateVoyage(schedule: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateVoyage',
+      schedule,
+      this.httpOptions
+    );
+  }
+
+  deleteVoyage(ID: number) {
+    return this._http.delete<any>(
+      this.BASE_URL + 'Master/DeleteVoyage?ID=' + ID,
       this.httpOptions
     );
   }

@@ -5,7 +5,7 @@
       <h2>Liner Service Master</h2>
     </div>
     <div class="mb-4">
-      <form [formGroup]="LinerServiceform">
+      <form [formGroup]="LinerServiceform1">
         <div class="col-md-6 offset-md-6 text-end">
           <button (click)="openModal()" class="form-btn-primary"><i class="fa fa-plus me-1"></i>New Liner
             Service</button>
@@ -13,13 +13,13 @@
             Liner Service</button>
         </div>
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-2">
             <div class="form-group">
-              <label class="form-label2">Status</label>
-              <select class="form-control2">
-                <option disabled value="">--Select--</option>
-                <option value=true>Active</option>
-                <option value=false>In-Active</option>
+              <label class="form-label2">Status </label>
+              <select class="form-control2" formControlName="STATUS">
+                <option value="" selected="true" disabled>--Select--</option>
+                <option value="true">Active</option>
+                <option value="false">InActive</option>
               </select>
             </div>
           </div>
@@ -84,7 +84,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="LinerServiceform1">
+        <form [formGroup]="LinerServiceform">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">

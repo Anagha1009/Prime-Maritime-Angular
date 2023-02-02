@@ -20,13 +20,7 @@ export class LinerService {
   getLinerList(Liner: LINER) {
     return this._http.get<any>(
       this.BASE_URL +
-        'Master/GetLinerList?NAME=' +
-        Liner.NAME +
-        '&CODE=' +
-        Liner.CODE +
-        '&DESCRIPTION=' +
-        Liner.DESCRIPTION +
-        '&FROM_DATE=' +
+        'Master/GetLinerList?FROM_DATE=' +
         Liner.FROM_DATE +
         '&TO_DATE=' +
         Liner.TO_DATE +
@@ -65,9 +59,14 @@ export class LinerService {
     );
   }
 
-  getServiceList() {
+  getServiceList(liner: LINER) {
     return this._http.get<any>(
-      this.BASE_URL + 'Master/GetServiceList',
+      this.BASE_URL +
+        'Master/GetServiceList?FROM_DATE=' +
+        liner.FROM_DATE +
+        '&TO_DATE=' +
+        liner.TO_DATE +
+        (liner.STATUS != '' ? '&STATUS=' + liner.STATUS : ''),
       this.httpOptions
     );
   }

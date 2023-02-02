@@ -12,26 +12,28 @@
             Liner</button>
         </div>
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-2">
             <div class="form-group">
-              <label class="form-label2">Status</label>
-              <select class="form-control2">
-                <option disabled value="">--Select--</option>
-                <option value=true>Active</option>
-                <option value=false>In-Active</option>
+              <label class="form-label2">Status </label>
+              <select class="form-control2" formControlName="STATUS">
+                <option value="" selected="true" disabled>--Select--</option>
+                <option value="true">Active</option>
+                <option value="false">InActive</option>
               </select>
             </div>
           </div>
           <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">From Date</label>
-              <input type="date" class="form-control2">
+              <input (change)="LinerForm1.get('TO_DATE')?.setValue('')" onkeypress="return false;"
+                formControlName="FROM_DATE" type="date" class="form-control2">
             </div>
           </div>
           <div class="col-md-2">
             <div class="form-group">
               <label class="form-label2">To Date</label>
-              <input type="date" class="form-control2">
+              <input onkeypress="return false;" [min]="LinerForm1.get('FROM_DATE')?.value" formControlName="TO_DATE"
+                type="date" class="form-control2">
             </div>
           </div>
           <div class="col-md-3 mt-4">

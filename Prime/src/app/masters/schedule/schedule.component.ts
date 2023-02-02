@@ -208,11 +208,22 @@ export class ScheduleComponent implements OnInit {
   }
 
   Search() {
-    var VESSEL_NAME = this.ScheduleForm1.value.VESSEL_NAME;
-    var PORT_CODE = this.ScheduleForm1.value.PORT_CODE;
-    var STATUS = this.ScheduleForm1.value.STATUS;
-    var ETA = this.ScheduleForm1.value.ETA;
-    var ETD = this.ScheduleForm1.value.ETD;
+    var VESSEL_NAME =
+      this.ScheduleForm1.value.VESSEL_NAME == null
+        ? ''
+        : this.ScheduleForm1.value.VESSEL_NAME;
+    var PORT_CODE =
+      this.ScheduleForm1.value.PORT_CODE == null
+        ? ''
+        : this.ScheduleForm1.value.PORT_CODE;
+    var STATUS =
+      this.ScheduleForm1.value.STATUS == null
+        ? ''
+        : this.ScheduleForm1.value.STATUS;
+    var ETA =
+      this.ScheduleForm1.value.ETA == null ? '' : this.ScheduleForm1.value.ETA;
+    var ETD =
+      this.ScheduleForm1.value.ETD == null ? '' : this.ScheduleForm1.value.ETD;
 
     if (
       VESSEL_NAME == '' &&

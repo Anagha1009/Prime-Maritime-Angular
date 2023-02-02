@@ -100,6 +100,10 @@ export class CurrencyComponent implements OnInit {
   }
 
   UpdateCurrencyMaster() {
+    this.submitted = true;
+    if (this.currencyForm.invalid) {
+      return;
+    }
     this.currencyForm.get('KEY_NAME')?.setValue('CURRENCY');
 
     this._masterService

@@ -15,3 +15,9 @@ export class SCHEDULE {
   ETD: string = '';
   STATUS: string = '';
 }
+
+export class VOYAGE {
+  STATUS: string = '';
+  FROM_DATE: string = '';
+  TO_DATE: string = '';
+}
