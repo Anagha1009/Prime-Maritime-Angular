@@ -6,3 +6,12 @@ export class VESSEL {
   FROM_DATE: string = '';
   TO_DATE: string = '';
 }
+
+export class SCHEDULE {
+  ID: any;
+  VESSEL_NAME: string = '';
+  PORT_CODE: string = '';
+  ETA: string = '';
+  ETD: string = '';
+  STATUS: string = '';
+}

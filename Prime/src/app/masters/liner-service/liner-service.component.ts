@@ -1,8 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LINER } from 'src/app/models/liner';
-import { LINERSERVICE } from 'src/app/models/linerservice';
+import { LINERSERVICE } from 'src/app/models/liner';
 import { CommonService } from 'src/app/services/common.service';
 import { LinerService } from 'src/app/services/liner.service';
 import Swal from 'sweetalert2';
@@ -60,23 +58,23 @@ export class LinerServiceComponent implements OnInit {
   }
 
   Search() {
-    debugger
-    var  LINER_CODE = this.LinerServiceform.value.LINER_CODE;
-    var  SERVICE_NAME = this.LinerServiceform.value. SERVICE_NAME;
-    var PORT_CODE=this.LinerServiceform.value. PORT_CODE;
-    var VIA_NO=this.LinerServiceform.value.VIA_NO;
+    debugger;
+    var LINER_CODE = this.LinerServiceform.value.LINER_CODE;
+    var SERVICE_NAME = this.LinerServiceform.value.SERVICE_NAME;
+    var PORT_CODE = this.LinerServiceform.value.PORT_CODE;
+    var VIA_NO = this.LinerServiceform.value.VIA_NO;
     var STATUS = this.LinerServiceform.value.STATUS;
     var FROM_DATE = this.LinerServiceform.value.FROM_DATE;
     var TO_DATE = this.LinerServiceform.value.TO_DATE;
 
     if (
       LINER_CODE == '' &&
-      SERVICE_NAME == '' && 
+      SERVICE_NAME == '' &&
       PORT_CODE == '' &&
       VIA_NO == '' &&
       STATUS == '' &&
       FROM_DATE == '' &&
-      TO_DATE == '' 
+      TO_DATE == ''
     ) {
       alert('Please enter atleast one filter to search !');
       return;
@@ -87,7 +85,7 @@ export class LinerServiceComponent implements OnInit {
 
     // this.schedule.LINER_CODE = LINER_CODE;
     // this.schedule.SERVICE_NAME = SERVICE_NAME;
-    
+
     // this.schedule.PORT_CODE=PORT_CODE;
     // this.schedule.STATUS = STATUS;
     // this.schedule.FROM_DATE = FROM_DATE;

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
-import { VESSEL } from '../models/vessel';
+import { SCHEDULE, VESSEL } from '../models/vessel';
 
 @Injectable({
   providedIn: 'root',
@@ -61,6 +61,50 @@ export class VesselService {
   DeleteVesselMaster(ID: number) {
     return this._http.delete<any>(
       this.BASE_URL + 'Master/DeleteVesselMasterList?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  getScheduleList(schedule: SCHEDULE) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'Master/GetScheduleList?VESSEL_NAME=' +
+        schedule.VESSEL_NAME +
+        '&PORT_CODE=' +
+        schedule.PORT_CODE +
+        '&ETA=' +
+        schedule.ETA +
+        '&ETD=' +
+        schedule.ETD +
+        (schedule.STATUS != '' ? '&STATUS=' + schedule.STATUS : ''),
+      this.httpOptions
+    );
+  }
+
+  GetScheduleDetails(ID: number) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetScheduleDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  postSchedule(schedule: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/InsertSchedule',
+      schedule,
+      this.httpOptions
+    );
+  }
+  updateSchedule(schedule: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateSchedule',
+      schedule,
+      this.httpOptions
+    );
+  }
+  deleteSchedule(ID: number) {
+    return this._http.delete<any>(
+      this.BASE_URL + 'Master/DeleteSchedule?ID=' + ID,
       this.httpOptions
     );
   }
