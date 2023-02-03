@@ -69,11 +69,22 @@ export class PartyComponent implements OnInit {
   }
 
   Search() {
-    var CUST_NAME = this.custForm.value.CUST_NAME;
-    var CUST_TYPE = this.custForm.value.CUST_TYPE;
-    var STATUS = this.custForm.value.STATUS;
-    var FROM_DATE = this.custForm.value.FROM_DATE;
-    var TO_DATE = this.custForm.value.TO_DATE;
+    var CUST_NAME =
+      this.custForm.value.CUST_NAME == null
+        ? ''
+        : this.custForm.value.CUST_NAME;
+    var CUST_TYPE =
+      this.custForm.value.CUST_TYPE == null
+        ? ''
+        : this.custForm.value.CUST_TYPE;
+    var STATUS =
+      this.custForm.value.STATUS == null ? '' : this.custForm.value.STATUS;
+    var FROM_DATE =
+      this.custForm.value.FROM_DATE == null
+        ? ''
+        : this.custForm.value.FROM_DATE;
+    var TO_DATE =
+      this.custForm.value.TO_DATE == null ? '' : this.custForm.value.TO_DATE;
 
     if (
       CUST_NAME == '' &&
@@ -83,9 +94,6 @@ export class PartyComponent implements OnInit {
       TO_DATE == ''
     ) {
       alert('Please enter atleast one filter to search !');
-      return;
-    } else if (FROM_DATE > TO_DATE) {
-      alert('From Date should be less than To Date !');
       return;
     }
 
@@ -99,18 +107,9 @@ export class PartyComponent implements OnInit {
   }
 
   Clear() {
-    this.custForm.get('CUST_NAME')?.setValue('');
-    this.custForm.get('CUST_TYPE')?.setValue('');
+    this.custForm.reset();
     this.custForm.get('STATUS')?.setValue('');
-    this.custForm.get('FROM_DATE')?.setValue('');
-    this.custForm.get('TO_DATE')?.setValue('');
-
-    this.customer.CUST_NAME = '';
-    this.customer.CUST_TYPE = '';
-    this.customer.STATUS = '';
-    this.customer.FROM_DATE = '';
-    this.customer.TO_DATE = '';
-
+    this.customer = new PARTY();
     this.isLoading1 = true;
     this.GetPartyMasterList();
   }

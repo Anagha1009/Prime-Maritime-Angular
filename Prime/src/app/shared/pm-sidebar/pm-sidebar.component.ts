@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./pm-sidebar.component.scss'],
 })
 export class PmSidebarComponent implements OnInit {
-  ismenu: boolean = false;
+  ismenu: boolean = true;
+  submenu: string = '';
   constructor(private _router: Router) {}
 
   ngOnInit(): void {
@@ -33,6 +34,12 @@ export class PmSidebarComponent implements OnInit {
       node.type = 'text/javascript';
       document.getElementsByTagName('head')[0].appendChild(node);
     });
+  }
+
+  redirectToSubMenu(value: string) {
+    this.ismenu = true;
+    this.submenu = value;
+    this._router.navigateByUrl('/pm/' + value);
   }
 
   logout() {

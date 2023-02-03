@@ -568,7 +568,7 @@
                                 <input type="text" formControlName="VENTILATION"
                                     [ngClass]="{'invalid': submitted2 && f2.VENTILATION.errors}"
                                     (keypress)="numericOnly($event)" class="form-control" />
-                                <label class="form-label">Ventilation (°C)<span class="text-danger"> *</span></label>
+                                <label class="form-label">Ventilation (%)<span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.VENTILATION.errors" class="invalid-feedback">
                                     Please enter Ventilation
                                 </div>
@@ -949,16 +949,22 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="col-md-12">
-                                        <div class="row mb-2">
-                                            <div class="col-md-6">
-                                                <h6>Container : <small
-                                                        class="text-danger mr-2">{{containerForm.value.CONTAINER_TYPE}}
-                                                    </small>
-                                                    Service Mode : <small
-                                                        class="text-danger">{{containerForm.value.SERVICE_MODE}}</small>
-                                                </h6>
-                                            </div>
-                                        </div>
+                                        <h6>POL : <small
+                                                class="text-danger mr-2">{{quotationForm.value.POL}}</small>&nbsp;
+                                            POD : <small
+                                                class="text-danger mr-2">{{quotationForm.value.POD}}</small>&nbsp;
+                                            Container : <small
+                                                class="text-danger mr-2">{{containerForm.value.CONTAINER_TYPE}}
+                                                x {{containerForm.value.IMM_VOLUME_EXPECTED}}
+                                            </small>&nbsp;
+                                            Service Mode : <small
+                                                class="text-danger">{{containerForm.value.SERVICE_MODE}}</small>&nbsp;
+                                        </h6>
+                                        <h6 *ngIf="isVesselVal">
+                                            Vessel/ Voyage : <small
+                                                class="text-danger">{{slotDetailsForm.value.VESSEL_NAME}}/
+                                                {{slotDetailsForm.value.VOYAGE_NO}}</small>
+                                        </h6>
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table" style="font-size: 15px;">

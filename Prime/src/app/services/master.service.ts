@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
+import { MASTER } from '../models/master';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +17,17 @@ export class MasterService {
 
   constructor(private _http: HttpClient) {}
 
-  GetMasterList(key: string) {
+  GetMasterList(master: MASTER) {
     return this._http.get<any>(
-      this.BASE_URL + 'Master/GetMasterList?key=' + key,
+      this.BASE_URL +
+        'Master/GetMasterList?key=' +
+        master.KEY_NAME +
+        '&FROM_DATE=' +
+        master.FROM_DATE +
+        '&TO_DATE=' +
+        master.TO_DATE +
+        '&STATUS=' +
+        master.STATUS,
       this.httpOptions
     );
   }
@@ -50,43 +59,39 @@ export class MasterService {
   DeleteMaster(ID: number) {
     debugger;
     return this._http.delete<any>(
-      this.BASE_URL + 'Master/DeleteMaster?ID=' + 
-      ID,
+      this.BASE_URL + 'Master/DeleteMaster?ID=' + ID,
       this.httpOptions
     );
   }
 
-  getMstICD(){
+  getMstICD() {
     debugger;
     return this._http.get<any>(
       this.BASE_URL + 'Master/GetMstICD',
       this.httpOptions
-
     );
   }
 
-  getMstDEPO(){
+  getMstDEPO() {
     debugger;
     return this._http.get<any>(
       this.BASE_URL + 'Master/GetMstDEPO',
       this.httpOptions
     );
-
   }
 
-  getCP(){
+  getCP() {
     return this._http.get<any>(
       this.BASE_URL + 'Master/GetClearingPartyList',
       this.httpOptions
     );
   }
 
-  postCP(cp:any){
+  postCP(cp: any) {
     return this._http.post<any>(
       this.BASE_URL + 'Master/InsertCP',
       cp,
       this.httpOptions
     );
-
   }
 }

@@ -143,7 +143,7 @@
                                             <div class="row mb-2">
                                                 <div class="col-md-8">
                                                     <h6>SRR NO:<small class="text-danger">
-                                                        {{quotationDetails?.SRR_NO}} </small></h6>
+                                                            {{quotationDetails?.SRR_NO}} </small></h6>
                                                     <h6>POL : <small class="text-danger">
                                                             {{quotationDetails?.POL}}</small>
                                                         POD :
@@ -238,11 +238,11 @@
                                                     <label class="mt-4"> {{j+1}}</label>
                                                 </td>
                                                 <td class="col-md-6">
-                                                    <label class="form-label3">Slot Operator<span
-                                                        class="text-danger">
-                                                        *</span></label>
-                                                    <select class="form-control3"  [ngClass]="{'invalid': submitted && f4.SLOT_OPERATOR.errors}"
-                                                    formControlName="SLOT_OPERATOR">
+                                                    <label class="form-label3">Slot Operator<span class="text-danger">
+                                                            *</span></label>
+                                                    <select class="form-control3"
+                                                        [ngClass]="{'invalid': submitted && f4.SLOT_OPERATOR.errors}"
+                                                        formControlName="SLOT_OPERATOR">
                                                         <option value="" selected disabled>
                                                             --Slot
                                                             Operator--</option>
@@ -251,16 +251,17 @@
                                                             {{item.CODE_DESC}}</option>
                                                     </select>
                                                     <div *ngIf="submitted && f4.SLOT_OPERATOR.errors"
-                                                    class="invalid-feedback">Slot Operator is required
-                                                </div>
+                                                        class="invalid-feedback">Slot Operator is required
+                                                    </div>
                                                 </td>
                                                 <td class="col-md-4">
-                                                    <label class="form-label3">No of Slots<span
-                                                        class="text-danger">
-                                                        *</span></label>
-                                                    <input (keypress)="numericOnly($event)" [ngClass]="{'invalid': submitted && f4.NO_OF_SLOTS.errors}"  class="form-control3"
-                                                        formControlName="NO_OF_SLOTS" type="text" />
-                                                        <div *ngIf="submitted && f4.NO_OF_SLOTS.errors"
+                                                    <label class="form-label3">No of Slots<span class="text-danger">
+                                                            *</span></label>
+                                                    <input (keypress)="numericOnly($event)"
+                                                        [ngClass]="{'invalid': submitted && f4.NO_OF_SLOTS.errors}"
+                                                        class="form-control3" formControlName="NO_OF_SLOTS"
+                                                        type="text" />
+                                                    <div *ngIf="submitted && f4.NO_OF_SLOTS.errors"
                                                         class="invalid-feedback">No of Slots is required
                                                     </div>
                                                 </td>
@@ -308,10 +309,12 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label2"><span Class="text-danger">*</span>No of Container</label>
-                            <input  (keypress)="numericOnly($event)"  maxlength="3" type="text"  id="ImmVolumeExpected" 
-                            [ngClass]="{'invalid': submitted2 && f2.IMM_VOLUME_EXPECTED.errors}" formControlName="IMM_VOLUME_EXPECTED" class="form-control2">
-                            <div *ngIf="submitted2 && f2.IMM_VOLUME_EXPECTED.errors" class="invalid-feedback">No of Container is required
-                        </div>
+                            <input (keypress)="numericOnly($event)" maxlength="3" type="text" id="ImmVolumeExpected"
+                                [ngClass]="{'invalid': submitted2 && f2.IMM_VOLUME_EXPECTED.errors}"
+                                formControlName="IMM_VOLUME_EXPECTED" class="form-control2">
+                            <div *ngIf="submitted2 && f2.IMM_VOLUME_EXPECTED.errors" class="invalid-feedback">No of
+                                Container is required
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -462,117 +465,75 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="date" onkeypress="return false"
-                                    [ngClass]="{'invalid': submitted3 && f6.ATA.errors}" formControlName="ATA"
-                                    class="form-control">
-                                <label class="form-label">ATA <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.ATA.errors" class="invalid-feedback">
-                                    ATA is required</div>
+                                <input type="date" onkeypress="return false" formControlName="ATA" class="form-control">
+                                <label class="form-label">ATA </label>
+
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="date" onkeypress="return false"
-                                    [ngClass]="{'invalid': submitted3 && f6.ATD.errors}" formControlName="ATD"
-                                    class="form-control">
-                                <label class="form-label">ATD <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.ATD.errors" class="invalid-feedback">
-                                    ATD is required</div>
+                                <input type="date" onkeypress="return false" formControlName="ATD" class="form-control">
+                                <label class="form-label">ATD </label>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="date" onkeypress="return false"
-                                    [ngClass]="{'invalid': submitted3 && f6.ETA.errors}" formControlName="ETA"
-                                    class="form-control">
-                                <label class="form-label">ETA <span class="text-danger">
+                                <input type="date" [ngClass]="{'invalid': submitted3 && f6.ETA.errors}"
+                                    onkeypress="return false" formControlName="ETA" class="form-control">
+                                <label class="form-label">ETA<span class="text-danger">
                                         *</span></label>
-                                <div *ngIf="submitted3 && f6.ETA.errors" class="invalid-feedback">
-                                    ETA is required</div>
+                                <div *ngIf="submitted3 && f6.ETA.errors" class="invalid-feedback">ETA is required</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="date" onkeypress="return false"
-                                    [ngClass]="{'invalid': submitted3 && f6.ETD.errors}" formControlName="ETD"
-                                    class="form-control">
+                                <input type="date" [ngClass]="{'invalid': submitted3 && f6.ETD.errors}"
+                                    onkeypress="return false" formControlName="ETD" class="form-control">
                                 <label class="form-label">ETD <span class="text-danger">
                                         *</span></label>
-                                <div *ngIf="submitted3 && f6.ETD.errors" class="invalid-feedback">
-                                    ETD is required</div>
+                                <div *ngIf="submitted3 && f6.ETD.errors" class="invalid-feedback">ETD is required</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <ng-select [ngClass]="{'invalid': submitted3 && f6.IMM_CURR.errors}"
-                                    formControlName="IMM_CURR">
+                                <ng-select formControlName="IMM_CURR">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                     <ng-option *ngFor="let item of currencyList"
                                         value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Import Currency <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.IMM_CURR.errors" class="invalid-feedback">Please select
-                                    Vessel</div>
+                                <label class="form-label-ddl">Import Currency </label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="text" [ngClass]="{'invalid': submitted3 && f6.IMM_CURR_RATE.errors}"
-                                    maxlength="100" formControlName="IMM_CURR_RATE" class="form-control">
-                                <label class="form-label">Import Currency Rate <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.IMM_CURR_RATE.errors" class="invalid-feedback">
-                                    Import Currency Rate is required</div>
+                                <input type="text" (keypress)="numericOnly($event)" maxlength="5"
+                                    formControlName="IMM_CURR_RATE" class="form-control">
+                                <label class="form-label">Import Currency Rate </label>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <ng-select [ngClass]="{'invalid': submitted3 && f6.EXP_CURR.errors}"
-                                    formControlName="EXP_CURR">
+                                <ng-select formControlName="EXP_CURR">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                     <ng-option *ngFor="let item of currencyList1"
                                         value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Export Currency <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.EXP_CURR.errors" class="invalid-feedback">Please select
-                                    Export Currency</div>
+                                <label class="form-label-ddl">Export Currency </label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="text" [ngClass]="{'invalid': submitted3 && f6.EXP_CURR_RATE.errors}"
-                                    maxlength="100" formControlName="EXP_CURR_RATE" class="form-control">
-                                <label class="form-label">Export Currency Rate <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.EXP_CURR_RATE.errors" class="invalid-feedback">
-                                    Export Currency Rate is required</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <ng-select [ngClass]="{'invalid': submitted3 && f6.TERMINAL_CODE.errors}"
-                                    formControlName="TERMINAL_CODE">
-                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option value="INMUN1">INMUN1
-                                    </ng-option>
-                                </ng-select>
-                                <label class="form-label-ddl">Terminal <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.TERMINAL_CODE.errors" class="invalid-feedback">Please
-                                    select
-                                    Terminal</div>
+                                <input type="text" (keypress)="numericOnly($event)" maxlength="5"
+                                    formControlName="EXP_CURR_RATE" class="form-control">
+                                <label class="form-label">Export Currency Rate</label>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -589,6 +550,21 @@
                                         *</span></label>
                                 <div *ngIf="submitted3 && f6.PORT_CODE.errors" class="invalid-feedback">Please select
                                     Port</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <ng-select [ngClass]="{'invalid': submitted3 && f6.TERMINAL_CODE.errors}"
+                                    formControlName="TERMINAL_CODE">
+                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                    <ng-option *ngFor="let item of terminalList"
+                                        value="{{item.CODE}}">{{item.CODE_DESC}} </ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">Terminal <span class="text-danger">
+                                        *</span></label>
+                                <div *ngIf="submitted3 && f6.TERMINAL_CODE.errors" class="invalid-feedback">Please
+                                    select
+                                    Terminal</div>
                             </div>
                         </div>
                     </div>

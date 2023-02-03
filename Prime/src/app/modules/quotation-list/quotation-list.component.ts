@@ -11,7 +11,6 @@ import { locale as arabic } from 'src/app/@core/translate/srr/ar';
 import { BookingService } from 'src/app/services/booking.service';
 import Swal from 'sweetalert2';
 
-
 @Component({
   selector: 'app-quotation-list',
   templateUrl: './quotation-list.component.html',
@@ -41,17 +40,18 @@ export class QuotationListComponent implements OnInit {
   servicenameList1: any[] = [];
   slotoperatorList: any[] = [];
   submitted: boolean = false;
-  submitted2:boolean=false;
+  submitted2: boolean = false;
   isLoading: boolean = false;
   isLoading1: boolean = false;
   srrNo: string = '';
   submitted3: boolean = false;
+  terminalList: any[] = [];
 
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('closeBtn1') closeBtn1: ElementRef;
   @ViewChild('closeBtn2') closeBtn2: ElementRef;
-  @ViewChild('closeBtn2') closeBtn3: ElementRef; 
+  @ViewChild('closeBtn2') closeBtn3: ElementRef;
   @ViewChild('containerModal') containerModal: ElementRef;
   @ViewChild('rateModal') rateModal: ElementRef;
 
@@ -84,8 +84,8 @@ export class QuotationListComponent implements OnInit {
       SRR_NO: [''],
       VESSEL_NAME: ['', Validators.required],
       VOYAGE_NO: ['', Validators.required],
-      SLOT_OPERATOR:['',Validators.required],
-      NO_OF_SLOTS:['',Validators.required],
+      SLOT_OPERATOR: ['', Validators.required],
+      NO_OF_SLOTS: ['', Validators.required],
       MOTHER_VESSEL_NAME: [''],
       MOTHER_VOYAGE_NO: [''],
       AGENT_CODE: [''],
@@ -112,11 +112,11 @@ export class QuotationListComponent implements OnInit {
         this.portList = res.Data;
       }
     });
+
     this._commonService.getDropdownData('VESSEL_NAME').subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.vesselList = res.Data;
         this.vesselList1 = res.Data;
-        
       }
     });
 
@@ -128,14 +128,13 @@ export class QuotationListComponent implements OnInit {
         }
       });
 
-      this._commonService.getDropdownData('CURRENCY').subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.currencyList = res.Data;
-          this.currencyList1 = res.Data;
-          this.currencyList2 = res.Data;
-        }
-      });
-  
+    this._commonService.getDropdownData('CURRENCY').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.currencyList = res.Data;
+        this.currencyList1 = res.Data;
+        this.currencyList2 = res.Data;
+      }
+    });
   }
 
   getVoyageList(event: any) {
@@ -251,7 +250,7 @@ export class QuotationListComponent implements OnInit {
             CONTAINER_TYPE: [element.CONTAINER_TYPE],
             CONTAINER_SIZE: [element.CONTAINER_SIZE],
             SERVICE_MODE: [element.SERVICE_MODE],
-            IMM_VOLUME_EXPECTED: ['',Validators.required],
+            IMM_VOLUME_EXPECTED: ['', Validators.required],
             STATUS: [element.STATUS],
             CREATED_BY: [localStorage.getItem('username')],
           })
@@ -282,7 +281,9 @@ export class QuotationListComponent implements OnInit {
       .insertContainer(JSON.stringify(this.containerForm.value.SRR_CONTAINERS))
       .subscribe((res: any) => {
         this.closeBtn1.nativeElement.click();
-         this. _commonService.successMsg('Your container has been added successfully  !');
+        this._commonService.successMsg(
+          'Your container has been added successfully  !'
+        );
 
         //  alert('Your container has been added successfully !');
         this.getSRRList();
@@ -291,12 +292,21 @@ export class QuotationListComponent implements OnInit {
 
   getServiceName1(event: any) {
     this.servicenameList1 = [];
+    this.terminalList = [];
     this.slotDetailsForm.get('SERVICE_NAME')?.setValue('');
     this._commonService
       .getDropdownData('SERVICE_NAME', event, '')
       .subscribe((res: any) => {
         if (res.hasOwnProperty('Data')) {
           this.servicenameList1 = res.Data;
+        }
+      });
+
+    this._commonService
+      .getDropdownData('TERMINAL', event, '')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.terminalList = res.Data;
         }
       });
   }
@@ -321,7 +331,6 @@ export class QuotationListComponent implements OnInit {
     );
   }
 
-  
   insertVoyage() {
     this.submitted3 = true;
 
@@ -333,6 +342,7 @@ export class QuotationListComponent implements OnInit {
       .get('CREATED_BY')
       ?.setValue(localStorage.getItem('username'));
 
+    console.log(JSON.stringify(this.voyageForm.value));
     this._bookingService
       .insertVoyage(JSON.stringify(this.voyageForm.value))
       .subscribe((res: any) => {
@@ -399,7 +409,9 @@ export class QuotationListComponent implements OnInit {
       .booking(JSON.stringify(this.slotDetailsForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          this. _commonService.successMsg('Your booking is placed successfully !');
+          this._commonService.successMsg(
+            'Your booking is placed successfully !'
+          );
           this._router.navigateByUrl('/home/booking-list');
         }
       });
@@ -478,12 +490,12 @@ export class QuotationListComponent implements OnInit {
     this.voyageForm = this._formBuilder.group({
       VESSEL_NAME: ['', Validators.required],
       VOYAGE_NO: ['', Validators.required],
-      ATA: ['', Validators.required],
-      ATD: ['', Validators.required],
-      IMM_CURR: ['', Validators.required],
-      IMM_CURR_RATE: ['', Validators.required],
-      EXP_CURR: ['', Validators.required],
-      EXP_CURR_RATE: ['', Validators.required],
+      ATA: [],
+      ATD: [],
+      IMM_CURR: [''],
+      IMM_CURR_RATE: ['0'],
+      EXP_CURR: [''],
+      EXP_CURR_RATE: ['0'],
       TERMINAL_CODE: ['', Validators.required],
       SERVICE_NAME: ['', Validators.required],
       VIA_NO: ['', Validators.required],
@@ -493,8 +505,4 @@ export class QuotationListComponent implements OnInit {
       CREATED_BY: [''],
     });
   }
-
-
-
-  
 }

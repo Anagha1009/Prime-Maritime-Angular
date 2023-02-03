@@ -1,7 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { CONTAINER } from 'src/app/models/container';
 import { CommonService } from 'src/app/services/common.service';
 import { ContainerService } from 'src/app/services/container.service';
@@ -17,14 +16,13 @@ export class ContainerComponent implements OnInit {
   containerForm: FormGroup;
   containerList: any[] = [];
   containerTypeList: any[] = [];
-
-  data: any;
   isUpdate: boolean = false;
-  container: CONTAINER;
+  container: CONTAINER = new CONTAINER();
   contForm: FormGroup;
   masterForm: FormGroup;
   isLoading: boolean = false;
   isLoading1: boolean = false;
+  portList: any[] = [];
 
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
@@ -40,25 +38,18 @@ export class ContainerComponent implements OnInit {
       ID: [0],
       CONTAINER_NO: ['', Validators.required],
       CONTAINER_TYPE: ['', Validators.required],
-      CONTAINER_SIZE: ['', Validators.required],
-      IS_OWNED: [false],
-      ON_HIRE_DATE: ['', Validators.required],
-      OFF_HIRE_DATE: ['', Validators.required],
-      MANUFACTURING_DATE: ['', Validators.required],
-      SHIPPER_OWNED: [false],
-      OWNER_NAME: ['', Validators.required],
-      LESSOR_NAME: ['', Validators.required],
-      PICKUP_LOCATION: ['', Validators.required],
-      DROP_LOCATION: ['', Validators.required],
-      CREATED_BY: [''],
+      ONHIRE_DATE: ['', Validators.required],
+      ONHIRE_LOCATION: ['', Validators.required],
+      LEASED_FROM: ['', Validators.required],
       STATUS: ['', Validators.required],
     });
 
     this.contForm = this._formBuilder.group({
+      CONTAINER_NO: [''],
       CONTAINER_TYPE: [''],
       CONTAINER_SIZE: [''],
-      FROM_DATE: [''],
-      TO_DATE: [''],
+      ONHIRE_DATE: [''],
+      STATUS: [''],
     });
 
     this.GetContainerMasterList();
@@ -70,7 +61,6 @@ export class ContainerComponent implements OnInit {
   }
 
   getDropdown() {
-    this.containerTypeList = [];
     this._commonService
       .getDropdownData('CONTAINER_TYPE')
       .subscribe((res: any) => {
@@ -78,17 +68,20 @@ export class ContainerComponent implements OnInit {
           this.containerTypeList = res.Data;
         }
       });
+
+    this._commonService.getDropdownData('PORT').subscribe((res: any) => {
+      if (res.hasOwnProperty('Data')) {
+        this.portList = res.Data;
+      }
+    });
   }
 
-  Insertcontainersize() {
+  InsertContainer() {
     this.submitted = true;
+
     if (this.containerForm.invalid) {
       return;
     }
-
-    this.containerForm
-      .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
 
     this._containerService
       .postContainer(JSON.stringify(this.containerForm.value))
@@ -104,12 +97,13 @@ export class ContainerComponent implements OnInit {
   }
 
   GetContainerMasterList() {
-    var containerModel = new CONTAINER();
     this._commonService.destroyDT();
 
     this._containerService
-      .GetContainerMasterList(containerModel)
+      .GetContainerMasterList(this.container)
       .subscribe((res: any) => {
+        this.isLoading = false;
+        this.isLoading1 = false;
         if (res.ResponseCode == 200) {
           this.containerList = res.Data;
         }
@@ -118,42 +112,43 @@ export class ContainerComponent implements OnInit {
   }
 
   Search() {
-    var CONTAINER_NO = this.containerForm.value.CONTAINER_NO;
-    var CONTAINER_TYPE = this.containerForm.value.CONTAINER_TYPE;
-    var STATUS = this.containerForm.value.STATUS;
-    var ON_HIRE_DATE = this.containerForm.value.ON_HIRE_DATE;
-    var OFF_HIRE_DATE = this.containerForm.value.OFF_HIRE_DATE;
-    var MANUFACTURING_DATE = this.containerForm.value.MANUFACTURING_DATE;
-    var OWNER_NAME = this.containerForm.value.OWNER_NAME;
-    var LESSOR_NAME = this.containerForm.value.LESSOR_NAME;
+    var CONTAINER_NO =
+      this.contForm.value.CONTAINER_NO == null
+        ? ''
+        : this.contForm.value.CONTAINER_NO;
+    var CONTAINER_TYPE =
+      this.contForm.value.CONTAINER_TYPE == null
+        ? ''
+        : this.contForm.value.CONTAINER_TYPE;
+    var CONTAINER_SIZE =
+      this.contForm.value.CONTAINER_SIZE == null
+        ? ''
+        : this.contForm.value.CONTAINER_SIZE;
+    var ONHIRE_DATE =
+      this.contForm.value.ONHIRE_DATE == null
+        ? ''
+        : this.contForm.value.ONHIRE_DATE;
+    var STATUS =
+      this.contForm.value.STATUS == null ? '' : this.contForm.value.STATUS;
 
     if (
       CONTAINER_NO == '' &&
       CONTAINER_TYPE == '' &&
-      STATUS == '' &&
-      ON_HIRE_DATE == '' &&
-      OFF_HIRE_DATE == '' &&
-      MANUFACTURING_DATE == '' &&
-      OWNER_NAME == '' &&
-      LESSOR_NAME == ''
+      CONTAINER_SIZE == '' &&
+      ONHIRE_DATE == '' &&
+      STATUS == ''
     ) {
       alert('Please enter atleast one filter to search !');
-      return;
-    } else if (ON_HIRE_DATE > OFF_HIRE_DATE) {
-      alert('From Date should be less than To Date !');
       return;
     }
 
     this.container.CONTAINER_NO = CONTAINER_NO;
     this.container.CONTAINER_TYPE = CONTAINER_TYPE;
+    this.container.CONTAINER_SIZE = CONTAINER_SIZE;
+    this.container.ONHIRE_DATE = ONHIRE_DATE;
     this.container.STATUS = STATUS;
-    this.container.ON_HIRE_DATE = ON_HIRE_DATE;
-    this.container.OFF_HIRE_DATE = OFF_HIRE_DATE;
-    this.container.MANUFACTURING_DATE = MANUFACTURING_DATE;
-    this.container.OWNER_NAME = OWNER_NAME;
-    this.container.LESSOR_NAME = LESSOR_NAME;
-    // this.isLoading = true;
-    // this.GetPartyMasterList();
+    this.isLoading = true;
+    this.GetContainerMasterList();
   }
 
   ClearForm() {
@@ -161,17 +156,16 @@ export class ContainerComponent implements OnInit {
     this.containerForm.get('ID')?.setValue(0);
     this.containerForm.get('CONTAINER_SIZE')?.setValue('');
   }
-  Clear() {
-    this.contForm.get('CONTAINER_NO')?.setValue('');
-    this.contForm.get('CONTAINER_TYPE')?.setValue('');
-    this.contForm.get('CONTAINER_SIZE')?.setValue('');
-    this.contForm.get('STATUS')?.setValue('');
-    this.contForm.get('FROM_DATE')?.setValue('');
-    this.contForm.get('TO_DATE')?.setValue('');
 
+  Clear() {
+    this.contForm.reset();
+    this.contForm.get('CONTAINER_TYPE')?.setValue('');
+    this.contForm.get('STATUS')?.setValue('');
+    this.container = new CONTAINER();
     this.isLoading1 = true;
     this.GetContainerMasterList();
   }
+
   GetContainerMasterDetails(containerId: number) {
     var containerModel = new CONTAINER();
     containerModel.ID = containerId;
@@ -181,18 +175,9 @@ export class ContainerComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.containerForm.patchValue(res.Data);
-          this.containerForm.get('OWNER')?.setValue(res.Data.OWNER_NAME);
           this.containerForm
-            .get('ON_HIRE_DATE')
-            ?.setValue(formatDate(res.Data.ON_HIRE_DATE, 'yyyy-MM-dd', 'en'));
-          this.containerForm
-            .get('OFF_HIRE_DATE')
-            ?.setValue(formatDate(res.Data.OFF_HIRE_DATE, 'yyyy-MM-dd', 'en'));
-          this.containerForm
-            .get('MANUFACTURING_DATE')
-            ?.setValue(
-              formatDate(res.Data.MANUFACTURING_DATE, 'yyyy-MM-dd', 'en')
-            );
+            .get('ONHIRE_DATE')
+            ?.setValue(formatDate(res.Data.ONHIRE_DATE, 'yyyy-MM-dd', 'en'));
         }
       });
   }
