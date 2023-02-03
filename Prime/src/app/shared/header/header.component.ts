@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
 
   getMenuList(param: any) {
     this.menuList = [];
-    if (param == 'agent') {
+    if (param == 1) {
       this.menuList.push(
         {
           menuName:
@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit {
         },
         { menuName: 'Finance', menuLink: 'javascript:void(0)' }
       );
-    } else if (param == 'depo') {
+    } else if (param == 3) {
       this.menuList.push(
         {
           menuName:
