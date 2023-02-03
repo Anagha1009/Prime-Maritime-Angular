@@ -41,30 +41,58 @@
                     <div class="card  mt-2" style="background: transparent;">
                         <div class="card-body text-start">
                             <div *ngIf="isquotation">
+                                <div class="col-md-10 mx-2">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <input class="form-control" style="background: transparent;" />
+                                            <input class="form-control" style="background: transparent;color: white;" />
                                             <label class="form-label text-light">Container Type</label>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <input class="form-control" style="background: transparent;" />
+                                            <input class="form-control" style="background: transparent;color: white;" />
                                             <label class="form-label text-light">No of Containers</label>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <input class="form-control" style="background: transparent;" />
+                                            <input class="form-control" style="background: transparent;color: white;" />
                                             <label class="form-label text-light">Commodity</label>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <input class="form-control" style="background: transparent;" />
+                                            <input class="form-control" style="background: transparent;color: white;" />
+                                            <label class="form-label text-light">Container No</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input class="form-control" style="background:transparent;"/>
+                                            <label class="form-label text-light">POL</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input class="form-control" style="background:transparent;color: white;"/>
+                                            <label class="form-label text-light">POD</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mx-auto">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input class="form-control" style="background:transparent;color: white;"/>
+                                            <label class="form-label text-light">Commodity Type</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input class="form-control" style="background:transparent; color: white;"/>
                                             <label class="form-label text-light">Gross Weight</label>
                                         </div>
                                     </div>
@@ -73,6 +101,7 @@
                                     <div class="col-md-6 mx-auto">
                                         <button class="form-btn rounded-pill w-100">Quotation</button>
                                     </div>
+                                </div>
                                 </div>
                             </div>
                             <div *ngIf="!isquotation">
