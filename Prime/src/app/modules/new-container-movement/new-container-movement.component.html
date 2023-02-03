@@ -235,11 +235,19 @@
                                 required</div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 mt-4">
                         <div class="form-group">
-                            <label class="form-label2">Location
-                            </label>
-                            <input type="text" formControlName="LOCATION" value="" class="form-control2" />
+                            <ng-select [ngClass]="{'invalid': submitted && f.LOCATION.errors}"
+                                formControlName="LOCATION">
+                                <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                <ng-option *ngFor="let item of depoList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    ({{item.CODE}})
+                                </ng-option>
+                            </ng-select>
+                            <label class="form-label-ddl">Location <span class="text-danger">
+                                    *</span></label>
+                            <div *ngIf="submitted && f.LOCATION.errors" class="invalid-feedback">
+                                Location is required</div>
                         </div>
                     </div>
                 </div>

@@ -14,7 +14,7 @@ export class DepoService {
       'Content-Type': 'application/json;charset=UTF-8',
     }),
   };
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {}
 
   createContainer(depoContainer: any) {
     return this._http.post<any>(
@@ -34,10 +34,11 @@ export class DepoService {
 
   getMRList(mr: Mr) {
     return this._http.get<any>(
-      this.BASE_URL + 'Depo/GetMNRList?&OPERATION=' +
-      mr.OPERATION +
-      '&DEPO_CODE=' +
-      mr.DEPO_CODE,
+      this.BASE_URL +
+        'Depo/GetMNRList?&OPERATION=' +
+        mr.OPERATION +
+        '&DEPO_CODE=' +
+        mr.DEPO_CODE,
       this.httpOptions
     );
   }
@@ -45,10 +46,10 @@ export class DepoService {
   getMRDetails(mr_details: MR_DETAILS) {
     return this._http.get<any>(
       this.BASE_URL +
-      'Depo/GetMRDetails?MR_NO=' +
-      mr_details.MR_NO +
-      '&OPERATION=' +
-      mr_details.OPERATION,
+        'Depo/GetMRDetails?MR_NO=' +
+        mr_details.MR_NO +
+        '&OPERATION=' +
+        mr_details.OPERATION,
       this.httpOptions
     );
   }
@@ -58,7 +59,10 @@ export class DepoService {
   }
 
   uploadFiles(file: any, MR_NO: string) {
-    return this._http.post<any>(this.BASE_URL + 'Depo/UploadMNRFiles?MR_NO=' + MR_NO, file);
+    return this._http.post<any>(
+      this.BASE_URL + 'Depo/UploadMNRFiles?MR_NO=' + MR_NO,
+      file
+    );
   }
 
   createNewMRRequest(mrList: any) {
@@ -71,17 +75,28 @@ export class DepoService {
 
   DeleteMRRequest(mrNo: string, location: string) {
     return this._http.post<any>(
-      this.BASE_URL + 'Depo/DeleteMRequest?MR_NO=' +
-      mrNo +
-      '&LOCATION=' +
-      location,
+      this.BASE_URL +
+        'Depo/DeleteMRequest?MR_NO=' +
+        mrNo +
+        '&LOCATION=' +
+        location,
       this.httpOptions
     );
   }
 
   GetFiles(mrNo: string) {
-    return this._http.get<any>(this.BASE_URL + 'Depo/GetImage?MR_NO=' + mrNo,
-    this.httpOptions);
+    return this._http.get<any>(
+      this.BASE_URL + 'Depo/GetImage?MR_NO=' + mrNo,
+      this.httpOptions
+    );
   }
 
+  getAvailableContainerListForDepo(depocode: string) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'ContainerMovement/GetAvailableContainerListForDepo?DEPO_CODE=' +
+        depocode,
+      this.httpOptions
+    );
+  }
 }
