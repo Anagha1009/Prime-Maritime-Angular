@@ -677,6 +677,12 @@ export class NewBlComponent implements OnInit {
           })
         );
       });
+      if(this.blForm.get('BL_STATUS')?.value=='Finalized'){
+        this.blForm.get('BLType')?.setValue('Original');
+      }
+      else{
+        this.blForm.get('BLType')?.setValue('Draft');
+      }
       this.generateBLPdf();
       //this.ContainerDescription();
     });
@@ -1095,12 +1101,12 @@ export class NewBlComponent implements OnInit {
           table: {
             heights: 15,
             headerRows: 1,
-            widths: ['*', '*', '*', '*', '*'],
+            widths: [140, '*', 95, '*', '*'],
             body: [
               [
                 { text: 'Freight and Charges', fontSize: 8, bold: true },
                 { text: 'Revenue Tons', fontSize: 8, bold: true },
-                { text: 'Rate Per', fontSize: 8, bold: true },
+                { text: 'Rate                 Per', fontSize: 8, bold: true },
                 { text: 'Prepaid', fontSize: 8, bold: true },
                 { text: 'Collect', fontSize: 8, bold: true },
               ],
@@ -1138,36 +1144,125 @@ export class NewBlComponent implements OnInit {
           margin: [0, 0, 0, 0],
         },
         {
-          columns: [
-            [
-              {
-                table: {
-                  widths: [50, 160, 160],
-                  headerRows: 1,
-                  heights: 30,
-                  body: [
-                    [{ rowSpan: 2, text: 'Ex. Rate', fontSize: 8, bold: true },
-                    { text: 'Prepaid at\n' + this.blForm.value.PREPAID_AT, fontSize: 8, bold: true },
-                    { text: 'Payable at\n' + this.blForm.value.PAYABLE_AT, fontSize: 8, bold: true }],
-                    [{ text: '         ', fontSize: 8, bold: true },
-                    { text: 'Total prepaid in local currency\n' + this.blForm.value.TOTAL_PREPAID, fontSize: 8, bold: true },
-                    { text: 'No. of original B(s)/L\n' + this.blForm.value.NO_OF_ORIGINAL_BL, fontSize: 8, bold: true }],
+          // columns:[
+          //   [
+          //     [
+            
+          //       {
+          //         width:20,
+          //         table: {
+          //           widths: [50],
+          //           headerRows: 1,
+          //           heights: 60,
+          //           body: [
+          //             [{text: 'Ex. Rate', fontSize: 8, bold: true }],
+                      
+          //           ],
+                    
+          //         },
+  
+          //       },
+          //       {
+          //         width:20,
+          //         table: {
+          //           //widths: [20, 20],
+          //           headerRows: 1,
+          //           heights: 30,
+          //           body: [
+          //             [
+          //             { text: 'Prepaid at\n' + this.blForm.value.PREPAID_AT, fontSize: 8, bold: true },
+          //             { text: 'Payable at\n' + this.blForm.value.PAYABLE_AT, fontSize: 8, bold: true }],
+          //             [
+          //             { text: 'Total prepaid in local currency\n' + this.blForm.value.TOTAL_PREPAID, fontSize: 8, bold: true },
+          //             { text: 'No. of original B(s)/L\n' + this.blForm.value.NO_OF_ORIGINAL_BL, fontSize: 8, bold: true }],
+          //           ],
+          //         },
+  
+          //       },
+  
+          //     ],
+              
+
+          //   ],
+          //   [
+          //     {
+          //       text: 'Place and date of issue\n' + this.blForm.value.BL_ISSUE_PLACE + '-' + formatDate(this.blForm.value.BL_ISSUE_DATE, 'yyyy-MM-dd', 'en'),
+          //       bold: true,
+          //       fontSize: 8,
+          //       margin: [2, 2, 0, 0],
+          //       width:5,
+          //     },
+
+
+          //   ]
+          // ],
+          columns:[
+            {
+              table: {
+                widths: [50,270],
+                headerRows: 1,
+                heights: 30,
+                body: [
+                  [{text: 'Ex. Rate', fontSize: 8, bold: true },
+                  {
+                    //layout: 'noBorders',
+                    layout:'headerLineOnly',
+                    table: {
+                      widths: [125, 125],
+                      headerRows: 1,
+                      heights: 30,
+                      body: [
+                        [
+                        { text: 'Prepaid at\n' + this.blForm.value.PREPAID_AT, fontSize: 8, bold: true },
+                        { text: 'Payable at\n' + this.blForm.value.PAYABLE_AT, fontSize: 8, bold: true }],
+                        [
+                        { text: 'Total prepaid in local currency\n' + this.blForm.value.TOTAL_PREPAID, fontSize: 8, bold: true },
+                        { text: 'No. of original B(s)/L\n' + this.blForm.value.NO_OF_ORIGINAL_BL, fontSize: 8, bold: true }],
+                      ],
+                    },
+
+                  }
+                   
                   ],
-                },
-
+                  
+                  
+                ],
               },
+              
 
-            ],
+            },
+            // [
+            //   {
+            //     table: {
+            //       widths: [50],
+            //       headerRows: 1,
+            //       heights: 60,
+            //       body: [
+            //         [{text: 'Ex. Rate', fontSize: 8, bold: true }],
+
+                    
+            //       ],
+            //     },
+
+            //   },
+            // ],
             
             [
+
               {
                 text: 'Place and date of issue\n' + this.blForm.value.BL_ISSUE_PLACE + '-' + formatDate(this.blForm.value.BL_ISSUE_DATE, 'yyyy-MM-dd', 'en'),
                 bold: true,
                 fontSize: 8,
                 margin: [2, 2, 0, 0],
+                width:10,
               },
+
             ]
-          ],
+            
+            
+
+          ]
+          
 
         },
         // {
