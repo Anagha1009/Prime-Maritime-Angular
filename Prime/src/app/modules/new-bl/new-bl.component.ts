@@ -135,7 +135,10 @@ export class NewBlComponent implements OnInit {
           SEAL_NO: [element.SEAL_NO],
           GROSS_WEIGHT: [element.GROSS_WEIGHT],
           MEASUREMENT: [element.MEASUREMENT.toString()],
-          AGENT_SEAL_NO: [element.AGENT_SEAL_NO]
+          AGENT_SEAL_NO: [element.AGENT_SEAL_NO],
+          MARKS_NOS:[this.blForm.get('MARKS_NOS')?.value],
+          DESC_OF_GOODS:[this.blForm.get('DESC_OF_GOODS')?.value]
+
         })
       );
     });
@@ -369,6 +372,8 @@ export class NewBlComponent implements OnInit {
               AGENT_SEAL_NO: [element.SEAL_NO],
               GROSS_WEIGHT: [element.GROSS_WEIGHT],
               MEASUREMENT: [element.MEASUREMENT?.toString()],
+              DESC_OF_GOODS:[element.DESC_OF_GOODS],
+              MARKS_NOS:[element.MARKS_NOS]
             })
           );
         });
