@@ -139,7 +139,6 @@ export class NewQuotationComponent implements OnInit {
     this.quotationForm.get('EFFECT_FROM')?.setValue(this.currentDate);
 
     this.getEffectToDate(currentDate, 0);
-
   }
 
   //Create Customer
@@ -160,7 +159,9 @@ export class NewQuotationComponent implements OnInit {
       .postParty(JSON.stringify(this.partyForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          this._commonService.successMsg('Your record has been submitted successfully !');
+          this._commonService.successMsg(
+            'Your record has been submitted successfully !'
+          );
           this._commonService
             .getDropdownData('CUSTOMER_NAME')
             .subscribe((res: any) => {
@@ -227,27 +228,27 @@ export class NewQuotationComponent implements OnInit {
   }
 
   onchangeTab(index: any) {
-    // if (index == '2') {
-    //   if (this.quotationForm.invalid) {
-    //     alert('Please complete SRR Details');
-    //     this.tabs = '1';
-    //   } else {
-    //     this.tabs = index;
-    //   }
-    // } else if (index == '3') {
-    //   if (this.quotationForm.invalid) {
-    //     alert('Please complete SRR Details');
-    //     this.tabs = '1';
-    //   } else if (this.f7.length == 0) {
-    //     alert('Please complete Commodity Details');
-    //     this.tabs = '2';
-    //   } else {
-    //     this.tabs = index;
-    //   }
-    // } else {
-    //   this.tabs = index;
-    // }
-    this.tabs = index;
+    if (index == '2') {
+      if (this.quotationForm.invalid) {
+        alert('Please complete SRR Details');
+        this.tabs = '1';
+      } else {
+        this.tabs = index;
+      }
+    } else if (index == '3') {
+      if (this.quotationForm.invalid) {
+        alert('Please complete SRR Details');
+        this.tabs = '1';
+      } else if (this.f7.length == 0) {
+        alert('Please complete Commodity Details');
+        this.tabs = '2';
+      } else {
+        this.tabs = index;
+      }
+    } else {
+      this.tabs = index;
+    }
+    //this.tabs = index;
   }
 
   onchangeIMO(event: any) {
@@ -413,7 +414,6 @@ export class NewQuotationComponent implements OnInit {
 
     this._quotationService.getSRRRateList(srr).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
-
         res.Data.FREIGHTLIST.forEach((element: any) => {
           rateList.push(
             this._formBuilder.group({
@@ -446,9 +446,11 @@ export class NewQuotationComponent implements OnInit {
       }
     });
 
-    if (Number(this.containerForm.get('IMM_VOLUME_EXPECTED')?.value) >
-      Number(this.containerForm.get('TOTAL_VOLUME_EXPECTED')?.value)) {
-      alert('Imm. Volume Expected should be less than Total Volume Expected ')
+    if (
+      Number(this.containerForm.get('IMM_VOLUME_EXPECTED')?.value) >
+      Number(this.containerForm.get('TOTAL_VOLUME_EXPECTED')?.value)
+    ) {
+      alert('Imm. Volume Expected should be less than Total Volume Expected ');
       this.containerForm.get('IMM_VOLUME_EXPECTED')?.setValue('');
       return;
     }
@@ -473,19 +475,18 @@ export class NewQuotationComponent implements OnInit {
   }
 
   submitRate() {
-
     this.submiitedRate = true;
 
     const add = this.quotationForm.get('SRR_RATES') as FormArray;
 
     if (add.invalid) {
-      return
+      return;
     }
 
     this.containerList.push({
       Container: this.containerForm.value.CONTAINER_TYPE,
       ServiceMode: this.containerForm.value.SERVICE_MODE,
-      RATE_LIST: [add.value]
+      RATE_LIST: [add.value],
     });
 
     var containers = this.quotationForm.get('SRR_CONTAINERS') as FormArray;
@@ -511,11 +512,10 @@ export class NewQuotationComponent implements OnInit {
   }
 
   getct(value: any) {
-    return this.containerList.some(x => x.Container == value);
+    return this.containerList.some((x) => x.Container == value);
   }
 
   saveContainer() {
-
     this.isLoading = true;
     var POL = this.quotationForm.value.POL;
     var POD = this.quotationForm.value.POD;
@@ -539,7 +539,9 @@ export class NewQuotationComponent implements OnInit {
       this.quotationForm.get('IS_VESSELVALIDITY')?.setValue(true);
     }
 
-    this.quotationForm.value.SRR_RATES = this.containerList.map(x => x.RATE_LIST).flat(2);
+    this.quotationForm.value.SRR_RATES = this.containerList
+      .map((x) => x.RATE_LIST)
+      .flat(2);
 
     this._quotationService
       .insertSRR(JSON.stringify(this.quotationForm.value))
@@ -576,13 +578,23 @@ export class NewQuotationComponent implements OnInit {
               .subscribe((res: any) => {
                 if (res.responseCode == 200) {
                   this.isLoading = false;
-                  this._commonService.successMsg('Your quotation has been submitted successfully !' + '<br>' + 'SRR No. is - ' + SRRNO);
+                  this._commonService.successMsg(
+                    'Your quotation has been submitted successfully !' +
+                      '<br>' +
+                      'SRR No. is - ' +
+                      SRRNO
+                  );
                   this._router.navigateByUrl('/home/quotation-list');
                 }
               });
           } else {
             this.isLoading = false;
-            this._commonService.successMsg('Your quotation has been submitted successfully !' + '<br>' + 'SRR No. is - ' + SRRNO);
+            this._commonService.successMsg(
+              'Your quotation has been submitted successfully !' +
+                '<br>' +
+                'SRR No. is - ' +
+                SRRNO
+            );
             this._router.navigateByUrl('/home/quotation-list');
           }
         }
@@ -590,7 +602,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   openRateDetailModal(i: any) {
-    this.connIndex = i
+    this.connIndex = i;
 
     this.RateDetailModal.nativeElement.click();
   }
@@ -726,22 +738,25 @@ export class NewQuotationComponent implements OnInit {
   }
 
   getDropdown() {
+    var portcode: any = localStorage.getItem('portcode');
 
-    var portcode: any = localStorage.getItem('portcode')
+    this._commonService
+      .getDropdownData('PLACE_OF_RECEIPT', portcode)
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.placeofRecpList = res.Data;
+        }
+      });
 
-    this._commonService.getDropdownData('PLACE_OF_RECEIPT', portcode).subscribe((res: any) => {
-      if (res.hasOwnProperty('Data')) {
-        this.placeofRecpList = res.Data;
-      }
-    });
+    var countrycode: any = localStorage.getItem('countrycode');
 
-    var countrycode: any = localStorage.getItem('countrycode')
-
-    this._commonService.getDropdownData('PORT', '', countrycode).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.polList = res.Data;
-      }
-    });
+    this._commonService
+      .getDropdownData('PORT', '', countrycode)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.polList = res.Data;
+        }
+      });
 
     this._commonService.getDropdownData('PORT').subscribe((res: any) => {
       if (res.ResponseCode == 200) {
@@ -827,27 +842,28 @@ export class NewQuotationComponent implements OnInit {
           this.servicenameList = res.Data;
         }
       });
-
   }
 
   onChangePOD(event: any) {
-
     this.placeofDelList = [];
     this.quotationForm.get('PLACE_OF_DELIVERY')?.setValue('');
-    this._commonService.getDropdownData('PLACE_OF_DELIVERY', event).subscribe((res: any) => {
-      if (res.hasOwnProperty('Data')) {
-        this.placeofDelList = res.Data;
-      }
-    });
+    this._commonService
+      .getDropdownData('PLACE_OF_DELIVERY', event)
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.placeofDelList = res.Data;
+        }
+      });
 
     this.finalDestList = [];
     this.quotationForm.get('FINAL_DESTINATION')?.setValue('');
-    this._commonService.getDropdownData('FINAL_DESTINATION', event).subscribe((res: any) => {
-      if (res.hasOwnProperty('Data')) {
-        this.finalDestList = res.Data;
-      }
-    });
-
+    this._commonService
+      .getDropdownData('FINAL_DESTINATION', event)
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.finalDestList = res.Data;
+        }
+      });
   }
 
   getServiceName1(event: any) {
@@ -959,9 +975,9 @@ export class NewQuotationComponent implements OnInit {
     if (
       event.target.files[0].type == 'application/pdf' ||
       event.target.files[0].type ==
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
       event.target.files[0].type ==
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
       event.target.files[0].type == 'application/xls' ||
       event.target.files[0].type == 'application/xlsx' ||
       event.target.files[0].type == 'application/doc'
@@ -1089,8 +1105,7 @@ export class NewQuotationComponent implements OnInit {
     const add = this.quotationForm.get('SRR_RATES') as FormArray;
     if (event.target.value == 'Prepaid') {
       add.at(i)?.get('TRANSPORT_TYPE')?.setValue('POL');
-    }
-    else if (event.target.value == 'Collect') {
+    } else if (event.target.value == 'Collect') {
       add.at(i)?.get('TRANSPORT_TYPE')?.setValue('POD');
     }
   }

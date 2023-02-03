@@ -1,8 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { LINER } from 'src/app/models/liner';
-import { LINERSERVICE } from 'src/app/models/linerservice';
 import { CommonService } from 'src/app/services/common.service';
 import { LinerService } from 'src/app/services/liner.service';
 import Swal from 'sweetalert2';
@@ -19,7 +17,7 @@ export class LinerServiceComponent implements OnInit {
   submitted: boolean;
   isUpdate: boolean = false;
   portList: any[] = [];
-  linerService: LINERSERVICE = new LINERSERVICE();
+  liner: LINER = new LINER();
   isLoading: boolean = false;
   isLoading1: boolean = false;
 
@@ -43,9 +41,6 @@ export class LinerServiceComponent implements OnInit {
     });
 
     this.LinerServiceform1 = this._formBuilder.group({
-      LINER_CODE: [''],
-      SERVICE_NAME: [''],
-      PORT_CODE: [''],
       STATUS: [''],
       FROM_DATE: [''],
       TO_DATE: [''],
@@ -60,49 +55,45 @@ export class LinerServiceComponent implements OnInit {
   }
 
   Search() {
-    debugger
-    var  LINER_CODE = this.LinerServiceform.value.LINER_CODE;
-    var  SERVICE_NAME = this.LinerServiceform.value. SERVICE_NAME;
-    var PORT_CODE=this.LinerServiceform.value. PORT_CODE;
-    var VIA_NO=this.LinerServiceform.value.VIA_NO;
-    var STATUS = this.LinerServiceform.value.STATUS;
-    var FROM_DATE = this.LinerServiceform.value.FROM_DATE;
-    var TO_DATE = this.LinerServiceform.value.TO_DATE;
+    var STATUS =
+      this.LinerServiceform1.value.STATUS == null
+        ? ''
+        : this.LinerServiceform1.value.STATUS;
+    var FROM_DATE =
+      this.LinerServiceform1.value.FROM_DATE == null
+        ? ''
+        : this.LinerServiceform1.value.FROM_DATE;
+    var TO_DATE =
+      this.LinerServiceform1.value.TO_DATE == null
+        ? ''
+        : this.LinerServiceform1.value.TO_DATE;
 
-    if (
-      LINER_CODE == '' &&
-      SERVICE_NAME == '' && 
-      PORT_CODE == '' &&
-      VIA_NO == '' &&
-      STATUS == '' &&
-      FROM_DATE == '' &&
-      TO_DATE == '' 
-    ) {
+    if (STATUS == '' && FROM_DATE == '' && TO_DATE == '') {
       alert('Please enter atleast one filter to search !');
-      return;
-    } else if (FROM_DATE > TO_DATE) {
-      alert('From Date should be less than To Date !');
       return;
     }
 
-    // this.schedule.LINER_CODE = LINER_CODE;
-    // this.schedule.SERVICE_NAME = SERVICE_NAME;
-    
-    // this.schedule.PORT_CODE=PORT_CODE;
-    // this.schedule.STATUS = STATUS;
-    // this.schedule.FROM_DATE = FROM_DATE;
-    // this.schedule.TO_DATE = TO_DATE;
-    // this.isLoading = true;
-    // this.GetScheduleList();
+    this.liner.STATUS = STATUS;
+    this.liner.FROM_DATE = FROM_DATE;
+    this.liner.TO_DATE = TO_DATE;
+    this.isLoading = true;
+    this.GetServiceList();
   }
 
-  Clear() {}
+  Clear() {
+    this.LinerServiceform1.reset();
+    this.LinerServiceform1.get('STATUS')?.setValue('');
+    this.liner = new LINER();
+    this.isLoading1 = true;
+    this.GetServiceList();
+  }
 
   GetServiceList() {
     this._commonService.destroyDT();
-
-    this._linerService.getServiceList().subscribe((res: any) => {
+    this._linerService.getServiceList(this.liner).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
+        this.isLoading = false;
+        this.isLoading1 = false;
         this.ServiceList = res.Data;
       }
       this._commonService.getDT();
@@ -112,6 +103,7 @@ export class LinerServiceComponent implements OnInit {
   GetServiceDetails(ID: number) {
     this._linerService.GetServiceDetails(ID).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
+        debugger;
         this.LinerServiceform.patchValue(res.Data);
       }
     });

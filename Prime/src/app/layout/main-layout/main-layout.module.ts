@@ -42,6 +42,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TdrComponent } from 'src/app/modules/tdr/tdr.component';
 import { ErListComponent } from 'src/app/modules/er-list/er-list.component';
 import { ErDetailsComponent } from 'src/app/modules/er-details/er-details.component';
+import { NewContainerMovementComponent } from 'src/app/modules/new-container-movement/new-container-movement.component';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -67,13 +69,7 @@ import { ErDetailsComponent } from 'src/app/modules/er-details/er-details.compon
     ContainerAllotmentListComponent,
     ManifestListComponent,
     ContainerComponent,
-    
-    
-   
-    
-   
     PushNotificationComponent,
-    
     MrRequestComponent,
     MrRequestListComponent,
     DetentionWaverRequestComponent,
@@ -83,6 +79,7 @@ import { ErDetailsComponent } from 'src/app/modules/er-details/er-details.compon
     TrackBookingComponent,
     LoadListComponent,
     TdrComponent,
+    NewContainerMovementComponent,
   ],
   imports: [
     CommonModule,
@@ -99,6 +96,7 @@ import { ErDetailsComponent } from 'src/app/modules/er-details/er-details.compon
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    DataTablesModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

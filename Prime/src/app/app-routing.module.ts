@@ -27,7 +27,6 @@ import { NewBlComponent } from './modules/new-bl/new-bl.component';
 import { NewCmComponent } from './modules/new-cm/new-cm.component';
 import { PmLoginComponent } from './pm-modules/pm-login/pm-login.component';
 import { VesselComponent } from './masters/vessel/vessel.component';
-import { ServiceComponent } from './masters/service/service.component';
 import { ContainerTypeComponent } from './masters/container-type/container-type.component';
 import { DepoDashboardComponent } from './modules/depo-dashboard/depo-dashboard.component';
 import { ContainerAllotmentComponent } from './modules/container-allotment/container-allotment.component';
@@ -58,6 +57,7 @@ import { LinerComponent } from './masters/liner/liner.component';
 import { LinerServiceComponent } from './masters/liner-service/liner-service.component';
 import { Component } from 'ag-grid-community';
 import { ScheduleComponent } from './masters/schedule/schedule.component';
+import { NewContainerMovementComponent } from './modules/new-container-movement/new-container-movement.component';
 
 const routes: Routes = [
   {
@@ -133,26 +133,21 @@ const routes: Routes = [
         component: VesselComponent,
       },
       {
-        path: 'service',
-        component: ServiceComponent,
-      },
-      {
         path: 'voyage',
         component: VoyageComponent,
       },
       {
-        path:'liner',
-        component:LinerComponent,
+        path: 'liner',
+        component: LinerComponent,
       },
       {
-        path:'linerService',
-        component:LinerServiceComponent,
+        path: 'linerService',
+        component: LinerServiceComponent,
       },
       {
-        path:'schedule',
-        component:ScheduleComponent,
-         }
-     
+        path: 'schedule',
+        component: ScheduleComponent,
+      },
     ],
   },
   {
@@ -227,6 +222,10 @@ const routes: Routes = [
       {
         path: 'new-cm',
         component: NewCmComponent,
+      },
+      {
+        path: 'new-container-movement',
+        component: NewContainerMovementComponent,
       },
       {
         path: 'tracking',

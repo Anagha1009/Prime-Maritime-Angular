@@ -20,17 +20,17 @@ export class ContainerService {
   GetContainerMasterList(containermaster: CONTAINER) {
     return this._http.get<any>(
       this.BASE_URL +
-        'GetContainerMasterList?CONTAINER_NO=' +
+        'Master/GetContainerMasterList?CONTAINER_NO=' +
         containermaster.CONTAINER_NO +
-        '&CONTAINER_TYPE='+
+        '&CONTAINER_TYPE=' +
         containermaster.CONTAINER_TYPE +
-        '&CONTAINER_SIZE='+
+        '&CONTAINER_SIZE=' +
         containermaster.CONTAINER_SIZE +
-        '&FROM_DATE=' +
-        containermaster.FROM_DATE +
-      '&TO_DATE=' +
-      containermaster.TO_DATE +
-       (containermaster.STATUS != '' ? '&STATUS=' + containermaster.STATUS : ''),
+        '&ONHIRE_DATE=' +
+        containermaster.ONHIRE_DATE +
+        (containermaster.STATUS != ''
+          ? '&STATUS=' + containermaster.STATUS
+          : ''),
       this.httpOptions
     );
   }
@@ -42,7 +42,7 @@ export class ContainerService {
     );
   }
 
-  GetContainerMasterDetails(container: CONTAINER) {
+  GetContainerMasterDetails(container: any) {
     return this._http.get<any>(
       this.BASE_URL +
         'Master/GetContainerMasterDetails?&ID=' +
