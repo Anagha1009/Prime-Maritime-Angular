@@ -84,8 +84,6 @@ export class QuotationListComponent implements OnInit {
       SRR_NO: [''],
       VESSEL_NAME: ['', Validators.required],
       VOYAGE_NO: ['', Validators.required],
-      SLOT_OPERATOR: ['', Validators.required],
-      NO_OF_SLOTS: ['', Validators.required],
       MOTHER_VESSEL_NAME: [''],
       MOTHER_VOYAGE_NO: [''],
       AGENT_CODE: [''],
@@ -201,12 +199,12 @@ export class QuotationListComponent implements OnInit {
     this.quotation.OPERATION = 'GET_SRRLIST';
     this._quotationService.getSRRList(this.quotation).subscribe(
       (res: any) => {
+        this.isLoading = false;
+        this.isLoading1 = false;
         this.quotationList = [];
         this.isScroll = false;
         if (res.hasOwnProperty('Data')) {
           if (res.Data?.length > 0) {
-            this.isLoading = false;
-            this.isLoading1 = false;
             this.quotationList = res.Data;
             if (this.quotationList?.length >= 4) {
               this.isScroll = true;
@@ -258,7 +256,6 @@ export class QuotationListComponent implements OnInit {
       });
 
       const add1 = this.rateForm.get('SRR_RATES') as FormArray;
-
       add1.clear();
       res.Data?.SRR_RATES.forEach((element: any) => {
         add1.push(this._formBuilder.group(element));
@@ -266,6 +263,7 @@ export class QuotationListComponent implements OnInit {
     });
 
     if (value == 'container') {
+      this.submitted2 = false;
       this.containerModal.nativeElement.click();
     } else if (value == 'rate') {
       this.rateModal.nativeElement.click();
@@ -325,8 +323,8 @@ export class QuotationListComponent implements OnInit {
 
     slotDetails.push(
       this._formBuilder.group({
-        SLOT_OPERATOR: [''],
-        NO_OF_SLOTS: [''],
+        SLOT_OPERATOR: ['', Validators.required],
+        NO_OF_SLOTS: ['', Validators.required],
       })
     );
   }
@@ -371,6 +369,7 @@ export class QuotationListComponent implements OnInit {
       this.quotationList[i].NO_OF_CONTAINERS;
 
     this.slotDetailsForm.reset();
+    this.submitted = false;
     this.slotDetailsForm.get('VESSEL_NAME')?.setValue('');
     this.slotDetailsForm.get('VOYAGE_NO')?.setValue('');
     var slotDetails = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
@@ -379,8 +378,8 @@ export class QuotationListComponent implements OnInit {
 
     slotDetails.push(
       this._formBuilder.group({
-        SLOT_OPERATOR: [''],
-        NO_OF_SLOTS: [''],
+        SLOT_OPERATOR: ['', Validators.required],
+        NO_OF_SLOTS: ['', Validators.required],
       })
     );
 
@@ -388,8 +387,13 @@ export class QuotationListComponent implements OnInit {
   }
 
   bookNow() {
+    debugger;
     this.submitted = true;
-    this.slotDetailsForm.get('BOOKING_NO')?.setValue(this.getRandomNumber());
+    if (this.slotDetailsForm.invalid) {
+      return;
+    }
+    var bookingNo = this._commonService.getRandomNumber('BK');
+    this.slotDetailsForm.get('BOOKING_NO')?.setValue(bookingNo);
     this.slotDetailsForm.get('SRR_ID')?.setValue(this.quotationDetails?.SRR_ID);
     this.slotDetailsForm.get('SRR_NO')?.setValue(this.quotationDetails?.SRR_NO);
     this.slotDetailsForm.get('STATUS')?.setValue('Booked');
@@ -410,7 +414,7 @@ export class QuotationListComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
           this._commonService.successMsg(
-            'Your booking is placed successfully !'
+            'Your booking is placed successfully ! Booking No is ' + bookingNo
           );
           this._router.navigateByUrl('/home/booking-list');
         }
@@ -438,11 +442,6 @@ export class QuotationListComponent implements OnInit {
 
   get f4() {
     return this.slotDetailsForm.controls;
-  }
-
-  getRandomNumber() {
-    var num = Math.floor(Math.random() * 1e16).toString();
-    return 'BK' + num;
   }
 
   removeItem(i: any) {
@@ -479,7 +478,11 @@ export class QuotationListComponent implements OnInit {
       .counterRate(this.rateForm.value.SRR_RATES)
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your request is been sent Successfully !');
+          this._commonService.successMsg(
+            'Your request is been ' + value == 'Approved'
+              ? 'Accepted'
+              : value + ' Successfully !'
+          );
           this.closeBtn2.nativeElement.click();
           this.getSRRList();
         }

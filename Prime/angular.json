@@ -36,7 +36,8 @@
               "src/manifest.webmanifest",
               "src/ngsw-worker.js",
               "src/ngsw.json",
-              "src/assets/vendor/aos/aos.js"
+              "src/assets/vendor/aos/aos.js",
+              "src/assets/vendor/popper.min.js"
             ],
             "styles": [
               "./node_modules/datatables.net-dt/css/jquery.dataTables.css",
@@ -47,6 +48,7 @@
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/datatables.net/js/jquery.dataTables.js",
+              "./node_modules/@popperjs/core/dist/umd/popper.min.js",
               "./node_modules/bootstrap/dist/js/bootstrap.min.js"
             ],
             "serviceWorker": true,
@@ -117,7 +119,8 @@
               "src/assets/img/A1.pdf",
               "src/manifest.webmanifest",
               "src/ngsw.json",
-              "src/assets/vendor/aos/aos.js"
+              "src/assets/vendor/aos/aos.js",
+              "src/assets/vendor/popper.min.js"
             ],
             "styles": [
               "./node_modules/datatables.net-dt/css/jquery.dataTables.css",
@@ -129,6 +132,7 @@
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/datatables.net/js/jquery.dataTables.js",
+              "./node_modules/@popperjs/core/dist/umd/popper.min.js",
               "./node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           }
