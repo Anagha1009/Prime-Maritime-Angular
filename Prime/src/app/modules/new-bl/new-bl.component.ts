@@ -278,6 +278,13 @@ export class NewBlComponent implements OnInit {
 
               //this.ContainerDescription();
               this.generateBLPdf();
+
+              //refresh required fields
+              const add = this.blForm.get('CONTAINER_LIST') as FormArray;
+              add.clear();
+              this.blNo='';
+              this.onUpload=false;
+              
             }
           });
         //this.ContainerDescription();
@@ -359,8 +366,8 @@ export class NewBlComponent implements OnInit {
       if (res.ResponseCode == 200) {
         // this.hideHistory=true;
         this.blForm.patchValue(res.Data);
-        if (this.blForm.get('BL_STATUS')?.value == 'Drafted') {
-          this._commonService.warnMsg('Drafted BL cannot be Split!');
+        if (this.blForm.get('BL_STATUS')?.value == 'Finalized') {
+          this._commonService.warnMsg("Finalized BL cannot be Split!");
           return;
         }
         this.blForm
@@ -677,6 +684,8 @@ export class NewBlComponent implements OnInit {
   }
 
   viewBL(BLNO: any) {
+    this.isSplit=false;
+    this.editBL=false;
     var BL = new Bl();
     BL.AGENT_CODE = localStorage.getItem('usercode');
     BL.BL_NO = BLNO;
@@ -741,951 +750,20 @@ export class NewBlComponent implements OnInit {
       this.ContainerList1 = [];
       this.ContainerList1.push(add.value);
       this.ContainerList1 = this.ContainerList1.flat();
-    } else {
+      console.log("within is split",this.ContainerList1);
+    }
+    else {
       const add1 = this.blForm.get('CONTAINER_LIST2') as FormArray;
       this.ContainerList1 = [];
       this.ContainerList1.push(add1.value);
       this.ContainerList1 = this.ContainerList1.flat();
+      console.log("without is split",this.ContainerList1);
     }
     let docDefinition = {
       pageMargins: [40, 20, 40, 20],
 
       content: [
         {
-          columns: [
-            [
-              {
-                text: '______________________________________________',
-              },
-              {
-                text: 'Shipper',
-                bold: true,
-                fontSize: 9,
-                margin: [0, 2, 0, 0],
-              },
-              { text: this.blForm.value.SHIPPER.toUpperCase(), fontSize: 7 },
-              {
-                text: this.blForm.value.SHIPPER_ADDRESS.toUpperCase(),
-                fontSize: 7,
-                margin: [0, 0, 0, 15],
-              },
-              {
-                text: '______________________________________________',
-              },
-              {
-                text: 'Consignee',
-                bold: true,
-                fontSize: 9,
-                margin: [0, 2, 0, 0],
-              },
-              { text: this.blForm.value.CONSIGNEE.toUpperCase(), fontSize: 7 },
-              {
-                text: this.blForm.value.CONSIGNEE_ADDRESS.toUpperCase(),
-                fontSize: 7,
-                margin: [0, 0, 0, 15],
-              },
-              {
-                text: '______________________________________________',
-              },
-              {
-                text: 'Notify Party',
-                bold: true,
-                fontSize: 9,
-                margin: [0, 2, 0, 0],
-              },
-              {
-                text: this.blForm.value.NOTIFY_PARTY.toUpperCase(),
-                fontSize: 7,
-                margin: [0, 0, 0, 15],
-              },
-              {
-                text: '______________________________________________',
-              },
-              {
-                columns: [
-                  [
-                    {
-                      text: 'Pre Carriage By',
-                      bold: true,
-                      fontSize: 9,
-                      margin: [0, 2, 0, 0],
-                    },
-                    {
-                      text: this.blForm.value.PRE_CARRIAGE_BY.toUpperCase(),
-                      fontSize: 7,
-                    },
-                  ],
-                  [
-                    {
-                      text: '|     Place of Receipt',
-                      bold: true,
-                      fontSize: 9,
-                      margin: [0, 2, 0, 0],
-                    },
-                    {
-                      text: this.blForm.value.PLACE_OF_RECEIPT.toUpperCase(),
-                      fontSize: 7,
-                      margin: [13, 0, 0, 0],
-                    },
-                  ],
-                ],
-              },
-              {
-                text: '______________________________________________',
-              },
-              {
-                columns: [
-                  [
-                    {
-                      text: 'Ocean Vessel/Voy No.',
-                      bold: true,
-                      fontSize: 9,
-                      margin: [0, 2, 0, 0],
-                    },
-                    {
-                      text:
-                        this.blForm.value.VESSEL_NAME.toUpperCase() +
-                        '/' +
-                        this.blForm.value.VOYAGE_NO.toUpperCase(),
-                      fontSize: 7,
-                    },
-                  ],
-                  [
-                    {
-                      text: '|     Port of Loading',
-                      bold: true,
-                      fontSize: 9,
-                      margin: [0, 2, 0, 0],
-                    },
-                    {
-                      text: this.blForm.value.PORT_OF_LOADING.toUpperCase(),
-                      fontSize: 7,
-                      margin: [13, 0, 0, 0],
-                    },
-                  ],
-                ],
-              },
-              // {
-              //   text: '______________________________________________',
-              // },
-              // {
-              //   columns: [
-              //     [
-              //       {
-              //         text: 'Port Of Discharge',
-              //         bold: true,
-              //         fontSize: 10,
-              //         margin: [0, 2, 0, 0],
-              //       },
-              //       {
-              //         text: this.blForm.value.PORT_OF_DISCHARGE.toUpperCase(),
-              //         fontSize: 9,
-              //         margin: [0, 0, 0, 20],
-              //       },
-              //     ],
-              //     [
-              //       {
-              //         text: 'Place of Delivery',
-              //         bold: true,
-              //         fontSize: 10,
-              //         margin: [0, 2, 0, 0],
-              //       },
-              //       {
-              //         text: this.blForm.value.PLACE_OF_DELIVERY.toUpperCase(),
-              //         fontSize: 9,
-              //         margin: [0, 0, 0, 20],
-              //       },
-              //     ],
-              //   ],
-              // },
-            ],
-
-            [
-              {
-                text: 'B/L No. ' + this.blForm.value.BL_NO.toUpperCase(),
-                alignment: 'right',
-                fontSize: 8,
-                margin: [0, 0, 0, 5],
-              },
-              {
-                image: await this._commonService.getBase64ImageFromURL(
-                  'assets/img/logo_p.png'
-                ),
-                alignment: 'center',
-                height: 50,
-                width: 90,
-                margin: [0, 0, 0, 10],
-              },
-              {
-                text: 'BILL OF LADING',
-                bold: true,
-                fontSize: 15,
-                alignment: 'center',
-              },
-              {
-                text:
-                  'Received by the Carrier from the shipper in apparent good order and condition, unless otherwise indicated ' +
-                  'herein the Goods or the container(s) or package (s) said to be contain the cargo herein mentioned to be carried subject to all the terms and conditions ' +
-                  'appearing on the face and back of the Bill of Lading by vessel named herein or any substitute at the Carriers ' +
-                  'option and or other means of transport from the place of receipt or the port of loading to the port of discharge or ' +
-                  'the place of delivery shown herein and there to be delivered unto order or assigns. If ' +
-                  'required by the Carrier, the Bill of Lading duly endorsed must be surrendered in exchange for the ' +
-                  'Goods or delivery order,',
-                alignment: 'left',
-                fontSize: 7,
-              },
-              {
-                text:
-                  'In accepting the Bill of Lading, the Merchant agrees to be bound by all the stipulations ' +
-                  'exceptions, terms and conditions on the face and back hereoff, whether wriiten,typed,stamped ' +
-                  'or printed as fully as if signed by the Merchant, any local custom or priviledge to the ' +
-                  'contrary notwithstanding and agrees that all agreements or freight engagements for and in ' +
-                  'connection with the carriage of the Goods are superseded by the Bill of Lading ',
-                alignment: 'left',
-                fontSize: 7,
-              },
-              {
-                text:
-                  'In witness whereof the undersigned, on behalf of Prime Maritime the Master and the owner of ' +
-                  'the Vessel, has signed the no of Bill(s) of Lading stated below all of this tenor and date, ' +
-                  'one of which being accomplished, the others to stand void. ',
-                alignment: 'left',
-                fontSize: 7,
-              },
-
-              // {
-              //   text: '______________________________________________',
-              // },
-            ],
-          ],
-        },
-        {
-          canvas: [
-            { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
-          ],
-          margin: [0, 10, 0, 0],
-        },
-        {
-          columns: [
-            [
-              {
-                text: 'Port Of Discharge',
-                bold: true,
-                fontSize: 9,
-                margin: [0, 2, 0, 0],
-                width: 10,
-              },
-              {
-                text: this.blForm.value.PORT_OF_DISCHARGE.toUpperCase(),
-                fontSize: 7,
-                margin: [0, 0, 0, 20],
-                width: 10,
-              },
-            ],
-            // {
-            //   canvas: [
-            //     { type: 'line', x1: 0, y1: 15, x2: 0, y2: 0, lineWidth: 1 },
-            //   ],
-            //   margin: [0, 0, 0, 0],
-
-            // },
-            [
-              {
-                text: '|      Place of Delivery',
-                bold: true,
-                fontSize: 9,
-                margin: [0, 2, 0, 0],
-              },
-              {
-                text: this.blForm.value.PLACE_OF_DELIVERY.toUpperCase(),
-                fontSize: 7,
-                margin: [17, 0, 80, 20],
-              },
-            ],
-            [{ text: '', fontSize: 8 }],
-            [
-              {
-                text: '|*Final Destination (for the Merchant' + "'s ref.)",
-                bold: true,
-                fontSize: 8,
-                margin: [20, 2, 0, 0],
-              },
-              {
-                text: this.blForm.value.FINAL_DESTINATION.toUpperCase(),
-                fontSize: 7,
-                margin: [25, 2, 0, 0],
-              },
-            ],
-          ],
-        },
-        {
-          canvas: [
-            { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
-          ],
-          margin: [0, 0, 0, 0],
-        },
-        {
-          table: {
-            headerRows: 1,
-            heights: [15, 15, 15, 15, 15, 15, 15, 15, 15],
-            body: [
-              [
-                {
-                  text: 'Container No.',
-                  fontSize: 8,
-                  bold: true,
-                  heights: 3,
-                },
-                {
-                  text: 'Seal No.\nMarks and Numbers',
-                  fontSize: 8,
-                  bold: true,
-                  heights: 3,
-                },
-                {
-                  text: 'No. of Contai-\nners or pkgs.',
-                  fontSize: 8,
-                  bold: true,
-                  heights: 3,
-                },
-                {
-                  text: 'Kind of packages; description fo goods',
-                  fontSize: 8,
-                  bold: true,
-                  heights: 3,
-                },
-                { text: 'Gross Weight', fontSize: 9, bold: true, heights: 3 },
-                { text: 'Measurement', fontSize: 9, bold: true, heights: 3 },
-              ],
-              ...this.ContainerList1.slice(
-                Math.max(this.ContainerList1.length - 5, 0)
-              ).map((p: any) => [
-                { text: p.CONTAINER_NO, fontSize: 9 },
-                { text: p.SEAL_NO + '-' + p.MARKS_NOS, fontSize: 9 },
-                { text: '   -', fontSize: 9 },
-                { text: p.DESC_OF_GOODS, fontSize: 9 },
-                { text: p.GROSS_WEIGHT, fontSize: 9 },
-                { text: p.MEASUREMENT, fontSize: 9 },
-              ]),
-              [
-                { text: ' ', fontSize: 9 },
-                { text: ' ', fontSize: 9 },
-                { text: ' ', fontSize: 9 },
-                { text: ' ', fontSize: 9 },
-                { text: ' ', fontSize: 9 },
-                { text: ' ', fontSize: 9 },
-              ],
-              [
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-              ],
-              [
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-              ],
-              [
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-                { text: '', fontSize: 9 },
-              ],
-            ],
-          },
-          layout: {
-            hLineWidth: function (i: any, node: any) {
-              return 0;
-            },
-            vLineWidth: function (i: any, node: any) {
-              return i === 0 || i === node.table.widths.length ? 0 : 1;
-            },
-            hLineColor: function (i: any, node: any) {
-              return '';
-            },
-            vLineColor: function (i: any, node: any) {
-              return '';
-            },
-            hLineStyle: function (i: any, node: any) {
-              return 0;
-            },
-            vLineStyle: function (i: any, node: any) {
-              return { dash: { length: 4 } };
-            },
-          },
-        },
-        {
-          text:
-            'Total No. of Containers\nor Packages (in words)  ' +
-            this.containerList.length,
-          bold: true,
-          fontSize: 8,
-          margin: [0, 20, 0, 3],
-        },
-        // { text: this.containerList.length, fontSize: 9 },
-        {
-          canvas: [
-            { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
-          ],
-          margin: [0, 0, 0, 0],
-        },
-        {
-          table: {
-            heights: 15,
-            headerRows: 1,
-            widths: [140, '*', 95, '*', '*'],
-            body: [
-              [
-                { text: 'Freight and Charges', fontSize: 8, bold: true },
-                { text: 'Revenue Tons', fontSize: 8, bold: true },
-                { text: 'Rate                 Per', fontSize: 8, bold: true },
-                { text: 'Prepaid', fontSize: 8, bold: true },
-                { text: 'Collect', fontSize: 8, bold: true },
-              ],
-              ['', '', '', '', ''],
-              ['', '', '', '', ''],
-              ['', '', '', '', ''],
-              ['', '', '', '', ''],
-            ],
-          },
-          layout: {
-            hLineWidth: function (i: any, node: any) {
-              return 0;
-            },
-            vLineWidth: function (i: any, node: any) {
-              return i === 0 || i === node.table.widths.length ? 0 : 1;
-            },
-            hLineColor: function (i: any, node: any) {
-              return '';
-            },
-            vLineColor: function (i: any, node: any) {
-              return '';
-            },
-            hLineStyle: function (i: any, node: any) {
-              return 0;
-            },
-            vLineStyle: function (i: any, node: any) {
-              return { dash: { length: 4 } };
-            },
-          },
-        },
-        {
-          canvas: [
-            { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
-          ],
-          margin: [0, 0, 0, 0],
-        },
-        {
-          // columns:[
-          //   [
-          //     [
-
-          //       {
-          //         width:20,
-          //         table: {
-          //           widths: [50],
-          //           headerRows: 1,
-          //           heights: 60,
-          //           body: [
-          //             [{text: 'Ex. Rate', fontSize: 8, bold: true }],
-
-          //           ],
-
-          //         },
-
-          //       },
-          //       {
-          //         width:20,
-          //         table: {
-          //           //widths: [20, 20],
-          //           headerRows: 1,
-          //           heights: 30,
-          //           body: [
-          //             [
-          //             { text: 'Prepaid at\n' + this.blForm.value.PREPAID_AT, fontSize: 8, bold: true },
-          //             { text: 'Payable at\n' + this.blForm.value.PAYABLE_AT, fontSize: 8, bold: true }],
-          //             [
-          //             { text: 'Total prepaid in local currency\n' + this.blForm.value.TOTAL_PREPAID, fontSize: 8, bold: true },
-          //             { text: 'No. of original B(s)/L\n' + this.blForm.value.NO_OF_ORIGINAL_BL, fontSize: 8, bold: true }],
-          //           ],
-          //         },
-
-          //       },
-
-          //     ],
-
-          //   ],
-          //   [
-          //     {
-          //       text: 'Place and date of issue\n' + this.blForm.value.BL_ISSUE_PLACE + '-' + formatDate(this.blForm.value.BL_ISSUE_DATE, 'yyyy-MM-dd', 'en'),
-          //       bold: true,
-          //       fontSize: 8,
-          //       margin: [2, 2, 0, 0],
-          //       width:5,
-          //     },
-
-          //   ]
-          // ],
-          columns: [
-            {
-              table: {
-                widths: [50, 270],
-                headerRows: 1,
-                heights: 30,
-                body: [
-                  [
-                    { text: 'Ex. Rate', fontSize: 8, bold: true },
-                    {
-                      //layout: 'noBorders',
-                      layout: 'headerLineOnly',
-                      table: {
-                        widths: [125, 125],
-                        headerRows: 1,
-                        heights: 30,
-                        body: [
-                          [
-                            {
-                              text:
-                                'Prepaid at\n' + this.blForm.value.PREPAID_AT,
-                              fontSize: 8,
-                              bold: true,
-                            },
-                            {
-                              text:
-                                'Payable at\n' + this.blForm.value.PAYABLE_AT,
-                              fontSize: 8,
-                              bold: true,
-                            },
-                          ],
-                          [
-                            {
-                              text:
-                                'Total prepaid in local currency\n' +
-                                this.blForm.value.TOTAL_PREPAID,
-                              fontSize: 8,
-                              bold: true,
-                            },
-                            {
-                              text:
-                                'No. of original B(s)/L\n' +
-                                this.blForm.value.NO_OF_ORIGINAL_BL,
-                              fontSize: 8,
-                              bold: true,
-                            },
-                          ],
-                        ],
-                      },
-                    },
-                  ],
-                ],
-              },
-            },
-            // [
-            //   {
-            //     table: {
-            //       widths: [50],
-            //       headerRows: 1,
-            //       heights: 60,
-            //       body: [
-            //         [{text: 'Ex. Rate', fontSize: 8, bold: true }],
-
-            //       ],
-            //     },
-
-            //   },
-            // ],
-
-            [
-              {
-                text:
-                  'Place and date of issue\n' +
-                  this.blForm.value.BL_ISSUE_PLACE +
-                  '-' +
-                  formatDate(
-                    this.blForm.value.BL_ISSUE_DATE,
-                    'yyyy-MM-dd',
-                    'en'
-                  ),
-                bold: true,
-                fontSize: 8,
-                margin: [2, 2, 0, 0],
-                width: 10,
-              },
-            ],
-          ],
-        },
-        // {
-        //   columns: [
-        //     [
-        //       {
-        //         text: 'Ex. Rate',
-        //         bold: true,
-        //         fontSize: 8,
-        //         margin: [0, 5, 0, 0],
-        //       },
-        //       { text: '', fontSize: 8 },
-        //     ],
-        //     [
-        //       {
-        //         text: 'Prepaid at',
-        //         bold: true,
-        //         fontSize: 8,
-        //         margin: [0, 5, 0, 0],
-        //       },
-        //       { text: this.blForm.value.PREPAID_AT, fontSize: 8 },
-        //     ],
-        //     [
-        //       {
-        //         text: 'Payable at',
-        //         bold: true,
-        //         fontSize: 8,
-        //         margin: [0, 5, 0, 0],
-        //       },
-        //       { text: this.blForm.value.PAYABLE_AT, fontSize: 8 },
-        //     ],
-        //     [
-        //       {
-        //         text: 'Place and date of issue',
-        //         bold: true,
-        //         fontSize: 8,
-        //         margin: [0, 5, 0, 0],
-        //       },
-        //       {
-        //         text:
-        //           this.blForm.value.BL_ISSUE_PLACE +
-        //           '-' +
-        //           formatDate(this.blForm.value.BL_ISSUE_DATE, 'yyyy-MM-dd', 'en'),
-        //         fontSize: 8,
-        //       },
-        //     ],
-        //   ],
-        // },
-        // {
-        //   text: '______________________________________________________________________________________________',
-        // },
-        // {
-        //   columns: [
-        //     [
-        //       {
-        //         text: 'Total Prepaid',
-        //         bold: true,
-        //         fontSize: 8,
-        //         margin: [0, 5, 0, 0],
-        //       },
-        //       {
-        //         text: this.blForm.value.TOTAL_PREPAID + 'INR (currency)',
-        //         fontSize: 8,
-        //       },
-        //     ],
-        //     [
-        //       {
-        //         text: 'No of Original B(s)/L',
-        //         bold: true,
-        //         fontSize: 8,
-        //         margin: [0, 5, 0, 0],
-        //       },
-        //       { text: this.blForm.value.NO_OF_ORIGINAL_BL, fontSize: 8 },
-        //     ],
-        //     [
-        //       {
-        //         text: '',
-        //         bold: true,
-        //         fontSize: 10,
-        //         margin: [0, 5, 0, 0],
-        //       },
-        //       { text: '', fontSize: 9 },
-        //     ],
-        //     [
-        //       {
-        //         text: '',
-        //         bold: true,
-        //         fontSize: 10,
-        //         margin: [0, 5, 0, 0],
-        //       },
-        //       { text: '', fontSize: 9 },
-        //     ],
-        //   ],
-        // },
-        // {
-        //   text: '______________________________________________________________________________________________',
-        //   margin: [0, 0, 0, 20],
-        // },
-        {
-          columns: [
-            [
-              {
-                text: 'SHIPPED on board the Vessel',
-                bold: true,
-                fontSize: 8,
-                margin: [0, 5, 0, 0],
-              },
-              { text: '', fontSize: 8 },
-            ],
-            [{ text: '', fontSize: 8 }],
-            [
-              {
-                text: 'For PRIME MARITIME',
-                bold: true,
-                fontSize: 13,
-                margin: [0, 5, 0, 15],
-              },
-            ],
-          ],
-        },
-        {
-          columns: [
-            [
-              {
-                text: 'Date',
-                bold: true,
-                fontSize: 10,
-                margin: [0, 5, 0, 0],
-              },
-              { text: '10/11/22', fontSize: 9 },
-            ],
-            [
-              {
-                text: 'By',
-                bold: true,
-                fontSize: 8,
-                margin: [0, 5, 0, 0],
-              },
-              {
-                text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _',
-                fontSize: 8,
-              },
-            ],
-            [
-              {
-                text: 'As Agents for the carrier',
-                fontSize: 8,
-                margin: [0, 0, 0, 0],
-              },
-              {
-                text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _',
-                fontSize: 8,
-                margin: [0, 0, 0, 0],
-              },
-              {
-                text: 'PRIME MARITIME DWC-LLC',
-                fontSize: 10,
-                margin: [0, 0, 0, 0],
-              },
-            ],
-          ],
-        },
-        {
-          columns: [
-            [
-              {
-                text: this.blForm.get('BLType')?.value,
-                bold: true,
-                fontSize: 20,
-                margin: [0, 5, 0, 0],
-                color: '#f94449',
-              },
-            ],
-          ],
-        },
-        {
-          pageBreak: 'before',
-          columns: [
-            [
-              {
-                text: 'United Liner Shipping Services LLP',
-                bold: true,
-                fontSize: 10,
-                margin: [180, 0, 0, 0],
-              },
-              {
-                text: 'C/o Samudera Shipping Line (India) Pvt Ltd, 402, Rustomjee Aspiree,\nOff Eastern Express Highway,Sion East, Mumbai 400 022, Maharashtra, India',
-                bold: false,
-                fontSize: 7,
-                margin: [150, 2, 0, 0],
-              },
-              {
-                text: 'CIN :AAC-1451',
-                bold: true,
-                fontSize: 9,
-                margin: [230, 3, 0, 0],
-              },
-              {
-                text: 'State Code: 27 State Name :Maharashtra',
-                bold: true,
-                fontSize: 8,
-                margin: [183, 3, 0, 0],
-              },
-              {
-                text: 'GSTN Code :27AADFU8796Q1ZX',
-                bold: true,
-                fontSize: 8,
-                margin: [200, 3, 0, 0],
-              },
-              {
-                canvas: [
-                  { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
-                ],
-                margin: [0, 10, 0, 0],
-              },
-
-              {
-                //padding:[0,500,0,0],
-                //style:'tableHeight',
-                table: {
-                  //heights: [15],
-                  headerRows: 1,
-                  body: [
-                    [
-                      {
-                        text: 'Container No.',
-                        fontSize: 8,
-                        bold: true,
-                      },
-                      {
-                        text: 'Seal No.\nMarks and Numbers',
-                        fontSize: 8,
-                        bold: true,
-                      },
-                      {
-                        text: 'No. of Contai-\nners or pkgs.',
-                        fontSize: 8,
-                        bold: true,
-                      },
-                      {
-                        text: 'Kind of packages; description fo goods',
-                        fontSize: 8,
-                        bold: true,
-                      },
-                      { text: 'Gross Weight', fontSize: 9, bold: true },
-                      { text: 'Measurement', fontSize: 9, bold: true },
-                    ],
-                    // [{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9}],
-                    // [{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9}],
-                    // [{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9}],
-                    // [{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9},{text:'M',fontSize:9}],
-                    ...this.ContainerList1.slice(5).map((p: any) => [
-                      { text: p.CONTAINER_NO, fontSize: 9 },
-                      { text: p.SEAL_NO + '-' + p.MARKS_NOS, fontSize: 9 },
-                      { text: '   -', fontSize: 9 },
-                      { text: p.DESC_OF_GOODS, fontSize: 9 },
-                      { text: p.GROSS_WEIGHT, fontSize: 9 },
-                      { text: p.MEASUREMENT, fontSize: 9 },
-                    ]),
-                    [
-                      { text: ' ', fontSize: 9, heights: 140 },
-                      { text: ' ', fontSize: 9, heights: 140 },
-                      { text: ' ', fontSize: 9, heights: 140 },
-                      { text: ' ', fontSize: 9, heights: 140 },
-                      { text: ' ', fontSize: 9, heights: 140 },
-                      { text: ' ', fontSize: 9, heights: 140 },
-                    ],
-                  ],
-                },
-                layout: {
-                  hLineWidth: function (i: any, node: any) {
-                    return 0;
-                  },
-                  vLineWidth: function (i: any, node: any) {
-                    return i === 0 || i === node.table.widths.length ? 0 : 1;
-                  },
-                  hLineColor: function (i: any, node: any) {
-                    return '';
-                  },
-                  vLineColor: function (i: any, node: any) {
-                    return '';
-                  },
-                  hLineStyle: function (i: any, node: any) {
-                    return 0;
-                  },
-                  vLineStyle: function (i: any, node: any) {
-                    return { dash: { length: 4 } };
-                  },
-                },
-              },
-
-              {
-                canvas: [
-                  { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
-                ],
-                margin: [0, 0, 0, 0],
-              },
-              {
-                columns: [
-                  [
-                    {
-                      text: 'SHIPPED on board the Vessel',
-                      bold: true,
-                      fontSize: 8,
-                      margin: [0, 5, 0, 0],
-                    },
-                    { text: '', fontSize: 8 },
-                  ],
-                  [{ text: '', fontSize: 8 }],
-                  [
-                    {
-                      text: 'For PRIME MARITIME',
-                      bold: true,
-                      fontSize: 13,
-                      margin: [0, 5, 0, 15],
-                    },
-                  ],
-                ],
-              },
-              {
-                columns: [
-                  [
-                    {
-                      text: 'Date',
-                      bold: true,
-                      fontSize: 10,
-                      margin: [0, 5, 0, 0],
-                    },
-                    { text: '10/11/22', fontSize: 9 },
-                  ],
-                  [
-                    {
-                      text: 'By',
-                      bold: true,
-                      fontSize: 8,
-                      margin: [0, 5, 0, 0],
-                    },
-                    {
-                      text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _',
-                      fontSize: 8,
-                    },
-                  ],
-                  [
-                    {
-                      text: 'As Agents for the carrier',
-                      fontSize: 8,
-                      margin: [0, 0, 0, 0],
-                    },
-                    {
-                      text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _',
-                      fontSize: 8,
-                      margin: [0, 0, 0, 0],
-                    },
-                    {
-                      text: 'PRIME MARITIME DWC-LLC',
-                      fontSize: 10,
-                      margin: [0, 0, 0, 0],
-                    },
-                  ],
-                ],
-              },
-            ],
-          ],
-        },
-        {
-          pageBreak: 'before',
           columns: [
             [
               {
@@ -1986,9 +1064,640 @@ export class NewBlComponent implements OnInit {
                 alignment: 'left',
                 fontSize: 4.9,
               },
+
+            ]
+          ]
+
+        },
+
+        {
+          pageBreak: 'before',
+          columns: [
+            [
+              {
+                text: '______________________________________________',
+              },
+              {
+                text: 'Shipper',
+                bold: true,
+                fontSize: 9,
+                margin: [0, 2, 0, 0],
+
+              },
+              { text: this.blForm.value.SHIPPER.toUpperCase(), fontSize: 7 },
+              {
+                text: this.blForm.value.SHIPPER_ADDRESS.toUpperCase(),
+                fontSize: 7,
+                margin: [0, 0, 0, 15],
+              },
+              {
+                text: '______________________________________________',
+              },
+              {
+                text: 'Consignee',
+                bold: true,
+                fontSize: 9,
+                margin: [0, 2, 0, 0],
+              },
+              { text: this.blForm.value.CONSIGNEE.toUpperCase(), fontSize: 7 },
+              {
+                text: this.blForm.value.CONSIGNEE_ADDRESS.toUpperCase(),
+                fontSize: 7,
+                margin: [0, 0, 0, 15],
+              },
+              {
+                text: '______________________________________________',
+              },
+              {
+                text: 'Notify Party',
+                bold: true,
+                fontSize: 9,
+                margin: [0, 2, 0, 0],
+              },
+              {
+                text: this.blForm.value.NOTIFY_PARTY.toUpperCase(),
+                fontSize: 7,
+                margin: [0, 0, 0, 15],
+              },
+              {
+                text: '______________________________________________',
+              },
+              {
+                columns: [
+                  [
+                    {
+                      text: 'Pre Carriage By',
+                      bold: true,
+                      fontSize: 9,
+                      margin: [0, 2, 0, 0],
+                    },
+                    {
+                      text: this.blForm.value.PRE_CARRIAGE_BY.toUpperCase(),
+                      fontSize: 7,
+                    },
+                  ],
+                  [
+                    {
+                      text: '|     Place of Receipt',
+                      bold: true,
+                      fontSize: 9,
+                      margin: [0, 2, 0, 0],
+                    },
+                    {
+                      text: this.blForm.value.PLACE_OF_RECEIPT.toUpperCase(),
+                      fontSize: 7,
+                      margin: [13, 0, 0, 0],
+                    },
+                  ],
+                ],
+              },
+              {
+                text: '______________________________________________',
+              },
+              {
+                columns: [
+                  [
+                    {
+                      text: 'Ocean Vessel/Voy No.',
+                      bold: true,
+                      fontSize: 9,
+                      margin: [0, 2, 0, 0],
+                    },
+                    {
+                      text:
+                        this.blForm.value.VESSEL_NAME.toUpperCase() +
+                        '/' +
+                        this.blForm.value.VOYAGE_NO.toUpperCase(),
+                      fontSize: 7,
+                    },
+                  ],
+                  [
+                    {
+                      text: '|     Port of Loading',
+                      bold: true,
+                      fontSize: 9,
+                      margin: [0, 2, 0, 0],
+                    },
+                    {
+                      text: this.blForm.value.PORT_OF_LOADING.toUpperCase(),
+                      fontSize: 7,
+                      margin: [13, 0, 0, 0],
+                    },
+                  ],
+                ],
+              },
+              
+            ],
+
+            [
+              {
+                text: 'B/L No. ' + this.blForm.value.BL_NO.toUpperCase(),
+                alignment: 'right',
+                fontSize: 8,
+                margin: [0, 0, 0, 5],
+              },
+              {
+                image: await this._commonService.getBase64ImageFromURL(
+                  'assets/img/logo_p.png'
+                ),
+                alignment: 'center',
+                height: 70,
+                width: 200,
+                margin: [0, 0, 0, 10],
+              },
+              {
+                text: 'BILL OF LADING',
+                bold: true,
+                fontSize: 15,
+                alignment: 'center',
+              },
+              {
+                text:
+                  'Received by the Carrier from the shipper in apparent good order and condition, unless otherwise indicated ' +
+                  'herein the Goods or the container(s) or package (s) said to be contain the cargo herein mentioned to be carried subject to all the terms and conditions ' +
+                  'appearing on the face and back of the Bill of Lading by vessel named herein or any substitute at the Carriers ' +
+                  'option and or other means of transport from the place of receipt or the port of loading to the port of discharge or ' +
+                  'the place of delivery shown herein and there to be delivered unto order or assigns. If ' +
+                  'required by the Carrier, the Bill of Lading duly endorsed must be surrendered in exchange for the ' +
+                  'Goods or delivery order,',
+                alignment: 'left',
+                fontSize: 7,
+              },
+              {
+                text:
+                  'In accepting the Bill of Lading, the Merchant agrees to be bound by all the stipulations ' +
+                  'exceptions, terms and conditions on the face and back hereoff, whether wriiten,typed,stamped ' +
+                  'or printed as fully as if signed by the Merchant, any local custom or priviledge to the ' +
+                  'contrary notwithstanding and agrees that all agreements or freight engagements for and in ' +
+                  'connection with the carriage of the Goods are superseded by the Bill of Lading ',
+                alignment: 'left',
+                fontSize: 7,
+              },
+              {
+                text:
+                  'In witness whereof the undersigned, on behalf of Prime Maritime the Master and the owner of ' +
+                  'the Vessel, has signed the no of Bill(s) of Lading stated below all of this tenor and date, ' +
+                  'one of which being accomplished, the others to stand void. ',
+                alignment: 'left',
+                fontSize: 7,
+              },
+            ],
+          ],
+
+        },
+        {
+          canvas: [
+            { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
+          ],
+          margin: [0, 10, 0, 0],
+        },
+        {
+          columns: [
+            [
+              {
+                text: 'Port Of Discharge                         |      Place of Delivery',
+                bold: true,
+                fontSize: 9,
+                width: 10,
+                margin: [0, 2, 0, 0],
+              },
+              {
+                text: this.blForm.value.PORT_OF_DISCHARGE.toUpperCase()+'                                                                      '+this.blForm.value.PLACE_OF_DELIVERY.toUpperCase(),
+                fontSize: 7,
+                margin: [0, 0, 0, 20],
+                width: 10
+              },
+
+
+            ],
+            [
+              {
+                text: "                    |*Final Destination (for the Merchant" + "'s reference)",
+                bold: true,
+                fontSize: 8,
+                margin: [20, 2, 0, 0],
+              },
+              
+              {
+                text: this.blForm.value.FINAL_DESTINATION.toUpperCase(),
+                fontSize: 7,
+                margin: [25, 2, 0, 0],
+              },
+              
+
+            ],
+
+
+          ],
+
+        },
+        {
+          canvas: [
+            { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
+          ],
+          margin: [0, 0, 0, 0],
+        },
+        {
+          table: {
+            headerRows: 1,
+            heights: [15, 15, 15, 15, 15, 15, 15, 15, 15],
+            body: [
+              [
+                {
+                  text: 'Container No.',
+                  fontSize: 8,
+                  bold: true,
+                  heights: 3,
+                },
+                {
+                  text: 'Seal No.\nMarks and Numbers',
+                  fontSize: 8,
+                  bold: true,
+                  heights: 3,
+                },
+                {
+                  text: 'No. of Contai-\nners or pkgs.',
+                  fontSize: 8,
+                  bold: true,
+                  heights: 3,
+                },
+                {
+                  text: 'Kind of packages; description fo goods',
+                  fontSize: 8,
+                  bold: true,
+                  heights: 3,
+                },
+                { text: 'Gross Weight', fontSize: 9, bold: true, heights: 3, },
+                { text: 'Measurement', fontSize: 9, bold: true, heights: 3, },
+
+              ],
+              ...this.ContainerList1.slice(Math.max(this.ContainerList1.length - 5, 0)).map((p: any) => [
+                { text: p.CONTAINER_NO, fontSize: 9 },
+                { text: p.SEAL_NO + '-' + p.MARKS_NOS, fontSize: 9 },
+                { text: '   -', fontSize: 9 },
+                { text: p.DESC_OF_GOODS, fontSize: 9 },
+                { text: p.GROSS_WEIGHT, fontSize: 9 },
+                { text: p.MEASUREMENT, fontSize: 9 },
+
+              ]),
+              [{ text: ' ', fontSize: 9 }, { text: ' ', fontSize: 9 }, { text: ' ', fontSize: 9 }, { text: ' ', fontSize: 9 }, { text: ' ', fontSize: 9 }, { text: ' ', fontSize: 9 }],
+              [{ text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }],
+              [{ text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }],
+              [{ text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }],
+            ],
+          },
+          layout: {
+            hLineWidth: function (i: any, node: any) {
+              return 0;
+            },
+            vLineWidth: function (i: any, node: any) {
+              return i === 0 || i === node.table.widths.length ? 0 : 1;
+            },
+            hLineColor: function (i: any, node: any) {
+              return '';
+            },
+            vLineColor: function (i: any, node: any) {
+              return '';
+            },
+            hLineStyle: function (i: any, node: any) {
+              return 0;
+            },
+            vLineStyle: function (i: any, node: any) {
+              return { dash: { length: 4 } };
+            },
+
+          },
+        },
+        {
+          text: 'Total No. of Containers\nor Packages (in words)  ' + this.containerList.length,
+          bold: true,
+          fontSize: 8,
+          margin: [0, 20, 0, 3],
+        },
+        {
+          canvas: [
+            { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
+          ],
+          margin: [0, 0, 0, 0],
+        },
+        {
+          table: {
+            heights: 15,
+            headerRows: 1,
+            widths: [140, '*', 95, '*', '*'],
+            body: [
+              [
+                { text: 'Freight and Charges', fontSize: 8, bold: true },
+                { text: 'Revenue Tons', fontSize: 8, bold: true },
+                { text: 'Rate                 Per', fontSize: 8, bold: true },
+                { text: 'Prepaid', fontSize: 8, bold: true },
+                { text: 'Collect', fontSize: 8, bold: true },
+              ],
+              ['', '', '', '', ''],
+              ['', '', '', '', ''],
+              ['', '', '', '', ''],
+              ['', '', '', '', ''],
+            ],
+          },
+          layout: {
+            hLineWidth: function (i: any, node: any) {
+              return 0;
+            },
+            vLineWidth: function (i: any, node: any) {
+              return i === 0 || i === node.table.widths.length ? 0 : 1;
+            },
+            hLineColor: function (i: any, node: any) {
+              return '';
+            },
+            vLineColor: function (i: any, node: any) {
+              return '';
+            },
+            hLineStyle: function (i: any, node: any) {
+              return 0;
+            },
+            vLineStyle: function (i: any, node: any) {
+              return { dash: { length: 4 } };
+            },
+          },
+        },
+        {
+          canvas: [
+            { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
+          ],
+          margin: [0, 0, 0, 0],
+        },
+        {
+          
+          columns:[
+            {
+              table: {
+                widths: [50,270],
+                headerRows: 1,
+                heights: 30,
+                body: [
+                  [{text: 'Ex. Rate', fontSize: 8, bold: true },
+                  {
+                    //layout: 'noBorders',
+                    layout:'headerLineOnly',
+                    table: {
+                      widths: [125, 125],
+                      headerRows: 1,
+                      heights: 30,
+                      body: [
+                        [
+                        { text: 'Prepaid at\n' + this.blForm.value.PREPAID_AT, fontSize: 8, bold: true },
+                        { text: 'Payable at\n' + this.blForm.value.PAYABLE_AT, fontSize: 8, bold: true }],
+                        [
+                        { text: 'Total prepaid in local currency\n' + this.blForm.value.TOTAL_PREPAID, fontSize: 8, bold: true },
+                        { text: 'No. of original B(s)/L\n' + this.blForm.value.NO_OF_ORIGINAL_BL, fontSize: 8, bold: true }],
+                      ],
+                    },
+
+                  }
+                   
+                  ],
+                  
+                  
+                ],
+              },
+              
+
+            },
+           
+            [
+
+              {
+                text: 'Place and date of issue\n' + this.blForm.value.BL_ISSUE_PLACE + '-' + formatDate(this.blForm.value.BL_ISSUE_DATE, 'yyyy-MM-dd', 'en'),
+                bold: true,
+                fontSize: 8,
+                margin: [2, 2, 0, 0],
+                width:10,
+              },
+
+            ]
+            
+            
+
+          ]
+          
+
+        },
+        {
+          columns: [
+            [
+              {
+                text: 'SHIPPED on board the Vessel',
+                bold: true,
+                fontSize: 8,
+                margin: [0, 5, 0, 0],
+              },
+              { text: '', fontSize: 8 },
+            ],
+            [
+              { text: '', fontSize: 8 },
+            ],
+            [
+              {
+                text: 'For PRIME MARITIME',
+                bold: true,
+                fontSize: 13,
+                margin: [0, 5, 0, 15],
+              },
+
             ],
           ],
         },
+        {
+          columns: [
+            [
+              {
+                text: 'Date',
+                bold: true,
+                fontSize: 10,
+                margin: [0, 5, 0, 0],
+              },
+              { text: '10/11/22', fontSize: 9 },
+            ],
+            [
+              {
+                text: 'By',
+                bold: true,
+                fontSize: 8,
+                margin: [0, 5, 0, 0],
+              },
+              { text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _', fontSize: 8 },
+            ],
+            [
+              { text: 'As Agents for the carrier', fontSize: 8, margin: [0, 0, 0, 0], },
+              { text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _', fontSize: 8, margin: [0, 0, 0, 0] },
+              { text: 'PRIME MARITIME DWC-LLC', fontSize: 10, margin: [0, 0, 0, 0], },
+
+            ],
+          ],
+        },
+        {
+          columns: [
+            [
+              {
+                text: this.blForm.get('BLType')?.value,
+                bold: true,
+                fontSize: 20,
+                margin: [0, 5, 0, 0],
+                color: '#f94449',
+              },
+            ],
+          ],
+        },
+        {
+          pageBreak: 'before',
+          columns: [
+            [
+              
+              {
+                text: 'ANNEXURE',
+                bold: true,
+                fontSize: 50,
+                margin: [130, 0, 0, 0],
+              },
+              {
+                canvas: [
+                  { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
+                ],
+                margin: [0, 10, 0, 0],
+              },
+
+              {
+               
+                table: {
+                  //heights: [15],
+                  headerRows: 1,
+                  body: [
+                    [
+                      {
+                        text: 'Container No.',
+                        fontSize: 8,
+                        bold: true,
+                      },
+                      {
+                        text: 'Seal No.\nMarks and Numbers',
+                        fontSize: 8,
+                        bold: true,
+                      },
+                      {
+                        text: 'No. of Contai-\nners or pkgs.',
+                        fontSize: 8,
+                        bold: true,
+                      },
+                      {
+                        text: 'Kind of packages; description fo goods',
+                        fontSize: 8,
+                        bold: true,
+                      },
+                      { text: 'Gross Weight', fontSize: 9, bold: true },
+                      { text: 'Measurement', fontSize: 9, bold: true },
+
+                    ],
+                    ...this.ContainerList1.slice(5).map((p: any) => [
+                      { text: p.CONTAINER_NO, fontSize: 9 },
+                      { text: p.SEAL_NO + '-' + p.MARKS_NOS, fontSize: 9 },
+                      { text: '   -', fontSize: 9 },
+                      { text: p.DESC_OF_GOODS, fontSize: 9 },
+                      { text: p.GROSS_WEIGHT, fontSize: 9 },
+                      { text: p.MEASUREMENT, fontSize: 9 },
+
+                    ]),
+                    [{ text: ' ', fontSize: 9, heights: 140 }, { text: ' ', fontSize: 9, heights: 140 }, { text: ' ', fontSize: 9, heights: 140 }, { text: ' ', fontSize: 9, heights: 140 }, { text: ' ', fontSize: 9, heights: 140 }, { text: ' ', fontSize: 9, heights: 140 }],
+
+                  ],
+                },
+                layout: {
+                  hLineWidth: function (i: any, node: any) {
+                    return 0;
+                  },
+                  vLineWidth: function (i: any, node: any) {
+                    return i === 0 || i === node.table.widths.length ? 0 : 1;
+                  },
+                  hLineColor: function (i: any, node: any) {
+                    return '';
+                  },
+                  vLineColor: function (i: any, node: any) {
+                    return '';
+                  },
+                  hLineStyle: function (i: any, node: any) {
+                    return 0;
+                  },
+                  vLineStyle: function (i: any, node: any) {
+                    return { dash: { length: 4 } };
+                  },
+                },
+
+              },
+
+              {
+                canvas: [
+                  { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
+                ],
+                margin: [0, 0, 0, 0],
+              },
+              {
+                columns: [
+                  [
+                    {
+                      text: 'SHIPPED on board the Vessel',
+                      bold: true,
+                      fontSize: 8,
+                      margin: [0, 5, 0, 0],
+                    },
+                    { text: '', fontSize: 8 },
+                  ],
+                  [
+                    { text: '', fontSize: 8 },
+                  ],
+                  [
+                    {
+                      text: 'For PRIME MARITIME',
+                      bold: true,
+                      fontSize: 13,
+                      margin: [0, 5, 0, 15],
+                    },
+
+                  ],
+                ],
+              },
+              {
+                columns: [
+                  [
+                    {
+                      text: 'Date',
+                      bold: true,
+                      fontSize: 10,
+                      margin: [0, 5, 0, 0],
+                    },
+                    { text: '10/11/22', fontSize: 9 },
+                  ],
+                  [
+                    {
+                      text: 'By',
+                      bold: true,
+                      fontSize: 8,
+                      margin: [0, 5, 0, 0],
+                    },
+                    { text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _', fontSize: 8 },
+                  ],
+                  [
+                    { text: 'As Agents for the carrier', fontSize: 8, margin: [0, 0, 0, 0], },
+                    { text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _', fontSize: 8, margin: [0, 0, 0, 0] },
+                    { text: 'PRIME MARITIME DWC-LLC', fontSize: 10, margin: [0, 0, 0, 0], },
+
+                  ],
+                ],
+              },
+            ],
+
+          ],
+
+        },
+        
       ],
       styles: {
         sectionHeader: {
