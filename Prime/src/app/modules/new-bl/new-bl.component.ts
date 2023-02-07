@@ -54,7 +54,9 @@ export class NewBlComponent implements OnInit {
     private _blService: BlService,
     private _router: Router,
     private _coreTranslationService: CoreTranslationService
-  ) { this._coreTranslationService.translate(english, hindi, arabic); }
+  ) {
+    this._coreTranslationService.translate(english, hindi, arabic);
+  }
 
   ngOnInit(): void {
     this.blForm = this._formBuilder.group({
@@ -96,7 +98,6 @@ export class NewBlComponent implements OnInit {
     });
     this.minDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.getBLHistory();
-
   }
 
   get blf() {
@@ -105,18 +106,19 @@ export class NewBlComponent implements OnInit {
 
   getBLHistory() {
     this._commonService.destroyDT();
-    this._blService.getBLHistory(localStorage.getItem('usercode')).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.blHistoryList = res.Data;
-      }
-      this._commonService.getDT();
-    });
+    this._blService
+      .getBLHistory(localStorage.getItem('usercode'))
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.blHistoryList = res.Data;
+        }
+        this._commonService.getDT();
+      });
   }
 
   getBLForm() {
-
     if (this.previewTable.length == 0) {
-      this._commonService.warnMsg("Please upload Shipping Instructions !");
+      this._commonService.warnMsg('Please upload Shipping Instructions !');
       return;
     }
 
@@ -136,9 +138,8 @@ export class NewBlComponent implements OnInit {
           GROSS_WEIGHT: [element.GROSS_WEIGHT],
           MEASUREMENT: [element.MEASUREMENT.toString()],
           AGENT_SEAL_NO: [element.AGENT_SEAL_NO],
-          MARKS_NOS:[this.blForm.get('MARKS_NOS')?.value],
-          DESC_OF_GOODS:[this.blForm.get('DESC_OF_GOODS')?.value]
-
+          MARKS_NOS: [this.blForm.get('MARKS_NOS')?.value],
+          DESC_OF_GOODS: [this.blForm.get('DESC_OF_GOODS')?.value],
         })
       );
     });
@@ -147,7 +148,9 @@ export class NewBlComponent implements OnInit {
     this.isSplit = false;
 
     this.blForm.get('TOTAL_CONTAINERS')?.setValue(this.containerList.length);
-    this.blForm.get('BL_ISSUE_DATE')?.setValue(formatDate(new Date(), 'yyyy-MM-dd', 'en'));
+    this.blForm
+      .get('BL_ISSUE_DATE')
+      ?.setValue(formatDate(new Date(), 'yyyy-MM-dd', 'en'));
     var bl = new Bl();
     bl.AGENT_CODE = localStorage.getItem('usercode');
     bl.BL_NO = this.isSplit ? this.blNo : '';
@@ -173,7 +176,9 @@ export class NewBlComponent implements OnInit {
 
     var bltypevalue = this.blForm.get('BLType')?.value;
     this.blForm.get('BLType')?.setValue(bltypevalue ? 'Original' : 'Draft');
-    this.blForm.get('BL_STATUS')?.setValue(bltypevalue ? 'Finalized' : 'Drafted');
+    this.blForm
+      .get('BL_STATUS')
+      ?.setValue(bltypevalue ? 'Finalized' : 'Drafted');
 
     var voyageNo = this.blForm.get('VOYAGE_NO')?.value;
     this.blForm.get('VOYAGE_NO')?.setValue(voyageNo.toString());
@@ -183,7 +188,7 @@ export class NewBlComponent implements OnInit {
       .updateBL(JSON.stringify(this.blForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          this._commonService.successMsg("BL updated Successfully");
+          this._commonService.successMsg('BL updated Successfully');
 
           this.getBLHistory();
           this.tabs = '1';
@@ -192,10 +197,8 @@ export class NewBlComponent implements OnInit {
 
           //this.ContainerDescription();
           this.generateBLPdf();
-
         }
       });
-
   }
   createBL() {
     debugger;
@@ -214,7 +217,9 @@ export class NewBlComponent implements OnInit {
     this.blForm.get('BL_NO')?.setValue(this.getRandomNumber());
     var bltypevalue = this.blForm.get('BLType')?.value;
     this.blForm.get('BLType')?.setValue(bltypevalue ? 'Original' : 'Draft');
-    this.blForm.get('BL_STATUS')?.setValue(bltypevalue ? 'Finalized' : 'Drafted');
+    this.blForm
+      .get('BL_STATUS')
+      ?.setValue(bltypevalue ? 'Finalized' : 'Drafted');
 
     var voyageNo = this.blForm.get('VOYAGE_NO')?.value;
     this.blForm.get('VOYAGE_NO')?.setValue(voyageNo.toString());
@@ -237,11 +242,15 @@ export class NewBlComponent implements OnInit {
     if (this.isSplit) {
       const add = this.blForm.get('CONTAINER_LIST') as FormArray;
       if (add.length <= 0) {
-        this._commonService.warnMsg("Please select atleast one container to split BL");
+        this._commonService.warnMsg(
+          'Please select atleast one container to split BL'
+        );
         return;
       }
-      console.log("MY cont list:", JSON.stringify(this.blForm.get('CONTAINER_LIST')?.value));
-
+      console.log(
+        'MY cont list:',
+        JSON.stringify(this.blForm.get('CONTAINER_LIST')?.value)
+      );
     }
     var bl = new Bl();
     bl.AGENT_CODE = localStorage.getItem('usercode');
@@ -261,7 +270,7 @@ export class NewBlComponent implements OnInit {
           .subscribe((res: any) => {
             if (res.responseCode == 200) {
               //this._router.navigateByUrl('/home/new-bl');
-              this._commonService.successMsg("BL created Successfully");
+              this._commonService.successMsg('BL created Successfully');
               this.getBLHistory();
               this.tabs = '1';
               this.isBLForm = false;
@@ -281,10 +290,6 @@ export class NewBlComponent implements OnInit {
         //this.ContainerDescription();
       }
     });
-
-
-
-
   }
 
   getBLDetailsForEdit(BLNO: any) {
@@ -298,7 +303,15 @@ export class NewBlComponent implements OnInit {
     this._blService.getBLDetails(BL).subscribe((res: any) => {
       this.blForm.patchValue(res.Data);
 
-      this.blForm.get('BL_ISSUE_DATE')?.setValue(formatDate(this.blForm.get('BL_ISSUE_DATE')?.value, 'yyyy-MM-dd', 'en'));
+      this.blForm
+        .get('BL_ISSUE_DATE')
+        ?.setValue(
+          formatDate(
+            this.blForm.get('BL_ISSUE_DATE')?.value,
+            'yyyy-MM-dd',
+            'en'
+          )
+        );
       var contList: any[] = res.Data.CONTAINER_LIST;
 
       const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
@@ -326,7 +339,7 @@ export class NewBlComponent implements OnInit {
       this.blForm.get('TOTAL_CONTAINERS')?.setValue(contList.length);
       this.blForm.get('MARKS_NOS')?.setValue(contList[0]?.MARKS_NOS);
       this.blForm.get('DESC_OF_GOODS')?.setValue(contList[0]?.DESC_OF_GOODS);
-      console.log("edit bl:" + JSON.stringify(this.blForm.value));
+      console.log('edit bl:' + JSON.stringify(this.blForm.value));
       var bl = new Bl();
       bl.AGENT_CODE = localStorage.getItem('usercode');
       bl.BL_NO = this.isSplit ? BLNO : '';
@@ -341,8 +354,6 @@ export class NewBlComponent implements OnInit {
         }
       });
     });
-
-
   }
 
   getBLDetails() {
@@ -359,7 +370,15 @@ export class NewBlComponent implements OnInit {
           this._commonService.warnMsg("Finalized BL cannot be Split!");
           return;
         }
-        this.blForm.get('BL_ISSUE_DATE')?.setValue(formatDate(this.blForm.get('BL_ISSUE_DATE')?.value, 'yyyy-MM-dd', 'en'));
+        this.blForm
+          .get('BL_ISSUE_DATE')
+          ?.setValue(
+            formatDate(
+              this.blForm.get('BL_ISSUE_DATE')?.value,
+              'yyyy-MM-dd',
+              'en'
+            )
+          );
         var contList: any[] = res.Data.CONTAINER_LIST;
 
         if (contList.length == 1) {
@@ -380,8 +399,8 @@ export class NewBlComponent implements OnInit {
               AGENT_SEAL_NO: [element.SEAL_NO],
               GROSS_WEIGHT: [element.GROSS_WEIGHT],
               MEASUREMENT: [element.MEASUREMENT?.toString()],
-              DESC_OF_GOODS:[element.DESC_OF_GOODS],
-              MARKS_NOS:[element.MARKS_NOS]
+              DESC_OF_GOODS: [element.DESC_OF_GOODS],
+              MARKS_NOS: [element.MARKS_NOS],
             })
           );
         });
@@ -395,7 +414,9 @@ export class NewBlComponent implements OnInit {
         var bl = new Bl();
         bl.AGENT_CODE = localStorage.getItem('usercode');
         bl.BL_NO = this.isSplit ? this.blNo : '';
-        bl.BOOKING_NO = !this.isSplit ? this.blForm.get('BOOKING_NO')?.value : '';
+        bl.BOOKING_NO = !this.isSplit
+          ? this.blForm.get('BOOKING_NO')?.value
+          : '';
 
         this._blService.getSRRDetails(bl).subscribe((res: any) => {
           if (res.ResponseCode == 200) {
@@ -406,10 +427,10 @@ export class NewBlComponent implements OnInit {
           }
         });
         this.hideHistory = true;
-
-      }
-      else if (res.ResponseCode == 500) {
-        this._commonService.errorMsg("Sorry, the specified BL No. doesn't exist! Try entering an existing BL No. to split");
+      } else if (res.ResponseCode == 500) {
+        this._commonService.errorMsg(
+          "Sorry, the specified BL No. doesn't exist! Try entering an existing BL No. to split"
+        );
       }
     });
   }
@@ -480,12 +501,12 @@ export class NewBlComponent implements OnInit {
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     ) {
     } else {
-      this._commonService.warnMsg("Please Select Excel Format only");
+      this._commonService.warnMsg('Please Select Excel Format only');
       return;
     }
 
     if (file.size > 5000000) {
-      this._commonService.warnMsg("Please upload file less than 5 mb..!");
+      this._commonService.warnMsg('Please upload file less than 5 mb..!');
       return;
     } else {
       var el = array.find((a) => a.includes(extension));
@@ -497,7 +518,7 @@ export class NewBlComponent implements OnInit {
           workBook = XLSX.read(data, { type: 'binary', cellDates: true });
 
           if (workBook.SheetNames[0] != 'Sheet1') {
-            this._commonService.warnMsg("Invalid File !");
+            this._commonService.warnMsg('Invalid File !');
             return;
           }
 
@@ -538,7 +559,7 @@ export class NewBlComponent implements OnInit {
             'SEAL_NO',
             'GROSS_WEIGHT',
             'MEASUREMENT',
-            'AGENT_SEAL_NO'
+            'AGENT_SEAL_NO',
           ];
 
           var keyXlArray: any = [];
@@ -600,7 +621,7 @@ export class NewBlComponent implements OnInit {
                   element.SEAL_NO,
                   element.GROSS_WEIGHT,
                   element.MEASUREMENT,
-                  element.AGENT_SEAL_NO
+                  element.AGENT_SEAL_NO,
                 ])
               ) {
                 isValid = false;
@@ -624,15 +645,15 @@ export class NewBlComponent implements OnInit {
 
               this.onUpload = true;
             } else {
-              this._commonService.warnMsg("Incorrect data!");
+              this._commonService.warnMsg('Incorrect data!');
             }
           } else {
-            this._commonService.warnMsg("Invalid file !");
+            this._commonService.warnMsg('Invalid file !');
           }
         };
         reader.readAsBinaryString(file);
       } else {
-        this._commonService.warnMsg("Only .xlsx or .csv files allowed");
+        this._commonService.warnMsg('Only .xlsx or .csv files allowed');
       }
     }
   }
@@ -671,12 +692,11 @@ export class NewBlComponent implements OnInit {
 
     this._blService.getBLDetails(BL).subscribe((res: any) => {
       this.blForm.patchValue(res.Data);
-      console.log("BL FORM", JSON.stringify(this.blForm.value));
+      console.log('BL FORM', JSON.stringify(this.blForm.value));
 
       var contList: any[] = res.Data.CONTAINER_LIST;
 
       const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
-
       add.clear();
       contList.forEach((element) => {
         add.push(
@@ -692,21 +712,19 @@ export class NewBlComponent implements OnInit {
           })
         );
       });
-      if(this.blForm.get('BL_STATUS')?.value=='Finalized'){
+      if (this.blForm.get('BL_STATUS')?.value == 'Finalized') {
         this.blForm.get('BLType')?.setValue('Original');
-      }
-      else{
+      } else {
         this.blForm.get('BLType')?.setValue('Draft');
       }
       this.generateBLPdf();
       //this.ContainerDescription();
     });
-
   }
 
   ContainerDescription() {
     debugger;
-    console.log("within container desc");
+    console.log('within container desc');
     this._commonService
       .getDropdownData('CONTAINER_TYPE')
       .subscribe((res: any) => {
@@ -895,7 +913,6 @@ export class NewBlComponent implements OnInit {
                 alignment: 'left',
                 fontSize: 4.9,
               },
-
             ],
             [
               {
@@ -1022,7 +1039,7 @@ export class NewBlComponent implements OnInit {
                   '‘operated by the Carrer, salvage shall be paidfor as fully and in the same manner as if such salving ship belongedto strangers.' +
                   '28. (Both Blame Collision) Ifthe vessel comes into collision with another ship as a result ol the negligence of the other ship and any' +
                   '‘ct, neglect of default of the Master, mariner, pilot or the servant of ths owner of the vessel in the navigation in the management of the' +
-                  '\Vesoo| the Merchant shal indemnify the Carer againsal loss or laity which might beineurted drecty or ndircty tothe ther or non' +
+                  'Vesoo| the Merchant shal indemnify the Carer againsal loss or laity which might beineurted drecty or ndircty tothe ther or non' +
                   '‘carrying ship or her owners as part oftheir claim against the carrying Vessel or the owner thereot. The foroe ions shall also' +
                   'apply where the owners, operators or those in charge of any ship or ships or objects other than, or in addition to the colliding ships or' +
                   'objects are at fauttin respectofa collision or contract.' +
@@ -1689,9 +1706,8 @@ export class NewBlComponent implements OnInit {
           margin: [0, 15, 0, 15],
         },
         tableHeight: {
-          margin: [0, 0, 0, 0]
-
-        }
+          margin: [0, 0, 0, 0],
+        },
       },
       footer: (currentPage: any, pageCount: any) => {
         var t = {
@@ -1703,19 +1719,16 @@ export class NewBlComponent implements OnInit {
             widths: ['*', '*'],
             body: [
               [
-
                 {
                   text: 'Page  ' + currentPage.toString() + ' of ' + pageCount,
                 },
               ],
             ],
           },
-
         };
 
         return t;
       },
-
     };
 
     pdfMake.createPdf(docDefinition).open();

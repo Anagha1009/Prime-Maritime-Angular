@@ -845,8 +845,9 @@
                                 <ng-select [ngClass]="{'invalid': submitted1 && f1.CONTAINER_TYPE.errors}"
                                     formControlName="CONTAINER_TYPE">
                                     <ng-option value="" selected="true" disabled>--Select Container--</ng-option>
-                                    <ng-option *ngFor="let item of containerTypeList" [disabled]="getct(item.CODE)"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}}</ng-option>
+                                    <ng-option [disabled]="item.CODE == '20DC' ? false : true"
+                                        *ngFor="let item of containerTypeList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        ({{item.CODE}})</ng-option>
                                 </ng-select>
                                 <label class="form-label-ddl">Container <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted1 && f1.CONTAINER_TYPE.errors" class="invalid-feedback">Please
@@ -980,7 +981,8 @@
                                             </thead>
                                             <tbody>
                                                 <tr *ngFor="let item of f3;let j = index;" [formGroup]="f4(item)">
-                                                    <td>{{item.value.CHARGE_CODE}}</td>
+                                                    <td>{{item.value.CHARGE_CODE}}
+                                                    </td>
                                                     <td>{{item.value.CURRENCY}}</td>
                                                     <td>
                                                         <select class="form-control2" (change)="OnPaymentTerm($event,j)"
@@ -1008,6 +1010,10 @@
                                                         <input class="form-control2" maxlength="5"
                                                             (keypress)="numericOnly($event)"
                                                             formControlName="RATE_REQUESTED" type="text" />
+                                                        <i data-bs-toggle="tooltip" data-bs-placement="right"
+                                                            title="Please enter rate after deducting BAF & EWRI"
+                                                            *ngIf="item.value.CHARGE_CODE == 'Freight'"
+                                                            class="fa fa-info-circle ms-1"></i>
                                                         <span class="invalid-feedback"
                                                             *ngIf="submiitedRate && f3[j].get('RATE_REQUESTED').errors">Please
                                                             Enter Requested Rate</span>
