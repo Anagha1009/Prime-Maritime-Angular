@@ -99,9 +99,9 @@
             </div>
             <div *ngIf="isBLForm">
                 <a (click)="tabs='1';isBLForm = false;hideHistory=false;" class="pointer" style="color: #0d6efd;"><i class='bx bx-arrow-back'></i>Back to List</a>
-                <div class="text-end">
+                <!-- <div class="text-end">
                     <button (click)="tabs='1';isBLForm = false;hideHistory=false;" class="form-btn-primary">Re-Upload</button>
-                </div>
+                </div> -->
                 <form [formGroup]="blForm">
                     <div class="row">
                         <div class="col-md-3">
