@@ -151,8 +151,8 @@
                                 <ng-select [ngClass]="{'invalid': submitted && f.CUSTOMER_NAME.errors}"
                                     formControlName="CUSTOMER_NAME">
                                     <ng-option value="M" disabled>
-                                        <button class="form-btn-primary" #openBtn5 data-bs-toggle="modal"
-                                            href="#custModal">Add Customer</button>
+                                        <button class="form-btn rounded-pill btn-sm" #openBtn5 data-bs-toggle="modal"
+                                            href="#custModal"><i class="fa fa-plus me-1"></i> Customer</button>
                                     </ng-option>
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                     <ng-option *ngFor="let item of customerList"
@@ -845,7 +845,7 @@
                                 <ng-select [ngClass]="{'invalid': submitted1 && f1.CONTAINER_TYPE.errors}"
                                     formControlName="CONTAINER_TYPE">
                                     <ng-option value="" selected="true" disabled>--Select Container--</ng-option>
-                                    <ng-option [disabled]="item.CODE == '20DC' ? false : true"
+                                    <ng-option [disabled]="item.CODE == '20GP' ? false : true"
                                         *ngFor="let item of containerTypeList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})</ng-option>
                                 </ng-select>
@@ -971,20 +971,21 @@
                                         <table class="table" style="font-size: 15px;">
                                             <thead>
                                                 <tr>
-                                                    <th>Charge Code</th>
-                                                    <th>Currency</th>
-                                                    <th>Payment</th>
-                                                    <th>Place</th>
-                                                    <th>Standard</th>
-                                                    <th>Requested</th>
+                                                    <th width="25%">Charge Code</th>
+                                                    <th width="15%">Currency</th>
+                                                    <th width="20%">Payment</th>
+                                                    <th width="20%">Place</th>
+                                                    <th width="10%">Standard</th>
+                                                    <th width="9%">Requested</th>
+                                                    <th width="1%"></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr *ngFor="let item of f3;let j = index;" [formGroup]="f4(item)">
-                                                    <td>{{item.value.CHARGE_CODE}}
+                                                    <td width="25%">{{item.value.CHARGE_CODE}}
                                                     </td>
-                                                    <td>{{item.value.CURRENCY}}</td>
-                                                    <td>
+                                                    <td width="15%">{{item.value.CURRENCY}}</td>
+                                                    <td width="20%">
                                                         <select class="form-control2" (change)="OnPaymentTerm($event,j)"
                                                             formControlName="PAYMENT_TERM">
                                                             <option value="" selected>--Select--</option>
@@ -995,7 +996,7 @@
                                                             *ngIf="submiitedRate && f3[j].get('PAYMENT_TERM').errors">Please
                                                             Select</span>
                                                     </td>
-                                                    <td>
+                                                    <td width="20%">
                                                         <select class="form-control2" formControlName="TRANSPORT_TYPE">
                                                             <option value="" selected>--Select--</option>
                                                             <option value="POL">POL</option>
@@ -1005,19 +1006,19 @@
                                                             *ngIf="submiitedRate && f3[j].get('TRANSPORT_TYPE').errors">Please
                                                             Select</span>
                                                     </td>
-                                                    <td>{{item.value.STANDARD_RATE}}</td>
-                                                    <td>
+                                                    <td width="10%">{{item.value.STANDARD_RATE}}</td>
+                                                    <td width="9%">
                                                         <input class="form-control2" maxlength="5"
                                                             (keypress)="numericOnly($event)"
                                                             formControlName="RATE_REQUESTED" type="text" />
-                                                        <i data-bs-toggle="tooltip" data-bs-placement="right"
-                                                            title="Please enter rate after deducting BAF & EWRI"
-                                                            *ngIf="item.value.CHARGE_CODE == 'Freight'"
-                                                            class="fa fa-info-circle ms-1"></i>
                                                         <span class="invalid-feedback"
                                                             *ngIf="submiitedRate && f3[j].get('RATE_REQUESTED').errors">Please
                                                             Enter Requested Rate</span>
                                                     </td>
+                                                    <td> <i data-bs-toggle="tooltip" data-bs-placement="right"
+                                                            title="Please enter rate after deducting BAF & EWRI"
+                                                            *ngIf="item.value.CHARGE_CODE == 'Freight'"
+                                                            class="fa fa-info-circle ms-1"></i></td>
                                                 </tr>
                                             </tbody>
                                         </table>

@@ -54,7 +54,7 @@
                     </div>
                 </div>
             </form>
-            <table class="table table-bordered" id="data-table-config">
+            <table class="ratetable table-bordered" id="data-table-config">
                 <thead>
                     <tr>
                         <th width="1%">No</th>
@@ -106,7 +106,8 @@
                                 <div class="form-group">
                                     <label class="form-label2">Container No<span class="text-danger">
                                             *</span></label>
-                                    <input type="text" [ngClass]="{'invalid':submitted && f.CONTAINER_NO.errors}"
+                                    <input type="text" [readonly]="isUpdate"
+                                        [ngClass]="{'invalid':submitted && f.CONTAINER_NO.errors}"
                                         formControlName="CONTAINER_NO" class="form-control2">
                                     <div *ngIf="submitted && f.CONTAINER_NO.errors" class="invalid-feedback">
                                         Container No is required

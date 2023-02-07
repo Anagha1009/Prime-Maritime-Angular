@@ -124,11 +124,13 @@
                                 {{item.value.TRANSPORT_TYPE}}</label>
                         </div>
                         <div class="col-md-2 mt-2">
-                            <label class="label-subheader">{{item.value.STANDARD_RATE}}</label>
+                            <label class="label-subheader">{{item.value.CURRENCY}} {{item.value.STANDARD_RATE}}
+
+                            </label>
                         </div>
                         <div class="col-md-2 mt-2">
-                            <label class="label-subheader">{{item.value.RATE_REQUESTED}}
-                                {{item.value.CURRENCY}}</label>
+                            <label class="label-subheader">{{item.value.CURRENCY}} {{item.value.RATE_REQUESTED}}
+                            </label>
                         </div>
                         <div class="col-md-2 mt-1">
                             <input
@@ -207,16 +209,17 @@
                                                 <thead>
                                                     <tr>
                                                         <th width="15%">No</th>
-                                                        <th width="40%">Charge Code</th>
-                                                        <th width="25%">Standard Rate</th>
+                                                        <th width="35%">Charge Code</th>
+                                                        <th width="30%">Standard Rate</th>
                                                         <th width="20%">Requested</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr *ngFor="let item of f0;let i = index" [formGroup]="item">
                                                         <td width="15%">{{i + 1}}</td>
-                                                        <td width="40%">{{item.value.CHARGE_CODE}}</td>
-                                                        <td width="25%">{{item.value.STANDARD_RATE}}</td>
+                                                        <td width="35%">{{item.value.CHARGE_CODE}}</td>
+                                                        <td width="30%">{{item.value.CURRENCY}}
+                                                            {{item.value.STANDARD_RATE}}</td>
                                                         <td width="20%"><input type="text" class="form-control2"
                                                                 formControlName="RATE_REQUESTED" /></td>
                                                     </tr>
@@ -244,8 +247,8 @@
                                                 <thead>
                                                     <tr>
                                                         <th width="15%">No</th>
-                                                        <th width="40%">Charge Code</th>
-                                                        <th width="25%">Standard Rate</th>
+                                                        <th width="35%">Charge Code</th>
+                                                        <th width="30%">Standard Rate</th>
                                                         <th width="20%">Requested</th>
 
                                                     </tr>
@@ -253,8 +256,9 @@
                                                 <tbody>
                                                     <tr *ngFor="let item of f2; let j=index" [formGroup]="item">
                                                         <td width="15%">{{j+1}}</td>
-                                                        <td width="40%">{{item.value.CHARGE_CODE}}</td>
-                                                        <td width="25%">{{item.value.STANDARD_RATE}}</td>
+                                                        <td width="35%">{{item.value.CHARGE_CODE}}</td>
+                                                        <td width="30%">{{item.value.CURRENCY}}
+                                                            {{item.value.STANDARD_RATE}}</td>
                                                         <td width="20%"><input type="text" class="form-control2"
                                                                 formControlName="RATE_REQUESTED" /></td>
                                                     </tr>
@@ -281,8 +285,8 @@
                                                 <thead>
                                                     <tr>
                                                         <th width="15%">No</th>
-                                                        <th width="40%">Charge Code</th>
-                                                        <th width="25%">Standard Rate</th>
+                                                        <th width="35%">Charge Code</th>
+                                                        <th width="30%">Standard Rate</th>
                                                         <th width="20%">Requested</th>
 
                                                     </tr>
@@ -290,8 +294,8 @@
                                                 <tbody>
                                                     <tr *ngFor="let item of f3;let i = index" [formGroup]="item">
                                                         <td width="15%">{{i + 1}}</td>
-                                                        <td width="40%">{{item.value.CHARGE_CODE}}</td>
-                                                        <td width="25%">{{item.value.RATE}}</td>
+                                                        <td width="35%">{{item.value.CHARGE_CODE}}</td>
+                                                        <td width="30%">{{item.value.CURRENCY}} {{item.value.RATE}}</td>
                                                         <td width="20%"><input type="text" class="form-control2"
                                                                 formControlName="RATE_REQUESTED" /></td>
                                                     </tr>
