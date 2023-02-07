@@ -3,4 +3,6 @@ export class CRO {
   CRO_NO: string = '';
   CUSTOMER_NAME: string = '';
   STATUS: string = '';
+  FROM_DATE: string = '';
+  TO_DATE: string = '';
 }

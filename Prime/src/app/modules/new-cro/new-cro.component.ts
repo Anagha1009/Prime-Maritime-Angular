@@ -260,7 +260,7 @@ export class NewCroComponent implements OnInit {
           ),
           alignment: 'right',
           height: 50,
-          width: 90,
+          width: 100,
           margin: [0, 0, 0, 10],
         },
         {
@@ -280,7 +280,7 @@ export class NewCroComponent implements OnInit {
                 alignment: 'right',
               },
               {
-                text: `CRO No : ${this.croDetails?.CRO_NO}`,
+                text: `${this.croDetails?.CRO_NO}`,
                 alignment: 'right',
                 color: '#17a2b8',
               },
@@ -461,12 +461,11 @@ export class NewCroComponent implements OnInit {
           // optional
           table: {
             headerRows: 1,
-            widths: ['*', '*', '*', '*'],
+            widths: ['*', '*', '*'],
             body: [
-              ['Type', 'Size', 'Qty', 'Service'],
+              ['Container Type/ Size', 'Quantity', 'Service Mode'],
               ...this.croDetails?.ContainerList.map((p: any) => [
-                p.CONTAINER_TYPE,
-                p.CONTAINER_SIZE,
+                p.CONTAINER_TYPE + '/ ' + p.CONTAINER_SIZE,
                 p.IMM_VOLUME_EXPECTED,
                 p.SERVICE_MODE,
               ]),
