@@ -7,13 +7,10 @@ import { CroService } from 'src/app/services/cro.service';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { CommonService } from 'src/app/services/common.service';
 import { CRO } from 'src/app/models/cro';
-import { getTranslationDeclStmts } from '@angular/compiler/src/render3/view/template';
 import { HttpClient } from '@angular/common/http';
 import { locale as english } from 'src/app/@core/translate/cro/en';
 import { locale as hindi } from 'src/app/@core/translate/cro/hi';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
-import { timeSpanDays } from 'igniteui-angular-core';
-import { Convert } from 'igniteui-angular-core';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -232,12 +229,38 @@ export class NewCroComponent implements OnInit {
       },
       content: [
         {
+          text:
+            'Remarks:\n\n1) PLS DO NOT PICK UP DAMAGE CONTAINER, ANY CLAIM FROM DESTINATION WILL BE COLLECTED FROM CONSIGNEE' +
+            '\n2) All containers mis-declared for weight will be charged in line with the scale of rates for misdeclaration.' +
+            'This charge will be applied with immediate effect. In order to avoid this charge, please advise all concerned to ensure declaration of' +
+            'correct weight at the time of booking.' +
+            '\n3) LINE WILL NOT BE RESPONSIBLE FOR EARLY CLOSURE OF GATE / NOT OPENING OF GATE FOR A' +
+            'PARTICULAR TERMINAL / VESSEL' +
+            '\n4) Containers will not be loaded without duplicate shipping bill in our custody' +
+            '\n5) Please gate-in the containers at most 3 days before vessel ETA. Containers gated-in earlier shall incur ground rent which will be' +
+            'On shipper&#39;s account.' +
+            '\n\nGeneral Instructions' +
+            '\n\nTHIS D.O IS VALID FOR FOUR (4) DAYS FROM TODAY I.E. ( ) NO DELIVERIES WILL BE ALLOWED FROM THE' +
+            'STORAGE YARD BEYOND SEABIRD MARINE SERVICES PVT LTD CONTR TERMINAL:' +
+            '\nPLEASE NOTE THAT YOU ARE NOT PERMITTED TO HONOUR THIS D.O. AFTER – Date of Expiry' +
+            '\n\n1. Export Detention on containers will be applicable as per lines prevailing tariff.' +
+            '\n2. Please do not exceed the permitted maximum gross weight shown on the container.' +
+            '\n3. Containers that are picked up from empty yard at origin by the Exporter or their Agents per the Booking release order shall be' +
+            'resumed to have been inspected and accepted in good and sound condition for the purpose of cargo stuffing. Consignee (Buyers)' +
+            'shall be responsible to return the containers to our custody in good and sound condition at destination after cargo is unstuffed.' +
+            '\n4. Containers are moved by Export/C &amp; F agents at their own risk/cost. Any damage to the container shall be borne by Exporter/C &amp;' +
+            'F agent.' +
+            '\n5. C &amp; F agent/Exporters are requested to prepare container load plan and put Co.&#39;s Stamp / Sign.' +
+            '\n6. In case of hazardous cargo, please apply hazardous cargo sticker &amp; put all details.',
+        },
+        {
+          pageBreak: 'before',
           image: await this._commonService.getBase64ImageFromURL(
             'assets/img/logo_p.png'
           ),
           alignment: 'right',
           height: 50,
-          width: 70,
+          width: 90,
           margin: [0, 0, 0, 10],
         },
         {
@@ -253,7 +276,7 @@ export class NewCroComponent implements OnInit {
             ],
             [
               {
-                text: `Date: ${new Date().toLocaleString()}`,
+                text: `Date: ${this._commonService.getcurrentDate(new Date())}`,
                 alignment: 'right',
               },
               {
@@ -315,7 +338,7 @@ export class NewCroComponent implements OnInit {
                 fontSize: 10,
               },
               {
-                text: '-',
+                text: this.croDetails?.LADEN_ACPT_LOCATION,
                 margin: [0, 0, 0, 5],
                 fontSize: 10,
               },
@@ -334,17 +357,33 @@ export class NewCroComponent implements OnInit {
                 margin: [0, 0, 0, 5],
                 fontSize: 10,
               },
-              { text: '10/22/23', margin: [0, 0, 0, 5], fontSize: 10 },
+              {
+                text: this.croForm.value?.CRO_VALIDITY_DATE,
+                margin: [0, 0, 0, 5],
+                fontSize: 10,
+              },
             ],
             [
               {
-                text: 'Shipper Name:',
+                text: 'Vessel/ Voyage:',
                 margin: [0, 0, 0, 5],
                 bold: true,
                 fontSize: 10,
               },
               {
-                text: 'Service Mode:',
+                text: 'ETA:',
+                margin: [0, 0, 0, 5],
+                bold: true,
+                fontSize: 10,
+              },
+              {
+                text: 'ETD:',
+                margin: [0, 0, 0, 5],
+                bold: true,
+                fontSize: 10,
+              },
+              {
+                text: 'Service:',
                 margin: [0, 0, 0, 5],
                 bold: true,
                 fontSize: 10,
@@ -362,13 +401,7 @@ export class NewCroComponent implements OnInit {
                 fontSize: 10,
               },
               {
-                text: 'FPD:',
-                margin: [0, 0, 0, 5],
-                bold: true,
-                fontSize: 10,
-              },
-              {
-                text: 'Voyage:',
+                text: 'FPOD:',
                 margin: [0, 0, 0, 5],
                 bold: true,
                 fontSize: 10,
@@ -376,12 +409,29 @@ export class NewCroComponent implements OnInit {
             ],
             [
               {
-                text: 'RTREcdfsgdfs',
+                text:
+                  this.croDetails?.BookingDetails?.VESSEL_NAME +
+                  '/ ' +
+                  this.croDetails?.BookingDetails?.VOYAGE_NO,
                 margin: [0, 0, 0, 5],
                 fontSize: 10,
               },
               {
-                text: 'CY/CY',
+                text: this._commonService.getcurrentDate(
+                  new Date(this.croDetails?.ETA)
+                ),
+                margin: [0, 0, 0, 5],
+                fontSize: 10,
+              },
+              {
+                text: this._commonService.getcurrentDate(
+                  new Date(this.croDetails?.ETD)
+                ),
+                margin: [0, 0, 0, 5],
+                fontSize: 10,
+              },
+              {
+                text: this.croDetails?.SERVICE_NAME,
                 margin: [0, 0, 0, 5],
                 fontSize: 10,
               },
@@ -396,12 +446,7 @@ export class NewCroComponent implements OnInit {
                 fontSize: 10,
               },
               {
-                text: 'Mundra',
-                margin: [0, 0, 0, 5],
-                fontSize: 10,
-              },
-              {
-                text: this.croDetails?.BookingDetails.VOYAGE_NO,
+                text: this.croDetails?.FINAL_DESTINATION,
                 margin: [0, 0, 0, 5],
                 fontSize: 10,
               },
@@ -458,25 +503,33 @@ export class NewCroComponent implements OnInit {
           });
 
           const body: string =
-            'Customer Name: ' +
+            'Hi ' +
+            '<b>' +
             this.croDetails?.CUSTOMER_NAME +
-            '<br/>' +
-            'POL: ' +
-            this.croDetails?.POL +
-            '<br/>' +
-            'POD: ' +
-            this.croDetails?.POD +
-            '<br/>' +
-            'CRO No - ' +
+            '</b>, <br><br>' +
+            'Your CRO (' +
             this.croDetails?.CRO_NO +
-            '<br/>' +
-            'No. of Containers: ' +
-            '' +
-            '<br/>' +
-            'Vessel Name: ' +
-            '<br/>' +
-            'ETA: ' +
-            '<br/>';
+            ') has successfully been created ! Below are the booking details along with Shipping Instructions & CRO attached.<br><br>' +
+            '<b>POL: </b> ' +
+            this.croDetails?.POL +
+            '<br>' +
+            '<b>POD: </b>' +
+            this.croDetails?.POD +
+            '<br>' +
+            '<b>Containers: </b>' +
+            this.croDetails?.CONTAINERS +
+            '<br>' +
+            '<b>Vessel/ Voyage: </b>' +
+            this.croDetails?.BookingDetails?.VESSEL_NAME +
+            '/' +
+            this.croDetails?.BookingDetails?.VOYAGE_NO +
+            '<br>' +
+            '<b>ETA: </b>' +
+            this._commonService.getcurrentDate(new Date(this.croDetails?.ETA)) +
+            '<br>' +
+            '<b>ETD: </b>' +
+            this._commonService.getcurrentDate(new Date(this.croDetails?.ETD)) +
+            '<br>';
 
           const formData: FormData = new FormData();
           formData.append('Attachments', this.pdfFile);

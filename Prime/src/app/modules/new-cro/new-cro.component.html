@@ -24,18 +24,18 @@
                         <h6>{{'Header.BookingDetails'|translate}}</h6>
                         <hr>
                         <p class="description text-danger">{{bookingDetails?.BOOKING_NO}}</p>
-                        <p class="description"><span class="bx bxs-ship me-2 text-info"></span>{{bookingDetails?.POL}}
+                        <p class="description"><span class="bx bxs-ship me-1"></span>{{bookingDetails?.POL}}
                             <i class='bx bxs-right-arrow-circle mx-2'></i>
-                            <span class="bx bxs-ship me-2 text-info"></span>{{bookingDetails?.POD}}
+                            <span class="bx bxs-ship me-2"></span>{{bookingDetails?.POD}}
                         </p>
-                        <p class="description"> <i class="bx bxs-ship me-1"></i>{{bookingDetails?.VESSEL_NAME}} -
-                            {{bookingDetails?.VOYAGE_NO}}</p>
-                        <p class="description"><i class='bx bx-history me-2'></i> <span
+                        <p class="description"> <i class="bx bxs-ship me-1"></i>{{bookingDetails?.VESSEL_NAME}}
+                            ({{bookingDetails?.VOYAGE_NO}})</p>
+                        <p class="description"><i class='bx bx-history me-1'></i> <span
                                 style="font-weight: 500;">ETA</span> : {{bookingDetails?.ETA
                             |
                             date:'mediumDate'}} - <span style="font-weight: 500;">ETD</span> : {{bookingDetails?.ETD |
                             date:'mediumDate'}}</p>
-                        <p class="description"><i class="bx bx-user me-2"></i>{{bookingDetails?.CUSTOMER_NAME}}</p>
+                        <p class="description"><i class="bx bx-user me-1"></i>{{bookingDetails?.CUSTOMER_NAME}}</p>
                         <h6 class="mt-3">{{'Header.ContainerDetails'|translate}}</h6>
                         <hr>
                         <div *ngFor="let item of containerList">
