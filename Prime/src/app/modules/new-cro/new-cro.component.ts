@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BOOKING } from 'src/app/models/booking';
 import { BookingService } from 'src/app/services/booking.service';
 import { CroService } from 'src/app/services/cro.service';
@@ -33,7 +33,7 @@ export class NewCroComponent implements OnInit {
   croNo: string;
   fileData: any;
   isCRO: boolean = false;
-  bookingNo: string = '';
+  bookingNo: any;
   isRecords: boolean = true;
   email: string = '';
   packageList: any[] = [];
@@ -58,7 +58,8 @@ export class NewCroComponent implements OnInit {
     private _router: Router,
     private _commonService: CommonService,
     private http: HttpClient,
-    private _coreTranslationService: CoreTranslationService
+    private _coreTranslationService: CoreTranslationService,
+    private _activatedRoute: ActivatedRoute
   ) {
     this._coreTranslationService.translate(english, hindi);
   }
@@ -88,6 +89,11 @@ export class NewCroComponent implements OnInit {
     });
 
     this.getDropdown();
+
+    this.bookingNo = this._activatedRoute.snapshot.paramMap.get('BOOKING_NO');
+    if (this.bookingNo != undefined) {
+      this.getBookingDetails();
+    }
   }
 
   getDropdown() {
@@ -172,7 +178,7 @@ export class NewCroComponent implements OnInit {
   }
 
   getRandomNumber() {
-   return this._commonService.getRandomNumber('CRO');
+    return this._commonService.getRandomNumber('CRO');
   }
 
   getBookingDetails() {
@@ -481,7 +487,9 @@ export class NewCroComponent implements OnInit {
 
           this._commonService.sendEmail(formData).subscribe((res: any) => {
             this.isLoading = false;
-            this._commonService.successMsg('Your mail has been send successfully !');
+            this._commonService.successMsg(
+              'Your mail has been send successfully !'
+            );
             this.closeBtn.nativeElement.click();
             this._router.navigateByUrl('/home/cro-list');
           });

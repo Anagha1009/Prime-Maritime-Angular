@@ -100,10 +100,10 @@ export class PmQuotationDetailsComponent implements OnInit {
       }
     });
 
-    if (!isCounterValid) {
-      alert('Counter Rate cannot be zero(0)');
-      return;
-    }
+    // if (!isCounterValid) {
+    //   alert('Counter Rate cannot be zero(0)');
+    //   return;
+    // }
 
     if (!isApproveValid || !isRejectValid) {
       srrRates.forEach((element: any) => {

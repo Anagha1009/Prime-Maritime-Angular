@@ -41,7 +41,7 @@
                 <div [class]="isScroll ? 'force-overflow' : ''">
                     <div class="icon-box icon-box-cyan text-start" *ngFor="let item of bookingList">
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <h4 class="title mb-0">{{item.BOOKING_NO}}</h4>
                                 <small class="mb-0 text-danger">{{item.SRR_NO}}</small>
                                 <p class="description"><span class="bx bxs-ship me-2"></span>{{item.POL}} <i
@@ -73,7 +73,7 @@
                                         {{comms.split('-')[1]}} , </span>
                                 </p>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <p class="description" style="font-weight: 500;"><i class="bx bxs-ship me-2"></i> <span
                                         class="text-info">{{item.VESSEL_NAME}} -
                                         {{item.VOYAGE_NO}}</span>
@@ -86,9 +86,11 @@
                                 <p class="description"><i class='bx bx-street-view me-2'></i><span
                                         style="font-weight: 500;">Slot</span> : {{item.SLOTS}}</p>
                             </div>
-                            <!-- <div class="col-md-1 rounded-btn">
-                                <a href="#"><i class="fa fa-eye"></i></a>
-                            </div> -->
+                            <div class="col-md-2 text-end">
+                                <button (click)="newCro(item.BOOKING_NO)" class="form-btn btn-sm rounded-pill"><i
+                                        class="fa fa-plus me-1"></i>
+                                    Create CRO</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -99,4 +101,66 @@
             </div>
         </div>
     </section>
+    <!-- <div class="table-responsive">
+        <table class="ratetable  table-bordered" id="data-table-config">
+            <thead>
+                <tr>
+                    <th width="1%">No</th>
+                    <th width="9%">Booking No</th>
+                    <th width="10%">SRR No</th>
+                    <th width="15%">POL - POD</th>
+                    <th width="10%">Customer</th>
+                    <th width="10%">Container(s)</th>
+                    <th width="10%">Commodity(s)</th>
+                    <th width="10%">Vessel</th>
+                    <th width="15%">ETA - ETD</th>
+                    <th width="5%">Slots</th>
+                    <th width="5%">Created On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of bookingList;let i = index">
+                    <td width="1%">
+                        {{i + 1}}
+                    </td>
+                    <td width="9%">
+                        {{item.BOOKING_NO}}
+                    </td>
+                    <td width="10%">
+                        {{item.SRR_NO}}
+                    </td>
+                    <td width="15%">{{item.POL}} <i class='bx bxs-right-arrow-circle mx-2'></i>
+                        {{item.POD}}
+                    </td>
+                    <td width="10%">{{item.CUSTOMER_NAME}}</td>
+                    <td width="10%"><span *ngFor="let sc of item.CONTAINERS?.split(', ')">
+                            <img *ngIf="sc.substring(0,2) == '20'" height="25" width="30" class="me-2"
+                                src="assets/img/container.png" />
+                            <img *ngIf="sc.substring(0,2) == '40'" height="25" width="30" class="me-2"
+                                src="assets/img/container (1).png" />
+                            <span class="me-2">{{sc}} | </span>
+                        </span></td>
+                    <td width="10%"><span *ngFor="let comms of item.COMMODITY?.split(', ')">
+                            <img *ngIf="comms.split('-')[0] == 'NORMAL'" height="18" width="20" class="pb-1"
+                                src="assets/img/box.png" />
+                            <img *ngIf="comms.split('-')[0] == 'HAZ'" height="18" width="20" class="pb-1"
+                                src="assets/img/fire.png" />
+                            <img *ngIf="comms.split('-')[0] == 'REEFER'" height="23" width="25" class="pb-1"
+                                src="assets/img/fish.png" />
+                            <img *ngIf="comms.split('-')[0] == 'FLEXIBAG'" height="18" width="18" class="pb-1"
+                                src="assets/img/waterdroplet.png" />
+                            {{comms.split('-')[1]}} , </span></td>
+                    <td width="10%"><i class="bx bxs-ship me-2"></i>{{item.VESSEL_NAME}} -
+                        {{item.VOYAGE_NO}}</td>
+                    <td width="15%"><i class='bx bx-history me-2'></i> {{item.ETA
+                        |
+                        date:'mediumDate'}} - {{item.ETD |
+                        date:'mediumDate'}}</td>
+                    <td width="5%"> {{item.SLOTS}}</td>
+                    <td width="5%">{{item.CREATED_DATE |
+                        date:'mediumDate'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div> -->
 </div>

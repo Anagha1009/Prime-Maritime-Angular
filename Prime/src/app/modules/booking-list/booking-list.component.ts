@@ -7,6 +7,7 @@ import { BookingService } from 'src/app/services/booking.service';
 import { locale as english } from 'src/app/@core/translate/booking/en';
 import { locale as hindi } from 'src/app/@core/translate/booking/hi';
 import { locale as arabic } from 'src/app/@core/translate/booking/ar';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-booking-list',
@@ -26,6 +27,7 @@ export class BookingListComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _bookingService: BookingService,
     private _router: Router,
+    private _commonService: CommonService,
     private _coreTranslationService: CoreTranslationService
   ) {
     this._coreTranslationService.translate(english, hindi, arabic);
@@ -87,7 +89,7 @@ export class BookingListComponent implements OnInit {
 
   getBookingList() {
     this.booking.AGENT_CODE = localStorage.getItem('usercode');
-
+    this._commonService.destroyDT();
     this._bookingService.getBookingList(this.booking).subscribe((res: any) => {
       this.isScroll = false;
       this.bookingList = [];
@@ -96,7 +98,6 @@ export class BookingListComponent implements OnInit {
       if (res.ResponseCode == 200) {
         if (res.Data.length > 0) {
           this.bookingList = res.Data;
-
           if (this.bookingList?.length >= 4) {
             this.isScroll = true;
           } else {
@@ -104,12 +105,16 @@ export class BookingListComponent implements OnInit {
           }
         }
       }
+      this._commonService.getDT();
     });
   }
 
   createCRO(item: any) {
     localStorage.setItem('BOOKING_ID', item.ID);
     localStorage.setItem('BOOKING_NO', item.BOOKING_NO);
-    this._router.navigateByUrl('/home/new-cro');
+  }
+
+  newCro(bookingNo: any) {
+    this._router.navigateByUrl('/home/new-cro/' + bookingNo);
   }
 }
