@@ -27,7 +27,15 @@ export class CroService {
 
   getCROList(cro: CRO) {
     return this._http.get<any>(
-      this.BASE_URL + 'CRO/GetCROList?AGENT_CODE=' + cro.AGENT_CODE,
+      this.BASE_URL +
+        'CRO/GetCROList?AGENT_CODE=' +
+        cro.AGENT_CODE +
+        '&FROM_DATE=' +
+        cro.FROM_DATE +
+        '&TO_DATE=' +
+        cro.TO_DATE +
+        '&CRO_NO=' +
+        cro.CRO_NO,
       this.httpOptions
     );
   }

@@ -24,6 +24,7 @@ export class NewContainerMovementComponent implements OnInit {
   cmTable: any[] = [];
   files: any[] = [];
   submitted: boolean;
+  depoList: any[] = [];
 
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
@@ -60,6 +61,8 @@ export class NewContainerMovementComponent implements OnInit {
       STATUS: ['', Validators.required],
       NEXT_ACTIVITY_LIST: new FormArray([]),
     });
+
+    this.getDropdown();
   }
 
   getCM(CM: any) {
@@ -208,6 +211,14 @@ export class NewContainerMovementComponent implements OnInit {
   openUploadModal() {
     this.onUpload = false;
     this.openBtn.nativeElement.click();
+  }
+
+  getDropdown() {
+    this._commonService.getDropdownData('DEPO').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.depoList = res.Data;
+      }
+    });
   }
 
   getContainerData() {

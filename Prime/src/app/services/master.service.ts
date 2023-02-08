@@ -48,7 +48,6 @@ export class MasterService {
   }
 
   UpdateMaster(master: any) {
-    debugger;
     return this._http.post<any>(
       this.BASE_URL + 'Master/UpdateMaster',
       master,
@@ -57,7 +56,6 @@ export class MasterService {
   }
 
   DeleteMaster(ID: number) {
-    debugger;
     return this._http.delete<any>(
       this.BASE_URL + 'Master/DeleteMaster?ID=' + ID,
       this.httpOptions
@@ -65,7 +63,6 @@ export class MasterService {
   }
 
   getMstICD() {
-    debugger;
     return this._http.get<any>(
       this.BASE_URL + 'Master/GetMstICD',
       this.httpOptions
@@ -73,7 +70,6 @@ export class MasterService {
   }
 
   getMstDEPO() {
-    debugger;
     return this._http.get<any>(
       this.BASE_URL + 'Master/GetMstDEPO',
       this.httpOptions

@@ -40,6 +40,7 @@
     "net": "^1.0.2",
     "ng-multiselect-dropdown": "^0.22.11",
     "ng2-pdf-viewer": "^9.1.2",
+    "ng2-tooltip-directive": "^2.10.3",
     "pdfmake": "^0.2.6",
     "rxjs": "~7.5.0",
     "sweetalert2": "^11.7.1",

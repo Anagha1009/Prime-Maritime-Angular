@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Bl } from 'src/app/models/bl';
 import { BlService } from 'src/app/services/bl.service';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-container-allotment-list',
@@ -17,6 +18,7 @@ export class ContainerAllotmentListComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _blService: BlService,
+    private _commonService:CommonService,
     private _router: Router
   ) {}
 
@@ -53,6 +55,7 @@ export class ContainerAllotmentListComponent implements OnInit {
             this.isScroll = false;
           }
         }
+        this._commonService.getDT();
       }
     });
   }

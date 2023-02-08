@@ -67,7 +67,6 @@ export class PmQuotationDetailsComponent implements OnInit {
   }
 
   onchangeContainer(event: any) {
-    debugger;
     this.getRates(event.target.value);
   }
 
@@ -101,10 +100,10 @@ export class PmQuotationDetailsComponent implements OnInit {
       }
     });
 
-    if (!isCounterValid) {
-      alert('Counter Rate cannot be zero(0)');
-      return;
-    }
+    // if (!isCounterValid) {
+    //   alert('Counter Rate cannot be zero(0)');
+    //   return;
+    // }
 
     if (!isApproveValid || !isRejectValid) {
       srrRates.forEach((element: any) => {
@@ -140,18 +139,14 @@ export class PmQuotationDetailsComponent implements OnInit {
   }
 
   getRates(container: any) {
-    debugger;
     var srr = new QUOTATION();
     srr.POL = this.quotationDetails?.SRR_NO.split('-')[0];
     srr.POD = this.quotationDetails?.SRR_NO.split('-')[1];
-    srr.CONTAINER_TYPE = container.split('-')[0];
+    srr.CONTAINER_TYPE = container.split(' X ')[0];
     srr.SRR_NO = this.quotationDetails?.SRR_NO;
-    srr.NO_OF_CONTAINERS = container.split('-')[1];
-
-    console.log(srr);
+    srr.NO_OF_CONTAINERS = container.split(' X ')[1];
 
     this._quotationService.getCalRate(srr).subscribe((res: any) => {
-      debugger;
       if (res.Data.hasOwnProperty('FREIGHTLIST')) {
         const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
         add1.clear();
@@ -225,7 +220,6 @@ export class PmQuotationDetailsComponent implements OnInit {
   }
 
   TotalExpense() {
-    debugger;
     const add = this.calcForm.get('EXP_COST_LIST') as FormArray;
     const add1 = this.calcForm.get('IMP_COST_LIST') as FormArray;
     const add2 = this.calcForm.get('FREIGHT_LIST') as FormArray;

@@ -10,9 +10,6 @@ import { QuotationService } from 'src/app/services/quotation.service';
 import { locale as english } from 'src/app/@core/translate/quotation/en';
 import { locale as hindi } from 'src/app/@core/translate/quotation/hi';
 import { locale as arabic } from 'src/app/@core/translate/quotation/ar';
-import { JsonpInterceptor } from '@angular/common/http';
-import { SSL_OP_TLS_ROLLBACK_BUG } from 'constants';
-import { Console } from 'console';
 
 @Component({
   selector: 'app-new-quotation',
@@ -401,6 +398,20 @@ export class NewQuotationComponent implements OnInit {
       return;
     }
 
+    var isvalid: boolean = true;
+    this.containerList.forEach((element) => {
+      if (
+        this.containerForm.get('CONTAINER_TYPE')?.value == element.Container
+      ) {
+        alert('Sorry ! This container type is already selected !');
+        isvalid = false;
+      }
+    });
+
+    if (!isvalid) {
+      return;
+    }
+
     var rateList = this.quotationForm.get('SRR_RATES') as FormArray;
 
     rateList.clear();
@@ -511,6 +522,7 @@ export class NewQuotationComponent implements OnInit {
     this.closeBtn.nativeElement.click();
   }
 
+  //Disabling selected container type
   getct(value: any) {
     return this.containerList.some((x) => x.Container == value);
   }

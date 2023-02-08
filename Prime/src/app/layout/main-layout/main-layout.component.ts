@@ -11,6 +11,6 @@ export class MainLayoutComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.menu = localStorage.getItem('username');
+    this.menu = localStorage.getItem('rolecode');
   }
 }
