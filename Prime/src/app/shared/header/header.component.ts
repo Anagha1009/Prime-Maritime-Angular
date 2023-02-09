@@ -5,6 +5,7 @@ import { CoreTranslationService } from 'src/app/@core/services/translation.servi
 import { locale as english } from 'src/app/@core/translate/header/en';
 import { locale as hindi } from 'src/app/@core/translate/header/hi';
 import { locale as arabic } from 'src/app/@core/translate/header/ar';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
@@ -111,9 +112,28 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    if (confirm('Are you sure want to logout ?')) {
-      localStorage.clear();
-      this._router.navigateByUrl('login');
-    }
+    // if (confirm('Are you sure want to logout ?')) {
+    //   localStorage.clear();
+    //   this._router.navigateByUrl('login');
+    // }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You want to Logout!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Logout'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._router.navigateByUrl('login');
+        Swal.fire(
+          'Logged out',
+          'You have logged out successfully!',
+          'success'
+        )
+      }
+    })
+
   }
 }

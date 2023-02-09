@@ -166,3 +166,169 @@ input[id="radio-4"] {
 .navbar li:hover > a {
   color: #ea0813;
 }
+
+//tracking
+$brand-primary: #027f00;
+$white: #fff;
+$grey-light: #e1e1e1;
+$orange-light: #ffb732;
+$smooth: cubic-bezier(0, 0.72, 0.58, 1);
+%remain-steps {
+  &:before {
+    content: counter(stepNum);
+    font-family: inherit;
+    font-weight: 700;
+  }
+  &:after {
+    background-color: $grey-light;
+  }
+}
+.multi-steps {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  > li {
+    counter-increment: stepNum;
+    text-align: center;
+    display: table-cell;
+    position: relative;
+    color: $brand-primary;
+
+    &:before {
+      content: "\f00c";
+      content: "\2713;";
+      content: "\10003";
+      content: "\10004";
+      content: "\2713";
+      display: block;
+      margin: 0 auto 4px;
+      background-color: $brand-primary;
+      width: 36px;
+      height: 36px;
+      line-height: 32px;
+      text-align: center;
+      font-weight: bold;
+      border: {
+        width: 2px;
+        style: solid;
+        color: $brand-primary;
+        radius: 50%;
+      }
+      color: white;
+    }
+
+    &:last-child {
+      &:after {
+        display: none;
+      }
+    }
+
+    &.is-active {
+      @extend %remain-steps;
+      &:before {
+        background-color: $white;
+        border-color: $brand-primary;
+        color: $brand-primary;
+        animation: pulse 2s infinite;
+      }
+
+      ~ li {
+        color: #808080;
+        @extend %remain-steps;
+        &:before {
+          background-color: $grey-light;
+          border-color: $grey-light;
+          color: #808080;
+        }
+      }
+    }
+  }
+}
+
+.is-complete {
+  background: linear-gradient(to right, $brand-primary 50%, $grey-light 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: all 0.9s ease-out;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 #027f0070;
+  }
+  100% {
+    box-shadow: 0 0 0 10px #027f0000;
+  }
+}
+
+@keyframes nextStep {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+// just for demo purposes
+.progress-bar {
+  cursor: pointer;
+  user-select: none;
+}
+
+.progress-bar {
+  background-color: $grey-light;
+  // display: none;
+  height: 7px;
+  overflow: hidden;
+  position: absolute;
+  left: 50%;
+  bottom: calc(55% + 7px);
+  width: 100%;
+  z-index: -1;
+}
+
+.progress-bar--success {
+  background-color: $brand-primary;
+  -webkit-transition: background-color 2.5s ease;
+  transition: background-color 2.5s ease;
+}
+
+.progress-bar__bar {
+  // background-color: $grey-light;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: all 500ms ease-out;
+}
+
+.train {
+  position: relative;
+  cursor: pointer;
+  left: 8rem;
+
+  transition: left 5s cubic-bezier(0, 0, 1, 1);
+}
+
+.mystyle{
+  left: 200px;
+}
+
+//modal
+.modal-content  {
+  -webkit-border-radius: 20px !important;
+  -moz-border-radius: 20px !important;
+  border-radius: 20px !important; 
+}
+
+.modal-header{
+  background-color: #8dbad2;
+  //color: white;
+}
+
+#exampleModalLabel{
+  color: white;
+  font-size: 25px;
+}

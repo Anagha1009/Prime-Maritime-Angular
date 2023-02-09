@@ -10,13 +10,13 @@
                         <tr>
                             <th width="15%">BL No</th>
                             <th width="15%">Shipper Name</th>
-                            <th width="10%">BL Date</th>
+                            <th width="7%">BL Date</th>
                             <th width="15%">Booking No</th>
                             <th width="15%">Cons. Name</th>
                             <th width="5%">POL</th>
                             <th width="5%">POD</th>
-                            <th width="10%">Status</th>
-                            <th width="1%">A</th>
+                            <th width="9%">Status</th>
+                            <th width="5%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -27,7 +27,7 @@
                             <td width="15%">
                                 {{item.SHIPPER}}
                             </td>
-                            <td width="10%">
+                            <td width="7%">
                                 {{item.BL_ISSUE_DATE | date:'mediumDate'}}
                             </td>
                             <td width="15%">
@@ -42,15 +42,18 @@
                             <td width="5%">
                                 {{item.PORT_OF_DISCHARGE}}
                             </td>
-                            <td width="10%" class="status"><span
+                            <td width="9%" class="status"><span
                                 [class]="item.BL_STATUS == 'Drafted' ? 'waiting' : item.BL_STATUS == 'Finalized' ? 'active' : 'rejected'">{{item.BL_STATUS}}</span>
+                                
                             </td>
-                            <td width="1%" *ngIf="item.BL_STATUS=='Drafted'">
-                                <div class="pointer"><a (click)="getBLDetailsForEdit(item.BL_NO)"><i class='bx bxs-pencil'></i></a> 
-                                </div>
+                           
+                            <td width="5%" *ngIf="item.BL_STATUS=='Drafted'">
+                                <span class="pointer"><a (click)="getBLDetailsForEdit(item.BL_NO)"><i class='bx bxs-pencil me-3'></i></a>
+                                    <a (click)="makeItFinalize(item.BL_NO)"><img src="assets/img/check-mark.png"></a>
+                                </span>
                             </td>
-                            <td width="1%" *ngIf="item.BL_STATUS=='Finalized'">
-                                <div class="pointer"><a (click)="viewBL(item.BL_NO)"><i class='fa fa-eye'></i></a> 
+                            <td width="5%" *ngIf="item.BL_STATUS=='Finalized'">
+                                <div class="pointer"><a (click)="viewBL(item.BL_NO)"><i class='fa fa-eye ms-3'></i></a>  
                                 </div>
                             </td>
                             
@@ -409,30 +412,40 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <label class="switch">
                             <input type="checkbox" formControlName="BLType" class="switch-input">
                             <span class="switch-label" data-on="Original" data-off="Sea Way"></span>
                             <span class="switch-handle"></span>
                         </label>
-                    </div>
+                    </div> -->
                     <div class="row mb-4">
-                        <div class="col-md-2 offset-md-10" style="text-align: right;" *ngIf="editBL">
+                        <!-- <div class="col-md-2 offset-md-10" style="text-align: right;" *ngIf="editBL">
                             <button class="form-btn" (click)="updateBL()" *ngIf="blForm.value.BLType">
                                 Save as Original
                             </button>
                             <button class="form-btn" (click)="updateBL()" *ngIf="!blForm.value.BLType">
                                 Save as Draft
                             </button>
+                        </div> -->
+                        <div class="col-md-2 offset-md-10" style="text-align: right;" *ngIf="editBL">
+                            <button class="form-btn" (click)="updateBL()">
+                                Save as Draft
+                            </button>
                         </div>
                         <div class="col-md-2 offset-md-10" style="text-align: right;" *ngIf="!editBL">
+                            <button class="form-btn" (click)="createBL()">
+                                Save as Draft
+                            </button>
+                        </div>
+                        <!-- <div class="col-md-2 offset-md-10" style="text-align: right;" *ngIf="!editBL">
                             <button class="form-btn" (click)="createBL()" *ngIf="blForm.value.BLType">
                                 Save as Original
                             </button>
                             <button class="form-btn" (click)="createBL()" *ngIf="!blForm.value.BLType">
                                 Save as Draft
                             </button>
-                        </div>
+                        </div> -->
                     </div>
                 </form>
             </div>

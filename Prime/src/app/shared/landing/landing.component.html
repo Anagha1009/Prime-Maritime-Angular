@@ -87,10 +87,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mx-auto">
-                                        <a class="form-btn rounded-pill w-100" target="_blank"
+                                        <!-- <a class="form-btn rounded-pill w-100" target="_blank"
                                             routerLink="/home/track-booking/{{bookingNo}}">
                                             Track your Booking
-                                        </a>
+                                        </a> -->
+                                        <button id="openModalButton" data-bs-toggle="modal" href="#previewModal"
+                                        (click)="getTrackingDetail()" hidden>Open Modal</button>
+                                        <button class="form-btn rounded-pill w-100" (click)="getTracking()">Track your Booking</button>
                                     </div>
                                 </div>
                             </div>
@@ -516,3 +519,84 @@
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
         class="bi bi-arrow-up-short"></i></a>
+
+
+
+
+<!-- modalpopup -->
+<div class="modal fade" id="previewModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-5">
+                    <h5 class="modal-title" id="exampleModalLabel">Track Booking:
+                        <span class="text-danger" style="font-size: 20px;"><b>{{bookingNo}}</b></span>
+                    </h5>
+                </div>
+                <div class="col-5">
+                    <!-- <span class="description" style="font-size: larger;"> <span class="bx bxs-ship"></span>
+                        {{booking.POL}} - </span>
+                    <span class="description" style="font-size: larger;"> <span class="bx bxs-ship"></span>
+                        {{booking.POD}}</span> -->
+                </div>
+                <div class="col-2 text-end">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        #closeBtn></button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 text-center">
+                    <div class="container container-fluid mt-5">
+                        <ul class="multi-steps mt-5" id="stepper" *ngIf="isTracking">
+                            <li class="step is-active">Booking
+                                <div class="progress-bar">
+                                </div>
+                                <div class="progress-bar__bar">
+                                    <div class="train" style="bottom: 1.9rem;width: 20%;">
+                                        <img src="assets/img/quote-icon.png" width="100%">
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="step">CRO<div class="progress-bar"></div>
+                                <div class="progress-bar__bar">
+                                    <div class="train" style="bottom: 1rem;width: 27%;">
+                                        <img src="assets/img/container2.jpg" width="100%">
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="step">BL<div class="progress-bar"></div>
+                                <div class="progress-bar__bar">
+                                    <div class="train" style="width: 20%;bottom:1.7rem">
+                                        <img src="assets/img/972617.png" width="100%">
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="step">Vessel Sailed<div class="progress-bar"></div>
+                                <div class="progress-bar__bar">
+                                    <div class="train" style="bottom: 1.3rem;width: 35%;">
+                                        <img src="assets/img/cargoship2.png" width="100%">
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="step">DO<div class="progress-bar"></div>
+                                <div class="progress-bar__bar">
+                                    <div class="train w-25" style="bottom: 1.8rem">
+                                        <img src="assets/img/truck-icon.jpg" width="100%">
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="step">Release</li>
+                        </ul>
+                        <div class="col-md-5 mx-auto" *ngIf="!isTracking">
+                            <h5 class="text-center">Sorry! No Tracking found !!</h5>
+                            <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
