@@ -64,6 +64,7 @@ export class LandingComponent implements OnInit {
   }
 
   Tracking() {
+    console.log("in  tracking");
     const steps = Array.from(document.getElementsByClassName('step'));
     const progess = document.getElementsByClassName('progress-bar');
     const icon = document.getElementsByClassName('train');

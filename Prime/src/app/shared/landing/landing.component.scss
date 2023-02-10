@@ -282,10 +282,10 @@ $smooth: cubic-bezier(0, 0.72, 0.58, 1);
   height: 7px;
   overflow: hidden;
   position: absolute;
-  left: 50%;
+  left: 60%;
   bottom: calc(55% + 7px);
   width: 100%;
-  z-index: -1;
+ 
 }
 
 .progress-bar--success {
@@ -317,18 +317,18 @@ $smooth: cubic-bezier(0, 0.72, 0.58, 1);
 }
 
 //modal
-.modal-content  {
-  -webkit-border-radius: 20px !important;
-  -moz-border-radius: 20px !important;
-  border-radius: 20px !important; 
-}
+// .modal-content  {
+//   -webkit-border-radius: 20px !important;
+//   -moz-border-radius: 20px !important;
+//   border-radius: 20px !important; 
+// }
 
-.modal-header{
-  background-color: #8dbad2;
-  //color: white;
-}
+// .modal-header{
+//   background-color: #8dbad2;
+//   //color: white;
+// }
 
-#exampleModalLabel{
-  color: white;
-  font-size: 25px;
-}
+// #exampleModalLabel{
+//   color: white;
+//   font-size: 25px;
+// }
