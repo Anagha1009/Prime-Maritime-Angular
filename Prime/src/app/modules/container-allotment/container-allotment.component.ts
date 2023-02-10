@@ -28,14 +28,14 @@ export class ContainerAllotmentComponent implements OnInit {
   dropdownSettings = {};
   croDetails: any;
   containerAllotmentList: any[] = [];
+  currentDate: string = '';
 
   constructor(
     private _formBuilder: FormBuilder,
     private _croService: CroService,
     private _depoService: DepoService,
     private _blService: BlService,
-    private _commonService: CommonService,
-    private _router: Router
+    private _commonService: CommonService
   ) {}
 
   @ViewChild('openModal2') openModal2: ElementRef;
@@ -84,6 +84,7 @@ export class ContainerAllotmentComponent implements OnInit {
 
     this.getAvailableContainerList();
     this.getContainerAllotedList();
+    this.currentDate = this._commonService.getcurrentDate(new Date());
   }
 
   get f() {

@@ -25,6 +25,7 @@ export class NewContainerMovementComponent implements OnInit {
   files: any[] = [];
   submitted: boolean;
   depoList: any[] = [];
+  currentDate: string = '';
 
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
@@ -63,6 +64,8 @@ export class NewContainerMovementComponent implements OnInit {
     });
 
     this.getDropdown();
+
+    this.currentDate = this._commonService.getcurrentDate(new Date());
   }
 
   getCM(CM: any) {
