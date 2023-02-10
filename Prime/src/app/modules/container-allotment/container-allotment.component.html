@@ -150,8 +150,8 @@
                                 <td>{{item.value.CONTAINER_NO}}</td>
                                 <td><input type="text" class="form-control3" maxlength="50"
                                         formControlName="TO_LOCATION" /></td>
-                                <td><input type="date" class="form-control3" onkeypress="return false"
-                                        formControlName="MOVEMENT_DATE" /></td>
+                                <td><input type="date" max="{{currentDate}}" class="form-control3"
+                                        onkeypress="return false" formControlName="MOVEMENT_DATE" /></td>
                             </tr>
                         </tbody>
                     </table>
