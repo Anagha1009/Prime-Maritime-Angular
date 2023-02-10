@@ -4,7 +4,8 @@
 <div class="container">
     <div class="mx-5" [formGroup]="croForm">
         <div class="col-md-6 offset-md-6 text-end">
-            <button class="form-btn-primary" routerLink="/home/new-cro">{{'Header.NewCro'|translate}}</button>
+            <button class="form-btn-primary" routerLink="/home/new-cro"><i
+                    class="fa fa-plus me-1"></i>{{'Header.NewCro'|translate}}</button>
         </div>
         <div class="row">
             <div class="col-md-4">
@@ -16,18 +17,22 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label class="form-label2">{{'Header.fromDate'|translate}}</label>
-                    <input formControlName="FROM_DATE" type="date" class="form-control2">
+                    <input onkeypress="return false" (change)="croForm.get('TO_DATE')?.setValue('')"
+                        formControlName="FROM_DATE" type="date" class="form-control2">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
                     <label class="form-label2">{{'Header.toDate'|translate}}</label>
-                    <input formControlName="TO_DATE" type="date" class="form-control2">
+                    <input onkeypress="return false" [min]="croForm.get('FROM_DATE')?.value" formControlName="TO_DATE"
+                        type="date" class="form-control2">
                 </div>
             </div>
             <div class="col-md-4 mt-4">
-                <button class="form-btn me-2" (click)="Search()">{{'Button.search'|translate}}</button>
-                <button class="form-btn" (click)="Clear()">{{'Button.clear'|translate}}</button>
+                <button class="form-btn me-2" (click)="Search()">{{'Button.search'|translate}} <span *ngIf="isLoading"
+                        class="fa fa-spinner fa-spin"></span></button>
+                <button class="form-btn-light" (click)="Clear()">{{'Button.clear'|translate}} <span *ngIf="isLoading1"
+                        class="fa fa-spinner fa-spin"></span></button>
             </div>
         </div>
     </div>
@@ -45,79 +50,49 @@
                             <h4 class="title mb-0">{{ item.CRO_NO }}
                             </h4>
                             <small class="mb-0 text-danger">{{item.BOOKING_NO}}</small>
-                            <p class="description mb-2"><span class="bx bxs-ship me-2"></span>{{item.POL}} <i
+                            <p class="description"><span class="bx bxs-ship me-2"></span>{{item.POL}} <i
                                     class='bx bxs-right-arrow-circle mx-2'></i>
                                 <span class="bx bxs-ship me-2"></span>{{item.POD}}
                             </p>
+                            <p class="description"><i class='bx bx-history me-2'></i> <span
+                                    style="font-weight: 500;">ETA</span> : {{item.ETA
+                                |
+                                date:'mediumDate'}} - <span style="font-weight: 500;">ETD</span> : {{item.ETD |
+                                date:'mediumDate'}}</p>
                         </div>
                         <div class="col-md-5">
                             <p class="description" style="font-weight: 500;"> <span
                                     class="bx bx-user me-2"></span>{{item.CUSTOMER_NAME}} </p>
-                            <p class="description"><img  height="20" width="25"
-                                class="me-2" src="assets\img\cargo-truck.png"/>Stuffing Type :
+                            <p class="description"><img height="20" width="25" class="me-2"
+                                    src="assets\img\cargo-truck.png" />Stuffing Type :
                                 {{item.STUFFING_TYPE}} | Pickup :
                                 {{item.EMPTY_CONT_PCKP}}</p>
                             <p class="description">
-                                <img  height="20" width="25"
-                                    class="me-2" src="assets/img/box.png" />
+                                <img height="20" width="25" class="me-2" src="assets/img/box.png" />
                                 <!-- <i class='bx bxs-package me-2' ></i> -->
                                 {{item.PACKAGES}} -
                                 {{item.GROSS_WT}}
-                                {{item.GROSS_WT_UNIT}} (Gross)</p>
+                                {{item.GROSS_WT_UNIT}} (Gross)
+                            </p>
+                            <p class="description"><span *ngFor="let sc of item.CONTAINERS?.split(', ')">
+                                    <img *ngIf="sc.substring(0,2) == '20'" height="25" width="30" class="me-2"
+                                        src="assets/img/container.png" />
+                                    <img *ngIf="sc.substring(0,2) == '40'" height="25" width="30" class="me-2"
+                                        src="assets/img/container (1).png" />
+                                    <span class="me-2">{{sc}} | </span>
+                                </span></p>
                         </div>
                         <div class="col-md-2">
-                            <button (click)="getCRODetails(item.CRO_NO)" class="form-btn rounded-pill mb-2">View
+                            <button (click)="getCRODetails(item.CRO_NO)" class="form-btn btn-sm rounded-pill mb-2"><i
+                                    class="fa fa-eye me-1"></i>View
                                 PDF</button>
+                            <p class="description text-success">Created On : {{item.CREATED_DATE |
+                                date:'mediumDate'}}</p>
                             <p class="description">
                                 Valid Till : <span class="text-danger">{{item.CRO_VALIDITY_DATE |
                                     date:'mediumDate'}}</span>
 
                             </p>
-                        </div>
-                        <!-- <div class="col-md-1 rounded-btn">
-                            <a (click)="getCRODetails(item.CRO_NO)"><i class="fa fa-eye text-light"></i></a>
-                        </div> -->
-                        <!-- <div class="col-md-4 text-end">
-                            <button #openModal1 data-bs-toggle="modal" href="#SIModal"
-                                class="form-btn rounded-pill">Create BL</button>
-                            <button #openModal data-bs-toggle="modal" href="#BLModal" class="d-none">Open
-                                BL Modal</button>
-                        </div> -->
-                    </div>
-                    <div class="modal fade" id="SIModal" aria-labelledby="exampleModalLabel" tabindex="-1"
-                        aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Upload Shipping Instruction</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                                        #closeBtn1></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="col-md-6 mx-auto">
-                                        <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload">
-                                            <input type="file" (change)="onFileChange($event)" name="file" id="file" />
-                                            <label for="file">
-                                                <div>
-                                                    <h3><i class="fa fa-file-pdf-o"></i></h3>
-                                                    <span class="formbold-drop-file">Upload</span>
-                                                    <small>SI File</small>
-                                                </div>
-                                            </label>
-                                        </div>
-                                        <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload">
-                                            <div class="formbold-file-item">
-                                                <span class="formbold-file-name">file name</span>
-                                                <button (click)="onUpload = false"><span
-                                                        class="bx bx-x-circle"></span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="form-btn" (click)="openBLModal(item)">Upload</button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -129,189 +104,3 @@
         </div>
     </div>
 </section>
-
-
-
-<!--BL MODAL-->
-
-<div class="modal fade" id="BLModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Bill of Lading</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
-            </div>
-            <div class="modal-body">
-                <form [formGroup]="blForm">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Shipper Name</label>
-                                <textarea formControlName="SHIPPER" class="form-control2"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Consignee Name</label>
-                                <textarea formControlName="CONSIGNEE" class="form-control2"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Notify Party</label>
-                                <textarea formControlName="NOTIFY_PARTY" class="form-control2"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Pre Carriage by</label>
-                                <input formControlName="PRE_CARRIAGE_BY" type="text" class="form-control2" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Place of Receipt</label>
-                                <input formControlName="PLACE_OF_RECEIPT" type="text" class="form-control2" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Vessel Name</label>
-                                <input formControlName="VESSEL_NAME" type="text" class="form-control2" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Voyage No</label>
-                                <input formControlName="VOYAGE_NO" type="text" class="form-control2" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Port of Loading</label>
-                                <input formControlName="PORT_OF_LOADING" type="text" class="form-control2" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Port of Discharge</label>
-                                <input formControlName="PORT_OF_DISCHARGE" type="text" class="form-control2" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Place of Delivery</label>
-                                <input formControlName="PLACE_OF_DELIVERY" type="text" class="form-control2" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Final Destination</label>
-                                <input formControlName="FINAL_DESTINATION" type="text" class="form-control2" />
-                            </div>
-                        </div>
-                    </div>
-                    <h6 class="d-inline mt-3">Container Details</h6>
-                    <hr>
-                    <div class="table-responsive">
-                        <table class="table" style="font-size: 12px;">
-                            <thead>
-                                <tr>
-                                    <th><input type="checkbox" /></th>
-                                    <th>Sr No</th>
-                                    <th>Cont No</th>
-                                    <th>Cont Type</th>
-                                    <th>Marks & Numbers</th>
-                                    <th>Description of goods</th>
-                                    <th>Gross Weight</th>
-                                    <th>Measurement</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of f;let i = index" [formGroup]="getf1(item)">
-                                    <td><input (change)="getContainerList(item)" type="checkbox" />
-                                    </td>
-                                    <td class="col-md-1">{{i+1}}</td>
-                                    <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
-                                    <td class="col-md-2">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_TYPE}} -
-                                        {{blForm.value.CONTAINER_LIST2[i].CONTAINER_SIZE}}</td>
-                                    <td class="col-md-3"><textarea formControlName="MARKS_NOS"
-                                            class="form-control2"></textarea></td>
-                                    <td class="col-md-3"><textarea formControlName="DESC_OF_GOODS" type="text"
-                                            class="form-control2"></textarea></td>
-                                    <td class="col-md-1"><input formControlName="GROSS_WEIGHT" type="text"
-                                            class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" /></td>
-                                    <td class="col-md-1"><input formControlName="MEASUREMENT" type="text"
-                                            class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" /></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">Total No of Containers</label>
-                                <input type="text" class="form-control2" />
-                            </div>
-                        </div>
-                    </div>
-                    <h6>Freight & Charges</h6>
-                    <hr>
-                    <div class="table-responsive">
-                        <table class="table" style="font-size: 12px;">
-                            <thead>
-                                <tr>
-                                    <th>Sr No</th>
-                                    <th>Charge Code</th>
-                                    <th>Rate</th>
-                                    <th>Prepaid</th>
-                                    <th>Collect</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>THC</td>
-                                    <td>500</td>
-                                    <td>Yes</td>
-                                    <td>No</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>EWRI</td>
-                                    <td>254</td>
-                                    <td>No</td>
-                                    <td>Yes</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">BL Issue Place</label>
-                                <input type="text" formControlName="BL_ISSUE_PLACE" class="form-control2" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label2">No of Original BL</label>
-                                <input type="text" formControlName="NO_OF_ORIGINAL_BL" class="form-control2" />
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="form-btn me-2">Create</button>
-                <button type="button" (click)="createBL()" class="form-btn">Preview</button>
-            </div>
-        </div>
-    </div>
-</div>

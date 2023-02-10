@@ -533,6 +533,10 @@ input:-webkit-autofill:focus {
   margin-top: 10px !important;
 }
 
+.multiselect-dropdown .dropdown-btn .selected-item:hover {
+  box-shadow: none !important;
+}
+
 /*----POINTER-----*/
 
 .pointer {

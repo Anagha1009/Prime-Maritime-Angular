@@ -55,7 +55,6 @@ import { VoyageComponent } from './masters/voyage/voyage.component';
 import { CalculatorComponent } from './pm-modules/calculator/calculator.component';
 import { LinerComponent } from './masters/liner/liner.component';
 import { LinerServiceComponent } from './masters/liner-service/liner-service.component';
-import { Component } from 'ag-grid-community';
 import { ScheduleComponent } from './masters/schedule/schedule.component';
 import { NewContainerMovementComponent } from './modules/new-container-movement/new-container-movement.component';
 
@@ -180,6 +179,10 @@ const routes: Routes = [
       },
       {
         path: 'new-cro',
+        component: NewCroComponent,
+      },
+      {
+        path: 'new-cro/:BOOKING_NO',
         component: NewCroComponent,
       },
       {

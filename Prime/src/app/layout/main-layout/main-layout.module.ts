@@ -44,6 +44,7 @@ import { ErListComponent } from 'src/app/modules/er-list/er-list.component';
 import { ErDetailsComponent } from 'src/app/modules/er-details/er-details.component';
 import { NewContainerMovementComponent } from 'src/app/modules/new-container-movement/new-container-movement.component';
 import { DataTablesModule } from 'angular-datatables';
+import { TooltipModule } from 'ng2-tooltip-directive';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { DataTablesModule } from 'angular-datatables';
     SharedModule,
     NgMultiSelectDropDownModule,
     TranslateModule.forRoot(),
+    TooltipModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
