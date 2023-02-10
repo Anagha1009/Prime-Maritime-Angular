@@ -17,6 +17,8 @@ import { Column } from 'ag-grid-community';
 import { layouts } from 'chart.js';
 import { ClientRequest } from 'http';
 import { truncateSync } from 'fs';
+import { Convert } from 'igniteui-angular-core';
+import Swal from 'sweetalert2';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -32,6 +34,8 @@ export class NewBlComponent implements OnInit {
   croNo: string = '';
   blForm: FormGroup;
   onUpload: boolean = false;
+  groupingViaCommonProperty:any[]=[];
+  groupedList:any[]=[];
   previewTable: any[] = [];
   containerList: any[] = [];
   ContainerList1: any[] = [];
@@ -47,6 +51,7 @@ export class NewBlComponent implements OnInit {
   blHistoryList: any[] = [];
   hideHistory: boolean = false;
   minDate: any = '';
+  i:any=0;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -166,6 +171,45 @@ export class NewBlComponent implements OnInit {
     });
   }
 
+
+  makeItFinalize(BLNO: any){
+    Swal.fire({
+      title: 'Are you sure you want to Finalize the BL?',
+      text: "This BL will get locked!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Finalize it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        var BL = new Bl();
+        BL.AGENT_CODE = localStorage.getItem('usercode');
+        BL.BL_NO = BLNO;
+        console.log(BL);
+        this._blService.getBLDetails(BL).subscribe((res: any) => {
+          this.blForm.patchValue(res.Data);
+          //finalize status
+          this.blForm.get('BL_STATUS')?.setValue('Finalized');
+          //update
+          this._blService
+            .updateBL(JSON.stringify(this.blForm.value))
+            .subscribe((res: any) => {
+              if (res.responseCode == 200) {
+                Swal.fire(
+                  'Finalized!',
+                  'Your file has been finalized.',
+                  'success'
+                )
+                this.getBLHistory();
+          
+              }
+            });
+          });
+      }
+    })
+  }
   updateBL() {
     debugger;
     this.submitted = true;
@@ -174,11 +218,12 @@ export class NewBlComponent implements OnInit {
       return;
     }
 
-    var bltypevalue = this.blForm.get('BLType')?.value;
-    this.blForm.get('BLType')?.setValue(bltypevalue ? 'Original' : 'Draft');
-    this.blForm
-      .get('BL_STATUS')
-      ?.setValue(bltypevalue ? 'Finalized' : 'Drafted');
+    this.blForm.get('BLType')?.setValue('Draft');
+    this.blForm.get('BL_STATUS')?.setValue('Drafted');
+
+    // var bltypevalue = this.blForm.get('BLType')?.value;
+    // this.blForm.get('BLType')?.setValue(bltypevalue ? 'Original' : 'Draft');
+    // this.blForm.get('BL_STATUS')?.setValue(bltypevalue ? 'Finalized' : 'Drafted');
 
     var voyageNo = this.blForm.get('VOYAGE_NO')?.value;
     this.blForm.get('VOYAGE_NO')?.setValue(voyageNo.toString());
@@ -195,8 +240,8 @@ export class NewBlComponent implements OnInit {
           this.isBLForm = false;
           this.hideHistory = false;
 
-          //this.ContainerDescription();
-          this.generateBLPdf();
+          //generate pdf on create / split
+          //this.generateBLPdf();
         }
       });
   }
@@ -214,12 +259,13 @@ export class NewBlComponent implements OnInit {
     //   this.blForm.get('BL_NO')?.setValue(this.getRandomNumber());
     // }
 
+    // var bltypevalue = this.blForm.get('BLType')?.value;
+    // this.blForm.get('BLType')?.setValue(bltypevalue ? 'Original' : 'Draft');
+    // this.blForm.get('BL_STATUS')?.setValue(bltypevalue ? 'Finalized' : 'Drafted');
+
     this.blForm.get('BL_NO')?.setValue(this.getRandomNumber());
-    var bltypevalue = this.blForm.get('BLType')?.value;
-    this.blForm.get('BLType')?.setValue(bltypevalue ? 'Original' : 'Draft');
-    this.blForm
-      .get('BL_STATUS')
-      ?.setValue(bltypevalue ? 'Finalized' : 'Drafted');
+    this.blForm.get('BLType')?.setValue('Draft');
+    this.blForm.get('BL_STATUS')?.setValue('Drafted');
 
     var voyageNo = this.blForm.get('VOYAGE_NO')?.value;
     this.blForm.get('VOYAGE_NO')?.setValue(voyageNo.toString());
@@ -276,8 +322,8 @@ export class NewBlComponent implements OnInit {
               this.isBLForm = false;
               this.hideHistory = false;
 
-              //this.ContainerDescription();
-              this.generateBLPdf();
+              //generate pdf on create / split
+              //this.generateBLPdf();
 
               //refresh required fields
               const add = this.blForm.get('CONTAINER_LIST') as FormArray;
@@ -686,6 +732,9 @@ export class NewBlComponent implements OnInit {
   viewBL(BLNO: any) {
     this.isSplit=false;
     this.editBL=false;
+    this.groupingViaCommonProperty=[];
+    this.groupedList=[];
+    this.i=0;
     var BL = new Bl();
     BL.AGENT_CODE = localStorage.getItem('usercode');
     BL.BL_NO = BLNO;
@@ -696,6 +745,23 @@ export class NewBlComponent implements OnInit {
 
       var contList: any[] = res.Data.CONTAINER_LIST;
 
+      //No. of Containers /Packages logic
+      this.groupingViaCommonProperty = Object.values(
+        contList.reduce((acc, current) => {
+            acc[current.CONTAINER_TYPE] = acc[current.CONTAINER_TYPE] ?? [];
+            acc[current.CONTAINER_TYPE].push(current);
+            return acc;
+        }, {})
+      );
+      console.log('within view BL',this.groupingViaCommonProperty);
+      this.groupingViaCommonProperty.forEach((element)=>{
+        this.groupedList.push(
+          element.length+' x '+element[0].CONTAINER_TYPE
+        );
+      });
+      console.log(this.groupedList);
+      //
+      
       const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
       add.clear();
       contList.forEach((element) => {
@@ -709,9 +775,13 @@ export class NewBlComponent implements OnInit {
             DESC_OF_GOODS: [element.DESC_OF_GOODS],
             GROSS_WEIGHT: [element.GROSS_WEIGHT],
             MEASUREMENT: [element.MEASUREMENT?.toString()],
+            NO_OF_CONTPKG:[this.groupedList[this.i]],
           })
         );
+        this.i=this.i+1;
       });
+      
+
       if (this.blForm.get('BL_STATUS')?.value == 'Finalized') {
         this.blForm.get('BLType')?.setValue('Original');
       } else {
@@ -759,6 +829,7 @@ export class NewBlComponent implements OnInit {
       this.ContainerList1 = this.ContainerList1.flat();
       console.log("without is split",this.ContainerList1);
     }
+
     let docDefinition = {
       pageMargins: [40, 20, 40, 20],
 
@@ -1117,6 +1188,10 @@ export class NewBlComponent implements OnInit {
               {
                 text: this.blForm.value.NOTIFY_PARTY.toUpperCase(),
                 fontSize: 7,
+              },
+              {
+                text: this.blForm.value.NOTIFY_PARTY_ADDRESS.toUpperCase(),
+                fontSize: 7,
                 margin: [0, 0, 0, 15],
               },
               {
@@ -1334,7 +1409,7 @@ export class NewBlComponent implements OnInit {
               ...this.ContainerList1.slice(Math.max(this.ContainerList1.length - 5, 0)).map((p: any) => [
                 { text: p.CONTAINER_NO, fontSize: 9 },
                 { text: p.SEAL_NO + '-' + p.MARKS_NOS, fontSize: 9 },
-                { text: '   -', fontSize: 9 },
+                { text: p.NO_OF_CONTPKG, fontSize: 9 },
                 { text: p.DESC_OF_GOODS, fontSize: 9 },
                 { text: p.GROSS_WEIGHT, fontSize: 9 },
                 { text: p.MEASUREMENT, fontSize: 9 },
