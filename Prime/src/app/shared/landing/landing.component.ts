@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { BookingService } from 'src/app/services/booking.service';
 
 @Component({
   selector: 'app-landing',
@@ -20,8 +21,10 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 export class LandingComponent implements OnInit {
   isquotation: boolean = true;
   bookingNo: string = '';
+  isTracking: boolean = true;
+  currentStep = 1;
 
-  constructor(private _router: Router) {}
+  constructor(private _router: Router,private _bookingservice: BookingService) {}
 
   ngOnInit(): void {
     // this.loadJsFile([
@@ -51,10 +54,54 @@ export class LandingComponent implements OnInit {
     if (this.bookingNo == '') {
       alert('Please enter booking no!');
     } else {
+      var element = document.getElementById("openModalButton") as HTMLElement;
+      element.click();
       // const url = this._router.serializeUrl(this._router.createUrlTree(
       //   ['/home/track-booking'], { queryParams: { bookingNo: this.bookingNo } }
       // ));
       //window.open(url, '_blank');
     }
+  }
+
+  Tracking() {
+    console.log("in  tracking");
+    const steps = Array.from(document.getElementsByClassName('step'));
+    const progess = document.getElementsByClassName('progress-bar');
+    const icon = document.getElementsByClassName('train');
+
+    Array.from(steps).forEach((step, index) => {
+      let stepNum = index + 1;
+
+      if (stepNum === this.currentStep + 1) {
+        step.classList.add('is-active');
+      } else {
+        step.classList.remove('is-active');
+      }
+
+      if (stepNum <= this.currentStep) {
+        progess[index].classList.add('progress-bar--success');
+        icon[index].classList.toggle('mystyle');
+      }
+    });
+  }
+
+  getTrackingDetail() {
+    this._bookingservice
+      .getTrackingDetail(this.bookingNo)
+      .subscribe((res: any) => {
+        console.log(JSON.stringify(res));
+        if (res.ResponseCode == 200) {
+          console.log('res' + res.Data);
+          if (res.Data == 0) {
+            this.isTracking = false;
+          } else {
+            this.isTracking = true;
+            this.currentStep = res.Data;
+            this.Tracking();
+          }
+        } else {
+          this.isTracking = false;
+        }
+      });
   }
 }

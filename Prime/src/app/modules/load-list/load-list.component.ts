@@ -108,6 +108,9 @@ export class LoadListComponent implements OnInit {
             this.isLoading = false;
           }, 20);
         }
+        else{
+          this._commonService.warnMsg("No data found!");
+        }
       }
     });
   }
