@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -8,7 +8,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Bl } from 'src/app/models/bl';
 import { CRO } from 'src/app/models/cro';
+import { BlService } from 'src/app/services/bl.service';
+import { CommonService } from 'src/app/services/common.service';
 import { CroService } from 'src/app/services/cro.service';
 import { DepoService } from 'src/app/services/depo.service';
 
@@ -20,41 +23,26 @@ import { DepoService } from 'src/app/services/depo.service';
 export class ContainerAllotmentComponent implements OnInit {
   croNo: string = '';
   containerForm: FormGroup;
+  filterForm: FormGroup;
   containerDropdownList: any[] = [];
-  selectedItems: any[] = [];
   dropdownSettings = {};
-  containerList: any[] = [];
-  isCRO: boolean = false;
-  bookingNo: any;
-  isrecord: boolean = true;
   croDetails: any;
+  containerAllotmentList: any[] = [];
 
   constructor(
     private _formBuilder: FormBuilder,
     private _croService: CroService,
     private _depoService: DepoService,
+    private _blService: BlService,
+    private _commonService: CommonService,
     private _router: Router
   ) {}
 
-  ngOnInit(): void {
-    // this.containerDropdownList = [
-    //   { item_id: 1, item_text: 'SIKU3034664' },
-    //   { item_id: 2, item_text: 'TLLU8316901' },
-    //   { item_id: 3, item_text: 'TCKU2125749' },
-    //   { item_id: 4, item_text: 'SEGU1759710' },
-    //   { item_id: 5, item_text: 'SEGU1900639' },
-    //   { item_id: 6, item_text: 'TCLU3387545' },
-    //   { item_id: 7, item_text: 'SIKU2952032' },
-    //   { item_id: 8, item_text: 'SEGU1561659' },
-    //   { item_id: 9, item_text: 'SEGU1706269' },
-    //   { item_id: 10, item_text: 'VSBU2058560' },
-    //   { item_id: 11, item_text: 'GESU1163666' },
-    //   { item_id: 12, item_text: 'SEGU1552683' },
-    //   { item_id: 13, item_text: 'SIKU3060792' },
-    //   { item_id: 14, item_text: 'SIKU3040374' },
-    //   { item_id: 15, item_text: 'TLLU8398406' },
-    // ];
+  @ViewChild('openModal2') openModal2: ElementRef;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
+  @ViewChild('closeBtn1') closeBtn1: ElementRef;
 
+  ngOnInit(): void {
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'ID',
@@ -65,7 +53,7 @@ export class ContainerAllotmentComponent implements OnInit {
       allowSearchFilter: true,
       limitSelection: -1,
       clearSearchFilter: true,
-      maxHeight: 197,
+      maxHeight: 170,
       itemsShowLimit: 3,
       searchPlaceholderText: 'Select Container',
       noDataAvailablePlaceholderText: 'No Container Present',
@@ -77,8 +65,6 @@ export class ContainerAllotmentComponent implements OnInit {
     this.containerForm = this._formBuilder.group({
       BOOKING_NO: [''],
       CRO_NO: [''],
-      TO_LOCATION: [''],
-      MOVEMENT_DATE: [''],
       DEPO_CODE: [''],
       CREATED_BY: [''],
       CONTAINER_LIST1: new FormControl(
@@ -88,11 +74,25 @@ export class ContainerAllotmentComponent implements OnInit {
       CONTAINER_LIST: new FormArray([]),
     });
 
+    this.filterForm = this._formBuilder.group({
+      CONTAINER_NO: [''],
+      CUSTOMER_NAME: [''],
+      FROM_DATE: [''],
+      TO_DATE: [''],
+      STATUS: [''],
+    });
+
     this.getAvailableContainerList();
+    this.getContainerAllotedList();
   }
 
   get f() {
     return this.containerForm.controls;
+  }
+
+  get f1() {
+    const add = this.containerForm.get('CONTAINER_LIST') as FormArray;
+    return add.controls;
   }
 
   getAvailableContainerList() {
@@ -106,22 +106,53 @@ export class ContainerAllotmentComponent implements OnInit {
       });
   }
 
-  saveContainer() {
-    debugger;
-    this.containerList = this.containerForm.get('CONTAINER_LIST1')?.value;
+  saveContainer(event: any) {
+    var containerList = this.containerForm.get('CONTAINER_LIST1')?.value;
+    var i = containerList.findIndex((x: any) => x.ID === event.ID);
+    const add = this.containerForm.get('CONTAINER_LIST') as FormArray;
+
+    if (i == -1) {
+      add.removeAt(
+        add.value.findIndex(
+          (m: { CONTAINER_NO: any }) => m.CONTAINER_NO === event.CONTAINER_NO
+        )
+      );
+    } else {
+      add.push(
+        this._formBuilder.group({
+          CONTAINER_NO: [event.CONTAINER_NO],
+          TO_LOCATION: [''],
+          MOVEMENT_DATE: [''],
+        })
+      );
+    }
+  }
+
+  copyValue(value: any) {
+    if (value == 'location') {
+      var location = this.f1[0].value.TO_LOCATION;
+      this.containerForm.value.CONTAINER_LIST.forEach(
+        (element: { TO_LOCATION: any }) => {
+          element.TO_LOCATION = location;
+        }
+      );
+    }
+
+    if (value == 'date') {
+      var date = this.f1[0].value.MOVEMENT_DATE;
+      this.containerForm.value.CONTAINER_LIST.forEach(
+        (element: { MOVEMENT_DATE: any }) => {
+          element.MOVEMENT_DATE = date;
+        }
+      );
+    }
+
+    this.containerForm
+      .get('CONTAINER_LIST')
+      ?.setValue(this.containerForm.value.CONTAINER_LIST);
   }
 
   insertContainer() {
-    const add = this.containerForm.get('CONTAINER_LIST') as FormArray;
-
-    this.containerList.forEach((element) => {
-      add.push(
-        this._formBuilder.group({
-          CONTAINER_NO: [element.CONTAINER_NO],
-        })
-      );
-    });
-
     this.containerForm
       .get('CREATED_BY')
       ?.setValue(localStorage.getItem('username'));
@@ -130,33 +161,43 @@ export class ContainerAllotmentComponent implements OnInit {
       .get('DEPO_CODE')
       ?.setValue(localStorage.getItem('usercode'));
 
-    this.containerForm.get('BOOKING_NO')?.setValue(this.bookingNo);
+    this.containerForm.get('BOOKING_NO')?.setValue(this.croDetails?.BOOKING_NO);
 
     this._depoService
       .createContainer(JSON.stringify(this.containerForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Container is alloted successfully');
-          this._router.navigateByUrl('/home/container-allotment-list');
+          this._commonService.successMsg('Container is alloted successfully');
+          this.closeBtn1.nativeElement.click();
+          this.getContainerAllotedList();
         }
       });
   }
 
   getDetails() {
-    this.isCRO = false;
-
     var cro = new CRO();
     cro.CRO_NO = this.croNo;
     this.containerForm.get('CRO_NO')?.setValue(this.croNo);
     this._croService.getCRODetails(cro).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.croDetails = res.Data;
-        this.bookingNo = res.Data.BOOKING_NO;
-        this.isCRO = true;
-        this.isrecord = true;
-      } else {
-        this.isCRO = false;
-        this.isrecord = false;
+        this.openModal2.nativeElement.click();
+      }
+    });
+  }
+
+  getContainerAllotedList() {
+    var bl = new Bl();
+    bl.AGENT_CODE = '';
+    bl.DEPO_CODE = localStorage.getItem('usercode');
+    this._commonService.destroyDT();
+    this.containerAllotmentList = [];
+    this._blService.getContainerList(bl).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        if (res.Data.length > 0) {
+          this.containerAllotmentList = res.Data;
+        }
+        this._commonService.getDT();
       }
     });
   }
