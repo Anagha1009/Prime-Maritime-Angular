@@ -5,7 +5,8 @@
 <div class="container">
     <form class="mx-5" [formGroup]="doListForm">
         <div class="col-md-6 offset-md-6 text-end">
-            <button class="form-btn-primary" routerLink="/home/new-do">{{'Button.NewDeliveryOrder'|translate}}</button>
+            <button class="form-btn-primary" routerLink="/home/new-do"><i
+                    class="fa fa-plus me-1"></i>{{'Button.NewDeliveryOrder'|translate}}</button>
         </div>
         <div class="row">
             <div class="col-md-3">
@@ -60,7 +61,8 @@
                                 </h4>
                                 <p class="description"> <span class="bx bx-user"></span> {{item.CLEARING_PARTY}} | <span
                                         class="bx bxs-truck"></span>
-                                    {{item.ContainerCount?item.ContainerCount:0}} Containers | <span class="text-danger">
+                                    {{item.ContainerCount?item.ContainerCount:0}} Containers | <span
+                                        class="text-danger">
                                         <span><i class='bx bx-current-location'></i></span>
                                         {{item.ACCEPTANCE_LOCATION}}</span></p>
                                 <p class="description"><i class='bx bx-time-five'></i> <span class="text-info">
