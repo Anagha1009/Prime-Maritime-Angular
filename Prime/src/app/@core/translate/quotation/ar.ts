@@ -23,6 +23,16 @@ export const locale={
         MotherVesselVoyageNo:'الأم السفينة الرحلة رقم',
         SlotOperator:'مشغل الفتحة',
         NoofSlots:'عدد الفتحات',
+        CommodityType :'نوع السلعة',
+        CommodityName:'اسم سلعة',
+        Container:'حاوية',
+        ServiceMode:'وضع الخدمة',
+        POLFreeDays:'أيام مجانية POL',
+        PODFreeDays:'أيام خالية من POD',
+        ImmediateVolumeExpected:'حجم فوري متوقع',
+        TotalVolumeExpected:'الحجم الإجمالي المتوقع',
+        
+
         
        
        
