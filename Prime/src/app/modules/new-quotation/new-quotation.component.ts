@@ -606,23 +606,23 @@ export class NewQuotationComponent implements OnInit {
                 if (res.responseCode == 200) {
                   this.isLoading = false;
                   this._commonService.successMsg(
-                    'Your quotation has been submitted successfully !' +
+                    'Your SRR has been submitted successfully !' +
                       '<br>' +
                       'SRR No. is - ' +
                       SRRNO
                   );
-                  this._router.navigateByUrl('/home/quotation-list');
+                  this._router.navigateByUrl('/home/srr-list');
                 }
               });
           } else {
             this.isLoading = false;
             this._commonService.successMsg(
-              'Your quotation has been submitted successfully !' +
+              'Your SRR has been submitted successfully !' +
                 '<br>' +
                 'SRR No. is - ' +
                 SRRNO
             );
-            this._router.navigateByUrl('/home/quotation-list');
+            this._router.navigateByUrl('/home/srr-list');
           }
         }
       });
@@ -635,7 +635,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   insertVoyage() {
-    debugger
+    debugger;
     this.submitted3 = true;
 
     if (this.voyageForm.invalid) {

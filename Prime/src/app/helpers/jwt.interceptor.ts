@@ -20,7 +20,7 @@ export class JwtInterceptor implements HttpInterceptor {
    */
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     var isApiUrl = request.url.startsWith(environment.BASE_URL);
-    if (window.location.href.includes('quotation')) {
+    if (window.location.href.includes('srr')) {
       this.value = true;
     } else {
       this.value = false;

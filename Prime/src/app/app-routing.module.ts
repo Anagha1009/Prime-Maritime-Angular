@@ -158,7 +158,7 @@ const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       {
-        path: 'quotation-list',
+        path: 'srr-list',
         component: QuotationListComponent,
       },
       {

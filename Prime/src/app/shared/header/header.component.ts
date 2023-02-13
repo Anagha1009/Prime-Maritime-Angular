@@ -49,7 +49,7 @@ export class HeaderComponent implements OnInit {
               : this.selectedLanguage == 'hi'
               ? hindi.data.Menu.rateRequest
               : arabic.data.Menu.rateRequest,
-          menuLink: 'home/quotation-list',
+          menuLink: 'home/srr-list',
         },
         {
           menuName:
