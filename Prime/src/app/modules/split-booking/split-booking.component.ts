@@ -35,13 +35,17 @@ export class SplitBookingComponent implements OnInit {
   currencyList: any[] = [];
   currencyList2: any[] = [];
   isVoyageAdded: boolean = false;
-  
+  isLoading:boolean= false;
+  isLoading1:boolean=false;
   servicenameList: any[] = [];
   servicenameList1: any[] = [];
   servicetypeList: any[] = [];
   portList: any[] = [];
   currencyList1: any[] = [];
   vesselList1: any[] = [];
+  rollOverList:any[]=[];
+  // booking:BOOKING=new BOOKING ();
+
   
   @ViewChild('closeBtn3') closeBtn3: ElementRef;
 
@@ -59,6 +63,7 @@ export class SplitBookingComponent implements OnInit {
     this.getForm();
     this.splitBookingForm = this._formBuilder.group({
       BOOKING_NO: [''],
+      BOOKING_ID:[''],
       SRR_ID: [0],
       SRR_NO: [''],
       VESSEL_NAME: ['',Validators.required],
@@ -75,6 +80,8 @@ export class SplitBookingComponent implements OnInit {
     console.log(this.booking);
 
     this.slotAllocation()
+    this.getRolloverList();
+
 
   }
 
@@ -128,8 +135,25 @@ export class SplitBookingComponent implements OnInit {
         this.previewNoData=true;
       }
       this.getDropdownData()
+      this.getRolloverList()
+      console.log(this.getRolloverList)
     });
  
+  }
+
+  getRolloverList(){
+    debugger
+    this._commonService.destroyDT();
+    var booking = new BOOKING();
+    this.booking.AGENT_CODE = localStorage.getItem('usercode');
+    this._bookingService.getRollOverList(this.booking).subscribe((res: any) => {
+      this.isLoading = false;
+      this.isLoading1 = false;
+      if (res.ResponseCode == 200) {
+        this.rollOverList = res.Data;
+      }
+      this._commonService.getDT();
+    });
   }
 
   getServiceName1(event: any) {
@@ -267,25 +291,24 @@ export class SplitBookingComponent implements OnInit {
     if(this.splitBookingForm.invalid){
       return
     }
-    alert("hii")
-    // this.splitBookingForm.get('BOOKING_NO')?.setValue(this.booking?.BOOKING_NO);
-    // this.splitBookingForm.get('IS_ROLLOVER')?.setValue(true);
-    // this.splitBookingForm.get('SRR_ID')?.setValue(this.booking?.CONTAINER_LIST[0].SRR_ID);
-    // this.splitBookingForm.get('SRR_NO')?.setValue(this.booking?.CONTAINER_LIST[0].SRR_NO);
-    // this.splitBookingForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
-    // this.splitBookingForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    // this.splitBookingForm.get('STATUS')?.setValue('Booked');
-    // this.splitBookingForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.splitBookingForm.get('BOOKING_NO')?.setValue(this.booking?.BOOKING_NO);
+    this.splitBookingForm.get('IS_ROLLOVER')?.setValue(true);
+    this.splitBookingForm.get('SRR_ID')?.setValue(this.booking?.CONTAINER_LIST[0].SRR_ID);
+    this.splitBookingForm.get('SRR_NO')?.setValue(this.booking?.CONTAINER_LIST[0].SRR_NO);
+    this.splitBookingForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
+    this.splitBookingForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
+    this.splitBookingForm.get('STATUS')?.setValue('Booked');
+    this.splitBookingForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
 
-    // console.log(JSON.stringify(this.splitBookingForm.value));
-    // this._bookingService
-    //   .postBookingDetails(JSON.stringify(this.splitBookingForm.value))
-    //   .subscribe((res: any) => {
-    //     if (res.responseCode == 200) {
-    //       alert('The booking has been rolled over successfully !');
-    //       this._router.navigateByUrl('/home/booking-list');
-    //     }
-    //   });
+    console.log(JSON.stringify(this.splitBookingForm.value));
+    this._bookingService
+      .postBookingDetails(JSON.stringify(this.splitBookingForm.value))
+      .subscribe((res: any) => {
+        if (res.responseCode == 200) {
+          alert('The booking has been rolled over successfully !');
+          this._router.navigateByUrl('/home/booking-list');
+        }
+      });
 
   }
   cancelBooking(){
