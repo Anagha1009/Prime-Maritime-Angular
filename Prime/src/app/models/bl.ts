@@ -5,5 +5,6 @@ export class Bl {
   BL_NO: any = '';
   DO_NO: any = '';
   DEPO_CODE: any = '';
+  BL_STATUS:any='';
   fromDO: boolean = false;
 }
