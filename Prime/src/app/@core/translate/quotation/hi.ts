@@ -23,6 +23,16 @@ export const locale={
         MotherVesselVoyageNo:'मातृ पोत यात्रा संख्या',
         SlotOperator:'स्लॉट ऑपरेटर',
         NoofSlots:'स्लॉट्स की संख्या',
+        CommodityName:'कमोडिटी नाम',
+        CommodityType:'कमोडिटी प्रकार',
+        Container:'पात्र',
+        ServiceMode:'सेवा मोड',
+        POLFreeDays:'पीओएल मुक्त दिन',
+        PODFreeDays:'पीओडी मुक्त दिन',
+        ImmediateVolumeExpected:'तत्काल मात्रा अपेक्षित',
+        TotalVolumeExpected:'कुल मात्रा अपेक्षित',
+        
+
         
        
        

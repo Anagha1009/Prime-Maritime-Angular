@@ -8,6 +8,8 @@ import {locale as english} from 'src/app/@core/translate/do/en';
 import {locale as hindi} from 'src/app/@core/translate/do/hi';
 import {locale as arabic} from 'src/app/@core/translate/do/ar';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
+import { CommonService } from 'src/app/services/common.service';
+
 
 
 @Component({
@@ -33,7 +35,11 @@ export class CtListComponent implements OnInit {
   suppressAndOrCondition: true,
   } as ITextFilterParams;
 
-  constructor(private _cmService:CmService,private _router:Router, private _coreTranslationService:CoreTranslationService,) {this._coreTranslationService.translate(english,hindi,arabic); }
+  constructor(private _cmService:CmService,
+    private _router:Router, 
+    private _coreTranslationService:CoreTranslationService,
+    private _commonService:CommonService,
+    ) {this._coreTranslationService.translate(english,hindi,arabic); }
 
   ngOnInit(): void {
     this.columnDefs=[
@@ -75,6 +81,8 @@ export class CtListComponent implements OnInit {
 
   getTrackingHistoryList(){
     debugger;
+    this._commonService.destroyDT();
+
     this.previewDetails=false;
     this.previewNoData=false;
     if(this.conNo==''){
@@ -86,7 +94,11 @@ export class CtListComponent implements OnInit {
           debugger;
           this.ctList = [];
           //this.isScroll = false;
-          if (res.ResponseCode == 200) {
+          if (res.ResponseCode == 200) 
+          this._commonService.getDT();
+
+          {
+
             if (res.Data?.length > 0) {
               this.ctList = res.Data;
               console.log(this.ctList);
@@ -106,12 +118,14 @@ export class CtListComponent implements OnInit {
           if (res.ResponseCode == 500) {
             this.previewNoData=true;
           }
+
         },
         (error: any) => {
           if (error.status == 401) {
             alert('You are not authorized to access this page, please login');
             this._router.navigateByUrl('login');
           }
+
         }
       );
 

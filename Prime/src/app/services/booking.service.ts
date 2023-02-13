@@ -81,4 +81,14 @@ export class BookingService {
       this.httpOptions
     );
   }
+
+  getRollOverList(booking:any){
+    debugger
+    return this._http.get<any>(
+      this.BASE_URL + 'Booking/GetRolloverList?AGENT_CODE='+
+      booking.AGENT_CODE,
+      this.httpOptions
+    );
+    
+  }
 }

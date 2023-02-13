@@ -330,7 +330,7 @@
                             <div class="form-group">
                                 <input type="text" class="form-control" maxlength="100" formControlName="COMMODITY_NAME"
                                     [ngClass]="{'invalid': submitted2 && f2.COMMODITY_NAME.errors}" />
-                                <label class="form-label">Commodity Name <span class="text-danger"> *</span></label>
+                                <label class="form-label">{{'Header.CommodityName'|translate}} <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.COMMODITY_NAME.errors" class="invalid-feedback">
                                     Please
                                     enter
@@ -348,7 +348,7 @@
                                     <ng-option value="REEFER">Reefer</ng-option>
                                     <ng-option value="SP">Special Equipment (OOG)</ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Commodity Type <span class="text-danger"> *</span></label>
+                                <label class="form-label-ddl">{{'Header.CommodityType'|translate}} <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.COMMODITY_TYPE.errors" class="invalid-feedback">
                                     Please
                                     select
@@ -849,7 +849,7 @@
                                         *ngFor="let item of containerTypeList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})</ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Container <span class="text-danger"> *</span></label>
+                                <label class="form-label-ddl">{{'Header.Container'|translate}}<span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted1 && f1.CONTAINER_TYPE.errors" class="invalid-feedback">Please
                                     select
                                     Container</div>
@@ -866,7 +866,7 @@
                                         {{ item.CODE }}
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Service Mode <span class="text-danger"> *</span></label>
+                                <label class="form-label-ddl">{{'Header.ServiceMode'|translate}} <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted1 && f1.SERVICE_MODE.errors" class="invalid-feedback">Please
                                     select
                                     Service Mode</div>
@@ -879,7 +879,7 @@
                                     formControlName="POL_FREE_DAYS"
                                     [ngClass]="{'invalid': submitted1 && f1.POL_FREE_DAYS.errors}"
                                     class="form-control" />
-                                <label class="form-label">POL Free Days <span class="text-danger"> *</span></label>
+                                <label class="form-label">{{'Header.POLFreeDays'|translate}} <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted1 && f1.POL_FREE_DAYS.errors" class="invalid-feedback">Please
                                     enter
                                     POL Free Days</div>
@@ -894,7 +894,7 @@
                                     formControlName="POD_FREE_DAYS"
                                     [ngClass]="{'invalid': submitted1 && f1.POD_FREE_DAYS.errors}"
                                     class="form-control" />
-                                <label class="form-label">POD Free Days <span class="text-danger"> *</span></label>
+                                <label class="form-label">{{'Header.PODFreeDays'|translate}}<span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted1 && f1.POD_FREE_DAYS.errors" class="invalid-feedback">Please
                                     enter
                                     POD Free Days</div>
@@ -907,7 +907,7 @@
                                     formControlName="IMM_VOLUME_EXPECTED"
                                     [ngClass]="{'invalid': submitted1 && f1.IMM_VOLUME_EXPECTED.errors}"
                                     class="form-control" />
-                                <label class="form-label">Immediate Volume Expected <span class="text-danger">
+                                <label class="form-label">{{'Header.ImmediateVolumeExpected'|translate}}<span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted1 && f1.IMM_VOLUME_EXPECTED.errors" class="invalid-feedback">Please
                                     enter
@@ -921,7 +921,7 @@
                                     formControlName="TOTAL_VOLUME_EXPECTED"
                                     [ngClass]="{'invalid': submitted1 && f1.TOTAL_VOLUME_EXPECTED.errors}"
                                     class="form-control" />
-                                <label class="form-label">Total Volume Expected <span class="text-danger">
+                                <label class="form-label">{{'Header.TotalVolumeExpected'|translate}}<span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted1 && f1.TOTAL_VOLUME_EXPECTED.errors" class="invalid-feedback">
                                     Please
@@ -1196,60 +1196,6 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <ng-select [ngClass]="{'invalid': submitted3 && f6.IMM_CURR.errors}"
-                                    formControlName="IMM_CURR">
-                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of currencyList"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}}
-                                        ({{item.CODE}})
-                                    </ng-option>
-                                </ng-select>
-                                <label class="form-label-ddl">Import Currency <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.IMM_CURR.errors" class="invalid-feedback">Please select
-                                    Vessel</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" [ngClass]="{'invalid': submitted3 && f6.IMM_CURR_RATE.errors}"
-                                    maxlength="100" formControlName="IMM_CURR_RATE" class="form-control">
-                                <label class="form-label">Import Currency Rate <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.IMM_CURR_RATE.errors" class="invalid-feedback">
-                                    Import Currency Rate is required</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <ng-select [ngClass]="{'invalid': submitted3 && f6.EXP_CURR.errors}"
-                                    formControlName="EXP_CURR">
-                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of currencyList1"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}}
-                                        ({{item.CODE}})
-                                    </ng-option>
-                                </ng-select>
-                                <label class="form-label-ddl">Export Currency <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.EXP_CURR.errors" class="invalid-feedback">Please select
-                                    Export Currency</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" [ngClass]="{'invalid': submitted3 && f6.EXP_CURR_RATE.errors}"
-                                    maxlength="100" formControlName="EXP_CURR_RATE" class="form-control">
-                                <label class="form-label">Export Currency Rate <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.EXP_CURR_RATE.errors" class="invalid-feedback">
-                                    Export Currency Rate is required</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
                                 <ng-select [ngClass]="{'invalid': submitted3 && f6.TERMINAL_CODE.errors}"
                                     formControlName="TERMINAL_CODE">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
@@ -1279,7 +1225,61 @@
                                     Port</div>
                             </div>
                         </div>
+                        <!-- <div class="col-md-3">
+                            <div class="form-group">
+                                <ng-select [ngClass]="{'invalid': submitted3 && f6.IMM_CURR.errors}"
+                                    formControlName="IMM_CURR">
+                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                    <ng-option *ngFor="let item of currencyList"
+                                        value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        ({{item.CODE}})
+                                    </ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">Import Currency <span class="text-danger">
+                                        *</span></label>
+                                <div *ngIf="submitted3 && f6.IMM_CURR.errors" class="invalid-feedback">Please select
+                                    Vessel</div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" [ngClass]="{'invalid': submitted3 && f6.IMM_CURR_RATE.errors}"
+                                    maxlength="100" formControlName="IMM_CURR_RATE" class="form-control">
+                                <label class="form-label">Import Currency Rate <span class="text-danger">
+                                        *</span></label>
+                                <div *ngIf="submitted3 && f6.IMM_CURR_RATE.errors" class="invalid-feedback">
+                                    Import Currency Rate is required</div>
+                            </div>
+                        </div> -->
                     </div>
+                        <!-- <div class="col-md-3">
+                            <div class="form-group">
+                                <ng-select [ngClass]="{'invalid': submitted3 && f6.EXP_CURR.errors}"
+                                    formControlName="EXP_CURR">
+                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                    <ng-option *ngFor="let item of currencyList1"
+                                        value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        ({{item.CODE}})
+                                    </ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">Export Currency <span class="text-danger">
+                                        *</span></label>
+                                <div *ngIf="submitted3 && f6.EXP_CURR.errors" class="invalid-feedback">Please select
+                                    Export Currency</div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" [ngClass]="{'invalid': submitted3 && f6.EXP_CURR_RATE.errors}"
+                                    maxlength="100" formControlName="EXP_CURR_RATE" class="form-control">
+                                <label class="form-label">Export Currency Rate <span class="text-danger">
+                                        *</span></label>
+                                <div *ngIf="submitted3 && f6.EXP_CURR_RATE.errors" class="invalid-feedback">
+                                    Export Currency Rate is required</div>
+                            </div>
+                        </div> -->
+                        
+                    
                     <div class="row mb-4">
                         <div class="col-md-3">
                             <div class="form-group">

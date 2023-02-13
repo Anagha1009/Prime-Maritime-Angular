@@ -23,6 +23,20 @@ export const locale={
         MotherVesselVoyageNo:'Mother Vessel VoyageNo',
         SlotOperator:'Slot Operator',
         NoofSlots:'No of Slots',
+        CommodityName :'Commodity Name ',
+        CommodityType :'Commodity Type ',
+        Container:'Container',
+        ServiceMode:'Service Mode',
+        POLFreeDays:'POL Free Days',
+        PODFreeDays:'POD Free Days',
+        ImmediateVolumeExpected:'Immediate Volume Expected',
+        TotalVolumeExpected:'Total Volume Expected',
+        
+        
+
+
+
+
         
        
 

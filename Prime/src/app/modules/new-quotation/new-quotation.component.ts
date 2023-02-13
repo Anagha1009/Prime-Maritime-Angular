@@ -635,6 +635,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   insertVoyage() {
+    debugger
     this.submitted3 = true;
 
     if (this.voyageForm.invalid) {
@@ -740,10 +741,10 @@ export class NewQuotationComponent implements OnInit {
       VOYAGE_NO: ['', Validators.required],
       ATA: ['', Validators.required],
       ATD: ['', Validators.required],
-      IMM_CURR: ['', Validators.required],
-      IMM_CURR_RATE: ['', Validators.required],
-      EXP_CURR: ['', Validators.required],
-      EXP_CURR_RATE: ['', Validators.required],
+      // IMM_CURR: ['', Validators.required],
+      // IMM_CURR_RATE: ['', Validators.required],
+      // EXP_CURR: ['', Validators.required],
+      // EXP_CURR_RATE: ['', Validators.required],
       TERMINAL_CODE: ['', Validators.required],
       SERVICE_NAME: ['', Validators.required],
       VIA_NO: ['', Validators.required],

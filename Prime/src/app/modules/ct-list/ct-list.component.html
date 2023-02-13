@@ -32,7 +32,7 @@
         </div>
     </section>
 
-    <section *ngIf="previewDetails" class="col-md-12">
+    <!-- <section *ngIf="previewDetails" class="col-md-12">
         <ag-grid-angular
       class="ag-theme-alpine"
       style="height:550px;"
@@ -47,12 +47,12 @@
     </ag-grid-angular>
     
     </section>
-    
+     -->
 
 </div>
     
 
-    <!-- <section class="services" *ngIf="previewNoData">
+     <section class="services" *ngIf="previewNoData">
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-9 text-end">
@@ -67,12 +67,11 @@
             </div>
         </div>
     </section>
+    <div class="container mt-4">
 
-    <section *ngIf="previewDetails">
-        <hr>
-        <div class="table-responsive">
-            <table class="ratetable" style="font-size: 12px;">
-                
+     <section *ngIf="previewDetails">
+        
+        <table class="ratetable table-bordered" id="data-table-config">                
                 <thead><tr>
                     <th>Sr No.</th>
                     <th>Booking No</th>
@@ -99,12 +98,11 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-        <hr>
+        
         
 
     </section>
-</div> -->
+
 <!-- <section *ngIf="previewDetails" class="col-md-12">
     <ag-grid-angular
   class="ag-theme-alpine"
@@ -119,7 +117,7 @@
 >
 </ag-grid-angular>
 
-</section> -->
+</section>  -->
 
 
 
