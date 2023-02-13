@@ -15,7 +15,7 @@
                     </a>
                     <ul *ngIf="item.menuName == 'Bookings' || item.menuName == 'बुकिंग' || item.menuName == 'الحجوزات'">
                         <li><a href="home/booking-list">{{'Menu.bookingList'|translate}}</a></li>
-                        <li><a href="home/split-booking">{{'Menu.rollover'|translate}}</a></li>
+                        <li><a href="home/rollover">{{'Menu.rollover'|translate}}</a></li>
                         <li><a href="home/er-list">{{'Menu.emptyRepoLocal'|translate}}</a></li>
                     </ul>
                     <ul *ngIf="item.menuName == 'Operations' || item.menuName == 'संचालन' || item.menuName == 'عمليات'">
@@ -51,7 +51,8 @@
         <!-- <img src="../../../assets/img/united-kingdom.png" /> -->
         <!-- <span class="text-light">Hi User !<a (click)="logout()"><i title="logout" style="font-size: 20px"
                     class='ms-2 pointer bx bx-user-x'></i></a></span> -->
-        <span class="text-light">Hi User !<a (click)="logout()" class="ms-5"><img src="assets/img/sign_out.png" width="35px" height="35px"></a></span>
+        <span class="text-light">Hi {{username}} !<a (click)="logout()" placement="right" tooltip="logout"
+                class="ms-3 pointer"><img src="assets/img/sign_out.png" width="25px" height="25px"></a></span>
     </div>
 </header>
 <div class="mt-5 pt-4"></div>
