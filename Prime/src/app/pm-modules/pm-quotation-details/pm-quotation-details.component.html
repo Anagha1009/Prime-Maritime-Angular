@@ -221,6 +221,7 @@
                                                         <td width="30%">{{item.value.CURRENCY}}
                                                             {{item.value.STANDARD_RATE}}</td>
                                                         <td width="20%"><input type="text" class="form-control2"
+                                                                (keypress)="numericOnly($event)"
                                                                 formControlName="RATE_REQUESTED" /></td>
                                                     </tr>
                                                 </tbody>
@@ -260,6 +261,7 @@
                                                         <td width="30%">{{item.value.CURRENCY}}
                                                             {{item.value.STANDARD_RATE}}</td>
                                                         <td width="20%"><input type="text" class="form-control2"
+                                                                (keypress)="numericOnly($event)"
                                                                 formControlName="RATE_REQUESTED" /></td>
                                                     </tr>
                                                 </tbody>
@@ -296,7 +298,8 @@
                                                         <td width="15%">{{i + 1}}</td>
                                                         <td width="35%">{{item.value.CHARGE_CODE}}</td>
                                                         <td width="30%">{{item.value.CURRENCY}} {{item.value.RATE}}</td>
-                                                        <td width="20%"><input type="text" class="form-control2"
+                                                        <td width="20%"><input type="text" maxlength="15"
+                                                                class="form-control2" (keypress)="numericOnly($event)"
                                                                 formControlName="RATE_REQUESTED" /></td>
                                                     </tr>
                                                 </tbody>
@@ -354,7 +357,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-5">
-                                <h6>Laden Empty : </h6>
+                                <h6>Empty Back : </h6>
                             </div>
                             <div class="col-4">
                                 <h6 class="text-danger">0</h6>

@@ -454,6 +454,21 @@ export class NewQuotationComponent implements OnInit {
             })
           );
         });
+
+        res.Data.EXP_OTHERCOSTLIST.forEach((element: any) => {
+          rateList.push(
+            this._formBuilder.group({
+              CONTAINER_TYPE: [element.CONTAINER_TYPE],
+              CHARGE_CODE: [element.CHARGE],
+              CURRENCY: [element.CURRENCY],
+              STANDARD_RATE: [element.RATE],
+              RATE_REQUESTED: ['', Validators.required],
+              PAYMENT_TERM: ['', Validators.required],
+              TRANSPORT_TYPE: ['', Validators.required],
+              REMARKS: [''],
+            })
+          );
+        });
       }
     });
 

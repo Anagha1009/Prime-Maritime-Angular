@@ -7,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainLayoutComponent implements OnInit {
   menu: any;
+  username: any;
 
   constructor() {}
 
   ngOnInit(): void {
     this.menu = localStorage.getItem('rolecode');
+    this.username = localStorage.getItem('username');
   }
 }

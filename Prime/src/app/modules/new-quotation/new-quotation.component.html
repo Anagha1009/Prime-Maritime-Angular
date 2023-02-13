@@ -314,7 +314,7 @@
                     </form>
                     <hr>
                     <div class="row">
-                        <div class="col-md-2 offset-md-10" style="text-align: right;">
+                        <div class="col-md-2 offset-md-10 text-end">
                             <button (click)="saveQuotation()"
                                 class="form-btn w-100">{{'Button.Save'|translate}}</button>
                         </div>
@@ -993,8 +993,7 @@
                                                             <option value="Collect">Collect</option>
                                                         </select>
                                                         <span class="invalid-feedback"
-                                                            *ngIf="submiitedRate && f3[j].get('PAYMENT_TERM').errors">Please
-                                                            Select</span>
+                                                            *ngIf="submiitedRate && f3[j].get('PAYMENT_TERM').errors">required</span>
                                                     </td>
                                                     <td width="20%">
                                                         <select class="form-control2" formControlName="TRANSPORT_TYPE">
@@ -1003,8 +1002,7 @@
                                                             <option value="POD">POD</option>
                                                         </select>
                                                         <span class="invalid-feedback"
-                                                            *ngIf="submiitedRate && f3[j].get('TRANSPORT_TYPE').errors">Please
-                                                            Select</span>
+                                                            *ngIf="submiitedRate && f3[j].get('TRANSPORT_TYPE').errors">required</span>
                                                     </td>
                                                     <td width="10%">{{item.value.STANDARD_RATE}}</td>
                                                     <td width="9%">
@@ -1012,11 +1010,10 @@
                                                             (keypress)="numericOnly($event)"
                                                             formControlName="RATE_REQUESTED" type="text" />
                                                         <span class="invalid-feedback"
-                                                            *ngIf="submiitedRate && f3[j].get('RATE_REQUESTED').errors">Please
-                                                            Enter Requested Rate</span>
+                                                            *ngIf="submiitedRate && f3[j].get('RATE_REQUESTED').errors">required</span>
                                                     </td>
-                                                    <td> <i data-bs-toggle="tooltip" data-bs-placement="right"
-                                                            title="Please enter rate after deducting BAF & EWRI"
+                                                    <td> <i placement="right"
+                                                            tooltip="Please enter rate after deducting BAF & EWRI"
                                                             *ngIf="item.value.CHARGE_CODE == 'Freight'"
                                                             class="fa fa-info-circle ms-1"></i></td>
                                                 </tr>

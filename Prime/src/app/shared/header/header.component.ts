@@ -14,6 +14,8 @@ import Swal from 'sweetalert2';
 })
 export class HeaderComponent implements OnInit {
   @Input() menu: string;
+  @Input() username: string;
+
   menuList: any[] = [];
   public selectedLanguage: any = 'en';
 
@@ -118,22 +120,17 @@ export class HeaderComponent implements OnInit {
     // }
     Swal.fire({
       title: 'Are you sure?',
-      text: "You want to Logout!",
+      text: 'You want to Logout!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Logout'
+      confirmButtonText: 'Logout',
     }).then((result) => {
       if (result.isConfirmed) {
         this._router.navigateByUrl('login');
-        Swal.fire(
-          'Logged out',
-          'You have logged out successfully!',
-          'success'
-        )
+        Swal.fire('Logged out', 'You have logged out successfully!', 'success');
       }
-    })
-
+    });
   }
 }

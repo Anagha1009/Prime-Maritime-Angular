@@ -9,10 +9,10 @@ import * as CanvasJSAngularChart from '../../assets/canvasjs-3.7.2/canvasjs.angu
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { PmSidebarComponent } from './pm-sidebar/pm-sidebar.component';
 import { AgGridModule } from 'ag-grid-angular';
-import { PmLayoutModule } from '../layout/pm-layout/pm-layout.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { TooltipModule } from 'ng2-tooltip-directive';
 
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
@@ -32,6 +32,7 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     FormsModule,
     ReactiveFormsModule,
     TranslateModule.forRoot(),
+    TooltipModule,
   ],
   exports: [
     HeaderComponent,
