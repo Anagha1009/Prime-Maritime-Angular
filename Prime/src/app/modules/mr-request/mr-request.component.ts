@@ -7,7 +7,7 @@ import { ContainerService } from 'src/app/services/container.service';
 import { DepoService } from 'src/app/services/depo.service';
 import { locale as english } from 'src/app/@core/translate/mnr/en';
 import { locale as hindi } from 'src/app/@core/translate/mnr/hi';
-import{locale as arabic} from 'src/app/@core/translate/mnr/ar';
+import { locale as arabic } from 'src/app/@core/translate/mnr/ar';
 
 @Component({
   selector: 'app-mr-request',
@@ -35,16 +35,12 @@ export class MrRequestComponent implements OnInit {
     private _containerService: ContainerService,
     private _coreTranslationService: CoreTranslationService
   ) {
-    this._coreTranslationService.translate(english, hindi,arabic);
+    this._coreTranslationService.translate(english, hindi, arabic);
   }
 
-  ngOnInit(): void {
-    
+  ngOnInit(): void {}
 
-  }
-
-  getAllDetails(){
-
+  getAllDetails() {
     this.mrForm = this._formBuilder.group({
       MR_LIST: new FormArray([
         this._formBuilder.group({
@@ -68,7 +64,7 @@ export class MrRequestComponent implements OnInit {
           FINAL_TOTAL: [0],
           DEPO_CODE: [''],
           REMARKS: [''],
-          CREATED_BY: ['']
+          CREATED_BY: [''],
         }),
       ]),
     });
@@ -84,23 +80,23 @@ export class MrRequestComponent implements OnInit {
     if (this.containerNo == '') {
       this.isRecords = false;
       this.isContainer = false;
-    }
-    else {
+    } else {
       this.isContainer = false;
-      this._containerService.GetContainerMasterDetails(container).subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.containerDetails = res.Data;
-          this.isContainer = true;
-          this.isRecords = true;
-          this.getAllDetails();
-        } else if (res.ResponseCode == 500) {
-          this.isRecords = false;
-          this.isContainer = false;
-        }
-      });
+      this._containerService
+        .GetContainerMasterDetails(container)
+        .subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            this.containerDetails = res.Data;
+            this.isContainer = true;
+            this.isRecords = true;
+            this.getAllDetails();
+          } else if (res.ResponseCode == 500) {
+            this.isRecords = false;
+            this.isContainer = false;
+          }
+        });
     }
   }
-
 
   Sum(index: number) {
     const add = this.mrForm.get('MR_LIST') as FormArray;
@@ -108,14 +104,17 @@ export class MrRequestComponent implements OnInit {
     var material = add.at(index)?.get('MATERIAL')?.value;
 
     var totalAmount = +labour + +material;
-    return Math.round(totalAmount * 100) / 100
+    return Math.round(totalAmount * 100) / 100;
   }
 
   LabourCount(index: number) {
     const add = this.mrForm.get('MR_LIST') as FormArray;
     var mh = add.at(index)?.get('MAN_HOUR')?.value;
     var totalAmount = +mh * 60;
-    add.at(index)?.get('LABOUR')?.setValue(Math.round(totalAmount * 100) / 100)
+    add
+      .at(index)
+      ?.get('LABOUR')
+      ?.setValue(Math.round(totalAmount * 100) / 100);
   }
 
   ManHourSum() {
@@ -123,9 +122,9 @@ export class MrRequestComponent implements OnInit {
     var totalAmount = 0;
     for (var i = 0; i < add.length; i++) {
       var mh = add.at(i)?.get('MAN_HOUR')?.value;
-      totalAmount += +mh
+      totalAmount += +mh;
     }
-    return Math.round(totalAmount * 100) / 100
+    return Math.round(totalAmount * 100) / 100;
   }
 
   getRandomNumber() {
@@ -138,9 +137,9 @@ export class MrRequestComponent implements OnInit {
     var totalAmount = 0;
     for (var i = 0; i < add.length; i++) {
       var labour = add.at(i)?.get('LABOUR')?.value;
-      totalAmount += +labour
+      totalAmount += +labour;
     }
-    return Math.round(totalAmount * 100) / 100
+    return Math.round(totalAmount * 100) / 100;
   }
 
   MaterialSum() {
@@ -148,9 +147,9 @@ export class MrRequestComponent implements OnInit {
     var totalAmount = 0;
     for (var i = 0; i < add.length; i++) {
       var material = add.at(i)?.get('MATERIAL')?.value;
-      totalAmount += +material
+      totalAmount += +material;
     }
-    return Math.round(totalAmount * 100) / 100
+    return Math.round(totalAmount * 100) / 100;
   }
 
   TotalSum() {
@@ -159,7 +158,7 @@ export class MrRequestComponent implements OnInit {
     for (var i = 0; i < add.length; i++) {
       totalAmount += +this.Sum(i);
     }
-    return Math.round(totalAmount * 100) / 100
+    return Math.round(totalAmount * 100) / 100;
   }
 
   TotalFreshDamageSum() {
@@ -170,12 +169,12 @@ export class MrRequestComponent implements OnInit {
         totalAmount += +this.Sum(i);
       }
     }
-    return Math.round(totalAmount * 100) / 100
+    return Math.round(totalAmount * 100) / 100;
   }
 
   TaxTotal() {
     var total = this.TotalSum();
-    return Math.round(total * 18) / 100
+    return Math.round(total * 18) / 100;
   }
 
   TotalWTSum() {
@@ -186,13 +185,13 @@ export class MrRequestComponent implements OnInit {
         totalAmount += +this.Sum(i);
       }
     }
-    return Math.round(totalAmount * 100) / 100
+    return Math.round(totalAmount * 100) / 100;
   }
 
   FinalTotal() {
     var totalAmount = 0;
     totalAmount += +this.TotalSum() + +this.TaxTotal();
-    return Math.round(totalAmount * 100) / 100
+    return Math.round(totalAmount * 100) / 100;
   }
 
   submitRequest() {
@@ -202,8 +201,10 @@ export class MrRequestComponent implements OnInit {
       this.mrForm.value.MR_LIST[i].TAX = this.TaxTotal();
       this.mrForm.value.MR_LIST[i].FINAL_TOTAL = this.FinalTotal();
       this.mrForm.value.MR_LIST[i].MR_NO = this.getRandomNumber();
-      this.mrForm.value.MR_LIST[i].DEPO_CODE = localStorage.getItem("usercode");
-      this.mrForm.value.MR_LIST[i].CREATED_BY = localStorage.getItem("username");
+      this.mrForm.value.MR_LIST[i].DEPO_CODE =
+        this._commonService.getUserCode();
+      this.mrForm.value.MR_LIST[i].CREATED_BY =
+        this._commonService.getUserName();
     }
     //console.log(this.mrForm.value.MR_LIST[0].MR_NO);
 
@@ -243,7 +244,7 @@ export class MrRequestComponent implements OnInit {
         TOTAL: [0],
         TAX: [0],
         FINAL_TOTAL: [0],
-        REMARKS: ['']
+        REMARKS: [''],
       })
     );
   }
@@ -274,12 +275,12 @@ export class MrRequestComponent implements OnInit {
           this.images.push(event.target.result);
 
           this.mrForm.patchValue({
-            fileSource: this.images
+            fileSource: this.images,
           });
-        }
+        };
 
         reader.readAsDataURL(event.target.files[i]);
-        this.imageUploads.push(event.target.files[i])
+        this.imageUploads.push(event.target.files[i]);
       }
     }
   }
@@ -295,34 +296,34 @@ export class MrRequestComponent implements OnInit {
   }
 
   GetComponentMasterList() {
-    this._commonService.getDropdownData("COMPONENT").subscribe((res: any) => {
+    this._commonService.getDropdownData('COMPONENT').subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.componentList = res.Data;
       }
-    })
+    });
   }
 
   GetDamageMasterList() {
-    this._commonService.getDropdownData("DAMAGE").subscribe((res: any) => {
+    this._commonService.getDropdownData('DAMAGE').subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.damageList = res.Data;
       }
-    })
+    });
   }
 
   GetRepairMasterList() {
-    this._commonService.getDropdownData("REPAIR").subscribe((res: any) => {
+    this._commonService.getDropdownData('REPAIR').subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.repairList = res.Data;
       }
-    })
+    });
   }
 
   Clear() {
     this.isContainer = false;
 
     const add = this.mrForm.get('MR_LIST') as FormArray;
-    add.clear()
+    add.clear();
     add.push(
       this._formBuilder.group({
         MR_NO: [''],
@@ -343,13 +344,11 @@ export class MrRequestComponent implements OnInit {
         TOTAL: [0],
         TAX: [0],
         FINAL_TOTAL: [0],
-        REMARKS: ['']
+        REMARKS: [''],
       })
     );
     this.images = [];
 
     this.containerNo = '';
-
   }
-
 }

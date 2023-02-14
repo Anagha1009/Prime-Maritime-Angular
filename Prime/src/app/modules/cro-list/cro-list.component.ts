@@ -84,7 +84,7 @@ export class CroListComponent implements OnInit {
   }
 
   getCROList() {
-    this.cro.AGENT_CODE = localStorage.getItem('usercode');
+    this.cro.AGENT_CODE = this._commonService.getUserCode();
     debugger;
     this._croService.getCROList(this.cro).subscribe((res: any) => {
       this.isLoading = false;
@@ -103,7 +103,7 @@ export class CroListComponent implements OnInit {
 
   getCRODetails(CRO_NO: string) {
     var cro = new CRO();
-    cro.AGENT_CODE = localStorage.getItem('usercode');
+    cro.AGENT_CODE = this._commonService.getUserCode();
     cro.CRO_NO = CRO_NO;
 
     this._croService.getCRODetails(cro).subscribe((res: any) => {

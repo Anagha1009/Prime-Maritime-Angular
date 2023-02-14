@@ -90,7 +90,7 @@ export class PmQuotationDetailsComponent implements OnInit {
 
     srrRates.forEach((element: any) => {
       element.STATUS = value;
-      element.CREATED_BY = localStorage.getItem('username');
+      element.CREATED_BY = this._commonService.getUserName();
       if (element.APPROVED_RATE == 0 && value == 'Countered') {
         isCounterValid = false;
       } else if (element.APPROVED_RATE != 0 && value == 'Approved') {

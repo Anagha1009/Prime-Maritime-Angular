@@ -143,10 +143,10 @@ export class NewQuotationComponent implements OnInit {
     this.submitted5 = true;
     this.partyForm
       .get('AGENT_CODE')
-      ?.setValue(localStorage.getItem('usercode'));
+      ?.setValue(this._commonService.getUserCode());
     this.partyForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
     this.partyForm.get('STATUS')?.setValue(true);
     if (this.partyForm.invalid) {
       return;
@@ -552,13 +552,13 @@ export class NewQuotationComponent implements OnInit {
 
     this.quotationForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
     this.quotationForm
       .get('AGENT_NAME')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
     this.quotationForm
       .get('AGENT_CODE')
-      ?.setValue(localStorage.getItem('usercode'));
+      ?.setValue(this._commonService.getUserCode());
 
     if (this.isVesselVal) {
       this.quotationForm.get('EFFECT_FROM')?.setValue('');
@@ -592,13 +592,13 @@ export class NewQuotationComponent implements OnInit {
             this.slotDetailsForm.get('STATUS')?.setValue('Booked');
             this.slotDetailsForm
               .get('CREATED_BY')
-              ?.setValue(localStorage.getItem('username'));
+              ?.setValue(this._commonService.getUserName());
             this.slotDetailsForm
               .get('AGENT_NAME')
-              ?.setValue(localStorage.getItem('username'));
+              ?.setValue(this._commonService.getUserName());
             this.slotDetailsForm
               .get('AGENT_CODE')
-              ?.setValue(localStorage.getItem('usercode'));
+              ?.setValue(this._commonService.getUserCode());
 
             this._quotationService
               .booking(JSON.stringify(this.slotDetailsForm.value))
@@ -644,7 +644,7 @@ export class NewQuotationComponent implements OnInit {
 
     this.voyageForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
 
     this._bookingService
       .insertVoyage(JSON.stringify(this.voyageForm.value))
@@ -766,7 +766,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   getDropdown() {
-    var portcode: any = localStorage.getItem('portcode');
+    var portcode: any = this._commonService.getUser().portcode;
 
     this._commonService
       .getDropdownData('PLACE_OF_RECEIPT', portcode)
@@ -776,7 +776,7 @@ export class NewQuotationComponent implements OnInit {
         }
       });
 
-    var countrycode: any = localStorage.getItem('countrycode');
+    var countrycode: any = this._commonService.getUser().countrycode;
 
     this._commonService
       .getDropdownData('PORT', '', countrycode)

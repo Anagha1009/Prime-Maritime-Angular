@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Mr, MR_DETAILS } from 'src/app/models/mr';
+import { CommonService } from 'src/app/services/common.service';
 import { DepoService } from 'src/app/services/depo.service';
 
 @Component({
@@ -19,7 +20,8 @@ export class MrRequestListComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _depoService: DepoService
+    private _depoService: DepoService,
+    private _commonService: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +39,7 @@ export class MrRequestListComponent implements OnInit {
 
   getMRList() {
     this.mr.OPERATION = 'GET_MNR_LIST';
-    this.mr.DEPO_CODE = localStorage.getItem("usercode");
+    this.mr.DEPO_CODE = this._commonService.getUserCode();
     this._depoService.getMRList(this.mr).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.mrList = res.Data;
@@ -45,7 +47,7 @@ export class MrRequestListComponent implements OnInit {
       }
     });
   }
-  
+
   getDetails(MR_NO: string) {
     var mr = new MR_DETAILS();
     mr.MR_NO = MR_NO;
@@ -57,5 +59,4 @@ export class MrRequestListComponent implements OnInit {
       }
     });
   }
-  
 }

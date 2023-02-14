@@ -135,7 +135,7 @@ export class PartyComponent implements OnInit {
 
     this.partyForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
 
     this._partyService
       .postParty(JSON.stringify(this.partyForm.value))

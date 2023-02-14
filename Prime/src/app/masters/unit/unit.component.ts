@@ -58,7 +58,9 @@ export class UnitComponent implements OnInit {
     if (this.unitForm.invalid) {
       return;
     }
-    this.unitForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.unitForm
+      .get('CREATED_BY')
+      ?.setValue(this._commonService.getUserName());
     this.unitForm.get('KEY_NAME')?.setValue('UNIT');
 
     this._masterService

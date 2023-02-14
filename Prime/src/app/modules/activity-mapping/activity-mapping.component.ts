@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { ActivityId } from 'src/app/models/activity-mapping';
 import { ActivityService } from 'src/app/services/activity.service';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-activity-mapping',
@@ -25,7 +26,8 @@ export class ActivityMappingComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
-    private _activityService: ActivityService
+    private _activityService: ActivityService,
+    private _cs: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -89,9 +91,10 @@ export class ActivityMappingComponent implements OnInit {
         })
       );
     });
+
     this.activityMappingForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._cs.getUserName());
     this.activityMappingForm.get('ACT_SEQ_ID')?.setValue(this.selectedItems);
 
     console.log(JSON.stringify(this.activityMappingForm.value));

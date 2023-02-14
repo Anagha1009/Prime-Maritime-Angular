@@ -16,7 +16,7 @@ export class CommonService {
     }),
   };
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {}
 
   getDropdownData(
     key: string,
@@ -26,14 +26,14 @@ export class CommonService {
   ) {
     return this._http.get<any>(
       this.BASE_URL +
-      'Common/GetDropdownData?key=' +
-      key +
-      '&value=' +
-      value +
-      '&port=' +
-      port +
-      '&value1=' +
-      value1,
+        'Common/GetDropdownData?key=' +
+        key +
+        '&value=' +
+        value +
+        '&port=' +
+        port +
+        '&value1=' +
+        value1,
       this.httpOptions
     );
   }
@@ -66,15 +66,6 @@ export class CommonService {
 
       img.src = url;
     });
-  }
-
-  UpdateMaster(type: any) {
-    debugger;
-    return this._http.post<any>(
-      this.BASE_URL + 'Master/UpdateMaster',
-      type,
-      this.httpOptions
-    );
   }
 
   /* Data table configuration */
@@ -120,8 +111,8 @@ export class CommonService {
   errorMsg(msg: string) {
     Swal.fire('Error!', msg, 'error');
   }
-  
-  getRandomNumber(prefix:string) {
+
+  getRandomNumber(prefix: string) {
     var d: any = new Date();
 
     var month = d.getMonth() + 1;
@@ -133,8 +124,21 @@ export class CommonService {
     if (date < 10) {
       date = '0' + date;
     }
-    
-    var num = d.getFullYear() + '' + month + '' + date + '' + d.getHours() + '' + d.getMinutes() + '' + d.getSeconds() + '' + d.getMilliseconds();
+
+    var num =
+      d.getFullYear() +
+      '' +
+      month +
+      '' +
+      date +
+      '' +
+      d.getHours() +
+      '' +
+      d.getMinutes() +
+      '' +
+      d.getSeconds() +
+      '' +
+      d.getMilliseconds();
     return prefix + num;
   }
 
@@ -143,5 +147,19 @@ export class CommonService {
       this.BASE_URL + 'Common/CheckRandomNuber?RANDOM_NO=' + RandomNo,
       this.httpOptions
     );
+  }
+
+  getUserCode() {
+    var user = JSON.parse(localStorage.getItem('user'));
+    return user.userCode;
+  }
+
+  getUserName() {
+    var user = JSON.parse(localStorage.getItem('user'));
+    return user.userName;
+  }
+
+  getUser() {
+    return JSON.parse(localStorage.getItem('user'));
   }
 }

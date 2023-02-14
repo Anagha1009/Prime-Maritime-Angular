@@ -5,14 +5,14 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
+import { CommonService } from '../services/common.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  token: any;
   module: string;
   value: boolean = false;
 
-  constructor() {}
+  constructor(private _commonService: CommonService) {}
   /**
    * Add auth header with jwt if user is logged in and request is to api url
    * @param request
@@ -25,24 +25,29 @@ export class JwtInterceptor implements HttpInterceptor {
     } else {
       this.value = false;
     }
-    this.token = localStorage.getItem('token');
-    const login = localStorage.getItem('login');
 
-    if (isApiUrl && this.token) {
-      if (login != null) {
-        request = request.clone({
-          setHeaders: {
-            Authorization: 'Bearer ' + this.token,
-          },
-        });
-        localStorage.removeItem('login');
-      } else if (this.value) {
-        request = request.clone({
-          setHeaders: {
-            Authorization: 'Bearer ' + this.token,
-          },
-        });
-      }
+    // const login = localStorage.getItem('login');
+
+    if (isApiUrl && this._commonService.getUser()) {
+      // if (login != null) {
+      //   request = request.clone({
+      //     setHeaders: {
+      //       Authorization: 'Bearer ' + this.token,
+      //     },
+      //   });
+      //   localStorage.removeItem('login');
+      // } else if (this.value) {
+      //   request = request.clone({
+      //     setHeaders: {
+      //       Authorization: 'Bearer ' + this.token,
+      //     },
+      //   });
+      // }
+      request = request.clone({
+        setHeaders: {
+          Authorization: 'Bearer ' + this._commonService.getUser().token,
+        },
+      });
     }
 
     return next.handle(request);

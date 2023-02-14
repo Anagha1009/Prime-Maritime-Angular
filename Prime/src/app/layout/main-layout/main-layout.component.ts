@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -9,10 +10,10 @@ export class MainLayoutComponent implements OnInit {
   menu: any;
   username: any;
 
-  constructor() {}
+  constructor(private _cs: CommonService) {}
 
   ngOnInit(): void {
-    this.menu = localStorage.getItem('rolecode');
-    this.username = localStorage.getItem('username');
+    this.menu = this._cs.getUser().roleCode;
+    this.username = this._cs.getUserName();
   }
 }

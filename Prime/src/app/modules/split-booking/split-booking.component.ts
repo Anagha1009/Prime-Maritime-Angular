@@ -8,23 +8,23 @@ import { BookingService } from 'src/app/services/booking.service';
 import { QuotationService } from 'src/app/services/quotation.service';
 import { locale as english } from 'src/app/@core/translate/booking/en';
 import { locale as hindi } from 'src/app/@core/translate/booking/hi';
-import{locale as arabic} from 'src/app/@core/translate/booking/ar';
+import { locale as arabic } from 'src/app/@core/translate/booking/ar';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-split-booking',
   templateUrl: './split-booking.component.html',
-  styleUrls: ['./split-booking.component.scss']
+  styleUrls: ['./split-booking.component.scss'],
 })
 export class SplitBookingComponent implements OnInit {
-  splitBookingForm:FormGroup;
-  booking=new BOOKING();
+  splitBookingForm: FormGroup;
+  booking = new BOOKING();
   isScroll: boolean = false;
-  splitbooking=new BOOKING();
-  bookingNo:string='';
-  previewDetails:boolean=false;
-  previewNoData:boolean=false;
+  splitbooking = new BOOKING();
+  bookingNo: string = '';
+  previewDetails: boolean = false;
+  previewNoData: boolean = false;
   submitted: boolean = false;
   vesselList: any[] = [];
   voyageList: any[] = [];
@@ -35,41 +35,41 @@ export class SplitBookingComponent implements OnInit {
   currencyList: any[] = [];
   currencyList2: any[] = [];
   isVoyageAdded: boolean = false;
-  isLoading:boolean= false;
-  isLoading1:boolean=false;
+  isLoading: boolean = false;
+  isLoading1: boolean = false;
   servicenameList: any[] = [];
   servicenameList1: any[] = [];
   servicetypeList: any[] = [];
   portList: any[] = [];
   currencyList1: any[] = [];
   vesselList1: any[] = [];
-  rollOverList:any[]=[];
+  rollOverList: any[] = [];
   // booking:BOOKING=new BOOKING ();
 
-  
   @ViewChild('closeBtn3') closeBtn3: ElementRef;
 
-  constructor(private _formBuilder: FormBuilder,
+  constructor(
+    private _formBuilder: FormBuilder,
     private _bookingService: BookingService,
-    private _srrService:QuotationService,
-    private _commonService:CommonService,
+    private _srrService: QuotationService,
+    private _commonService: CommonService,
     private _router: Router,
-    private _coreTranslationService: CoreTranslationService)
-     { 
-      this._coreTranslationService.translate(english, hindi,arabic);
-    }
+    private _coreTranslationService: CoreTranslationService
+  ) {
+    this._coreTranslationService.translate(english, hindi, arabic);
+  }
 
   ngOnInit(): void {
     this.getForm();
     this.splitBookingForm = this._formBuilder.group({
       BOOKING_NO: [''],
-      BOOKING_ID:[''],
+      BOOKING_ID: [''],
       SRR_ID: [0],
       SRR_NO: [''],
-      VESSEL_NAME: ['',Validators.required],
-      VOYAGE_NO: ['',Validators.required],
-      MOTHER_VESSEL_NAME: ['',Validators.required],
-      MOTHER_VOYAGE_NO: ['',Validators.required],
+      VESSEL_NAME: ['', Validators.required],
+      VOYAGE_NO: ['', Validators.required],
+      MOTHER_VESSEL_NAME: ['', Validators.required],
+      MOTHER_VOYAGE_NO: ['', Validators.required],
       AGENT_CODE: [''],
       AGENT_NAME: [''],
       STATUS: [''],
@@ -79,16 +79,14 @@ export class SplitBookingComponent implements OnInit {
     });
     console.log(this.booking);
 
-    this.slotAllocation()
+    this.slotAllocation();
     this.getRolloverList();
-
-
   }
 
   slotAllocation() {
     var slotDetails = this.splitBookingForm.get('SLOT_LIST') as FormArray;
-    if(slotDetails?.length>=3){
-      this.isScroll=true;
+    if (slotDetails?.length >= 3) {
+      this.isScroll = true;
     }
     slotDetails.push(
       this._formBuilder.group({
@@ -103,9 +101,8 @@ export class SplitBookingComponent implements OnInit {
     return x.controls;
   }
 
-  get f2(){
-     return this.splitBookingForm.controls;
-
+  get f2() {
+    return this.splitBookingForm.controls;
   }
 
   f1(i: any) {
@@ -118,10 +115,10 @@ export class SplitBookingComponent implements OnInit {
 
   getBookingDetails() {
     debugger;
-    this.previewNoData=false;
-    this.previewDetails=false;
+    this.previewNoData = false;
+    this.previewDetails = false;
     var bk = new BOOKING();
-    bk.AGENT_CODE = localStorage.getItem('usercode');
+    bk.AGENT_CODE = this._commonService.getUserCode();
     bk.BOOKING_NO = this.bookingNo;
 
     this._bookingService.getBookingDetails(bk).subscribe((res: any) => {
@@ -129,23 +126,22 @@ export class SplitBookingComponent implements OnInit {
       if (res.ResponseCode == 200) {
         console.log(res.data);
         this.booking = res.Data;
-        this.previewDetails=true;
+        this.previewDetails = true;
       }
-      if(res.ResponseCode==500){
-        this.previewNoData=true;
+      if (res.ResponseCode == 500) {
+        this.previewNoData = true;
       }
-      this.getDropdownData()
-      this.getRolloverList()
-      console.log(this.getRolloverList)
+      this.getDropdownData();
+      this.getRolloverList();
+      console.log(this.getRolloverList);
     });
- 
   }
 
-  getRolloverList(){
-    debugger
+  getRolloverList() {
+    debugger;
     this._commonService.destroyDT();
     var booking = new BOOKING();
-    this.booking.AGENT_CODE = localStorage.getItem('usercode');
+    this.booking.AGENT_CODE = this._commonService.getUserCode();
     this._bookingService.getRollOverList(this.booking).subscribe((res: any) => {
       this.isLoading = false;
       this.isLoading1 = false;
@@ -173,8 +169,8 @@ export class SplitBookingComponent implements OnInit {
     add.removeAt(i);
   }
 
-  getDropdownData(){
-    debugger
+  getDropdownData() {
+    debugger;
     //this.containerDropdownList=[];
     this._commonService.getDropdownData('VESSEL_NAME').subscribe((res: any) => {
       if (res.ResponseCode == 200) {
@@ -186,7 +182,7 @@ export class SplitBookingComponent implements OnInit {
         this.currencyList = res.Data;
       }
     });
-    
+
     this._commonService.getDropdownData('VESSEL_NAME').subscribe((res: any) => {
       if (res.hasOwnProperty('Data')) {
         this.vesselList = res.Data;
@@ -206,8 +202,6 @@ export class SplitBookingComponent implements OnInit {
         this.currencyList2 = res.Data;
       }
     });
-
-    
   }
 
   getVoyageList(event: any) {
@@ -230,7 +224,7 @@ export class SplitBookingComponent implements OnInit {
 
     this.voyageForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
 
     this._bookingService
       .insertVoyage(JSON.stringify(this.voyageForm.value))
@@ -250,7 +244,7 @@ export class SplitBookingComponent implements OnInit {
       });
   }
 
-  getForm() { 
+  getForm() {
     this.slotDetailsForm = this._formBuilder.group({
       BOOKING_NO: [''],
       SRR_ID: [''],
@@ -265,7 +259,7 @@ export class SplitBookingComponent implements OnInit {
       CREATED_BY: [''],
       SLOT_LIST: new FormArray([]),
     });
-   this.voyageForm = this._formBuilder.group({
+    this.voyageForm = this._formBuilder.group({
       VESSEL_NAME: ['', Validators.required],
       VOYAGE_NO: ['', Validators.required],
       ATA: ['', Validators.required],
@@ -284,21 +278,30 @@ export class SplitBookingComponent implements OnInit {
     });
   }
 
-  splitBooking(){
-    
+  splitBooking() {
     debugger;
-    this.submitted=true;
-    if(this.splitBookingForm.invalid){
-      return
+    this.submitted = true;
+    if (this.splitBookingForm.invalid) {
+      return;
     }
     this.splitBookingForm.get('BOOKING_NO')?.setValue(this.booking?.BOOKING_NO);
     this.splitBookingForm.get('IS_ROLLOVER')?.setValue(true);
-    this.splitBookingForm.get('SRR_ID')?.setValue(this.booking?.CONTAINER_LIST[0].SRR_ID);
-    this.splitBookingForm.get('SRR_NO')?.setValue(this.booking?.CONTAINER_LIST[0].SRR_NO);
-    this.splitBookingForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
-    this.splitBookingForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
+    this.splitBookingForm
+      .get('SRR_ID')
+      ?.setValue(this.booking?.CONTAINER_LIST[0].SRR_ID);
+    this.splitBookingForm
+      .get('SRR_NO')
+      ?.setValue(this.booking?.CONTAINER_LIST[0].SRR_NO);
+    this.splitBookingForm
+      .get('AGENT_NAME')
+      ?.setValue(this._commonService.getUserName());
+    this.splitBookingForm
+      .get('AGENT_CODE')
+      ?.setValue(this._commonService.getUserCode());
     this.splitBookingForm.get('STATUS')?.setValue('Booked');
-    this.splitBookingForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.splitBookingForm
+      .get('CREATED_BY')
+      ?.setValue(this._commonService.getUserName());
 
     console.log(JSON.stringify(this.splitBookingForm.value));
     this._bookingService
@@ -309,9 +312,8 @@ export class SplitBookingComponent implements OnInit {
           this._router.navigateByUrl('/home/booking-list');
         }
       });
-
   }
-  cancelBooking(){
+  cancelBooking() {
     this.splitBookingForm.get('VESSEL_NAME')?.setValue('');
     this.splitBookingForm.get('VOYAGE_NO')?.setValue('');
     this.splitBookingForm.get('MOTHER_VESSEL_NAME')?.setValue('');
@@ -319,7 +321,5 @@ export class SplitBookingComponent implements OnInit {
     var slotDetails = this.splitBookingForm.get('SLOT_LIST') as FormArray;
     slotDetails.get('SLOT_OPERATOR')?.setValue('');
     slotDetails.get('NO_OF_SLOTS')?.setValue('');
-
   }
-
 }

@@ -1,5 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 import { CmService } from 'src/app/services/cm.service';
@@ -20,26 +26,26 @@ const pdfMake = require('pdfmake/build/pdfmake.js');
 @Component({
   selector: 'app-new-er',
   templateUrl: './new-er.component.html',
-  styleUrls: ['./new-er.component.scss']
+  styleUrls: ['./new-er.component.scss'],
 })
 export class NewErComponent implements OnInit {
   isLoading: boolean = false;
   email: string = '';
   fileData: any;
-  erDetails:any;
+  erDetails: any;
   croNo: string;
   tabs: string = '1';
-  currentLocation:any='';
-  roleCode:any='';
-  isVessel:boolean=false;
-  status:any='Available'
+  currentLocation: any = '';
+  roleCode: any = '';
+  isVessel: boolean = false;
+  status: any = 'Available';
   erForm: FormGroup;
   erCROForm: FormGroup;
   submitted: boolean = false;
   submitted1: boolean = false;
-  submittedSlot:boolean=false;
+  submittedSlot: boolean = false;
   disabled = false;
-  erContDetails:any[]=[];
+  erContDetails: any[] = [];
   public loadContent: boolean = false;
   isScroll1: boolean = false;
   isScroll2: boolean = false;
@@ -47,31 +53,41 @@ export class NewErComponent implements OnInit {
   vesselList: any[] = [];
   voyageList: any[] = [];
   vesselRateList: any[] = [];
-  fixedChargeCode:any[]=["Lift On","Truck In To Terminal","Stevedoring-POL","Stevedoring-POD","Truck In To Depo","Lift Off"];
+  fixedChargeCode: any[] = [
+    'Lift On',
+    'Truck In To Terminal',
+    'Stevedoring-POL',
+    'Stevedoring-POD',
+    'Truck In To Depo',
+    'Lift Off',
+  ];
   containerDropdownList: any[] = [];
   selectedItems: any[] = [];
   dropdownSettings = {};
-  agentCode:any='';
-  depoCode:any='';
+  agentCode: any = '';
+  depoCode: any = '';
   excelFile: File;
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openBtn1') openBtn1: ElementRef;
   @ViewChild('closeBtn1') closeBtn1: ElementRef;
 
-  constructor(private _formBuilder: FormBuilder,
+  constructor(
+    private _formBuilder: FormBuilder,
     private _erService: ErService,
-    private _commonService:CommonService,
-    private _cmService:CmService,
+    private _commonService: CommonService,
+    private _cmService: CmService,
     private _croService: CroService,
     private http: HttpClient,
     private _coreTranslationService: CoreTranslationService,
-    private _router: Router) { this._coreTranslationService.translate(english,hindi,arabic);}
+    private _router: Router
+  ) {
+    this._coreTranslationService.translate(english, hindi, arabic);
+  }
 
   ngOnInit(): void {
-    this.currentLocation='Dammam';
-    //this.currentLocation=localStorage.getItem('location');
-   
+    this.currentLocation = 'Dammam';
+
     this.getDropdownData();
     this.dropdownSettings = {
       singleSelection: false,
@@ -92,42 +108,44 @@ export class NewErComponent implements OnInit {
       defaultOpen: false,
     };
 
-
     this.erForm = this._formBuilder.group({
       REPO_NO: ['', Validators.required],
       LOAD_DEPOT: ['', Validators.required],
       DISCHARGE_DEPOT: ['', Validators.required],
       LOAD_PORT: [''],
       DISCHARGE_PORT: [''],
-      VESSEL_NAME:[''],
-      VOYAGE_NO:[''],
+      VESSEL_NAME: [''],
+      VOYAGE_NO: [''],
       MOVEMENT_DATE: ['', Validators.required],
       NO_OF_CONTAINER: [''],
       LIFT_ON_CHARGE: [0],
       LIFT_OFF_CHARGE: [0],
       CURRENCY: [''],
-      MODE_OF_TRANSPORT: ['',Validators.required],
-      REASON:[''],
+      MODE_OF_TRANSPORT: ['', Validators.required],
+      REASON: [''],
       REMARKS: ['', Validators.required],
       STATUS: [''],
       AGENT_CODE: [''],
       AGENT_NAME: [''],
       DEPO_CODE: [''],
       CREATED_BY: [''],
-      CONTAINER_LIST: new FormControl(this.containerDropdownList, Validators.required),
-      CONTAINER_RATES:new FormArray([]),
-      SLOT_LIST:new FormArray([])
+      CONTAINER_LIST: new FormControl(
+        this.containerDropdownList,
+        Validators.required
+      ),
+      CONTAINER_RATES: new FormArray([]),
+      SLOT_LIST: new FormArray([]),
     });
 
-    this.erCROForm=this._formBuilder.group({
+    this.erCROForm = this._formBuilder.group({
       CRO_NO: [''],
       REPO_NO: ['', Validators.required],
       EMPTY_CONT_PCKP: ['', Validators.required],
       CRO_VALIDITY_DATE: ['', Validators.required],
-      REQ_QUANTITY: ['',Validators.required],
-      AGENT_NAME:[''],
+      REQ_QUANTITY: ['', Validators.required],
+      AGENT_NAME: [''],
       AGENT_CODE: [''],
-      CREATED_BY: ['']
+      CREATED_BY: [''],
     });
     this.getCurrent();
     this.slotAllocation();
@@ -136,7 +154,6 @@ export class NewErComponent implements OnInit {
 
   get f() {
     return this.erForm.controls;
-
   }
   get f1() {
     return this.erCROForm.controls;
@@ -158,10 +175,9 @@ export class NewErComponent implements OnInit {
 
   removeSlotItem(i: any) {
     const add = this.erForm.get('SLOT_LIST') as FormArray;
-    if(add.length==1){
+    if (add.length == 1) {
       alert('Atleast one slot should be added!');
-    }
-    else{
+    } else {
       add.removeAt(i);
     }
   }
@@ -173,8 +189,8 @@ export class NewErComponent implements OnInit {
 
   addRates() {
     var rateList = this.erForm.get('CONTAINER_RATES') as FormArray;
-    if(rateList?.length>=6){
-      this.isScroll2=true;
+    if (rateList?.length >= 6) {
+      this.isScroll2 = true;
     }
     rateList.push(
       this._formBuilder.group({
@@ -192,8 +208,8 @@ export class NewErComponent implements OnInit {
 
   slotAllocation() {
     var slotDetails = this.erForm.get('SLOT_LIST') as FormArray;
-    if(slotDetails?.length>=6){
-      this.isScroll1=true;
+    if (slotDetails?.length >= 6) {
+      this.isScroll1 = true;
     }
     slotDetails.push(
       this._formBuilder.group({
@@ -202,9 +218,8 @@ export class NewErComponent implements OnInit {
       })
     );
   }
-  getCurrent(){
-    //this.currentLocation=localStorage.getItem('location');
-    this.roleCode=localStorage.getItem('rolecode');
+  getCurrent() {
+    this.roleCode = this._commonService.getUserCode();
     var rateList = this.erForm.get('CONTAINER_RATES') as FormArray;
     rateList.clear();
     //this.fixedChargeCode=["Lift On","Truck In To Terminal","Stevedoring-POL","Stevedoring-POD","Truck In To Depo","Lift Off"];
@@ -283,8 +298,7 @@ export class NewErComponent implements OnInit {
         PAYMENT_TERM: [''],
         TRANSPORT_TYPE: [''],
         REMARKS: ['NULL'],
-      }),
-
+      })
     );
     rateList.push(
       this._formBuilder.group({
@@ -296,7 +310,7 @@ export class NewErComponent implements OnInit {
         PAYMENT_TERM: [''],
         TRANSPORT_TYPE: [''],
         REMARKS: ['NULL'],
-      }),
+      })
     );
     rateList.push(
       this._formBuilder.group({
@@ -308,8 +322,7 @@ export class NewErComponent implements OnInit {
         PAYMENT_TERM: [''],
         TRANSPORT_TYPE: [''],
         REMARKS: ['NULL'],
-      }),
-
+      })
     );
 
     rateList.push(
@@ -322,8 +335,7 @@ export class NewErComponent implements OnInit {
         PAYMENT_TERM: [''],
         TRANSPORT_TYPE: [''],
         REMARKS: ['NULL'],
-      }),
-
+      })
     );
     rateList.push(
       this._formBuilder.group({
@@ -337,8 +349,6 @@ export class NewErComponent implements OnInit {
         REMARKS: ['NULL'],
       })
     );
-    
-    
   }
 
   getVoyageList(event: any) {
@@ -352,19 +362,19 @@ export class NewErComponent implements OnInit {
         }
       });
   }
-  getAvailableContainers(event: any){
+  getAvailableContainers(event: any) {
     this.erForm.get('CONTAINER_LIST')?.setValue('');
-    this.containerDropdownList=[];
-    this._cmService.getCMAvailable(this.status,event).subscribe((res: any) => {
-      if(res.ResponseCode==200){
-        this.containerDropdownList=res.Data;
+    this.containerDropdownList = [];
+    this._cmService.getCMAvailable(this.status, event).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.containerDropdownList = res.Data;
       }
-      if(res.ResponseCode==500){
-        this.containerDropdownList=[];
+      if (res.ResponseCode == 500) {
+        this.containerDropdownList = [];
       }
     });
   }
-  getDropdownData(){
+  getDropdownData() {
     //this.containerDropdownList=[];
     this._commonService.getDropdownData('VESSEL_NAME').subscribe((res: any) => {
       if (res.ResponseCode == 200) {
@@ -385,157 +395,189 @@ export class NewErComponent implements OnInit {
     //     this.containerDropdownList=[];
     //   }
     // });
-    
   }
 
-  cancelER(){
-    this.erForm.get('REPO_NO')?.setValue("");
-    this.erForm.get('LOAD_DEPOT')?.setValue("");
-    this.erForm.get('DISCHARGE_DEPOT')?.setValue("");
-    this.erForm.get('MOVEMENT_DATE')?.setValue("");
-    this.erForm.get('LIFT_ON_CHARGE')?.setValue("");
-    this.erForm.get('LIFT_OFF_CHARGE')?.setValue("");
-    this.erForm.get('CURRENCY')?.setValue("");
-    this.erForm.get('NO_OF_CONTAINER')?.setValue("");
-    this.erForm.get('MODE_OF_TRANSPORT')?.setValue("");
-    this.erForm.get('REASON')?.setValue("");
-    this.erForm.get('REMARKS')?.setValue("");
-    this.erForm.get('CONTAINER_LIST')?.setValue("");
+  cancelER() {
+    this.erForm.get('REPO_NO')?.setValue('');
+    this.erForm.get('LOAD_DEPOT')?.setValue('');
+    this.erForm.get('DISCHARGE_DEPOT')?.setValue('');
+    this.erForm.get('MOVEMENT_DATE')?.setValue('');
+    this.erForm.get('LIFT_ON_CHARGE')?.setValue('');
+    this.erForm.get('LIFT_OFF_CHARGE')?.setValue('');
+    this.erForm.get('CURRENCY')?.setValue('');
+    this.erForm.get('NO_OF_CONTAINER')?.setValue('');
+    this.erForm.get('MODE_OF_TRANSPORT')?.setValue('');
+    this.erForm.get('REASON')?.setValue('');
+    this.erForm.get('REMARKS')?.setValue('');
+    this.erForm.get('CONTAINER_LIST')?.setValue('');
   }
 
-  cancelERCRO(){
-    this.erCROForm.get('CRO_NO')?.setValue("");
-    this.erCROForm.get('REPO_NO')?.setValue("");
-    this.erCROForm.get('EMPTY_CONT_PCKP')?.setValue("");
-    this.erCROForm.get('CRO_VALIDITY_DATE')?.setValue("");
-    this.erCROForm.get('REQ_QUANTITY')?.setValue("");
-    this.erCROForm.get('AGENT_NAME')?.setValue("");
-    this.erCROForm.get('AGENT_CODE')?.setValue("");
-    this.erCROForm.get('CREATED_BY')?.setValue("");
+  cancelERCRO() {
+    this.erCROForm.get('CRO_NO')?.setValue('');
+    this.erCROForm.get('REPO_NO')?.setValue('');
+    this.erCROForm.get('EMPTY_CONT_PCKP')?.setValue('');
+    this.erCROForm.get('CRO_VALIDITY_DATE')?.setValue('');
+    this.erCROForm.get('REQ_QUANTITY')?.setValue('');
+    this.erCROForm.get('AGENT_NAME')?.setValue('');
+    this.erCROForm.get('AGENT_CODE')?.setValue('');
+    this.erCROForm.get('CREATED_BY')?.setValue('');
   }
 
   saveER() {
     debugger;
-    this.isVessel=false;
+    this.isVessel = false;
     this.submitted = true;
-    if(this.roleCode=='1'){
-      this.erForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
-      this.erForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
+    if (this.roleCode == '1') {
+      this.erForm
+        .get('AGENT_NAME')
+        ?.setValue(this._commonService.getUserName());
+      this.erForm
+        .get('AGENT_CODE')
+        ?.setValue(this._commonService.getUserCode());
     }
-    if(this.roleCode=='3'){
-      this.erForm.get('DEPO_CODE')?.setValue(localStorage.getItem('usercode'));
+    if (this.roleCode == '3') {
+      this.erForm.get('DEPO_CODE')?.setValue(this._commonService.getUserCode());
     }
-    if(this.tabs=='1'){
+    if (this.tabs == '1') {
       this.erForm.get('MODE_OF_TRANSPORT')?.setValue('Truck');
-    }
-    else if(this.tabs=='2'){
+    } else if (this.tabs == '2') {
       this.erForm.get('MODE_OF_TRANSPORT')?.setValue('Rail');
-    }
-    else if(this.tabs=='3'){
+    } else if (this.tabs == '3') {
       this.erForm.get('MODE_OF_TRANSPORT')?.setValue('Vessel');
-      this.isVessel=true;
+      this.isVessel = true;
       //this.submittedSlot=true;
-      
     }
-    
-    this.erForm.get('REPO_NO')?.setValue(this.getRandomNumber("RP"));
+
+    this.erForm.get('REPO_NO')?.setValue(this.getRandomNumber('RP'));
     this.erForm.get('CONTAINER_LIST')?.setValue(this.selectedItems);
     this.erForm.get('NO_OF_CONTAINER')?.setValue(this.selectedItems?.length);
     this.erForm.get('STATUS')?.setValue(1);
-    this.erForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
-    
-    console.log()
+    this.erForm.get('CREATED_BY')?.setValue(this._commonService.getUserName());
+
+    console.log();
     console.log(JSON.stringify(this.erForm.value));
     this._erService
-      .postERDetails(JSON.stringify(this.erForm.value),this.isVessel)
+      .postERDetails(JSON.stringify(this.erForm.value), this.isVessel)
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your Request has successfully been placed! Your Repo No. is'+this.erForm.get('REPO_NO')?.value);
+          alert(
+            'Your Request has successfully been placed! Your Repo No. is' +
+              this.erForm.get('REPO_NO')?.value
+          );
           this._router.navigateByUrl('/home/booking-list');
         }
       });
-
   }
   SaveCRO() {
     this.submitted1 = true;
     if (this.erCROForm.invalid) {
       return;
     }
-    
+
     this.erCROForm.get('CRO_NO')?.setValue(this.getCRORandomNumber());
-    this.erCROForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
-    this.erCROForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    this.erCROForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.erCROForm
+      .get('AGENT_NAME')
+      ?.setValue(this._commonService.getUserName());
+    this.erCROForm
+      .get('AGENT_CODE')
+      ?.setValue(this._commonService.getUserCode());
+    this.erCROForm
+      .get('CREATED_BY')
+      ?.setValue(this._commonService.getUserName());
 
-    if(localStorage.getItem('rolecode')=='1'){
-      this.agentCode=localStorage.getItem('usercode');
+    if (this._commonService.getUser().roleCode == '1') {
+      this.agentCode = this._commonService.getUserCode();
     }
-    if(localStorage.getItem('rolecode')=='3'){
-      this.depoCode=localStorage.getItem('usercode');
+    if (this._commonService.getUser().roleCode == '3') {
+      this.depoCode = this._commonService.getUserCode();
     }
 
-    this._erService.getERDetails(this.erCROForm.get('REPO_NO')?.value,this.agentCode,this.depoCode).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        debugger;
-        this.erDetails = res.Data;
-        if(Convert.toInt32(this.erCROForm.get('REQ_QUANTITY')?.value)==this.erDetails.NO_OF_CONTAINER){
-          this._croService
-          .insertCRO(JSON.stringify(this.erCROForm.value))
-          .subscribe((res: any) => {
-            if (res.responseCode == 200) {
-              this.croNo = res.data;
-              this.openBtn1.nativeElement.click();
-              // alert('CRO created successfully! Your CRO No. is '+this.croNo);
-              // this.cancelERCRO();
-            }
-          });
+    this._erService
+      .getERDetails(
+        this.erCROForm.get('REPO_NO')?.value,
+        this.agentCode,
+        this.depoCode
+      )
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          debugger;
+          this.erDetails = res.Data;
+          if (
+            Convert.toInt32(this.erCROForm.get('REQ_QUANTITY')?.value) ==
+            this.erDetails.NO_OF_CONTAINER
+          ) {
+            this._croService
+              .insertCRO(JSON.stringify(this.erCROForm.value))
+              .subscribe((res: any) => {
+                if (res.responseCode == 200) {
+                  this.croNo = res.data;
+                  this.openBtn1.nativeElement.click();
+                  // alert('CRO created successfully! Your CRO No. is '+this.croNo);
+                  // this.cancelERCRO();
+                }
+              });
+          } else {
+            alert(
+              'Required Quantity should be equal to the number of containers since you can create only one CRO for a specific Container Repositioning!'
+            );
+          }
         }
-        else{
-          alert('Required Quantity should be equal to the number of containers since you can create only one CRO for a specific Container Repositioning!')
+        if (res.ResponseCode == 500) {
+          alert('Invalid Repo No.');
         }
-        
-      }
-      if (res.ResponseCode == 500) {
-        alert("Invalid Repo No.");
-      }
-    });
+      });
   }
 
   //generateCROpdf
   getERCRODetails(CRO_NO: string) {
     this.isLoading = true;
-    if(localStorage.getItem('rolecode')=='1'){
-      this.agentCode=localStorage.getItem('usercode');
+    if (this._commonService.getUser().roleCode == '1') {
+      this.agentCode = this._commonService.getUserCode();
     }
-    if(localStorage.getItem('rolecode')=='3'){
-      this.depoCode=localStorage.getItem('usercode');
+    if (this._commonService.getUser().roleCode == '3') {
+      this.depoCode = this._commonService.getUserCode();
     }
-    
-    this._erService.getERDetails(this.erCROForm.get('REPO_NO')?.value,this.agentCode,this.depoCode).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        debugger;
-        this.erDetails = res.Data;
-        //console.log(this.erDetails);
-        this._erService.getERContainerDetails(this.erCROForm.get('REPO_NO')?.value,this.agentCode,this.depoCode).subscribe((res: any) => {
+
+    this._erService
+      .getERDetails(
+        this.erCROForm.get('REPO_NO')?.value,
+        this.agentCode,
+        this.depoCode
+      )
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
           debugger;
-          if (res.ResponseCode == 200) {
-            this.erContDetails = res.Data;
-            //console.log(this.erDetails);
-            this.generatePDF(CRO_NO,this.erCROForm.get('CRO_VALIDITY_DATE')?.value);
-          }
-          if (res.ResponseCode == 500) {
-            alert("No containers available for associated Repo No.");
-            //this.previewNoData=true;
-          }
-        });
-      }
-      if (res.ResponseCode == 500) {
-        alert("Invalid Repo No.");
-        //this.previewNoData=true;
-      }
-    });
+          this.erDetails = res.Data;
+          //console.log(this.erDetails);
+          this._erService
+            .getERContainerDetails(
+              this.erCROForm.get('REPO_NO')?.value,
+              this.agentCode,
+              this.depoCode
+            )
+            .subscribe((res: any) => {
+              debugger;
+              if (res.ResponseCode == 200) {
+                this.erContDetails = res.Data;
+                //console.log(this.erDetails);
+                this.generatePDF(
+                  CRO_NO,
+                  this.erCROForm.get('CRO_VALIDITY_DATE')?.value
+                );
+              }
+              if (res.ResponseCode == 500) {
+                alert('No containers available for associated Repo No.');
+                //this.previewNoData=true;
+              }
+            });
+        }
+        if (res.ResponseCode == 500) {
+          alert('Invalid Repo No.');
+          //this.previewNoData=true;
+        }
+      });
   }
-  async generatePDF(CRO_NO: string,CRO_VALIDITY_DATE:string) {
+  async generatePDF(CRO_NO: string, CRO_VALIDITY_DATE: string) {
     var tempArr = [];
 
     // tempArr.push({
@@ -543,7 +585,7 @@ export class NewErComponent implements OnInit {
     //   SIZE: this.croDetails?.ContainerList[0].CONTAINER_SIZE,
     // });
 
-    if(this.erDetails?.MODE_OF_TRANSPORT=='Vessel'){
+    if (this.erDetails?.MODE_OF_TRANSPORT == 'Vessel') {
       let docDefinition = {
         header: {
           text: 'Container Release Order',
@@ -626,7 +668,6 @@ export class NewErComponent implements OnInit {
                   bold: true,
                   fontSize: 10,
                 },
-        
               ],
               [
                 {
@@ -649,8 +690,20 @@ export class NewErComponent implements OnInit {
                   margin: [0, 0, 0, 5],
                   fontSize: 10,
                 },
-                { text: formatDate(this.erDetails?.MOVEMENT_DATE, 'yyyy-MM-dd', 'en'), margin: [0, 0, 0, 5], fontSize: 10 },
-                { text: formatDate(CRO_VALIDITY_DATE, 'yyyy-MM-dd', 'en'), margin: [0, 0, 0, 5], fontSize: 10 },
+                {
+                  text: formatDate(
+                    this.erDetails?.MOVEMENT_DATE,
+                    'yyyy-MM-dd',
+                    'en'
+                  ),
+                  margin: [0, 0, 0, 5],
+                  fontSize: 10,
+                },
+                {
+                  text: formatDate(CRO_VALIDITY_DATE, 'yyyy-MM-dd', 'en'),
+                  margin: [0, 0, 0, 5],
+                  fontSize: 10,
+                },
               ],
               [
                 {
@@ -741,7 +794,7 @@ export class NewErComponent implements OnInit {
         styles: {
           sectionHeader: {
             bold: true,
-  
+
             fontSize: 14,
             margin: [0, 15, 0, 15],
           },
@@ -756,32 +809,32 @@ export class NewErComponent implements OnInit {
           })
           .subscribe((data: any) => {
             this.fileData = data;
-            const blob1 = new Blob([data], { type: 'application/vnd.ms-excel' });
+            const blob1 = new Blob([data], {
+              type: 'application/vnd.ms-excel',
+            });
             this.excelFile = new File([blob1], 'SI.xlsx', {
               type: 'application/vnd.ms-excel',
             });
-  
+
             const formData: FormData = new FormData();
             formData.append('Attachments', blob);
             formData.append('Attachments', this.excelFile);
             console.log('excel ' + this.excelFile);
             formData.append('ToEmail', this.email);
             formData.append('Subject', 'CRO - ' + this.croNo);
-  
+
             this._commonService.sendEmail(formData).subscribe((res: any) => {
               this.isLoading = false;
               alert('Your mail has been send successfully !');
               this.closeBtn1.nativeElement.click();
-              this.submitted1=false;
+              this.submitted1 = false;
               this.cancelERCRO();
-              
+
               //this._router.navigateByUrl('/home/cro-list');
             });
           });
       });
-
-    }
-    else{
+    } else {
       let docDefinition = {
         header: {
           text: 'Container Release Order',
@@ -864,7 +917,6 @@ export class NewErComponent implements OnInit {
                   bold: true,
                   fontSize: 10,
                 },
-        
               ],
               [
                 {
@@ -887,8 +939,16 @@ export class NewErComponent implements OnInit {
                   margin: [0, 0, 0, 5],
                   fontSize: 10,
                 },
-                { text: this.erDetails?.MOVEMENT_DATE.split('T')[0], margin: [0, 0, 0, 5], fontSize: 10 },
-                { text: CRO_VALIDITY_DATE.split('T')[0], margin: [0, 0, 0, 5], fontSize: 10 },
+                {
+                  text: this.erDetails?.MOVEMENT_DATE.split('T')[0],
+                  margin: [0, 0, 0, 5],
+                  fontSize: 10,
+                },
+                {
+                  text: CRO_VALIDITY_DATE.split('T')[0],
+                  margin: [0, 0, 0, 5],
+                  fontSize: 10,
+                },
               ],
               [
                 {
@@ -897,7 +957,6 @@ export class NewErComponent implements OnInit {
                   bold: true,
                   fontSize: 10,
                 },
-                
               ],
               [
                 {
@@ -905,7 +964,6 @@ export class NewErComponent implements OnInit {
                   margin: [0, 0, 0, 5],
                   fontSize: 10,
                 },
-                
               ],
             ],
           },
@@ -937,7 +995,7 @@ export class NewErComponent implements OnInit {
         styles: {
           sectionHeader: {
             bold: true,
-  
+
             fontSize: 14,
             margin: [0, 15, 0, 15],
           },
@@ -952,31 +1010,32 @@ export class NewErComponent implements OnInit {
           })
           .subscribe((data: any) => {
             this.fileData = data;
-            const blob1 = new Blob([data], { type: 'application/vnd.ms-excel' });
+            const blob1 = new Blob([data], {
+              type: 'application/vnd.ms-excel',
+            });
             this.excelFile = new File([blob1], 'SI.xlsx', {
               type: 'application/vnd.ms-excel',
             });
-  
+
             const formData: FormData = new FormData();
             formData.append('Attachments', blob);
             formData.append('Attachments', this.excelFile);
             console.log('excel ' + this.excelFile);
             formData.append('ToEmail', this.email);
             formData.append('Subject', 'CRO - ' + this.croNo);
-  
+
             this._commonService.sendEmail(formData).subscribe((res: any) => {
               this.isLoading = false;
               alert('Your mail has been send successfully !');
               this.closeBtn1.nativeElement.click();
-              this.submitted1=false;
+              this.submitted1 = false;
               this.cancelERCRO();
-              
+
               //this._router.navigateByUrl('/home/cro-list');
             });
           });
       });
     }
-    
   }
 
   getCRORandomNumber() {
@@ -1009,7 +1068,4 @@ export class NewErComponent implements OnInit {
   public onDeSelectAll(items: any) {
     console.log(items);
   }
-
-
-
 }

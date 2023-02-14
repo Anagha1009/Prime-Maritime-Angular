@@ -88,7 +88,7 @@ export class BookingListComponent implements OnInit {
   }
 
   getBookingList() {
-    this.booking.AGENT_CODE = localStorage.getItem('usercode');
+    this.booking.AGENT_CODE = this._commonService.getUserCode();
     this._commonService.destroyDT();
     this._bookingService.getBookingList(this.booking).subscribe((res: any) => {
       this.isScroll = false;
