@@ -42,7 +42,7 @@
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
         <div class="col-1">
-            <select class="form-control ddl"  (change)="setLanguage($event.target.value)" name="" id="">
+            <select class="form-control ddl" (change)="setLanguage($event.target.value)" name="" id="">
                 <option value="en">English </option>
                 <option value="hi">Hindi</option>
                 <option value="ar">Arabic</option>
@@ -51,8 +51,9 @@
         <!-- <img src="../../../assets/img/united-kingdom.png" /> -->
         <!-- <span class="text-light">Hi User !<a (click)="logout()"><i title="logout" style="font-size: 20px"
                     class='ms-2 pointer bx bx-user-x'></i></a></span> -->
-        <span class="text-light">Hi {{username}} !<a (click)="logout()" placement="right" tooltip="logout"
-                class="ms-3 pointer"><img src="assets/img/sign_out.png" width="25px" height="25px"></a></span>
+        <span class="text-light">Hi {{username}} ({{menu == '1' ? 'Agent' : 'Depo'}}) !<a (click)="logout()"
+                placement="right" tooltip="logout" class="ms-3 pointer"><img src="assets/img/sign_out.png" width="25px"
+                    height="25px"></a></span>
     </div>
 </header>
 <div class="mt-5 pt-4"></div>
