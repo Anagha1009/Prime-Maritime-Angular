@@ -29,15 +29,14 @@ export class AuthGuard implements CanActivate {
     | boolean
     | UrlTree {
     const user = this.authenticationService.userValue;
-    debugger;
     if (user) {
       // check if route is restricted by role
       if (route.data.roles && route.data.roles.indexOf(user.role) === -1) {
         // role not authorised so redirect to home page
-        this._commonService.errorMsg(
-          'Sorry you are not authenticated to Access this Page !'
+        this._commonService.warnMsg(
+          'Sorry you are not authenticated to Access this Page ! Please Login with correct Credentials.'
         );
-        this.router.navigate(['/login']);
+        this.authenticationService.logout();
         return false;
       }
 

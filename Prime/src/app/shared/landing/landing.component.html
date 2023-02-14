@@ -1,6 +1,6 @@
 <!-- ======= Header ======= -->
 <header id="header" class="fixed-top d-flex align-items-center header-transparent">
-    <div class="container d-flex justify-content-between align-items-center">
+    <div class="ms-5 d-flex justify-content-between align-items-center">
 
         <div class="logo">
             <a href=""><img src="assets/img/logo_p.png" alt="" class="img-fluid"></a>
@@ -12,13 +12,18 @@
                 <li><a href="services.html">Our Services</a></li>
                 <li><a href="portfolio.html">Tariffs</a></li>
                 <li><a href="team.html">Contact Us</a></li>
-                <li><a href="login">Login</a></li>
+
             </ul>
 
         </nav>
         <nav class="navbar">
             <i class="bi bi-list mobile-nav-toggle"></i>
-        </nav><!-- .navbar -->
+        </nav>
+        <span class="text-end ms-4"><a placement="right" tooltip="login" href="login" *ngIf="!isLoggedIn">Login</a>
+            <a placement="right" tooltip="click to goto its resptv. page !" (click)="redirectToHome()"
+                class="text-primary pointer" *ngIf="isLoggedIn">Hi {{user.userName}}
+                !</a></span>
+        <!-- .navbar -->
 
     </div>
 </header><!-- End Header -->
@@ -42,66 +47,73 @@
                         <div class="card-body text-start">
                             <div *ngIf="isquotation">
                                 <div class="col-md-10 mx-2">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input class="form-control" style="background: transparent;color: white;" />
-                                            <label class="form-label text-light">Container Type</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input class="form-control"
+                                                    style="background: transparent;color: white;" />
+                                                <label class="form-label text-light">Container Type</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input class="form-control"
+                                                    style="background: transparent;color: white;" />
+                                                <label class="form-label text-light">No of Containers</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input class="form-control"
+                                                    style="background: transparent;color: white;" />
+                                                <label class="form-label text-light">Commodity</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input class="form-control"
+                                                    style="background: transparent;color: white;" />
+                                                <label class="form-label text-light">Container No</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input class="form-control" style="background:transparent;" />
+                                                <label class="form-label text-light">POL</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input class="form-control"
+                                                    style="background:transparent;color: white;" />
+                                                <label class="form-label text-light">POD</label>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input class="form-control" style="background: transparent;color: white;" />
-                                            <label class="form-label text-light">No of Containers</label>
+                                    <div class="row mx-auto">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input class="form-control"
+                                                    style="background:transparent;color: white;" />
+                                                <label class="form-label text-light">Commodity Type</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input class="form-control"
+                                                    style="background:transparent; color: white;" />
+                                                <label class="form-label text-light">Gross Weight</label>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input class="form-control" style="background: transparent;color: white;" />
-                                            <label class="form-label text-light">Commodity</label>
+                                    <div class="row">
+                                        <div class="col-md-6 mx-auto">
+                                            <button class="form-btn rounded-pill w-100">Quotation</button>
                                         </div>
                                     </div>
-                                    
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input class="form-control" style="background: transparent;color: white;" />
-                                            <label class="form-label text-light">Container No</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input class="form-control" style="background:transparent;"/>
-                                            <label class="form-label text-light">POL</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input class="form-control" style="background:transparent;color: white;"/>
-                                            <label class="form-label text-light">POD</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mx-auto">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input class="form-control" style="background:transparent;color: white;"/>
-                                            <label class="form-label text-light">Commodity Type</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input class="form-control" style="background:transparent; color: white;"/>
-                                            <label class="form-label text-light">Gross Weight</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mx-auto">
-                                        <button class="form-btn rounded-pill w-100">Quotation</button>
-                                    </div>
-                                </div>
                                 </div>
                             </div>
                             <div *ngIf="!isquotation">
@@ -121,8 +133,9 @@
                                             Track your Booking
                                         </a> -->
                                         <button id="openModalButton" data-bs-toggle="modal" href="#previewModal"
-                                        (click)="getTrackingDetail()" hidden>Open Modal</button>
-                                        <button class="form-btn rounded-pill w-100" (click)="getTracking()">Track your Booking</button>
+                                            (click)="getTrackingDetail()" hidden>Open Modal</button>
+                                        <button class="form-btn rounded-pill w-100" (click)="getTracking()">Track your
+                                            Booking</button>
                                     </div>
                                 </div>
                             </div>
