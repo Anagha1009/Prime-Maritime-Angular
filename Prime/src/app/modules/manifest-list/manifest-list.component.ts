@@ -10,10 +10,9 @@ const pdfMake = require('pdfmake/build/pdfmake.js');
 @Component({
   selector: 'app-manifest-list',
   templateUrl: './manifest-list.component.html',
-  styleUrls: ['./manifest-list.component.scss']
+  styleUrls: ['./manifest-list.component.scss'],
 })
 export class ManifestListComponent implements OnInit {
-
   blNo: string = '';
   isManifest: boolean = false;
   isRecords: boolean = true;
@@ -21,60 +20,63 @@ export class ManifestListComponent implements OnInit {
 
   constructor(
     private _blService: BlService,
-    private _commonService: CommonService,
-  ) { }
+    private _commonService: CommonService
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   showManifest() {
     var cargoManifest = new CARGO_MANIFEST();
-    cargoManifest.AGENT_CODE = localStorage.getItem('usercode');
+    cargoManifest.AGENT_CODE = this._commonService.getUserCode();
     cargoManifest.BL_NO = this.blNo;
 
     this.isManifest = false;
-    this._blService.getCargoManifestList(cargoManifest).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.cargoList = res.Data;
-        //console.log(JSON.stringify(res.Data));
-        this.isManifest = true;
-        this.isRecords = true;
-      } else if (res.ResponseCode == 500) {
-        this.isRecords = false;
-      }
-    });
+    this._blService
+      .getCargoManifestList(cargoManifest)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.cargoList = res.Data;
+          //console.log(JSON.stringify(res.Data));
+          this.isManifest = true;
+          this.isRecords = true;
+        } else if (res.ResponseCode == 500) {
+          this.isRecords = false;
+        }
+      });
   }
 
   getCargoManifest() {
     var cargoManifest = new CARGO_MANIFEST();
-    cargoManifest.AGENT_CODE = localStorage.getItem('usercode');
+    cargoManifest.AGENT_CODE = this._commonService.getUserCode();
     cargoManifest.BL_NO = this.blNo;
 
-    this._blService.getCargoManifestList(cargoManifest).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.cargoList = res.Data;
-        this.generateCargoPDF();
-      }
-    });
+    this._blService
+      .getCargoManifestList(cargoManifest)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.cargoList = res.Data;
+          this.generateCargoPDF();
+        }
+      });
   }
 
   getFreightManifest() {
     var cargoManifest = new CARGO_MANIFEST();
-    cargoManifest.AGENT_CODE = localStorage.getItem('usercode');
+    cargoManifest.AGENT_CODE = this._commonService.getUserCode();
     cargoManifest.BL_NO = this.blNo;
 
-    this._blService.getCargoManifestList(cargoManifest).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.cargoList = res.Data;
-        this.generateFreightPDF();
-      }
-    });
+    this._blService
+      .getCargoManifestList(cargoManifest)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.cargoList = res.Data;
+          this.generateFreightPDF();
+        }
+      });
   }
 
   async generateCargoPDF() {
-
     let docDefinition = {
-
       pageOrientation: 'landscape',
 
       //pageMargins: [60, 60, 80, 40],
@@ -82,31 +84,31 @@ export class ManifestListComponent implements OnInit {
       content: [
         {
           text: this.cargoList?.CUSTOMER_NAME,
-          style: 'header'
+          style: 'header',
         },
         {
           text: this.cargoList?.CONSIGNEE_ADDRESS,
-          style: 'desc'
+          style: 'desc',
         },
         {
           text: 'CIN :AAC-1451',
           style: 'midheading',
-          margin: [0, 5, 0, 0]
+          margin: [0, 5, 0, 0],
         },
         {
           text: 'State Code: 27 State Name :Maharashtra',
           style: 'midheading',
-          margin: [0, 3, 0, 0]
+          margin: [0, 3, 0, 0],
         },
         {
           text: 'GSTN Code :27AADFU8796Q1ZX',
           style: 'midheading',
-          margin: [0, 3, 0, 0]
+          margin: [0, 3, 0, 0],
         },
         {
           text: 'CARGO MANIFEST',
           style: 'midheading',
-          margin: [0, 20, 0, 0]
+          margin: [0, 20, 0, 0],
         },
         {
           style: 'tableExample',
@@ -138,14 +140,16 @@ export class ManifestListComponent implements OnInit {
                 this.cargoList?.PLACE_OF_RECEIPT,
                 this.cargoList?.POL,
                 this.cargoList?.POD,
-                this.cargoList?.PLACE_OF_DELIVERY
+                this.cargoList?.PLACE_OF_DELIVERY,
               ],
-            ]
+            ],
           },
-          layout: 'noBorders'
+          layout: 'noBorders',
         },
         {
-          canvas: [{ type: 'line', x1: 0, y1: 0, x2: 780, y2: 0, lineWidth: 1 }]
+          canvas: [
+            { type: 'line', x1: 0, y1: 0, x2: 780, y2: 0, lineWidth: 1 },
+          ],
         },
         {
           style: 'tableExample',
@@ -158,7 +162,10 @@ export class ManifestListComponent implements OnInit {
                 { text: 'Consignee', style: 'tableHeader' },
                 { text: 'Notify', style: 'tableHeader' },
                 { text: 'Marks & Numbers', style: 'tableHeader' },
-                { text: 'No & Kind of Pkgs. Description of Goods', style: 'tableHeader' },
+                {
+                  text: 'No & Kind of Pkgs. Description of Goods',
+                  style: 'tableHeader',
+                },
                 { text: 'Gr Wt/ Net Wt in Kgs', style: 'tableHeader' },
                 { text: 'Rcpt./Divy. Mode', style: 'tableHeader' },
                 { text: 'VOLUME', style: 'tableHeader' },
@@ -176,14 +183,16 @@ export class ManifestListComponent implements OnInit {
                 this.cargoList?.DELIVERY_MODE,
                 '0',
                 this.cargoList?.TWEENTY_FT,
-                this.cargoList?.FORTY_FT
+                this.cargoList?.FORTY_FT,
               ],
-            ]
+            ],
           },
-          layout: 'noBorders'
+          layout: 'noBorders',
         },
         {
-          canvas: [{ type: 'line', x1: 0, y1: 0, x2: 780, y2: 0, lineWidth: 1 }]
+          canvas: [
+            { type: 'line', x1: 0, y1: 0, x2: 780, y2: 0, lineWidth: 1 },
+          ],
         },
         {
           style: 'tableExample',
@@ -218,39 +227,37 @@ export class ManifestListComponent implements OnInit {
                 p.UN_NO,
                 '-',
                 '-',
-                '-'
+                '-',
               ]),
-            ]
+            ],
           },
-          layout: 'noBorders'
+          layout: 'noBorders',
         },
         {
           text: this.cargoList?.CUSTOMER_NAME,
           style: 'rightStyle',
-          margin: [0, 5, 0, 0]
+          margin: [0, 5, 0, 0],
         },
         {
           text: 'AS AGENTS ONLY, FOR CAPELINE',
-          style: 'rightStyle'
+          style: 'rightStyle',
         },
-
       ],
-
 
       styles: {
         header: {
           fontSize: 9,
           bold: true,
-          alignment: 'center'
+          alignment: 'center',
         },
         desc: {
           fontSize: 7,
-          alignment: 'center'
+          alignment: 'center',
         },
         midheading: {
           fontSize: 9,
           alignment: 'center',
-          bold: true
+          bold: true,
         },
         tableHeader: {
           bold: true,
@@ -258,28 +265,21 @@ export class ManifestListComponent implements OnInit {
         },
         tableExample: {
           fontSize: 5,
-          margin: [0, 5, 0, 15]
+          margin: [0, 5, 0, 15],
         },
         rightStyle: {
           fontSize: 5,
           alignment: 'right',
-          margin: [0, 5, 0, 0]
-        }
-
-
-      }
-
-
-
+          margin: [0, 5, 0, 0],
+        },
+      },
     };
 
     pdfMake.createPdf(docDefinition).open();
   }
 
   async generateFreightPDF() {
-
     let docDefinition = {
-
       pageOrientation: 'landscape',
 
       //pageMargins: [60, 60, 80, 40],
@@ -287,31 +287,31 @@ export class ManifestListComponent implements OnInit {
       content: [
         {
           text: this.cargoList?.CUSTOMER_NAME,
-          style: 'header'
+          style: 'header',
         },
         {
           text: this.cargoList?.CONSIGNEE_ADDRESS,
-          style: 'desc'
+          style: 'desc',
         },
         {
           text: 'CIN :AAC-1451',
           style: 'midheading',
-          margin: [0, 5, 0, 0]
+          margin: [0, 5, 0, 0],
         },
         {
           text: 'State Code: 27 State Name :Maharashtra',
           style: 'midheading',
-          margin: [0, 3, 0, 0]
+          margin: [0, 3, 0, 0],
         },
         {
           text: 'GSTN Code :27AADFU8796Q1ZX',
           style: 'midheading',
-          margin: [0, 3, 0, 0]
+          margin: [0, 3, 0, 0],
         },
         {
           text: 'FREIGHT MANIFEST',
           style: 'midheading',
-          margin: [0, 20, 0, 0]
+          margin: [0, 20, 0, 0],
         },
         {
           style: 'tableExample',
@@ -343,14 +343,16 @@ export class ManifestListComponent implements OnInit {
                 this.cargoList?.PLACE_OF_RECEIPT,
                 this.cargoList?.POL,
                 this.cargoList?.POD,
-                this.cargoList?.PLACE_OF_DELIVERY
+                this.cargoList?.PLACE_OF_DELIVERY,
               ],
-            ]
+            ],
           },
-          layout: 'noBorders'
+          layout: 'noBorders',
         },
         {
-          canvas: [{ type: 'line', x1: 0, y1: 0, x2: 780, y2: 0, lineWidth: 1 }]
+          canvas: [
+            { type: 'line', x1: 0, y1: 0, x2: 780, y2: 0, lineWidth: 1 },
+          ],
         },
         {
           style: 'tableExample',
@@ -364,12 +366,15 @@ export class ManifestListComponent implements OnInit {
                 { text: 'Consignee', style: 'tableHeader' },
                 { text: 'Notify', style: 'tableHeader' },
                 { text: 'Marks & Numbers', style: 'tableHeader' },
-                { text: 'No & Kind of Pkgs. Description of Goods', style: 'tableHeader' },
+                {
+                  text: 'No & Kind of Pkgs. Description of Goods',
+                  style: 'tableHeader',
+                },
                 { text: 'Gr Wt/ Net Wt in Kgs', style: 'tableHeader' },
                 { text: 'Rcpt./Divy. Mode', style: 'tableHeader' },
                 { text: 'VOLUME', style: 'tableHeader' },
                 { text: "20'", style: 'tableHeader' },
-                { text: "40'", style: 'tableHeader' }
+                { text: "40'", style: 'tableHeader' },
               ],
               [
                 this.cargoList?.BL_NO_DATE,
@@ -382,19 +387,21 @@ export class ManifestListComponent implements OnInit {
                 this.cargoList?.DELIVERY_MODE,
                 '0',
                 this.cargoList?.TWEENTY_FT,
-                this.cargoList?.FORTY_FT
+                this.cargoList?.FORTY_FT,
               ],
-            ]
+            ],
           },
           layout: 'noBorders',
           margin: [0, 0, 20, 0],
         },
         {
-          canvas: [{ type: 'line', x1: 0, y1: 0, x2: 780, y2: 0, lineWidth: 1 }]
+          canvas: [
+            { type: 'line', x1: 0, y1: 0, x2: 780, y2: 0, lineWidth: 1 },
+          ],
         },
         {
           text: 'Freight Details',
-          style: 'underlineStyle'
+          style: 'underlineStyle',
         },
         {
           style: 'tableExample',
@@ -409,7 +416,7 @@ export class ManifestListComponent implements OnInit {
                 { text: 'Rate', style: 'tableHeader' },
                 { text: 'Prepaid', style: 'tableHeader' },
                 { text: 'Amount(INR)', style: 'tableHeader' },
-                { text: 'Collect', style: 'tableHeader' }
+                { text: 'Collect', style: 'tableHeader' },
               ],
               ...this.cargoList?.FREIGHT_DETAILS.map((p: any) => [
                 p.CHARGE_CODE,
@@ -420,13 +427,15 @@ export class ManifestListComponent implements OnInit {
                 '-',
                 '-',
               ]),
-            ]
+            ],
           },
           layout: 'noBorders',
           margin: [0, 0, 20, 0],
         },
         {
-          canvas: [{ type: 'line', x1: 0, y1: 0, x2: 780, y2: 0, lineWidth: 1 }]
+          canvas: [
+            { type: 'line', x1: 0, y1: 0, x2: 780, y2: 0, lineWidth: 1 },
+          ],
         },
         {
           style: 'tableExample',
@@ -461,39 +470,37 @@ export class ManifestListComponent implements OnInit {
                 p.UN_NO,
                 '-',
                 '-',
-                '-'
+                '-',
               ]),
-            ]
+            ],
           },
-          layout: 'noBorders'
+          layout: 'noBorders',
         },
         {
           text: this.cargoList?.CUSTOMER_NAME,
           style: 'rightStyle',
-          margin: [0, 5, 0, 0]
+          margin: [0, 5, 0, 0],
         },
         {
           text: 'AS AGENTS ONLY, FOR CAPELINE',
-          style: 'rightStyle'
+          style: 'rightStyle',
         },
-
       ],
-
 
       styles: {
         header: {
           fontSize: 9,
           bold: true,
-          alignment: 'center'
+          alignment: 'center',
         },
         desc: {
           fontSize: 7,
-          alignment: 'center'
+          alignment: 'center',
         },
         midheading: {
           fontSize: 9,
           alignment: 'center',
-          bold: true
+          bold: true,
         },
         tableHeader: {
           bold: true,
@@ -501,23 +508,22 @@ export class ManifestListComponent implements OnInit {
         },
         tableExample: {
           fontSize: 5,
-          margin: [0, 5, 0, 15]
+          margin: [0, 5, 0, 15],
         },
         rightStyle: {
           fontSize: 5,
           alignment: 'right',
-          margin: [0, 5, 0, 0]
+          margin: [0, 5, 0, 0],
         },
-        underlineStyle:{
+        underlineStyle: {
           bold: true,
           fontSize: 7,
           decoration: 'underline',
-          margin: [100, 10, 0, 0]
-        }
-      }
+          margin: [100, 10, 0, 0],
+        },
+      },
     };
 
     pdfMake.createPdf(docDefinition).open();
   }
-
 }

@@ -150,7 +150,7 @@ export class NewDoComponent implements OnInit {
     this.previewDetails = false;
     this.previewNoData = false;
 
-    this.bL.AGENT_CODE = localStorage.getItem('usercode');
+    this.bL.AGENT_CODE = this._commonService.getUserCode();
     this.bL.BL_NO = this.billNo;
     this.bL.fromDO = true;
 
@@ -201,9 +201,9 @@ export class NewDoComponent implements OnInit {
     this.doForm.get('DO_NO')?.setValue(this.getRandomNumber('DO'));
     this.doForm.get('BL_ID')?.setValue(0);
     this.doForm.get('BL_NO')?.setValue(this.displayBill);
-    this.doForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
-    this.doForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    this.doForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.doForm.get('AGENT_NAME')?.setValue(this._commonService.getUserName());
+    this.doForm.get('AGENT_CODE')?.setValue(this._commonService.getUserCode());
+    this.doForm.get('CREATED_BY')?.setValue(this._commonService.getUserName());
 
     if (this.doForm.get('CONTAINER_LIST2')?.value == '') {
       alert(
@@ -251,8 +251,8 @@ export class NewDoComponent implements OnInit {
     if (this.cpForm.invalid) {
       return;
     }
-    this.cpForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    this.cpForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.cpForm.get('AGENT_CODE')?.setValue(this._commonService.getUserCode());
+    this.cpForm.get('CREATED_BY')?.setValue(this._commonService.getUserName());
 
     this._mstService
       .postCP(JSON.stringify(this.cpForm.value))

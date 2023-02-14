@@ -71,7 +71,9 @@ export class PortComponent implements OnInit {
     if (this.portForm.invalid) {
       return;
     }
-    this.portForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.portForm
+      .get('CREATED_BY')
+      ?.setValue(this._commonService.getUserName());
     this.portForm.get('KEY_NAME')?.setValue('PORT');
 
     this._masterService

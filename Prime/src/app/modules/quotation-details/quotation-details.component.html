@@ -3,7 +3,7 @@
 </div>
 
 <div class="container">
-    <a href="/home/quotation-list"><i class='bx bx-arrow-back'></i>Back to List</a>
+    <a href="/home/srr-list"><i class='bx bx-arrow-back'></i>Back to List</a>
 
     <div class="accordion mt-3" id="accordion" role="tablist">
         <div class="card">
@@ -127,8 +127,8 @@
             <div id="collapse-2" class="collapse" role="tabpanel" aria-labelledby="heading-2"
                 data-bs-parent="#accordion">
                 <div class="card-body">
-                        <table class="table table-bordered destroydatatable" id="data-table-config">
-                            <thead>
+                    <table class="table table-bordered destroydatatable" id="data-table-config">
+                        <thead>
                             <tr>
                                 <th>Sr. No</th>
                                 <th>Commodity</th>
@@ -168,124 +168,124 @@
                                     commodityList?.REMARKS == '' ? '-' : commodityList?.REMARKS}}</td>
                             </tr>
                         </tbody>
-                    </table> 
-                
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header" role="tab" id="heading-3">
-                <h6 class="mb-0">
-                    <a class="collapsed" data-bs-toggle="collapse" href="#collapse-3" aria-expanded="false"
-                        aria-controls="collapse-3" data-abc="true">
-                        {{'Header.ContainerRateDetails'|translate}}
-                    </a>
-                </h6>
-            </div>
-            <div id="collapse-3" class="collapse" role="tabpanel" aria-labelledby="heading-3"
-                data-bs-parent="#accordion">
-                <div class="card-body">
-                    <table class="table table-bordered destroydatatable" id="data-table-config">
-                        <thead>
-                            <tr>
-                                <th>Sr. No</th>
-                                <th>Container Type</th>
-                                <th>Container Size</th>
-                                <th>Service Mode</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of containerList; let i = index">
-                                <td>{{i + 1}}</td>
-                                <td>{{item.CONTAINER_TYPE}}</td>
-                                <td>{{item.CONTAINER_SIZE}}</td>
-                                <td>{{item.SERVICE_MODE}}</td>
-                                <td><a (click)="openRateDetailModal(i)"><i class="fa fa-eye text-dark"></i></a>
-                                    <button #RateDetailModal data-bs-toggle="modal" href="#rateDetailsModal"
-                                        class="d-none">Add
-                                        Rate</button>
-                                </td>
-                            </tr>
-                        </tbody>
                     </table>
+
                 </div>
             </div>
-        </div>
-        <div class="modal fade" #rateDetailModal id="rateDetailsModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Rate Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                            #closeBtn></button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-bordered ">
+
+            <div class="card">
+                <div class="card-header" role="tab" id="heading-3">
+                    <h6 class="mb-0">
+                        <a class="collapsed" data-bs-toggle="collapse" href="#collapse-3" aria-expanded="false"
+                            aria-controls="collapse-3" data-abc="true">
+                            {{'Header.ContainerRateDetails'|translate}}
+                        </a>
+                    </h6>
+                </div>
+                <div id="collapse-3" class="collapse" role="tabpanel" aria-labelledby="heading-3"
+                    data-bs-parent="#accordion">
+                    <div class="card-body">
+                        <table class="table table-bordered destroydatatable" id="data-table-config">
                             <thead>
                                 <tr>
-                                    <th>SRR NO</th>
+                                    <th>Sr. No</th>
                                     <th>Container Type</th>
-                                    <th>Charge Code</th>
-                                    <th>Transport Type</th>
-                                    <th>Payment Term</th>
-                                    <th>Currency</th>
-                                    <th>Standard</th>
-                                    <th>Requested</th>
-                                    
+                                    <th>Container Size</th>
+                                    <th>Service Mode</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of contRateList; let i = index">
-                                    <td>{{item.SRR_NO}}</td>
+                                <tr *ngFor="let item of containerList; let i = index">
+                                    <td>{{i + 1}}</td>
                                     <td>{{item.CONTAINER_TYPE}}</td>
-                                    <td>{{item.CHARGE_CODE}}</td>
-                                    <td>{{item.TRANSPORT_TYPE}}</td>
-                                    <td>{{item.PAYMENT_TERM}}</td>
-                                    <td>{{item.CURRENCY}}</td>
-                                    <td>{{item.STANDARD_RATE}}</td>
-                                    <td>{{item.RATE_REQUESTED}}</td>
+                                    <td>{{item.CONTAINER_SIZE}}</td>
+                                    <td>{{item.SERVICE_MODE}}</td>
+                                    <td><a (click)="openRateDetailModal(i)"><i class="fa fa-eye text-dark"></i></a>
+                                        <button #RateDetailModal data-bs-toggle="modal" href="#rateDetailsModal"
+                                            class="d-none">Add
+                                            Rate</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-header" role="tab" id="heading-2">
-                <h6 class="mb-0">
-                    <a class="collapsed" data-bs-toggle="collapse" href="#collapse-4" aria-expanded="false"
-                        aria-controls="collapse-2" data-abc="true">
-                        {{'Header.CommodityFiles'|translate}}
-                    </a>
-                </h6>
+            <div class="modal fade" #rateDetailModal id="rateDetailsModal" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Rate Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                #closeBtn></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <th>SRR NO</th>
+                                        <th>Container Type</th>
+                                        <th>Charge Code</th>
+                                        <th>Transport Type</th>
+                                        <th>Payment Term</th>
+                                        <th>Currency</th>
+                                        <th>Standard</th>
+                                        <th>Requested</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of contRateList; let i = index">
+                                        <td>{{item.SRR_NO}}</td>
+                                        <td>{{item.CONTAINER_TYPE}}</td>
+                                        <td>{{item.CHARGE_CODE}}</td>
+                                        <td>{{item.TRANSPORT_TYPE}}</td>
+                                        <td>{{item.PAYMENT_TERM}}</td>
+                                        <td>{{item.CURRENCY}}</td>
+                                        <td>{{item.STANDARD_RATE}}</td>
+                                        <td>{{item.RATE_REQUESTED}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="collapse-4" class="collapse" role="tabpanel" aria-labelledby="heading-2"
-                data-bs-parent="#accordion">
-                <div class="card-body">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-3" *ngFor="let file of fileList">
-                                <div class="formbold-file-list formbold-mb-5">
-                                    <div class="formbold-file-item">
-                                        <span class="formbold-file-name"
-                                            *ngIf="file.filE_NAME.split('_')[1].length<=15">{{file.filE_NAME.split('_')[1]}}</span>
-                                        <span class="formbold-file-name"
-                                            *ngIf="file.filE_NAME.split('_')[1].length>15">{{file.filE_NAME.split('_')[1].substring(0,7)}}...{{file.filE_NAME.split('_')[1].split('.')[1]}}</span>
-                                        <a target="_blank" href="{{BASE_URL + file.filE_PATH}}"><i
-                                                class="fa fa-eye text-dark ms-5"></i></a>
+            <div class="card">
+                <div class="card-header" role="tab" id="heading-2">
+                    <h6 class="mb-0">
+                        <a class="collapsed" data-bs-toggle="collapse" href="#collapse-4" aria-expanded="false"
+                            aria-controls="collapse-2" data-abc="true">
+                            {{'Header.CommodityFiles'|translate}}
+                        </a>
+                    </h6>
+                </div>
+                <div id="collapse-4" class="collapse" role="tabpanel" aria-labelledby="heading-2"
+                    data-bs-parent="#accordion">
+                    <div class="card-body">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-3" *ngFor="let file of fileList">
+                                    <div class="formbold-file-list formbold-mb-5">
+                                        <div class="formbold-file-item">
+                                            <span class="formbold-file-name"
+                                                *ngIf="file.filE_NAME.split('_')[1].length<=15">{{file.filE_NAME.split('_')[1]}}</span>
+                                            <span class="formbold-file-name"
+                                                *ngIf="file.filE_NAME.split('_')[1].length>15">{{file.filE_NAME.split('_')[1].substring(0,7)}}...{{file.filE_NAME.split('_')[1].split('.')[1]}}</span>
+                                            <a target="_blank" href="{{BASE_URL + file.filE_PATH}}"><i
+                                                    class="fa fa-eye text-dark ms-5"></i></a>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
 
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</div>
+    </div>

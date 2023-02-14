@@ -1,4 +1,3 @@
-
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { elementAt } from 'rxjs';
@@ -9,6 +8,7 @@ import { CoreTranslationService } from 'src/app/@core/services/translation.servi
 import { locale as english } from 'src/app/@core/translate/srr/en';
 import { locale as hindi } from 'src/app/@core/translate/srr/hi';
 import { locale as arabic } from 'src/app/@core/translate/srr/ar';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-quotation-details',
@@ -27,22 +27,29 @@ export class QuotationDetailsComponent implements OnInit {
   contRateList: any[] = [];
   @ViewChild('RateDetailModal') RateDetailModal: ElementRef;
 
-  constructor(private _quotationService: QuotationService,
+  constructor(
+    private _quotationService: QuotationService,
     private _coreTranslationService: CoreTranslationService,
-    private _formBuilder: FormBuilder,) { this._coreTranslationService.translate(english, hindi, arabic); }
+    private _cs: CommonService,
+    private _formBuilder: FormBuilder
+  ) {
+    this._coreTranslationService.translate(english, hindi, arabic);
+  }
 
   ngOnInit(): void {
     this.getQuotationDetails();
   }
   openRateDetailModal(i: any) {
     this.contRateList = [];
-    this.contRateList = this.rateList.filter(x => x.CONTAINER_TYPE == this.containerList[i].CONTAINER_TYPE);
+    this.contRateList = this.rateList.filter(
+      (x) => x.CONTAINER_TYPE == this.containerList[i].CONTAINER_TYPE
+    );
     this.RateDetailModal.nativeElement.click();
   }
   getQuotationDetails() {
     var srr = new QUOTATION();
 
-    srr.AGENT_CODE = localStorage.getItem('usercode');
+    srr.AGENT_CODE = this._cs.getUserCode();
     srr.SRR_NO = localStorage.getItem('SRR_NO');
     this._quotationService.getSRRDetails(srr).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
@@ -55,19 +62,19 @@ export class QuotationDetailsComponent implements OnInit {
         var commodityTypeList: any[] = [];
 
         res.Data.SRR_COMMODITIES.forEach((element: any) => {
-          commodityTypeList.push(element.COMMODITY_TYPE)
-        })
-
-        this._quotationService.GetFiles(srr_no, commodityTypeList).subscribe((res: any) => {
-          if (res.responseCode == 200) {
-            this.fileList = res.data;
-          }
+          commodityTypeList.push(element.COMMODITY_TYPE);
         });
 
+        this._quotationService
+          .GetFiles(srr_no, commodityTypeList)
+          .subscribe((res: any) => {
+            if (res.responseCode == 200) {
+              this.fileList = res.data;
+            }
+          });
       }
     });
   }
-
 
   addRates() {
     var rateList = this.quotationForm.get('SRR_RATES1') as FormArray;

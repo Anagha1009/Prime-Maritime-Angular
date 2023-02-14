@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-pm-sidebar',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 export class PmSidebarComponent implements OnInit {
   ismenu: boolean = true;
   submenu: string = '';
-  constructor(private _router: Router) {}
+  constructor(private _router: Router, private _loginService: LoginService) {}
 
   ngOnInit(): void {
     // this.loadJsFile([
@@ -43,7 +44,6 @@ export class PmSidebarComponent implements OnInit {
   }
 
   logout() {
-    localStorage.clear();
-    this._router.navigateByUrl('login');
+    this._loginService.logout();
   }
 }
