@@ -43,7 +43,7 @@
     "ng2-tooltip-directive": "^2.10.3",
     "pdfmake": "^0.2.6",
     "rxjs": "~7.5.0",
-    "sweetalert2": "^11.7.0",
+    "sweetalert2": "^11.7.1",
     "tslib": "^2.3.0",
     "web-push": "^3.5.0",
     "xlsx": "^0.18.5",

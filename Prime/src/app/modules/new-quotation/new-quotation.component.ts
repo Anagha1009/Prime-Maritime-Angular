@@ -454,6 +454,21 @@ export class NewQuotationComponent implements OnInit {
             })
           );
         });
+
+        res.Data.EXP_OTHERCOSTLIST.forEach((element: any) => {
+          rateList.push(
+            this._formBuilder.group({
+              CONTAINER_TYPE: [element.CONTAINER_TYPE],
+              CHARGE_CODE: [element.CHARGE],
+              CURRENCY: [element.CURRENCY],
+              STANDARD_RATE: [element.RATE],
+              RATE_REQUESTED: ['', Validators.required],
+              PAYMENT_TERM: ['', Validators.required],
+              TRANSPORT_TYPE: ['', Validators.required],
+              REMARKS: [''],
+            })
+          );
+        });
       }
     });
 
@@ -620,6 +635,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   insertVoyage() {
+    debugger
     this.submitted3 = true;
 
     if (this.voyageForm.invalid) {
@@ -725,10 +741,10 @@ export class NewQuotationComponent implements OnInit {
       VOYAGE_NO: ['', Validators.required],
       ATA: ['', Validators.required],
       ATD: ['', Validators.required],
-      IMM_CURR: ['', Validators.required],
-      IMM_CURR_RATE: ['', Validators.required],
-      EXP_CURR: ['', Validators.required],
-      EXP_CURR_RATE: ['', Validators.required],
+      // IMM_CURR: ['', Validators.required],
+      // IMM_CURR_RATE: ['', Validators.required],
+      // EXP_CURR: ['', Validators.required],
+      // EXP_CURR_RATE: ['', Validators.required],
       TERMINAL_CODE: ['', Validators.required],
       SERVICE_NAME: ['', Validators.required],
       VIA_NO: ['', Validators.required],

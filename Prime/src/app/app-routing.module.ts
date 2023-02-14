@@ -174,7 +174,7 @@ const routes: Routes = [
         component: BookingListComponent,
       },
       {
-        path: 'split-booking',
+        path: 'rollover',
         component: SplitBookingComponent,
       },
       {

@@ -1,5 +1,6 @@
 export class BOOKING {
   ID: number;
+  BOOKING_ID:number;
   BOOKING_NO: any = '';
   SRR_ID: number;
   SRR_NO: string;

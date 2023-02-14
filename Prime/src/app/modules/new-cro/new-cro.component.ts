@@ -10,6 +10,7 @@ import { CRO } from 'src/app/models/cro';
 import { HttpClient } from '@angular/common/http';
 import { locale as english } from 'src/app/@core/translate/cro/en';
 import { locale as hindi } from 'src/app/@core/translate/cro/hi';
+import {locale as arabic} from 'src/app/@core/translate/cro/ar';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
@@ -58,7 +59,7 @@ export class NewCroComponent implements OnInit {
     private _coreTranslationService: CoreTranslationService,
     private _activatedRoute: ActivatedRoute
   ) {
-    this._coreTranslationService.translate(english, hindi);
+    this._coreTranslationService.translate(english, hindi,arabic);
   }
 
   ngOnInit(): void {

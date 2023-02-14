@@ -179,6 +179,21 @@ export class PmQuotationDetailsComponent implements OnInit {
     });
   }
 
+  numericOnly(event: any): boolean {
+    // restrict e,+,-,E characters in  input type number
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode == 101 || charCode == 69 || charCode == 45 || charCode == 43) {
+      return false;
+    }
+    const reg = /^-?\d*(\.\d{0,2})?$/;
+    let input = event.target.value + String.fromCharCode(event.charCode);
+
+    if (!reg.test(input)) {
+      event.preventDefault();
+    }
+    return true;
+  }
+
   get f0() {
     var x = this.calcForm.get('FREIGHT_LIST') as FormArray;
     return x.controls;
