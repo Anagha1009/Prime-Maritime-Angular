@@ -143,10 +143,10 @@ export class NewQuotationComponent implements OnInit {
     this.submitted5 = true;
     this.partyForm
       .get('AGENT_CODE')
-      ?.setValue(localStorage.getItem('usercode'));
+      ?.setValue(this._commonService.getUserCode());
     this.partyForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
     this.partyForm.get('STATUS')?.setValue(true);
     if (this.partyForm.invalid) {
       return;
@@ -454,6 +454,21 @@ export class NewQuotationComponent implements OnInit {
             })
           );
         });
+
+        res.Data.EXP_OTHERCOSTLIST.forEach((element: any) => {
+          rateList.push(
+            this._formBuilder.group({
+              CONTAINER_TYPE: [element.CONTAINER_TYPE],
+              CHARGE_CODE: [element.CHARGE],
+              CURRENCY: [element.CURRENCY],
+              STANDARD_RATE: [element.RATE],
+              RATE_REQUESTED: ['', Validators.required],
+              PAYMENT_TERM: ['', Validators.required],
+              TRANSPORT_TYPE: ['', Validators.required],
+              REMARKS: [''],
+            })
+          );
+        });
       }
     });
 
@@ -537,13 +552,13 @@ export class NewQuotationComponent implements OnInit {
 
     this.quotationForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
     this.quotationForm
       .get('AGENT_NAME')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
     this.quotationForm
       .get('AGENT_CODE')
-      ?.setValue(localStorage.getItem('usercode'));
+      ?.setValue(this._commonService.getUserCode());
 
     if (this.isVesselVal) {
       this.quotationForm.get('EFFECT_FROM')?.setValue('');
@@ -577,13 +592,13 @@ export class NewQuotationComponent implements OnInit {
             this.slotDetailsForm.get('STATUS')?.setValue('Booked');
             this.slotDetailsForm
               .get('CREATED_BY')
-              ?.setValue(localStorage.getItem('username'));
+              ?.setValue(this._commonService.getUserName());
             this.slotDetailsForm
               .get('AGENT_NAME')
-              ?.setValue(localStorage.getItem('username'));
+              ?.setValue(this._commonService.getUserName());
             this.slotDetailsForm
               .get('AGENT_CODE')
-              ?.setValue(localStorage.getItem('usercode'));
+              ?.setValue(this._commonService.getUserCode());
 
             this._quotationService
               .booking(JSON.stringify(this.slotDetailsForm.value))
@@ -591,23 +606,23 @@ export class NewQuotationComponent implements OnInit {
                 if (res.responseCode == 200) {
                   this.isLoading = false;
                   this._commonService.successMsg(
-                    'Your quotation has been submitted successfully !' +
+                    'Your SRR has been submitted successfully !' +
                       '<br>' +
                       'SRR No. is - ' +
                       SRRNO
                   );
-                  this._router.navigateByUrl('/home/quotation-list');
+                  this._router.navigateByUrl('/home/srr-list');
                 }
               });
           } else {
             this.isLoading = false;
             this._commonService.successMsg(
-              'Your quotation has been submitted successfully !' +
+              'Your SRR has been submitted successfully !' +
                 '<br>' +
                 'SRR No. is - ' +
                 SRRNO
             );
-            this._router.navigateByUrl('/home/quotation-list');
+            this._router.navigateByUrl('/home/srr-list');
           }
         }
       });
@@ -620,7 +635,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   insertVoyage() {
-    debugger
+    debugger;
     this.submitted3 = true;
 
     if (this.voyageForm.invalid) {
@@ -629,7 +644,7 @@ export class NewQuotationComponent implements OnInit {
 
     this.voyageForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
 
     this._bookingService
       .insertVoyage(JSON.stringify(this.voyageForm.value))
@@ -747,7 +762,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   getDropdown() {
-    var portcode: any = localStorage.getItem('portcode');
+    var portcode: any = this._commonService.getUser().portcode;
 
     this._commonService
       .getDropdownData('PLACE_OF_RECEIPT', portcode)
@@ -757,7 +772,7 @@ export class NewQuotationComponent implements OnInit {
         }
       });
 
-    var countrycode: any = localStorage.getItem('countrycode');
+    var countrycode: any = this._commonService.getUser().countrycode;
 
     this._commonService
       .getDropdownData('PORT', '', countrycode)

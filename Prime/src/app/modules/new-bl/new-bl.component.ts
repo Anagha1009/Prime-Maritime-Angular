@@ -34,8 +34,8 @@ export class NewBlComponent implements OnInit {
   croNo: string = '';
   blForm: FormGroup;
   onUpload: boolean = false;
-  groupingViaCommonProperty:any[]=[];
-  groupedList:any[]=[];
+  groupingViaCommonProperty: any[] = [];
+  groupedList: any[] = [];
   previewTable: any[] = [];
   containerList: any[] = [];
   ContainerList1: any[] = [];
@@ -51,7 +51,7 @@ export class NewBlComponent implements OnInit {
   blHistoryList: any[] = [];
   hideHistory: boolean = false;
   minDate: any = '';
-  i:any=0;
+  i: any = 0;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -112,7 +112,7 @@ export class NewBlComponent implements OnInit {
   getBLHistory() {
     this._commonService.destroyDT();
     this._blService
-      .getBLHistory(localStorage.getItem('usercode'))
+      .getBLHistory(this._commonService.getUserCode())
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.blHistoryList = res.Data;
@@ -157,7 +157,7 @@ export class NewBlComponent implements OnInit {
       .get('BL_ISSUE_DATE')
       ?.setValue(formatDate(new Date(), 'yyyy-MM-dd', 'en'));
     var bl = new Bl();
-    bl.AGENT_CODE = localStorage.getItem('usercode');
+    bl.AGENT_CODE = this._commonService.getUserCode();
     bl.BL_NO = this.isSplit ? this.blNo : '';
     bl.BOOKING_NO = !this.isSplit ? this.blForm.get('BOOKING_NO')?.value : '';
 
@@ -171,21 +171,19 @@ export class NewBlComponent implements OnInit {
     });
   }
 
-
-  makeItFinalize(BLNO: any){
+  makeItFinalize(BLNO: any) {
     Swal.fire({
       title: 'Are you sure you want to Finalize the BL?',
-      text: "This BL will get locked!",
+      text: 'This BL will get locked!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, Finalize it!'
+      confirmButtonText: 'Yes, Finalize it!',
     }).then((result) => {
       if (result.isConfirmed) {
-
         var BL = new Bl();
-        BL.AGENT_CODE = localStorage.getItem('usercode');
+        BL.AGENT_CODE = this._commonService.getUserCode();
         BL.BL_NO = BLNO;
         console.log(BL);
         this._blService.getBLDetails(BL).subscribe((res: any) => {
@@ -201,14 +199,13 @@ export class NewBlComponent implements OnInit {
                   'Finalized!',
                   'Your file has been finalized.',
                   'success'
-                )
+                );
                 this.getBLHistory();
-          
               }
             });
-          });
+        });
       }
-    })
+    });
   }
   updateBL() {
     debugger;
@@ -273,9 +270,9 @@ export class NewBlComponent implements OnInit {
     var noBL = this.blForm.get('NO_OF_ORIGINAL_BL')?.value;
     this.blForm.get('NO_OF_ORIGINAL_BL')?.setValue(noBL.toString());
 
-    this.blForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    this.blForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
-    this.blForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.blForm.get('AGENT_CODE')?.setValue(this._commonService.getUserCode());
+    this.blForm.get('AGENT_NAME')?.setValue(this._commonService.getUserName());
+    this.blForm.get('CREATED_BY')?.setValue(this._commonService.getUserName());
 
     if (!this.isSplit) {
       const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
@@ -299,7 +296,7 @@ export class NewBlComponent implements OnInit {
       );
     }
     var bl = new Bl();
-    bl.AGENT_CODE = localStorage.getItem('usercode');
+    bl.AGENT_CODE = this._commonService.getUserCode();
     bl.BL_NO = this.isSplit ? this.blNo : '';
     bl.BOOKING_NO = !this.isSplit ? this.blForm.get('BOOKING_NO')?.value : '';
 
@@ -328,9 +325,8 @@ export class NewBlComponent implements OnInit {
               //refresh required fields
               const add = this.blForm.get('CONTAINER_LIST') as FormArray;
               add.clear();
-              this.blNo='';
-              this.onUpload=false;
-              
+              this.blNo = '';
+              this.onUpload = false;
             }
           });
         //this.ContainerDescription();
@@ -343,7 +339,7 @@ export class NewBlComponent implements OnInit {
     this.editBL = true;
 
     var BL = new Bl();
-    BL.AGENT_CODE = localStorage.getItem('usercode');
+    BL.AGENT_CODE = this._commonService.getUserCode();
     BL.BL_NO = BLNO;
 
     this._blService.getBLDetails(BL).subscribe((res: any) => {
@@ -387,7 +383,7 @@ export class NewBlComponent implements OnInit {
       this.blForm.get('DESC_OF_GOODS')?.setValue(contList[0]?.DESC_OF_GOODS);
       console.log('edit bl:' + JSON.stringify(this.blForm.value));
       var bl = new Bl();
-      bl.AGENT_CODE = localStorage.getItem('usercode');
+      bl.AGENT_CODE = this._commonService.getUserCode();
       bl.BL_NO = this.isSplit ? BLNO : '';
       bl.BOOKING_NO = !this.isSplit ? this.blForm.get('BOOKING_NO')?.value : '';
 
@@ -405,7 +401,7 @@ export class NewBlComponent implements OnInit {
   getBLDetails() {
     this.editBL = false;
     var BL = new Bl();
-    BL.AGENT_CODE = localStorage.getItem('usercode');
+    BL.AGENT_CODE = this._commonService.getUserCode();
     BL.BL_NO = this.blNo;
 
     this._blService.getBLDetails(BL).subscribe((res: any) => {
@@ -413,7 +409,7 @@ export class NewBlComponent implements OnInit {
         // this.hideHistory=true;
         this.blForm.patchValue(res.Data);
         if (this.blForm.get('BL_STATUS')?.value == 'Finalized') {
-          this._commonService.warnMsg("Finalized BL cannot be Split!");
+          this._commonService.warnMsg('Finalized BL cannot be Split!');
           return;
         }
         this.blForm
@@ -458,7 +454,7 @@ export class NewBlComponent implements OnInit {
         this.blForm.get('MARKS_NOS')?.setValue(contList[0]?.MARKS_NOS);
         this.blForm.get('DESC_OF_GOODS')?.setValue(contList[0]?.DESC_OF_GOODS);
         var bl = new Bl();
-        bl.AGENT_CODE = localStorage.getItem('usercode');
+        bl.AGENT_CODE = this._commonService.getUserCode();
         bl.BL_NO = this.isSplit ? this.blNo : '';
         bl.BOOKING_NO = !this.isSplit
           ? this.blForm.get('BOOKING_NO')?.value
@@ -730,13 +726,13 @@ export class NewBlComponent implements OnInit {
   }
 
   viewBL(BLNO: any) {
-    this.isSplit=false;
-    this.editBL=false;
-    this.groupingViaCommonProperty=[];
-    this.groupedList=[];
-    this.i=0;
+    this.isSplit = false;
+    this.editBL = false;
+    this.groupingViaCommonProperty = [];
+    this.groupedList = [];
+    this.i = 0;
     var BL = new Bl();
-    BL.AGENT_CODE = localStorage.getItem('usercode');
+    BL.AGENT_CODE = this._commonService.getUserCode();
     BL.BL_NO = BLNO;
 
     this._blService.getBLDetails(BL).subscribe((res: any) => {
@@ -748,20 +744,20 @@ export class NewBlComponent implements OnInit {
       //No. of Containers /Packages logic
       this.groupingViaCommonProperty = Object.values(
         contList.reduce((acc, current) => {
-            acc[current.CONTAINER_TYPE] = acc[current.CONTAINER_TYPE] ?? [];
-            acc[current.CONTAINER_TYPE].push(current);
-            return acc;
+          acc[current.CONTAINER_TYPE] = acc[current.CONTAINER_TYPE] ?? [];
+          acc[current.CONTAINER_TYPE].push(current);
+          return acc;
         }, {})
       );
-      console.log('within view BL',this.groupingViaCommonProperty);
-      this.groupingViaCommonProperty.forEach((element)=>{
+      console.log('within view BL', this.groupingViaCommonProperty);
+      this.groupingViaCommonProperty.forEach((element) => {
         this.groupedList.push(
-          element.length+' x '+element[0].CONTAINER_TYPE
+          element.length + ' x ' + element[0].CONTAINER_TYPE
         );
       });
       console.log(this.groupedList);
       //
-      
+
       const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
       add.clear();
       contList.forEach((element) => {
@@ -775,12 +771,11 @@ export class NewBlComponent implements OnInit {
             DESC_OF_GOODS: [element.DESC_OF_GOODS],
             GROSS_WEIGHT: [element.GROSS_WEIGHT],
             MEASUREMENT: [element.MEASUREMENT?.toString()],
-            NO_OF_CONTPKG:[this.groupedList[this.i]],
+            NO_OF_CONTPKG: [this.groupedList[this.i]],
           })
         );
-        this.i=this.i+1;
+        this.i = this.i + 1;
       });
-      
 
       if (this.blForm.get('BL_STATUS')?.value == 'Finalized') {
         this.blForm.get('BLType')?.setValue('Original');
@@ -820,14 +815,13 @@ export class NewBlComponent implements OnInit {
       this.ContainerList1 = [];
       this.ContainerList1.push(add.value);
       this.ContainerList1 = this.ContainerList1.flat();
-      console.log("within is split",this.ContainerList1);
-    }
-    else {
+      console.log('within is split', this.ContainerList1);
+    } else {
       const add1 = this.blForm.get('CONTAINER_LIST2') as FormArray;
       this.ContainerList1 = [];
       this.ContainerList1.push(add1.value);
       this.ContainerList1 = this.ContainerList1.flat();
-      console.log("without is split",this.ContainerList1);
+      console.log('without is split', this.ContainerList1);
     }
 
     let docDefinition = {
@@ -1135,10 +1129,8 @@ export class NewBlComponent implements OnInit {
                 alignment: 'left',
                 fontSize: 4.9,
               },
-
-            ]
-          ]
-
+            ],
+          ],
         },
 
         {
@@ -1153,7 +1145,6 @@ export class NewBlComponent implements OnInit {
                 bold: true,
                 fontSize: 9,
                 margin: [0, 2, 0, 0],
-
               },
               { text: this.blForm.value.SHIPPER.toUpperCase(), fontSize: 7 },
               {
@@ -1261,7 +1252,6 @@ export class NewBlComponent implements OnInit {
                   ],
                 ],
               },
-              
             ],
 
             [
@@ -1318,7 +1308,6 @@ export class NewBlComponent implements OnInit {
               },
             ],
           ],
-
         },
         {
           canvas: [
@@ -1337,34 +1326,32 @@ export class NewBlComponent implements OnInit {
                 margin: [0, 2, 0, 0],
               },
               {
-                text: this.blForm.value.PORT_OF_DISCHARGE.toUpperCase()+'                                                                      '+this.blForm.value.PLACE_OF_DELIVERY.toUpperCase(),
+                text:
+                  this.blForm.value.PORT_OF_DISCHARGE.toUpperCase() +
+                  '                                                                      ' +
+                  this.blForm.value.PLACE_OF_DELIVERY.toUpperCase(),
                 fontSize: 7,
                 margin: [0, 0, 0, 20],
-                width: 10
+                width: 10,
               },
-
-
             ],
             [
               {
-                text: "                    |*Final Destination (for the Merchant" + "'s reference)",
+                text:
+                  '                    |*Final Destination (for the Merchant' +
+                  "'s reference)",
                 bold: true,
                 fontSize: 8,
                 margin: [20, 2, 0, 0],
               },
-              
+
               {
                 text: this.blForm.value.FINAL_DESTINATION.toUpperCase(),
                 fontSize: 7,
                 margin: [25, 2, 0, 0],
               },
-              
-
             ],
-
-
           ],
-
         },
         {
           canvas: [
@@ -1402,23 +1389,51 @@ export class NewBlComponent implements OnInit {
                   bold: true,
                   heights: 3,
                 },
-                { text: 'Gross Weight', fontSize: 9, bold: true, heights: 3, },
-                { text: 'Measurement', fontSize: 9, bold: true, heights: 3, },
-
+                { text: 'Gross Weight', fontSize: 9, bold: true, heights: 3 },
+                { text: 'Measurement', fontSize: 9, bold: true, heights: 3 },
               ],
-              ...this.ContainerList1.slice(Math.max(this.ContainerList1.length - 5, 0)).map((p: any) => [
+              ...this.ContainerList1.slice(
+                Math.max(this.ContainerList1.length - 5, 0)
+              ).map((p: any) => [
                 { text: p.CONTAINER_NO, fontSize: 9 },
                 { text: p.SEAL_NO + '-' + p.MARKS_NOS, fontSize: 9 },
                 { text: p.NO_OF_CONTPKG, fontSize: 9 },
                 { text: p.DESC_OF_GOODS, fontSize: 9 },
                 { text: p.GROSS_WEIGHT, fontSize: 9 },
                 { text: p.MEASUREMENT, fontSize: 9 },
-
               ]),
-              [{ text: ' ', fontSize: 9 }, { text: ' ', fontSize: 9 }, { text: ' ', fontSize: 9 }, { text: ' ', fontSize: 9 }, { text: ' ', fontSize: 9 }, { text: ' ', fontSize: 9 }],
-              [{ text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }],
-              [{ text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }],
-              [{ text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }, { text: '', fontSize: 9 }],
+              [
+                { text: ' ', fontSize: 9 },
+                { text: ' ', fontSize: 9 },
+                { text: ' ', fontSize: 9 },
+                { text: ' ', fontSize: 9 },
+                { text: ' ', fontSize: 9 },
+                { text: ' ', fontSize: 9 },
+              ],
+              [
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+              ],
+              [
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+              ],
+              [
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+                { text: '', fontSize: 9 },
+              ],
             ],
           },
           layout: {
@@ -1440,11 +1455,12 @@ export class NewBlComponent implements OnInit {
             vLineStyle: function (i: any, node: any) {
               return { dash: { length: 4 } };
             },
-
           },
         },
         {
-          text: 'Total No. of Containers\nor Packages (in words)  ' + this.containerList.length,
+          text:
+            'Total No. of Containers\nor Packages (in words)  ' +
+            this.containerList.length,
           bold: true,
           fontSize: 8,
           margin: [0, 20, 0, 3],
@@ -1502,60 +1518,79 @@ export class NewBlComponent implements OnInit {
           margin: [0, 0, 0, 0],
         },
         {
-          
-          columns:[
+          columns: [
             {
               table: {
-                widths: [50,270],
+                widths: [50, 270],
                 headerRows: 1,
                 heights: 30,
                 body: [
-                  [{text: 'Ex. Rate', fontSize: 8, bold: true },
-                  {
-                    //layout: 'noBorders',
-                    layout:'headerLineOnly',
-                    table: {
-                      widths: [125, 125],
-                      headerRows: 1,
-                      heights: 30,
-                      body: [
-                        [
-                        { text: 'Prepaid at\n' + this.blForm.value.PREPAID_AT, fontSize: 8, bold: true },
-                        { text: 'Payable at\n' + this.blForm.value.PAYABLE_AT, fontSize: 8, bold: true }],
-                        [
-                        { text: 'Total prepaid in local currency\n' + this.blForm.value.TOTAL_PREPAID, fontSize: 8, bold: true },
-                        { text: 'No. of original B(s)/L\n' + this.blForm.value.NO_OF_ORIGINAL_BL, fontSize: 8, bold: true }],
-                      ],
+                  [
+                    { text: 'Ex. Rate', fontSize: 8, bold: true },
+                    {
+                      //layout: 'noBorders',
+                      layout: 'headerLineOnly',
+                      table: {
+                        widths: [125, 125],
+                        headerRows: 1,
+                        heights: 30,
+                        body: [
+                          [
+                            {
+                              text:
+                                'Prepaid at\n' + this.blForm.value.PREPAID_AT,
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            {
+                              text:
+                                'Payable at\n' + this.blForm.value.PAYABLE_AT,
+                              fontSize: 8,
+                              bold: true,
+                            },
+                          ],
+                          [
+                            {
+                              text:
+                                'Total prepaid in local currency\n' +
+                                this.blForm.value.TOTAL_PREPAID,
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            {
+                              text:
+                                'No. of original B(s)/L\n' +
+                                this.blForm.value.NO_OF_ORIGINAL_BL,
+                              fontSize: 8,
+                              bold: true,
+                            },
+                          ],
+                        ],
+                      },
                     },
-
-                  }
-                   
                   ],
-                  
-                  
                 ],
               },
-              
-
             },
-           
-            [
 
+            [
               {
-                text: 'Place and date of issue\n' + this.blForm.value.BL_ISSUE_PLACE + '-' + formatDate(this.blForm.value.BL_ISSUE_DATE, 'yyyy-MM-dd', 'en'),
+                text:
+                  'Place and date of issue\n' +
+                  this.blForm.value.BL_ISSUE_PLACE +
+                  '-' +
+                  formatDate(
+                    this.blForm.value.BL_ISSUE_DATE,
+                    'yyyy-MM-dd',
+                    'en'
+                  ),
                 bold: true,
                 fontSize: 8,
                 margin: [2, 2, 0, 0],
-                width:10,
+                width: 10,
               },
-
-            ]
-            
-            
-
-          ]
-          
-
+            ],
+          ],
         },
         {
           columns: [
@@ -1568,9 +1603,7 @@ export class NewBlComponent implements OnInit {
               },
               { text: '', fontSize: 8 },
             ],
-            [
-              { text: '', fontSize: 8 },
-            ],
+            [{ text: '', fontSize: 8 }],
             [
               {
                 text: 'For PRIME MARITIME',
@@ -1578,7 +1611,6 @@ export class NewBlComponent implements OnInit {
                 fontSize: 13,
                 margin: [0, 5, 0, 15],
               },
-
             ],
           ],
         },
@@ -1600,13 +1632,27 @@ export class NewBlComponent implements OnInit {
                 fontSize: 8,
                 margin: [0, 5, 0, 0],
               },
-              { text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _', fontSize: 8 },
+              {
+                text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _',
+                fontSize: 8,
+              },
             ],
             [
-              { text: 'As Agents for the carrier', fontSize: 8, margin: [0, 0, 0, 0], },
-              { text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _', fontSize: 8, margin: [0, 0, 0, 0] },
-              { text: 'PRIME MARITIME DWC-LLC', fontSize: 10, margin: [0, 0, 0, 0], },
-
+              {
+                text: 'As Agents for the carrier',
+                fontSize: 8,
+                margin: [0, 0, 0, 0],
+              },
+              {
+                text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _',
+                fontSize: 8,
+                margin: [0, 0, 0, 0],
+              },
+              {
+                text: 'PRIME MARITIME DWC-LLC',
+                fontSize: 10,
+                margin: [0, 0, 0, 0],
+              },
             ],
           ],
         },
@@ -1627,7 +1673,6 @@ export class NewBlComponent implements OnInit {
           pageBreak: 'before',
           columns: [
             [
-              
               {
                 text: 'ANNEXURE',
                 bold: true,
@@ -1642,7 +1687,6 @@ export class NewBlComponent implements OnInit {
               },
 
               {
-               
                 table: {
                   //heights: [15],
                   headerRows: 1,
@@ -1670,7 +1714,6 @@ export class NewBlComponent implements OnInit {
                       },
                       { text: 'Gross Weight', fontSize: 9, bold: true },
                       { text: 'Measurement', fontSize: 9, bold: true },
-
                     ],
                     ...this.ContainerList1.slice(5).map((p: any) => [
                       { text: p.CONTAINER_NO, fontSize: 9 },
@@ -1679,10 +1722,15 @@ export class NewBlComponent implements OnInit {
                       { text: p.DESC_OF_GOODS, fontSize: 9 },
                       { text: p.GROSS_WEIGHT, fontSize: 9 },
                       { text: p.MEASUREMENT, fontSize: 9 },
-
                     ]),
-                    [{ text: ' ', fontSize: 9, heights: 140 }, { text: ' ', fontSize: 9, heights: 140 }, { text: ' ', fontSize: 9, heights: 140 }, { text: ' ', fontSize: 9, heights: 140 }, { text: ' ', fontSize: 9, heights: 140 }, { text: ' ', fontSize: 9, heights: 140 }],
-
+                    [
+                      { text: ' ', fontSize: 9, heights: 140 },
+                      { text: ' ', fontSize: 9, heights: 140 },
+                      { text: ' ', fontSize: 9, heights: 140 },
+                      { text: ' ', fontSize: 9, heights: 140 },
+                      { text: ' ', fontSize: 9, heights: 140 },
+                      { text: ' ', fontSize: 9, heights: 140 },
+                    ],
                   ],
                 },
                 layout: {
@@ -1705,7 +1753,6 @@ export class NewBlComponent implements OnInit {
                     return { dash: { length: 4 } };
                   },
                 },
-
               },
 
               {
@@ -1725,9 +1772,7 @@ export class NewBlComponent implements OnInit {
                     },
                     { text: '', fontSize: 8 },
                   ],
-                  [
-                    { text: '', fontSize: 8 },
-                  ],
+                  [{ text: '', fontSize: 8 }],
                   [
                     {
                       text: 'For PRIME MARITIME',
@@ -1735,7 +1780,6 @@ export class NewBlComponent implements OnInit {
                       fontSize: 13,
                       margin: [0, 5, 0, 15],
                     },
-
                   ],
                 ],
               },
@@ -1757,22 +1801,33 @@ export class NewBlComponent implements OnInit {
                       fontSize: 8,
                       margin: [0, 5, 0, 0],
                     },
-                    { text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _', fontSize: 8 },
+                    {
+                      text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _',
+                      fontSize: 8,
+                    },
                   ],
                   [
-                    { text: 'As Agents for the carrier', fontSize: 8, margin: [0, 0, 0, 0], },
-                    { text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _', fontSize: 8, margin: [0, 0, 0, 0] },
-                    { text: 'PRIME MARITIME DWC-LLC', fontSize: 10, margin: [0, 0, 0, 0], },
-
+                    {
+                      text: 'As Agents for the carrier',
+                      fontSize: 8,
+                      margin: [0, 0, 0, 0],
+                    },
+                    {
+                      text: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _',
+                      fontSize: 8,
+                      margin: [0, 0, 0, 0],
+                    },
+                    {
+                      text: 'PRIME MARITIME DWC-LLC',
+                      fontSize: 10,
+                      margin: [0, 0, 0, 0],
+                    },
                   ],
                 ],
               },
             ],
-
           ],
-
         },
-        
       ],
       styles: {
         sectionHeader: {

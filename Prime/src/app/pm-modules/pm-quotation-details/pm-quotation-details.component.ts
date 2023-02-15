@@ -90,7 +90,7 @@ export class PmQuotationDetailsComponent implements OnInit {
 
     srrRates.forEach((element: any) => {
       element.STATUS = value;
-      element.CREATED_BY = localStorage.getItem('username');
+      element.CREATED_BY = this._commonService.getUserName();
       if (element.APPROVED_RATE == 0 && value == 'Countered') {
         isCounterValid = false;
       } else if (element.APPROVED_RATE != 0 && value == 'Approved') {
@@ -177,6 +177,21 @@ export class PmQuotationDetailsComponent implements OnInit {
           ?.setValue(res.Data.LADEN_BACK_COST);
       }
     });
+  }
+
+  numericOnly(event: any): boolean {
+    // restrict e,+,-,E characters in  input type number
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode == 101 || charCode == 69 || charCode == 45 || charCode == 43) {
+      return false;
+    }
+    const reg = /^-?\d*(\.\d{0,2})?$/;
+    let input = event.target.value + String.fromCharCode(event.charCode);
+
+    if (!reg.test(input)) {
+      event.preventDefault();
+    }
+    return true;
   }
 
   get f0() {

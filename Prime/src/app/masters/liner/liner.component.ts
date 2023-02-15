@@ -114,7 +114,7 @@ export class LinerComponent implements OnInit {
     }
 
     this.LinerForm.get('CREATED_BY')?.setValue(
-      localStorage.getItem('username')
+      this._commonService.getUserName()
     );
 
     this._linerService

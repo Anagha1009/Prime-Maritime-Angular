@@ -5,47 +5,53 @@ import { Bl } from 'src/app/models/bl';
 import { DO } from 'src/app/models/do';
 import { BlService } from 'src/app/services/bl.service';
 import { DoService } from 'src/app/services/do.service';
-import {locale as english} from 'src/app/@core/translate/do/en';
-import {locale as hindi} from 'src/app/@core/translate/do/hi';
-import {locale as arabic} from 'src/app/@core/translate/do/ar';
+import { locale as english } from 'src/app/@core/translate/do/en';
+import { locale as hindi } from 'src/app/@core/translate/do/hi';
+import { locale as arabic } from 'src/app/@core/translate/do/ar';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-do-list',
   templateUrl: './do-list.component.html',
-  styleUrls: ['./do-list.component.scss']
+  styleUrls: ['./do-list.component.scss'],
 })
 export class DoListComponent implements OnInit {
-  dO=new DO();
-  doList:any[]=[];
-  containerList:any[]=[];
+  dO = new DO();
+  doList: any[] = [];
+  containerList: any[] = [];
   isScroll: boolean = false;
-  doListForm:FormGroup;
-  previewNoData:boolean=false;
-  previewList:boolean=false;
+  doListForm: FormGroup;
+  previewNoData: boolean = false;
+  previewList: boolean = false;
   isLoading: boolean = false;
 
-  constructor(private _dOService: DoService,
-    private _blService:BlService,
+  constructor(
+    private _dOService: DoService,
+    private _blService: BlService,
     private _router: Router,
     private _formBuilder: FormBuilder,
-    private _coreTranslationService:CoreTranslationService,
-    ) {this._coreTranslationService.translate(english,hindi,arabic);}
+    private _coreTranslationService: CoreTranslationService,
+    private _cs: CommonService
+  ) {
+    this._coreTranslationService.translate(english, hindi, arabic);
+  }
 
   ngOnInit(): void {
     this.doListForm = this._formBuilder.group({
       DO_NO: [''],
       FROM_DATE: [''],
-      TO_DATE: ['']
+      TO_DATE: [''],
     });
     this.getDOList();
   }
 
-  getDOList(){
+  getDOList() {
     debugger;
-    this.previewList=false;
-    this.previewNoData=false;
-    this.dO.AGENT_CODE = localStorage.getItem('usercode');
+    this.previewList = false;
+    this.previewNoData = false;
+
+    this.dO.AGENT_CODE = this._cs.getUserCode();
     this.dO.OPERATION = 'GET_DOLIST';
     this.isLoading = true;
     this._dOService.getDOList(this.dO).subscribe(
@@ -57,7 +63,7 @@ export class DoListComponent implements OnInit {
             this.doList = res.Data;
             //getContainerCount
             this.getContainerCount();
-            this.previewList=true;
+            this.previewList = true;
             this.isLoading = false;
             if (this.doList?.length >= 4) {
               this.isScroll = true;
@@ -65,11 +71,10 @@ export class DoListComponent implements OnInit {
               this.isScroll = false;
             }
           }
-          
         }
         if (res.ResponseCode == 500) {
-          this.previewNoData=true;
-          this.isLoading=false;
+          this.previewNoData = true;
+          this.isLoading = false;
         }
       },
       (error: any) => {
@@ -79,39 +84,31 @@ export class DoListComponent implements OnInit {
         }
       }
     );
-
   }
 
-  getContainerCount(){
-    
-    this.doList.forEach((element :{
-      DO_NO: any; ContainerCount: any}) => {
-      this.containerList=[];
-      var bl=new Bl();
-      bl.AGENT_CODE=localStorage.getItem('usercode');
-      bl.DO_NO=element.DO_NO;
-      this._blService.getContainerList(bl).subscribe((res:any)=>{
+  getContainerCount() {
+    this.doList.forEach((element: { DO_NO: any; ContainerCount: any }) => {
+      this.containerList = [];
+      var bl = new Bl();
+      bl.AGENT_CODE = this._cs.getUserCode();
+      bl.DO_NO = element.DO_NO;
+      this._blService.getContainerList(bl).subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.containerList = res.Data;
-          if(this.containerList?.length>0){
-            element.ContainerCount=this.containerList?.length;
+          if (this.containerList?.length > 0) {
+            element.ContainerCount = this.containerList?.length;
             //this.previewList=true;
           }
         }
       });
     });
-
   }
 
   Search() {
     var DO_NO = this.doListForm.value.DO_NO;
     var FROM_DATE = this.doListForm.value.FROM_DATE;
     var TO_DATE = this.doListForm.value.TO_DATE;
-    if (
-      DO_NO == '' &&
-      FROM_DATE == '' &&
-      TO_DATE == ''
-    ) {
+    if (DO_NO == '' && FROM_DATE == '' && TO_DATE == '') {
       alert('Please enter atleast one filter to search !');
       return;
     }
@@ -134,10 +131,9 @@ export class DoListComponent implements OnInit {
     this.getDOList();
   }
 
-  getDODetails(doNo:any){
+  getDODetails(doNo: any) {
     debugger;
     localStorage.setItem('DO_NO', doNo);
     this._router.navigateByUrl('home/do-details');
   }
-
 }

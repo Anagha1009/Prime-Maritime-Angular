@@ -5,7 +5,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { TDR } from 'src/app/models/tdr';
 import { locale as english } from 'src/app/@core/translate/tdr/en';
 import { locale as hindi } from 'src/app/@core/translate/tdr/hi';
-import {locale as arabic} from 'src/app/@core/translate/tdr/ar';
+import { locale as arabic } from 'src/app/@core/translate/tdr/ar';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 import * as xlsx from 'xlsx';
 @Component({
@@ -24,7 +24,6 @@ export class TdrComponent implements OnInit {
 
   @ViewChild('epltable', { static: false }) epltable: ElementRef;
 
-  
   portList: any[] = [];
 
   constructor(
@@ -33,7 +32,7 @@ export class TdrComponent implements OnInit {
     private _commonService: CommonService,
     private _coreTranslationService: CoreTranslationService
   ) {
-    this._coreTranslationService.translate(english, hindi,arabic);
+    this._coreTranslationService.translate(english, hindi, arabic);
   }
 
   ngOnInit(): void {
@@ -147,7 +146,7 @@ export class TdrComponent implements OnInit {
     if (this.tdrForm.invalid) {
       return;
     }
-    this.tdrForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.tdrForm.get('CREATED_BY')?.setValue(this._commonService.getUserName());
     this._tdrService
       .InsertTdr(JSON.stringify(this.tdrForm.value))
       .subscribe((res: any) => {
@@ -165,7 +164,7 @@ export class TdrComponent implements OnInit {
     this._commonService.destroyDT();
     this.isLoading = true;
     var tdrModel = new TDR();
-    tdrModel.CREATED_BY = localStorage.getItem('usercode');
+    tdrModel.CREATED_BY = this._commonService.getUserCode();
     this._tdrService
       .GetTdrList(tdrModel)
       .subscribe((res: any) => {
@@ -182,11 +181,9 @@ export class TdrComponent implements OnInit {
       });
   }
 
-  ClearForm(){
-    this.tdrForm.reset()
-    this.tdrForm.get('VESSEL_NAME')?.setValue("")
-    this.tdrForm.get('VOYAGE_NO')?.setValue("")
-
+  ClearForm() {
+    this.tdrForm.reset();
+    this.tdrForm.get('VESSEL_NAME')?.setValue('');
+    this.tdrForm.get('VOYAGE_NO')?.setValue('');
   }
-  
 }

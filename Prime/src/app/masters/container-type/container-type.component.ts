@@ -114,7 +114,7 @@ export class ContainerTypeComponent implements OnInit {
 
     this.containerTypeForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
 
     this._containerTypeService
       .postContainerType(JSON.stringify(this.containerTypeForm.value))

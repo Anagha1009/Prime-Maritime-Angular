@@ -89,7 +89,7 @@ export class VesselComponent implements OnInit {
 
     this.vesselForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
 
     this._vesselService
       .postVessel(JSON.stringify(this.vesselForm.value))

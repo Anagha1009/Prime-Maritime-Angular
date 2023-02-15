@@ -6,6 +6,7 @@ import { locale as english } from 'src/app/@core/translate/header/en';
 import { locale as hindi } from 'src/app/@core/translate/header/hi';
 import { locale as arabic } from 'src/app/@core/translate/header/ar';
 import Swal from 'sweetalert2';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-header',
@@ -14,13 +15,16 @@ import Swal from 'sweetalert2';
 })
 export class HeaderComponent implements OnInit {
   @Input() menu: string;
+  @Input() username: string;
+
   menuList: any[] = [];
   public selectedLanguage: any = 'en';
 
   constructor(
     private _router: Router,
     public _translateService: TranslateService,
-    private _coreTranslationService: CoreTranslationService
+    private _coreTranslationService: CoreTranslationService,
+    private _loginService: LoginService
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +51,7 @@ export class HeaderComponent implements OnInit {
               : this.selectedLanguage == 'hi'
               ? hindi.data.Menu.rateRequest
               : arabic.data.Menu.rateRequest,
-          menuLink: 'home/quotation-list',
+          menuLink: 'home/srr-list',
         },
         {
           menuName:
@@ -112,28 +116,18 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    // if (confirm('Are you sure want to logout ?')) {
-    //   localStorage.clear();
-    //   this._router.navigateByUrl('login');
-    // }
     Swal.fire({
       title: 'Are you sure?',
-      text: "You want to Logout!",
+      text: 'You want to Logout!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Logout'
+      confirmButtonText: 'Logout',
     }).then((result) => {
       if (result.isConfirmed) {
-        this._router.navigateByUrl('login');
-        Swal.fire(
-          'Logged out',
-          'You have logged out successfully!',
-          'success'
-        )
+        this._loginService.logout();
       }
-    })
-
+    });
   }
 }

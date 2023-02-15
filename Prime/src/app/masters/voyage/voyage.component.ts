@@ -109,7 +109,7 @@ export class VoyageComponent implements OnInit {
 
     this.voyageForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
 
     this._bookingService
       .insertVoyage(JSON.stringify(this.voyageForm.value))
