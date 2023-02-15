@@ -19,7 +19,8 @@ export const locale = {
         noOfSlots:'No of Slots',
         VoyageNo:'Voyage No',
         MotherVesselName:'Mother Vessel Name',
-        MotherVoyageNo:'Mother Voyage No'
+        MotherVoyageNo:'Mother Voyage No',
+        TotalRecords :'Total Records '
 
       },
       Button: {

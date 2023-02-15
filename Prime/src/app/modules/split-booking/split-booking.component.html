@@ -233,9 +233,7 @@
 </div>
 <div class="container mt-4">
     <div >
-     
       <div class="mb-4">
-
         <table class="ratetable table-bordered" id="data-table-config">
           <thead>
             <tr>
@@ -261,10 +259,6 @@
                   :
                   'In-Active'}}</span>
               </td>
-              <!-- <td >
-                <i class="fa fa-pencil mx-2 pointer text-success" ></i>
-                <i class="fa fa-trash ms-2 pointer text-danger" ></i>
-              </td> -->
             </tr>
           </tbody>
         </table>
@@ -351,60 +345,6 @@
                                         *</span></label>
                                 <div *ngIf="submitted3 && f6.ETD.errors" class="invalid-feedback">
                                     ETD is required</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <ng-select [ngClass]="{'invalid': submitted3 && f6.IMM_CURR.errors}"
-                                    formControlName="IMM_CURR">
-                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of currencyList"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}}
-                                        ({{item.CODE}})
-                                    </ng-option>
-                                </ng-select>
-                                <label class="form-label-ddl">Import Currency <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.IMM_CURR.errors" class="invalid-feedback">Please select
-                                    Vessel</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" [ngClass]="{'invalid': submitted3 && f6.IMM_CURR_RATE.errors}"
-                                    maxlength="100" formControlName="IMM_CURR_RATE" class="form-control">
-                                <label class="form-label">Import Currency Rate <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.IMM_CURR_RATE.errors" class="invalid-feedback">
-                                    Import Currency Rate is required</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <ng-select [ngClass]="{'invalid': submitted3 && f6.EXP_CURR.errors}"
-                                    formControlName="EXP_CURR">
-                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of currencyList1"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}}
-                                        ({{item.CODE}})
-                                    </ng-option>
-                                </ng-select>
-                                <label class="form-label-ddl">Export Currency <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.EXP_CURR.errors" class="invalid-feedback">Please select
-                                    Export Currency</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" [ngClass]="{'invalid': submitted3 && f6.EXP_CURR_RATE.errors}"
-                                    maxlength="100" formControlName="EXP_CURR_RATE" class="form-control">
-                                <label class="form-label">Export Currency Rate <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted3 && f6.EXP_CURR_RATE.errors" class="invalid-feedback">
-                                    Export Currency Rate is required</div>
                             </div>
                         </div>
                         <div class="col-md-3">

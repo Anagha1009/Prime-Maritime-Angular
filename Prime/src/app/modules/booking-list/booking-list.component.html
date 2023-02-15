@@ -27,14 +27,14 @@
             <div class="col-md-4 mt-4">
                 <button class="form-btn me-2" (click)="Search()">{{'Button.search'|translate}} <span *ngIf="isLoading"
                         class="fa fa-spinner fa-spin"></span></button>
-                <button class="form-btn-light" (click)="Clear()">{{'Button.clear'|translate}} <span *ngIf="isLoading1"
+                <button class="form-btn me-2" (click)="Clear()">{{'Button.clear'|translate}} <span *ngIf="isLoading1"
                         class="fa fa-spinner fa-spin"></span></button>
             </div>
         </div>
     </div>
     <section class="services">
         <div class="col-md-7 ps-md-5">
-            <small>Total Records : {{this.bookingList?.length}}/ 50</small>
+            <small>{{'Header.TotalRecords'|translate}} : {{this.bookingList?.length}}/ 50</small>
         </div>
         <div class="container">
             <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">

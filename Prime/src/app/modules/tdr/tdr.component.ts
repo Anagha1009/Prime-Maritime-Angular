@@ -141,7 +141,9 @@ export class TdrComponent implements OnInit {
   }
 
   InsertTdr() {
+    debugger
     this.submitted = true;
+    this.isLoading = true;
     if (this.tdrForm.invalid) {
       return;
     }
@@ -150,18 +152,20 @@ export class TdrComponent implements OnInit {
       .InsertTdr(JSON.stringify(this.tdrForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Your record has been submitted successfully !');
+          this._commonService.successMsg('TDR added successfully !');
           this.GetTdrList();
           this.exportToExcel();
+          this.isLoading = false;
         }
+
       });
   }
 
   GetTdrList() {
+    this._commonService.destroyDT();
     this.isLoading = true;
     var tdrModel = new TDR();
     tdrModel.CREATED_BY = localStorage.getItem('usercode');
-
     this._tdrService
       .GetTdrList(tdrModel)
       .subscribe((res: any) => {
@@ -173,6 +177,8 @@ export class TdrComponent implements OnInit {
             }, 20);
           }
         }
+        this._commonService.getDT();
+
       });
   }
 

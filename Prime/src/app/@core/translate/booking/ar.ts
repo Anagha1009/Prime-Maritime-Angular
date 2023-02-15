@@ -19,7 +19,8 @@ export const locale = {
         noOfSlots:'عدد الفتحات',
         VoyageNo:'رقم الرحلة',
         MotherVesselName:'اسم السفينة الأم',
-        MotherVoyageNo:'رحلة الأم لا '
+        MotherVoyageNo:'رحلة الأم لا ',
+        TotalRecords :'إجمالي السجلات '
 
       },
       Button: {

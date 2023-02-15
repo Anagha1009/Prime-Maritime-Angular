@@ -22,6 +22,8 @@ export const locale = {
       CroNo: 'CRO No',
       fromDate: 'From Date',
       toDate: 'To Date',
+      TotalRecords :'Total Records '
+
     },
     Button: {
       Submit: 'Submit',

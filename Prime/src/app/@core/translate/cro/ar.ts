@@ -22,6 +22,8 @@ export const locale = {
         CroNo: 'CRO لا',
         fromDate: 'من التاريخ',
         toDate: 'حتى تاريخه',
+        TotalRecords :'إجمالي السجلات '
+
       },
       Button: {
         Submit: 'يُقدِّم',

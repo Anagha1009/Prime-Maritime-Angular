@@ -136,15 +136,12 @@ export class SplitBookingComponent implements OnInit {
       }
       this.getDropdownData()
       this.getRolloverList()
-      console.log(this.getRolloverList)
     });
  
   }
 
   getRolloverList(){
-    debugger
     this._commonService.destroyDT();
-    var booking = new BOOKING();
     this.booking.AGENT_CODE = localStorage.getItem('usercode');
     this._bookingService.getRollOverList(this.booking).subscribe((res: any) => {
       this.isLoading = false;
@@ -222,6 +219,7 @@ export class SplitBookingComponent implements OnInit {
       });
   }
   insertVoyage() {
+    debugger
     this.submitted3 = true;
 
     if (this.voyageForm.invalid) {
@@ -236,7 +234,7 @@ export class SplitBookingComponent implements OnInit {
       .insertVoyage(JSON.stringify(this.voyageForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Voyage added successfully !');
+          this._commonService.successMsg('Voyage added successfully !');
           this.slotDetailsForm
             .get('VOYAGE_NO')
             ?.setValue(this.voyageForm.get('VOYAGE_NO')?.value);
@@ -270,10 +268,6 @@ export class SplitBookingComponent implements OnInit {
       VOYAGE_NO: ['', Validators.required],
       ATA: ['', Validators.required],
       ATD: ['', Validators.required],
-      IMM_CURR: ['', Validators.required],
-      IMM_CURR_RATE: ['', Validators.required],
-      EXP_CURR: ['', Validators.required],
-      EXP_CURR_RATE: ['', Validators.required],
       TERMINAL_CODE: ['', Validators.required],
       SERVICE_NAME: ['', Validators.required],
       VIA_NO: ['', Validators.required],

@@ -22,6 +22,8 @@ export const locale = {
         CroNo: 'कंटेनर रिलीज ऑर्डर नंबर ',
         fromDate: 'की तिथि से',
         toDate: 'तारीख तक',
+        TotalRecords:'कुल रिकॉर्ड',
+
         
       },
       Button: {

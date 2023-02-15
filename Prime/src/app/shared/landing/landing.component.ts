@@ -23,6 +23,8 @@ export class LandingComponent implements OnInit {
   bookingNo: string = '';
   isTracking: boolean = true;
   currentStep = 1;
+  isLoading: boolean = false;
+
 
   constructor(private _router: Router,private _bookingservice: BookingService) {}
 
