@@ -1,270 +1,203 @@
 <div class="section-title">
     <h2>{{'Header.title2'|translate}}</h2>
 </div>
-
-<div class="container">
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <input type="text" class="form-control" [(ngModel)]="bookingNo">
-                    <label class="form-label">{{'Header.BookingNo'|translate}}</label>
-                </div>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <input type="text" class="form-control" [(ngModel)]="bookingNo">
+                <label class="form-label">{{'Header.BookingNo'|translate}}</label>
             </div>
-            <div class="col-md-2">
-
-                <button class="form-btn me-2" (click)="getBookingDetails()">{{'Header.GetDetails'|translate}}</button>
-            </div>
-              
-            <div class="col-md-7 text-start" *ngIf="previewDetails">
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        <h6>
-                            {{'Header.BookingNo'|translate}} :
-                            <small class="text-danger">{{booking.BOOKING_NO}}</small>
-                        </h6>
-                        <h6>
-                            {{'Header.CustomerName'|translate}} :
-                            <small class="text-danger">{{booking.CUSTOMER_NAME}}</small>
-                        </h6>
-                    </div>
-                    <div class="col-md-6">
-                        <h6>
-                            {{'Header.VesselName'|translate}}:
-                            <small class="text-danger">{{booking.VESSEL_NAME}} - {{booking.VOYAGE_NO}}</small>
-                        </h6>
-                        <h6>
-                            {{'Header.Pol'|translate}} :
-                            <small class="text-danger">{{booking.POL}}</small>
-                            {{'Header.Pod'|translate}}:
-                            <small class="text-danger">{{booking.POD}}</small>
-                        </h6>
-                    </div>
+        </div>
+        <div class="col-md-2">
+            <button class="form-btn me-2" (click)="getBookingDetails()">{{'Header.GetDetails'|translate}}</button>
+        </div>
+        <div class="col-md-7" *ngIf="previewDetails">
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>
+                        {{'Header.BookingNo'|translate}} :
+                        <small class="text-danger">{{booking.BOOKING_NO}}</small>
+                    </h6>
+                    <h6>
+                        {{'Header.CustomerName'|translate}} :
+                        <small class="text-danger">{{booking.CUSTOMER_NAME}}</small>
+                    </h6>
                 </div>
-
+                <div class="col-md-6">
+                    <h6>
+                        {{'Header.VesselName'|translate}}:
+                        <small class="text-danger">{{booking.VESSEL_NAME}} - {{booking.VOYAGE_NO}}</small>
+                    </h6>
+                    <h6>
+                        {{'Header.Pol'|translate}} :
+                        <small class="text-danger">{{booking.POL}}</small>
+                        {{'Header.Pod'|translate}}:
+                        <small class="text-danger">{{booking.POD}}</small>
+                    </h6>
+                </div>
             </div>
         </div>
     </div>
+</div>
+<div class="col-md-5 mx-auto" *ngIf="previewNoData">
+    <h5 class="text-center">Sorry! No records found !!</h5>
+    <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
+</div>
 
-    <section class="services" *ngIf="previewNoData">
-
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col-md-5 mx-auto" *ngIf="!isRecords">
-                    <h5 class="text-center">Sorry! No records found !!</h5>
-                    <img src="./../../../assets/img/doimg.jpg" class="img-fluid" alt="">
-                </div>
-            </div>
-        </div>
-
-    </section>
-
-    <section class="services" *ngIf="previewDetails">
-        <div>
-            <div class="container mt-4">
+<section class="services" *ngIf="previewDetails">
+    <div class="container mt-4">
+        <h5>{{'Header.BookingDetails'|translate}}</h5>
+        <hr>
+        <div class="row mt-4">
+            <form [formGroup]="splitBookingForm">
                 <div class="row">
-                    <div class="col-md-3">
-                        <h5 class="modal-title" id="exampleModalLabel">{{'Header.BookingDetails'|translate}}</h5>
-                    </div>
-                </div>
-                <hr>
-                <div class="row mt-4">
-                    <form [formGroup]="splitBookingForm">
-                        <div class="col-md-12">
-                            <div  class="row">
-                                <div  class="col-md-6 text-end">
-                                    <button data-bs-toggle="modal"  href="#voyageModal" class="form-btn rounded-pill">Add
-                                        Voyage</button>
+                    <div class="col-md-6 border-end">
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <ng-select (change)="getVoyageList($event)"
+                                        [ngClass]="{'invalid': submitted && f2.VESSEL_NAME.errors}"
+                                        formControlName="VESSEL_NAME">
+                                        <ng-option value="" selected="true" disabled>
+                                            --Select Vessel Name--</ng-option>
+                                        <ng-option *ngFor="let item of vesselList" value="{{item.CODE}}">
+                                            {{item.CODE_DESC}}
+                                        </ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">{{'Header.VesselName'|translate}}<span
+                                            class="text-danger">*</span></label>
+                                    <div *ngIf="submitted && f2.VESSEL_NAME.errors" class="invalid-feedback">
+                                        Vessel Name is required
+                                    </div>
                                 </div>
-                                <div  class="col-md-6 text-end">
-                                    <button (click)="slotAllocation()" class="form-btn">
-                                        <i class="fa fa-plus me-2"></i>{{'Header.slotAllocation'|translate}}</button>
-                                </div>
-
                             </div>
-                            <div class="row">                             
-                                <!-- <div class="col-md-6 offset-md-6 text-end mb-1">
-                                    <button (click)="slotAllocation()" class="form-btn">
-                                        <i class="fa fa-plus me-2"></i>{{'Header.slotAllocation'|translate}}</button>
-                                </div> -->
-                                <div class="row">
-                                    
-                                    <div class="col-md-6">
-                                        
-                                        <div class="row">
-                                            <div class="col-md-6 mb-4">
-                                                <div class="form-group">
-                                                    <label class="form-label2">{{'Header.VesselName'|translate}}<span
-                                                            class="text-danger">*</span></label>
-                                                    <ng-select (change)="getVoyageList($event)"
-                                                    [ngClass]="{'invalid': submitted && f2.VESSEL_NAME.errors}"
-                                                        formControlName="VESSEL_NAME" style="margin-top: 10px;">
-                                                        <ng-option value="" selected="true" disabled>
-                                                            --Select Vessel Name--</ng-option>
-                                                        <ng-option *ngFor="let item of vesselList"
-                                                            value="{{item.CODE}}">
-                                                            {{item.CODE_DESC}}
-                                                        </ng-option>
-                                                    </ng-select>
-                                                    <div *ngIf="submitted && f2.VESSEL_NAME.errors"
-                                                   
-                                                        class="invalid-feedback">Vessel Name is required
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 mb-4">
-                                                <div class="form-group">
-                                                    <label class="form-label2">{{'Header.VoyageNo'|translate}}<span
-                                                            class="text-danger">*</span></label>
-                                                    <ng-select  [ngClass]="{'invalid': submitted && f2.VOYAGE_NO.errors}"
-                                                   
-                                                        formControlName="VOYAGE_NO" style="margin-top: 10px;">
-                                                        <ng-option value="" selected="true" disabled>
-                                                            --Select Voyage No.--</ng-option>
-                                                        <ng-option *ngFor="let item of voyageList"
-                                                            value="{{item.CODE}}">
-                                                            {{item.CODE_DESC}}
-                                                        </ng-option>
-                                                    </ng-select>
-                                                    <div *ngIf="submitted && f2.VOYAGE_NO.errors"
-                                                     
-                                                        class="invalid-feedback">Voyage No is required
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 mb-4">
-                                                <div class="form-group">
-                                                    <input type="text"
-                                                    [ngClass]="{'invalid': submitted && f2.MOTHER_VESSEL_NAME.errors}"
-                                                       
-                                                        formControlName="MOTHER_VESSEL_NAME" class="form-control">
-                                                    <label
-                                                        class="form-label">{{'Header.MotherVesselName'|translate}}<span
-                                                            class="text-danger">*</span></label>
-                                                    <div *ngIf="submitted && f2.MOTHER_VESSEL_NAME.errors"
-                                                     
-                                                        class="invalid-feedback">Please enter
-                                                        Mother Vessel Name</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 mb-4">
-                                                <div class="form-group">
-                                                    <input type="text"
-                                                    [ngClass]="{'invalid': submitted && f2.MOTHER_VOYAGE_NO.errors}"
-                                                        
-                                                        formControlName="MOTHER_VOYAGE_NO" class="form-control">
-                                                    <label class="form-label">{{'Header.MotherVoyageNo'|translate}}<span
-                                                            class="text-danger">*</span></label>
-                                                    <div *ngIf="submitted && f2.MOTHER_VOYAGE_NO.errors"
-                                                    
-                                                        class="invalid-feedback">Please enter
-                                                        Mother Voyage number</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="vertical">
-                                            <div [class]="isScroll ? 'scrollbarRollOver' : ''" id="style-3">
-                                                <div [class]="isScroll ? 'force-overflow' : ''">
-                                                    <table class="table">
-
-                                                        <tbody>
-                                                            <tr *ngFor="let item of f;let j = index;"
-                                                                [formGroup]="f1(item)">
-                                                                <td class="col-md-2 text-end">
-                                                                    <label class="mt-4"> {{j+1}}</label>
-                                                                </td>
-                                                                <td class="col-md">
-                                                                    <label
-                                                                        class="form-label3">{{'Header.slotOperator'|translate}}</label>
-                                                                    <select class="form-control3"
-                                                                        formControlName="SLOT_OPERATOR">
-                                                                        <option value="" selected disabled>
-                                                                            --Slot
-                                                                            Operator--</option>
-                                                                        <option value="xx">test</option>
-                                                                    </select>
-                                                                </td>
-                                                                <td class="col-md">
-                                                                    <label
-                                                                        class="form-label3">{{'Header.noOfSlots'|translate}}</label>
-                                                                    <input class="form-control3"
-                                                                        formControlName="NO_OF_SLOTS" type="text" />
-                                                                </td>
-                                                                <td class="col-md-1 text-right"><i
-                                                                        style="font-size: 15px;"
-                                                                        class="fa fa-trash mt-4"
-                                                                        (click)="removeItem(j)"></i></td>
-                                                            </tr>
-
-                                                        </tbody>
-                                                    </table>
-
-                                                </div>
-                                            </div>
-                                        </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <ng-select [ngClass]="{'invalid': submitted && f2.VOYAGE_NO.errors}"
+                                        formControlName="VOYAGE_NO">
+                                        <ng-option> <button data-bs-toggle="modal" href="#voyageModal"
+                                                class="form-btn rounded-pill btn-sm"><i class="fa fa-plus me-1"></i>
+                                                Voyage</button></ng-option>
+                                        <ng-option value="" selected="true" disabled>
+                                            --Select Voyage No.--</ng-option>
+                                        <ng-option *ngFor="let item of voyageList" value="{{item.CODE}}">
+                                            {{item.CODE_DESC}}
+                                        </ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">{{'Header.VoyageNo'|translate}}<span
+                                            class="text-danger">*</span></label>
+                                    <div *ngIf="submitted && f2.VOYAGE_NO.errors" class="invalid-feedback">
+                                        Voyage No is required
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-                    </form>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text"
+                                        [ngClass]="{'invalid': submitted && f2.MOTHER_VESSEL_NAME.errors}"
+                                        formControlName="MOTHER_VESSEL_NAME" class="form-control">
+                                    <label class="form-label">{{'Header.MotherVesselName'|translate}}</label>
 
-                </div>
-                <hr>
-                <div class="row  mt-4">
-                    <div class="col-md-6 offset-md-6 text-end">
-                        <button type="button" class="form-btn" (click)="cancelBooking()"
-                            style="margin-right: 6px;">{{'Button.clear'|translate}}</button>
-                        <button type="button" class="form-btn" (click)="splitBooking()"
-                            style="margin-right: 6px;">{{'Header.title2'|translate}}</button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" [ngClass]="{'invalid': submitted && f2.MOTHER_VOYAGE_NO.errors}"
+                                        formControlName="MOTHER_VOYAGE_NO" class="form-control">
+                                    <label class="form-label">{{'Header.MotherVoyageNo'|translate}}</label>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="text-end">
+                            <button (click)="slotAllocation(1)" class="form-btn">
+                                <i class="fa fa-plus me-2"></i>{{'Header.slotAllocation'|translate}}</button>
+                        </div>
+                        <div [class]="isScroll ? 'scrollbarRollOver' : ''" id="style-3">
+                            <div [class]="isScroll ? 'force-overflow' : ''">
+                                <table class="table">
+                                    <tbody>
+                                        <tr *ngFor="let item of f;let j = index;" [formGroup]="item">
+                                            <td class="col-md-1">
+                                                <label class="mt-4"> {{j+1}}</label>
+                                            </td>
+                                            <td class="col-md-6">
+                                                <label class="form-label3">{{'Header.slotOperator'|translate}}</label>
+                                                <select
+                                                    [ngClass]="{'invalid': submitted && f[j].get('SLOT_OPERATOR').errors}"
+                                                    class="form-control3" formControlName="SLOT_OPERATOR">
+                                                    <option value="" selected disabled>
+                                                        --Slot
+                                                        Operator--</option>
+                                                    <option value="xx">test</option>
+                                                </select>
+                                                <div *ngIf="submitted && f[j].get('SLOT_OPERATOR').errors"
+                                                    class="invalid-feedback">Slot Operator is required
+                                                </div>
+                                            </td>
+                                            <td class="col-md-4">
+                                                <label class="form-label3">{{'Header.noOfSlots'|translate}}</label>
+                                                <input class="form-control3" maxlength="5"
+                                                    [ngClass]="{'invalid': submitted && f[j].get('NO_OF_SLOTS').errors}"
+                                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                                    formControlName="NO_OF_SLOTS" type="text" />
+                                                <div *ngIf="submitted && f[j].get('NO_OF_SLOTS').errors"
+                                                    class="invalid-feedback">No of Slots is required
+                                                </div>
+                                            </td>
+                                            <td class="col-md-1"><i *ngIf="j != 0" style="font-size: 15px;"
+                                                    class="pointer fa fa-trash mt-4" (click)="removeItem(j)"></i>
+                                            </td>
+                                        </tr>
 
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-            </div>
-
+            </form>
         </div>
-    </section> 
-</div>
-<div class="container mt-4">
-    <div >
-      <div class="mb-4">
-        <table class="ratetable table-bordered" id="data-table-config">
-          <thead>
-            <tr>
-              <th >Booking ID</th>
-              <th >BOOKING NO</th>
-              <th >VESSEL NAME</th>
-              <th >VOYAGE NO</th>
-              <th >MOTHER VESSEL NAME</th>
-              <th >MOTHER VOYAGE NO</th>
-              <th>Status</th>
-              <!-- <th >Action</th> -->
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of rollOverList; let i = index">
-              <td >{{i+1}}</td>
-              <td >{{item.BOOKING_NO}}</td>
-              <td >{{item.VESSEL_NAME}}</td>
-              <td >{{item.VOYAGE_NO }}</td>
-              <td >{{item.MOTHER_VESSEL_NAME }}</td>
-              <td>{{item.MOTHER_VOYAGE_NO}}</td>
-              <td class="status"><span [class]="!item.STATUS ? 'rejected' : 'active'">{{item.STATUS ? 'Active'
-                  :
-                  'In-Active'}}</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        <hr>
+        <div class="col-md-6 offset-md-6 text-end">
+            <button type="button" class="form-btn-light me-2"
+                (click)="cancelBooking()">{{'Button.clear'|translate}}</button>
+            <button type="button" class="form-btn" (click)="splitBooking()">{{'Header.title2'|translate}}</button>
+        </div>
     </div>
-  </div>  
+</section>
+
+<div class="container my-4">
+    <table class="ratetable table-bordered" id="data-table-config">
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>BOOKING NO</th>
+                <th>VESSEL NAME</th>
+                <th>VOYAGE NO</th>
+                <th>MOTHER VESSEL NAME</th>
+                <th>MOTHER VOYAGE NO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of rollOverList; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{item.BOOKING_NO}}</td>
+                <td>{{item.VESSEL_NAME}}</td>
+                <td>{{item.VOYAGE_NO }}</td>
+                <td>{{item.MOTHER_VESSEL_NAME == null ? '-' : item.MOTHER_VESSEL_NAME == '' ? '-' :
+                    item.MOTHER_VESSEL_NAME }}</td>
+                <td>{{item.MOTHER_VOYAGE_NO == null ? '-' : item.MOTHER_VOYAGE_NO == '' ? '-' :
+                    item.MOTHER_VOYAGE_NO}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <div class="modal fade" #voyageModal id="voyageModal" tabindex="-1" aria-labelledby="exampleModalLabel1"
     aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -281,7 +214,7 @@
                                 <ng-select [ngClass]="{'invalid': submitted3 && f6.VESSEL_NAME.errors}"
                                     formControlName="VESSEL_NAME">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of vesselList1" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    <ng-option *ngFor="let item of vesselList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -364,7 +297,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <ng-select (change)="getServiceName1($event)"
+                                <ng-select (change)="getServiceName($event)"
                                     [ngClass]="{'invalid': submitted3 && f6.PORT_CODE.errors}"
                                     formControlName="PORT_CODE">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
@@ -385,7 +318,7 @@
                                 <ng-select [ngClass]="{'invalid': submitted3 && f6.SERVICE_NAME.errors}"
                                     formControlName="SERVICE_NAME">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of servicenameList1"
+                                    <ng-option *ngFor="let item of servicenameList"
                                         value="{{item.CODE}}">{{item.CODE_DESC}}
                                     </ng-option>
                                 </ng-select>
@@ -414,5 +347,3 @@
         </div>
     </div>
 </div>
-
- 
