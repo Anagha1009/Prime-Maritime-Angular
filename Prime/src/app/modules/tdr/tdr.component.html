@@ -166,7 +166,7 @@
                 </div>
             </div>
 
-            <div class="col-md-12 mx-auto mt-5 d-none" #epltable>
+            <!-- <div class="col-md-12 mx-auto mt-5 d-none" #epltable>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -209,5 +209,29 @@
                     </tbody>
                 </table>
 
-            </div>
+            </div> -->
         </div>
+        <div class="container mt-4">
+            <div >
+              <div class="mb-4">
+                <table class="ratetable table-bordered" id="data-table-config">
+                  <thead>
+                    <tr>
+                      <th>Sr.No</th>
+                      <th >VESSEL NAME  -  VOYAGE NO</th>
+                      <th >POL - TERMINAL </th>
+                      <th >ETA - ETD</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of tdrList; let i = index">
+                      <td>{{i+1}}</td>
+                      <td >{{item.VESSEL_NAME}} - {{item.VOYAGE_NO}}</td>
+                      <td >{{item.POL}} - {{item.TERMINAL}}</td>
+                      <td >{{item.ETA}} - {{item.ETD}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>  

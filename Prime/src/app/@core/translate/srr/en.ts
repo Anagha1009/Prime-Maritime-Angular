@@ -21,6 +21,7 @@ export const locale = {
       EffectFrom:'Effect From',
       EffectTo:'Effect To',
       CustomerName:'Customer Name',
+      TotalRecords:'Total Records',
 
 
       fromDate: 'From Date',

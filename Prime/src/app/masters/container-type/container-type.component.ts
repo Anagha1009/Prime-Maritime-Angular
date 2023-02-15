@@ -94,7 +94,6 @@ export class ContainerTypeComponent implements OnInit {
 
   GetConatinerTypeMasterList() {
     this._commonService.destroyDT();
-
     this._containerTypeService
       .GetContainerTypeMasterList(this.type)
       .subscribe((res: any) => {

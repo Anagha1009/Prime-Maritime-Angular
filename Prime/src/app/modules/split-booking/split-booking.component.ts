@@ -1,9 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AnyARecord } from 'dns';
 import { BOOKING } from 'src/app/models/booking';
-import { QUOTATION } from 'src/app/models/quotation';
 import { BookingService } from 'src/app/services/booking.service';
 import { QuotationService } from 'src/app/services/quotation.service';
 import { locale as english } from 'src/app/@core/translate/booking/en';
@@ -131,17 +129,14 @@ export class SplitBookingComponent implements OnInit {
       if (res.ResponseCode == 500) {
         this.previewNoData = true;
       }
-      this.getDropdownData();
-      this.getRolloverList();
-      console.log(this.getRolloverList);
+      this.getDropdownData()
+      this.getRolloverList()
     });
   }
 
-  getRolloverList() {
-    debugger;
+  getRolloverList(){
     this._commonService.destroyDT();
-    var booking = new BOOKING();
-    this.booking.AGENT_CODE = this._commonService.getUserCode();
+    this.booking.AGENT_CODE = this._commonService.getUserCode()
     this._bookingService.getRollOverList(this.booking).subscribe((res: any) => {
       this.isLoading = false;
       this.isLoading1 = false;
@@ -216,6 +211,7 @@ export class SplitBookingComponent implements OnInit {
       });
   }
   insertVoyage() {
+    debugger
     this.submitted3 = true;
 
     if (this.voyageForm.invalid) {
@@ -230,7 +226,7 @@ export class SplitBookingComponent implements OnInit {
       .insertVoyage(JSON.stringify(this.voyageForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          alert('Voyage added successfully !');
+          this._commonService.successMsg('Voyage added successfully !');
           this.slotDetailsForm
             .get('VOYAGE_NO')
             ?.setValue(this.voyageForm.get('VOYAGE_NO')?.value);
@@ -264,10 +260,6 @@ export class SplitBookingComponent implements OnInit {
       VOYAGE_NO: ['', Validators.required],
       ATA: ['', Validators.required],
       ATD: ['', Validators.required],
-      IMM_CURR: ['', Validators.required],
-      IMM_CURR_RATE: ['', Validators.required],
-      EXP_CURR: ['', Validators.required],
-      EXP_CURR_RATE: ['', Validators.required],
       TERMINAL_CODE: ['', Validators.required],
       SERVICE_NAME: ['', Validators.required],
       VIA_NO: ['', Validators.required],
