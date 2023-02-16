@@ -118,17 +118,6 @@ export class NewQuotationComponent implements OnInit {
 
   ngOnInit(): void {
     this.getForm();
-    this.partyForm = this._formBuilder.group({
-      CUST_ID: [0],
-      CUST_NAME: ['', Validators.required],
-      CUST_EMAIL: ['', Validators.required],
-      LOCATION: ['', Validators.required],
-      CUST_ADDRESS: ['', Validators.required],
-      CUST_TYPE: ['', Validators.required],
-      GSTIN: ['', Validators.required],
-      AGENT_CODE: [''],
-      STATUS: ['', Validators.required],
-    });
     this.getDropdown();
 
     var currentDate = new Date();
@@ -255,7 +244,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   onchangeUN(event: any) {
-    var y: any = this.unnoList.filter((x) => x.CODE == event);
+    var y: any = this.unnoList.filter((x) => x.CODE_DESC == event);
     this.commoditiesForm.get('UN_NO_NAME')?.setValue(y[0].CODE_DESC);
   }
 
@@ -331,6 +320,11 @@ export class NewQuotationComponent implements OnInit {
 
     var commodities = this.quotationForm.get('SRR_COMMODITIES') as FormArray;
 
+    var y: any = this.unnoList.filter(
+      (x) => x.CODE_DESC == this.commoditiesForm.get('UN_NO_NAME').value
+    );
+    var UN_NO = y[0].CODE;
+
     commodities.push(
       this._formBuilder.group({
         COMMODITY_NAME: [this.commoditiesForm.value.COMMODITY_NAME],
@@ -354,7 +348,7 @@ export class NewQuotationComponent implements OnInit {
         WEIGHT_UNIT: [this.commoditiesForm.value.WEIGHT_UNIT],
         COMMODITY_TYPE: [this.commoditiesForm.value.COMMODITY_TYPE],
         IMO_CLASS: [this.commoditiesForm.value.IMO_CLASS],
-        UN_NO: [this.commoditiesForm.value.UN_NO],
+        UN_NO: [UN_NO],
         HAZ_APPROVAL_REF: [this.commoditiesForm.value.HAZ_APPROVAL_REF],
         FLASH_POINT: [this.commoditiesForm.value.FLASH_POINT],
         CAS_NO: [this.commoditiesForm.value.CAS_NO],
@@ -678,8 +672,8 @@ export class NewQuotationComponent implements OnInit {
       EFFECT_TO: ['', Validators.required],
       IS_VESSELVALIDITY: [false],
       CUSTOMER_NAME: ['', Validators.required],
-      PLACE_OF_RECEIPT: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
-      PLACE_OF_DELIVERY: ['', Validators.pattern('^[A-Za-z0-9? , _-]+$')],
+      PLACE_OF_RECEIPT: [''],
+      PLACE_OF_DELIVERY: [''],
       TSP_1: [''],
       TSP_2: [''],
       CREATED_BY: [''],
@@ -713,7 +707,10 @@ export class NewQuotationComponent implements OnInit {
       IMO_CLASS_NAME: [''],
       UN_NO: ['', Validators.required],
       UN_NO_NAME: [''],
-      HAZ_APPROVAL_REF: ['', Validators.required],
+      HAZ_APPROVAL_REF: [
+        '',
+        [Validators.required, Validators.pattern('^([a-zA-Z0-9]+)$')],
+      ],
       FLASH_POINT: ['', Validators.required],
       CAS_NO: ['', Validators.required],
       VENTILATION: ['', Validators.required],
@@ -749,6 +746,18 @@ export class NewQuotationComponent implements OnInit {
       ETA: ['', Validators.required],
       ETD: ['', Validators.required],
       CREATED_BY: [''],
+    });
+
+    this.partyForm = this._formBuilder.group({
+      CUST_ID: [0],
+      CUST_NAME: ['', Validators.required],
+      CUST_EMAIL: ['', Validators.required],
+      LOCATION: ['', Validators.required],
+      CUST_ADDRESS: ['', Validators.required],
+      CUST_TYPE: ['', Validators.required],
+      GSTIN: ['', Validators.required],
+      AGENT_CODE: [''],
+      STATUS: ['', Validators.required],
     });
   }
 

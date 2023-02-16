@@ -423,7 +423,7 @@
                                     [ngClass]="{'invalid': submitted2 && f2.UN_NO.errors}">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                     <ng-option *ngFor="let item of unnoList"
-                                        value="{{item.CODE}}">{{item.CODE}}</ng-option>
+                                        value="{{item.CODE_DESC}}">{{item.CODE}}</ng-option>
                                 </ng-select>
                                 <label class="form-label-ddl">UN No <span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.UN_NO.errors" class="invalid-feedback">
@@ -433,12 +433,16 @@
                         </div>
                         <div class="col-md-4 mb-4" *ngIf="commodityType == 'HAZ'">
                             <div class="form-group">
-                                <input type="text" formControlName="HAZ_APPROVAL_REF"
+                                <input type="text" maxlength="20" formControlName="HAZ_APPROVAL_REF"
                                     [ngClass]="{'invalid': submitted2 && f2.HAZ_APPROVAL_REF.errors}"
                                     class="form-control" />
                                 <label class="form-label">HAZ Approval Ref <span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.HAZ_APPROVAL_REF.errors" class="invalid-feedback">
+                                <div *ngIf="submitted2 && f2.HAZ_APPROVAL_REF.errors?.required"
+                                    class="invalid-feedback">
                                     Please enter HAZ Approval Ref
+                                </div>
+                                <div *ngIf="submitted2 && f2.HAZ_APPROVAL_REF.errors?.pattern" class="invalid-feedback">
+                                    HAZ Approval Ref should be alphanumeric
                                 </div>
                             </div>
                         </div>

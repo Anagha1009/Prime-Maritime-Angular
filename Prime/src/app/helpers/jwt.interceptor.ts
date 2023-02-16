@@ -20,7 +20,7 @@ export class JwtInterceptor implements HttpInterceptor {
    */
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     var isApiUrl = request.url.startsWith(environment.BASE_URL);
-    if (window.location.href.includes('srr')) {
+    if (window.location.href.includes('srr' || 'container')) {
       this.value = true;
     } else {
       this.value = false;
