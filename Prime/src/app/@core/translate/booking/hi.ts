@@ -19,7 +19,9 @@ export const locale = {
         noOfSlots:'स्लॉट्स की संख्या',
         VoyageNo:'जलयात्रा संख्या',
         MotherVesselName:'मातृ पोत का नाम',
-        MotherVoyageNo:'मातृ पोत संख्या'
+        MotherVoyageNo:'मातृ पोत संख्या',
+        TotalRecords:'कुल रिकॉर्ड'
+
         
         
        

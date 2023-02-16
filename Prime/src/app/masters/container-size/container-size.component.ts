@@ -82,7 +82,9 @@ export class ContainerSizeComponent implements OnInit {
       return;
     }
 
-    this.sizeForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.sizeForm
+      .get('CREATED_BY')
+      ?.setValue(this._commonService.getUserName());
 
     this._masterService
       .InsertMaster(JSON.stringify(this.sizeForm.value))

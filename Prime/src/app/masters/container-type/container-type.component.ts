@@ -94,7 +94,6 @@ export class ContainerTypeComponent implements OnInit {
 
   GetConatinerTypeMasterList() {
     this._commonService.destroyDT();
-
     this._containerTypeService
       .GetContainerTypeMasterList(this.type)
       .subscribe((res: any) => {
@@ -115,7 +114,7 @@ export class ContainerTypeComponent implements OnInit {
 
     this.containerTypeForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
 
     this._containerTypeService
       .postContainerType(JSON.stringify(this.containerTypeForm.value))

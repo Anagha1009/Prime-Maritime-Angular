@@ -3,81 +3,83 @@ import { Router } from '@angular/router';
 import { BOOKING } from 'src/app/models/booking';
 import { BookingService } from 'src/app/services/booking.service';
 import { CmService } from 'src/app/services/cm.service';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-new-track',
   templateUrl: './new-track.component.html',
-  styleUrls: ['./new-track.component.scss']
+  styleUrls: ['./new-track.component.scss'],
 })
 export class NewTrackComponent implements OnInit {
   //mainrequest
-  bkno:any='';
-  crno:any='';
-  currentContNo:any='';
-  currentActivity:any='';
-  showTracking:boolean=false;
-  previewDetails:boolean=false;
-  previewNoData:boolean=false;
-  show:boolean=false;
-  cmList:any[]=[];
-  booking=new BOOKING();
+  bkno: any = '';
+  crno: any = '';
+  currentContNo: any = '';
+  currentActivity: any = '';
+  showTracking: boolean = false;
+  previewDetails: boolean = false;
+  previewNoData: boolean = false;
+  show: boolean = false;
+  cmList: any[] = [];
+  booking = new BOOKING();
 
-  constructor(private _cmService:CmService,private _bookingService:BookingService,private _router:Router) { }
+  constructor(
+    private _cmService: CmService,
+    private _cs: CommonService,
+    private _bookingService: BookingService,
+    private _router: Router
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   //LOGIC
-  getTrackingHistoryList(){
+  getTrackingHistoryList() {
     debugger;
-    this.previewDetails=false;
-    this.previewNoData=false;
-    if(this.bkno==''){
+    this.previewDetails = false;
+    this.previewNoData = false;
+    if (this.bkno == '') {
       alert('Please enter container number');
-    }
-    else{
-      this._cmService.getContainerMovementBooking(this.bkno,this.crno).subscribe(
-        (res: any) => {
-          debugger;
-          this.cmList = [];
-          //this.isScroll = false;
-          if (res.ResponseCode == 200) {
-            if (res.Data?.length > 0) {
-              this.cmList = res.Data;
-              this.previewDetails=true;
-              // if (this.doList?.length >= 4) {
-              //   this.isScroll = true;
-              // } else {
-              //   this.isScroll = false;
-              // }
+    } else {
+      this._cmService
+        .getContainerMovementBooking(this.bkno, this.crno)
+        .subscribe(
+          (res: any) => {
+            debugger;
+            this.cmList = [];
+            //this.isScroll = false;
+            if (res.ResponseCode == 200) {
+              if (res.Data?.length > 0) {
+                this.cmList = res.Data;
+                this.previewDetails = true;
+                // if (this.doList?.length >= 4) {
+                //   this.isScroll = true;
+                // } else {
+                //   this.isScroll = false;
+                // }
+              } else {
+                this.previewNoData = true;
+              }
             }
-            else{
-              this.previewNoData=true;
+            if (res.ResponseCode == 500) {
+              this.previewNoData = true;
             }
-            
+          },
+          (error: any) => {
+            if (error.status == 401) {
+              alert('You are not authorized to access this page, please login');
+              this._router.navigateByUrl('login');
+            }
           }
-          if (res.ResponseCode == 500) {
-            this.previewNoData=true;
-          }
-        },
-        (error: any) => {
-          if (error.status == 401) {
-            alert('You are not authorized to access this page, please login');
-            this._router.navigateByUrl('login');
-          }
-        }
-      );
+        );
       this.getBookingDetails();
-
     }
-  
   }
   getBookingDetails() {
     debugger;
-    this.previewNoData=false;
-    this.previewDetails=false;
+    this.previewNoData = false;
+    this.previewDetails = false;
     var bk = new BOOKING();
-    bk.AGENT_CODE = localStorage.getItem('usercode');
+    bk.AGENT_CODE = this._cs.getUserCode();
     bk.BOOKING_NO = this.bkno;
 
     this._bookingService.getBookingDetails(bk).subscribe((res: any) => {
@@ -85,102 +87,107 @@ export class NewTrackComponent implements OnInit {
       if (res.ResponseCode == 200) {
         console.log(res.data);
         this.booking = res.Data;
-       
       }
-      if(res.ResponseCode==500){
-        this.booking=this.booking;
+      if (res.ResponseCode == 500) {
+        this.booking = this.booking;
       }
     });
- 
   }
 
-  openTracking(data:any){
+  openTracking(data: any) {
     debugger;
-    this.currentActivity=data.ACTIVITY;  
-   
-    this.currentContNo=data.CONTAINER_NO;
+    this.currentActivity = data.ACTIVITY;
+
+    this.currentContNo = data.CONTAINER_NO;
     switch (this.currentActivity) {
-      case "RCFL":
-        var element = document.getElementById("openModalButton") as HTMLElement;
+      case 'RCFL':
+        var element = document.getElementById('openModalButton') as HTMLElement;
         element.click();
         break;
-      case "LODF":
-        var element = document.getElementById("openModalButton") as HTMLElement;
-        element.click(); 
-        break;
-      case "DCHF":
-        var element = document.getElementById("openModalButton") as HTMLElement;
+      case 'LODF':
+        var element = document.getElementById('openModalButton') as HTMLElement;
         element.click();
         break;
-      case "SNTC":
-        var element = document.getElementById("openModalButton") as HTMLElement;
-        element.click(); 
+      case 'DCHF':
+        var element = document.getElementById('openModalButton') as HTMLElement;
+        element.click();
         break;
-      case "RCCN":
-        var element = document.getElementById("openModalButton") as HTMLElement;
+      case 'SNTC':
+        var element = document.getElementById('openModalButton') as HTMLElement;
+        element.click();
+        break;
+      case 'RCCN':
+        var element = document.getElementById('openModalButton') as HTMLElement;
         element.click();
         break;
       default:
-        alert("There is no movement for this particular container!");
+        alert('There is no movement for this particular container!');
         break;
     }
-
   }
 
-  trackContainer(data:any){
+  trackContainer(data: any) {
     debugger;
-    
+
     //this.currentActivity=data.ACTIVITY;
     switch (this.currentActivity) {
-      case "SNTC":
-          //this.shift1();
-          break;
-      case "RCFL":
-          this.shift1();
-          break;
-      case "LODF":
-          this.shift2(); 
-          break;
-      case "DCHF":
-          this.shift3();
-          break;
-      case "SNTC":
-          this.shift4();
-          break;
-      case "RCCN":
-          this.shift5();
-          break;
+      case 'SNTC':
+        //this.shift1();
+        break;
+      case 'RCFL':
+        this.shift1();
+        break;
+      case 'LODF':
+        this.shift2();
+        break;
+      case 'DCHF':
+        this.shift3();
+        break;
+      case 'SNTC':
+        this.shift4();
+        break;
+      case 'RCCN':
+        this.shift5();
+        break;
       default:
-          //console.log("No such day exists!");
-          break;
+        //console.log("No such day exists!");
+        break;
     }
   }
 
-  shift1(){
-    var hang =document.getElementById('hang') as HTMLElement;
-    hang.style.animation="move-in-steps1 10s infinite";
-    setTimeout(()=>{hang.style.animationPlayState="paused"},1250);
-    
+  shift1() {
+    var hang = document.getElementById('hang') as HTMLElement;
+    hang.style.animation = 'move-in-steps1 10s infinite';
+    setTimeout(() => {
+      hang.style.animationPlayState = 'paused';
+    }, 1250);
   }
-  shift2(){
-    var hang =document.getElementById('hang') as HTMLElement;
-    hang.style.animation="move-in-steps2 10s infinite";
-    setTimeout(()=>{hang.style.animationPlayState="paused"},2500);
+  shift2() {
+    var hang = document.getElementById('hang') as HTMLElement;
+    hang.style.animation = 'move-in-steps2 10s infinite';
+    setTimeout(() => {
+      hang.style.animationPlayState = 'paused';
+    }, 2500);
   }
-  shift3(){
-    var hang =document.getElementById('hang') as HTMLElement;
-    hang.style.animation="move-in-steps3 10s infinite";
-    setTimeout(()=>{hang.style.animationPlayState="paused"},4000);
+  shift3() {
+    var hang = document.getElementById('hang') as HTMLElement;
+    hang.style.animation = 'move-in-steps3 10s infinite';
+    setTimeout(() => {
+      hang.style.animationPlayState = 'paused';
+    }, 4000);
   }
-  shift4(){
-    var hang =document.getElementById('hang') as HTMLElement;
-    hang.style.animation="move-in-steps4 10s infinite";
-    setTimeout(()=>{hang.style.animationPlayState="paused"},6000);
+  shift4() {
+    var hang = document.getElementById('hang') as HTMLElement;
+    hang.style.animation = 'move-in-steps4 10s infinite';
+    setTimeout(() => {
+      hang.style.animationPlayState = 'paused';
+    }, 6000);
   }
-  shift5(){
-    var hang =document.getElementById('hang') as HTMLElement;
-    hang.style.animation="move-in-steps5 10s infinite";
-    setTimeout(()=>{hang.style.animationPlayState="paused"},8000);
+  shift5() {
+    var hang = document.getElementById('hang') as HTMLElement;
+    hang.style.animation = 'move-in-steps5 10s infinite';
+    setTimeout(() => {
+      hang.style.animationPlayState = 'paused';
+    }, 8000);
   }
-
 }

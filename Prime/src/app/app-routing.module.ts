@@ -57,6 +57,8 @@ import { LinerComponent } from './masters/liner/liner.component';
 import { LinerServiceComponent } from './masters/liner-service/liner-service.component';
 import { ScheduleComponent } from './masters/schedule/schedule.component';
 import { NewContainerMovementComponent } from './modules/new-container-movement/new-container-movement.component';
+import { AuthGuard } from './@core/services/auth.guard';
+import { Role } from './models/login';
 
 const routes: Routes = [
   {
@@ -70,82 +72,122 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: PmLandingComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'quotation-list',
         component: PmQuotationListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'container-movement',
         component: PmCmComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'mnr-request',
         component: PmMrRequestComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'quotation-details/:SRR_NO',
         component: PmQuotationDetailsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'srr-calculator',
         component: SrrCalculatorComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'calculator',
         component: CalculatorComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'party',
         component: PartyComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'container',
         component: ContainerComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'containerSize',
         component: ContainerSizeComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'containerType',
         component: ContainerTypeComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'servicetype',
         component: ServicetypeComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'currency',
         component: CurrencyComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'unit',
         component: UnitComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'port',
         component: PortComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'vessel',
         component: VesselComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'voyage',
         component: VoyageComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'liner',
         component: LinerComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'linerService',
         component: LinerServiceComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
       {
         path: 'schedule',
         component: ScheduleComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Principal] },
       },
     ],
   },
@@ -158,69 +200,101 @@ const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       {
-        path: 'quotation-list',
+        path: 'srr-list',
         component: QuotationListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'srr-details',
         component: QuotationDetailsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'new-quotation',
         component: NewQuotationComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'booking-list',
         component: BookingListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'rollover',
         component: SplitBookingComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'new-cro',
         component: NewCroComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'new-cro/:BOOKING_NO',
         component: NewCroComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'new-er',
         component: NewErComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'er-list',
         component: ErListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'er-details',
         component: ErDetailsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'new-do',
         component: NewDoComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'cro-list',
         component: CroListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'do',
         component: NewDoComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'do-list',
         component: DoListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'do-details',
         component: DoDetailsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
 
       {
         path: 'new-bl',
         component: NewBlComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'new-cm',
@@ -229,39 +303,57 @@ const routes: Routes = [
       {
         path: 'new-container-movement',
         component: NewContainerMovementComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent, Role.Depot] },
       },
       {
         path: 'tracking',
         component: TrackingComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent, Role.Depot] },
       },
       {
         path: 'new-track',
         component: NewTrackComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent, Role.Depot] },
       },
       {
         path: 'ct-list',
         component: CtListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'activity-mapping',
         component: ActivityMappingComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'depo',
         component: DepoDashboardComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Depot] },
       },
       {
         path: 'container-allotment',
         component: ContainerAllotmentComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Depot] },
       },
       {
         path: 'container-allotment-list',
         component: ContainerAllotmentListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Depot] },
       },
 
       {
         path: 'manifest-list',
         component: ManifestListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'notification',
@@ -270,30 +362,44 @@ const routes: Routes = [
       {
         path: 'mr-request',
         component: MrRequestComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'mnr-request-list',
         component: MrRequestListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'dentention-waiver',
         component: DetentionWaverRequestComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'load-list',
         component: LoadListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'track-booking/:BOOKING_NO',
         component: TrackBookingComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'test-map',
         component: TestMapComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'tdr',
         component: TdrComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
     ],
   },

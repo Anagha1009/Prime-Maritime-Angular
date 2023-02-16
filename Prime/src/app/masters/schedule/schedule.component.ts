@@ -109,7 +109,7 @@ export class ScheduleComponent implements OnInit {
     }
 
     this.ScheduleForm.get('CREATED_BY')?.setValue(
-      localStorage.getItem('username')
+      this._commonService.getUserName()
     );
 
     this._scheduleService

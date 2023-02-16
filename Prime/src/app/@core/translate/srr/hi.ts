@@ -20,6 +20,7 @@ export const locale = {
       EffectFrom:'से प्रभाव',
       EffectTo:'करने के लिए प्रभाव',
       CustomerName:'ग्राहक का नाम',
+      TotalRecords:'कुल रिकॉर्ड',
 
 
       requestNo: 'अनुरोध संख्या',

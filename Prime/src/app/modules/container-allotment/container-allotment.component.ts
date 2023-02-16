@@ -97,9 +97,8 @@ export class ContainerAllotmentComponent implements OnInit {
   }
 
   getAvailableContainerList() {
-    var depocode: any = localStorage.getItem('usercode');
     this._depoService
-      .getAvailableContainerListForDepo(depocode)
+      .getAvailableContainerListForDepo(this._commonService.getUserCode())
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.containerDropdownList = res.Data;
@@ -156,12 +155,10 @@ export class ContainerAllotmentComponent implements OnInit {
   insertContainer() {
     this.containerForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
-
+      ?.setValue(this._commonService.getUserName());
     this.containerForm
       .get('DEPO_CODE')
-      ?.setValue(localStorage.getItem('usercode'));
-
+      ?.setValue(this._commonService.getUserCode());
     this.containerForm.get('BOOKING_NO')?.setValue(this.croDetails?.BOOKING_NO);
 
     this._depoService
@@ -190,7 +187,7 @@ export class ContainerAllotmentComponent implements OnInit {
   getContainerAllotedList() {
     var bl = new Bl();
     bl.AGENT_CODE = '';
-    bl.DEPO_CODE = localStorage.getItem('usercode');
+    bl.DEPO_CODE = this._commonService.getUserCode();
     this._commonService.destroyDT();
     this.containerAllotmentList = [];
     this._blService.getContainerList(bl).subscribe((res: any) => {

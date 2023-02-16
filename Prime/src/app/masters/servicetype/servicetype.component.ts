@@ -57,8 +57,9 @@ export class ServicetypeComponent implements OnInit {
     if (this.typeForm.invalid) {
       return;
     }
-
-    this.typeForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.typeForm
+      .get('CREATED_BY')
+      ?.setValue(this._commonService.getUserName());
     this.typeForm.get('KEY_NAME')?.setValue('SERVICE_TYPE');
 
     this._masterService

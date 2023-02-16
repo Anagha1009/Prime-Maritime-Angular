@@ -10,7 +10,7 @@ import { CRO } from 'src/app/models/cro';
 import { HttpClient } from '@angular/common/http';
 import { locale as english } from 'src/app/@core/translate/cro/en';
 import { locale as hindi } from 'src/app/@core/translate/cro/hi';
-import {locale as arabic} from 'src/app/@core/translate/cro/ar';
+import { locale as arabic } from 'src/app/@core/translate/cro/ar';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
@@ -59,7 +59,7 @@ export class NewCroComponent implements OnInit {
     private _coreTranslationService: CoreTranslationService,
     private _activatedRoute: ActivatedRoute
   ) {
-    this._coreTranslationService.translate(english, hindi,arabic);
+    this._coreTranslationService.translate(english, hindi, arabic);
   }
 
   ngOnInit(): void {
@@ -146,9 +146,9 @@ export class NewCroComponent implements OnInit {
     this.croForm.get('BOOKING_NO')?.setValue(this.bookingDetails.BOOKING_NO);
 
     this.croForm.get('CRO_NO')?.setValue(this.getRandomNumber());
-    this.croForm.get('AGENT_NAME')?.setValue(localStorage.getItem('username'));
-    this.croForm.get('AGENT_CODE')?.setValue(localStorage.getItem('usercode'));
-    this.croForm.get('CREATED_BY')?.setValue(localStorage.getItem('username'));
+    this.croForm.get('AGENT_NAME')?.setValue(this._commonService.getUserName());
+    this.croForm.get('AGENT_CODE')?.setValue(this._commonService.getUserCode());
+    this.croForm.get('CREATED_BY')?.setValue(this._commonService.getUserName());
 
     this._croService
       .insertCRO(JSON.stringify(this.croForm.value))
@@ -181,7 +181,7 @@ export class NewCroComponent implements OnInit {
 
   getBookingDetails() {
     var booking = new BOOKING();
-    booking.AGENT_CODE = localStorage.getItem('usercode');
+    booking.AGENT_CODE = this._commonService.getUserCode();
     booking.BOOKING_NO = this.bookingNo;
 
     this.isCRO = false;
@@ -205,7 +205,7 @@ export class NewCroComponent implements OnInit {
 
   getCRODetails(CRO_NO: string) {
     var cro = new CRO();
-    cro.AGENT_CODE = localStorage.getItem('usercode');
+    cro.AGENT_CODE = this._commonService.getUserCode();
     cro.CRO_NO = CRO_NO;
 
     if (this.email == '') {

@@ -61,7 +61,7 @@ export class CurrencyComponent implements OnInit {
 
     this.currencyForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
 
     this.currencyForm.get('KEY_NAME')?.setValue('CURRENCY');
 

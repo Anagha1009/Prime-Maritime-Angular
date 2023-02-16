@@ -195,7 +195,7 @@ export class QuotationListComponent implements OnInit {
   }
 
   getSRRList() {
-    this.quotation.AGENT_CODE = localStorage.getItem('usercode');
+    this.quotation.AGENT_CODE = this._commonService.getUserCode();
     this.quotation.OPERATION = 'GET_SRRLIST';
     this._quotationService.getSRRList(this.quotation).subscribe(
       (res: any) => {
@@ -234,7 +234,7 @@ export class QuotationListComponent implements OnInit {
     this.srrNo = item.SRR_NO;
     var quotation = new QUOTATION();
     quotation.SRR_NO = item.SRR_NO;
-    quotation.AGENT_CODE = localStorage.getItem('usercode');
+    quotation.AGENT_CODE = this._commonService.getUserCode();
     this._quotationService.getSRRDetails(quotation).subscribe((res: any) => {
       this.containerList = res.Data?.SRR_CONTAINERS;
 
@@ -250,7 +250,7 @@ export class QuotationListComponent implements OnInit {
             SERVICE_MODE: [element.SERVICE_MODE],
             IMM_VOLUME_EXPECTED: ['', Validators.required],
             STATUS: [element.STATUS],
-            CREATED_BY: [localStorage.getItem('username')],
+            CREATED_BY: [this._commonService.getUserName()],
           })
         );
       });
@@ -338,7 +338,7 @@ export class QuotationListComponent implements OnInit {
 
     this.voyageForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
 
     console.log(JSON.stringify(this.voyageForm.value));
     this._bookingService
@@ -399,13 +399,13 @@ export class QuotationListComponent implements OnInit {
     this.slotDetailsForm.get('STATUS')?.setValue('Booked');
     this.slotDetailsForm
       .get('CREATED_BY')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
     this.slotDetailsForm
       .get('AGENT_NAME')
-      ?.setValue(localStorage.getItem('username'));
+      ?.setValue(this._commonService.getUserName());
     this.slotDetailsForm
       .get('AGENT_CODE')
-      ?.setValue(localStorage.getItem('usercode'));
+      ?.setValue(this._commonService.getUserCode());
 
     this.closeBtn.nativeElement.click();
 
@@ -471,7 +471,7 @@ export class QuotationListComponent implements OnInit {
 
     srrRates.forEach((element: any) => {
       element.STATUS = value;
-      element.CREATED_BY = localStorage.getItem('username');
+      element.CREATED_BY = this._commonService.getUserName();
     });
 
     this._quotationService
