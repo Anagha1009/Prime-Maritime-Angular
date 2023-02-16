@@ -48,12 +48,14 @@
                             </td>
                            
                             <td width="5%" *ngIf="item.BL_STATUS=='Drafted'">
-                                <span class="pointer"><a (click)="getBLDetailsForEdit(item.BL_NO)"><i class='bx bxs-pencil me-3'></i></a>
+                                <span class="pointer"><a (click)="getBLDetailsForEdit(item.BL_NO)"><i class='bx bxs-pencil me-2'></i></a>
+                                    <a (click)="viewBL(item.BL_NO,false)"><i class='fa fa-eye me-2'></i></a>
                                     <a (click)="makeItFinalize(item.BL_NO)"><img src="assets/img/check-mark.png"></a>
                                 </span>
                             </td>
                             <td width="5%" *ngIf="item.BL_STATUS=='Finalized'">
-                                <div class="pointer"><a (click)="viewBL(item.BL_NO)"><i class='fa fa-eye ms-3'></i></a>  
+                                <div class="pointer"><a (click)="viewBL(item.BL_NO,false)"><img src="assets/img/approved.png" class="me-3"></a>  
+                                    <a (click)="viewBL(item.BL_NO,true)"><img src="assets/img/nn.png" width="23px" height="23px"></a>
                                 </div>
                             </td>
                             
@@ -292,7 +294,7 @@
                                     <td class="col-md-1"><input formControlName="MEASUREMENT" type="text"
                                             class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" />
                                     </td>
-                                    <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].AGENT_SEAL_NO}}</td>
+                                    <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].SEAL_NO}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -323,7 +325,7 @@
                                     <td class="col-md-1">
                                         {{blForm.value.CONTAINER_LIST2[i].MEASUREMENT}}
                                     </td>
-                                    <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].AGENT_SEAL_NO}}</td>
+                                    <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].SEAL_NO}}</td>
                                 </tr>
                             </tbody>
                         </table>
