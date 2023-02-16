@@ -223,7 +223,9 @@ export class QuotationListComponent implements OnInit {
       },
       (error: any) => {
         if (error.status == 401) {
-          alert('You are not authorized to access this page, please login');
+          this._commonService.errorMsg(
+            'You are not authorized to access this page, please login'
+          );
           this._router.navigateByUrl('login');
         }
       }
@@ -235,32 +237,42 @@ export class QuotationListComponent implements OnInit {
     var quotation = new QUOTATION();
     quotation.SRR_NO = item.SRR_NO;
     quotation.AGENT_CODE = this._commonService.getUserCode();
-    this._quotationService.getSRRDetails(quotation).subscribe((res: any) => {
-      this.containerList = res.Data?.SRR_CONTAINERS;
+    this._quotationService.getSRRDetails(quotation).subscribe(
+      (res: any) => {
+        this.containerList = res.Data?.SRR_CONTAINERS;
 
-      const add = this.containerForm.get('SRR_CONTAINERS') as FormArray;
-      add.clear();
-      this.containerList.forEach((element) => {
-        add.push(
-          this._formBuilder.group({
-            SRR_ID: [item.SRR_ID],
-            SRR_NO: [element.SRR_NO],
-            CONTAINER_TYPE: [element.CONTAINER_TYPE],
-            CONTAINER_SIZE: [element.CONTAINER_SIZE],
-            SERVICE_MODE: [element.SERVICE_MODE],
-            IMM_VOLUME_EXPECTED: ['', Validators.required],
-            STATUS: [element.STATUS],
-            CREATED_BY: [this._commonService.getUserName()],
-          })
-        );
-      });
+        const add = this.containerForm.get('SRR_CONTAINERS') as FormArray;
+        add.clear();
+        this.containerList.forEach((element) => {
+          add.push(
+            this._formBuilder.group({
+              SRR_ID: [item.SRR_ID],
+              SRR_NO: [element.SRR_NO],
+              CONTAINER_TYPE: [element.CONTAINER_TYPE],
+              CONTAINER_SIZE: [element.CONTAINER_SIZE],
+              SERVICE_MODE: [element.SERVICE_MODE],
+              IMM_VOLUME_EXPECTED: ['', Validators.required],
+              STATUS: [element.STATUS],
+              CREATED_BY: [this._commonService.getUserName()],
+            })
+          );
+        });
 
-      const add1 = this.rateForm.get('SRR_RATES') as FormArray;
-      add1.clear();
-      res.Data?.SRR_RATES.forEach((element: any) => {
-        add1.push(this._formBuilder.group(element));
-      });
-    });
+        const add1 = this.rateForm.get('SRR_RATES') as FormArray;
+        add1.clear();
+        res.Data?.SRR_RATES.forEach((element: any) => {
+          add1.push(this._formBuilder.group(element));
+        });
+      },
+      (error: any) => {
+        if (error.status == 401) {
+          this._commonService.errorMsg(
+            'You are not authorized to access this page, please login'
+          );
+          this._router.navigateByUrl('login');
+        }
+      }
+    );
 
     if (value == 'container') {
       this.submitted2 = false;
@@ -277,15 +289,23 @@ export class QuotationListComponent implements OnInit {
     }
     this._quotationService
       .insertContainer(JSON.stringify(this.containerForm.value.SRR_CONTAINERS))
-      .subscribe((res: any) => {
-        this.closeBtn1.nativeElement.click();
-        this._commonService.successMsg(
-          'Your container has been added successfully  !'
-        );
-
-        //  alert('Your container has been added successfully !');
-        this.getSRRList();
-      });
+      .subscribe(
+        (res: any) => {
+          this.closeBtn1.nativeElement.click();
+          this._commonService.successMsg(
+            'Your container has been added successfully  !'
+          );
+          this.getSRRList();
+        },
+        (error: any) => {
+          if (error.status == 401) {
+            this._commonService.errorMsg(
+              'You are not authorized to access this page, please login'
+            );
+            this._router.navigateByUrl('login');
+          }
+        }
+      );
   }
 
   getServiceName1(event: any) {
@@ -340,23 +360,32 @@ export class QuotationListComponent implements OnInit {
       .get('CREATED_BY')
       ?.setValue(this._commonService.getUserName());
 
-    console.log(JSON.stringify(this.voyageForm.value));
     this._bookingService
       .insertVoyage(JSON.stringify(this.voyageForm.value))
-      .subscribe((res: any) => {
-        if (res.responseCode == 200) {
-          alert('Voyage added successfully !');
-          this.slotDetailsForm
-            .get('VOYAGE_NO')
-            ?.setValue(this.voyageForm.get('VOYAGE_NO')?.value);
-          this.slotDetailsForm
-            .get('VESSEL_NAME')
-            ?.setValue(this.voyageForm.get('VESSEL_NAME')?.value);
+      .subscribe(
+        (res: any) => {
+          if (res.responseCode == 200) {
+            alert('Voyage added successfully !');
+            this.slotDetailsForm
+              .get('VOYAGE_NO')
+              ?.setValue(this.voyageForm.get('VOYAGE_NO')?.value);
+            this.slotDetailsForm
+              .get('VESSEL_NAME')
+              ?.setValue(this.voyageForm.get('VESSEL_NAME')?.value);
 
-          this.isVoyageAdded = true;
-          this.closeBtn3.nativeElement.click();
+            this.isVoyageAdded = true;
+            this.closeBtn3.nativeElement.click();
+          }
+        },
+        (error: any) => {
+          if (error.status == 401) {
+            this._commonService.errorMsg(
+              'You are not authorized to access this page, please login'
+            );
+            this._router.navigateByUrl('login');
+          }
         }
-      });
+      );
   }
 
   openBookingModal(i: any) {
@@ -411,14 +440,24 @@ export class QuotationListComponent implements OnInit {
 
     this._quotationService
       .booking(JSON.stringify(this.slotDetailsForm.value))
-      .subscribe((res: any) => {
-        if (res.responseCode == 200) {
-          this._commonService.successMsg(
-            'Your booking is placed successfully ! Booking No is ' + bookingNo
-          );
-          this._router.navigateByUrl('/home/booking-list');
+      .subscribe(
+        (res: any) => {
+          if (res.responseCode == 200) {
+            this._commonService.successMsg(
+              'Your booking is placed successfully ! Booking No is ' + bookingNo
+            );
+            this._router.navigateByUrl('/home/booking-list');
+          }
+        },
+        (error: any) => {
+          if (error.status == 401) {
+            this._commonService.errorMsg(
+              'You are not authorized to access this page, please login'
+            );
+            this._router.navigateByUrl('login');
+          }
         }
-      });
+      );
   }
 
   get f() {
@@ -449,19 +488,8 @@ export class QuotationListComponent implements OnInit {
     add.removeAt(i);
   }
 
-  numericOnly(event: any): boolean {
-    // restrict e,+,-,E characters in  input type number
-    const charCode = event.which ? event.which : event.keyCode;
-    if (charCode == 101 || charCode == 69 || charCode == 45 || charCode == 43) {
-      return false;
-    }
-    const reg = /^-?\d*(\.\d{0,2})?$/;
-    let input = event.target.value + String.fromCharCode(event.charCode);
-
-    if (!reg.test(input)) {
-      event.preventDefault();
-    }
-    return true;
+  numericOnly(event: any) {
+    this._commonService.numericOnly(event);
   }
 
   counterRate(item: any, value: string) {
@@ -474,9 +502,8 @@ export class QuotationListComponent implements OnInit {
       element.CREATED_BY = this._commonService.getUserName();
     });
 
-    this._quotationService
-      .counterRate(this.rateForm.value.SRR_RATES)
-      .subscribe((res: any) => {
+    this._quotationService.counterRate(this.rateForm.value.SRR_RATES).subscribe(
+      (res: any) => {
         if (res.responseCode == 200) {
           this._commonService.successMsg(
             'Your request is been ' + value == 'Approved'
@@ -486,7 +513,16 @@ export class QuotationListComponent implements OnInit {
           this.closeBtn2.nativeElement.click();
           this.getSRRList();
         }
-      });
+      },
+      (error: any) => {
+        if (error.status == 401) {
+          this._commonService.errorMsg(
+            'You are not authorized to access this page, please login'
+          );
+          this._router.navigateByUrl('login');
+        }
+      }
+    );
   }
 
   getForm() {

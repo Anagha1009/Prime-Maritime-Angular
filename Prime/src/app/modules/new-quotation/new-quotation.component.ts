@@ -61,6 +61,7 @@ export class NewQuotationComponent implements OnInit {
   unnoList: any[] = [];
   unno: string = '';
   chargecodeList: any[] = [];
+  terminalList: any[] = [];
   //Customer Popup
   submitted5: boolean = false;
   partyForm: FormGroup;
@@ -762,7 +763,7 @@ export class NewQuotationComponent implements OnInit {
   }
 
   getDropdown() {
-    var portcode: any = this._commonService.getUser().portcode;
+    var portcode: any = this._commonService.getUser().port;
 
     this._commonService
       .getDropdownData('PLACE_OF_RECEIPT', portcode)
@@ -892,12 +893,22 @@ export class NewQuotationComponent implements OnInit {
 
   getServiceName1(event: any) {
     this.servicenameList1 = [];
-    this.slotDetailsForm.get('SERVICE_NAME')?.setValue('');
+    this.terminalList = [];
+    this.voyageForm.get('SERVICE_NAME')?.setValue('');
+    this.voyageForm.get('TERMINAL_CODE')?.setValue('');
     this._commonService
       .getDropdownData('SERVICE_NAME', event, '')
       .subscribe((res: any) => {
         if (res.hasOwnProperty('Data')) {
           this.servicenameList1 = res.Data;
+        }
+      });
+
+    this._commonService
+      .getDropdownData('TERMINAL', event, '')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.terminalList = res.Data;
         }
       });
   }

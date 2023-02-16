@@ -9,6 +9,7 @@ import { locale as english } from 'src/app/@core/translate/srr/en';
 import { locale as hindi } from 'src/app/@core/translate/srr/hi';
 import { locale as arabic } from 'src/app/@core/translate/srr/ar';
 import { CommonService } from 'src/app/services/common.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-quotation-details',
@@ -31,7 +32,8 @@ export class QuotationDetailsComponent implements OnInit {
     private _quotationService: QuotationService,
     private _coreTranslationService: CoreTranslationService,
     private _cs: CommonService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _router: Router
   ) {
     this._coreTranslationService.translate(english, hindi, arabic);
   }
@@ -39,6 +41,7 @@ export class QuotationDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.getQuotationDetails();
   }
+
   openRateDetailModal(i: any) {
     this.contRateList = [];
     this.contRateList = this.rateList.filter(
@@ -46,6 +49,7 @@ export class QuotationDetailsComponent implements OnInit {
     );
     this.RateDetailModal.nativeElement.click();
   }
+
   getQuotationDetails() {
     var srr = new QUOTATION();
 
@@ -65,13 +69,21 @@ export class QuotationDetailsComponent implements OnInit {
           commodityTypeList.push(element.COMMODITY_TYPE);
         });
 
-        this._quotationService
-          .GetFiles(srr_no, commodityTypeList)
-          .subscribe((res: any) => {
+        this._quotationService.GetFiles(srr_no, commodityTypeList).subscribe(
+          (res: any) => {
             if (res.responseCode == 200) {
               this.fileList = res.data;
             }
-          });
+          },
+          (error: any) => {
+            if (error.status == 401) {
+              this._cs.errorMsg(
+                'You are not authorized to access this page, please login'
+              );
+              this._router.navigateByUrl('login');
+            }
+          }
+        );
       }
     });
   }
