@@ -161,6 +161,7 @@ export class ContainerAllotmentComponent implements OnInit {
       ?.setValue(this._commonService.getUserCode());
     this.containerForm.get('BOOKING_NO')?.setValue(this.croDetails?.BOOKING_NO);
 
+    console.log(JSON.stringify(this.containerForm.value));
     this._depoService
       .createContainer(JSON.stringify(this.containerForm.value))
       .subscribe((res: any) => {

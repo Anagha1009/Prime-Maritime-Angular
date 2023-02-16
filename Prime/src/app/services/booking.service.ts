@@ -58,7 +58,6 @@ export class BookingService {
   }
 
   postBookingDetails(Booking: any) {
-    debugger;
     return this._http.post<any>(
       this.BASE_URL + 'Booking/InsertBooking',
       Booking,
@@ -67,7 +66,6 @@ export class BookingService {
   }
 
   insertVoyage(Voyage: any) {
-    debugger;
     return this._http.post<any>(
       this.BASE_URL + 'Booking/InsertVoyage',
       Voyage,
@@ -82,13 +80,12 @@ export class BookingService {
     );
   }
 
-  getRollOverList(booking:any){
-    debugger
+  getRollOverList(booking: any) {
     return this._http.get<any>(
-      this.BASE_URL + 'Booking/GetRolloverList?AGENT_CODE='+
-      booking.AGENT_CODE,
+      this.BASE_URL +
+        'Booking/GetRolloverList?AGENT_CODE=' +
+        booking.AGENT_CODE,
       this.httpOptions
     );
-    
   }
 }

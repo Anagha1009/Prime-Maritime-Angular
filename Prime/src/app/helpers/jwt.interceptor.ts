@@ -20,34 +20,26 @@ export class JwtInterceptor implements HttpInterceptor {
    */
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     var isApiUrl = request.url.startsWith(environment.BASE_URL);
-    if (window.location.href.includes('srr')) {
+    if (window.location.href.includes('srr' || 'container')) {
       this.value = true;
     } else {
       this.value = false;
     }
 
-    // const login = localStorage.getItem('login');
-
     if (isApiUrl && this._commonService.getUser()) {
-      // if (login != null) {
-      //   request = request.clone({
-      //     setHeaders: {
-      //       Authorization: 'Bearer ' + this.token,
-      //     },
-      //   });
-      //   localStorage.removeItem('login');
-      // } else if (this.value) {
-      //   request = request.clone({
-      //     setHeaders: {
-      //       Authorization: 'Bearer ' + this.token,
-      //     },
-      //   });
-      // }
-      request = request.clone({
-        setHeaders: {
-          Authorization: 'Bearer ' + this._commonService.getUser().token,
-        },
-      });
+      if (this._commonService.getUser() != null) {
+        request = request.clone({
+          setHeaders: {
+            Authorization: 'Bearer ' + this._commonService.getUser().token,
+          },
+        });
+      } else if (this.value) {
+        request = request.clone({
+          setHeaders: {
+            Authorization: 'Bearer ' + this._commonService.getUser().token,
+          },
+        });
+      }
     }
 
     return next.handle(request);
