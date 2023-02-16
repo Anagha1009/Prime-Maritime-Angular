@@ -21,6 +21,7 @@ export class PmQuotationDetailsComponent implements OnInit {
   srrcal: boolean = false;
   SRR_NO: any = '';
   calcForm: FormGroup;
+  requestOptions:any;
 
   constructor(
     private _quotationService: QuotationService,
@@ -43,6 +44,24 @@ export class PmQuotationDetailsComponent implements OnInit {
       IMP_COST_LIST: new FormArray([]),
       LADEN_BACK_COST: [0],
     });
+
+  //   var myHeaders = new Headers();
+  //   myHeaders.append("apikey", "bklDvUuxUdnMLMN8QXZHE1sFDLwl4FEJ");
+
+  //   this.requestOptions = {
+  //     method: 'GET',
+  //     redirect: 'follow',
+  //     headers: myHeaders
+  //   };
+
+  //   fetch("https://api.apilayer.com/exchangerates_data/convert?to=usd&from=aed&amount=70", this.requestOptions)
+  // .then(response => response.text())
+  // .then(result => {
+  //   var json=JSON.parse(result);
+  //   console.log(json.result);
+  // })
+  // .catch(error => console.log('error', error));
+
   }
 
   getDetails() {
@@ -215,19 +234,21 @@ export class PmQuotationDetailsComponent implements OnInit {
     const add2 = this.calcForm.get('FREIGHT_LIST') as FormArray;
 
     var total = 0;
-
-    for (var i = 0; i < add2.length; i++) {
-      var rr = add2.at(i)?.get('RATE_REQUESTED')?.value;
-      total += +rr;
-    }
-
+    //POL
     for (var i = 0; i < add.length; i++) {
       var rr = add.at(i)?.get('RATE_REQUESTED')?.value;
       total += +rr;
     }
 
+    //POD
     for (var i = 0; i < add1.length; i++) {
       var rr = add1.at(i)?.get('RATE_REQUESTED')?.value;
+      total += +rr;
+    }
+
+    //freights
+    for (var i = 0; i < add2.length; i++) {
+      var rr = add2.at(i)?.get('RATE_REQUESTED')?.value;
       total += +rr;
     }
 

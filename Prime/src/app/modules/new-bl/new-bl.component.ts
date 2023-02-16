@@ -280,10 +280,12 @@ export class NewBlComponent implements OnInit {
     if (!this.isSplit) {
       const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
       const add1 = this.blForm.get('CONTAINER_LIST') as FormArray;
-
+      add1.clear();
       add.controls.forEach((control) => {
         add1.push(control);
       });
+
+      console.log(this.blForm.get('CONTAINER_LIST')?.value);
     }
     if (this.isSplit) {
       const add = this.blForm.get('CONTAINER_LIST') as FormArray;
