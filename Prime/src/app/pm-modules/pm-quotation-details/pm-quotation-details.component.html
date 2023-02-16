@@ -114,7 +114,7 @@
                         <label class="label-header">Remarks</label>
                     </div>
                 </div>
-                <div *ngFor="let item of f1;let i = index" [formGroup]="f(item)">
+                <div *ngFor="let item of f1;let i = index" [formGroup]="item">
                     <div *ngIf="item.value.CONTAINER_TYPE == item1.CONTAINER_TYPE" class="row">
                         <div class="col-md-2 mt-2">
                             <label class="label-subheader">{{item.value.CHARGE_CODE}}</label>
@@ -360,7 +360,7 @@
                                 <h6>Empty Back : </h6>
                             </div>
                             <div class="col-4">
-                                <h6 class="text-danger">0</h6>
+                                <h6 class="text-danger">{{calcForm.value.EMPTY_BACK_COST}}</h6>
                             </div>
                         </div>
                         <div class="row">

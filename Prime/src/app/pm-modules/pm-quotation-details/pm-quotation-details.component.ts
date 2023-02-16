@@ -21,7 +21,7 @@ export class PmQuotationDetailsComponent implements OnInit {
   srrcal: boolean = false;
   SRR_NO: any = '';
   calcForm: FormGroup;
-  requestOptions:any;
+  requestOptions: any;
 
   constructor(
     private _quotationService: QuotationService,
@@ -45,23 +45,22 @@ export class PmQuotationDetailsComponent implements OnInit {
       LADEN_BACK_COST: [0],
     });
 
-  //   var myHeaders = new Headers();
-  //   myHeaders.append("apikey", "bklDvUuxUdnMLMN8QXZHE1sFDLwl4FEJ");
+    //   var myHeaders = new Headers();
+    //   myHeaders.append("apikey", "bklDvUuxUdnMLMN8QXZHE1sFDLwl4FEJ");
 
-  //   this.requestOptions = {
-  //     method: 'GET',
-  //     redirect: 'follow',
-  //     headers: myHeaders
-  //   };
+    //   this.requestOptions = {
+    //     method: 'GET',
+    //     redirect: 'follow',
+    //     headers: myHeaders
+    //   };
 
-  //   fetch("https://api.apilayer.com/exchangerates_data/convert?to=usd&from=aed&amount=70", this.requestOptions)
-  // .then(response => response.text())
-  // .then(result => {
-  //   var json=JSON.parse(result);
-  //   console.log(json.result);
-  // })
-  // .catch(error => console.log('error', error));
-
+    //   fetch("https://api.apilayer.com/exchangerates_data/convert?to=usd&from=aed&amount=70", this.requestOptions)
+    // .then(response => response.text())
+    // .then(result => {
+    //   var json=JSON.parse(result);
+    //   console.log(json.result);
+    // })
+    // .catch(error => console.log('error', error));
   }
 
   getDetails() {
@@ -75,6 +74,16 @@ export class PmQuotationDetailsComponent implements OnInit {
         add.clear();
         res.Data.SRR_RATES.forEach((element: any) => {
           add.push(this._formBuilder.group(element));
+        });
+
+        res.Data.SRR_CONTAINERS.forEach((items: any) => {
+          if (items.STATUS == 'Requested') {
+            this.rateForm.get('SRR_RATES').value.forEach((element: any) => {
+              element.APPROVED_RATE = element.RATE_REQUESTED;
+            });
+
+            add.patchValue(this.rateForm.get('SRR_RATES').value);
+          }
         });
 
         this.commodityDetails = res.Data.SRR_COMMODITIES;
@@ -94,35 +103,24 @@ export class PmQuotationDetailsComponent implements OnInit {
     return x.controls;
   }
 
-  f(i: any) {
-    return i;
-  }
-
   updateRate(item: any, value: string) {
     var srrRates = this.rateForm.value.SRR_RATES.filter(
       (x: any) => x.CONTAINER_TYPE === item
     );
 
-    var isCounterValid = true;
     var isApproveValid = true;
     var isRejectValid = true;
 
     srrRates.forEach((element: any) => {
       element.STATUS = value;
       element.CREATED_BY = this._commonService.getUserName();
-      if (element.APPROVED_RATE == 0 && value == 'Countered') {
-        isCounterValid = false;
-      } else if (element.APPROVED_RATE != 0 && value == 'Approved') {
+
+      if (element.APPROVED_RATE != 0 && value == 'Approved') {
         isApproveValid = false;
       } else if (element.APPROVED_RATE != 0 && value == 'Rejected') {
         isRejectValid = false;
       }
     });
-
-    // if (!isCounterValid) {
-    //   alert('Counter Rate cannot be zero(0)');
-    //   return;
-    // }
 
     if (!isApproveValid || !isRejectValid) {
       srrRates.forEach((element: any) => {

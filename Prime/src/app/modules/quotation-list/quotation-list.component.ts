@@ -248,6 +248,8 @@ export class QuotationListComponent implements OnInit {
             this._formBuilder.group({
               SRR_ID: [item.SRR_ID],
               SRR_NO: [element.SRR_NO],
+              POL: [res.Data?.POL],
+              POD: [res.Data?.POD],
               CONTAINER_TYPE: [element.CONTAINER_TYPE],
               CONTAINER_SIZE: [element.CONTAINER_SIZE],
               SERVICE_MODE: [element.SERVICE_MODE],
@@ -283,6 +285,25 @@ export class QuotationListComponent implements OnInit {
   }
 
   addContainer() {
+    var valid = true;
+    this.containerList.forEach((element, i) => {
+      debugger;
+      if (
+        +element.IMM_VOLUME_EXPECTED +
+          +this.containerForm.value.SRR_CONTAINERS[i].IMM_VOLUME_EXPECTED >
+        +element.TOTAL_VOLUME_EXPECTED
+      ) {
+        valid = false;
+      }
+    });
+
+    if (!valid) {
+      this._commonService.errorMsg(
+        'You cannot add containers more than Total Volume Expected !'
+      );
+      return;
+    }
+
     this.submitted2 = true;
     if (this.containerForm.invalid) {
       return;
@@ -463,10 +484,6 @@ export class QuotationListComponent implements OnInit {
   get f() {
     var x = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
     return x.controls;
-  }
-
-  f1(i: any) {
-    return i;
   }
 
   get f2() {
