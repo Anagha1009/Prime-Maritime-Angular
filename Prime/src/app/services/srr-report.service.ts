@@ -3,10 +3,9 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SrrReportService {
-
   BASE_URL = environment.BASE_URL;
 
   httpOptions = {
@@ -14,9 +13,8 @@ export class SrrReportService {
       'Content-Type': 'application/json;charset=UTF-8',
     }),
   };
-  
-  constructor(private _http: HttpClient) { }
 
+  constructor(private _http: HttpClient) {}
 
   getSRRCountList() {
     return this._http.get<any>(
@@ -26,11 +24,9 @@ export class SrrReportService {
   }
 
   getCount() {
-    debugger;
     return this._http.get<any>(
-      this.BASE_URL +'Count/GETCOUNT' ,
+      this.BASE_URL + 'Count/GETCOUNT',
       this.httpOptions
     );
   }
-
 }
