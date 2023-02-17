@@ -889,7 +889,7 @@ export class NewBlComponent implements OnInit {
 
     if(this.blForm.get('BLType')?.value=='Sea-Way'){
       let docDefinition = {
-        watermark: { text: 'Draft BL', color: 'blue', opacity: 0.3, bold: true, italics: false },
+        watermark: { text: 'Drafted', color: '#808080', opacity: 0.3, bold: true, italics: false ,fontSize:150},
         pageMargins: [40, 20, 40, 20],
   
         content: [
