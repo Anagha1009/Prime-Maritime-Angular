@@ -40,9 +40,10 @@ export class PmQuotationDetailsComponent implements OnInit {
 
     this.calcForm = this._formBuilder.group({
       FREIGHT_LIST: new FormArray([]),
-      EXP_COST_LIST: new FormArray([]),
-      IMP_COST_LIST: new FormArray([]),
+      POL_EXP: new FormArray([]),
+      POD_IMP: new FormArray([]),
       LADEN_BACK_COST: [0],
+      EMPTY_BACK_COST: [0],
     });
 
     //   var myHeaders = new Headers();
@@ -164,35 +165,54 @@ export class PmQuotationDetailsComponent implements OnInit {
     srr.NO_OF_CONTAINERS = container.split(' X ')[1];
 
     this._quotationService.getCalRate(srr).subscribe((res: any) => {
-      if (res.Data.hasOwnProperty('FREIGHTLIST')) {
+      if (res.ResponseCode == 200) {
+        debugger;
+        this.calcForm.patchValue(res.Data);
+
         const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
         add1.clear();
         res.Data.FREIGHTLIST.forEach((element: any) => {
           add1.push(this._formBuilder.group(element));
         });
-      }
 
-      if (res.Data.hasOwnProperty('POL_EXP')) {
-        const add2 = this.calcForm.get('EXP_COST_LIST') as FormArray;
+        const add2 = this.calcForm.get('POL_EXP') as FormArray;
         add2.clear();
         res.Data.POL_EXP.forEach((element: any) => {
           add2.push(this._formBuilder.group(element));
         });
-      }
 
-      if (res.Data.hasOwnProperty('POD_IMP')) {
-        var add3 = this.calcForm.get('IMP_COST_LIST') as FormArray;
+        const add3 = this.calcForm.get('POD_IMP') as FormArray;
         add3.clear();
         res.Data.POD_IMP.forEach((element: any) => {
           add3.push(this._formBuilder.group(element));
         });
       }
-
-      if (res.Data.hasOwnProperty('LADEN_BACK_COST')) {
-        this.calcForm
-          .get('LADEN_BACK_COST')
-          ?.setValue(res.Data.LADEN_BACK_COST);
-      }
+      // if (res.Data.hasOwnProperty('FREIGHTLIST')) {
+      //   const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
+      //   add1.clear();
+      //   res.Data.FREIGHTLIST.forEach((element: any) => {
+      //     add1.push(this._formBuilder.group(element));
+      //   });
+      // }
+      // if (res.Data.hasOwnProperty('POL_EXP')) {
+      //   const add2 = this.calcForm.get('EXP_COST_LIST') as FormArray;
+      //   add2.clear();
+      //   res.Data.POL_EXP.forEach((element: any) => {
+      //     add2.push(this._formBuilder.group(element));
+      //   });
+      // }
+      // if (res.Data.hasOwnProperty('POD_IMP')) {
+      //   var add3 = this.calcForm.get('IMP_COST_LIST') as FormArray;
+      //   add3.clear();
+      //   res.Data.POD_IMP.forEach((element: any) => {
+      //     add3.push(this._formBuilder.group(element));
+      //   });
+      // }
+      // if (res.Data.hasOwnProperty('LADEN_BACK_COST')) {
+      //   this.calcForm
+      //     .get('LADEN_BACK_COST')
+      //     ?.setValue(res.Data.LADEN_BACK_COST);
+      // }
     });
   }
 
@@ -217,18 +237,18 @@ export class PmQuotationDetailsComponent implements OnInit {
   }
 
   get f2() {
-    var x = this.calcForm.get('EXP_COST_LIST') as FormArray;
+    var x = this.calcForm.get('POL_EXP') as FormArray;
     return x.controls;
   }
 
   get f3() {
-    var x = this.calcForm.get('IMP_COST_LIST') as FormArray;
+    var x = this.calcForm.get('POD_IMP') as FormArray;
     return x.controls;
   }
 
   TotalIncome() {
-    const add = this.calcForm.get('EXP_COST_LIST') as FormArray;
-    const add1 = this.calcForm.get('IMP_COST_LIST') as FormArray;
+    const add = this.calcForm.get('POL_EXP') as FormArray;
+    const add1 = this.calcForm.get('POD_IMP') as FormArray;
     const add2 = this.calcForm.get('FREIGHT_LIST') as FormArray;
 
     var total = 0;
@@ -254,8 +274,8 @@ export class PmQuotationDetailsComponent implements OnInit {
   }
 
   TotalExpense() {
-    const add = this.calcForm.get('EXP_COST_LIST') as FormArray;
-    const add1 = this.calcForm.get('IMP_COST_LIST') as FormArray;
+    const add = this.calcForm.get('POL_EXP') as FormArray;
+    const add1 = this.calcForm.get('POD_IMP') as FormArray;
     const add2 = this.calcForm.get('FREIGHT_LIST') as FormArray;
 
     var total = 0;
