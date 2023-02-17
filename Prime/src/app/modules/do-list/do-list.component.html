@@ -77,6 +77,9 @@
                                     class="badge rounded-pill bg-success ms-3">{{item.BL_NO}}</span>
                                 <div class="description" style="font-size:large;color: purple;"> <span
                                         class="bx bxs-ship"></span> {{item.ARRIVAL_DATE | date:'mediumDate'}}</div>
+                                        <button (click)="getDeliveryDetails(item.DO_NO)" class="form-btn btn-sm rounded-pill mb-2"><i
+                                            class="fa fa-eye me-1"></i>View
+                                        PDF</button>
                             </div>
                         </div>
                     </div>

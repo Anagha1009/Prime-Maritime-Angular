@@ -102,6 +102,7 @@ export class CroListComponent implements OnInit {
   }
 
   getCRODetails(CRO_NO: string) {
+    debugger;
     var cro = new CRO();
     cro.AGENT_CODE = this._commonService.getUserCode();
     cro.CRO_NO = CRO_NO;
@@ -122,31 +123,32 @@ export class CroListComponent implements OnInit {
         margin: [10, 10, 0, 0],
       },
       content: [
-        {
-          text:
-            'Remarks:\n\n1) PLS DO NOT PICK UP DAMAGE CONTAINER, ANY CLAIM FROM DESTINATION WILL BE COLLECTED FROM CONSIGNEE' +
-            '\n2) All containers mis-declared for weight will be charged in line with the scale of rates for misdeclaration.' +
-            'This charge will be applied with immediate effect. In order to avoid this charge, please advise all concerned to ensure declaration of' +
-            'correct weight at the time of booking.' +
-            '\n3) LINE WILL NOT BE RESPONSIBLE FOR EARLY CLOSURE OF GATE / NOT OPENING OF GATE FOR A' +
-            'PARTICULAR TERMINAL / VESSEL' +
-            '\n4) Containers will not be loaded without duplicate shipping bill in our custody' +
-            '\n5) Please gate-in the containers at most 3 days before vessel ETA. Containers gated-in earlier shall incur ground rent which will be' +
-            'On shipper&#39;s account.' +
-            '\n\nGeneral Instructions' +
-            '\n\nTHIS D.O IS VALID FOR FOUR (4) DAYS FROM TODAY I.E. ( ) NO DELIVERIES WILL BE ALLOWED FROM THE' +
-            'STORAGE YARD BEYOND SEABIRD MARINE SERVICES PVT LTD CONTR TERMINAL:' +
-            '\nPLEASE NOTE THAT YOU ARE NOT PERMITTED TO HONOUR THIS D.O. AFTER – Date of Expiry' +
-            '\n\n1. Export Detention on containers will be applicable as per lines prevailing tariff.' +
-            '\n2. Please do not exceed the permitted maximum gross weight shown on the container.' +
-            '\n3. Containers that are picked up from empty yard at origin by the Exporter or their Agents per the Booking release order shall be' +
-            'resumed to have been inspected and accepted in good and sound condition for the purpose of cargo stuffing. Consignee (Buyers)' +
-            'shall be responsible to return the containers to our custody in good and sound condition at destination after cargo is unstuffed.' +
-            '\n4. Containers are moved by Export/C &amp; F agents at their own risk/cost. Any damage to the container shall be borne by Exporter/C &amp;' +
-            'F agent.' +
-            '\n5. C &amp; F agent/Exporters are requested to prepare container load plan and put Co.&#39;s Stamp / Sign.' +
-            '\n6. In case of hazardous cargo, please apply hazardous cargo sticker &amp; put all details.',
-        },
+         {
+           text:
+             'Remarks:\n\n1) PLS DO NOT PICK UP DAMAGE CONTAINER, ANY CLAIM FROM DESTINATION WILL BE COLLECTED FROM CONSIGNEE' 
+        //     '\n2) All containers mis-declared for weight will be charged in line with the scale of rates for misdeclaration.' +
+        //     'This charge will be applied with immediate effect. In order to avoid this charge, please advise all concerned to ensure declaration of' +
+        //     'correct weight at the time of booking.' +
+        //     '\n3) LINE WILL NOT BE RESPONSIBLE FOR EARLY CLOSURE OF GATE / NOT OPENING OF GATE FOR A' +
+        //     'PARTICULAR TERMINAL / VESSEL' +
+        //     '\n4) Containers will not be loaded without duplicate shipping bill in our custody' +
+        //     '\n5) Please gate-in the containers at most 3 days before vessel ETA. Containers gated-in earlier shall incur ground rent which will be' +
+        //     'On shipper&#39;s account.' +
+        //     '\n\nGeneral Instructions' +
+        //     '\n\nTHIS D.O IS VALID FOR FOUR (4) DAYS FROM TODAY I.E. ( ) NO DELIVERIES WILL BE ALLOWED FROM THE' +
+        //     'STORAGE YARD BEYOND SEABIRD MARINE SERVICES PVT LTD CONTR TERMINAL:' +
+        //     '\nPLEASE NOTE THAT YOU ARE NOT PERMITTED TO HONOUR THIS D.O. AFTER – Date of Expiry' +
+        //     '\n\n1. Export Detention on containers will be applicable as per lines prevailing tariff.' +
+        //     '\n2. Please do not exceed the permitted maximum gross weight shown on the container.' +
+        //     '\n3. Containers that are picked up from empty yard at origin by the Exporter or their Agents per the Booking release order shall be' +
+        //     'resumed to have been inspected and accepted in good and sound condition for the purpose of cargo stuffing. Consignee (Buyers)' +
+        //     'shall be responsible to return the containers to our custody in good and sound condition at destination after cargo is unstuffed.' +
+        //     '\n4. Containers are moved by Export/C &amp; F agents at their own risk/cost. Any damage to the container shall be borne by Exporter/C &amp;' +
+        //     'F agent.' +
+        //     '\n5. C &amp; F agent/Exporters are requested to prepare container load plan and put Co.&#39;s Stamp / Sign.' +
+        //     '\n6. In case of hazardous cargo, please apply hazardous cargo sticker &amp; put all details.',
+         },
+        
         {
           pageBreak: 'before',
           image: await this._commonService.getBase64ImageFromURL(
@@ -355,21 +357,7 @@ export class CroListComponent implements OnInit {
           text: 'Container Details',
           style: 'sectionHeader',
         },
-        {
-          // optional
-          table: {
-            headerRows: 1,
-            widths: ['*', '*', '*'],
-            body: [
-              ['Container Type/ Size', 'Quantity', 'Service Mode'],
-              ...this.croDetails?.ContainerList.map((p: any) => [
-                p.CONTAINER_TYPE + '/ ' + p.CONTAINER_SIZE,
-                p.IMM_VOLUME_EXPECTED,
-                p.SERVICE_MODE,
-              ]),
-            ],
-          },
-        },
+        
       ],
       styles: {
         sectionHeader: {
