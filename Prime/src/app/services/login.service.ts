@@ -31,7 +31,6 @@ export class LoginService {
   }
 
   login(rootobject: any) {
-    debugger;
     return this._http
       .post<any>(
         this.BASE_URL + 'Account/authenticate',

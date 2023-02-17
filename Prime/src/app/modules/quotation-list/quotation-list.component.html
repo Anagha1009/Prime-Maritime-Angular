@@ -42,7 +42,8 @@
             <div class="col-md-3 mt-4">
                 <button class="form-btn me-2" [disabled]="isLoading" (click)="Search()">{{'Button.search'|translate}}
                     <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
-                <button class="form-btn me-2" [disabled]="isLoading1" (click)="Clear()">{{'Button.clear'|translate}}
+                <button class="form-btn-light me-2" [disabled]="isLoading1"
+                    (click)="Clear()">{{'Button.clear'|translate}}
                     <span *ngIf="isLoading1" class="fa fa-spinner fa-spin"></span></button>
             </div>
         </div>
@@ -74,7 +75,7 @@
                                 <span class="d-block text-success">Created : {{item.CREATED_DATE |
                                     date:'mediumDate'}}</span>
                             </p>
-                            <button class="form-btn-primary" style="font-size: 12px;"
+                            <button *ngIf="item.STATUS != 'Rejected'" class="form-btn-primary" style="font-size: 12px;"
                                 (click)="getSRRDetails(item,'container')">{{'Button.addMoreContainers'|translate}}</button>
                             <button (click)="getSRRDetails(item,'rate')" class="form-btn-danger ms-2"
                                 style="font-size: 12px;">{{'Button.rateDetails' |translate}}</button>
@@ -232,7 +233,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let item of f;let j = index;" [formGroup]="f1(item)">
+                                            <tr *ngFor="let item of f;let j = index;" [formGroup]="item">
                                                 <td class="col-md-1">
                                                     <label class="mt-4"> {{j+1}}</label>
                                                 </td>
@@ -294,11 +295,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Container Details</h5>
+
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         #closeBtn1></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row description" *ngFor="let item of f2;let i = index" [formGroup]="f1(item)">
+                    <div class="row description" *ngFor="let item of f2;let i = index" [formGroup]="item">
+                        <h6>{{containerList[i].SRR_NO}}</h6>
+                        <small class="mb-2"><span class="bx bxs-ship me-2"></span>{{item.value?.POL}}
+                            <i class='bx bxs-right-arrow-circle mx-2'></i>
+                            <span class="bx bxs-ship me-2"></span>{{item.value?.POD}}</small>
+                        <hr>
                         <div class="col-md-4 mt-2">
                             <label class="label-header">Container</label>
                             <label class="label-subheader">{{containerList[i].CONTAINER_TYPE}}</label>
@@ -378,7 +385,7 @@
                                     <label class="label-header">Remarks</label>
                                 </div>
                             </div>
-                            <div *ngFor="let item of f3;let i = index" [formGroup]="f1(item)">
+                            <div *ngFor="let item of f3;let i = index" [formGroup]="item">
                                 <div *ngIf="item.value.CONTAINER_TYPE == item1.CONTAINER_TYPE" class="row">
                                     <div class="col-md-2 mt-2">
                                         <label class="label-subheader">{{item.value.CHARGE_CODE}}</label>
@@ -403,8 +410,9 @@
                                             class="form-control3" type="text" />
                                         <label
                                             [class]="item.value.APPROVED_RATE == 0 && item1.STATUS == 'Approved' ? 'text-success label-subheader' : 'label-subheader'"
-                                            *ngIf="item1.STATUS != 'Countered'">{{item.value.RATE_REQUESTED}}
-                                            {{item.value.CURRENCY}}</label>
+                                            *ngIf="item1.STATUS != 'Countered'">{{item.value.CURRENCY}}
+                                            {{item.value.RATE_REQUESTED}}
+                                        </label>
                                     </div>
                                     <div class="col-md-2 mt-1" *ngIf="item1.STATUS != 'Requested'">
                                         <label class="label-subheader">{{item.value.REMARKS == '' ? '-' :

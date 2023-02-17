@@ -38,7 +38,7 @@ export class LandingComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.ispreloader = false;
-    }, 5000);
+    }, 3000);
 
     this.user = this._loginService.userValue;
     if (this.user) {

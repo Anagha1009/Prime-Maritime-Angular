@@ -106,25 +106,40 @@ export class ContainerAllotmentComponent implements OnInit {
       });
   }
 
-  saveContainer(event: any) {
+  saveContainer(event: any, value = 0) {
     var containerList = this.containerForm.get('CONTAINER_LIST1')?.value;
-    var i = containerList.findIndex((x: any) => x.ID === event.ID);
     const add = this.containerForm.get('CONTAINER_LIST') as FormArray;
 
-    if (i == -1) {
-      add.removeAt(
-        add.value.findIndex(
-          (m: { CONTAINER_NO: any }) => m.CONTAINER_NO === event.CONTAINER_NO
-        )
-      );
+    if (value == 1) {
+      add.clear();
+      event.forEach((element: any) => {
+        add.push(
+          this._formBuilder.group({
+            CONTAINER_NO: [element.CONTAINER_NO],
+            TO_LOCATION: [''],
+            MOVEMENT_DATE: [''],
+          })
+        );
+      });
+    } else if (value == 2) {
+      add.clear();
     } else {
-      add.push(
-        this._formBuilder.group({
-          CONTAINER_NO: [event.CONTAINER_NO],
-          TO_LOCATION: [''],
-          MOVEMENT_DATE: [''],
-        })
-      );
+      var i = containerList.findIndex((x: any) => x.ID === event.ID);
+      if (i == -1) {
+        add.removeAt(
+          add.value.findIndex(
+            (m: { CONTAINER_NO: any }) => m.CONTAINER_NO === event.CONTAINER_NO
+          )
+        );
+      } else {
+        add.push(
+          this._formBuilder.group({
+            CONTAINER_NO: [event.CONTAINER_NO],
+            TO_LOCATION: [''],
+            MOVEMENT_DATE: [''],
+          })
+        );
+      }
     }
   }
 

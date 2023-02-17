@@ -120,7 +120,8 @@
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label class="form-label2" style="z-index: 1;">Container</label>
-                                    <ng-multiselect-dropdown (onSelect)="saveContainer($event)"
+                                    <ng-multiselect-dropdown (onSelectAll)="saveContainer($event,1)"
+                                        (onDeSelectAll)="saveContainer($event,2)" (onSelect)="saveContainer($event)"
                                         (onDeSelect)="saveContainer($event)" #multiSelect
                                         [placeholder]="'Select Container'" [settings]="dropdownSettings"
                                         [formControl]="f.CONTAINER_LIST1" [data]="containerDropdownList">
@@ -156,8 +157,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="modal-footer">
-                    <button *ngIf="f1.length > 0" class="form-btn" (click)="insertContainer()">Allot
+                <div class="modal-footer" *ngIf="f1.length > 0">
+                    <button class="form-btn" (click)="insertContainer()">Allot
                         Container</button>
                 </div>
             </div>
