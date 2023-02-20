@@ -202,8 +202,8 @@ const routes: Routes = [
       {
         path: 'srr-list',
         component: QuotationListComponent,
-        // canActivate: [AuthGuard],
-        // data: { roles: [Role.Agent] },
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'srr-details',
@@ -293,8 +293,8 @@ const routes: Routes = [
       {
         path: 'new-bl',
         component: NewBlComponent,
-        // canActivate: [AuthGuard],
-        // data: { roles: [Role.Agent] },
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
       },
       {
         path: 'new-cm',
