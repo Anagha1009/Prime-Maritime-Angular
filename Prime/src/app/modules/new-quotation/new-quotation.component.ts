@@ -318,13 +318,14 @@ export class NewQuotationComponent implements OnInit {
       return;
     }
 
+    if (this.commodityType == 'HAZ') {
+      var y: any = this.unnoList.filter(
+        (x) => x.CODE_DESC == this.commoditiesForm.get('UN_NO_NAME').value
+      );
+      var UN_NO = y[0].CODE;
+    }
+
     var commodities = this.quotationForm.get('SRR_COMMODITIES') as FormArray;
-
-    var y: any = this.unnoList.filter(
-      (x) => x.CODE_DESC == this.commoditiesForm.get('UN_NO_NAME').value
-    );
-    var UN_NO = y[0].CODE;
-
     commodities.push(
       this._formBuilder.group({
         COMMODITY_NAME: [this.commoditiesForm.value.COMMODITY_NAME],

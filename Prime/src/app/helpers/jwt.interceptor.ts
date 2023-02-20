@@ -20,12 +20,16 @@ export class JwtInterceptor implements HttpInterceptor {
    */
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     var isApiUrl = request.url.startsWith(environment.BASE_URL);
-    if (window.location.href.includes('srr' || 'container')) {
+    if (
+      window.location.href.includes('srr' || 'container' || 'cro' || 'booking')
+    ) {
       this.value = true;
     } else {
       this.value = false;
     }
 
+    debugger;
+    var x = this._commonService.getUser();
     if (isApiUrl && this._commonService.getUser()) {
       if (this._commonService.getUser() != null) {
         request = request.clone({
