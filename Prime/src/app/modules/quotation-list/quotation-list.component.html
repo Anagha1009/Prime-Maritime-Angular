@@ -126,11 +126,15 @@
                             </p>
                         </div>
                         <div class="col-md-2 text-end" *ngIf="item.STATUS == 'Approved'">
-                            <button (click)="openBookingModal(i)"
+                            <span></span>
+                            <button *ngIf="item.IS_VESSELVALIDITY" (click)="bookingSuccessful(item)"
+                                class="form-btn rounded-pill">{{'Button.bookNow'|translate}}</button>
+                            <button *ngIf="!item.IS_VESSELVALIDITY" (click)="openBookingModal(i)"
                                 class="form-btn rounded-pill">{{'Button.bookNow'|translate}}</button>
                             <button class="form-btn d-none" #openBtn data-bs-toggle="modal" href="#bookingModal">Book
                                 Now</button>
-                            <h6 *ngIf="item.BOOKINGS > 0" class="pe-2 mt-2">{{item.BOOKINGS}} Booking(s)</h6>
+                            <h6 *ngIf="item.BOOKINGS > 0 && item.IS_VESSELVALIDITY == false" class="pe-2 mt-2">
+                                {{item.BOOKINGS}} Booking(s)</h6>
                         </div>
                     </div>
                     <div class="modal fade" id="bookingModal" aria-labelledby="exampleModalLabel" tabindex="-1"

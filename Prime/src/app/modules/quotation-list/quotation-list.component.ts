@@ -409,6 +409,13 @@ export class QuotationListComponent implements OnInit {
       );
   }
 
+  bookingSuccessful(item: any) {
+    this._commonService.successMsg(
+      'Your booking is already created ! Booking No is ' + item.BOOKING_NO
+    );
+    this._router.navigateByUrl('/home/booking-list');
+  }
+
   openBookingModal(i: any) {
     this.quotationDetails = new QUOTATION();
     this.quotationDetails.POL = this.quotationList[i].POL;

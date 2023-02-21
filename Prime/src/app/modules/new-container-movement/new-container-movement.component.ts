@@ -69,6 +69,7 @@ export class NewContainerMovementComponent implements OnInit {
   }
 
   getCM(CM: any) {
+    this.submitted = false;
     var cm = new CONTAINER_MOVEMENT();
     cm.BOOKING_NO = CM.BOOKING_NO;
     cm.CRO_NO = CM.CRO_NO;
@@ -217,7 +218,7 @@ export class NewContainerMovementComponent implements OnInit {
   }
 
   getDropdown() {
-    this._commonService.getDropdownData('DEPO').subscribe((res: any) => {
+    this._commonService.getDropdownData('CM_LOCATION').subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.depoList = res.Data;
       }

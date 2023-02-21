@@ -87,7 +87,8 @@
                                         style="font-weight: 500;">Slot</span> : {{item.SLOTS}}</p>
                             </div>
                             <div class="col-md-2 text-end">
-                                <button (click)="newCro(item.BOOKING_NO)" class="form-btn btn-sm rounded-pill"><i
+                                <button *ngIf="item.CRO_QTY < item.TOTAL_VOLUME_EXPECTED"
+                                    (click)="newCro(item.BOOKING_NO)" class="form-btn btn-sm rounded-pill"><i
                                         class="fa fa-plus me-1"></i>
                                     Create CRO</button>
                             </div>
