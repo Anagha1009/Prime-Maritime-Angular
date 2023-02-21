@@ -156,4 +156,13 @@ export class QuotationService {
       this.httpOptions
     );
   }
+
+  postExcRateList(rootobject: any){
+    return this._http.post<any>(
+      this.BASE_URL +
+        'SRR/InsertExcRate',
+        rootobject,
+      this.httpOptions
+    );
+  }
 }

@@ -11,6 +11,12 @@ import { QuotationService } from 'src/app/services/quotation.service';
   styleUrls: ['./pm-quotation-details.component.scss'],
 })
 export class PmQuotationDetailsComponent implements OnInit {
+  excRates1:any;
+  excRates2:any;
+  usdExcRate:any;
+  usdRate:any=0;
+  polRate:any=0;
+  podRate:any=0;
   container: any = '';
   quotationDetails: any;
   commodityDetails: any;
@@ -181,11 +187,36 @@ export class PmQuotationDetailsComponent implements OnInit {
           add2.push(this._formBuilder.group(element));
         });
 
+        this._quotationService.getExcRates(add2.at(0)?.get('CURRENCY')?.value).subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            this.excRates1=res.Data;
+            //convert pol aed to usd
+            this.polRate=this.excRates1.TT_SELLING;
+          }
+        });
+
         const add3 = this.calcForm.get('POD_IMP') as FormArray;
         add3.clear();
         res.Data.POD_IMP.forEach((element: any) => {
           add3.push(this._formBuilder.group(element));
         });
+
+        this._quotationService.getExcRates(add3.at(0)?.get('CURRENCY')?.value).subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            this.excRates2=res.Data;
+            //convert pol aed to usd
+            this.podRate=this.excRates2.TT_SELLING;
+          }
+        });
+
+        this._quotationService.getExcRates('USD').subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            this.usdExcRate=res.Data;
+            //usd rate
+            this.usdRate=this.usdExcRate.TT_SELLING;
+          }
+        });
+
       }
       // if (res.Data.hasOwnProperty('FREIGHTLIST')) {
       //   const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
@@ -252,17 +283,25 @@ export class PmQuotationDetailsComponent implements OnInit {
     const add2 = this.calcForm.get('FREIGHT_LIST') as FormArray;
 
     var total = 0;
+    var total1=0;
+    var total2=0;
     //POL
     for (var i = 0; i < add.length; i++) {
       var rr = add.at(i)?.get('RATE_REQUESTED')?.value;
-      total += +rr;
+      total1 += +rr;
     }
+    total1=total1*this.polRate;
+    total1=total1/this.usdRate;
 
     //POD
     for (var i = 0; i < add1.length; i++) {
       var rr = add1.at(i)?.get('RATE_REQUESTED')?.value;
-      total += +rr;
+      total2 += +rr;
     }
+    total2=total2*this.podRate;
+    total2=total2/this.usdRate;
+
+    total=total1+total2;
 
     //freights
     for (var i = 0; i < add2.length; i++) {
@@ -279,19 +318,30 @@ export class PmQuotationDetailsComponent implements OnInit {
     const add2 = this.calcForm.get('FREIGHT_LIST') as FormArray;
 
     var total = 0;
+    var total1=0;
+    var total2=0;
 
-    for (var i = 0; i < add2.length; i++) {
-      var rr = add2.at(i)?.get('STANDARD_RATE')?.value;
-      total += +rr;
-    }
-
+    //POL
     for (var i = 0; i < add.length; i++) {
       var rr = add.at(i)?.get('STANDARD_RATE')?.value;
-      total += +rr;
+      total1 += +rr;
     }
+    total1=total1*this.polRate;
+    total1=total1/this.usdRate;
 
+    //POD
     for (var i = 0; i < add1.length; i++) {
       var rr = add1.at(i)?.get('RATE')?.value;
+      total2 += +rr;
+    }
+    total2=total2*this.podRate;
+    total2=total2/this.usdRate;
+
+    total=total1+total2;
+
+    //freights
+    for (var i = 0; i < add2.length; i++) {
+      var rr = add2.at(i)?.get('STANDARD_RATE')?.value;
       total += +rr;
     }
 

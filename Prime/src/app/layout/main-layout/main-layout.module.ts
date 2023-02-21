@@ -45,6 +45,7 @@ import { ErDetailsComponent } from 'src/app/modules/er-details/er-details.compon
 import { NewContainerMovementComponent } from 'src/app/modules/new-container-movement/new-container-movement.component';
 import { DataTablesModule } from 'angular-datatables';
 import { TooltipModule } from 'ng2-tooltip-directive';
+import { ExcRateListComponent } from 'src/app/modules/exc-rate-list/exc-rate-list.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { TooltipModule } from 'ng2-tooltip-directive';
     LoadListComponent,
     TdrComponent,
     NewContainerMovementComponent,
+    ExcRateListComponent,
   ],
   imports: [
     CommonModule,

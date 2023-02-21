@@ -59,6 +59,7 @@ import { ScheduleComponent } from './masters/schedule/schedule.component';
 import { NewContainerMovementComponent } from './modules/new-container-movement/new-container-movement.component';
 import { AuthGuard } from './@core/services/auth.guard';
 import { Role } from './models/login';
+import { ExcRateListComponent } from './modules/exc-rate-list/exc-rate-list.component';
 
 const routes: Routes = [
   {
@@ -250,6 +251,12 @@ const routes: Routes = [
       {
         path: 'er-list',
         component: ErListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Agent] },
+      },
+      {
+        path: 'exc-rate-list',
+        component: ExcRateListComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Agent] },
       },
