@@ -57,26 +57,52 @@
                 <div [class]="isScroll ? 'force-overflow' : ''">
                     <div class="icon-box icon-box-cyan text-start" *ngFor="let item of doList; let i = index">
                         <div class="row">
-                            <div class="col-md-7">
-                                <h4 class="title"><a (click)="getDODetails(item.DO_NO)">{{item.DO_NO}} - </a>
-                                    <span class="shipTerms">{{item.SHIPPING_TERMS}}</span>
-                                </h4>
-                                <p class="description"> <span class="bx bx-user"></span> {{item.CLEARING_PARTY}} | <span
-                                        class="bx bxs-truck"></span>
-                                    {{item.ContainerCount?item.ContainerCount:0}} Containers | <span
-                                        class="text-danger">
-                                        <span><i class='bx bx-current-location'></i></span>
-                                        {{item.ACCEPTANCE_LOCATION}}</span></p>
-                                <p class="description"><i class='bx bx-time-five'></i> <span class="text-info">
-                                        {{item.DO_DATE | date:'mediumDate'}} - {{item.DO_VALIDITY | date:'mediumDate'}}
-                                    </span>
+                            <div class="col-md-4">
+                                <h4 class="title mb-0"><a (click)="getDODetails(item.DO_NO)">{{item.DO_NO}} - <span
+                                            class="text-success"
+                                            style="font-size: 15px;">{{item.SHIPPING_TERMS}}</span></a></h4>
+                                <small class="mb-0 text-danger">{{item.BL_NO}}</small>
+                                <p class="description"><span class="bx bxs-ship me-2"></span>{{item.POL}} <i
+                                        class='bx bxs-right-arrow-circle mx-2'></i>
+                                    <span class="bx bxs-ship me-2"></span>{{item.POD}}
+                                    <span class="d-block text-success">Created : {{item.CREATED_DATE |
+                                        date:'mediumDate'}}</span>
                                 </p>
                             </div>
-                            <div class="col-md-5 text-end">
-                                <span style="font-size: 15px;"
-                                    class="badge rounded-pill bg-success ms-3">{{item.BL_NO}}</span>
-                                <div class="description" style="font-size:large;color: purple;"> <span
-                                        class="bx bxs-ship"></span> {{item.ARRIVAL_DATE | date:'mediumDate'}}</div>
+                            <div class="col-md-3">
+                                <p class="description" style="font-weight: 500;"> <span
+                                        class="bx bx-user me-2"></span>{{item.CLEARING_PARTY}} </p>
+                                <p class="description"><span *ngFor="let sc of item.CONTAINERS?.split(', ')">
+                                        <img *ngIf="sc.substring(0,2) == '20'" height="25" width="30" class="me-2"
+                                            src="assets/img/container.png" />
+                                        <img *ngIf="sc.substring(0,2) == '40'" height="25" width="30" class="me-2"
+                                            src="assets/img/container (1).png" />
+                                        <span class="me-2">{{sc}} | </span>
+                                    </span></p>
+                                <p class="description"><span *ngFor="let comms of item.COMMODITY?.split(', ')">
+                                        <img *ngIf="comms.split('-')[0] == 'NORMAL'" height="18" width="20" class="pb-1"
+                                            src="assets/img/box.png" />
+                                        <img *ngIf="comms.split('-')[0] == 'HAZ'" height="18" width="20" class="pb-1"
+                                            src="assets/img/fire.png" />
+                                        <img *ngIf="comms.split('-')[0] == 'REEFER'" height="23" width="25" class="pb-1"
+                                            src="assets/img/fish.png" />
+                                        <img *ngIf="comms.split('-')[0] == 'FLEXIBAG'" height="18" width="18"
+                                            class="pb-1" src="assets/img/waterdroplet.png" />
+                                        {{comms.split('-')[1]}} , </span>
+                                </p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="description" style="font-weight: 500;"><i class="fa fa-map-marker me-2"></i>
+                                    <span class="text-info">{{item.ACCEPTANCE_LOCATION}}</span>
+                                </p>
+                                <p class="description text-secondary">Validity : <span class="">{{item.DO_VALIDITY
+                                        | date:'mediumDate'}}</span>
+
+                                </p>
+                            </div>
+                            <div class="col-md-2 text-end">
+                                <button class="form-btn btn-sm rounded-pill"><i class="fa fa-plus me-1"></i>
+                                    View PDF</button>
                             </div>
                         </div>
                     </div>
@@ -86,7 +112,7 @@
     </section>
 </div>
 
-<div class="mx-auto loadImg mt-5" *ngIf="isLoading">
+<!-- <div class="mx-auto loadImg mt-5" *ngIf="isLoading">
     <div class="loader">
     </div>
-</div>
+</div> -->
