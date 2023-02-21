@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment.prod';
 import { DO } from '../models/do';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DoService {
   BASE_URL = environment.BASE_URL;
@@ -16,8 +16,7 @@ export class DoService {
   };
   constructor(private _http: HttpClient) {}
 
-  postDODetails(dO:any){
-    debugger;
+  postDODetails(dO: any) {
     return this._http.post<any>(
       this.BASE_URL + 'DO/InsertDO',
       dO,
@@ -28,15 +27,13 @@ export class DoService {
   getDOList(dO: DO) {
     return this._http.get<any>(
       this.BASE_URL +
-        'DO/GetDOList?OPERATION=' +
-        dO.OPERATION +
-        '&DO_NO='+
-        dO.DO_NO+
-        '&DO_DATE='+
-        dO.DO_DATE+
-        '&DO_VALIDITY='+
-        dO.DO_VALIDITY+
-        '&AGENT_CODE='+
+        'DO/GetDOList?DO_NO=' +
+        dO.DO_NO +
+        '&DO_DATE=' +
+        dO.DO_DATE +
+        '&DO_VALIDITY=' +
+        dO.DO_VALIDITY +
+        '&AGENT_CODE=' +
         dO.AGENT_CODE,
       this.httpOptions
     );
@@ -46,11 +43,10 @@ export class DoService {
     return this._http.get<any>(
       this.BASE_URL +
         'DO/GetDODetails?DO_NO=' +
-        dO.DO_NO+
-        '&AGENT_CODE='+
+        dO.DO_NO +
+        '&AGENT_CODE=' +
         dO.AGENT_CODE,
       this.httpOptions
     );
   }
-
 }
