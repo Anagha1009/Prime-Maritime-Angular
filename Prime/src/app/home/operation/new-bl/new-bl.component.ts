@@ -140,7 +140,7 @@ export class NewBlComponent implements OnInit {
         this._formBuilder.group({
           CONTAINER_NO: [element.CONTAINER_NO],
           CONTAINER_TYPE: [element.CONTAINER_TYPE],
-          CONTAINER_SIZE: [element.CONTAINER_SIZE],
+          //CONTAINER_SIZE: [element.CONTAINER_SIZE],
           SEAL_NO: [element.SEAL_NO],
           GROSS_WEIGHT: [element.GROSS_WEIGHT],
           MEASUREMENT: [element.MEASUREMENT.toString()],
@@ -368,7 +368,7 @@ export class NewBlComponent implements OnInit {
           this._formBuilder.group({
             CONTAINER_NO: [element.CONTAINER_NO],
             CONTAINER_TYPE: [element.CONTAINER_TYPE],
-            CONTAINER_SIZE: [element.CONTAINER_SIZE],
+            //CONTAINER_SIZE: [element.CONTAINER_SIZE],
             SEAL_NO: [element.SEAL_NO],
             AGENT_SEAL_NO: [element.SEAL_NO],
             GROSS_WEIGHT: [element.GROSS_WEIGHT],
@@ -440,7 +440,7 @@ export class NewBlComponent implements OnInit {
             this._formBuilder.group({
               CONTAINER_NO: [element.CONTAINER_NO],
               CONTAINER_TYPE: [element.CONTAINER_TYPE],
-              CONTAINER_SIZE: [element.CONTAINER_SIZE],
+              //CONTAINER_SIZE: [element.CONTAINER_SIZE],
               SEAL_NO: [element.SEAL_NO],
               AGENT_SEAL_NO: [element.SEAL_NO],
               GROSS_WEIGHT: [element.GROSS_WEIGHT],
@@ -600,7 +600,6 @@ export class NewBlComponent implements OnInit {
           var keyArray1 = [
             'CONTAINER_NO',
             'CONTAINER_TYPE',
-            'CONTAINER_SIZE',
             'SEAL_NO',
             'AGENT_SEAL_NO',
             'GROSS_WEIGHT',
@@ -661,7 +660,6 @@ export class NewBlComponent implements OnInit {
                 !this.checkNullEmpty([
                   element.CONTAINER_NO,
                   element.CONTAINER_TYPE,
-                  element.CONTAINER_SIZE,
                   element.SEAL_NO,
                   element.GROSS_WEIGHT,
                   element.MEASUREMENT,
@@ -767,7 +765,7 @@ export class NewBlComponent implements OnInit {
           this._formBuilder.group({
             CONTAINER_NO: [element.CONTAINER_NO],
             CONTAINER_TYPE: [element.CONTAINER_TYPE],
-            CONTAINER_SIZE: [element.CONTAINER_SIZE],
+            // CONTAINER_SIZE: [element.CONTAINER_SIZE],
             SEAL_NO: [element.SEAL_NO],
             MARKS_NOS: [element.MARKS_NOS],
             DESC_OF_GOODS: [element.DESC_OF_GOODS],
