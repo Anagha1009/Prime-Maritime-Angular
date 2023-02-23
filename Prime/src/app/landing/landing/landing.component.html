@@ -1,50 +1,12 @@
-<!-- ======= Header ======= -->
-<div *ngIf="ispreloader" id="js-preloader" class="js-preloader">
-    <div class="preloader-inner">
-        <span class="dot"></span>
-        <div class="dots">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>
-</div>
-<header id="header" class="fixed-top d-flex align-items-center header-transparent">
-    <div class="ms-5 d-flex justify-content-between align-items-center">
 
-        <div class="logo">
-            <a routerLink=""><img src="assets/img/logo_p.png" alt="" class="img-fluid"></a>
-        </div>
-        <nav id="navbar" class="navbar">
-            <ul>
-                <li><a class="active" routerLink="">Home</a></li>
-                <li><a routerLink="about.html">About Us</a></li>
-                <li><a routerLink="services.html">Our Services</a></li>
-                <li><a routerLink="portfolio.html">Tariffs</a></li>
-                <li><a routerLink="team.html">Contact Us</a></li>
-
-            </ul>
-
-        </nav>
-        <nav class="navbar">
-            <i class="bi bi-list mobile-nav-toggle"></i>
-        </nav>
-        <span class="text-end ms-4"><a placement="right" tooltip="login" routerLink="login" *ngIf="!isLoggedIn">Login</a>
-            <a placement="right" tooltip="click to goto its resptv. page !" (click)="redirectToHome()"
-                class="text-primary pointer" *ngIf="isLoggedIn">Hi {{user.userName}}
-                !</a></span>
-        <!-- .navbar -->
-
-    </div>
-</header><!-- End Header -->
 <!-- ======= Hero Section ======= -->
-<section id="hero" class="d-flex justify-cntent-center align-items-center">
+<section id="hero" class="d-flex justify-cntent-center align-items-center ">
     <div id="heroCarousel" class="container carousel carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
 
         <!-- Slide 1 -->
         <div class="carousel-item active">
             <div class="carousel-container">
-                <div class="col-md-5">
+                <div class="col-md-7">
                     <div class="tabs">
                         <input type="radio" (change)="isquotation = true" class="d-none" id="radio-1" name="tabs"
                             [checked]="true" />
@@ -54,9 +16,9 @@
                         <span class="glider d-none"></span>
                     </div>
                     <div class="card  mt-2" style="background: transparent;">
-                        <div class="card-body text-start">
+                        <div class="card-body text-start heg-card">
                             <div *ngIf="isquotation">
-                                <div class="col-md-10 mx-2">
+                                <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -481,171 +443,5 @@
     </section><!-- End Features Section -->
 
 </main><!-- End #main -->
+ 
 
-<!-- ======= Footer ======= -->
-<footer id="footer">
-
-    <div class="footer-newsletter">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <h4>Our Newsletter</h4>
-                    <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-                </div>
-                <div class="col-lg-6">
-                    <form action="" method="post">
-                        <input type="email" name="email"><input type="submit" value="Subscribe">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer-top">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Useful Links</h4>
-                    <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Our Services</h4>
-                    <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-contact">
-                    <h4>Contact Us</h4>
-                    <p>
-                        A108 Adam Street <br>
-                        New York, NY 535022<br>
-                        United States <br><br>
-                        <strong>Phone:</strong> +1 5589 55488 55<br>
-                        <strong>Email:</strong> info@example.com<br>
-                    </p>
-
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-info">
-                    <h3>About Moderna</h3>
-                    <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita
-                        valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
-                    <div class="social-links mt-3">
-                        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-                        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="copyright">
-            &copy; Copyright <strong><span>Moderna</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/free-bootstrap-template-corporate-moderna/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </div>
-</footer><!-- End Footer -->
-
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-        class="bi bi-arrow-up-short"></i></a>
-
-
-
-
-<!-- modalpopup -->
-<div class="modal fade" id="previewModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="col-5">
-                    <h5 class="modal-title" id="exampleModalLabel">Track Booking:
-                        <span class="text-danger" style="font-size: 20px;"><b>{{bookingNo}}</b></span>
-                    </h5>
-                </div>
-                <div class="col-5">
-                    <!-- <span class="description" style="font-size: larger;"> <span class="bx bxs-ship"></span>
-                        {{booking.POL}} - </span>
-                    <span class="description" style="font-size: larger;"> <span class="bx bxs-ship"></span>
-                        {{booking.POD}}</span> -->
-                </div>
-                <div class="col-2 text-end">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        #closeBtn></button>
-                </div>
-            </div>
-            <div class="modal-body">
-                <div class="col-md-12 text-center">
-                    <div class="container container-fluid mt-5">
-                        <ul class="multi-steps mt-5" id="stepper" *ngIf="isTracking">
-                            <li class="step is-active">Booking
-                                <div class="progress-bar">
-                                </div>
-                                <div class="progress-bar__bar">
-                                    <div class="train" style="bottom: 1.9rem;width: 20%;">
-                                        <img src="assets/img/quote-icon.png" width="100%">
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="step">CRO<div class="progress-bar"></div>
-                                <div class="progress-bar__bar">
-                                    <div class="train" style="bottom: 1rem;width: 27%;">
-                                        <img src="assets/img/container2.jpg" width="100%">
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="step">BL<div class="progress-bar"></div>
-                                <div class="progress-bar__bar">
-                                    <div class="train" style="width: 20%;bottom:1.7rem">
-                                        <img src="assets/img/972617.png" width="100%">
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="step">Vessel Sailed<div class="progress-bar"></div>
-                                <div class="progress-bar__bar">
-                                    <div class="train" style="bottom: 1.3rem;width: 35%;">
-                                        <img src="assets/img/cargoship2.png" width="100%">
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="step">DO<div class="progress-bar"></div>
-                                <div class="progress-bar__bar">
-                                    <div class="train w-25" style="bottom: 1.8rem">
-                                        <img src="assets/img/truck-icon.jpg" width="100%">
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="step">Release</li>
-                        </ul>
-                        <div class="col-md-5 mx-auto" *ngIf="!isTracking">
-                            <h5 class="text-center">Sorry! No Tracking found !!</h5>
-                            <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

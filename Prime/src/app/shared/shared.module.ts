@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LandingComponent } from './landing/landing.component';
+// import { LandingComponent } from './landing/landing.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PmLandingComponent } from './pm-landing/pm-landing.component';
@@ -18,7 +18,7 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
 @NgModule({
   declarations: [
-    LandingComponent,
+    // LandingComponent,
     HeaderComponent,
     FooterComponent,
     PmLandingComponent,

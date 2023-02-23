@@ -2,7 +2,7 @@
     <div class="container d-flex justify-content-between align-items-center">
 
         <div class="logo">
-            <a routerLink=""><img src="assets/img/logo_p.png" alt="" class="img-fluid"></a>
+            <a class="pointer"><img src="assets/img/logo_p.png" alt="" class="img-fluid"></a>
         </div>
 
         <nav id="navbar" class="navbar">
@@ -51,7 +51,7 @@
         <!-- <span class="text-light">Hi User !<a (click)="logout()"><i title="logout" style="font-size: 20px"
                     class='ms-2 pointer bx bx-user-x'></i></a></span> -->
         <span class="text-light">Hi {{username}} ({{menu == '1' ? 'Agent' : 'Depo'}}) !<a (click)="logout()"
-                placement="right" tooltip="logout" class="ms-3 pointer"><img src="assets/img/sign_out.png" width="25px"
+                 class="ms-3 pointer"><img src="assets/img/sign_out.png" width="25px"
                     height="25px"></a></span>
     </div>
 </header>

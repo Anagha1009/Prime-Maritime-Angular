@@ -1,23 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { LOGIN } from 'src/app/models/login';
+import { Router } from '@angular/router';
+
 import { BookingService } from 'src/app/services/booking.service';
-import { LoginService } from 'src/app/services/login.service';
+
 
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
   styleUrls: [
     './landing.component.scss',
-    // './../../../assets/vendor/animate.css/animate.min.css',
-    // './../../../assets/vendor/aos/aos.css',
-    // './../../../assets/vendor/bootstrap/css/bootstrap.min.css',
-    // './../../../assets/vendor/bootstrap/css/bootstrap-grid.css',
-    // './../../../assets/vendor/bootstrap-icons/bootstrap-icons.css',
-    // './../../../assets/vendor/boxicons/css/boxicons.min.css',
-    // './../../../assets/vendor/glightbox/css/glightbox.min.css',
-    // './../../../assets/vendor/swiper/swiper-bundle.min.css',
-    // './../../../assets/css/style.css',
+   
   ],
 })
 export class LandingComponent implements OnInit {
@@ -32,7 +24,7 @@ export class LandingComponent implements OnInit {
   constructor(
     private _router: Router,
     private _bookingservice: BookingService,
-    private _loginService: LoginService
+   
   ) {}
 
   ngOnInit(): void {
@@ -40,12 +32,7 @@ export class LandingComponent implements OnInit {
       this.ispreloader = false;
     }, 3000);
 
-    this.user = this._loginService.userValue;
-    if (this.user) {
-      this.isLoggedIn = true;
-    } else {
-      this.isLoggedIn = false;
-    }
+  
   }
 
   public loadJsFile(url: any[]) {
@@ -57,27 +44,16 @@ export class LandingComponent implements OnInit {
     });
   }
 
-  redirectToHome() {
-    if (this.user.roleCode == '1') {
-      this._router.navigateByUrl('/home/rate-request/srr-list');
-    } else if (this.user.roleCode == '3') {
-      this._router.navigateByUrl('/home/depo/depo-dashboard');
-    } else if (this.user.roleCode == '2') {
-      this._router.navigateByUrl('/pm/dashboard');
-    }
-  }
+  
 
   getTracking() {
-    //this._router.navigate(['/home/track-booking'], { queryParams: { bookingNo: this.bookingNo } });
+    
     if (this.bookingNo == '') {
       alert('Please enter booking no!');
     } else {
       var element = document.getElementById('openModalButton') as HTMLElement;
       element.click();
-      // const url = this._router.serializeUrl(this._router.createUrlTree(
-      //   ['/home/track-booking'], { queryParams: { bookingNo: this.bookingNo } }
-      // ));
-      //window.open(url, '_blank');
+     
     }
   }
 
