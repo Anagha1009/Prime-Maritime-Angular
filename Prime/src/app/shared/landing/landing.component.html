@@ -13,11 +13,11 @@
     <div class="ms-5 d-flex justify-content-between align-items-center">
 
         <div class="logo">
-            <a href=""><img src="assets/img/logo_p.png" alt="" class="img-fluid"></a>
+            <a routerLink=""><img src="assets/img/logo_p.png" alt="" class="img-fluid"></a>
         </div>
         <nav id="navbar" class="navbar">
             <ul>
-                <li><a class="active" href="">Home</a></li>
+                <li><a class="active" routerLink="">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
                 <li><a href="services.html">Our Services</a></li>
                 <li><a href="portfolio.html">Tariffs</a></li>
@@ -29,7 +29,7 @@
         <nav class="navbar">
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
-        <span class="text-end ms-4"><a placement="right" tooltip="login" href="login" *ngIf="!isLoggedIn">Login</a>
+        <span class="text-end ms-4"><a placement="right" tooltip="login" routerLink="login" *ngIf="!isLoggedIn">Login</a>
             <a placement="right" tooltip="click to goto its resptv. page !" (click)="redirectToHome()"
                 class="text-primary pointer" *ngIf="isLoggedIn">Hi {{user.userName}}
                 !</a></span>

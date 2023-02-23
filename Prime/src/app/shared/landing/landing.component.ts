@@ -59,9 +59,9 @@ export class LandingComponent implements OnInit {
 
   redirectToHome() {
     if (this.user.roleCode == '1') {
-      this._router.navigateByUrl('/home/srr-list');
+      this._router.navigateByUrl('/home/rate-request/srr-list');
     } else if (this.user.roleCode == '3') {
-      this._router.navigateByUrl('/home/depo');
+      this._router.navigateByUrl('/home/depo/depo-dashboard');
     } else if (this.user.roleCode == '2') {
       this._router.navigateByUrl('/pm/dashboard');
     }
