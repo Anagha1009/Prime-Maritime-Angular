@@ -19,9 +19,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
 import { MasterLayoutModule } from './layout/master-layout/master-layout.module';
+import { BaseLayoutComponent } from './layout/base-layout/base-layout.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, BaseLayoutComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
