@@ -1,0 +1,134 @@
+<div class="section-title pt-3">
+  <h2>Liner Master</h2>
+</div>
+<div class="mb-4">
+  <form [formGroup]="LinerForm1">
+    <div class="col-md-6 offset-md-6 text-end">
+      <button (click)="openModal()" class="form-btn-primary"><i class="fa fa-plus me-1"></i> New Liner</button>
+      <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#linerModal">New
+        Liner</button>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="form-group">
+          <label class="form-label2">Status </label>
+          <select class="form-control2" formControlName="STATUS">
+            <option value="" selected="true" disabled>--Select--</option>
+            <option value="true">Active</option>
+            <option value="false">InActive</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label class="form-label2">From Date</label>
+          <input (change)="LinerForm1.get('TO_DATE')?.setValue('')" onkeypress="return false;"
+            formControlName="FROM_DATE" type="date" class="form-control2">
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label class="form-label2">To Date</label>
+          <input onkeypress="return false;" [min]="LinerForm1.get('FROM_DATE')?.value" formControlName="TO_DATE"
+            type="date" class="form-control2">
+        </div>
+      </div>
+      <div class="col-md-3 mt-4">
+        <button class="form-btn me-2" (click)="Search()" [disabled]="isLoading">Search
+          <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
+        <button class="form-btn-light me-2" (click)="Clear()" [disabled]="isLoading1">Clear<span *ngIf="isLoading1"
+            class="fa fa-spinner fa-spin"></span></button>
+      </div>
+    </div>
+  </form>
+  <table class="ratetable table-bordered" id="data-table-config">
+    <thead>
+      <tr>
+        <th width="1%">No</th>
+        <th width="19%">Liner Code</th>
+        <th width="20%">Liner Name</th>
+        <th width="30%">Description </th>
+        <th width="20%">Status</th>
+        <th width="10%">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of LinerList; let i = index">
+        <td width="1%">{{i+1}}</td>
+        <td width="19%">{{item.CODE}}</td>
+        <td width="20%">{{item.NAME}}</td>
+        <td width="30%">{{item.DESCRIPTION}}</td>
+        <td width="20%" class="status"><span [class]="!item.STATUS ? 'rejected' : 'active'">{{item.STATUS ? 'Active'
+            :
+            'In-Active'}}</span></td>
+        <td width="10%">
+          <i class="fa fa-pencil mx-2 pointer text-success" (click)="openModal(item.ID)"></i>
+          <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteLinerList(item.ID)"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" #linerModal id="linerModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Liner Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="LinerForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label2">Liner Code<span class="text-danger"> *</span></label>
+                <input type="text" id="name" [ngClass]="{'invalid':submitted && f.CODE.errors}" formControlName="CODE"
+                  class="form-control2">
+                <div *ngIf="submitted && f.CODE.errors" class="invalid-feedback">Liner Code is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-label2">Liner Name<span class="text-danger"> *</span></label>
+                <input type="text" id="no" [ngClass]="{'invalid':submitted && f.NAME.errors}" formControlName="NAME"
+                  class="form-control2">
+                <div *ngIf="submitted && f.CODE.errors" class="invalid-feedback">Liner Name is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-label2">Description<span class="text-danger"> *</span></label>
+                <textarea type="text" id="gstin" [ngClass]="{'invalid':submitted && f.DESCRIPTION.errors}"
+                  formControlName="DESCRIPTION" class="form-control2"></textarea>
+                <div *ngIf="submitted && f.DESCRIPTION.errors" class="invalid-feedback">Description is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="form-check form-switch">
+                  <input formControlName="STATUS" class="form-check-input" type="checkbox" role="switch" />
+                  <label class="form-check-label">Status <span class="text-danger"> *</span></label>
+                </div>
+                <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Status is required </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="!isUpdate" (click)="InsertLinerMaster()" class="form-btn">Save</button>
+        <button *ngIf="isUpdate" (click)="UpdateLiner()" class="form-btn">Update</button>
+        <button class="form-btn-light me-2" (click)="ClearForm()">Clear</button>
+      </div>
+    </div>
+  </div>
+</div>

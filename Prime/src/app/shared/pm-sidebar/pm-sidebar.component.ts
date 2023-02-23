@@ -40,7 +40,7 @@ export class PmSidebarComponent implements OnInit {
   redirectToSubMenu(value: string) {
     this.ismenu = true;
     this.submenu = value;
-    this._router.navigateByUrl('/pm/' + value);
+    this._router.navigateByUrl('/master/' + value);
   }
 
   logout() {

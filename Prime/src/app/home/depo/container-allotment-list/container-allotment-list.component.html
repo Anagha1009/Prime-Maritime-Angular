@@ -1,0 +1,94 @@
+<div class="section-title">
+    <h2>Container Allotments</h2>
+</div>
+<div class="container">
+    <div class="mx-5" [formGroup]="containerForm">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label2">Container No</label>
+                    <input formControlName="CONTAINER_NO" type="text" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">From Date</label>
+                    <input formControlName="FROM_DATE" type="date" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">To Date</label>
+                    <input formControlName="TO_DATE" type="date" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-4 mt-4">
+                <button class="form-btn me-2" (click)="Search()">Search</button>
+                <button class="form-btn" (click)="Clear()">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <section class="services">
+    <div class="container">
+        <div [class]="isScroll ? 'scrollbar' : ''" id="style-3">
+            <div [class]="isScroll ? 'force-overflow' : ''">
+                <div class="icon-box icon-box-cyan text-start" *ngFor="let item of containerAllotmentList">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h4 class="title">{{item.CRO_NO }}</h4>
+                        </div>
+                        <div class="col-md-5">
+                            <p class="description">
+                                <span class="bx bxs-truck"></span>
+                                {{item.CONTAINER_NO}}
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <p class="description"><i class="bx bxs-ship"></i> <span class="text-info">
+                                    India | Movement Date : 10 Jan 2022</span>
+                            </p>
+                        </div>
+                        <div class="col-md-1 rounded-btn">
+                            <a href="#"><i class="fa fa-eye"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 mx-auto" *ngIf="containerAllotmentList.length == 0">
+                <h5 class="text-center">Sorry! No records found !!</h5>
+                <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
+            </div>
+        </div>
+    </div>
+</section> -->
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered" id="data-table-config">
+            <thead>
+                <tr>
+                    <th>CRO No</th>
+                    <th>Container No.</th>
+                    <th>Location</th>
+                    <th>Movement Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="alert" role="alert" *ngFor="let item of containerAllotmentList;let i = index">
+                    <td>
+                        {{item.CRO_NO}}
+                    </td>
+                    <td>
+                        {{item.CONTAINER_NO}}
+                    </td>
+                    <td>
+                        ICD
+                    </td>
+                    <td>
+                        10 Jan 2022
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

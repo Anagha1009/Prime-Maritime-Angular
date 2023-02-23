@@ -1,0 +1,230 @@
+<div class="section-title pt-3">
+    <h2>M&R Requests</h2>
+</div>
+<div class="mt-3">
+    <table class="table table-responsive-xl">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>MR No</th>
+                <th>Depo Code</th>
+                <th>Depo Name</th>
+                <th>Status</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="alert" role="alert" *ngFor="let item of mrList">
+                <td>
+                    <label class="checkbox-wrap checkbox-primary">
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </td>
+                <td>{{item.MR_NO}}</td>
+                <td>{{item.DEPO_CODE}}</td>
+                <td>{{item.DEPO_NAME}}</td>
+                <td class="status">
+                    <span [class]="item.STATUS == 'Requested' ? 'waiting' : item.STATUS == 'Rejected' ? 'rejected' : 'active'">
+                        {{item.STATUS}}
+                    </span>
+                </td>
+                <td>
+                    <div *ngIf="item.STATUS == 'Requested'" class="rounded-btn"><a
+                            (click)="getDetails(item.MR_NO)"><i class="fa fa-plus text-light"></i></a>
+                        <button #MRModal data-bs-toggle="modal" href="#mrModal" class="d-none"></button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="mrModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">MR Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body" style="overflow-x: auto;">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h6>
+                                MR No : <small class="text-danger me-2">{{mrDetailsList[0]?.MR_NO}}</small>
+                                Depo : <small
+                                    class="text-danger">{{mrDetailsList[0]?.DEPO_NAME}}({{mrDetailsList[0]?.DEPO_CODE}})</small>
+                                Container No : <small
+                                    class="text-danger me-2">{{mrDetailsList[0]?.CONTAINER_NO}}</small>
+                                Created Date : <small class="text-danger">{{mrDetailsList[0]?.CREATED_DATE |
+                                    date:'dd-MM-YYYY'}}</small>
+                            </h6>
+                        </div>
+                        <div class="col-md-3 text-end">
+                            <button (click)="addNew()" class="form-btn">
+                                <i class="fa fa-plus me-2"></i>Add New</button>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="table-responsive">
+                    <table class="ratetable" style="font-size: 12px;">
+                        <tbody>
+                            <tr>
+                                <th>Location</th>
+                                <th>Component</th>
+                                <th>Damage</th>
+                                <th>Repair</th>
+                                <th>Description</th>
+                                <th>LWH (Unit)</th>
+                                <th>Responsibility</th>
+                                <th>Manhr</th>
+                                <th>Labour</th>
+                                <th>Material</th>
+                                <th>Total</th>
+                                <th>Remarks</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                            <tr *ngFor="let item of f1;let i = index" [formGroup]="f(item)">
+                                <td>{{item.value.LOCATION}}</td>
+                                <td>{{item.value.COMPONENT}}</td>
+                                <td>{{item.value.DAMAGE}}</td>
+                                <td>{{item.value.REPAIR}}</td>
+                                <td>{{item.value.DESC}}</td>
+                                <td>{{item.value.LENGTH}}-{{item.value.WIDTH}}-{{item.value.HEIGHT}}
+                                    ({{item.value.UNIT}})</td>
+                                <td>{{item.value.RESPONSIBILITY}}</td>
+                                <td>{{item.value.MAN_HOUR}}</td>
+                                <td>{{item.value.LABOUR}}</td>
+                                <td>{{item.value.MATERIAL}}</td>
+                                <td>{{item.value.TOTAL}}</td>
+                                <td>
+                                    <textarea class="form-control3" formControlName="REMARKS" type="text"></textarea>
+                                </td>
+                                <td>
+                                    <a class="pointer" (click)="removeMR(i)">
+                                        <i style="font-size:18px" class="fa fa-trash mt-3"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let item of f2;let j = index" [formGroup]="f(item)">
+                                <td>
+                                    <input formControlName="LOCATION" class="form-control3" type="text" />
+                                </td>
+                                <td>
+                                    <select formControlName="COMPONENT" class="form-control3">
+                                        <option value="" selected disabled>--Select--</option>
+                                        <option *ngFor="let item of componentList" value="{{item.CODE}}">
+                                            {{item.CODE}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select formControlName="DAMAGE" class="form-control3">
+                                        <option value="" selected disabled>--Select--</option>
+                                        <option *ngFor="let item of damageList" value="{{item.CODE}}">
+                                            {{item.CODE}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select formControlName="REPAIR" class="form-control3">
+                                        <option value="" selected disabled>--Select--</option>
+                                        <option *ngFor="let item of repairList" value="{{item.CODE}}">
+                                            {{item.CODE}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <textarea class="form-control3" formControlName="DESC" type="text"></textarea>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <input formControlName="LENGTH" class="form-control3" type="text" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input formControlName="WIDTH" class="form-control3" type="text" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input formControlName="HEIGHT" class="form-control3" type="text" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input formControlName="UNIT" class="form-control3" type="text" />
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="2%">
+                                    <select formControlName="RESPONSIBILITY" class="form-control3">
+                                        <option value="" selected disabled>
+                                            -Select-</option>
+                                        <option value="S">S</option>
+                                        <option value="C">C</option>
+                                        <option value="T">T</option>
+                                        <option value="O">O</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input formControlName="MAN_HOUR" (keyup)="LabourCount(j)" class="form-control3"
+                                        type="text" />
+                                </td>
+                                <td>
+                                    <input formControlName="LABOUR" readonly class="form-control3" type="text" />
+                                </td>
+                                <td>
+                                    <input formControlName="MATERIAL" class="form-control3" type="text" />
+                                </td>
+                                <td>
+                                    {{Sum(j)}}
+                                </td>
+                                <td>
+                                    <textarea class="form-control3" formControlName="REMARKS" type="text"></textarea>
+                                </td>
+                                <td>
+                                    <a class="pointer" (click)="removeItem(j)">
+                                        <i style="font-size:18px" class="fa fa-trash mt-3"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="text-end">
+                            <h6>
+                                Tax : <small class="text-danger me-2">{{TaxTotal()}}</small><br>
+                                Final Total : <small class="text-danger">{{FinalTotal()}}</small>
+                            </h6>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-3" *ngFor="let img of imgList">
+                            <div class="formbold-file-list formbold-mb-5">
+                                <div class="formbold-file-item">
+                                    <span class="formbold-file-name"
+                                        *ngIf="img.filE_NAME.split('_')[1].length<=15">{{img.filE_NAME.split('_')[1]}}</span>
+                                    <span class="formbold-file-name"
+                                        *ngIf="img.filE_NAME.split('_')[1].length>15">{{img.filE_NAME.split('_')[1].substring(0,7)}}...{{img.filE_NAME.split('_')[1].split('.')[1]}}</span>
+                                    <a target="_blank" href="{{BASE_URL + img.filE_PATH}}"><i
+                                            class="fa fa-eye text-dark ms-5" ></i></a>
+                                    <!-- <button (click)="download(BASE_URL + img.filE_PATH)" ><i class="fa fa-download text-dark" style="margin-left:20px;"></i></button> -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="form-btn-success me-2" (click)="approveRate('Approved')">Approve</button>
+                <button type="button" class="form-btn-danger" (click)="approveRate('Rejected')">Reject</button>
+            </div>
+        </div>
+    </div>
+</div>

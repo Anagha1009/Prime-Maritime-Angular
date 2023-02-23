@@ -1,0 +1,291 @@
+<div class="section-title">
+    <h2>{{'Header.title2'|translate}}</h2>
+</div>
+
+<div class="container">
+    <a routerLink="/home/rate-request/srr-list"><i class='bx bx-arrow-back'></i>Back to List</a>
+
+    <div class="accordion mt-3" id="accordion" role="tablist">
+        <div class="card">
+            <div class="card-header" role="tab" id="heading-1">
+                <h6 class="mb-0">
+                    <a data-bs-toggle="collapse" href="#collapse-1" aria-expanded="false" aria-controls="collapse-1"
+                        data-abc="true" class="collapsed">
+                        {{'Header.GeneralInfo'|translate}}
+                    </a>
+                </h6>
+            </div>
+            <div id="collapse-1" class="collapse show" role="tabpanel" aria-labelledby="heading-1"
+                data-bs-parent="#accordion">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">{{'Header.SRRNo'|translate}}</label>
+                                <label class="label-subheader">{{quotation?.SRR_NO==null ? '-':
+                                    quotation?.SRR_NO==''?'-':quotation?.SRR_NO}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">{{'Header.PlaceofReceipt'|translate}}</label>
+                                <label class="label-subheader">{{quotation?.PLACE_OF_RECEIPT == null ? '-' :
+                                    quotation?.PLACE_OF_RECEIPT == '' ? '-' : quotation?.PLACE_OF_RECEIPT}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">{{'Header.PlaceofDelivery'|translate}}</label>
+                                <label class="label-subheader">{{quotation?.PLACE_OF_DELIVERY== null ? '-' :
+                                    quotation?.PLACE_OF_DELIVERY == '' ? '-' : quotation?.PLACE_OF_DELIVERY}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">{{'Header.FinalDestination'|translate}}</label>
+                                <label class="label-subheader">{{quotation?.FINAL_DESTINATION== null ? '-' :
+                                    quotation?.FINAL_DESTINATION == '' ? '-' : quotation?.FINAL_DESTINATION}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">{{'Header.PortofLoading'|translate}}</label>
+                                <label class="label-subheader">{{quotation?.POL== null ? '-' :
+                                    quotation?.POL == '' ? '-' : quotation?.POL}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">{{'Header.PortofDischarge'|translate}}</label>
+                                <label class="label-subheader">{{quotation?.POD== null ? '-' :
+                                    quotation?.POD == '' ? '-' : quotation?.POD}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">{{'Header.Transhipment1'|translate}}</label>
+                                <label class="label-subheader">{{quotation?.TSP_1== null ? '-' :
+                                    quotation?.TSP_1 == '' ? '-' : quotation?.TSP_1}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">{{'Header.Transhipment2'|translate}}</label>
+                                <label class="label-subheader">{{quotation?.TSP_2== null ? '-' :
+                                    quotation?.TSP_2 == '' ? '-' : quotation?.TSP_2}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">{{'Header.ServiceName'|translate}}</label>
+                                <label class="label-subheader">{{quotation?.SERVICE_NAME== null ? '-'
+                                    :quotation?.SERVICE_NAME == '' ? '-' : quotation?.SERVICE_NAME}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">{{'Header.EffectFrom'|translate}}</label>
+                                <label class="label-subheader">
+                                    {{quotation?.EFFECT_FROM |
+                                    date:'mediumDate'}} </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">{{'Header.EffectTo'|translate}}</label>
+                                <label class="label-subheader"> {{quotation?.EFFECT_TO |
+                                    date:'mediumDate'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-header">{{'Header.CustomerName'|translate}}</label>
+                                <label class="label-subheader">{{quotation?.CUSTOMER_NAME== null ? '-' :
+                                    quotation?.CUSTOMER_NAME == '' ? '-' : quotation?.CUSTOMER_NAME}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" role="tab" id="heading-2">
+                <h6 class="mb-0">
+                    <a class="collapsed" data-bs-toggle="collapse" href="#collapse-2" aria-expanded="false"
+                        aria-controls="collapse-2" data-abc="true">
+                        {{'Header.CommodityDetails'|translate}}
+                    </a>
+                </h6>
+            </div>
+            <div id="collapse-2" class="collapse" role="tabpanel" aria-labelledby="heading-2"
+                data-bs-parent="#accordion">
+                <div class="card-body">
+                    <table class="table table-bordered destroydatatable" id="data-table-config">
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Commodity</th>
+                                <th>Commodity Type</th>
+                                <th>Weight</th>
+                                <th>IMO Class</th>
+                                <th>UN No</th>
+                                <th>Flash Point</th>
+                                <th>CAS No</th>
+                                <th>Ventilation</th>
+                                <th>Humidity</th>
+                                <th>Temperature</th>
+                                <th>L-W-H (cms)</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of commodityList; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{item.COMMODITY_NAME}}</td>
+                                <td>{{item.COMMODITY_TYPE}}</td>
+                                <!-- <td>{{ item.value.COMMODITY_TYPE == 'HAZ' ? 'Hazardous' : item.value.COMMODITY_TYPE=='FLEXIBAG' ?'FlexiBag' : 'Normal' }}</td> -->
+                                <td>{{item.WEIGHT}} ({{item.WEIGHT_UNIT}})</td>
+                                <td>{{ item.IMO_CLASS }} {{imoclassNames}}{{commodityList?.IMO_CLASS== null ? '-' :
+                                    commodityList?.IMO_CLASS == '' ? '-' : commodityList?.IMO_CLASS}}</td>
+                                <td>{{ item.UN_NO }} {{unno}}{{commodityList?.UN_NO== null ? '-' :
+                                    commodityList?.UN_NO == '' ? '-' : commodityList?.UN_NO}}</td>
+                                <td>{{ item.FLASH_POINT }}{{commodityList?.FLASH_POINT== null ? '-' :
+                                    commodityList?.FLASH_POINT == '' ? '-' : commodityList?.FLASH_POINT}}</td>
+                                <td>{{ item.CAS_NO }}{{commodityList?.CAS_NO== null ? '-' :
+                                    commodityList?.CAS_NO == '' ? '-' : commodityList?.CAS_NO}}</td>
+                                <td>{{ item.VENTILATION }}</td>
+                                <td>{{ item.HUMIDITY }}</td>
+                                <td>{{ item.TEMPERATURE }}</td>
+                                <td>{{ item.LENGTH }} - {{ item.WIDTH }} - {{ item.HEIGHT }}</td>
+                                <td>{{ item.REMARKS }}{{commodityList?.REMARKS== null ? '-' :
+                                    commodityList?.REMARKS == '' ? '-' : commodityList?.REMARKS}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" role="tab" id="heading-3">
+                    <h6 class="mb-0">
+                        <a class="collapsed" data-bs-toggle="collapse" href="#collapse-3" aria-expanded="false"
+                            aria-controls="collapse-3" data-abc="true">
+                            {{'Header.ContainerRateDetails'|translate}}
+                        </a>
+                    </h6>
+                </div>
+                <div id="collapse-3" class="collapse" role="tabpanel" aria-labelledby="heading-3"
+                    data-bs-parent="#accordion">
+                    <div class="card-body">
+                        <table class="table table-bordered destroydatatable" id="data-table-config">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No</th>
+                                    <th>Container Type</th>
+                                    <th>Container Size</th>
+                                    <th>Service Mode</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of containerList; let i = index">
+                                    <td>{{i + 1}}</td>
+                                    <td>{{item.CONTAINER_TYPE}}</td>
+                                    <td>{{item.CONTAINER_SIZE}}</td>
+                                    <td>{{item.SERVICE_MODE}}</td>
+                                    <td><a (click)="openRateDetailModal(i)"><i class="fa fa-eye text-dark"></i></a>
+                                        <button #RateDetailModal data-bs-toggle="modal" href="#rateDetailsModal"
+                                            class="d-none">Add
+                                            Rate</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" #rateDetailModal id="rateDetailsModal" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Rate Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                #closeBtn></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <th>SRR NO</th>
+                                        <th>Container Type</th>
+                                        <th>Charge Code</th>
+                                        <th>Transport Type</th>
+                                        <th>Payment Term</th>
+                                        <th>Currency</th>
+                                        <th>Standard</th>
+                                        <th>Requested</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of contRateList; let i = index">
+                                        <td>{{item.SRR_NO}}</td>
+                                        <td>{{item.CONTAINER_TYPE}}</td>
+                                        <td>{{item.CHARGE_CODE}}</td>
+                                        <td>{{item.TRANSPORT_TYPE}}</td>
+                                        <td>{{item.PAYMENT_TERM}}</td>
+                                        <td>{{item.CURRENCY}}</td>
+                                        <td>{{item.STANDARD_RATE}}</td>
+                                        <td>{{item.RATE_REQUESTED}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" role="tab" id="heading-2">
+                    <h6 class="mb-0">
+                        <a class="collapsed" data-bs-toggle="collapse" href="#collapse-4" aria-expanded="false"
+                            aria-controls="collapse-2" data-abc="true">
+                            {{'Header.CommodityFiles'|translate}}
+                        </a>
+                    </h6>
+                </div>
+                <div id="collapse-4" class="collapse" role="tabpanel" aria-labelledby="heading-2"
+                    data-bs-parent="#accordion">
+                    <div class="card-body">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-3" *ngFor="let file of fileList">
+                                    <div class="formbold-file-list formbold-mb-5">
+                                        <div class="formbold-file-item">
+                                            <span class="formbold-file-name"
+                                                *ngIf="file.filE_NAME.split('_')[1].length<=15">{{file.filE_NAME.split('_')[1]}}</span>
+                                            <span class="formbold-file-name"
+                                                *ngIf="file.filE_NAME.split('_')[1].length>15">{{file.filE_NAME.split('_')[1].substring(0,7)}}...{{file.filE_NAME.split('_')[1].split('.')[1]}}</span>
+                                            <a target="_blank" href="{{BASE_URL + file.filE_PATH}}"><i
+                                                    class="fa fa-eye text-dark ms-5"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
