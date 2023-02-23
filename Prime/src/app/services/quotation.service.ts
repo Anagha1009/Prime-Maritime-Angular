@@ -146,4 +146,23 @@ export class QuotationService {
         srr.NO_OF_CONTAINERS
     );
   }
+
+  //getsrrrates
+  getExcRates(currencyCode: any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'SRR/GetExcRates?CURRENCY_CODE=' +
+        currencyCode,
+      this.httpOptions
+    );
+  }
+
+  postExcRateList(rootobject: any){
+    return this._http.post<any>(
+      this.BASE_URL +
+        'SRR/InsertExcRate',
+        rootobject,
+      this.httpOptions
+    );
+  }
 }
