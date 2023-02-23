@@ -1,7 +1,7 @@
 <div class="section-title pt-3">
     <h2>Rate Request Details</h2>
 </div>
-<a routerLink="/pm/srr-list"><i class='bx bx-arrow-back'></i>Back to List</a>
+<a href="/pm/quotation-list"><i class='bx bx-arrow-back'></i>Back to List</a>
 <div class="row mt-3">
     <div class="col-md-12">
         <div class="row">
@@ -329,7 +329,7 @@
                         <h6>PNL : </h6>
                     </div>
                     <div class="col-4">
-                        <h6 class="text-info">{{TotalIncome() - TotalExpense()}}</h6>
+                        <h6 class="text-info">{{TotalIncome() - TotalExpense()  | number : '1.0-2'}}</h6>
                     </div>
                 </div>
                 <hr>
@@ -347,7 +347,7 @@
                     </div>
                     <div class="col-4">
                         <h6 class="text-info">{{TotalIncome() - TotalExpense() -
-                            calcForm.value.LADEN_BACK_COST}}</h6>
+                            calcForm.value.LADEN_BACK_COST  | number : '1.0-2'}}</h6>
                     </div>
                 </div>
 
@@ -357,7 +357,7 @@
                         <h6>Empty Back : </h6>
                     </div>
                     <div class="col-4">
-                        <h6 class="text-danger">{{calcForm.value.EMPTY_BACK_COST}}</h6>
+                        <h6 class="text-danger">{{calcForm.value.EMPTY_BACK_COST | number : '1.0-2'}}</h6>
                     </div>
                 </div>
                 <div class="row">
@@ -365,7 +365,7 @@
                         <h6>PNL : </h6>
                     </div>
                     <div class="col-4">
-                        <h6 class="text-info">0</h6>
+                        <h6 class="text-info">{{TotalIncome() - TotalExpense() - calcForm.value.LADEN_BACK_COST - calcForm.value.EMPTY_BACK_COST  | number : '1.0-2'}}</h6>
                     </div>
                 </div>
             </div>

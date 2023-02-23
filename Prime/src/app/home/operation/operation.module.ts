@@ -29,7 +29,8 @@ import { DataTablesModule } from 'angular-datatables';
     NewBlComponent,
     NewCroComponent,
     NewDoComponent,
-    TdrComponent
+    TdrComponent,
+   // ExcRateListComponent
   ],
   imports: [
     CommonModule,
