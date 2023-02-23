@@ -18,6 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
+import { MasterLayoutModule } from './layout/master-layout/master-layout.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +27,7 @@ import { DataTablesModule } from 'angular-datatables';
     AppRoutingModule,
     MainLayoutModule,
     PmLayoutModule,
+    MasterLayoutModule,
     SharedModule,
     FormsModule,
     ReactiveFormsModule,

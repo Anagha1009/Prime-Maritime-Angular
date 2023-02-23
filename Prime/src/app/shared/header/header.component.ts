@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit {
               : this.selectedLanguage == 'hi'
               ? hindi.data.Menu.rateRequest
               : arabic.data.Menu.rateRequest,
-          menuLink: 'home/srr-list',
+          menuLink: 'rate-request/srr-list',
         },
         {
           menuName:
@@ -91,7 +91,7 @@ export class HeaderComponent implements OnInit {
               : this.selectedLanguage == 'hi'
               ? hindi.data.Menu.containerAllotment
               : arabic.data.Menu.containerAllotment,
-          menuLink: 'home/container-allotment',
+          menuLink: 'depo/container-allotment',
         },
         {
           menuName:
@@ -100,7 +100,7 @@ export class HeaderComponent implements OnInit {
               : this.selectedLanguage == 'hi'
               ? hindi.data.Menu.mnrRequest
               : arabic.data.Menu.mnrRequest,
-          menuLink: 'home/mr-request',
+          menuLink: 'depo/mr-request',
         },
         {
           menuName:

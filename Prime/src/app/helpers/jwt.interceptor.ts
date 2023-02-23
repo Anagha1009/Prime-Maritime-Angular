@@ -28,7 +28,6 @@ export class JwtInterceptor implements HttpInterceptor {
       this.value = false;
     }
 
-    debugger;
     var x = this._commonService.getUser();
     if (isApiUrl && this._commonService.getUser()) {
       if (this._commonService.getUser() != null) {
