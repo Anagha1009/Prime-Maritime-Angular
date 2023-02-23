@@ -17,7 +17,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { DataTablesModule } from 'angular-datatables';
-
+import { ExcRateListComponent } from './exc-rate-list/exc-rate-list.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { DataTablesModule } from 'angular-datatables';
     NewCroComponent,
     NewDoComponent,
     TdrComponent,
-   // ExcRateListComponent
+    ExcRateListComponent,
   ],
   imports: [
     CommonModule,
@@ -41,7 +41,7 @@ import { DataTablesModule } from 'angular-datatables';
     HttpClientModule,
     TranslateModule,
     DataTablesModule,
-    OperationRoutingModule
-  ]
+    OperationRoutingModule,
+  ],
 })
-export class OperationModule { }
+export class OperationModule {}
