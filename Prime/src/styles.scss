@@ -1,7 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
-@import "ag-grid-community/dist/styles/ag-grid.css";
-@import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-@import "~@ng-select/ng-select/themes/default.theme.css";
+
+@import './assets/vendor/boxicons/css/boxicons.css';
+@import './assets/css/style.css';
+@import './assets/pm-assets/vendor/css/theme-default.css' ;
+@import './assets/pm-assets/css/demo.css';
+@import './assets/pm-assets/vendor/css/pages/page-auth.css';
+
+
+// @import "ag-grid-community/dist/styles/ag-grid.css";
+// @import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+// @import "~@ng-select/ng-select/themes/default.theme.css";
 
 .ag-theme-alpine {
   margin-bottom: 1rem;
@@ -736,3 +744,4 @@ input:-webkit-autofill:focus {
 .checkbox-primary input:checked ~ .checkmark:after {
   color: #40bfc1;
 }
+
