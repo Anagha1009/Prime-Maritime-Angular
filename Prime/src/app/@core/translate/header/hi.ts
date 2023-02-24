@@ -21,6 +21,7 @@ export const locale = {
       containerAllotment: 'कंटेनर आवंटन',
       mnrRequest: 'एम & आर अनुरोध',
       containerTracking: 'कंटेनर ट्रैकिंग',
+      newinvoice: 'नया चालान',
     },
     Button: {
       newRequest: 'New Rate Request',

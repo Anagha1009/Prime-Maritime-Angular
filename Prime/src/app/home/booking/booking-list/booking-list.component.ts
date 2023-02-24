@@ -115,6 +115,6 @@ export class BookingListComponent implements OnInit {
   }
 
   newCro(bookingNo: any) {
-    this._router.navigateByUrl('/home/new-cro/' + bookingNo);
+    this._router.navigateByUrl('/home/operations/new-cro/' + bookingNo);
   }
 }

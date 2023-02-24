@@ -18,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { DataTablesModule } from 'angular-datatables';
 import { ExcRateListComponent } from './exc-rate-list/exc-rate-list.component';
+import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ExcRateListComponent } from './exc-rate-list/exc-rate-list.component';
     NewDoComponent,
     TdrComponent,
     ExcRateListComponent,
+    NewInvoiceComponent,
   ],
   imports: [
     CommonModule,
