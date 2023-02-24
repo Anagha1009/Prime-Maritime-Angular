@@ -11,6 +11,7 @@ import { ManifestListComponent } from './manifest-list/manifest-list.component';
 import { NewBlComponent } from './new-bl/new-bl.component';
 import { NewCroComponent } from './new-cro/new-cro.component';
 import { NewDoComponent } from './new-do/new-do.component';
+import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
 import { TdrComponent } from './tdr/tdr.component';
 
 const routes: Routes = [
@@ -51,7 +52,7 @@ const routes: Routes = [
     data: { roles: [Role.Agent] },
   },
   {
-    path: 'new-cro',
+    path: 'new-cro/:BOOKING_NO',
     component: NewCroComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Agent] },
@@ -71,6 +72,12 @@ const routes: Routes = [
   {
     path: 'exc-rate-list',
     component: ExcRateListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Agent] },
+  },
+  {
+    path: 'new-invoice',
+    component: NewInvoiceComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Agent] },
   },

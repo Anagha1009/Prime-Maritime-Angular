@@ -25,6 +25,7 @@ export class NewQuotationComponent implements OnInit {
   containerForm: FormGroup;
   commoditiesForm: FormGroup;
   commodityType: string = '';
+  disabledcommodityType: any[] = [];
   submitted2: boolean = false;
   submitted1: boolean = false;
   isContainer: boolean = false;
@@ -261,6 +262,28 @@ export class NewQuotationComponent implements OnInit {
   }
 
   addCommodity() {
+    if (this.commodityType == 'HAZ') {
+      var Hazfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'HAZ');
+      if (Hazfiles.length != 3) {
+        alert('Please Upload All 3 Hazardous Files !');
+        return;
+      }
+    } else if (this.commodityType == 'FLEXIBAG') {
+      var flexifiles = this.fileList.filter(
+        (x) => x.COMMODITY_TYPE == 'FLEXIBAG'
+      );
+      if (flexifiles.length != 2) {
+        alert('Please Upload All 2 Flexibag Files !');
+        return;
+      }
+    } else if (this.commodityType == 'SP') {
+      var spfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'SP');
+      if (spfiles.length != 2) {
+        alert('Please Upload All 2 Special Equipment Files !');
+        return;
+      }
+    }
+
     this.submitted2 = true;
 
     if (this.commodityType == 'NORMAL') {
@@ -373,8 +396,35 @@ export class NewQuotationComponent implements OnInit {
     );
 
     this.f7;
+    this.disabledcommodityType.push(this.commodityType);
     this.commoditiesForm.reset();
+    this.commoditiesForm.get('COMMODITY_TYPE').setValue('');
+    this.commodityType = '';
     this.submitted2 = false;
+  }
+
+  removeFile(item: any, value: any) {
+    this.fileList.splice(
+      this.fileList.findIndex((el) => el.FILE.name === item),
+      1
+    );
+    if (value == 'POL') {
+      this.isUploadedPOL = false;
+    } else if (value == 'POD') {
+      this.isUploadedPOD = false;
+    } else if (value == 'VslOp') {
+      this.isUploadedVslOp = false;
+    } else if (value == 'TS') {
+      this.isUploadedTS = false;
+    } else if (value == 'ShpLOY') {
+      this.isUploadedShpLOY = false;
+    } else if (value == 'VslOpAp') {
+      this.isUploadedVslOp = false;
+    } else if (value == 'VslOpAp2') {
+      this.isUploadedVslOpAp2 = false;
+    } else if (value == 'Sur') {
+      this.isUploadedSur = false;
+    }
   }
 
   saveCommodity() {
@@ -571,9 +621,9 @@ export class NewQuotationComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
           if (
-            this.commodityType == 'HAZ' ||
-            this.commodityType == 'FLEXIBAG' ||
-            this.commodityType == 'SP'
+            this.disabledcommodityType.includes('HAZ') ||
+            this.commodityType.includes('FLEXIBAG') ||
+            this.commodityType.includes('SP')
           ) {
             this.uploadFilestoDB(SRRNO);
           }
@@ -607,7 +657,7 @@ export class NewQuotationComponent implements OnInit {
                       'SRR No. is - ' +
                       SRRNO
                   );
-                  this._router.navigateByUrl('/home/srr-list');
+                  this._router.navigateByUrl('/home/rate-request/srr-list');
                 }
               });
           } else {
@@ -618,7 +668,7 @@ export class NewQuotationComponent implements OnInit {
                 'SRR No. is - ' +
                 SRRNO
             );
-            this._router.navigateByUrl('/home/srr-list');
+            this._router.navigateByUrl('/home/rate-request/srr-list');
           }
         }
       });
@@ -631,7 +681,6 @@ export class NewQuotationComponent implements OnInit {
   }
 
   insertVoyage() {
-    debugger;
     this.submitted3 = true;
 
     if (this.voyageForm.invalid) {
