@@ -91,18 +91,35 @@ export class BlService {
     );
   }
 
-  icici() {
-    return this._http.post<any>(
-      'https://apic.nlpmuat.com/nlpm/sandbox/customer-verification-api/',
-      '{"corpId": "HCCL","userId": "SOOD","customerId": "502432824"}'
+  getBLHistory(agentCode: any) {
+    return this._http.get<any>(
+      this.BASE_URL + 'BL/GetBLHistory?AGENT_CODE=' + agentCode,
+      this.httpOptions
     );
   }
 
-  getBLHistory(agentCode: any) {
+  getinvoiceDetails(BL: Bl) {
     return this._http.get<any>(
       this.BASE_URL +
-        'BL/GetBLHistory?AGENT_CODE=' +
-        agentCode,
+        'SRR/GetInvoiceDetails?BL_NO=' +
+        BL.BL_NO +
+        '&CONTAINER_TYPE=' +
+        BL.CONTAINER_TYPE,
+      this.httpOptions
+    );
+  }
+
+  getinvoiceList(BL: Bl) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'SRR/GetInvoiceList?INVOICE_NO=' +
+        BL.INVOICE_NO +
+        '&FROM_DATE=' +
+        BL.FROM_DATE +
+        '&TO_DATE=' +
+        BL.TO_DATE +
+        '&AGENT_CODE=' +
+        BL.AGENT_CODE,
       this.httpOptions
     );
   }

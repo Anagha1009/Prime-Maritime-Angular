@@ -29,4 +29,11 @@ export class SrrReportService {
       this.httpOptions
     );
   }
+
+  getContainerDetentionList() {
+    return this._http.get<any>(
+      this.BASE_URL + 'Detention/GetContainerDetentionList',
+      this.httpOptions
+    );
+  }
 }

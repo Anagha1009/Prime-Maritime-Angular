@@ -5,6 +5,10 @@ export class Bl {
   BL_NO: any = '';
   DO_NO: any = '';
   DEPO_CODE: any = '';
-  BL_STATUS:any='';
+  BL_STATUS: any = '';
   fromDO: boolean = false;
+  CONTAINER_TYPE: any = '';
+  FROM_DATE: string = '';
+  TO_DATE: string = '';
+  INVOICE_NO: string = '';
 }

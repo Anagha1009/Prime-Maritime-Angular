@@ -19,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DataTablesModule } from 'angular-datatables';
 import { ExcRateListComponent } from './exc-rate-list/exc-rate-list.component';
 import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
+import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
     TdrComponent,
     ExcRateListComponent,
     NewInvoiceComponent,
+    InvoiceListComponent,
   ],
   imports: [
     CommonModule,
