@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PmHomeRoutingModule } from './pm-home-routing.module';
-import { PmLoginComponent } from './pm-login/pm-login.component';
+
 import { PmMrRequestComponent } from './pm-mr-request/pm-mr-request.component';
 import { PmQuotationDetailsComponent } from './pm-quotation-details/pm-quotation-details.component';
 import { PmQuotationListComponent } from './pm-quotation-list/pm-quotation-list.component';
@@ -16,7 +16,7 @@ import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
     declarations: [
-        PmLoginComponent,
+       
         PmMrRequestComponent,
         PmQuotationDetailsComponent,
         PmQuotationListComponent,

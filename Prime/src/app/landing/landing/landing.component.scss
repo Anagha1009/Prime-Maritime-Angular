@@ -12,11 +12,11 @@
 
 .tab {
   display: flex;
-  color: #536380;
+  color: #ffa300;
   align-items: center;
   justify-content: center;
   height: 50px;
-  width: 285px;
+  width: 100%;
   font-size: 1rem;
   font-weight: 500;
   border-radius: 99px; // just a high number to create pill effect
@@ -424,4 +424,7 @@ $smooth: cubic-bezier(0, 0.72, 0.58, 1);
   margin-left: 16px;
   background: #467b97;
   border-radius: 50%;
+}
+.heg-card{
+  height: 275px !important;
 }

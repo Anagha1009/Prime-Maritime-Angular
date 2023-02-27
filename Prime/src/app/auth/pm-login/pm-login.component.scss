@@ -1,0 +1,24 @@
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+.navbar {
+  position: absolute;
+ 
+  width: 100px;
+  padding: 5% 32.3%;
+}
+.navbar a,
+.navbar a:focus {
+  color: #000;
+  font-weight: bold;
+}
+
+.navbar a:hover,
+.navbar .active,
+.navbar .active:focus,
+.navbar li:hover > a {
+  color: #ea0813;
+}

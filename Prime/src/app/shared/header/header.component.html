@@ -2,7 +2,7 @@
     <div class="container d-flex justify-content-between align-items-center">
 
         <div class="logo">
-            <a routerLink=""><img src="assets/img/logo_p.png" alt="" class="img-fluid"></a>
+            <a class="pointer"><img src="assets/img/logo_p.png" alt="" class="img-fluid"></a>
         </div>
 
         <nav id="navbar" class="navbar">
@@ -24,6 +24,7 @@
                         <li><a routerLink="operations/do-list">{{'Menu.DO'|translate}}</a></li>
                         <li><a routerLink="operations/tdr">{{'Menu.TDR'|translate}}</a></li>
                         <li><a routerLink="operations/load-list">{{'Menu.loadList'|translate}}</a></li>
+                        <li><a routerLink="operations/new-invoice">{{'Menu.newinvoice'|translate}}</a></li>
                     </ul>
                     <ul
                         *ngIf="item.menuName == 'Container Movement' || item.menuName == 'कंटेनर मूवमेंट' || item.menuName == 'كونتينر موفمنة'">
@@ -51,8 +52,7 @@
         <!-- <span class="text-light">Hi User !<a (click)="logout()"><i title="logout" style="font-size: 20px"
                     class='ms-2 pointer bx bx-user-x'></i></a></span> -->
         <span class="text-light">Hi {{username}} ({{menu == '1' ? 'Agent' : 'Depo'}}) !<a (click)="logout()"
-                placement="right" tooltip="logout" class="ms-3 pointer"><img src="assets/img/sign_out.png" width="25px"
-                    height="25px"></a></span>
+                class="ms-3 pointer"><img src="assets/img/sign_out.png" width="25px" height="25px"></a></span>
     </div>
 </header>
 <div class="mt-5 pt-4"></div>

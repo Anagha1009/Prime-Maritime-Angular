@@ -143,7 +143,7 @@ export class DoListComponent implements OnInit {
   getDODetails(doNo: any) {
     debugger;
     localStorage.setItem('DO_NO', doNo);
-    this._router.navigateByUrl('home/do-details');
+    this._router.navigateByUrl('home/operations/do-details');
   }
 
   viewDoPdf(item:any,isDo:boolean){

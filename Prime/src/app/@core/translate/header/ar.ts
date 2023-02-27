@@ -23,6 +23,7 @@ export const locale = {
       containerAllotment: 'تخصيص الحاويات',
       mnrRequest: 'طلب M&R',
       containerTracking: 'تتبع الحاويات',
+      newinvoice: 'فاتورة جديدة',
     },
     Button: {
       newRequest: 'New Rate Request',
