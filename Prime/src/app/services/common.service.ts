@@ -100,6 +100,22 @@ export class CommonService {
     return year + '-' + month + '-' + todate;
   }
 
+  getIndianDate(date: any) {
+    var todate: any = date.getDate();
+    if (todate < 10) {
+      todate = '0' + todate;
+    }
+
+    var month = date.getMonth() + 1;
+
+    if (month < 10) {
+      month = '0' + month;
+    }
+
+    var year = date.getFullYear();
+    return todate + '-' + month + '-' + year;
+  }
+
   successMsg(msg: string) {
     Swal.fire('Success!', msg, 'success');
   }

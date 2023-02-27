@@ -6,6 +6,7 @@ import { CroListComponent } from './cro-list/cro-list.component';
 import { DoDetailsComponent } from './do-details/do-details.component';
 import { DoListComponent } from './do-list/do-list.component';
 import { ExcRateListComponent } from './exc-rate-list/exc-rate-list.component';
+import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 import { LoadListComponent } from './load-list/load-list.component';
 import { ManifestListComponent } from './manifest-list/manifest-list.component';
 import { NewBlComponent } from './new-bl/new-bl.component';
@@ -52,6 +53,12 @@ const routes: Routes = [
     data: { roles: [Role.Agent] },
   },
   {
+    path: 'new-cro',
+    component: NewCroComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Agent] },
+  },
+  {
     path: 'new-cro/:BOOKING_NO',
     component: NewCroComponent,
     canActivate: [AuthGuard],
@@ -78,6 +85,12 @@ const routes: Routes = [
   {
     path: 'new-invoice',
     component: NewInvoiceComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Agent] },
+  },
+  {
+    path: 'invoice-list',
+    component: InvoiceListComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Agent] },
   },

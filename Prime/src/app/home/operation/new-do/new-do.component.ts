@@ -8,7 +8,6 @@ import { CommonService } from 'src/app/services/common.service';
 import { DoService } from 'src/app/services/do.service';
 import { MasterService } from 'src/app/services/master.service';
 
-
 @Component({
   selector: 'app-new-do',
   templateUrl: './new-do.component.html',
@@ -221,7 +220,7 @@ export class NewDoComponent implements OnInit {
             this._commonService.successMsg(
               'Your DO has been created successfully !'
             );
-            this._router.navigateByUrl('/home/do-list');
+            this._router.navigateByUrl('/home/operations/do-list');
           }
         });
     }

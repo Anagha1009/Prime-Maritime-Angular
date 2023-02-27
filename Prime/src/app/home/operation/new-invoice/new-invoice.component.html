@@ -1,1 +1,54 @@
-<p>new-invoice works!</p>
+<div class="section-title">
+    <h2>Invoice Generation</h2>
+</div>
+<div class="container">
+    <a routerLink="/home/operations/invoice-list"><i class='bx bx-arrow-back'></i>Back to List</a>
+    <div class="col-md-6 mx-auto mt-5">
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="invoiceForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label2">BL No<span class="text-danger">
+                                        *</span></label>
+                                <input [readonly]="isBL" formControlName="BL_NO" type="text" class="form-control2" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-4">
+                            <button [disabled]="isLoading" (click)="getBLDetails()"
+                                class="form-btn-success btn-sm rounded-pill">Get BL
+                                Details <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="isBL">
+                        <div class="col-md-12">
+                            <label>Invoice For<span class="text-danger">
+                                    *</span></label>
+                            <div class="form-check" *ngIf="blDetails?.SHIPPER != '-'">
+                                <input class="form-check-input" (change)="oncheck('S')" type="radio"
+                                    value="{{blDetails?.SHIPPER}}" formControlName="INVOICE_FOR" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    Shipper : <b>{{blDetails?.SHIPPER}}</b>
+                                </label>
+                            </div>
+                            <div class="form-check" *ngIf="blDetails?.CONSIGNEE != '-'">
+                                <input class="form-check-input" (change)="oncheck('C')" type="radio"
+                                    value="{{blDetails?.CONSIGNEE}}" formControlName="INVOICE_FOR"
+                                    id="flexRadioDefault2">
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    Consignee : <b>{{blDetails?.CONSIGNEE}}</b>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mx-auto my-3 text-end" *ngIf="isBL">
+                        <button [disabled]="isLoading2" (click)="createInvoice()" class="form-btn-primary w-100">Create
+                            Invoice
+                            <span *ngIf="isLoading2" class="fa fa-spinner fa-spin"></span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

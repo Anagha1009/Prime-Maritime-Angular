@@ -1,0 +1,120 @@
+<div class="section-title">
+    <h2>Invoice List</h2>
+</div>
+<div class="container">
+    <form class="mx-5" [formGroup]="filterForm">
+        <div class="col-md-6 offset-md-6 text-end">
+            <button class="form-btn-primary" routerLink="/home/operations/new-invoice"><i
+                    class="fa fa-plus me-1"></i>New
+                Invoice</button>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label2">Invoice No</label>
+                    <input formControlName="INVOICE_NO" type="text" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">From Date</label>
+                    <input formControlName="FROM_DATE" (change)="filterForm.get('TO_DATE')?.setValue('')"
+                        onkeypress="return false" type="date" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">To Date</label>
+                    <input formControlName="TO_DATE" onkeypress="return false"
+                        [min]="filterForm.get('FROM_DATE')?.value" type="date" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-3 mt-4">
+                <button class="form-btn me-2" (click)="Search()">Search</button>
+                <button class="form-btn-light" (click)="Clear()">Clear</button>
+            </div>
+        </div>
+    </form>
+    <div class="table-responsive">
+        <table class="ratetable" id="data-table-config">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Invoice No</th>
+                    <th>Name</th>
+                    <th>BL No</th>
+                    <th>Invoice Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of invoiceList;let i = index">
+                    <td>{{i +1}}</td>
+                    <td>{{item.INVOICE_NO}}</td>
+                    <td>{{item.INVOICE_FOR}}</td>
+                    <td>{{item.BL_NO}}</td>
+                    <td>{{item.CREATED_DATE | date:'mediumDate'}}</td>
+                    <td><i (click)="openModal(item)" class="fa fa-eye pointer"></i>
+                        <button class="d-none" #openBtn href="#invoiceModal" data-bs-toggle="modal"></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="invoiceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">View Invoice</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn3></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="invoiceForm">
+                    <div class="row">
+                        <div class="col-md-8 text-center mx-auto mt-2">
+                            <div class="form-group">
+                                <label class="d-block mb-3">Select Invoice Type<span class="text-danger">
+                                        *</span></label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" formControlName="INVOICE_TYPE"
+                                        id="inlineRadio1" value="I">
+                                    <label class="form-check-label" for="inlineRadio1">Import</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" formControlName="INVOICE_TYPE"
+                                        id="inlineRadio2" value="E">
+                                    <label class="form-check-label" for="inlineRadio2">Export</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" formControlName="INVOICE_TYPE"
+                                        id="inlineRadio2" value="F">
+                                    <label class="form-check-label" for="inlineRadio2">Freight</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="containerTypeList.length > 1">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label2">Container Type<span class="text-danger">
+                                        *</span></label>
+                                <select class="form-control2" formControlName="CONTAINER_TYPE">
+                                    <option value="" selected="true" disabled>--Select--</option>
+                                    <option *ngFor="let item of containerTypeList" value="{{item}}">
+                                        {{item}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-6 mx-auto">
+                    <button type="button" (click)="getInvoice()" class="form-btn-primary w-100">View Invoice</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

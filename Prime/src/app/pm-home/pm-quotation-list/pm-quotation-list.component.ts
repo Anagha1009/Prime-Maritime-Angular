@@ -133,7 +133,7 @@ export class PmQuotationListComponent implements OnInit {
     this.selectedQuotations.forEach((element) => {
       element.STATUS = 'Approved';
       element.CREATED_BY = this._commonService.getUserName();
-      element.APPROVED_RATE = 0;
+      element.APPROVED_RATE = element.RATE_REQUESTED;
       element.REMARKS = '';
     });
 

@@ -1,49 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import'./assets/vendor/bootstrap-icons/bootstrap-icons.css';
-@import './assets/vendor/boxicons/css/boxicons.css';
-@import './assets/css/style.css';
-@import './assets/pm-assets/vendor/css/theme-default.css' ;
-@import './assets/pm-assets/css/demo.css';
-@import './assets/pm-assets/vendor/css/pages/page-auth.css';
-
+@import "./assets/vendor/bootstrap-icons/bootstrap-icons.css";
+@import "./assets/vendor/boxicons/css/boxicons.css";
+@import "./assets/css/style.css";
+@import "./assets/pm-assets/vendor/css/theme-default.css";
+@import "./assets/pm-assets/css/demo.css";
+@import "./assets/pm-assets/vendor/css/pages/page-auth.css";
 
 // @import "ag-grid-community/dist/styles/ag-grid.css";
 // @import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-// @import "~@ng-select/ng-select/themes/default.theme.css";
-
-.ag-theme-alpine {
-  margin-bottom: 1rem;
-  color: #212529;
-  //min-width: 500px !important;
-  width: 100%;
-  -webkit-box-shadow: 0px 5px 12px -12px rgba(0, 0, 0, 0.29);
-  -moz-box-shadow: 0px 5px 12px -12px rgba(0, 0, 0, 0.29);
-  box-shadow: 0px 5px 12px -12px rgba(0, 0, 0, 0.29);
-}
-.ag-theme-alpine .ag-header-cell {
-  background: #467b97;
-  border-bottom: 4px solid #eceffa;
-  font-weight: 600;
-  color: white;
-  text-transform: uppercase;
-}
-
-.ag-theme-alpine .ag-header-cell {
-  background: #467b97;
-  border-bottom: 4px solid #eceffa;
-  font-weight: 600;
-  color: white;
-  text-transform: uppercase;
-}
-
-.ag-theme-alpine .ag-header-cell {
-  background: #467b97;
-  border-bottom: 4px solid #eceffa;
-  font-weight: 600;
-  color: white;
-  text-transform: uppercase;
-}
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 .form-btn {
   background: white;
@@ -51,6 +17,7 @@
   padding: 6px 18px;
   color: #68a4c4;
   transition: 0.4s;
+  cursor: pointer !important;
 }
 
 .form-btn:hover {
@@ -64,6 +31,7 @@
   padding: 6px 18px;
   color: white;
   transition: 0.4s;
+  cursor: pointer !important;
 }
 
 .form-btn-success {
@@ -72,6 +40,7 @@
   padding: 6px 18px;
   color: #63a963;
   transition: 0.4s;
+  cursor: pointer !important;
 }
 
 .form-btn-success:hover {
@@ -85,6 +54,7 @@
   padding: 6px 18px;
   color: rgba(220, 53, 69);
   transition: 0.4s;
+  cursor: pointer !important;
 }
 
 .form-btn-danger:hover {
@@ -98,6 +68,7 @@
   padding: 6px 18px;
   color: #54b4d3;
   transition: 0.4s;
+  cursor: pointer !important;
 }
 
 .form-btn-info:hover {
@@ -111,6 +82,7 @@
   padding: 6px 18px;
   color: black;
   transition: 0.4s;
+  cursor: pointer !important;
 }
 
 .form-btn-light:hover {
@@ -745,4 +717,3 @@ input:-webkit-autofill:focus {
 .checkbox-primary input:checked ~ .checkmark:after {
   color: #40bfc1;
 }
-

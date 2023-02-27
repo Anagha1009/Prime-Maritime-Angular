@@ -9,7 +9,6 @@ import { locale as english } from 'src/app/@core/translate/srr/en';
 import { locale as hindi } from 'src/app/@core/translate/srr/hi';
 import { locale as arabic } from 'src/app/@core/translate/srr/ar';
 import { BookingService } from 'src/app/services/booking.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-quotation-list',
@@ -46,12 +45,13 @@ export class QuotationListComponent implements OnInit {
   srrNo: string = '';
   submitted3: boolean = false;
   terminalList: any[] = [];
+  isrefresh: boolean = false;
 
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('closeBtn1') closeBtn1: ElementRef;
   @ViewChild('closeBtn2') closeBtn2: ElementRef;
-  @ViewChild('closeBtn2') closeBtn3: ElementRef;
+  @ViewChild('closeBtn3') closeBtn3: ElementRef;
   @ViewChild('containerModal') containerModal: ElementRef;
   @ViewChild('rateModal') rateModal: ElementRef;
 
@@ -194,15 +194,24 @@ export class QuotationListComponent implements OnInit {
     this.getSRRList();
   }
 
+  refresh() {
+    this.isrefresh = true;
+    setTimeout(() => {
+      this.getSRRList();
+    }, 1000);
+  }
+
   getSRRList() {
     this.quotation.AGENT_CODE = this._commonService.getUserCode();
     this.quotation.OPERATION = 'GET_SRRLIST';
+
     this._quotationService.getSRRList(this.quotation).subscribe(
       (res: any) => {
         this.isLoading = false;
         this.isLoading1 = false;
         this.quotationList = [];
         this.isScroll = false;
+        this.isrefresh = false;
         if (res.hasOwnProperty('Data')) {
           if (res.Data?.length > 0) {
             this.quotationList = res.Data;
@@ -386,7 +395,7 @@ export class QuotationListComponent implements OnInit {
       .subscribe(
         (res: any) => {
           if (res.responseCode == 200) {
-            alert('Voyage added successfully !');
+            this._commonService.successMsg('Voyage added successfully !');
             this.slotDetailsForm
               .get('VOYAGE_NO')
               ?.setValue(this.voyageForm.get('VOYAGE_NO')?.value);
@@ -444,7 +453,6 @@ export class QuotationListComponent implements OnInit {
   }
 
   bookNow() {
-    debugger;
     this.submitted = true;
     if (this.slotDetailsForm.invalid) {
       return;
@@ -474,7 +482,7 @@ export class QuotationListComponent implements OnInit {
             this._commonService.successMsg(
               'Your booking is placed successfully ! Booking No is ' + bookingNo
             );
-            this._router.navigateByUrl('/home/booking-list');
+            this._router.navigateByUrl('/home/booking/booking-list');
           }
         },
         (error: any) => {
@@ -510,10 +518,6 @@ export class QuotationListComponent implements OnInit {
   removeItem(i: any) {
     const add = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
     add.removeAt(i);
-  }
-
-  numericOnly(event: any) {
-    this._commonService.numericOnly(event);
   }
 
   counterRate(item: any, value: string) {
@@ -555,10 +559,6 @@ export class QuotationListComponent implements OnInit {
       VOYAGE_NO: ['', Validators.required],
       ATA: [],
       ATD: [],
-      IMM_CURR: [''],
-      IMM_CURR_RATE: ['0'],
-      EXP_CURR: [''],
-      EXP_CURR_RATE: ['0'],
       TERMINAL_CODE: ['', Validators.required],
       SERVICE_NAME: ['', Validators.required],
       VIA_NO: ['', Validators.required],

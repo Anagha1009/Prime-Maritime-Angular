@@ -11,11 +11,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { QuotationDetailsComponent } from './quotation-details/quotation-details.component';
 import { QuotationListComponent } from './quotation-list/quotation-list.component';
 import { NewQuotationComponent } from './new-quotation/new-quotation.component';
+import { TooltipModule } from 'ng2-tooltip-directive';
 @NgModule({
   declarations: [
     QuotationDetailsComponent,
     QuotationListComponent,
-    NewQuotationComponent
+    NewQuotationComponent,
   ],
   imports: [
     CommonModule,
@@ -26,8 +27,8 @@ import { NewQuotationComponent } from './new-quotation/new-quotation.component';
     NgMultiSelectDropDownModule,
     HttpClientModule,
     TranslateModule,
-   
-    DataTablesModule
-  ]
+    TooltipModule,
+    DataTablesModule,
+  ],
 })
-export class RateRequestsModule { }
+export class RateRequestsModule {}

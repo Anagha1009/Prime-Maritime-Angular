@@ -33,7 +33,8 @@
 
                         </div>
                         <div class="col-md-6 mx-auto mb-3 text-end">
-                            <button [disabled]="isLoading" (click)="GetLoadList()"class="form-btn-primary w-100">{{'Button.getLoadList'|translate}}
+                            <button [disabled]="isLoading" (click)="GetLoadList()"
+                                class="form-btn-primary w-100">{{'Button.getLoadList'|translate}}
                                 <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
                         </div>
                     </div>
@@ -57,9 +58,8 @@
                         <th>Sr. No</th>
                         <th>Container No.</th>
                         <th>Seal No.</th>
-                        <th>Container Size</th>
-                        <th>Gross Wt</th>
                         <th>Container Type</th>
+                        <th>Gross Wt</th>
                         <th>Category</th>
                         <th>IMO No</th>
                         <th>UN No</th>
@@ -76,7 +76,6 @@
                         <td>{{i+1}}</td>
                         <td>{{item.CONTAINER_NO}}</td>
                         <td>{{item.SEAL_NO}}</td>
-                        <td>{{item.CONTAINER_SIZE}}</td>
                         <td>{{item.CONTAINER_TYPE}}</td>
                         <td>{{item.GROSS_WEIGHT}}</td>
                         <td>{{item.COMMODITY_TYPE}}</td>

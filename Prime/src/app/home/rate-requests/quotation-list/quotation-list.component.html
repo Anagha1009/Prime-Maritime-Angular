@@ -5,7 +5,7 @@
     <form class="mx-5" [formGroup]="quotationForm">
         <div class="col-md-6 offset-md-6 text-end">
             <button class="form-btn-primary" routerLink="/home/rate-request/new-quotation"><i
-                    class="fa fa-plus me-2"></i>{{'Button.newRequest'|translate}}</button>
+                    class="fa fa-plus me-2"></i>{{'Button.newRequest1'|translate}}</button>
         </div>
         <div class="row">
             <div class="col-md-3">
@@ -52,6 +52,9 @@
         <div class="row">
             <div class="col-md-7 ps-md-5">
                 <small>{{'Header.TotalRecords'|translate}} : {{this.quotationList?.length}}/ 50</small>
+                <span><i (click)="refresh()" tooltip="refresh the list"
+                        [class]="isrefresh ? 'ms-2 fa fa-refresh fa-spin pointer' : 'ms-2 fa fa-refresh pointer'"></i>
+                </span>
             </div>
             <div *ngIf="expRecords > 0" class="col-md-5 pe-md-3 text-end">
                 <img height="30" width="40" src="assets/img/alert.gif">
@@ -510,46 +513,6 @@
                                 <label class="form-label">ETD <span class="text-danger">
                                         *</span></label>
                                 <div *ngIf="submitted3 && f6.ETD.errors" class="invalid-feedback">ETD is required</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <ng-select formControlName="IMM_CURR">
-                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of currencyList"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}}
-                                        ({{item.CODE}})
-                                    </ng-option>
-                                </ng-select>
-                                <label class="form-label-ddl">Import Currency </label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" (keypress)="numericOnly($event)" maxlength="5"
-                                    formControlName="IMM_CURR_RATE" class="form-control">
-                                <label class="form-label">Import Currency Rate </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <ng-select formControlName="EXP_CURR">
-                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of currencyList1"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}}
-                                        ({{item.CODE}})
-                                    </ng-option>
-                                </ng-select>
-                                <label class="form-label-ddl">Export Currency </label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" (keypress)="numericOnly($event)" maxlength="5"
-                                    formControlName="EXP_CURR_RATE" class="form-control">
-                                <label class="form-label">Export Currency Rate</label>
                             </div>
                         </div>
                         <div class="col-md-3">
