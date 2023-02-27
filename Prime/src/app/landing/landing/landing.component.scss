@@ -427,4 +427,6 @@ $smooth: cubic-bezier(0, 0.72, 0.58, 1);
 }
 .heg-card{
   height: 275px !important;
+  padding: 25px;
+  overflow-y: auto;
 }

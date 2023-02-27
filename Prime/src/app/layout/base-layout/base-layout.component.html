@@ -15,7 +15,8 @@
         <div class="logo">
             <a routerLink=""><img src="assets/img/logo_p.png" alt="" class="img-fluid"></a>
         </div>
-        <nav id="navbar" class="navbar">
+        <!-- <nav id="navbar" class="navbar"  [ngClass]="mobilenav ? 'success' : 'navbarmobile'"> -->
+            <nav id="navbar" class="navbar"  >
             <ul>
                 <li><a class="active" routerLink="">Home</a></li>
                 <li><a routerLink="about.html">About Us</a></li>
@@ -28,8 +29,10 @@
         </nav>
         <nav class="navbar">
             <i class="bi bi-list mobile-nav-toggle"></i>
+            <!-- <i class="bi bi-list mobile-nav-toggle" (click)="clickmobilenav()" ></i> -->
+            <!-- <div  (click)="mobilenav=!mobilenav"><i class="bi bi-list mobile-nav-toggle" *ngIf="mobilenav"></i><i class="bi bi-x mobile-nav-toggle1" *ngIf="!mobilenav"></i></div> -->
         </nav>
-        <span class="text-end ms-4"><a  routerLink="/login" *ngIf="!isLoggedIn">Login</a>
+        <span class="text-end ms-4"><a  routerLink="/login" *ngIf="!isLoggedIn"><strong>Login</strong></a>
             <a placement="right" tooltip="click to goto its resptv. page !" (click)="redirectToHome()"
                 class="text-primary pointer" *ngIf="isLoggedIn">Hi {{user.userName}}
                 !</a></span>
@@ -42,7 +45,7 @@
 <!-- ======= Footer ======= -->
 <footer id="footer">
 
-    <div class="footer-newsletter">
+    <!-- <div class="footer-newsletter">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
@@ -56,47 +59,13 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="footer-top">
         <div class="container">
             <div class="row">
 
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Useful Links</h4>
-                    <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Our Services</h4>
-                    <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-contact">
-                    <h4>Contact Us</h4>
-                    <p>
-                        A108 Adam Street <br>
-                        New York, NY 535022<br>
-                        United States <br><br>
-                        <strong>Phone:</strong> +1 5589 55488 55<br>
-                        <strong>Email:</strong> info@example.com<br>
-                    </p>
-
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-info">
+                <div class="col-lg-4 col-md-6 footer-info">
                     <h3>About Prime</h3>
                     <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita
                         valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
@@ -107,6 +76,43 @@
                         <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
                     </div>
                 </div>
+                <div class="col-lg-1 col-md-6" ></div>
+
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> <a routerLink="#">Home</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a routerLink="#">Our Services</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a routerLink="#">Services</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a routerLink="#">Tariffs</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a routerLink="#">Contact Us</a></li>
+                    </ul>
+                </div>
+               
+                <!-- <div class="col-lg-3 col-md-6 footer-links">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+                    </ul>
+                </div> -->
+
+                <div class="col-lg-3 col-md-6 footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>
+                        A108 Adam Street <br>
+                        Sion<br>
+                        Mumbai-400022 <br><br>
+                        <strong>Phone:</strong> +91 98755 48685<br>
+                        <strong>Email:</strong> info@prime.com<br>
+                    </p>
+
+                </div>
+
+              
 
             </div>
         </div>
