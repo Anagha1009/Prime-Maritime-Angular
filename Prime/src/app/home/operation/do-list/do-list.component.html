@@ -101,9 +101,10 @@
                                 </p>
                             </div>
                             <div class="col-md-2 text-end">
-                                <button class="form-btn btn-sm rounded-pill" (click)="viewDoPdf(item)"><i
-                                        class="fa fa-plus me-1"></i>
-                                    View PDF</button>
+                                <button class="form-btn btn-sm rounded-pill mb-2" (click)="viewDoPdf(item,true)"><i class="fa fa-plus me-1"></i>
+                                    View DO PDF</button>
+                                <button class="form-btn btn-sm rounded-pill" (click)="viewDoPdf(item,false)"><i class="fa fa-plus me-1"></i>
+                                    View EMPTY LETTER</button>
                             </div>
                         </div>
                     </div>
