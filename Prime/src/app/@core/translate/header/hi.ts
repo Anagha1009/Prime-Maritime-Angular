@@ -25,6 +25,7 @@ export const locale = {
       mnrRequest: 'एम & आर अनुरोध',
       containerTracking: 'कंटेनर ट्रैकिंग',
       newinvoice: 'इनवॉइस',
+      MANIFEST: 'घोषणापत्र',
     },
     Button: {
       newRequest: 'New Rate Request',
