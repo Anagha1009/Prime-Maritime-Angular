@@ -69,6 +69,7 @@ export class DoListComponent implements OnInit {
         if (res.hasOwnProperty('Data')) {
           if (res.Data?.length > 0) {
             this.doList = res.Data;
+            console.log(this.doList);
             //getContainerCount
             this.getContainerCount();
             this.previewList = true;
@@ -145,9 +146,9 @@ export class DoListComponent implements OnInit {
     this._router.navigateByUrl('home/do-details');
   }
 
-  viewDoPdf(item:any){
+  viewDoPdf(item:any,isDo:boolean){
     this.itemPdf=item;
-
+    
     this.doContainers = [];
       var bl = new Bl();
       bl.AGENT_CODE = this._cs.getUserCode();
@@ -155,7 +156,12 @@ export class DoListComponent implements OnInit {
       this._blService.getContainerList(bl).subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.doContainers = res.Data;
-          this.generateBLPdf();
+          if(isDo){
+            this.generateDOPdf();
+          }
+          else{
+            this.generateELPdf();
+          }
 
         }
       });
@@ -163,7 +169,7 @@ export class DoListComponent implements OnInit {
 
   }
 
-  async generateBLPdf() {
+  async generateDOPdf() {
     let docDefinition = {
       pageMargins: [40, 30, 40, 30],
       content: [
@@ -210,7 +216,7 @@ export class DoListComponent implements OnInit {
             ],
             [
               {
-                text: 'D.O.Date: '+formatDate(this.itemPdf.DO_DATE, 'yyyy-MM-dd', 'en'),
+                text: 'D.O.Date: '+formatDate(this.itemPdf.DO_DATE, 'dd-MM-yyyy', 'en'),
                 bold: false,
                 fontSize: 9,
                 alignment:'right',
@@ -218,7 +224,7 @@ export class DoListComponent implements OnInit {
               },
 
               {
-                text: 'Validity Date: '+formatDate(this.itemPdf.DO_VALIDITY, 'yyyy-MM-dd', 'en'),
+                text: 'Validity Date: '+formatDate(this.itemPdf.DO_VALIDITY, 'dd-MM-yyyy', 'en'),
                 bold: false,
                 fontSize: 9,
                 alignment:'right',
@@ -260,14 +266,14 @@ export class DoListComponent implements OnInit {
             body: [
               [
                 { text: "G I.G.M.No./\nDate\n\nDescription of Goods\n\nMarks and No's\n\nBill Of Lading", fontSize: 9, bold: false },
-                { text: ': '+this.itemPdf.IGM_NO+' / '+formatDate(this.itemPdf.IGM_DATE, 'yyyy-MM-dd', 'en')+'\n\n\n'+
+                { text: ': '+this.itemPdf.IGM_NO+' / '+formatDate(this.itemPdf.IGM_DATE, 'dd-MM-yyyy', 'en')+'\n\n\n'+
                         ': '+this.doContainers[0]?.DESC_OF_GOODS+'\n\n'+
                         ': '+this.doContainers[0]?.MARKS_NOS+'\n\n'+
                         ': '+this.itemPdf.BL_NO+'\n\n\n\n', 
                   fontSize: 9,
                   bold: false 
                 },
-                { text:'G Item No.          : '+this.itemPdf.IGM_ITEM_NO+'\n\n\n\n\n\n\n'+'Dated          : '+formatDate(new Date(), 'yyyy-MM-dd', 'en')+'\n\n\n\n',fontSize:9,bold:false},
+                { text:'G Item No.          : '+this.itemPdf.IGM_ITEM_NO+'\n\n\n\n\n\n\n'+'Dated          : '+formatDate(new Date(), 'dd-MM-yyyy', 'en')+'\n\n\n\n',fontSize:9,bold:false},
               ],
             ],
           },
@@ -292,7 +298,7 @@ export class DoListComponent implements OnInit {
               ],
               ...this.doContainers.map((p: any) => [
                 { text: p.CONTAINER_NO, fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
-                { text: formatDate(this.itemPdf.DO_VALIDITY, 'yyyy-MM-dd', 'en'), fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
+                { text: formatDate(this.itemPdf.DO_VALIDITY, 'dd-MM-yyyy', 'en'), fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
                 { text: p.CONTAINER_TYPE, fontSize: 8,alignment:'center',margin:[0, 0, 0, 10] },
                 { text: '200 LOT', fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
                 { text: p.GROSS_WEIGHT, fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
@@ -337,6 +343,171 @@ export class DoListComponent implements OnInit {
           margin: [0, 0, 0, 15],
 
         }
+        
+      ],
+    }
+
+    pdfMake.createPdf(docDefinition).open();
+
+  }
+
+  async generateELPdf() {
+    let docDefinition = {
+      pageMargins: [40, 30, 40, 30],
+      content: [
+        {
+          text: 'INCHCAPE SHIPPING SERVICES LLC',
+          bold: true,
+          fontSize: 12,
+          alignment:'center',
+          margin: [0, 0, 0, 7],
+        },
+        {
+          text: 'P &O Marinas, Building number C6 & C7 Marina Cubes\n'+
+          'Street,Port Rashid Dubai UAE,\n'+ 
+          'PO Box : 33166',
+          bold: false,
+          fontSize: 8,
+          alignment:'center',
+          margin: [0, 0, 0, 7],
+        },
+        {
+          text: 'State Code : 1283 State Name :Dubai',
+          bold: true,
+          fontSize: 8,
+          alignment:'center',
+          margin: [0, 0, 0, 10],
+        },
+        
+        
+        {
+          canvas: [
+            { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
+          ],
+          margin: [0, 0, 0, 10],
+        },
+        {
+          text: 'EMPTY CONTAINER ACCEPTANCE LETTER',
+          bold: true,
+          fontSize: 12.5,
+          alignment:'center',
+          margin: [0, 0, 0, 10],
+        },
+        {
+          columns:[
+            [
+              {
+                text: 'TO,\n\nJebel Ali - Terminal MTY Yard ,Jebel Ali\nPort, Terminal MTY Yard',
+                bold: false,
+                fontSize: 9,
+                margin: [0, 0, 0, 40],
+              },
+
+
+            ],
+            [
+              {
+                text: formatDate(new Date(), 'dd-MM-yyyy', 'en'),
+                bold: false,
+                fontSize: 9,
+                alignment:'right',
+                margin: [0, 0, 0, 60],
+              },
+            ],
+          ],
+        },
+        {
+          text: 'Sub : Return of Empty Container(s).',
+          bold: false,
+          fontSize: 9,
+          margin: [0, 0, 0, 10],
+        },
+        
+        {
+          layout: 'noBorders',
+          table: {
+            
+            widths: [20,100,160,200],
+            headerRows: 1,
+            heights: 30,
+            body: [
+              [
+                { text: 'SUB', fontSize: 9, bold: true },
+                { text: 'Vessel\n\nArrived\n\nB/L No.\n\nM/S\n\nA/C'+'\n\n',
+                  fontSize: 9,
+                  bold: false 
+                },
+                { text: ': '+this.itemPdf.VESSEL_NAME+'\n\n'+
+                        ': '+this.itemPdf.PLACE_OF_DELIVERY+'\n\n'+
+                        ': '+this.itemPdf.BL_NO+'\n\n'+
+                        ': '+ 'LESCHACO INDIA'+'\n\n'+
+                        ': '+'LESCHACO INDIA'+'\n\n\n\n', 
+                  fontSize: 9,
+                  bold: false 
+                },
+                { text:'Voyage Number       : '+this.itemPdf.VOYAGE_NO+'\n\n'+'I.G.M No & Date       : '+this.itemPdf.IGM_NO+' / '+formatDate(this.itemPdf.IGM_DATE, 'dd-MM-yyyy', 'en')+'\n\n\n\n',fontSize:9,bold:false},
+              ],
+            ],
+          },
+        },
+        {
+          text: "We request you to accept the following container's on behallf of LESCHACO INDIA at your yard, after the necessary survey has\n"+
+          "been carried out by Surveyor.",
+          bold: false,
+          fontSize: 9,
+          margin: [0, 0, 0, 10],
+        },
+        {
+          //layout: 'noBorders',
+          margin:[0,0,0,45],
+          table: {
+            //cellpadding:'100px',
+            headerRows: 1,
+            widths: [220,100],
+            body: [
+              [
+                { text: 'Container No', fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 5]},
+                { text: 'Valid Upto', fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 5]},
+                
+              ],
+              ...this.doContainers.map((p: any) => [
+                { text: p.CONTAINER_NO, fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 5]},
+                { text: formatDate(this.itemPdf.DO_VALIDITY, 'dd-MM-yyyy', 'en'), fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 5]},
+                
+              ]),
+            ],
+          },
+        },
+        {
+          text: 'Please Note containers not to be accepted after the above mentioned date',
+          bold: false,
+          fontSize: 8,
+          margin: [0, 0, 0, 10],
+        },
+        {
+          text: 'Thanking You,',
+          bold: false,
+          fontSize: 8,
+          margin: [0, 0, 0, 20],
+        },
+        {
+          text: 'Yours Faithfully\nINCHCAPE SHIPPING SERVICES LLC',
+          bold: false,
+          fontSize: 8,
+          margin: [0, 0, 0, 10],
+        },
+        {
+          text: 'As Agents For Prime Maritime DWC LLC',
+          bold: false,
+          fontSize: 8,
+          margin: [0, 0, 0, 15],
+        },
+        {
+          text: 'NOTE : THIS IS SYSTEM GENERATED PRINT. SIGNATURE NOT REQUIRED.',
+          bold: false,
+          fontSize: 8,
+          margin: [0, 0, 0, 10],
+        },
         
       ],
     }
