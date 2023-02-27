@@ -17,6 +17,8 @@ export class BaseLayoutComponent implements OnInit {
   isLoggedIn: boolean = false;
   ispreloader: boolean = true;
   isSticky: boolean = false;
+  mobilenav: boolean = false;
+  navbarmobile: boolean = false;
   
   constructor(
     private _router: Router,
@@ -115,6 +117,9 @@ export class BaseLayoutComponent implements OnInit {
     this.isSticky = window.pageYOffset >= 50;
   }
 
-  
+ 
+clickmobilenav(){
+    this.mobilenav = !this.mobilenav;       
+}
 
 }
