@@ -17,7 +17,6 @@
   padding: 6px 18px;
   color: #68a4c4;
   transition: 0.4s;
-  cursor: pointer !important;
 }
 
 .form-btn:hover {
@@ -98,7 +97,7 @@
 .form-label {
   position: absolute;
   top: 0;
-  padding: 7px 0 0 13px;
+  padding: 7px 0 0 0px;
   transition: all 200ms;
   opacity: 1;
 }
@@ -127,7 +126,7 @@
   border-radius: 0% !important;
   border: none;
   border-bottom: 1px solid #c7c7c7 !important;
-  height: 43px;
+  height: 36px;
 }
 
 .form-control:focus {
@@ -716,4 +715,8 @@ input:-webkit-autofill:focus {
 }
 .checkbox-primary input:checked ~ .checkmark:after {
   color: #40bfc1;
+}
+
+hr{
+  opacity: 0.10 !important;
 }
