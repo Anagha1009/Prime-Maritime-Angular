@@ -1,7 +1,7 @@
 <div class="section-title pt-3">
     <h2>Rate Request Details</h2>
 </div>
-<a href="/pm/quotation-list"><i class='bx bx-arrow-back'></i>Back to List</a>
+<a routerLink="/pm/srr-list"><i class='bx bx-arrow-back'></i>Back to List</a>
 <div class="row mt-3">
     <div class="col-md-12">
         <div class="row">
@@ -173,8 +173,8 @@
                     <label class="form-label2">Containers</label>
                     <select class="form-control2" (change)="onchangeContainer($event)" [(ngModel)]="container">
                         <option value="">--Select--</option>
-                        <option *ngFor="let cont of quotationDetails?.SRR_CONTAINERS"
-                            value="{{cont.CONTAINERS}}">{{cont.CONTAINERS}}</option>
+                        <option *ngFor="let cont of quotationDetails?.SRR_CONTAINERS" value="{{cont.CONTAINERS}}">
+                            {{cont.CONTAINERS}}</option>
                     </select>
                 </div>
             </div>
@@ -295,8 +295,8 @@
                                                 <td width="15%">{{i + 1}}</td>
                                                 <td width="35%">{{item.value.CHARGE_CODE}}</td>
                                                 <td width="30%">{{item.value.CURRENCY}} {{item.value.RATE}}</td>
-                                                <td width="20%"><input type="text" maxlength="15"
-                                                        class="form-control2" (keypress)="numericOnly($event)"
+                                                <td width="20%"><input type="text" maxlength="15" class="form-control2"
+                                                        (keypress)="numericOnly($event)"
                                                         formControlName="RATE_REQUESTED" /></td>
                                             </tr>
                                         </tbody>
@@ -329,7 +329,7 @@
                         <h6>PNL : </h6>
                     </div>
                     <div class="col-4">
-                        <h6 class="text-info">{{TotalIncome() - TotalExpense()  | number : '1.0-2'}}</h6>
+                        <h6 class="text-info">{{TotalIncome() - TotalExpense() | number : '1.0-2'}}</h6>
                     </div>
                 </div>
                 <hr>
@@ -347,7 +347,7 @@
                     </div>
                     <div class="col-4">
                         <h6 class="text-info">{{TotalIncome() - TotalExpense() -
-                            calcForm.value.LADEN_BACK_COST  | number : '1.0-2'}}</h6>
+                            calcForm.value.LADEN_BACK_COST | number : '1.0-2'}}</h6>
                     </div>
                 </div>
 
@@ -365,7 +365,8 @@
                         <h6>PNL : </h6>
                     </div>
                     <div class="col-4">
-                        <h6 class="text-info">{{TotalIncome() - TotalExpense() - calcForm.value.LADEN_BACK_COST - calcForm.value.EMPTY_BACK_COST  | number : '1.0-2'}}</h6>
+                        <h6 class="text-info">{{TotalIncome() - TotalExpense() - calcForm.value.LADEN_BACK_COST -
+                            calcForm.value.EMPTY_BACK_COST | number : '1.0-2'}}</h6>
                     </div>
                 </div>
             </div>

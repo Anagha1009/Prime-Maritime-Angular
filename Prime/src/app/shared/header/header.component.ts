@@ -80,7 +80,15 @@ export class HeaderComponent implements OnInit {
               : arabic.data.Menu.containerMovement,
           menuLink: 'javascript:void(0)',
         },
-        { menuName: 'Finance', menuLink: 'javascript:void(0)' }
+        {
+          menuName:
+            this.selectedLanguage == 'en'
+              ? english.data.Menu.Finance
+              : this.selectedLanguage == 'hi'
+              ? hindi.data.Menu.Finance
+              : arabic.data.Menu.Finance,
+          menuLink: 'javascript:void(0)',
+        }
       );
     } else if (param == 3) {
       this.menuList.push(

@@ -101,8 +101,8 @@ export class BlService {
   getinvoiceDetails(BL: Bl) {
     return this._http.get<any>(
       this.BASE_URL +
-        'SRR/GetInvoiceDetails?BL_NO=' +
-        BL.BL_NO +
+        'SRR/GetInvoiceDetails?INVOICE_NO=' +
+        BL.INVOICE_NO +
         '&CONTAINER_TYPE=' +
         BL.CONTAINER_TYPE,
       this.httpOptions
@@ -120,6 +120,14 @@ export class BlService {
         BL.TO_DATE +
         '&AGENT_CODE=' +
         BL.AGENT_CODE,
+      this.httpOptions
+    );
+  }
+
+  createInvoice(bl: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'SRR/InsertInvoice',
+      bl,
       this.httpOptions
     );
   }

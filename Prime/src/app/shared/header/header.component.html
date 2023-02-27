@@ -7,10 +7,10 @@
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li [class]="item.menuName == 'Finance' || item.menuName == 'Bookings'  || item.menuName == 'बुकिंग' || item.menuName == 'الحجوزات' || item.menuName == 'Container Movement' || item.menuName == 'कंटेनर मूवमेंट' || item.menuName == 'كونتينر موفمنة' || item.menuName == 'Operations' || item.menuName == 'संचालन' || item.menuName == 'عمليات' ? 'dropdown' : ''"
+                <li [class]="item.menuName == 'Finance' || item.menuName == 'वित्त' || item.menuName == 'تمويل' || item.menuName == 'Bookings'  || item.menuName == 'बुकिंग' || item.menuName == 'الحجوزات' || item.menuName == 'Container Movement' || item.menuName == 'कंटेनर मूवमेंट' || item.menuName == 'كونتينر موفمنة' || item.menuName == 'Operations' || item.menuName == 'संचालन' || item.menuName == 'عمليات' ? 'dropdown' : ''"
                     *ngFor="let item of menuList">
                     <a routerLink="{{item.menuLink}}">{{item.menuName}}
-                        <i *ngIf="item.menuName == 'Finance' || item.menuName == 'Bookings' || item.menuName == 'बुकिंग' || item.menuName == 'الحجوزات' || item.menuName == 'Container Movement' || item.menuName == 'कंटेनर मूवमेंट' || item.menuName == 'كونتينر موفمنة' || item.menuName == 'Operations' || item.menuName == 'संचालन' || item.menuName == 'عمليات'"
+                        <i *ngIf="item.menuName == 'Finance' || item.menuName == 'वित्त' || item.menuName == 'تمويل' || item.menuName == 'Bookings' || item.menuName == 'बुकिंग' || item.menuName == 'الحجوزات' || item.menuName == 'Container Movement' || item.menuName == 'कंटेनर मूवमेंट' || item.menuName == 'كونتينر موفمنة' || item.menuName == 'Operations' || item.menuName == 'संचालन' || item.menuName == 'عمليات'"
                             class="bi bi-chevron-down"></i>
                     </a>
                     <ul *ngIf="item.menuName == 'Bookings' || item.menuName == 'बुकिंग' || item.menuName == 'الحجوزات'">
@@ -24,7 +24,7 @@
                         <li><a routerLink="operations/do-list">{{'Menu.DO'|translate}}</a></li>
                         <li><a routerLink="operations/tdr">{{'Menu.TDR'|translate}}</a></li>
                         <li><a routerLink="operations/load-list">{{'Menu.loadList'|translate}}</a></li>
-                        <li><a routerLink="operations/new-invoice">{{'Menu.newinvoice'|translate}}</a></li>
+                        <li><a routerLink="operations/invoice-list">{{'Menu.newinvoice'|translate}}</a></li>
                     </ul>
                     <ul
                         *ngIf="item.menuName == 'Container Movement' || item.menuName == 'कंटेनर मूवमेंट' || item.menuName == 'كونتينر موفمنة'">
@@ -32,10 +32,9 @@
                         <li><a routerLink="container/container-tracking">{{'Menu.tracking'|translate}}</a></li>
                         <li><a routerLink="container/container-history">{{'Menu.history'|translate}}</a></li>
                     </ul>
-                    <ul *ngIf="item.menuName == 'Finance'|| item.menuName == 'वित्त' || item.menuName == ' المالية'">
+                    <ul *ngIf="item.menuName == 'Finance'|| item.menuName == 'वित्त' || item.menuName == 'تمويل'">
                         <li><a routerLink="#">{{'Menu.VDA'|translate}}</a></li>
                         <li><a routerLink="#">{{'Menu.FDA'|translate}}</a></li>
-                        <li><a routerLink="#">{{'Menu.Invoice'|translate}}</a></li>
                     </ul>
                 </li>
             </ul>

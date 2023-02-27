@@ -53,6 +53,12 @@ const routes: Routes = [
     data: { roles: [Role.Agent] },
   },
   {
+    path: 'new-cro',
+    component: NewCroComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Agent] },
+  },
+  {
     path: 'new-cro/:BOOKING_NO',
     component: NewCroComponent,
     canActivate: [AuthGuard],

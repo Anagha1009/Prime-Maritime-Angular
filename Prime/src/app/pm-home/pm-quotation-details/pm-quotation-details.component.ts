@@ -11,12 +11,12 @@ import { QuotationService } from 'src/app/services/quotation.service';
   styleUrls: ['./pm-quotation-details.component.scss'],
 })
 export class PmQuotationDetailsComponent implements OnInit {
-  excRates1:any;
-  excRates2:any;
-  usdExcRate:any;
-  usdRate:any=0;
-  polRate:any=0;
-  podRate:any=0;
+  excRates1: any;
+  excRates2: any;
+  usdExcRate: any;
+  usdRate: any = 0;
+  polRate: any = 0;
+  podRate: any = 0;
   container: any = '';
   quotationDetails: any;
   commodityDetails: any;
@@ -131,7 +131,7 @@ export class PmQuotationDetailsComponent implements OnInit {
 
     if (!isApproveValid || !isRejectValid) {
       srrRates.forEach((element: any) => {
-        element.APPROVED_RATE = 0;
+        element.APPROVED_RATE = element.RATE_REQUESTED;
         element.REMARKS = '';
       });
     }
@@ -139,9 +139,9 @@ export class PmQuotationDetailsComponent implements OnInit {
     if (
       confirm(
         value == 'Approved'
-          ? 'Are you sure want to approve this Rate ? Counter Rate will be marked zero(0) as you are approving the rates'
+          ? 'Are you sure want to approve this Rate ?'
           : value == 'Rejected'
-          ? 'Are you sure want to reject this Rate ? Counter Rate will be marked zero(0) as you are rejecting the rates'
+          ? 'Are you sure want to reject this Rate ?'
           : 'Are you sure want to counter this Rate ?'
       )
     ) {
@@ -187,13 +187,15 @@ export class PmQuotationDetailsComponent implements OnInit {
           add2.push(this._formBuilder.group(element));
         });
 
-        this._quotationService.getExcRates(add2.at(0)?.get('CURRENCY')?.value).subscribe((res: any) => {
-          if (res.ResponseCode == 200) {
-            this.excRates1=res.Data;
-            //convert pol aed to usd
-            this.polRate=this.excRates1.TT_SELLING;
-          }
-        });
+        this._quotationService
+          .getExcRates(add2.at(0)?.get('CURRENCY')?.value)
+          .subscribe((res: any) => {
+            if (res.ResponseCode == 200) {
+              this.excRates1 = res.Data;
+              //convert pol aed to usd
+              this.polRate = this.excRates1.TT_SELLING;
+            }
+          });
 
         const add3 = this.calcForm.get('POD_IMP') as FormArray;
         add3.clear();
@@ -201,22 +203,23 @@ export class PmQuotationDetailsComponent implements OnInit {
           add3.push(this._formBuilder.group(element));
         });
 
-        this._quotationService.getExcRates(add3.at(0)?.get('CURRENCY')?.value).subscribe((res: any) => {
-          if (res.ResponseCode == 200) {
-            this.excRates2=res.Data;
-            //convert pol aed to usd
-            this.podRate=this.excRates2.TT_SELLING;
-          }
-        });
+        this._quotationService
+          .getExcRates(add3.at(0)?.get('CURRENCY')?.value)
+          .subscribe((res: any) => {
+            if (res.ResponseCode == 200) {
+              this.excRates2 = res.Data;
+              //convert pol aed to usd
+              this.podRate = this.excRates2.TT_SELLING;
+            }
+          });
 
         this._quotationService.getExcRates('USD').subscribe((res: any) => {
           if (res.ResponseCode == 200) {
-            this.usdExcRate=res.Data;
+            this.usdExcRate = res.Data;
             //usd rate
-            this.usdRate=this.usdExcRate.TT_SELLING;
+            this.usdRate = this.usdExcRate.TT_SELLING;
           }
         });
-
       }
       // if (res.Data.hasOwnProperty('FREIGHTLIST')) {
       //   const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
@@ -247,19 +250,8 @@ export class PmQuotationDetailsComponent implements OnInit {
     });
   }
 
-  numericOnly(event: any): boolean {
-    // restrict e,+,-,E characters in  input type number
-    const charCode = event.which ? event.which : event.keyCode;
-    if (charCode == 101 || charCode == 69 || charCode == 45 || charCode == 43) {
-      return false;
-    }
-    const reg = /^-?\d*(\.\d{0,2})?$/;
-    let input = event.target.value + String.fromCharCode(event.charCode);
-
-    if (!reg.test(input)) {
-      event.preventDefault();
-    }
-    return true;
+  numericOnly(event: any) {
+    this._commonService.numericOnly(event);
   }
 
   get f0() {
@@ -283,25 +275,25 @@ export class PmQuotationDetailsComponent implements OnInit {
     const add2 = this.calcForm.get('FREIGHT_LIST') as FormArray;
 
     var total = 0;
-    var total1=0;
-    var total2=0;
+    var total1 = 0;
+    var total2 = 0;
     //POL
     for (var i = 0; i < add.length; i++) {
       var rr = add.at(i)?.get('RATE_REQUESTED')?.value;
       total1 += +rr;
     }
-    total1=total1*this.polRate;
-    total1=total1/this.usdRate;
+    total1 = total1 * this.polRate;
+    total1 = total1 / this.usdRate;
 
     //POD
     for (var i = 0; i < add1.length; i++) {
       var rr = add1.at(i)?.get('RATE_REQUESTED')?.value;
       total2 += +rr;
     }
-    total2=total2*this.podRate;
-    total2=total2/this.usdRate;
+    total2 = total2 * this.podRate;
+    total2 = total2 / this.usdRate;
 
-    total=total1+total2;
+    total = total1 + total2;
 
     //freights
     for (var i = 0; i < add2.length; i++) {
@@ -318,26 +310,26 @@ export class PmQuotationDetailsComponent implements OnInit {
     const add2 = this.calcForm.get('FREIGHT_LIST') as FormArray;
 
     var total = 0;
-    var total1=0;
-    var total2=0;
+    var total1 = 0;
+    var total2 = 0;
 
     //POL
     for (var i = 0; i < add.length; i++) {
       var rr = add.at(i)?.get('STANDARD_RATE')?.value;
       total1 += +rr;
     }
-    total1=total1*this.polRate;
-    total1=total1/this.usdRate;
+    total1 = total1 * this.polRate;
+    total1 = total1 / this.usdRate;
 
     //POD
     for (var i = 0; i < add1.length; i++) {
       var rr = add1.at(i)?.get('RATE')?.value;
       total2 += +rr;
     }
-    total2=total2*this.podRate;
-    total2=total2/this.usdRate;
+    total2 = total2 * this.podRate;
+    total2 = total2 / this.usdRate;
 
-    total=total1+total2;
+    total = total1 + total2;
 
     //freights
     for (var i = 0; i < add2.length; i++) {
