@@ -4,7 +4,8 @@
 <div class="container">
     <form class="mx-5" [formGroup]="mrForm">
         <div class="col-md-6 offset-md-6 text-end">
-            <button class="form-btn-primary" routerLink="/home/mr-request">New M&R Request</button>
+            <button class="form-btn-primary" routerLink="/home/depo/mr-request"><i class="fa fa-plus me-2"></i>New M&R
+                Request</button>
         </div>
         <div class="row">
             <div class="col-md-3">
@@ -45,7 +46,7 @@
         <table class="table table-responsive-xl">
             <thead>
                 <tr>
-                    <th>&nbsp;</th>
+                    <th>No</th>
                     <th>MR No</th>
                     <th>Container No</th>
                     <th>Created Date</th>
@@ -54,13 +55,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="alert" role="alert" *ngFor="let item of mrList">
-                    <td>
-                        <label class="checkbox-wrap checkbox-primary">
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </td>
+                <tr class="alert" role="alert" *ngFor="let item of mrList;let i = index">
+                    <td>{{i + 1}}</td>
                     <td>{{item.MR_NO}}</td>
                     <td>{{item.CONTAINER_NO}}</td>
                     <td>{{item.CREATED_DATE | date:'mediumDate'}}</td>
@@ -71,7 +67,7 @@
                     </td>
                     <td>
                         <div class="rounded-btn"><a (click)="getDetails(item.MR_NO)"><i
-                                    class="fa fa-plus text-light"></i></a>
+                                    class="fa fa-eye text-light"></i></a>
                             <button #MRModal data-bs-toggle="modal" href="#mrModal" class="d-none"></button>
                         </div>
                     </td>
@@ -178,10 +174,10 @@
                     <hr>
                 </div>
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button type="button" class="form-btn-success me-2">Approve</button>
                 <button type="button" class="form-btn-danger">Reject</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

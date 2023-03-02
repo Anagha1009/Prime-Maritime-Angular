@@ -25,13 +25,14 @@
                 <td>{{item.DEPO_CODE}}</td>
                 <td>{{item.DEPO_NAME}}</td>
                 <td class="status">
-                    <span [class]="item.STATUS == 'Requested' ? 'waiting' : item.STATUS == 'Rejected' ? 'rejected' : 'active'">
+                    <span
+                        [class]="item.STATUS == 'Requested' ? 'waiting' : item.STATUS == 'Rejected' ? 'rejected' : 'active'">
                         {{item.STATUS}}
                     </span>
                 </td>
                 <td>
-                    <div *ngIf="item.STATUS == 'Requested'" class="rounded-btn"><a
-                            (click)="getDetails(item.MR_NO)"><i class="fa fa-plus text-light"></i></a>
+                    <div *ngIf="item.STATUS == 'Requested'" class="rounded-btn"><a (click)="getDetails(item.MR_NO)"><i
+                                class="fa fa-eye text-light"></i></a>
                         <button #MRModal data-bs-toggle="modal" href="#mrModal" class="d-none"></button>
                     </div>
                 </td>
@@ -211,7 +212,7 @@
                                     <span class="formbold-file-name"
                                         *ngIf="img.filE_NAME.split('_')[1].length>15">{{img.filE_NAME.split('_')[1].substring(0,7)}}...{{img.filE_NAME.split('_')[1].split('.')[1]}}</span>
                                     <a target="_blank" href="{{BASE_URL + img.filE_PATH}}"><i
-                                            class="fa fa-eye text-dark ms-5" ></i></a>
+                                            class="fa fa-eye text-dark ms-5"></i></a>
                                     <!-- <button (click)="download(BASE_URL + img.filE_PATH)" ><i class="fa fa-download text-dark" style="margin-left:20px;"></i></button> -->
                                 </div>
                             </div>
