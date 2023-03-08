@@ -63,6 +63,7 @@ export class NewQuotationComponent implements OnInit {
   unno: string = '';
   chargecodeList: any[] = [];
   terminalList: any[] = [];
+  isgeneralcompleted: boolean = false;
   //Customer Popup
   submitted5: boolean = false;
   partyForm: FormGroup;
@@ -217,14 +218,14 @@ export class NewQuotationComponent implements OnInit {
 
   onchangeTab(index: any) {
     if (index == '2') {
-      if (this.quotationForm.invalid) {
+      if (!this.isgeneralcompleted) {
         alert('Please complete SRR Details');
         this.tabs = '1';
       } else {
         this.tabs = index;
       }
     } else if (index == '3') {
-      if (this.quotationForm.invalid) {
+      if (!this.isgeneralcompleted) {
         alert('Please complete SRR Details');
         this.tabs = '1';
       } else if (this.f7.length == 0) {
@@ -255,9 +256,11 @@ export class NewQuotationComponent implements OnInit {
     this.submitted = true;
 
     if (this.quotationForm.invalid) {
+      this.isgeneralcompleted = false;
       return;
     }
 
+    this.isgeneralcompleted = true;
     this.onchangeTab('2');
   }
 
