@@ -50,6 +50,7 @@ export class NewBlComponent implements OnInit {
   containerTypeList: any[] = [];
   blHistoryList: any[] = [];
   hideHistory: boolean = false;
+  isManual: boolean = false;
   minDate: any = '';
   i: any = 0;
 
@@ -69,8 +70,8 @@ export class NewBlComponent implements OnInit {
       BL_NO: [''],
       SRR_ID: [''],
       SRR_NO: [''],
-      BOOKING_NO: [''],
-      CRO_NO: [''],
+      BOOKING_NO: ['',Validators.required],
+      CRO_NO: ['',Validators.required],
       SHIPPER: ['', Validators.required],
       SHIPPER_ADDRESS: ['', Validators.required],
       CONSIGNEE: ['', Validators.required],
@@ -100,6 +101,7 @@ export class NewBlComponent implements OnInit {
       AGENT_CODE: [''],
       AGENT_NAME: [''],
       CREATED_BY: [''],
+      CREATED_DATE:[''],
       CONTAINER_LIST: new FormArray([]),
       CONTAINER_LIST2: new FormArray([]),
     });
@@ -123,6 +125,52 @@ export class NewBlComponent implements OnInit {
       });
   }
 
+  removeItem(i: any) {
+    const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
+    if (add.length == 1) {
+      this._commonService.warnMsg('Atleast one container should be added!');
+    } else {
+      add.removeAt(i);
+    }
+  }
+  manualBL(){
+    this.submitted=false;
+    this.blForm.reset();
+    this.isManual=true;
+    this.editBL = false;
+    this.isBLForm = true;
+    this.isSplit = false;
+
+    var manualContainers = this.blForm.get('CONTAINER_LIST2') as FormArray;
+    manualContainers.clear();
+    manualContainers.push(
+      this._formBuilder.group({
+        CONTAINER_NO: ['', Validators.required],
+        CONTAINER_TYPE: ['', Validators.required],
+        GROSS_WEIGHT: ['', Validators.required],
+        MEASUREMENT: ['', Validators.required],
+        SEAL_NO: ['', Validators.required],
+        AGENT_SEAL_NO: ['', Validators.required]
+      })
+    );
+
+    this.hideHistory = true;
+  }
+
+  addContainers(){
+    var manualContainers = this.blForm.get('CONTAINER_LIST2') as FormArray;
+
+    manualContainers.push(
+      this._formBuilder.group({
+        CONTAINER_NO: ['', Validators.required],
+        CONTAINER_TYPE: ['', Validators.required],
+        GROSS_WEIGHT: ['', Validators.required],
+        MEASUREMENT: ['', Validators.required],
+        SEAL_NO: ['', Validators.required],
+        AGENT_SEAL_NO: ['', Validators.required]
+      })
+    );
+  }
   getBLForm() {
     if (this.previewTable.length == 0) {
       this._commonService.warnMsg('Please upload Shipping Instructions !');
@@ -131,6 +179,7 @@ export class NewBlComponent implements OnInit {
 
     this.hideHistory = true;
     this.editBL = false;
+    this.isManual=false;
     this.blForm.patchValue(this.previewTable[0]);
     const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
 
@@ -251,6 +300,7 @@ export class NewBlComponent implements OnInit {
       return;
     }
     this.editBL = false;
+    //this.isManual=false;
 
     // if (this.isSplit) {
     //   this.blForm.get('BL_NO')?.setValue(this.blNo + '-1');
@@ -341,6 +391,7 @@ export class NewBlComponent implements OnInit {
   getBLDetailsForEdit(BLNO: any) {
     this.hideHistory = true;
     this.editBL = true;
+    this.isManual=false;
 
     var BL = new Bl();
     BL.AGENT_CODE = this._commonService.getUserCode();
@@ -404,6 +455,7 @@ export class NewBlComponent implements OnInit {
 
   getBLDetails() {
     this.editBL = false;
+    this.isManual=false;
     var BL = new Bl();
     BL.AGENT_CODE = this._commonService.getUserCode();
     BL.BL_NO = this.blNo;
@@ -728,6 +780,7 @@ export class NewBlComponent implements OnInit {
   viewBL(BLNO: any,isNN:any) {
     this.isSplit = false;
     this.editBL = false;
+    this.isManual=false;
     this.groupingViaCommonProperty = [];
     this.groupedList = [];
     this.i = 0;
@@ -1391,7 +1444,7 @@ export class NewBlComponent implements OnInit {
                 {
                   text:
                     this.blForm.value.PORT_OF_DISCHARGE.toUpperCase() +
-                    '                                                                      ' +
+                    '                                                ' +
                     this.blForm.value.PLACE_OF_DELIVERY.toUpperCase(),
                   fontSize: 7,
                   margin: [0, 0, 0, 20],
@@ -1686,7 +1739,7 @@ export class NewBlComponent implements OnInit {
                   fontSize: 10,
                   margin: [0, 5, 0, 0],
                 },
-                { text: '10/11/22', fontSize: 9 },
+                { text: formatDate(this.blForm.value.CREATED_DATE,'dd-MM-yyyy','en'), fontSize: 9 },
               ],
               [
                 {
@@ -1855,7 +1908,7 @@ export class NewBlComponent implements OnInit {
                         fontSize: 10,
                         margin: [0, 5, 0, 0],
                       },
-                      { text: '10/11/22', fontSize: 9 },
+                      { text: formatDate(this.blForm.value.CREATED_DATE,'dd-MM-yyyy','en'), fontSize: 9 },
                     ],
                     [
                       {
@@ -2725,7 +2778,7 @@ export class NewBlComponent implements OnInit {
                   fontSize: 10,
                   margin: [0, 5, 0, 0],
                 },
-                { text: '10/11/22', fontSize: 9 },
+                { text: formatDate(this.blForm.value.CREATED_DATE,'dd-MM-yyyy','en'), fontSize: 9 },
               ],
               [
                 {
@@ -2894,7 +2947,7 @@ export class NewBlComponent implements OnInit {
                         fontSize: 10,
                         margin: [0, 5, 0, 0],
                       },
-                      { text: '10/11/22', fontSize: 9 },
+                      { text: formatDate(this.blForm.value.CREATED_DATE,'dd-MM-yyyy','en'), fontSize: 9 },
                     ],
                     [
                       {
