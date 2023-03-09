@@ -1,64 +1,62 @@
-.rope{
-    position: relative;
-    margin-top: 10px;
-    height:320px;
-    width:80%;
-    background-image: url('/assets/img/tspread.png');
-    background-repeat: no-repeat;
-   
+.rope {
+  position: relative;
+  margin-top: 10px;
+  height: 320px;
+  width: 80%;
+  background-image: url("/assets/img/tspread.png");
+  background-repeat: no-repeat;
 }
-#hang{
-    position: relative;
-    margin-top:10px ;
-    height:200px;
-    width:200px;
-    background-image: url('/assets/img/newhang.gif');
-    background-repeat: no-repeat;
-    //animation: move-in-steps 10s infinite;
+#hang {
+  position: relative;
+  margin-top: 10px;
+  height: 200px;
+  width: 200px;
+  background-image: url("/assets/img/newhang.gif");
+  background-repeat: no-repeat;
+  //animation: move-in-steps 10s infinite;
 }
 @keyframes move-in-steps1 {
-    0% {
-      left: 0;
-      //background: blue;
-    }
-    15% {
-      left: 15%;
-      //background: red;
-    }
+  0% {
+    left: 0;
+    //background: blue;
+  }
+  15% {
+    left: 15%;
+    //background: red;
+  }
 }
 @keyframes move-in-steps2 {
-    0% {
-      left: 0;
-    }
-    32% {
-      left: 32%;
-    }
+  0% {
+    left: 0;
+  }
+  32% {
+    left: 32%;
+  }
 }
 @keyframes move-in-steps3 {
-    0% {
-      left: 0;
-    }
-    49% {
-      left: 49%;
-    }
+  0% {
+    left: 0;
+  }
+  49% {
+    left: 49%;
+  }
 }
 @keyframes move-in-steps4 {
-    0% {
-      left: 0;
-    }
-    66% {
-      left: 66%;
-    }
+  0% {
+    left: 0;
+  }
+  66% {
+    left: 66%;
+  }
 }
 @keyframes move-in-steps5 {
-    0% {
-      left: 0;
-    }
-    83% {
-      left: 83%;
-    }
+  0% {
+    left: 0;
+  }
+  83% {
+    left: 83%;
+  }
 }
-
 
 //Logic
 .ratetable th,

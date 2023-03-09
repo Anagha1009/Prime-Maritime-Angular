@@ -2,6 +2,7 @@
     <h2>{{'Header.title'|translate}}</h2>
 </div>
 <div class="container">
+    <a routerLink="/home/depo/mr-request-list"><i class='bx bx-arrow-back'></i>Back to List</a>
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-3">
@@ -11,7 +12,8 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <button class="form-btn me-2" (click)="getContainerDetails()">{{'Button.createMNR' | translate}}</button>
+                <button class="form-btn me-2" (click)="getContainerDetails()">{{'Button.createMNR' |
+                    translate}}</button>
             </div>
         </div>
     </div>
@@ -284,7 +286,7 @@
             <div class="col-md-8">
                 <div class="row">
                 </div>
-                
+
                 <img *ngFor='let url of images' [src]="url" height="150" width="150" style="margin: 3px;">
                 <br />
             </div>

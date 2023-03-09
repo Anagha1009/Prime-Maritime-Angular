@@ -97,7 +97,7 @@
 .form-label {
   position: absolute;
   top: 0;
-  padding: 7px 0 0 0px;
+  padding: 7px 0 0 10px;
   transition: all 200ms;
   opacity: 1;
 }
@@ -105,7 +105,7 @@
 .form-label-ddl {
   position: absolute;
   top: -25px;
-  padding: 7px 0 0 13px;
+  padding: 7px 0 0 10px;
   transition: all 200ms;
   opacity: 1;
   font-size: 14px;
@@ -126,7 +126,7 @@
   border-radius: 0% !important;
   border: none;
   border-bottom: 1px solid #c7c7c7 !important;
-  height: 36px;
+  height: 43px;
 }
 
 .form-control:focus {
@@ -717,6 +717,6 @@ input:-webkit-autofill:focus {
   color: #40bfc1;
 }
 
-hr{
-  opacity: 0.10 !important;
+hr {
+  opacity: 0.1 !important;
 }

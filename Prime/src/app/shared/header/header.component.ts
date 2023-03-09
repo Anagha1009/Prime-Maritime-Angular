@@ -108,7 +108,7 @@ export class HeaderComponent implements OnInit {
               : this.selectedLanguage == 'hi'
               ? hindi.data.Menu.mnrRequest
               : arabic.data.Menu.mnrRequest,
-          menuLink: 'depo/mr-request',
+          menuLink: 'depo/mr-request-list',
         },
         {
           menuName:

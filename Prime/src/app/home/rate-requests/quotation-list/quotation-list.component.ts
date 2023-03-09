@@ -118,14 +118,6 @@ export class QuotationListComponent implements OnInit {
       }
     });
 
-    this._commonService
-      .getDropdownData('SLOT_OPERATOR')
-      .subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.slotoperatorList = res.Data;
-        }
-      });
-
     this._commonService.getDropdownData('CURRENCY').subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.currencyList = res.Data;
@@ -448,6 +440,19 @@ export class QuotationListComponent implements OnInit {
         NO_OF_SLOTS: ['', Validators.required],
       })
     );
+
+    this._commonService
+      .getDropdownData(
+        'SLOT_OPERATOR',
+        this.quotationDetails?.POL.split('(')[1].split(')')[0],
+        this.quotationDetails?.POD.split('(')[1].split(')')[0]
+      )
+      .subscribe((res: any) => {
+        debugger;
+        if (res.ResponseCode == 200) {
+          this.slotoperatorList = res.Data;
+        }
+      });
 
     this.openBtn.nativeElement.click();
   }

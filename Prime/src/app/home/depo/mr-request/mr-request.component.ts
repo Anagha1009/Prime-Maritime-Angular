@@ -8,6 +8,7 @@ import { DepoService } from 'src/app/services/depo.service';
 import { locale as english } from 'src/app/@core/translate/mnr/en';
 import { locale as hindi } from 'src/app/@core/translate/mnr/hi';
 import { locale as arabic } from 'src/app/@core/translate/mnr/ar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mr-request',
@@ -33,7 +34,8 @@ export class MrRequestComponent implements OnInit {
     private _depoService: DepoService,
     private _commonService: CommonService,
     private _containerService: ContainerService,
-    private _coreTranslationService: CoreTranslationService
+    private _coreTranslationService: CoreTranslationService,
+    private _router: Router
   ) {
     this._coreTranslationService.translate(english, hindi, arabic);
   }
@@ -127,11 +129,6 @@ export class MrRequestComponent implements OnInit {
     return Math.round(totalAmount * 100) / 100;
   }
 
-  getRandomNumber() {
-    var num = Math.floor(Math.random() * 1e16).toString();
-    return 'MR' + num;
-  }
-
   LabourSum() {
     const add = this.mrForm.get('MR_LIST') as FormArray;
     var totalAmount = 0;
@@ -196,11 +193,12 @@ export class MrRequestComponent implements OnInit {
 
   submitRequest() {
     var mrList = this.mrForm.get('MR_LIST');
+    var mrNo = this._commonService.getRandomNumber('MR');
     for (var i = 0; i < mrList?.value.length; i++) {
       this.mrForm.value.MR_LIST[i].CONTAINER_NO = this.containerNo;
       this.mrForm.value.MR_LIST[i].TAX = this.TaxTotal();
       this.mrForm.value.MR_LIST[i].FINAL_TOTAL = this.FinalTotal();
-      this.mrForm.value.MR_LIST[i].MR_NO = this.getRandomNumber();
+      this.mrForm.value.MR_LIST[i].MR_NO = mrNo;
       this.mrForm.value.MR_LIST[i].DEPO_CODE =
         this._commonService.getUserCode();
       this.mrForm.value.MR_LIST[i].CREATED_BY =
@@ -215,8 +213,10 @@ export class MrRequestComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
           this.uploadFilestoDB(MR);
-          alert('Your request is submitted successfully !');
-          this.Clear();
+          this._commonService.successMsg(
+            'Your MnR request is submitted successfully <br> MnR No is ' + mrNo
+          );
+          this._router.navigateByUrl('/home/depo/mr-request-list');
         }
       });
   }
