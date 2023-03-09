@@ -65,6 +65,13 @@
             </div>
         </div>
         <div [class]="hideHistory ? 'col-md-12':'col-md-3'">
+            <div class="col-md-6 offset-md-6 text-end">
+                <button class="form-btn-primary mb-3" (click)="manualBL()"><i
+                        class="fa fa-plus me-2"></i>Manual BL</button>
+            </div>
+            <!-- <div class="text-end">
+                <button class="form-btn w-50 mb-3" (click)="manualBL()">Manual BL</button>
+            </div> -->
             <div class="tabs mb-4" *ngIf="!isBLForm">
                 <input type="radio" (click)="tabs = '1'" class="d-none" id="radio-1" name="tabs" checked />
                 <label class="tab" for="radio-1">{{'Header.NewBL'|translate}}</label>
@@ -231,6 +238,22 @@
                                     Enter Final Destination</div>
                             </div>
                         </div>
+                        <div class="col-md-3" *ngIf="isManual">
+                            <div class="form-group">
+                                <label class="form-label2">Booking No</label>
+                                <input formControlName="BOOKING_NO" type="text" class="form-control2" [ngClass]="{'invalid': submitted && blf.BOOKING_NO.errors}"/>
+                                <div *ngIf="submitted && blf.BOOKING_NO.errors" class="invalid-feedback">Please
+                                    Enter Booking No.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" *ngIf="isManual">
+                            <div class="form-group">
+                                <label class="form-label2">CRO No</label>
+                                <input formControlName="CRO_NO" type="text" class="form-control2" [ngClass]="{'invalid': submitted && blf.CRO_NO.errors}"/>
+                                <div *ngIf="submitted && blf.CRO_NO.errors" class="invalid-feedback">Please
+                                    Enter CRO No.</div>
+                            </div>
+                        </div>
                     </div>
                     <h6 class="d-inline mt-3">Container Details</h6>
                     <hr>
@@ -255,28 +278,36 @@
                     <div class="row" *ngIf="editBL || isSplit">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <h6>Marks & Numbers: <small>{{blForm.value.MARKS_NOS}}</small></h6>
+                                <label class="form-label2">Marks & Numbers</label>
+                                <textarea class="form-control2" formControlName="MARKS_NOS" [ngClass]="{'invalid': submitted && blf.MARKS_NOS.errors}"></textarea>
+                                <div *ngIf="submitted && blf.MARKS_NOS.errors" class="invalid-feedback">Please
+                                    Enter Marks & Numbers</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <h6>Description of Goods: <small>{{blForm.value.DESC_OF_GOODS}}</small></h6>
+                                <label class="form-label2">Description of Goods</label>
+                                <textarea type="text" class="form-control2" formControlName="DESC_OF_GOODS" [ngClass]="{'invalid': submitted && blf.DESC_OF_GOODS.errors}"></textarea>
+                                <div *ngIf="submitted && blf.DESC_OF_GOODS.errors" class="invalid-feedback">Please
+                                    Enter Description of Goods</div>
                             </div>
                         </div>
+                        
                     </div>
                     
-                    <div class="table-responsive" *ngIf="isSplit">
+                    <div class="table-responsive" *ngIf="isSplit && !isManual">
                         <table class="table" style="font-size: 12px;">
                             <thead>
                                 <tr>
                                     <th><input type="checkbox"
                                             (change)="getContainerList(1,$event,-1)" /></th>
                                     <th>Sr No</th>
-                                    <th>Cont No</th>
-                                    <th>Cont Type</th>
+                                    <th>Container No</th>
+                                    <th>Container Type</th>
                                     <th>Gross Weight</th>
                                     <th>Measurement</th>
                                     <th>Seal No</th>
+                                    <th>Agent Seal No</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -294,21 +325,23 @@
                                             class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" />
                                     </td>
                                     <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].SEAL_NO}}</td>
+                                    <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].AGENT_SEAL_NO}}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="table-responsive" *ngIf="!isSplit">
+                    <div class="table-responsive" *ngIf="!isSplit && !isManual">
                         <table class="table" style="font-size: 12px;">
                             <thead>
                                 <tr>
                                     
                                     <th>Sr No</th>
-                                    <th>Cont No</th>
-                                    <th>Cont Type</th>
+                                    <th>Container No</th>
+                                    <th>Container Type</th>
                                     <th>Gross Weight</th>
                                     <th>Measurement</th>
                                     <th>Seal No</th>
+                                    <th>Agent Seal No</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -324,6 +357,62 @@
                                         {{blForm.value.CONTAINER_LIST2[i].MEASUREMENT}}
                                     </td>
                                     <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].SEAL_NO}}</td>
+                                    <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].AGENT_SEAL_NO}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-responsive" *ngIf="isManual && !isSplit">
+                        <div class="col-md-12 offset-md-12 text-end mb-4">
+                            <button (click)="addContainers()" class="form-btn btn-sm">
+                                <i class="fa fa-plus me-2"></i>Add Containers</button>
+                        </div>
+                        <table class="table" style="font-size: 12px;">
+                            <thead>
+                                <tr>
+                                    
+                                    <th>Sr No</th>
+                                    <th>Container No</th>
+                                    <th>Container Type</th>
+                                    <th>Gross Weight</th>
+                                    <th>Measurement</th>
+                                    <th>Seal No</th>
+                                    <th>Agent Seal No</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of f;let i = index" [formGroup]="getf1(item)">
+                                    
+                                    <td class="col-md-1">{{i+1}}</td>
+                                    <td class="col-md-1">
+                                        <input formControlName="CONTAINER_NO" type="text"
+                                            class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" />
+                                    </td>
+                                    <td class="col-md-1">
+                                        <input formControlName="CONTAINER_TYPE" type="text"
+                                            class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" />
+                                    </td>
+                                    <td class="col-md-1">
+                                        <input formControlName="GROSS_WEIGHT" type="text"
+                                            class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" />
+                                    </td>
+                                    <td class="col-md-1">
+                                        <input formControlName="MEASUREMENT" type="text"
+                                        class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" />
+                                    </td>
+                                    <td class="col-md-1">
+                                        <input formControlName="SEAL_NO" type="text"
+                                            class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" />
+                                    </td>
+                                    <td class="col-md-1">
+                                        <input formControlName="AGENT_SEAL_NO" type="text"
+                                            class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" />
+                                    </td>
+                                    <td class="col-md-1 text-center">
+                                        <a (click)="removeItem(j)" class="pointer"><i style="font-size:15px"
+                                                class="fa fa-trash mt-4"></i></a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -336,9 +425,9 @@
                             </div>
                         </div>
                     </div>
-                    <h6>Freight & Charges</h6>
+                    <h6 *ngIf="!isManual">Freight & Charges</h6>
                     <hr>
-                    <div class="table-responsive">
+                    <div class="table-responsive" *ngIf="!isManual">
                         <table class="table" style="font-size: 12px;">
                             <thead>
                                 <tr>
@@ -433,7 +522,7 @@
                                 Save as Draft
                             </button>
                         </div>
-                        <div class="col-md-2 offset-md-10" style="text-align: right;" *ngIf="!editBL">
+                        <div class="col-md-2 offset-md-10" style="text-align: right;" *ngIf="!editBL || isManual">
                             <button class="form-btn" (click)="createBL()">
                                 Save as Draft
                             </button>
