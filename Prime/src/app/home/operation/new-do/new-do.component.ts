@@ -187,7 +187,10 @@ export class NewDoComponent implements OnInit {
           this.previewDetails = true;
         }
         if (this.containerList?.length == 0) {
-          this.previewNoData = true;
+          this._commonService.errorMsg(
+            'DO is already created for all containers for this BL No'
+          );
+          //this.previewNoData = true;
         }
       }
     });

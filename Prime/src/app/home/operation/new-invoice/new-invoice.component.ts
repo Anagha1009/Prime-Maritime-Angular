@@ -82,6 +82,8 @@ export class NewInvoiceComponent implements OnInit {
       if (res.ResponseCode == 200) {
         this.blDetails = res.Data;
         this.isBL = true;
+      } else if (res.ResponseCode == 500) {
+        this._commonService.warnMsg('Sorry ! No Records found !');
       }
     });
   }

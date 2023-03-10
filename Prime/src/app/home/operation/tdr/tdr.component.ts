@@ -2,12 +2,12 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TdrService } from 'src/app/services/tdr.service';
 import { CommonService } from 'src/app/services/common.service';
-import { TDR } from 'src/app/models/tdr';
 import { locale as english } from 'src/app/@core/translate/tdr/en';
 import { locale as hindi } from 'src/app/@core/translate/tdr/hi';
 import { locale as arabic } from 'src/app/@core/translate/tdr/ar';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
-import * as xlsx from 'xlsx';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-tdr',
   templateUrl: './tdr.component.html',
@@ -18,25 +18,24 @@ export class TdrComponent implements OnInit {
   tdrForm: FormGroup;
   tdrList: any[] = [];
   vesselList: any[] = [];
-  slotoperatorList: any[] = [];
   voyageList: any[] = [];
+  terminalList: any[] = [];
   isLoading: boolean = false;
-
-  @ViewChild('epltable', { static: false }) epltable: ElementRef;
-
   portList: any[] = [];
 
   constructor(
     private _tdrService: TdrService,
     private _formBuilder: FormBuilder,
     private _commonService: CommonService,
-    private _coreTranslationService: CoreTranslationService
+    private _coreTranslationService: CoreTranslationService,
+    private _router: Router
   ) {
     this._coreTranslationService.translate(english, hindi, arabic);
   }
 
   ngOnInit(): void {
     this.tdrForm = this._formBuilder.group({
+      TDR_NO: [''],
       VESSEL_NAME: ['', Validators.required],
       VOYAGE_NO: ['', Validators.required],
       POL: ['', Validators.required],
@@ -53,7 +52,6 @@ export class TdrComponent implements OnInit {
     });
 
     this.getDropdown();
-    this.GetTdrList();
   }
 
   get f() {
@@ -72,14 +70,6 @@ export class TdrComponent implements OnInit {
         this.vesselList = res.Data;
       }
     });
-
-    this._commonService
-      .getDropdownData('SLOT_OPERATOR')
-      .subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.slotoperatorList = res.Data;
-        }
-      });
   }
 
   getVoyageList(event: any) {
@@ -93,91 +83,39 @@ export class TdrComponent implements OnInit {
         }
       });
   }
-  exportToExcel() {
-    const ws: xlsx.WorkSheet = xlsx.utils.table_to_sheet(
-      this.epltable.nativeElement
-    );
 
-    for (var i in ws) {
-      if (typeof ws[i] != 'object') continue;
-      let cell = xlsx.utils.decode_cell(i);
-
-      ws[i].s = {
-        // styling for all cells
-        font: {
-          name: 'arial',
-        },
-        alignment: {
-          vertical: 'center',
-          horizontal: 'center',
-          wrapText: '1', // any truthy value here
-        },
-        border: {
-          right: {
-            style: 'thin',
-            color: '000000',
-          },
-          left: {
-            style: 'thin',
-            color: '000000',
-          },
-        },
-      };
-
-      if (cell.r == 0) {
-        // first row
-        ws[i].s.fill = {
-          patternType: 'solid',
-          fgColor: { rgb: 'b2b2b2' },
-          bgColor: { rgb: 'b2b2b2' },
-        };
-      }
-    }
-
-    const wb: xlsx.WorkBook = xlsx.utils.book_new();
-    xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
-    xlsx.writeFile(wb, 'Tdr.xlsx');
+  getTerminalList(event: any) {
+    this.tdrForm.get('TERMINAL')?.setValue('');
+    this.terminalList = [];
+    this._commonService
+      .getDropdownData('TERMINAL', event, '')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.terminalList = res.Data;
+        }
+      });
   }
 
   InsertTdr() {
-    debugger
     this.submitted = true;
-    this.isLoading = true;
     if (this.tdrForm.invalid) {
       return;
     }
+
+    this.isLoading = true;
+    var tdrNo = this._commonService.getRandomNumber('TDR');
+    this.tdrForm.get('TDR_NO')?.setValue(tdrNo);
     this.tdrForm.get('CREATED_BY')?.setValue(this._commonService.getUserName());
     this._tdrService
       .InsertTdr(JSON.stringify(this.tdrForm.value))
       .subscribe((res: any) => {
+        this.isLoading = false;
         if (res.responseCode == 200) {
-          this._commonService.successMsg('TDR added successfully !');
-          this.GetTdrList();
-          this.exportToExcel();
-          this.isLoading = false;
+          this._commonService.successMsg(
+            'TDR added successfully ! <br>Your TDR No is ' + tdrNo
+          );
+          this._router.navigateByUrl('/home/operations/tdr-list');
         }
-
-      });
-  }
-
-  GetTdrList() {
-    this._commonService.destroyDT();
-    this.isLoading = true;
-    var tdrModel = new TDR();
-    tdrModel.CREATED_BY = this._commonService.getUserCode();
-    this._tdrService
-      .GetTdrList(tdrModel)
-      .subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.tdrList = res.Data;
-          if (this.tdrList.length > 0) {
-            setTimeout(() => {
-              this.isLoading = false;
-            }, 20);
-          }
-        }
-        this._commonService.getDT();
-
       });
   }
 
@@ -185,5 +123,7 @@ export class TdrComponent implements OnInit {
     this.tdrForm.reset();
     this.tdrForm.get('VESSEL_NAME')?.setValue('');
     this.tdrForm.get('VOYAGE_NO')?.setValue('');
+    this.tdrForm.get('POL')?.setValue('');
+    this.tdrForm.get('TERMINAL')?.setValue('');
   }
 }

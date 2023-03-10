@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PmQuotationDetailsComponent } from './pm-quotation-details.component';
+import { TdrListComponent } from './tdr-list.component';
 
-describe('PmQuotationDetailsComponent', () => {
-  let component: PmQuotationDetailsComponent;
-  let fixture: ComponentFixture<PmQuotationDetailsComponent>;
+describe('TdrListComponent', () => {
+  let component: TdrListComponent;
+  let fixture: ComponentFixture<TdrListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PmQuotationDetailsComponent ]
+      declarations: [ TdrListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PmQuotationDetailsComponent);
+    fixture = TestBed.createComponent(TdrListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

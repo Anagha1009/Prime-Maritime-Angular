@@ -78,8 +78,8 @@ export class NewCroComponent implements OnInit {
       REQ_QUANTITY: ['', Validators.required],
       GROSS_WT: ['', Validators.required],
       GROSS_WT_UNIT: ['', Validators.required],
-      PACKAGES: ['', Validators.required],
-      NO_OF_PACKAGES: ['', Validators.required],
+      PACKAGES: [''],
+      NO_OF_PACKAGES: [''],
       STATUS: ['Drafted'],
       AGENT_NAME: [''],
       AGENT_CODE: [''],
@@ -161,6 +161,14 @@ export class NewCroComponent implements OnInit {
     this.croForm.get('AGENT_NAME')?.setValue(this._commonService.getUserName());
     this.croForm.get('AGENT_CODE')?.setValue(this._commonService.getUserCode());
     this.croForm.get('CREATED_BY')?.setValue(this._commonService.getUserName());
+
+    this.croForm
+      .get('NO_OF_PACKAGES')
+      .setValue(
+        this.croForm.get('NO_OF_PACKAGES')?.value == ''
+          ? 0
+          : this.croForm.get('NO_OF_PACKAGES').value
+      );
 
     this._croService
       .insertCRO(JSON.stringify(this.croForm.value))

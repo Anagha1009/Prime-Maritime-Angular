@@ -12,7 +12,7 @@ export const locale = {
       CroValidityDate: 'CRO Validity Date',
       Remarks: 'Remarks',
       RequiredQuantity: 'Required Quantity',
-      GrossWeight: 'Gross Weight/Cntr',
+      GrossWeight: 'Gross Wt/ Cntr',
       Unit: 'Unit',
       Packages: 'Package Type',
       NoofPackages: 'No of Packages',
@@ -22,8 +22,7 @@ export const locale = {
       CroNo: 'CRO No',
       fromDate: 'From Date',
       toDate: 'To Date',
-      TotalRecords :'Total Records '
-
+      TotalRecords: 'Total Records ',
     },
     Button: {
       Submit: 'Submit',

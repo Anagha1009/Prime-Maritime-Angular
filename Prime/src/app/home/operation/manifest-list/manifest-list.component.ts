@@ -15,8 +15,9 @@ const pdfMake = require('pdfmake/build/pdfmake.js');
 export class ManifestListComponent implements OnInit {
   blNo: string = '';
   isManifest: boolean = false;
-  isRecords: boolean = true;
   cargoList: any;
+  isLoading: boolean = false;
+  submitted: boolean = false;
 
   constructor(
     private _blService: BlService,
@@ -26,23 +27,34 @@ export class ManifestListComponent implements OnInit {
   ngOnInit(): void {}
 
   showManifest() {
+    this.submitted = true;
+    if (this.blNo == '') {
+      return;
+    }
+
     var cargoManifest = new CARGO_MANIFEST();
     cargoManifest.AGENT_CODE = this._commonService.getUserCode();
     cargoManifest.BL_NO = this.blNo;
 
     this.isManifest = false;
+    this.isLoading = true;
     this._blService
       .getCargoManifestList(cargoManifest)
       .subscribe((res: any) => {
+        this.isLoading = false;
         if (res.ResponseCode == 200) {
           this.cargoList = res.Data;
-          //console.log(JSON.stringify(res.Data));
           this.isManifest = true;
-          this.isRecords = true;
         } else if (res.ResponseCode == 500) {
-          this.isRecords = false;
+          this._commonService.errorMsg('Sorry ! No Records found !');
         }
       });
+  }
+
+  clearManifest() {
+    this.isManifest = false;
+    this.blNo = '';
+    this.submitted = false;
   }
 
   getCargoManifest() {

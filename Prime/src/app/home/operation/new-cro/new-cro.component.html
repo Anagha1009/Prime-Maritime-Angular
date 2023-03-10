@@ -58,8 +58,8 @@
                                 <ng-option value="FACTORY">FACTORY</ng-option>
                                 <ng-option value="DOCK">DOCK</ng-option>
                             </ng-select>
-                            <label class="form-label-ddl">{{'Header.Stuffingtype'|translate}}<span
-                                    class="text-danger">*</span></label>
+                            <label class="form-label-ddl">{{'Header.Stuffingtype'|translate}}<span class="text-danger">
+                                    *</span></label>
                             <div *ngIf="submitted && f.STUFFING_TYPE.errors" class="invalid-feedback">Please
                                 select
                                 Stuffing Type</div>
@@ -78,7 +78,7 @@
                                     ({{item.CODE}})</ng-option>
                             </ng-select>
                             <label class="form-label-ddl">{{'Header.ContPickupPoint'|translate}}<span
-                                    class="text-danger">*</span></label>
+                                    class="text-danger"> *</span></label>
                             <div *ngIf="submitted && f.EMPTY_CONT_PCKP.errors" class="invalid-feedback">Please select
                                 Container Pickup Point</div>
                         </div>
@@ -94,7 +94,7 @@
                                     ({{item.CODE}})</ng-option>
                             </ng-select>
                             <label class="form-label-ddl">{{'Header.LadenAcptLocation'|translate}}<span
-                                    class="text-danger">*</span></label>
+                                    class="text-danger"> *</span></label>
                             <div *ngIf="submitted && f.LADEN_ACPT_LOCATION.errors" class="invalid-feedback">Please
                                 select
                                 Laden act Location</div>
@@ -107,8 +107,8 @@
                             <input type="date" min="{{currentDate}}" class="form-control"
                                 [ngClass]="{'invalid': submitted && f.CRO_VALIDITY_DATE.errors}"
                                 formControlName="CRO_VALIDITY_DATE">
-                            <label class="form-label">{{'Header.CroValidityDate'|translate}} <span
-                                    class="text-danger">*</span></label>
+                            <label class="form-label">{{'Header.CroValidityDate'|translate}} <span class="text-danger">
+                                    *</span></label>
                             <div *ngIf="submitted && f.CRO_VALIDITY_DATE.errors" class="invalid-feedback">Please select
                                 Cro Validity Date</div>
                         </div>
@@ -126,31 +126,22 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <input type="text" [ngClass]="{'invalid': submitted && f.NO_OF_PACKAGES.errors}"
-                                maxlength="10" formControlName="NO_OF_PACKAGES" class="form-control"
+                            <input type="text" maxlength="10" formControlName="NO_OF_PACKAGES" class="form-control"
                                 (keypress)="numericOnly($event)">
-                            <label class="form-label">{{'Header.NoofPackages'|translate}} <span
-                                    class="text-danger">*</span></label>
-                            <div *ngIf="submitted && f.NO_OF_PACKAGES.errors" class="invalid-feedback">Please Select No
-                                of Packages
-                            </div>
+                            <label class="form-label">{{'Header.NoofPackages'|translate}}</label>
                         </div>
                     </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <ng-select [ngClass]="{'invalid': submitted && f.PACKAGES.errors}"
-                                formControlName="PACKAGES">
+                            <ng-select formControlName="PACKAGES">
                                 <ng-option value="" selected="true" disabled>--Select Packages--</ng-option>
                                 <ng-option *ngFor="let item of packageList" value="{{item.CODE}}">
                                     {{item.CODE_DESC}}
                                 </ng-option>
                             </ng-select>
-                            <label class="form-label-ddl">{{'Header.Packages'|translate}} <span
-                                    class="text-danger">*</span></label>
-                            <div *ngIf="submitted && f.PACKAGES.errors" class="invalid-feedback">Please Select Packages
-                            </div>
+                            <label class="form-label-ddl">{{'Header.Packages'|translate}}</label>
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -190,10 +181,10 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-4 offset-md-8" style="text-align: right;">
-                        <button (click)="SaveCRO()" class="form-btn me-2">{{'Button.Submit'|translate}}</button>
+                        <button class="form-btn-light me-2" (click)="ClearForm()">{{'Button.clear'|translate}}</button>
+                        <button (click)="SaveCRO()" class="form-btn">{{'Button.Submit'|translate}}</button>
                         <button #openBtn data-bs-toggle="modal" href="#mailModal"
                             class="form-btn d-none">Submit</button>
-                        <button class="form-btn" (click)="ClearForm()">{{'Button.clear'|translate}}</button>
                     </div>
                 </div>
             </form>

@@ -1,0 +1,100 @@
+<div class="section-title">
+    <h2>TDR List</h2>
+</div>
+<div class="container">
+    <form class="mx-5" [formGroup]="filterForm">
+        <div class="col-md-6 offset-md-6 text-end">
+            <button class="form-btn-primary" routerLink="/home/operations/new-tdr"><i class="fa fa-plus me-1"></i>New
+                TDR</button>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label2">TDR No</label>
+                    <input formControlName="TDR_NO" type="text" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">From Date</label>
+                    <input formControlName="FROM_DATE" (change)="filterForm.get('TO_DATE')?.setValue('')"
+                        onkeypress="return false" type="date" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="form-label2">To Date</label>
+                    <input formControlName="TO_DATE" onkeypress="return false"
+                        [min]="filterForm.get('FROM_DATE')?.value" type="date" class="form-control2">
+                </div>
+            </div>
+            <div class="col-md-3 mt-4">
+                <button class="form-btn me-2" (click)="Search()">Search</button>
+                <button class="form-btn-light" (click)="Clear()">Clear</button>
+            </div>
+        </div>
+    </form>
+    <div class="table-responsive">
+        <table class="ratetable" id="data-table-config">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>TDR No</th>
+                    <th>Vessel Name</th>
+                    <th>POL</th>
+                    <th>Terminal</th>
+                    <th>Created Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of tdrList;let i = index">
+                    <td>{{i +1}}</td>
+                    <td>{{item.TDR_NO}}</td>
+                    <td>{{item.VESSEL_NAME}} ({{item.VOYAGE_NO}})</td>
+                    <td>{{item.POL}}</td>
+                    <td>{{item.TERMINAL}}</td>
+                    <td>{{item.CREATED_DATE | date:'mediumDate'}}</td>
+                    <td><i (click)="getTDRDetails(item.TDR_NO)" class="fa fa-download pointer"></i></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="col-md-12 mx-auto mt-5 d-none" #epltable>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>VESSEL NAME</th>
+                <th>VOYAGE NO</th>
+                <th>POL</th>
+                <th>TERMINAL</th>
+                <th>ETA</th>
+                <th>POB BERTHING</th>
+                <th>BERTHED</th>
+                <th>OPERATION COMMMENCED</th>
+                <th>POB SAILING</th>
+                <th>SAILED</th>
+                <th>ETD</th>
+                <th>ETA NEXTPORT</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{tdrDetails?.VESSEL_NAME}}</td>
+                <td>{{tdrDetails?.VOYAGE_NO}}</td>
+                <td>{{tdrDetails?.POL}}</td>
+                <td>{{tdrDetails?.TERMINAL}}</td>
+                <td>{{tdrDetails?.ETA}}</td>
+                <td>{{tdrDetails?.POB_BERTHING}}</td>
+                <td>{{tdrDetails?.BERTHED}}</td>
+                <td>{{tdrDetails?.OPERATION_COMMENCED}}</td>
+                <td>{{tdrDetails?.POB_SAILING}}</td>
+                <td>{{tdrDetails?.SAILED}}</td>
+                <td>{{tdrDetails?.ETD}}</td>
+                <td>{{tdrDetails?.ETA_NEXTPORT}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
