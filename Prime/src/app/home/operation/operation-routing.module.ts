@@ -13,6 +13,7 @@ import { NewBlComponent } from './new-bl/new-bl.component';
 import { NewCroComponent } from './new-cro/new-cro.component';
 import { NewDoComponent } from './new-do/new-do.component';
 import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
+import { TdrListComponent } from './tdr-list/tdr-list.component';
 import { TdrComponent } from './tdr/tdr.component';
 
 const routes: Routes = [
@@ -71,8 +72,14 @@ const routes: Routes = [
     data: { roles: [Role.Agent] },
   },
   {
-    path: 'tdr',
+    path: 'new-tdr',
     component: TdrComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Agent] },
+  },
+  {
+    path: 'tdr-list',
+    component: TdrListComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Agent] },
   },

@@ -70,7 +70,7 @@
                             <p class="description">
                                 <img height="20" width="25" class="me-2" src="assets/img/box.png" />
                                 <!-- <i class='bx bxs-package me-2' ></i> -->
-                                {{item.PACKAGES}} -
+                                {{item.PACKAGES}} <span *ngIf="item.PACKAGES != null">-</span>
                                 {{item.GROSS_WT}}
                                 {{item.GROSS_WT_UNIT}} (Gross)
                             </p>

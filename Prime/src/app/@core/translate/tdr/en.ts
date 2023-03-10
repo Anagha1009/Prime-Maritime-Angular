@@ -2,10 +2,10 @@ export const locale = {
   lang: 'en',
   data: {
     Header: {
-      title: 'TDR',
+      title: 'New TDR',
       VesselName: 'Vessel Name',
       VoyageNo: 'Voyage Number',
-      POL: 'POL',
+      POL: 'Port of Loading',
       terminal: 'Terminal',
       eta: 'ETA',
       pobBerthing: 'POB Berthing',
@@ -14,11 +14,11 @@ export const locale = {
       pobSailing: 'POB Sailing',
       sailed: 'Sailed',
       etd: 'ETD',
-      etaNextport: 'ETA NextPort',
+      etaNextport: 'ETA Next Port',
     },
     Button: {
-      Save: ' SAVE ',
-      clear:'clear'
+      Save: ' Submit',
+      clear: 'Clear',
     },
   },
 };
