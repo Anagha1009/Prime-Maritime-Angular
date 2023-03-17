@@ -10,6 +10,7 @@ import { QuotationService } from 'src/app/services/quotation.service';
 import { locale as english } from 'src/app/@core/translate/quotation/en';
 import { locale as hindi } from 'src/app/@core/translate/quotation/hi';
 import { locale as arabic } from 'src/app/@core/translate/quotation/ar';
+import { debug } from 'console';
 
 @Component({
   selector: 'app-new-quotation',
@@ -474,50 +475,54 @@ export class NewQuotationComponent implements OnInit {
 
     this._quotationService.getSRRRateList(srr).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
+        rateList.push(
+          this._formBuilder.group({
+            FREIGHT_CHARGES: new FormArray([]),
+            POL_CHARGES: new FormArray([]),
+            POD_CHARGES: new FormArray([]),
+          })
+        );
+
+        const freightcharges = this.quotationForm.get('SRR_RATES').value[0]
+          .FREIGHT_CHARGES as FormArray;
+
         res.Data.FREIGHTLIST.forEach((element: any) => {
-          rateList.push(
-            this._formBuilder.group({
-              CONTAINER_TYPE: [element.CONTAINER_TYPE],
-              CHARGE_CODE: [element.CHARGE],
-              CURRENCY: [element.CURRENCY],
-              STANDARD_RATE: [element.RATE],
-              RATE_REQUESTED: [element.RATE, Validators.required],
-              PAYMENT_TERM: ['', Validators.required],
-              TRANSPORT_TYPE: ['', Validators.required],
-              REMARKS: [''],
-            })
-          );
+          var fb = this._formBuilder.group(element);
+          Object.keys(fb.controls).forEach((control: string) => {
+            fb.get(control).setValidators(Validators.required);
+            // fb.updateValueAndValidity();
+          });
+          fb.updateValueAndValidity();
+          freightcharges.push(fb);
         });
 
-        res.Data.EXP_COSTLIST.forEach((element: any) => {
-          rateList.push(
-            this._formBuilder.group({
-              CONTAINER_TYPE: [element.CONTAINER_TYPE],
-              CHARGE_CODE: [element.CHARGE_CODE],
-              CURRENCY: [element.CURRENCY],
-              STANDARD_RATE: [element.RATE],
-              RATE_REQUESTED: [element.RATE, Validators.required],
-              PAYMENT_TERM: ['', Validators.required],
-              TRANSPORT_TYPE: ['', Validators.required],
-              REMARKS: [''],
-            })
-          );
+        const polcharges = this.quotationForm.get('SRR_RATES').value[0]
+          .POL_CHARGES as FormArray;
+
+        res.Data.EXP_INCOMELIST.forEach((element: any) => {
+          polcharges.push(this._formBuilder.group(element));
         });
 
-        res.Data.EXP_OTHERCOSTLIST.forEach((element: any) => {
-          rateList.push(
-            this._formBuilder.group({
-              CONTAINER_TYPE: [element.CONTAINER_TYPE],
-              CHARGE_CODE: [element.CHARGE],
-              CURRENCY: [element.CURRENCY],
-              STANDARD_RATE: [element.RATE],
-              RATE_REQUESTED: [element.RATE, Validators.required],
-              PAYMENT_TERM: ['', Validators.required],
-              TRANSPORT_TYPE: ['', Validators.required],
-              REMARKS: [''],
-            })
-          );
+        res.Data.EXP_OTHERINCOMELIST.forEach((element: any) => {
+          polcharges.push(this._formBuilder.group(element));
         });
+
+        const podcharges = this.quotationForm.get('SRR_RATES').value[0]
+          .POD_CHARGES as FormArray;
+
+        res.Data.IMP_INCOMELIST.forEach((element: any) => {
+          podcharges.push(this._formBuilder.group(element));
+        });
+
+        res.Data.IMP_OTHERINCOMELIST.forEach((element: any) => {
+          podcharges.push(this._formBuilder.group(element));
+        });
+
+        // this.quotationForm
+        //   .get('SRR_RATES')
+        //   .value[0].FREIGHT_CHARGES.forEach((element: any) => {
+        //     element.controls.RATE_REQUESTED.setValidators(Validators.required);
+        //   });
       }
     });
 
@@ -601,7 +606,7 @@ export class NewQuotationComponent implements OnInit {
 
     this.quotationForm
       .get('CREATED_BY')
-      ?.setValue(this._commonService.getUserName());
+      ?.setValue(this._commonService.getUser().role);
     this.quotationForm
       .get('AGENT_NAME')
       ?.setValue(this._commonService.getUserName());
@@ -641,7 +646,7 @@ export class NewQuotationComponent implements OnInit {
             this.slotDetailsForm.get('STATUS')?.setValue('Booked');
             this.slotDetailsForm
               .get('CREATED_BY')
-              ?.setValue(this._commonService.getUserName());
+              ?.setValue(this._commonService.getUser().role);
             this.slotDetailsForm
               .get('AGENT_NAME')
               ?.setValue(this._commonService.getUserName());
@@ -1011,7 +1016,17 @@ export class NewQuotationComponent implements OnInit {
 
   get f3() {
     var s = this.quotationForm.get('SRR_RATES') as FormArray;
-    return s.controls;
+    return s.value[0]?.FREIGHT_CHARGES;
+  }
+
+  get f4() {
+    var s = this.quotationForm.get('SRR_RATES') as FormArray;
+    return s.value[0]?.POL_CHARGES;
+  }
+
+  get f8() {
+    var s = this.quotationForm.get('SRR_RATES') as FormArray;
+    return s.value[0]?.POD_CHARGES;
   }
 
   get f5() {
@@ -1025,10 +1040,6 @@ export class NewQuotationComponent implements OnInit {
   get f7() {
     var s = this.quotationForm.get('SRR_COMMODITIES') as FormArray;
     return s.controls;
-  }
-
-  f4(i: any) {
-    return i;
   }
 
   numericOnly(event: any): boolean {
@@ -1198,8 +1209,11 @@ export class NewQuotationComponent implements OnInit {
     s.removeAt(i);
   }
 
-  OnPaymentTerm(event: any, i: number) {
-    const add = this.quotationForm.get('SRR_RATES') as FormArray;
+  OnPaymentTerm(event: any, i: number, value: any) {
+    debugger;
+    const add = this.quotationForm.get('SRR_RATES').value[0][
+      value
+    ] as FormArray;
     if (event.target.value == 'Prepaid') {
       add.at(i)?.get('TRANSPORT_TYPE')?.setValue('POL');
     } else if (event.target.value == 'Collect') {

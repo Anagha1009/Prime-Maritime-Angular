@@ -80,6 +80,14 @@ export class NewInvoiceComponent implements OnInit {
     this._blService.getBLDetails(BL).subscribe((res: any) => {
       this.isLoading = false;
       if (res.ResponseCode == 200) {
+        if (res.Data.CONTAINER_LIST.length > 0) {
+          if (res.Data.CONTAINER_LIST[0].DO_NO == null) {
+            this._commonService.errorMsg(
+              'Sorry ! Invoice cannot be created. <br> Please create a DO first for this BL !'
+            );
+            return;
+          }
+        }
         this.blDetails = res.Data;
         this.isBL = true;
       } else if (res.ResponseCode == 500) {

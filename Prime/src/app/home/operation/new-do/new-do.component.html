@@ -42,7 +42,7 @@
                                     Arrival Date is required </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" *ngIf="isIGM">
                             <div class="form-group">
                                 <input formControlName="IGM_NO" type="text" class="form-control"
                                     [ngClass]="{'invalid': submitted && f.IGM_NO.errors}" />
@@ -52,9 +52,26 @@
                                     IGM No is required</div>
                             </div>
                         </div>
+                        <div class="col-md-4" *ngIf="!isIGM">
+                            <div class="form-group">
+                                <ng-select [ngClass]="{'invalid':submitted && f.ACCEPTANCE_LOCATION.errors}"
+                                    formControlName="ACCEPTANCE_LOCATION">
+                                    <ng-option value="" selected="true" disabled>--Select Empty Letter
+                                        Location--</ng-option>
+                                    <ng-option *ngFor="let item of locationList"
+                                        value="{{item.LOC_NAME}}">{{item.LOC_NAME}}-{{item.LOC_TYPE=='I'?"ICD":"DEPO"}}
+                                    </ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">Empty Letter Location<span class="text-danger">
+                                        *</span></label>
+                                <div *ngIf="submitted && f.ACCEPTANCE_LOCATION.errors" class="invalid-feedback">
+                                    Empty Letter Location is required
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row mb-4">
-                        <div class="col-md-4">
+                        <div class="col-md-4" *ngIf="isIGM">
                             <div class="form-group">
                                 <input formControlName="IGM_DATE" type="date" class="form-control"
                                     [ngClass]="{'invalid': submitted && f.IGM_DATE.errors}" />
@@ -64,7 +81,7 @@
                                     IGM Date is required</div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" *ngIf="isIGM">
                             <div class="form-group">
                                 <input formControlName="IGM_ITEM_NO" type="text" class="form-control"
                                     [ngClass]="{'invalid': submitted && f.IGM_ITEM_NO.errors}" />
@@ -74,7 +91,7 @@
                                     IGM Item No is required</div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" *ngIf="isIGM">
                             <div class="form-group">
                                 <ng-select [ngClass]="{'invalid':submitted && f.ACCEPTANCE_LOCATION.errors}"
                                     formControlName="ACCEPTANCE_LOCATION">

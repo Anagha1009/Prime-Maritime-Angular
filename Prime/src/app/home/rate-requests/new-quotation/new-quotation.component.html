@@ -963,7 +963,7 @@
                     </div>
                     <div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                         aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
+                        <div class="modal-dialog modal-lg  modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Rate Details</h5>
@@ -972,7 +972,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="col-md-12">
-                                        <h6>POL : <small
+                                        <h6 style="font-weight: 600;">POL : <small
                                                 class="text-danger mr-2">{{quotationForm.value.POL}}</small>&nbsp;
                                             POD : <small
                                                 class="text-danger mr-2">{{quotationForm.value.POD}}</small>&nbsp;
@@ -983,64 +983,266 @@
                                             Service Mode : <small
                                                 class="text-danger">{{containerForm.value.SERVICE_MODE}}</small>&nbsp;
                                         </h6>
-                                        <h6 *ngIf="isVesselVal">
+                                        <h6 *ngIf="isVesselVal" style="font-weight: 600;">
                                             Vessel/ Voyage : <small
                                                 class="text-danger">{{slotDetailsForm.value.VESSEL_NAME}}/
                                                 {{slotDetailsForm.value.VOYAGE_NO}}</small>
                                         </h6>
                                     </div>
-                                    <div class="table-responsive">
-                                        <table class="table" style="font-size: 15px;">
-                                            <thead>
-                                                <tr>
-                                                    <th width="25%">Charge Code</th>
-                                                    <th width="15%">Currency</th>
-                                                    <th width="20%">Payment</th>
-                                                    <th width="20%">Place</th>
-                                                    <th width="10%">Standard</th>
-                                                    <th width="9%">Requested</th>
-                                                    <th width="1%"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let item of f3;let j = index;" [formGroup]="f4(item)">
-                                                    <td width="25%">{{item.value.CHARGE_CODE}}
-                                                    </td>
-                                                    <td width="15%">{{item.value.CURRENCY}}</td>
-                                                    <td width="20%">
-                                                        <select class="form-control2" (change)="OnPaymentTerm($event,j)"
-                                                            formControlName="PAYMENT_TERM">
-                                                            <option value="" selected>--Select--</option>
-                                                            <option value="Prepaid">Prepaid</option>
-                                                            <option value="Collect">Collect</option>
-                                                        </select>
-                                                        <span class="invalid-feedback"
-                                                            *ngIf="submiitedRate && f3[j].get('PAYMENT_TERM').errors">required</span>
-                                                    </td>
-                                                    <td width="20%">
-                                                        <select class="form-control2" formControlName="TRANSPORT_TYPE">
-                                                            <option value="" selected>--Select--</option>
-                                                            <option value="POL">POL</option>
-                                                            <option value="POD">POD</option>
-                                                        </select>
-                                                        <span class="invalid-feedback"
-                                                            *ngIf="submiitedRate && f3[j].get('TRANSPORT_TYPE').errors">required</span>
-                                                    </td>
-                                                    <td width="10%">{{item.value.STANDARD_RATE}}</td>
-                                                    <td width="9%">
-                                                        <input class="form-control2" maxlength="5"
-                                                            (keypress)="numericOnly($event)"
-                                                            formControlName="RATE_REQUESTED" type="text" />
-                                                        <span class="invalid-feedback"
-                                                            *ngIf="submiitedRate && f3[j].get('RATE_REQUESTED').errors">required</span>
-                                                    </td>
-                                                    <td> <i placement="right"
-                                                            tooltip="Please enter rate after deducting BAF & EWRI"
-                                                            *ngIf="item.value.CHARGE_CODE == 'Freight'"
-                                                            class="fa fa-info-circle ms-1"></i></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="accordion mt-3" id="accordion" role="tablist">
+                                                <div class="card">
+                                                    <div class="card-header" role="tab" id="heading-1">
+                                                        <h6 class="mb-0">
+                                                            <a data-bs-toggle="collapse" href="#collapse-1"
+                                                                aria-expanded="false" aria-controls="collapse-1"
+                                                                data-abc="true" class="collapsed">
+                                                                <span class="fw-bolder">Freight Charges</span>
+                                                            </a>
+                                                        </h6>
+                                                    </div>
+                                                    <div id="collapse-1" class="collapse show" role="tabpanel"
+                                                        aria-labelledby="heading-1" data-bs-parent="#accordion">
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table" *ngIf="f3?.length > 0"
+                                                                    style="font-size: 12px;">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th width="25%">Charge Code</th>
+                                                                            <th width="15%">Currency</th>
+                                                                            <th width="20%">Payment</th>
+                                                                            <th width="20%">Place</th>
+                                                                            <th width="10%">Income</th>
+                                                                            <th width="9%">Requested</th>
+                                                                            <th width="1%"></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let item of f3;let j = index;"
+                                                                            [formGroup]="item">
+                                                                            <td width="25%">{{item.value.CHARGE_CODE}}
+                                                                            </td>
+                                                                            <td width="15%">{{item.value.CURRENCY}}</td>
+                                                                            <td width="20%">
+                                                                                <select class="form-control2"
+                                                                                    (change)="OnPaymentTerm($event,j,'FREIGHT_CHARGES')"
+                                                                                    formControlName="PAYMENT_TERM">
+                                                                                    <option value=null selected>
+                                                                                        --Select--
+                                                                                    </option>
+                                                                                    <option value="Prepaid">Prepaid
+                                                                                    </option>
+                                                                                    <option value="Collect">Collect
+                                                                                    </option>
+                                                                                </select>
+                                                                                <span class="invalid-feedback"
+                                                                                    *ngIf="item.get('PAYMENT_TERM').errors">required</span>
+                                                                            </td>
+                                                                            <td width="20%">
+                                                                                <select class="form-control2"
+                                                                                    formControlName="TRANSPORT_TYPE">
+                                                                                    <option value=null selected>
+                                                                                        --Select--
+                                                                                    </option>
+                                                                                    <option value="POL">POL</option>
+                                                                                    <option value="POD">POD</option>
+                                                                                </select>
+                                                                                <span class="invalid-feedback"
+                                                                                    *ngIf="item.get('TRANSPORT_TYPE').errors">required</span>
+                                                                            </td>
+                                                                            <td width="10%">{{item.value.RATE}}</td>
+                                                                            <td width="9%">
+                                                                                <input class="form-control2"
+                                                                                    maxlength="5"
+                                                                                    (keypress)="numericOnly($event)"
+                                                                                    formControlName="RATE_REQUESTED"
+                                                                                    type="text" />
+                                                                                <span class="invalid-feedback"
+                                                                                    *ngIf="item.get('RATE_REQUESTED').errors">required</span>
+                                                                            </td>
+                                                                            <td> <i style="font-size: 20px;"
+                                                                                    placement="right"
+                                                                                    tooltip="Please enter rate after deducting BAF & EWRI"
+                                                                                    *ngIf="item.value.CHARGE_CODE == 'Freight'"
+                                                                                    class="fa fa-info-circle ms-1"></i>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <h6 *ngIf="f3?.length == 0" class="text-center">No
+                                                                    Records !</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-header" role="tab" id="heading-4">
+                                                        <h6 class="mb-0">
+                                                            <a data-bs-toggle="collapse" href="#collapse-4"
+                                                                aria-expanded="false" aria-controls="collapse-4"
+                                                                data-abc="true" class="collapsed">
+                                                                <span class="fw-bolder">POL Charges</span>
+                                                            </a>
+                                                        </h6>
+                                                    </div>
+                                                    <div id="collapse-4" class="collapse" role="tabpanel"
+                                                        aria-labelledby="heading-4" data-bs-parent="#accordion">
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table" *ngIf="f4?.length > 0"
+                                                                    style="font-size: 12px;">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th width="25%">Charge Code</th>
+                                                                            <th width="15%">Currency</th>
+                                                                            <th width="20%">Payment</th>
+                                                                            <th width="20%">Place</th>
+                                                                            <th width="10%">Income</th>
+                                                                            <th width="9%">Requested</th>
+                                                                            <th width="1%"></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let item of f4;let j = index;"
+                                                                            [formGroup]="item">
+                                                                            <td width="25%">{{item.value.CHARGE_CODE}}
+                                                                            </td>
+                                                                            <td width="15%">{{item.value.CURRENCY}}</td>
+                                                                            <td width="20%">
+                                                                                <select class="form-control2"
+                                                                                    (change)="OnPaymentTerm($event,j,'POL_CHARGES')"
+                                                                                    formControlName="PAYMENT_TERM">
+                                                                                    <option value="" selected>--Select--
+                                                                                    </option>
+                                                                                    <option value="Prepaid">Prepaid
+                                                                                    </option>
+                                                                                    <option value="Collect">Collect
+                                                                                    </option>
+                                                                                </select>
+                                                                                <span class="invalid-feedback"
+                                                                                    *ngIf="submiitedRate && f3[j].get('PAYMENT_TERM').errors">required</span>
+                                                                            </td>
+                                                                            <td width="20%">
+                                                                                <select class="form-control2"
+                                                                                    formControlName="TRANSPORT_TYPE">
+                                                                                    <option value="" selected>--Select--
+                                                                                    </option>
+                                                                                    <option value="POL">POL</option>
+                                                                                    <option value="POD">POD</option>
+                                                                                </select>
+                                                                                <span class="invalid-feedback"
+                                                                                    *ngIf="submiitedRate && f3[j].get('TRANSPORT_TYPE').errors">required</span>
+                                                                            </td>
+                                                                            <td width="10%">{{item.value.RATE}}</td>
+                                                                            <td width="9%">
+                                                                                <input class="form-control2"
+                                                                                    maxlength="5"
+                                                                                    (keypress)="numericOnly($event)"
+                                                                                    formControlName="RATE_REQUESTED"
+                                                                                    type="text" />
+                                                                                <span class="invalid-feedback"
+                                                                                    *ngIf="submiitedRate && f3[j].get('RATE_REQUESTED').errors">required</span>
+                                                                            </td>
+                                                                            <td> <i placement="right"
+                                                                                    tooltip="Please enter rate after deducting BAF & EWRI"
+                                                                                    *ngIf="item.value.CHARGE_CODE == 'Freight'"
+                                                                                    class="fa fa-info-circle ms-1"></i>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <h6 *ngIf="f4?.length == 0" class="text-center">No
+                                                                    Records !</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-header" role="tab" id="heading-5">
+                                                        <h6 class="mb-0">
+                                                            <a data-bs-toggle="collapse" href="#collapse-5"
+                                                                aria-expanded="false" aria-controls="collapse-5"
+                                                                data-abc="true" class="collapsed">
+                                                                POD Charges
+                                                            </a>
+                                                        </h6>
+                                                    </div>
+                                                    <div id="collapse-5" class="collapse" role="tabpanel"
+                                                        aria-labelledby="heading-5" data-bs-parent="#accordion">
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table" *ngIf="f4?.length > 0"
+                                                                    style="font-size: 12px;">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th width="25%">Charge Code</th>
+                                                                            <th width="15%">Currency</th>
+                                                                            <th width="20%">Payment</th>
+                                                                            <th width="20%">Place</th>
+                                                                            <th width="10%">Income</th>
+                                                                            <th width="9%">Requested</th>
+                                                                            <th width="1%"></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let item of f8;let j = index;"
+                                                                            [formGroup]="item">
+                                                                            <td width="25%">{{item.value.CHARGE_CODE}}
+                                                                            </td>
+                                                                            <td width="15%">{{item.value.CURRENCY}}</td>
+                                                                            <td width="20%">
+                                                                                <select class="form-control2"
+                                                                                    (change)="OnPaymentTerm($event,j)"
+                                                                                    formControlName="PAYMENT_TERM">
+                                                                                    <option value="" selected>--Select--
+                                                                                    </option>
+                                                                                    <option value="Prepaid">Prepaid
+                                                                                    </option>
+                                                                                    <option value="Collect">Collect
+                                                                                    </option>
+                                                                                </select>
+                                                                                <span class="invalid-feedback"
+                                                                                    *ngIf="submiitedRate && f3[j].get('PAYMENT_TERM').errors">required</span>
+                                                                            </td>
+                                                                            <td width="20%">
+                                                                                <select class="form-control2"
+                                                                                    formControlName="TRANSPORT_TYPE">
+                                                                                    <option value="" selected>--Select--
+                                                                                    </option>
+                                                                                    <option value="POL">POL</option>
+                                                                                    <option value="POD">POD</option>
+                                                                                </select>
+                                                                                <span class="invalid-feedback"
+                                                                                    *ngIf="submiitedRate && f3[j].get('TRANSPORT_TYPE').errors">required</span>
+                                                                            </td>
+                                                                            <td width="10%">{{item.value.RATE}}</td>
+                                                                            <td width="9%">
+                                                                                <input class="form-control2"
+                                                                                    maxlength="5"
+                                                                                    (keypress)="numericOnly($event)"
+                                                                                    formControlName="RATE_REQUESTED"
+                                                                                    type="text" />
+                                                                                <span class="invalid-feedback"
+                                                                                    *ngIf="submiitedRate && f3[j].get('RATE_REQUESTED').errors">required</span>
+                                                                            </td>
+                                                                            <td> <i placement="right"
+                                                                                    tooltip="Please enter rate after deducting BAF & EWRI"
+                                                                                    *ngIf="item.value.CHARGE_CODE == 'Freight'"
+                                                                                    class="fa fa-info-circle ms-1"></i>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <h6 *ngIf="f8?.length == 0" class="text-center">No
+                                                                    Records !</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

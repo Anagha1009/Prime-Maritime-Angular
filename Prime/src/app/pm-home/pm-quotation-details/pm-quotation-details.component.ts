@@ -120,7 +120,7 @@ export class PmQuotationDetailsComponent implements OnInit {
 
     srrRates.forEach((element: any) => {
       element.STATUS = value;
-      element.CREATED_BY = this._commonService.getUserName();
+      element.CREATED_BY = this._commonService.getUser().role;
 
       if (element.APPROVED_RATE != 0 && value == 'Approved') {
         isApproveValid = false;

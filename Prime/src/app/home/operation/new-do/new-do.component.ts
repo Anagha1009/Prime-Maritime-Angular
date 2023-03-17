@@ -32,6 +32,8 @@ export class NewDoComponent implements OnInit {
   mstIcdList: any[] = [];
   locationList: any[] = [];
   clearingPartyList: any[] = [];
+  isIGM: boolean = true;
+
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
@@ -78,6 +80,12 @@ export class NewDoComponent implements OnInit {
     this.getIcdList();
     this.getDepoList();
     this.getClearingParty();
+
+    if (this._commonService.getUser()?.countrycode == 'IN') {
+      this.isIGM = true;
+    } else {
+      this.isIGM = false;
+    }
   }
 
   get fcp() {
@@ -141,7 +149,6 @@ export class NewDoComponent implements OnInit {
     }
   }
   getDOAPI() {
-    debugger;
     const contList = this.doForm.get('CONTAINER_LIST') as FormArray;
     contList.clear();
     this.containerList = [];
@@ -156,7 +163,6 @@ export class NewDoComponent implements OnInit {
     this.bL.fromDO = true;
 
     this._blService.getContainerList(this.bL).subscribe((res: any) => {
-      debugger;
       if (res.ResponseCode == 200) {
         this.containerList = res.Data;
         //this.previewDetails=true;
@@ -198,7 +204,6 @@ export class NewDoComponent implements OnInit {
 
   saveDO() {
     this.submitted = true;
-    debugger;
     if (this.doForm.invalid) {
       return;
     }

@@ -535,8 +535,11 @@ export class QuotationListComponent implements OnInit {
       element.CREATED_BY = this._commonService.getUserName();
     });
 
+    console.log(JSON.stringify(this.rateForm.value.SRR_RATES));
+    debugger;
     this._quotationService.counterRate(this.rateForm.value.SRR_RATES).subscribe(
       (res: any) => {
+        debugger;
         if (res.responseCode == 200) {
           this._commonService.successMsg(
             'Your request is been ' + value == 'Approved'
