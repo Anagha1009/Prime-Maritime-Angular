@@ -240,6 +240,7 @@ export class QuotationListComponent implements OnInit {
     quotation.AGENT_CODE = this._commonService.getUserCode();
     this._quotationService.getSRRDetails(quotation).subscribe(
       (res: any) => {
+        debugger;
         this.containerList = res.Data?.SRR_CONTAINERS;
 
         const add = this.containerForm.get('SRR_CONTAINERS') as FormArray;

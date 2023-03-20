@@ -10,7 +10,6 @@ import { QuotationService } from 'src/app/services/quotation.service';
 import { locale as english } from 'src/app/@core/translate/quotation/en';
 import { locale as hindi } from 'src/app/@core/translate/quotation/hi';
 import { locale as arabic } from 'src/app/@core/translate/quotation/ar';
-import { debug } from 'console';
 
 @Component({
   selector: 'app-new-quotation',
@@ -290,7 +289,7 @@ export class NewQuotationComponent implements OnInit {
 
     this.submitted2 = true;
 
-    if (this.commodityType == 'NORMAL') {
+    if (this.commodityType == 'GEN') {
       this.commoditiesForm.get('IMO_CLASS')?.disable();
       this.commoditiesForm.get('UN_NO')?.disable();
       this.commoditiesForm.get('HAZ_APPROVAL_REF')?.disable();
@@ -462,9 +461,6 @@ export class NewQuotationComponent implements OnInit {
       return;
     }
 
-    var rateList = this.quotationForm.get('SRR_RATES') as FormArray;
-
-    rateList.clear();
     this.submiitedRate = false;
 
     var srr = new QUOTATION();
@@ -474,31 +470,20 @@ export class NewQuotationComponent implements OnInit {
     srr.NO_OF_CONTAINERS = this.containerForm.value.IMM_VOLUME_EXPECTED;
 
     this._quotationService.getSRRRateList(srr).subscribe((res: any) => {
+      debugger;
       if (res.ResponseCode == 200) {
-        rateList.push(
-          this._formBuilder.group({
-            FREIGHT_CHARGES: new FormArray([]),
-            POL_CHARGES: new FormArray([]),
-            POD_CHARGES: new FormArray([]),
-          })
-        );
+        const freightcharges = this.quotationForm.get(
+          'FREIGHT_CHARGES'
+        ) as FormArray;
 
-        const freightcharges = this.quotationForm.get('SRR_RATES').value[0]
-          .FREIGHT_CHARGES as FormArray;
-
+        freightcharges.clear();
         res.Data.FREIGHTLIST.forEach((element: any) => {
-          var fb = this._formBuilder.group(element);
-          Object.keys(fb.controls).forEach((control: string) => {
-            fb.get(control).setValidators(Validators.required);
-            // fb.updateValueAndValidity();
-          });
-          fb.updateValueAndValidity();
-          freightcharges.push(fb);
+          freightcharges.push(this._formBuilder.group(element));
         });
 
-        const polcharges = this.quotationForm.get('SRR_RATES').value[0]
-          .POL_CHARGES as FormArray;
+        const polcharges = this.quotationForm.get('POL_CHARGES') as FormArray;
 
+        polcharges.clear();
         res.Data.EXP_INCOMELIST.forEach((element: any) => {
           polcharges.push(this._formBuilder.group(element));
         });
@@ -507,9 +492,9 @@ export class NewQuotationComponent implements OnInit {
           polcharges.push(this._formBuilder.group(element));
         });
 
-        const podcharges = this.quotationForm.get('SRR_RATES').value[0]
-          .POD_CHARGES as FormArray;
+        const podcharges = this.quotationForm.get('POD_CHARGES') as FormArray;
 
+        podcharges.clear();
         res.Data.IMP_INCOMELIST.forEach((element: any) => {
           podcharges.push(this._formBuilder.group(element));
         });
@@ -518,11 +503,44 @@ export class NewQuotationComponent implements OnInit {
           podcharges.push(this._formBuilder.group(element));
         });
 
-        // this.quotationForm
-        //   .get('SRR_RATES')
-        //   .value[0].FREIGHT_CHARGES.forEach((element: any) => {
-        //     element.controls.RATE_REQUESTED.setValidators(Validators.required);
-        //   });
+        freightcharges.controls.forEach(function (element: any, i) {
+          Object.keys(element.controls).forEach(function (control: any) {
+            freightcharges
+              .at(i)
+              .get(control)
+              .setValidators(Validators.required);
+            freightcharges.at(i).get(control).updateValueAndValidity();
+
+            if (control == 'RATE_REQUESTED') {
+              var rate = freightcharges.at(i).get('RATE').value;
+              freightcharges.at(i).get(control).setValue(rate);
+            }
+          });
+        });
+
+        polcharges.controls.forEach(function (element: any, i) {
+          Object.keys(element.controls).forEach(function (control: any) {
+            polcharges.at(i).get(control).setValidators(Validators.required);
+            polcharges.at(i).get(control).updateValueAndValidity();
+
+            if (control == 'RATE_REQUESTED') {
+              var rate = polcharges.at(i).get('RATE').value;
+              polcharges.at(i).get(control).setValue(rate);
+            }
+          });
+        });
+
+        podcharges.controls.forEach(function (element: any, i) {
+          Object.keys(element.controls).forEach(function (control: any) {
+            podcharges.at(i).get(control).setValidators(Validators.required);
+            podcharges.at(i).get(control).updateValueAndValidity();
+
+            if (control == 'RATE_REQUESTED') {
+              var rate = podcharges.at(i).get('RATE').value;
+              podcharges.at(i).get(control).setValue(rate);
+            }
+          });
+        });
       }
     });
 
@@ -556,17 +574,25 @@ export class NewQuotationComponent implements OnInit {
 
   submitRate() {
     this.submiitedRate = true;
+    debugger;
+    const add1 = this.quotationForm.get('FREIGHT_CHARGES') as FormArray;
+    const add2 = this.quotationForm.get('POL_CHARGES') as FormArray;
+    const add3 = this.quotationForm.get('POD_CHARGES') as FormArray;
 
-    const add = this.quotationForm.get('SRR_RATES') as FormArray;
-
-    if (add.invalid) {
+    if (add1.invalid) {
+      return;
+    } else if (add2.invalid) {
+      return;
+    } else if (add3.invalid) {
       return;
     }
 
     this.containerList.push({
       Container: this.containerForm.value.CONTAINER_TYPE,
       ServiceMode: this.containerForm.value.SERVICE_MODE,
-      RATE_LIST: [add.value],
+      FREIGHTCHARGE_LIST: [add1.value].flat(1),
+      POLCHARGE_LIST: [add2.value].flat(1),
+      PODCHARGE_LIST: [add3.value].flat(1),
     });
 
     var containers = this.quotationForm.get('SRR_CONTAINERS') as FormArray;
@@ -600,7 +626,7 @@ export class NewQuotationComponent implements OnInit {
     this.isLoading = true;
     var POL = this.quotationForm.value.POL;
     var POD = this.quotationForm.value.POD;
-    var SRRNO = this.getRandomNumber(POL, POD);
+    var SRRNO = this._commonService.getRandomNumber(POL + '-' + POD + '-');
 
     this.quotationForm.get('SRR_NO')?.setValue(SRRNO);
 
@@ -620,10 +646,6 @@ export class NewQuotationComponent implements OnInit {
       this.quotationForm.get('IS_VESSELVALIDITY')?.setValue(true);
     }
 
-    this.quotationForm.value.SRR_RATES = this.containerList
-      .map((x) => x.RATE_LIST)
-      .flat(2);
-
     this._quotationService
       .insertSRR(JSON.stringify(this.quotationForm.value))
       .subscribe((res: any) => {
@@ -640,7 +662,7 @@ export class NewQuotationComponent implements OnInit {
             this.isLoading = true;
             this.slotDetailsForm
               .get('BOOKING_NO')
-              ?.setValue(this.getRandomBookingNumber());
+              ?.setValue(this._commonService.getRandomNumber('BK'));
             this.slotDetailsForm.get('SRR_ID')?.setValue(res.data);
             this.slotDetailsForm.get('SRR_NO')?.setValue(SRRNO);
             this.slotDetailsForm.get('STATUS')?.setValue('Booked');
@@ -740,7 +762,9 @@ export class NewQuotationComponent implements OnInit {
       STATUS: ['Requested'],
       SRR_CONTAINERS: new FormArray([]),
       SRR_COMMODITIES: new FormArray([]),
-      SRR_RATES: new FormArray([]),
+      FREIGHT_CHARGES: new FormArray([]),
+      POL_CHARGES: new FormArray([]),
+      POD_CHARGES: new FormArray([]),
     });
 
     this.containerForm = this._formBuilder.group({
@@ -1015,18 +1039,18 @@ export class NewQuotationComponent implements OnInit {
   }
 
   get f3() {
-    var s = this.quotationForm.get('SRR_RATES') as FormArray;
-    return s.value[0]?.FREIGHT_CHARGES;
+    var s = this.quotationForm.get('FREIGHT_CHARGES') as FormArray;
+    return s.controls;
   }
 
   get f4() {
-    var s = this.quotationForm.get('SRR_RATES') as FormArray;
-    return s.value[0]?.POL_CHARGES;
+    var s = this.quotationForm.get('POL_CHARGES') as FormArray;
+    return s.controls;
   }
 
   get f8() {
-    var s = this.quotationForm.get('SRR_RATES') as FormArray;
-    return s.value[0]?.POD_CHARGES;
+    var s = this.quotationForm.get('POD_CHARGES') as FormArray;
+    return s.controls;
   }
 
   get f5() {
@@ -1189,31 +1213,13 @@ export class NewQuotationComponent implements OnInit {
     return i;
   }
 
-  getRate(event: any, i: number) {
-    var srr = new QUOTATION();
-    srr.POL = this.quotationForm.get('POL')?.value;
-    srr.POD = this.quotationForm.get('POD')?.value;
-    srr.CHARGE = event;
-    srr.CONTAINER_TYPE = this.containerForm.get('CONTAINER_TYPE')?.value;
-
-    const add = this.quotationForm.get('SRR_RATES') as FormArray;
-
-    this._quotationService.getRate(srr).subscribe((res: any) => {
-      add.controls[i].get('STANDARD_RATE')?.setValue('');
-      add.controls[i].get('STANDARD_RATE')?.setValue(res.Data);
-    });
-  }
-
   removeCommodity(i: any) {
     var s = this.quotationForm.get('SRR_COMMODITIES') as FormArray;
     s.removeAt(i);
   }
 
   OnPaymentTerm(event: any, i: number, value: any) {
-    debugger;
-    const add = this.quotationForm.get('SRR_RATES').value[0][
-      value
-    ] as FormArray;
+    const add = this.quotationForm.get(value) as FormArray;
     if (event.target.value == 'Prepaid') {
       add.at(i)?.get('TRANSPORT_TYPE')?.setValue('POL');
     } else if (event.target.value == 'Collect') {
