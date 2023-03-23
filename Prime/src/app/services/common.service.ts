@@ -193,4 +193,20 @@ export class CommonService {
     }
     return true;
   }
+
+  temperatureValidation(event: any) {
+    // restrict e,+,-,E characters in  input type number
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode == 101 || charCode == 69 || charCode == 43) {
+      return false;
+    }
+    const reg = /^-?\d*(\.\d{0,2})?$/;
+    let input = event.target.value + String.fromCharCode(event.charCode);
+
+    if (!reg.test(input)) {
+      event.preventDefault();
+    }  
+
+    return true;
+  }
 }

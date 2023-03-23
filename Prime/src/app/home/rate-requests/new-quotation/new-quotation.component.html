@@ -604,7 +604,7 @@
                             <div class="form-group">
                                 <input type="text" formControlName="TEMPERATURE"
                                     [ngClass]="{'invalid': submitted2 && f2.TEMPERATURE.errors}"
-                                    (keypress)="numericOnly($event)" class="form-control" />
+                                    (keypress)="tempValidation($event)" maxlength="{{maxValue}}" class="form-control" />
                                 <label class="form-label">Temperature (°C)<span class="text-danger"> *</span></label>
                                 <div *ngIf="submitted2 && f2.TEMPERATURE.errors" class="invalid-feedback">
                                     Please enter Temperature

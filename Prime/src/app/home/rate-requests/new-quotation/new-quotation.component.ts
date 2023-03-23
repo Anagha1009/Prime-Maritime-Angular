@@ -67,6 +67,7 @@ export class NewQuotationComponent implements OnInit {
   //Customer Popup
   submitted5: boolean = false;
   partyForm: FormGroup;
+  maxValue: string;
 
   //Files
   isUploadedPOL: boolean = false;
@@ -646,7 +647,6 @@ export class NewQuotationComponent implements OnInit {
       this.quotationForm.get('IS_VESSELVALIDITY')?.setValue(true);
     }
 
-    console.log(JSON.stringify(this.quotationForm.value));
     this._quotationService
       .insertSRR(JSON.stringify(this.quotationForm.value))
       .subscribe((res: any) => {
@@ -1067,19 +1067,8 @@ export class NewQuotationComponent implements OnInit {
     return s.controls;
   }
 
-  numericOnly(event: any): boolean {
-    // restrict e,+,-,E characters in  input type number
-    const charCode = event.which ? event.which : event.keyCode;
-    if (charCode == 101 || charCode == 69 || charCode == 45 || charCode == 43) {
-      return false;
-    }
-    const reg = /^-?\d*(\.\d{0,2})?$/;
-    let input = event.target.value + String.fromCharCode(event.charCode);
-
-    if (!reg.test(input)) {
-      event.preventDefault();
-    }
-    return true;
+  numericOnly(event: any) {
+    this._commonService.numericOnly(event);
   }
 
   slotAllocation() {
@@ -1230,5 +1219,14 @@ export class NewQuotationComponent implements OnInit {
 
   removeRate(i: any) {
     this.containerList.splice(i, 1);
+  }
+
+  tempValidation(event: any) {
+    this._commonService.temperatureValidation(event);
+    if (event.target.value.length == 1 && event.target.value == '-') {
+      this.maxValue = '4';
+    } else if (event.target.value.length == 1 && event.target.value != '-') {
+      this.maxValue = '3';
+    }
   }
 }
