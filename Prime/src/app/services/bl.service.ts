@@ -85,8 +85,10 @@ export class BlService {
       this.BASE_URL +
         'BL/GetCargoManifestList?AGENT_CODE=' +
         BL.AGENT_CODE +
-        '&BL_NO=' +
-        BL.BL_NO,
+        '&VESSEL_NAME=' +
+        BL.VESSEL_NAME +
+        '&VOYAGE_NO=' +
+        BL.VOYAGE_NO,
       this.httpOptions
     );
   }

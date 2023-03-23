@@ -5,16 +5,34 @@
     <div class="col-md-6 mx-auto mt-5">
         <div class="card">
             <div class="card-body">
-                <div class="col-md-5 mx-auto">
-                    <div class="form-group">
-                        <label class="form-label2">BL No<span class="text-danger">
-                                *</span></label>
-                        <input [ngClass]="{'invalid': submitted && blNo == ''}" [(ngModel)]="blNo" type="text"
-                            class="form-control2" />
-                        <div *ngIf="submitted && blNo == ''" class="invalid-feedback">Please
-                            enter BL No</div>
+                <form [formGroup]="manifestlistForm" *ngIf="!isManifest">
+                    <div class="col-md-8 mx-auto">
+                        <div class="form-group mt-5">
+                            <label class="form-label-ddl">Vessel Name <span class="text-danger">
+                                    *</span></label>
+                            <ng-select (change)="getVoyageList($event)"
+                                [ngClass]="{'invalid':submitted && f.VESSEL_NAME.errors}" formControlName="VESSEL_NAME">
+                                <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                <ng-option *ngFor="let item of VesselList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                </ng-option>
+                            </ng-select>
+                            <div *ngIf="submitted && f.VESSEL_NAME.errors" class="invalid-feedback">Please Select Status
+                            </div>
+                        </div>
+                        <div class="form-group mt-5">
+                            <label class="form-label-ddl">Voyage No <span class="text-danger">
+                                    *</span></label>
+                            <ng-select [ngClass]="{'invalid':submitted && f.VOYAGE_NO.errors}"
+                                formControlName="VOYAGE_NO">
+                                <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                <ng-option *ngFor="let item of VoyageList" value="{{item.CODE_DESC}}">{{item.CODE_DESC}}
+                                </ng-option>
+                            </ng-select>
+                            <div *ngIf="submitted && f.VOYAGE_NO.errors" class="invalid-feedback">Please Enter Voyage no
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </form>
                 <div class="col-md-8 mx-auto">
                     <div class="row services" *ngIf="isManifest">
                         <div class="icon-box icon-box-cyan text-start">
@@ -24,7 +42,7 @@
                                     </h4>
                                 </div>
                                 <div class="col-md-1 rounded-btn">
-                                    <a (click)="getCargoManifest()"><i class="fa fa-eye text-light"></i></a>
+                                    <a (click)="generateCargoPDF()"><i class="fa fa-eye text-light"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -35,7 +53,7 @@
                                     </h4>
                                 </div>
                                 <div class="col-md-1 rounded-btn">
-                                    <a (click)="getFreightManifest()"><i class="fa fa-eye text-light"></i></a>
+                                    <a (click)="generateFreightPDF()"><i class="fa fa-eye text-light"></i></a>
                                 </div>
                             </div>
                         </div>

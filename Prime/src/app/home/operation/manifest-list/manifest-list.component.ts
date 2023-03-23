@@ -3,6 +3,7 @@ import { CARGO_MANIFEST } from 'src/app/models/manifest';
 import { BlService } from 'src/app/services/bl.service';
 import { CommonService } from 'src/app/services/common.service';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -13,38 +14,66 @@ const pdfMake = require('pdfmake/build/pdfmake.js');
   styleUrls: ['./manifest-list.component.scss'],
 })
 export class ManifestListComponent implements OnInit {
-  blNo: string = '';
   isManifest: boolean = false;
   cargoList: any;
   isLoading: boolean = false;
   submitted: boolean = false;
+  manifestlistForm: FormGroup;
+  VesselList: any[] = [];
+  VoyageList: any[] = [];
 
   constructor(
     private _blService: BlService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private _formBuilder: FormBuilder
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.manifestlistForm = this._formBuilder.group({
+      VESSEL_NAME: ['', Validators.required],
+      VOYAGE_NO: ['', Validators.required],
+    });
+
+    this.getDropdown();
+  }
 
   showManifest() {
     this.submitted = true;
-    if (this.blNo == '') {
+    if (this.manifestlistForm.invalid) {
       return;
     }
 
     var cargoManifest = new CARGO_MANIFEST();
     cargoManifest.AGENT_CODE = this._commonService.getUserCode();
-    cargoManifest.BL_NO = this.blNo;
+    cargoManifest.VESSEL_NAME = this.manifestlistForm.get('VESSEL_NAME').value;
+    cargoManifest.VOYAGE_NO = this.manifestlistForm.get('VOYAGE_NO').value;
 
     this.isManifest = false;
     this.isLoading = true;
     this._blService
       .getCargoManifestList(cargoManifest)
       .subscribe((res: any) => {
+        debugger;
         this.isLoading = false;
         if (res.ResponseCode == 200) {
           this.cargoList = res.Data;
           this.isManifest = true;
+
+          var employees3: any = [];
+
+          res.Data.CONTAINER_LIST.forEach((cont: any) => {
+            const findEmp = res.Data.CUSTOMER_LIST.find(
+              (cust: any) => cust.BL_NO === cont.BL_NO
+            );
+            if (findEmp) {
+              employees3.push({
+                ...cont,
+                ...findEmp,
+              });
+            }
+          });
+
+          console.log(employees3);
         } else if (res.ResponseCode == 500) {
           this._commonService.errorMsg('Sorry ! No Records found !');
         }
@@ -53,38 +82,30 @@ export class ManifestListComponent implements OnInit {
 
   clearManifest() {
     this.isManifest = false;
-    this.blNo = '';
     this.submitted = false;
   }
 
-  getCargoManifest() {
-    var cargoManifest = new CARGO_MANIFEST();
-    cargoManifest.AGENT_CODE = this._commonService.getUserCode();
-    cargoManifest.BL_NO = this.blNo;
+  get f() {
+    return this.manifestlistForm.controls;
+  }
 
-    this._blService
-      .getCargoManifestList(cargoManifest)
+  getVoyageList(event: any) {
+    this.VoyageList = [];
+    this._commonService
+      .getDropdownData('VOYAGE_NO', '', event)
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
-          this.cargoList = res.Data;
-          this.generateCargoPDF();
+          this.VoyageList = res.Data;
         }
       });
   }
 
-  getFreightManifest() {
-    var cargoManifest = new CARGO_MANIFEST();
-    cargoManifest.AGENT_CODE = this._commonService.getUserCode();
-    cargoManifest.BL_NO = this.blNo;
-
-    this._blService
-      .getCargoManifestList(cargoManifest)
-      .subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.cargoList = res.Data;
-          this.generateFreightPDF();
-        }
-      });
+  getDropdown() {
+    this._commonService.getDropdownData('VESSEL_NAME').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.VesselList = res.Data;
+      }
+    });
   }
 
   async generateCargoPDF() {
@@ -95,27 +116,8 @@ export class ManifestListComponent implements OnInit {
 
       content: [
         {
-          text: this.cargoList?.CUSTOMER_NAME,
+          text: 'PRIME MARITIME',
           style: 'header',
-        },
-        {
-          text: this.cargoList?.CONSIGNEE_ADDRESS,
-          style: 'desc',
-        },
-        {
-          text: 'CIN :AAC-1451',
-          style: 'midheading',
-          margin: [0, 5, 0, 0],
-        },
-        {
-          text: 'State Code: 27 State Name :Maharashtra',
-          style: 'midheading',
-          margin: [0, 3, 0, 0],
-        },
-        {
-          text: 'GSTN Code :27AADFU8796Q1ZX',
-          style: 'midheading',
-          margin: [0, 3, 0, 0],
         },
         {
           text: 'CARGO MANIFEST',
@@ -142,17 +144,17 @@ export class ManifestListComponent implements OnInit {
                 { text: 'Place of Delivery', style: 'tableHeader' },
               ],
               [
-                this.cargoList?.VESSEL_NAME,
-                this.cargoList?.VOYAGE_NO,
-                this.cargoList?.SERVICE_NAME,
+                this.cargoList?.CUSTOMER_LIST[0].VESSEL_NAME,
+                this.cargoList?.CUSTOMER_LIST[0].VOYAGE_NO,
+                this.cargoList?.CUSTOMER_LIST[0].SERVICE_NAME,
                 '-',
                 '-',
                 '-',
                 '-',
-                this.cargoList?.PLACE_OF_RECEIPT,
-                this.cargoList?.POL,
-                this.cargoList?.POD,
-                this.cargoList?.PLACE_OF_DELIVERY,
+                this.cargoList?.CUSTOMER_LIST[0].PLACE_OF_RECEIPT,
+                this.cargoList?.CUSTOMER_LIST[0].POL,
+                this.cargoList?.CUSTOMER_LIST[0].POD,
+                this.cargoList?.CUSTOMER_LIST[0].PLACE_OF_DELIVERY,
               ],
             ],
           },
@@ -184,19 +186,19 @@ export class ManifestListComponent implements OnInit {
                 { text: "20'", style: 'tableHeader' },
                 { text: "40'", style: 'tableHeader' },
               ],
-              [
-                this.cargoList?.BL_NO_DATE,
-                this.cargoList?.SHIPPER,
-                this.cargoList?.CONSIGNEE,
-                this.cargoList?.NOTIFY_PARTY,
-                this.cargoList?.MARKS_NOS,
-                this.cargoList?.DESC_OF_GOODS,
-                this.cargoList?.GROSS_WEIGHT,
-                this.cargoList?.DELIVERY_MODE,
+              ...this.cargoList?.CUSTOMER_LIST.map((p: any) => [
+                p.BL_NO_DATE,
+                p.SHIPPER,
+                p.CONSIGNEE,
+                p.NOTIFY_PARTY,
+                p.MARKS_NOS,
+                p.DESC_OF_GOODS,
+                p.GROSS_WEIGHT,
+                p.DELIVERY_MODE,
                 '0',
-                this.cargoList?.TWEENTY_FT,
-                this.cargoList?.FORTY_FT,
-              ],
+                p.TWEENTY_FT,
+                p.FORTY_FT,
+              ]),
             ],
           },
           layout: 'noBorders',
@@ -216,7 +218,6 @@ export class ManifestListComponent implements OnInit {
                 { text: 'Size', style: 'tableHeader' },
                 { text: 'Type', style: 'tableHeader' },
                 { text: 'Seal No', style: 'tableHeader' },
-                { text: 'Status', style: 'tableHeader' },
                 { text: 'No. of PKGS and Type', style: 'tableHeader' },
                 { text: 'Gross Weight(KGS)', style: 'tableHeader' },
                 { text: 'Volume CBM', style: 'tableHeader' },
@@ -228,11 +229,10 @@ export class ManifestListComponent implements OnInit {
               ],
               ...this.cargoList?.CONTAINER_LIST.map((p: any) => [
                 p.CONTAINER_NO,
-                p.CONTAINER_SIZE,
+                p.CONTAINER_TYPE.substring(0, 2),
                 p.CONTAINER_TYPE,
                 p.SEAL_NO,
-                p.STATUS,
-                '0',
+                p.NO_OF_PACKAGES + ' - ' + p.PACKAGES,
                 p.GROSS_WEIGHT,
                 '0',
                 p.IMO_CLASS,
@@ -246,41 +246,41 @@ export class ManifestListComponent implements OnInit {
           layout: 'noBorders',
         },
         {
-          text: this.cargoList?.CUSTOMER_NAME,
+          text: '',
           style: 'rightStyle',
           margin: [0, 5, 0, 0],
         },
         {
-          text: 'AS AGENTS ONLY, FOR CAPELINE',
+          text: 'AS AGENTS ONLY',
           style: 'rightStyle',
         },
       ],
 
       styles: {
         header: {
-          fontSize: 9,
+          fontSize: 16,
           bold: true,
           alignment: 'center',
         },
         desc: {
-          fontSize: 7,
+          fontSize: 9,
           alignment: 'center',
         },
         midheading: {
-          fontSize: 9,
+          fontSize: 11,
           alignment: 'center',
           bold: true,
         },
         tableHeader: {
           bold: true,
-          fontSize: 7,
+          fontSize: 9,
         },
         tableExample: {
-          fontSize: 5,
+          fontSize: 7,
           margin: [0, 5, 0, 15],
         },
         rightStyle: {
-          fontSize: 5,
+          fontSize: 7,
           alignment: 'right',
           margin: [0, 5, 0, 0],
         },
@@ -298,27 +298,8 @@ export class ManifestListComponent implements OnInit {
 
       content: [
         {
-          text: this.cargoList?.CUSTOMER_NAME,
+          text: 'PRIME MARITIME',
           style: 'header',
-        },
-        {
-          text: this.cargoList?.CONSIGNEE_ADDRESS,
-          style: 'desc',
-        },
-        {
-          text: 'CIN :AAC-1451',
-          style: 'midheading',
-          margin: [0, 5, 0, 0],
-        },
-        {
-          text: 'State Code: 27 State Name :Maharashtra',
-          style: 'midheading',
-          margin: [0, 3, 0, 0],
-        },
-        {
-          text: 'GSTN Code :27AADFU8796Q1ZX',
-          style: 'midheading',
-          margin: [0, 3, 0, 0],
         },
         {
           text: 'FREIGHT MANIFEST',
@@ -345,17 +326,17 @@ export class ManifestListComponent implements OnInit {
                 { text: 'Place of Delivery', style: 'tableHeader' },
               ],
               [
-                this.cargoList?.VESSEL_NAME,
-                this.cargoList?.VOYAGE_NO,
-                this.cargoList?.SERVICE_NAME,
+                this.cargoList?.CUSTOMER_LIST[0].VESSEL_NAME,
+                this.cargoList?.CUSTOMER_LIST[0].VOYAGE_NO,
+                this.cargoList?.CUSTOMER_LIST[0].SERVICE_NAME,
                 '-',
                 '-',
                 '-',
                 '-',
-                this.cargoList?.PLACE_OF_RECEIPT,
-                this.cargoList?.POL,
-                this.cargoList?.POD,
-                this.cargoList?.PLACE_OF_DELIVERY,
+                this.cargoList?.CUSTOMER_LIST[0].PLACE_OF_RECEIPT,
+                this.cargoList?.CUSTOMER_LIST[0].POL,
+                this.cargoList?.CUSTOMER_LIST[0].POD,
+                this.cargoList?.CUSTOMER_LIST[0].PLACE_OF_DELIVERY,
               ],
             ],
           },
@@ -388,19 +369,19 @@ export class ManifestListComponent implements OnInit {
                 { text: "20'", style: 'tableHeader' },
                 { text: "40'", style: 'tableHeader' },
               ],
-              [
-                this.cargoList?.BL_NO_DATE,
-                this.cargoList?.SHIPPER,
-                this.cargoList?.CONSIGNEE,
-                this.cargoList?.NOTIFY_PARTY,
-                this.cargoList?.MARKS_NOS,
-                this.cargoList?.DESC_OF_GOODS,
-                this.cargoList?.GROSS_WEIGHT,
-                this.cargoList?.DELIVERY_MODE,
+              ...this.cargoList?.CUSTOMER_LIST.map((p: any) => [
+                p.BL_NO_DATE,
+                p.SHIPPER,
+                p.CONSIGNEE,
+                p.NOTIFY_PARTY,
+                p.MARKS_NOS,
+                p.DESC_OF_GOODS,
+                p.GROSS_WEIGHT,
+                p.DELIVERY_MODE,
                 '0',
-                this.cargoList?.TWEENTY_FT,
-                this.cargoList?.FORTY_FT,
-              ],
+                p.TWEENTY_FT,
+                p.FORTY_FT,
+              ]),
             ],
           },
           layout: 'noBorders',
@@ -426,18 +407,16 @@ export class ManifestListComponent implements OnInit {
                 { text: 'Rate Basis', style: 'tableHeader' },
                 { text: 'Curr', style: 'tableHeader' },
                 { text: 'Rate', style: 'tableHeader' },
-                { text: 'Prepaid', style: 'tableHeader' },
+                { text: 'Prepaid/ Collect', style: 'tableHeader' },
                 { text: 'Amount(INR)', style: 'tableHeader' },
-                { text: 'Collect', style: 'tableHeader' },
               ],
               ...this.cargoList?.FREIGHT_DETAILS.map((p: any) => [
                 p.CHARGE_CODE,
                 '-',
                 p.CURRENCY,
+                p.STANDARD_RATE,
+                p.TRANSPORT_TYPE,
                 p.APPROVED_RATE,
-                '-',
-                '-',
-                '-',
               ]),
             ],
           },
@@ -459,7 +438,6 @@ export class ManifestListComponent implements OnInit {
                 { text: 'Size', style: 'tableHeader' },
                 { text: 'Type', style: 'tableHeader' },
                 { text: 'Seal No', style: 'tableHeader' },
-                { text: 'Status', style: 'tableHeader' },
                 { text: 'No. of PKGS and Type', style: 'tableHeader' },
                 { text: 'Gross Weight(KGS)', style: 'tableHeader' },
                 { text: 'Volume CBM', style: 'tableHeader' },
@@ -471,11 +449,10 @@ export class ManifestListComponent implements OnInit {
               ],
               ...this.cargoList?.CONTAINER_LIST.map((p: any) => [
                 p.CONTAINER_NO,
-                p.CONTAINER_SIZE,
+                p.CONTAINER_TYPE.substring(0, 2),
                 p.CONTAINER_TYPE,
                 p.SEAL_NO,
-                p.STATUS,
-                '0',
+                p.NO_OF_PACKAGES + ' - ' + p.PACKAGES,
                 p.GROSS_WEIGHT,
                 '0',
                 p.IMO_CLASS,
@@ -489,47 +466,47 @@ export class ManifestListComponent implements OnInit {
           layout: 'noBorders',
         },
         {
-          text: this.cargoList?.CUSTOMER_NAME,
+          text: '',
           style: 'rightStyle',
           margin: [0, 5, 0, 0],
         },
         {
-          text: 'AS AGENTS ONLY, FOR CAPELINE',
+          text: 'AS AGENTS ONLY',
           style: 'rightStyle',
         },
       ],
 
       styles: {
         header: {
-          fontSize: 9,
+          fontSize: 16,
           bold: true,
           alignment: 'center',
         },
         desc: {
-          fontSize: 7,
+          fontSize: 9,
           alignment: 'center',
         },
         midheading: {
-          fontSize: 9,
+          fontSize: 11,
           alignment: 'center',
           bold: true,
         },
         tableHeader: {
           bold: true,
-          fontSize: 7,
+          fontSize: 9,
         },
         tableExample: {
-          fontSize: 5,
+          fontSize: 7,
           margin: [0, 5, 0, 15],
         },
         rightStyle: {
-          fontSize: 5,
+          fontSize: 7,
           alignment: 'right',
           margin: [0, 5, 0, 0],
         },
         underlineStyle: {
           bold: true,
-          fontSize: 7,
+          fontSize: 9,
           decoration: 'underline',
           margin: [100, 10, 0, 0],
         },
