@@ -25,14 +25,14 @@ export class DoListComponent implements OnInit {
   dO = new DO();
   doList: any[] = [];
   containerList: any[] = [];
-  doContainers:any[]=[];
+  doContainers: any[] = [];
   isScroll: boolean = false;
   doListForm: FormGroup;
   previewNoData: boolean = false;
   previewList: boolean = false;
   isLoading: boolean = false;
-  itemPdf:any;
-  blDetails:any;
+  itemPdf: any;
+  blDetails: any;
 
   constructor(
     private _dOService: DoService,
@@ -55,7 +55,6 @@ export class DoListComponent implements OnInit {
   }
 
   getDOList() {
-    debugger;
     this.previewList = false;
     this.previewNoData = false;
 
@@ -69,9 +68,6 @@ export class DoListComponent implements OnInit {
         if (res.hasOwnProperty('Data')) {
           if (res.Data?.length > 0) {
             this.doList = res.Data;
-            console.log(this.doList);
-            //getContainerCount
-            this.getContainerCount();
             this.previewList = true;
             this.isLoading = false;
             if (this.doList?.length >= 4) {
@@ -93,24 +89,6 @@ export class DoListComponent implements OnInit {
         }
       }
     );
-  }
-
-  getContainerCount() {
-    this.doList.forEach((element: { DO_NO: any; ContainerCount: any }) => {
-      this.containerList = [];
-      var bl = new Bl();
-      bl.AGENT_CODE = this._cs.getUserCode();
-      bl.DO_NO = element.DO_NO;
-      this._blService.getContainerList(bl).subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.containerList = res.Data;
-          if (this.containerList?.length > 0) {
-            element.ContainerCount = this.containerList?.length;
-            //this.previewList=true;
-          }
-        }
-      });
-    });
   }
 
   Search() {
@@ -141,32 +119,26 @@ export class DoListComponent implements OnInit {
   }
 
   getDODetails(doNo: any) {
-    debugger;
     localStorage.setItem('DO_NO', doNo);
     this._router.navigateByUrl('home/operations/do-details');
   }
 
-  viewDoPdf(item:any,isDo:boolean){
-    this.itemPdf=item;
-    
+  viewDoPdf(item: any, isDo: boolean) {
+    this.itemPdf = item;
+
     this.doContainers = [];
-      var bl = new Bl();
-      bl.AGENT_CODE = this._cs.getUserCode();
-      bl.DO_NO = this.itemPdf.DO_NO;
-      this._blService.getContainerList(bl).subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.doContainers = res.Data;
-          if(isDo){
-            this.generateDOPdf();
-          }
-          else{
-            this.generateELPdf();
-          }
-
+    var bl = new Bl();
+    bl.DO_NO = this.itemPdf.DO_NO;
+    this._blService.getContainerList(bl).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.doContainers = res.Data;
+        if (isDo) {
+          this.generateDOPdf();
+        } else {
+          this.generateELPdf();
         }
-      });
-
-
+      }
+    });
   }
 
   async generateDOPdf() {
@@ -176,19 +148,30 @@ export class DoListComponent implements OnInit {
         {
           layout: 'noBorders',
           table: {
-            
-            widths: [70, 350,60],
+            widths: [70, 350, 60],
             headerRows: 1,
             heights: 30,
             body: [
               [
                 { text: ' ', fontSize: 8, bold: true },
-                { text: 'INCHCAPE SHIPPING SERVICES LLC\nP &O Marinas, Building number C6 & C7 Marina Cubes Street,Port Rashid Dubai\nUAE,\nPO Box : 33166\nState Name :Dubai', fontSize: 9, bold: true ,alignment: 'center'},
-                { image: await this._cs.getBase64ImageFromURL('assets/img/logo_p.png'), height: 40,width: 100,margin: [0, 0, 0, 0]},
+                {
+                  text: 'PRIME MARITIME',
+                  bold: true,
+                  fontSize: 16,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 7],
+                },
+                {
+                  image: await this._cs.getBase64ImageFromURL(
+                    'assets/img/logo_p.png'
+                  ),
+                  height: 40,
+                  width: 100,
+                  margin: [0, 0, 0, 0],
+                },
               ],
             ],
           },
-        
         },
         {
           canvas: [
@@ -200,111 +183,231 @@ export class DoListComponent implements OnInit {
           text: 'DELIVERY ORDER',
           bold: true,
           fontSize: 12.5,
-          alignment:'center',
+          alignment: 'center',
           margin: [0, 0, 0, 10],
         },
         {
-          columns:[
+          columns: [
             [
               {
-                text: 'D.O.No. : '+this.itemPdf.DO_NO,
+                text: 'D.O.No. : ' + this.itemPdf.DO_NO,
                 bold: false,
                 fontSize: 9,
               },
-
-
             ],
             [
               {
-                text: 'D.O.Date: '+formatDate(this.itemPdf.DO_DATE, 'dd-MM-yyyy', 'en'),
+                text:
+                  'D.O.Date: ' +
+                  formatDate(this.itemPdf.DO_DATE, 'dd-MM-yyyy', 'en'),
                 bold: false,
                 fontSize: 9,
-                alignment:'right',
+                alignment: 'right',
                 margin: [0, 0, 0, 7],
               },
 
               {
-                text: 'Validity Date: '+formatDate(this.itemPdf.DO_VALIDITY, 'dd-MM-yyyy', 'en'),
+                text:
+                  'Validity Date: ' +
+                  formatDate(this.itemPdf.DO_VALIDITY, 'dd-MM-yyyy', 'en'),
                 bold: false,
                 fontSize: 9,
-                alignment:'right',
+                alignment: 'right',
                 margin: [0, 0, 0, 15],
               },
-
             ],
           ],
         },
         {
-          text: 'To,\n\nBGT20 Umm Qasa',
+          text: 'To,\n\n' + this.itemPdf.CONSIGNEE,
           bold: false,
           fontSize: 9,
-          alignment:'left',
+          alignment: 'left',
           margin: [0, 0, 0, 35],
         },
         {
           text: 'Dear Sir,',
           bold: false,
           fontSize: 8,
-          alignment:'left',
+          alignment: 'left',
           margin: [0, 0, 0, 15],
         },
         {
-          text: 'Please Deliver to LESCHACO INDIA. The Following Goods:-Original CargoART BOARD from INIXY arrived per vessel: ALDI WAVE'+ 
-          'at AEJEA arrived on ',
+          text:
+            'Please Deliver to ' +
+            this.itemPdf.CONSIGNEE +
+            '. The Following Goods: ' +
+            this.itemPdf.COMMODITY +
+            ' from ' +
+            this.itemPdf.POL +
+            ' arrived per vessel: ' +
+            this.itemPdf.VESSEL_NAME +
+            ' at' +
+            this.itemPdf.POD +
+            ' arrived on ',
           bold: false,
           fontSize: 8,
-          alignment:'left',
+          alignment: 'left',
           margin: [0, 0, 0, 15],
         },
         {
           layout: 'noBorders',
           table: {
-            
-            widths: [100, 180,100],
+            widths: [100, 180, 100],
             headerRows: 1,
             heights: 30,
             body: [
               [
-                { text: "G I.G.M.No./\nDate\n\nDescription of Goods\n\nMarks and No's\n\nBill Of Lading", fontSize: 9, bold: false },
-                { text: ': '+this.itemPdf.IGM_NO+' / '+formatDate(this.itemPdf.IGM_DATE, 'dd-MM-yyyy', 'en')+'\n\n\n'+
-                        ': '+this.doContainers[0]?.DESC_OF_GOODS+'\n\n'+
-                        ': '+this.doContainers[0]?.MARKS_NOS+'\n\n'+
-                        ': '+this.itemPdf.BL_NO+'\n\n\n\n', 
+                {
+                  text: "G I.G.M.No./\nDate\n\nDescription of Goods\n\nMarks and No's\n\nBill Of Lading",
                   fontSize: 9,
-                  bold: false 
+                  bold: false,
                 },
-                { text:'G Item No.          : '+this.itemPdf.IGM_ITEM_NO+'\n\n\n\n\n\n\n'+'Dated          : '+formatDate(new Date(), 'dd-MM-yyyy', 'en')+'\n\n\n\n',fontSize:9,bold:false},
+                {
+                  text:
+                    ': ' +
+                    this.itemPdf.IGM_NO +
+                    ' / ' +
+                    formatDate(this.itemPdf.IGM_DATE, 'dd-MM-yyyy', 'en') +
+                    '\n\n\n' +
+                    ': ' +
+                    this.doContainers[0]?.DESC_OF_GOODS +
+                    '\n\n' +
+                    ': ' +
+                    this.doContainers[0]?.MARKS_NOS +
+                    '\n\n' +
+                    ': ' +
+                    this.itemPdf.BL_NO +
+                    '\n\n\n\n',
+                  fontSize: 9,
+                  bold: false,
+                },
+                {
+                  text:
+                    'G Item No.          : ' +
+                    this.itemPdf.IGM_ITEM_NO +
+                    '\n\n\n\n\n\n\n' +
+                    'Dated          : ' +
+                    formatDate(new Date(), 'dd-MM-yyyy', 'en') +
+                    '\n\n\n\n',
+                  fontSize: 9,
+                  bold: false,
+                },
               ],
             ],
           },
         },
         {
           //layout: 'noBorders',
-          margin:[0,0,0,55],
+          margin: [0, 0, 0, 55],
           table: {
             //cellpadding:'100px',
             headerRows: 1,
-            widths: ['*', '*', '*', '*', '*', '*','*','*'],
+            widths: ['*', '*', '*', '*', '*', '*', '*', '*'],
             body: [
               [
-                { text: 'Container No', fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
-                { text: 'Valid Upto', fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
-                { text: 'Type', fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
-                { text: 'No of Pkg', fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
-                { text: 'Gross Weight', fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
-                { text: 'Measurement', fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
-                { text: "Seal's No", fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
-                { text: "Status", fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
+                {
+                  text: 'Container No',
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
+                {
+                  text: 'Valid Upto',
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
+                {
+                  text: 'Type',
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
+                {
+                  text: 'No of Pkg',
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
+                {
+                  text: 'Gross Weight',
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
+                {
+                  text: 'Measurement',
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
+                {
+                  text: "Seal's No",
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
+                {
+                  text: 'Status',
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
               ],
               ...this.doContainers.map((p: any) => [
-                { text: p.CONTAINER_NO, fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
-                { text: formatDate(this.itemPdf.DO_VALIDITY, 'dd-MM-yyyy', 'en'), fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
-                { text: p.CONTAINER_TYPE, fontSize: 8,alignment:'center',margin:[0, 0, 0, 10] },
-                { text: '200 LOT', fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
-                { text: p.GROSS_WEIGHT, fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
-                { text: p.MEASUREMENT, fontSize: 8,alignment:'center' ,margin:[0, 0, 0, 10]},
-                { text: p.SEAL_NO, fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
-                { text: 'FCL', fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 10]},
+                {
+                  text: p.CONTAINER_NO,
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
+                {
+                  text: formatDate(
+                    this.itemPdf.DO_VALIDITY,
+                    'dd-MM-yyyy',
+                    'en'
+                  ),
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
+                {
+                  text: p.CONTAINER_TYPE,
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
+                {
+                  text: p.NO_OF_PACKAGES,
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
+                {
+                  text: p.GROSS_WEIGHT,
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
+                {
+                  text: p.MEASUREMENT,
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
+                {
+                  text: p.SEAL_NO,
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
+                {
+                  text: 'FCL',
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 10],
+                },
               ]),
             ],
           },
@@ -322,16 +425,17 @@ export class DoListComponent implements OnInit {
           margin: [0, 0, 0, 40],
         },
         {
-          text: 'AS AGENTS ONLY FOR Bluemarlin Container Line Pvt Ltd',
+          text: 'AS AGENTS ONLY',
           bold: false,
           fontSize: 8,
           margin: [0, 0, 0, 15],
         },
         {
-          text: 'REMARK: BY VIRTUE OF OBTAINING THIS DELIVERY ORDER THE IMPORTER/CONSIGNEE OR HIS REPRESENTATIVE CONFIRMS\n'+ 
-          'THAT HE IS RESPONSIBLE FOR PAYMENT OF APPROPRIATE STAMP DUTY AT THE VALUE OF THE FIRST ASSESSMENT OR\n'+
-          'SUBSEQUENT REASSESSMENT OF VALUE/DUTY IF ANY NOT VALID FOR DELIVERY, UNTIL FRANKED WITH APPLICABLE STAMP\n'+ 
-          'DUTY',
+          text:
+            'REMARK: BY VIRTUE OF OBTAINING THIS DELIVERY ORDER THE IMPORTER/CONSIGNEE OR HIS REPRESENTATIVE CONFIRMS\n' +
+            'THAT HE IS RESPONSIBLE FOR PAYMENT OF APPROPRIATE STAMP DUTY AT THE VALUE OF THE FIRST ASSESSMENT OR\n' +
+            'SUBSEQUENT REASSESSMENT OF VALUE/DUTY IF ANY NOT VALID FOR DELIVERY, UNTIL FRANKED WITH APPLICABLE STAMP\n' +
+            'DUTY',
           bold: false,
           fontSize: 8,
           margin: [0, 0, 0, 10],
@@ -341,14 +445,11 @@ export class DoListComponent implements OnInit {
           bold: true,
           fontSize: 8,
           margin: [0, 0, 0, 15],
-
-        }
-        
+        },
       ],
-    }
+    };
 
     pdfMake.createPdf(docDefinition).open();
-
   }
 
   async generateELPdf() {
@@ -356,30 +457,12 @@ export class DoListComponent implements OnInit {
       pageMargins: [40, 30, 40, 30],
       content: [
         {
-          text: 'INCHCAPE SHIPPING SERVICES LLC',
+          text: 'PRIME MARITIME',
           bold: true,
-          fontSize: 12,
-          alignment:'center',
+          fontSize: 16,
+          alignment: 'center',
           margin: [0, 0, 0, 7],
         },
-        {
-          text: 'P &O Marinas, Building number C6 & C7 Marina Cubes\n'+
-          'Street,Port Rashid Dubai UAE,\n'+ 
-          'PO Box : 33166',
-          bold: false,
-          fontSize: 8,
-          alignment:'center',
-          margin: [0, 0, 0, 7],
-        },
-        {
-          text: 'State Code : 1283 State Name :Dubai',
-          bold: true,
-          fontSize: 8,
-          alignment:'center',
-          margin: [0, 0, 0, 10],
-        },
-        
-        
         {
           canvas: [
             { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
@@ -390,27 +473,25 @@ export class DoListComponent implements OnInit {
           text: 'EMPTY CONTAINER ACCEPTANCE LETTER',
           bold: true,
           fontSize: 12.5,
-          alignment:'center',
+          alignment: 'center',
           margin: [0, 0, 0, 10],
         },
         {
-          columns:[
+          columns: [
             [
               {
-                text: 'TO,\n\nJebel Ali - Terminal MTY Yard ,Jebel Ali\nPort, Terminal MTY Yard',
+                text: 'TO,\n\n' + this.itemPdf.CONSIGNEE,
                 bold: false,
                 fontSize: 9,
                 margin: [0, 0, 0, 40],
               },
-
-
             ],
             [
               {
                 text: formatDate(new Date(), 'dd-MM-yyyy', 'en'),
                 bold: false,
                 fontSize: 9,
-                alignment:'right',
+                alignment: 'right',
                 margin: [0, 0, 0, 60],
               },
             ],
@@ -422,58 +503,107 @@ export class DoListComponent implements OnInit {
           fontSize: 9,
           margin: [0, 0, 0, 10],
         },
-        
+
         {
           layout: 'noBorders',
           table: {
-            
-            widths: [20,100,160,200],
+            widths: [20, 100, 160, 200],
             headerRows: 1,
             heights: 30,
             body: [
               [
                 { text: 'SUB', fontSize: 9, bold: true },
-                { text: 'Vessel\n\nArrived\n\nB/L No.\n\nM/S\n\nA/C'+'\n\n',
+                {
+                  text: 'Vessel\n\nArrived\n\nB/L No.\n\nM/S\n\nA/C' + '\n\n',
                   fontSize: 9,
-                  bold: false 
+                  bold: false,
                 },
-                { text: ': '+this.itemPdf.VESSEL_NAME+'\n\n'+
-                        ': '+this.itemPdf.PLACE_OF_DELIVERY+'\n\n'+
-                        ': '+this.itemPdf.BL_NO+'\n\n'+
-                        ': '+ 'LESCHACO INDIA'+'\n\n'+
-                        ': '+'LESCHACO INDIA'+'\n\n\n\n', 
+                {
+                  text:
+                    ': ' +
+                    this.itemPdf.VESSEL_NAME +
+                    '\n\n' +
+                    ': ' +
+                    this.itemPdf.PLACE_OF_DELIVERY +
+                    '\n\n' +
+                    ': ' +
+                    this.itemPdf.BL_NO +
+                    '\n\n' +
+                    ': ' +
+                    this.itemPdf.CONSIGNEE +
+                    '\n\n' +
+                    ': ' +
+                    this.itemPdf.CONSIGNEE +
+                    '\n\n\n\n',
                   fontSize: 9,
-                  bold: false 
+                  bold: false,
                 },
-                { text:'Voyage Number       : '+this.itemPdf.VOYAGE_NO+'\n\n'+'I.G.M No & Date       : '+this.itemPdf.IGM_NO+' / '+formatDate(this.itemPdf.IGM_DATE, 'dd-MM-yyyy', 'en')+'\n\n\n\n',fontSize:9,bold:false},
+                {
+                  text:
+                    'Voyage Number       : ' +
+                    this.itemPdf.VOYAGE_NO +
+                    '\n\n' +
+                    'I.G.M No & Date       : ' +
+                    this.itemPdf.IGM_NO +
+                    ' / ' +
+                    formatDate(this.itemPdf.IGM_DATE, 'dd-MM-yyyy', 'en') +
+                    '\n\n\n\n',
+                  fontSize: 9,
+                  bold: false,
+                },
               ],
             ],
           },
         },
         {
-          text: "We request you to accept the following container's on behallf of LESCHACO INDIA at your yard, after the necessary survey has\n"+
-          "been carried out by Surveyor.",
+          text:
+            "We request you to accept the following container's on behallf of " +
+            this.itemPdf.CONSIGNEE +
+            ' at your yard, after the necessary survey has\n' +
+            'been carried out by Surveyor.',
           bold: false,
           fontSize: 9,
           margin: [0, 0, 0, 10],
         },
         {
           //layout: 'noBorders',
-          margin:[0,0,0,45],
+          margin: [0, 0, 0, 45],
           table: {
             //cellpadding:'100px',
             headerRows: 1,
-            widths: [220,100],
+            widths: [220, 100],
             body: [
               [
-                { text: 'Container No', fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 5]},
-                { text: 'Valid Upto', fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 5]},
-                
+                {
+                  text: 'Container No',
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 5],
+                },
+                {
+                  text: 'Valid Upto',
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 5],
+                },
               ],
               ...this.doContainers.map((p: any) => [
-                { text: p.CONTAINER_NO, fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 5]},
-                { text: formatDate(this.itemPdf.DO_VALIDITY, 'dd-MM-yyyy', 'en'), fontSize: 8 ,alignment:'center',margin:[0, 0, 0, 5]},
-                
+                {
+                  text: p.CONTAINER_NO,
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 5],
+                },
+                {
+                  text: formatDate(
+                    this.itemPdf.DO_VALIDITY,
+                    'dd-MM-yyyy',
+                    'en'
+                  ),
+                  fontSize: 8,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 5],
+                },
               ]),
             ],
           },
@@ -508,11 +638,9 @@ export class DoListComponent implements OnInit {
           fontSize: 8,
           margin: [0, 0, 0, 10],
         },
-        
       ],
-    }
+    };
 
     pdfMake.createPdf(docDefinition).open();
-
   }
 }

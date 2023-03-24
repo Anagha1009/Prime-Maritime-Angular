@@ -80,7 +80,7 @@
                                         <span class="me-2">{{sc}} | </span>
                                     </span></p>
                                 <p class="description"><span *ngFor="let comms of item.COMMODITY?.split(', ')">
-                                        <img *ngIf="comms.split('-')[0] == 'NORMAL'" height="18" width="20" class="pb-1"
+                                        <img *ngIf="comms.split('-')[0] == 'GEN'" height="18" width="20" class="pb-1"
                                             src="assets/img/box.png" />
                                         <img *ngIf="comms.split('-')[0] == 'HAZ'" height="18" width="20" class="pb-1"
                                             src="assets/img/fire.png" />
@@ -101,9 +101,11 @@
                                 </p>
                             </div>
                             <div class="col-md-2 text-end">
-                                <button class="form-btn btn-sm rounded-pill mb-2" (click)="viewDoPdf(item,true)"><i class="fa fa-plus me-1"></i>
+                                <button class="form-btn btn-sm rounded-pill mb-2" (click)="viewDoPdf(item,true)"><i
+                                        class="fa fa-plus me-1"></i>
                                     View DO PDF</button>
-                                <button class="form-btn btn-sm rounded-pill" (click)="viewDoPdf(item,false)"><i class="fa fa-plus me-1"></i>
+                                <button class="form-btn btn-sm rounded-pill" (click)="viewDoPdf(item,false)"><i
+                                        class="fa fa-plus me-1"></i>
                                     View EMPTY LETTER</button>
                             </div>
                         </div>

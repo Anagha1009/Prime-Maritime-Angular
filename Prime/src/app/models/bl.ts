@@ -1,5 +1,5 @@
 export class Bl {
-  AGENT_CODE: any = 0;
+  AGENT_CODE: any = '';
   BOOKING_NO: any = '';
   CRO_NO: any = '';
   BL_NO: any = '';

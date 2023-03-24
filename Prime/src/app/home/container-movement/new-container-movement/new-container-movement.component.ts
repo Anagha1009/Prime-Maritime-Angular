@@ -225,6 +225,35 @@ export class NewContainerMovementComponent implements OnInit {
     });
   }
 
+  onchangeNextAct(event: any) {
+    if (
+      event.target.value == 'LODF' ||
+      event.target.value == 'LODE' ||
+      event.target.value == 'DCHF' ||
+      event.target.value == 'DCHE'
+    ) {
+      this.depoList = [];
+      this.containerMovementForm.get('LOCATION').setValue('');
+      this._commonService
+        .getDropdownData('CM_LOCATION_WITHPORT')
+        .subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            this.depoList = res.Data;
+          }
+        });
+    } else {
+      this.depoList = [];
+      this.containerMovementForm.get('LOCATION').setValue('');
+      this._commonService
+        .getDropdownData('CM_LOCATION')
+        .subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            this.depoList = res.Data;
+          }
+        });
+    }
+  }
+
   getContainerData() {
     this.submitted = false;
     var CM = new CONTAINER_MOVEMENT();

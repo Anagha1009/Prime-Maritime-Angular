@@ -107,7 +107,8 @@
                     <div class="form-group">
                         <label class="form-label2">Next Activity<span class="text-danger">
                                 *</span></label>
-                        <select class="form-control2" [ngClass]="{'invalid': submitted && f.CURR_ACT_CODE.errors}"
+                        <select class="form-control2" (change)="onchangeNextAct($event)"
+                            [ngClass]="{'invalid': submitted && f.CURR_ACT_CODE.errors}"
                             formControlName="CURR_ACT_CODE">
                             <option value="" disabled>--Select--</option>
                             <option value="{{item.NEXT_ACT_CODE}}"
@@ -209,7 +210,8 @@
                         <div class="form-group">
                             <label class="form-label2">Next Activity<span class="text-danger">
                                     *</span></label>
-                            <select class="form-control2" [ngClass]="{'invalid': submitted && f.CURR_ACT_CODE.errors}"
+                            <select class="form-control2" (change)="onchangeNextAct($event)"
+                                [ngClass]="{'invalid': submitted && f.CURR_ACT_CODE.errors}"
                                 formControlName="CURR_ACT_CODE">
                                 <option value="" disabled>--Select--</option>
                                 <option value="{{item.NEXT_ACT_CODE}}"

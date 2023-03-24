@@ -46,7 +46,8 @@
                         <div class="row mb-4">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input formControlName="ARRIVAL_DATE" type="date" class="form-control"
+                                    <input formControlName="ARRIVAL_DATE" onkeypress="return false" type="date"
+                                        class="form-control"
                                         [ngClass]="{'invalid': submitted && f.ARRIVAL_DATE.errors}" />
                                     <label class="form-label">Vessel Arrival Date<span class="text-danger">
                                             *</span></label>
@@ -120,7 +121,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input formControlName="LETTER_VALIDITY" type="date" class="form-control"
+                                    <input formControlName="LETTER_VALIDITY" onkeypress="return false" type="date"
+                                        class="form-control"
                                         [ngClass]="{'invalid': submitted && f.LETTER_VALIDITY.errors}" />
                                     <label class="form-label">Empty Letter Validity<span class="text-danger">
                                             *</span></label>
