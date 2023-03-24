@@ -9,7 +9,6 @@ import { LoadListComponent } from './load-list/load-list.component';
 import { ManifestListComponent } from './manifest-list/manifest-list.component';
 import { NewBlComponent } from './new-bl/new-bl.component';
 import { NewCroComponent } from './new-cro/new-cro.component';
-import { NewDoComponent } from './new-do/new-do.component';
 import { TdrComponent } from './tdr/tdr.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -21,6 +20,7 @@ import { ExcRateListComponent } from './exc-rate-list/exc-rate-list.component';
 import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
 import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 import { TdrListComponent } from './tdr-list/tdr-list.component';
+import { NewDo2Component } from './new-do2/new-do2.component';
 
 @NgModule({
   declarations: [
@@ -31,12 +31,12 @@ import { TdrListComponent } from './tdr-list/tdr-list.component';
     ManifestListComponent,
     NewBlComponent,
     NewCroComponent,
-    NewDoComponent,
     TdrComponent,
     ExcRateListComponent,
     NewInvoiceComponent,
     InvoiceListComponent,
     TdrListComponent,
+    NewDo2Component,
   ],
   imports: [
     CommonModule,

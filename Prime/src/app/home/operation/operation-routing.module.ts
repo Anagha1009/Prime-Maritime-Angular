@@ -11,7 +11,7 @@ import { LoadListComponent } from './load-list/load-list.component';
 import { ManifestListComponent } from './manifest-list/manifest-list.component';
 import { NewBlComponent } from './new-bl/new-bl.component';
 import { NewCroComponent } from './new-cro/new-cro.component';
-import { NewDoComponent } from './new-do/new-do.component';
+import { NewDo2Component } from './new-do2/new-do2.component';
 import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
 import { TdrListComponent } from './tdr-list/tdr-list.component';
 import { TdrComponent } from './tdr/tdr.component';
@@ -67,7 +67,7 @@ const routes: Routes = [
   },
   {
     path: 'new-do',
-    component: NewDoComponent,
+    component: NewDo2Component,
     canActivate: [AuthGuard],
     data: { roles: [Role.Agent] },
   },
