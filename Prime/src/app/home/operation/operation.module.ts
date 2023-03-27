@@ -19,7 +19,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { ExcRateListComponent } from './exc-rate-list/exc-rate-list.component';
 import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
 import { InvoiceListComponent } from './invoice-list/invoice-list.component';
-import { TdrListComponent } from './tdr-list/tdr-list.component';
+import { MergeBlComponent } from './merge-bl/merge-bl.component';
 import { NewDo2Component } from './new-do2/new-do2.component';
 
 @NgModule({
@@ -31,12 +31,12 @@ import { NewDo2Component } from './new-do2/new-do2.component';
     ManifestListComponent,
     NewBlComponent,
     NewCroComponent,
+    NewDo2Component,
     TdrComponent,
     ExcRateListComponent,
     NewInvoiceComponent,
     InvoiceListComponent,
-    TdrListComponent,
-    NewDo2Component,
+    MergeBlComponent,
   ],
   imports: [
     CommonModule,

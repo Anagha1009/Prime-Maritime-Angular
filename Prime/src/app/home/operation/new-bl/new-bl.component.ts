@@ -19,6 +19,9 @@ import { ClientRequest } from 'http';
 import { truncateSync } from 'fs';
 import { Convert } from 'igniteui-angular-core';
 import Swal from 'sweetalert2';
+import { ContainerTypeService } from 'src/app/services/container-type.service';
+import { TYPE } from 'src/app/models/type';
+import { resolve } from 'dns';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -29,9 +32,13 @@ const pdfMake = require('pdfmake/build/pdfmake.js');
   styleUrls: ['./new-bl.component.scss'],
 })
 export class NewBlComponent implements OnInit {
+  ogType: any = '';
+  finalizeType: any = '';
   editBL: boolean = false;
   submitted: boolean = false;
+  showOgOptions: boolean = false;
   croNo: string = '';
+  swicthBlNo: string;
   blForm: FormGroup;
   onUpload: boolean = false;
   groupingViaCommonProperty: any[] = [];
@@ -47,17 +54,24 @@ export class NewBlComponent implements OnInit {
   srrNo: any;
   chargeList: any[] = [];
   allContainerType: any[] = [];
+  latestContTypeList: any[] = [];
   containerTypeList: any[] = [];
   blHistoryList: any[] = [];
   hideHistory: boolean = false;
   isManual: boolean = false;
   minDate: any = '';
   i: any = 0;
+  @ViewChild('openBtn') openBtn: ElementRef;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
+
+  @ViewChild('openOgBtn') openOgBtn: ElementRef;
+  @ViewChild('closeOgBtn') closeOgBtn: ElementRef;
 
   constructor(
     private _formBuilder: FormBuilder,
     private _commonService: CommonService,
     private _blService: BlService,
+    private _ctService: ContainerTypeService,
     private _router: Router,
     private _coreTranslationService: CoreTranslationService
   ) {
@@ -70,8 +84,8 @@ export class NewBlComponent implements OnInit {
       BL_NO: [''],
       SRR_ID: [''],
       SRR_NO: [''],
-      BOOKING_NO: ['',Validators.required],
-      CRO_NO: ['',Validators.required],
+      BOOKING_NO: ['', Validators.required],
+      CRO_NO: ['', Validators.required],
       SHIPPER: ['', Validators.required],
       SHIPPER_ADDRESS: ['', Validators.required],
       CONSIGNEE: ['', Validators.required],
@@ -89,19 +103,21 @@ export class NewBlComponent implements OnInit {
       MARKS_NOS: ['', Validators.required],
       DESC_OF_GOODS: ['', Validators.required],
       TOTAL_CONTAINERS: [''],
-      PREPAID_AT: ['', Validators.required],
-      PAYABLE_AT: ['', Validators.required],
+      PREPAID_AT: [''],
+      PAYABLE_AT: [''],
       BL_ISSUE_PLACE: ['', Validators.required],
       BL_ISSUE_DATE: ['', Validators.required],
-      TOTAL_PREPAID: [0, Validators.required],
+      TOTAL_PREPAID: [0],
       NO_OF_ORIGINAL_BL: [0, Validators.required],
       BL_STATUS: [''],
-      OGView:[0],
-      NNView:[0],
+      BL_TYPE: [''],
+      OG_TYPE: [''],
+      OGView: [0],
+      NNView: [0],
       AGENT_CODE: [''],
       AGENT_NAME: [''],
       CREATED_BY: [''],
-      CREATED_DATE:[''],
+      CREATED_DATE: [new Date()],
       CONTAINER_LIST: new FormArray([]),
       CONTAINER_LIST2: new FormArray([]),
     });
@@ -133,10 +149,53 @@ export class NewBlComponent implements OnInit {
       add.removeAt(i);
     }
   }
-  manualBL(){
-    this.submitted=false;
+
+  switchBL() {
+    this.openBtn.nativeElement.click();
+  }
+
+  //og type popup
+  oncheck(value: any) {
+    console.log(value);
+    this.ogType = value;
+  }
+
+  onchangeOgType() {
+    console.log(this.finalizeType);
+    this.showOgOptions = false;
+    if (this.finalizeType === 'original') {
+      this.showOgOptions = true;
+    } else {
+      this.showOgOptions = false;
+    }
+  }
+
+  selectOgType() {
+    this.openOgBtn.nativeElement.click();
+  }
+
+  submitFinalizeBL() {
+    if (this.finalizeType === '') {
+      alert('Please select finalize type!');
+    } else if (this.finalizeType === 'original' && this.ogType === '') {
+      alert('Please choose original type!');
+    } else {
+      this.makeItFinalize(this.blForm.get('BL_NO').value);
+    }
+    //  if(!this.ogType){
+    //     alert('Select Original Type!');
+    //  }
+    //  else{
+    //   this.ogType=this.ogType;
+    //   this.closeOgBtn.nativeElement.click();
+    //  }
+  }
+
+  //
+  manualBL() {
+    this.submitted = false;
     this.blForm.reset();
-    this.isManual=true;
+    this.isManual = true;
     this.editBL = false;
     this.isBLForm = true;
     this.isSplit = false;
@@ -150,14 +209,24 @@ export class NewBlComponent implements OnInit {
         GROSS_WEIGHT: ['', Validators.required],
         MEASUREMENT: ['', Validators.required],
         SEAL_NO: ['', Validators.required],
-        AGENT_SEAL_NO: ['', Validators.required]
+        AGENT_SEAL_NO: ['', Validators.required],
       })
     );
+
+    var contType = new TYPE();
+    this._ctService
+      .GetContainerTypeMasterList(contType)
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.latestContTypeList = res.Data;
+          //console.log(this.latestContTypeList);
+        }
+      });
 
     this.hideHistory = true;
   }
 
-  addContainers(){
+  addContainers() {
     var manualContainers = this.blForm.get('CONTAINER_LIST2') as FormArray;
 
     manualContainers.push(
@@ -167,7 +236,7 @@ export class NewBlComponent implements OnInit {
         GROSS_WEIGHT: ['', Validators.required],
         MEASUREMENT: ['', Validators.required],
         SEAL_NO: ['', Validators.required],
-        AGENT_SEAL_NO: ['', Validators.required]
+        AGENT_SEAL_NO: ['', Validators.required],
       })
     );
   }
@@ -179,7 +248,7 @@ export class NewBlComponent implements OnInit {
 
     this.hideHistory = true;
     this.editBL = false;
-    this.isManual=false;
+    this.isManual = false;
     this.blForm.patchValue(this.previewTable[0]);
     const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
 
@@ -223,6 +292,7 @@ export class NewBlComponent implements OnInit {
   }
 
   makeItFinalize(BLNO: any) {
+    console.log(BLNO);
     Swal.fire({
       title: 'Are you sure you want to Finalize the BL?',
       text: 'This BL will get locked!',
@@ -239,8 +309,12 @@ export class NewBlComponent implements OnInit {
         console.log(BL);
         this._blService.getBLDetails(BL).subscribe((res: any) => {
           this.blForm.patchValue(res.Data);
-          //finalize status
+          //finalize status/bltype/ogtype
           this.blForm.get('BL_STATUS')?.setValue('Finalized');
+          //new code
+          this.blForm.get('BL_TYPE')?.setValue(this.finalizeType);
+          this.blForm.get('OG_TYPE')?.setValue(this.ogType);
+          //
           //update
           this._blService
             .updateBL(JSON.stringify(this.blForm.value))
@@ -251,7 +325,25 @@ export class NewBlComponent implements OnInit {
                   'Your file has been finalized.',
                   'success'
                 );
+                this.closeOgBtn.nativeElement.click();
+                this.finalizeType = '';
+                this.ogType = '';
                 this.getBLHistory();
+
+                //new code
+                this.tabs = '1';
+                this.isBLForm = false;
+                this.hideHistory = false;
+
+                //generate pdf on create / split
+                //this.generateBLPdf();
+
+                //refresh required fields
+                const add = this.blForm.get('CONTAINER_LIST') as FormArray;
+                add.clear();
+                this.blNo = '';
+                this.onUpload = false;
+                //
               }
             });
         });
@@ -260,12 +352,36 @@ export class NewBlComponent implements OnInit {
   }
   updateBL() {
     debugger;
+    //new code
+    // if(this.blForm.get("PREPAID_AT").value==null || this.blForm.get("PREPAID_AT").value=='' && this.blForm.get("PAYABLE_AT").value==null || this.blForm.get("PAYABLE_AT").value==''){
+    //   // this.blForm.get("PREPAID_AT").setValidators(Validators.required);
+    //   // this.blForm.get("PAYABLE_AT").setValidators(Validators.required);
+    //   // this.blForm.get("PREPAID_AT").updateValueAndValidity();
+    //   // this.blForm.get("PAYABLE_AT").updateValueAndValidity();
+    //   // this._commonService.warnMsg("Please enter either Prepaid-At or Payable-At !");
+    //   alert("Please enter either Prepaid-At or Payable-At !");
+    //   return;
+    // }
+
+    //
     this.submitted = true;
     console.log(JSON.stringify(this.blForm.value));
     if (this.blForm.invalid) {
       return;
     }
 
+    if (
+      this.blForm.get('PREPAID_AT').value == null ||
+      this.blForm.get('PREPAID_AT').value == ''
+    ) {
+      if (
+        this.blForm.get('PAYABLE_AT').value == null ||
+        this.blForm.get('PAYABLE_AT').value == ''
+      ) {
+        alert('Please enter either Prepaid-At or Payable-At !');
+        return;
+      }
+    }
     this.blForm.get('BLType')?.setValue('Draft');
     this.blForm.get('BL_STATUS')?.setValue('Drafted');
 
@@ -295,10 +411,25 @@ export class NewBlComponent implements OnInit {
   }
   createBL() {
     debugger;
+
     this.submitted = true;
     if (this.blForm.invalid) {
       return;
     }
+
+    if (
+      this.blForm.get('PREPAID_AT').value == null ||
+      this.blForm.get('PREPAID_AT').value == ''
+    ) {
+      if (
+        this.blForm.get('PAYABLE_AT').value == null ||
+        this.blForm.get('PAYABLE_AT').value == ''
+      ) {
+        alert('Please enter either Prepaid-At or Payable-At !');
+        return;
+      }
+    }
+    //
     this.editBL = false;
     //this.isManual=false;
 
@@ -354,6 +485,10 @@ export class NewBlComponent implements OnInit {
     bl.BL_NO = this.isSplit ? this.blNo : '';
     bl.BOOKING_NO = !this.isSplit ? this.blForm.get('BOOKING_NO')?.value : '';
 
+    //newcode
+    this.blForm.get('PREPAID_AT').enable();
+    this.blForm.get('PAYABLE_AT').enable();
+    //
     console.log(JSON.stringify(this.blForm.value));
     this._blService.getSRRDetails(bl).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
@@ -389,10 +524,12 @@ export class NewBlComponent implements OnInit {
   }
 
   getBLDetailsForEdit(BLNO: any) {
+    //this.submitted=false;
     this.hideHistory = true;
     this.editBL = true;
-    this.isManual=false;
+    this.isManual = false;
 
+    console.log('SWITCH BL NO.' + BLNO);
     var BL = new Bl();
     BL.AGENT_CODE = this._commonService.getUserCode();
     BL.BL_NO = BLNO;
@@ -451,11 +588,13 @@ export class NewBlComponent implements OnInit {
         }
       });
     });
+
+    this.closeBtn.nativeElement.click();
   }
 
   getBLDetails() {
     this.editBL = false;
-    this.isManual=false;
+    this.isManual = false;
     var BL = new Bl();
     BL.AGENT_CODE = this._commonService.getUserCode();
     BL.BL_NO = this.blNo;
@@ -777,10 +916,38 @@ export class NewBlComponent implements OnInit {
     return $(arr1).not(arr2).length === 0 && $(arr2).not(arr1).length === 0;
   }
 
-  viewBL(BLNO: any,isNN:any) {
+  validate2P(param: any, e: any) {
+    if (param == 'PREPAID_AT' && e.length > 0) {
+      this.blForm.get('PREPAID_AT').enable();
+      this.blForm.get('PAYABLE_AT').disable();
+
+      // this.blForm.get("PAYABLE_AT").removeValidators(Validators.required);
+      // this.blForm.get("PAYABLE_AT").updateValueAndValidity();
+    } else if (param == 'PREPAID_AT' && e.length == 0) {
+      this.blForm.get('PREPAID_AT').disable();
+      this.blForm.get('PAYABLE_AT').enable();
+
+      // this.blForm.get("PREPAID_AT").removeValidators(Validators.required);
+      // this.blForm.get("PREPAID_AT").updateValueAndValidity();
+    } else if (param == 'PAYABLE_AT' && e.length > 0) {
+      this.blForm.get('PREPAID_AT').disable();
+      this.blForm.get('PAYABLE_AT').enable();
+
+      // this.blForm.get("PREPAID_AT").removeValidators(Validators.required);
+      // this.blForm.get("PREPAID_AT").updateValueAndValidity();
+    } else if (param == 'PAYABLE_AT' && e.length == 0) {
+      this.blForm.get('PREPAID_AT').enable();
+      this.blForm.get('PAYABLE_AT').disable();
+
+      // this.blForm.get("PAYABLE_AT").removeValidators(Validators.required);
+      // this.blForm.get("PAYABLE_AT").updateValueAndValidity();
+    }
+  }
+
+  viewBL(BLNO: any, isNN: any) {
     this.isSplit = false;
     this.editBL = false;
-    this.isManual=false;
+    this.isManual = false;
     this.groupingViaCommonProperty = [];
     this.groupedList = [];
     this.i = 0;
@@ -831,13 +998,12 @@ export class NewBlComponent implements OnInit {
       });
 
       if (this.blForm.get('BL_STATUS')?.value == 'Finalized') {
-        if(isNN==false){
+        if (isNN == false) {
           this.blForm.get('BLType')?.setValue('Original');
-          if(this.blForm.get('OGView')?.value==1){
+          if (this.blForm.get('OGView')?.value == 1) {
             this._commonService.warnMsg('This BL is locked!');
             return;
-          }
-          else{
+          } else {
             Swal.fire({
               title: 'Are you sure you want to Print the BL?',
               text: 'This BL will get locked!',
@@ -850,26 +1016,23 @@ export class NewBlComponent implements OnInit {
               if (result.isConfirmed) {
                 this.blForm.get('OGView')?.setValue(1);
                 this._blService
-                 .updateBL(JSON.stringify(this.blForm.value))
-                 .subscribe((res: any) => {
-                 if (res.responseCode == 200) {
-                  this.generateBLPdf();
-                 }
-              });
-                
+                  .updateBL(JSON.stringify(this.blForm.value))
+                  .subscribe((res: any) => {
+                    if (res.responseCode == 200) {
+                      this.generateBLPdf();
+                    }
+                  });
               }
             });
           }
-          
         }
-        
-        if(isNN==true){
+
+        if (isNN == true) {
           this.blForm.get('BLType')?.setValue('Non-Negotiable');
-          if(this.blForm.get('NNView')?.value==1){
+          if (this.blForm.get('NNView')?.value == 1) {
             this._commonService.warnMsg('This BL is locked!');
             return;
-          }
-          else{
+          } else {
             Swal.fire({
               title: 'Are you sure you want to Print the BL?',
               text: 'This BL will get locked!',
@@ -884,17 +1047,16 @@ export class NewBlComponent implements OnInit {
                 this._blService
                   .updateBL(JSON.stringify(this.blForm.value))
                   .subscribe((res: any) => {
-                  if (res.responseCode == 200) {
-                    this.generateBLPdf();
-                  }
-                }); 
+                    if (res.responseCode == 200) {
+                      this.generateBLPdf();
+                    }
+                  });
               }
             });
           }
-
         }
       } else {
-        this.blForm.get('BLType')?.setValue('Sea-Way');
+        this.blForm.get('BLType')?.setValue('Drafted');
         this.generateBLPdf();
       }
     });
@@ -918,7 +1080,6 @@ export class NewBlComponent implements OnInit {
             }
           });
           this.generateBLPdf();
-          
         }
       });
   }
@@ -938,11 +1099,18 @@ export class NewBlComponent implements OnInit {
       console.log('without is split', this.ContainerList1);
     }
 
-    if(this.blForm.get('BLType')?.value=='Sea-Way'){
+    if (this.blForm.get('BLType')?.value == 'Sea-Way') {
       let docDefinition = {
-        watermark: { text: 'Drafted', color: '#808080', opacity: 0.3, bold: true, italics: false ,fontSize:150},
+        watermark: {
+          text: 'Drafted',
+          color: '#808080',
+          opacity: 0.3,
+          bold: true,
+          italics: false,
+          fontSize: 150,
+        },
         pageMargins: [40, 20, 40, 20],
-  
+
         content: [
           {
             columns: [
@@ -1248,7 +1416,7 @@ export class NewBlComponent implements OnInit {
               ],
             ],
           },
-  
+
           {
             pageBreak: 'before',
             columns: [
@@ -1277,7 +1445,10 @@ export class NewBlComponent implements OnInit {
                   fontSize: 9,
                   margin: [0, 2, 0, 0],
                 },
-                { text: this.blForm.value.CONSIGNEE.toUpperCase(), fontSize: 7 },
+                {
+                  text: this.blForm.value.CONSIGNEE.toUpperCase(),
+                  fontSize: 7,
+                },
                 {
                   text: this.blForm.value.CONSIGNEE_ADDRESS.toUpperCase(),
                   fontSize: 7,
@@ -1369,7 +1540,7 @@ export class NewBlComponent implements OnInit {
                   ],
                 },
               ],
-  
+
               [
                 {
                   text: 'B/L No. ' + this.blForm.value.BL_NO.toUpperCase(),
@@ -1460,7 +1631,7 @@ export class NewBlComponent implements OnInit {
                   fontSize: 8,
                   margin: [20, 2, 0, 0],
                 },
-  
+
                 {
                   text: this.blForm.value.FINAL_DESTINATION.toUpperCase(),
                   fontSize: 7,
@@ -1654,29 +1825,40 @@ export class NewBlComponent implements OnInit {
                             [
                               {
                                 text:
-                                  'Prepaid at\n' + this.blForm.value.PREPAID_AT,
+                                  this.blForm.value.PREPAID_AT == null
+                                    ? 'Prepaid at\n' + ' - '
+                                    : 'Prepaid at\n' +
+                                      this.blForm.value.PREPAID_AT,
                                 fontSize: 8,
                                 bold: true,
                               },
                               {
                                 text:
-                                  'Payable at\n' + this.blForm.value.PAYABLE_AT,
+                                  this.blForm.value.PAYABLE_AT == null
+                                    ? 'Payable at\n' + ' - '
+                                    : 'Payable at\n' +
+                                      this.blForm.value.PAYABLE_AT,
                                 fontSize: 8,
                                 bold: true,
                               },
                             ],
                             [
-                              {
-                                text:
-                                  'Total prepaid in local currency\n' +
-                                  this.blForm.value.TOTAL_PREPAID,
-                                fontSize: 8,
-                                bold: true,
-                              },
+                              // {
+                              //   text:
+                              //     'Total prepaid in local currency\n' +
+                              //     this.blForm.value.TOTAL_PREPAID,
+                              //   fontSize: 8,
+                              //   bold: true,
+                              // },
                               {
                                 text:
                                   'No. of original B(s)/L\n' +
                                   this.blForm.value.NO_OF_ORIGINAL_BL,
+                                fontSize: 8,
+                                bold: true,
+                              },
+                              {
+                                text: '                                  ',
                                 fontSize: 8,
                                 bold: true,
                               },
@@ -1688,7 +1870,7 @@ export class NewBlComponent implements OnInit {
                   ],
                 },
               },
-  
+
               [
                 {
                   text:
@@ -1712,7 +1894,13 @@ export class NewBlComponent implements OnInit {
             columns: [
               [
                 {
-                  text: 'SHIPPED on board the Vessel',
+                  text:
+                    this.blForm.value.OG_TYPE == null ||
+                    this.blForm.value.OG_TYPE == ''
+                      ? 'SHIPPED on board the Vessel'
+                      : this.blForm.value.OG_TYPE === 'SOB'
+                      ? 'SHIPPED on board the Vessel'
+                      : 'Received for Shipment',
                   bold: true,
                   fontSize: 8,
                   margin: [0, 5, 0, 0],
@@ -1739,7 +1927,14 @@ export class NewBlComponent implements OnInit {
                   fontSize: 10,
                   margin: [0, 5, 0, 0],
                 },
-                { text: formatDate(this.blForm.value.CREATED_DATE,'dd-MM-yyyy','en'), fontSize: 9 },
+                {
+                  text: formatDate(
+                    this.blForm.value.CREATED_DATE,
+                    'dd-MM-yyyy',
+                    'en'
+                  ),
+                  fontSize: 9,
+                },
               ],
               [
                 {
@@ -1797,11 +1992,18 @@ export class NewBlComponent implements OnInit {
                 },
                 {
                   canvas: [
-                    { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
+                    {
+                      type: 'line',
+                      x1: 0,
+                      y1: 0,
+                      x2: 520,
+                      y2: 0,
+                      lineWidth: 1,
+                    },
                   ],
                   margin: [0, 10, 0, 0],
                 },
-  
+
                 {
                   table: {
                     //heights: [15],
@@ -1870,10 +2072,17 @@ export class NewBlComponent implements OnInit {
                     },
                   },
                 },
-  
+
                 {
                   canvas: [
-                    { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
+                    {
+                      type: 'line',
+                      x1: 0,
+                      y1: 0,
+                      x2: 520,
+                      y2: 0,
+                      lineWidth: 1,
+                    },
                   ],
                   margin: [0, 0, 0, 0],
                 },
@@ -1881,7 +2090,13 @@ export class NewBlComponent implements OnInit {
                   columns: [
                     [
                       {
-                        text: 'SHIPPED on board the Vessel',
+                        text:
+                          this.blForm.value.OG_TYPE == null ||
+                          this.blForm.value.OG_TYPE == ''
+                            ? 'SHIPPED on board the Vessel'
+                            : this.blForm.value.OG_TYPE === 'SOB'
+                            ? 'SHIPPED on board the Vessel'
+                            : 'Received for Shipment',
                         bold: true,
                         fontSize: 8,
                         margin: [0, 5, 0, 0],
@@ -1908,7 +2123,14 @@ export class NewBlComponent implements OnInit {
                         fontSize: 10,
                         margin: [0, 5, 0, 0],
                       },
-                      { text: formatDate(this.blForm.value.CREATED_DATE,'dd-MM-yyyy','en'), fontSize: 9 },
+                      {
+                        text: formatDate(
+                          this.blForm.value.CREATED_DATE,
+                          'dd-MM-yyyy',
+                          'en'
+                        ),
+                        fontSize: 9,
+                      },
                     ],
                     [
                       {
@@ -1966,22 +2188,22 @@ export class NewBlComponent implements OnInit {
               body: [
                 [
                   {
-                    text: 'Page  ' + currentPage.toString() + ' of ' + pageCount,
+                    text:
+                      'Page  ' + currentPage.toString() + ' of ' + pageCount,
                   },
                 ],
               ],
             },
           };
-  
+
           return t;
         },
       };
       pdfMake.createPdf(docDefinition).open();
-    }
-    else{
+    } else {
       let docDefinition = {
         pageMargins: [40, 20, 40, 20],
-  
+
         content: [
           {
             columns: [
@@ -2287,7 +2509,7 @@ export class NewBlComponent implements OnInit {
               ],
             ],
           },
-  
+
           {
             pageBreak: 'before',
             columns: [
@@ -2316,7 +2538,10 @@ export class NewBlComponent implements OnInit {
                   fontSize: 9,
                   margin: [0, 2, 0, 0],
                 },
-                { text: this.blForm.value.CONSIGNEE.toUpperCase(), fontSize: 7 },
+                {
+                  text: this.blForm.value.CONSIGNEE.toUpperCase(),
+                  fontSize: 7,
+                },
                 {
                   text: this.blForm.value.CONSIGNEE_ADDRESS.toUpperCase(),
                   fontSize: 7,
@@ -2408,7 +2633,7 @@ export class NewBlComponent implements OnInit {
                   ],
                 },
               ],
-  
+
               [
                 {
                   text: 'B/L No. ' + this.blForm.value.BL_NO.toUpperCase(),
@@ -2499,7 +2724,7 @@ export class NewBlComponent implements OnInit {
                   fontSize: 8,
                   margin: [20, 2, 0, 0],
                 },
-  
+
                 {
                   text: this.blForm.value.FINAL_DESTINATION.toUpperCase(),
                   fontSize: 7,
@@ -2693,29 +2918,40 @@ export class NewBlComponent implements OnInit {
                             [
                               {
                                 text:
-                                  'Prepaid at\n' + this.blForm.value.PREPAID_AT,
+                                  this.blForm.value.PREPAID_AT == null
+                                    ? 'Prepaid at\n' + ' - '
+                                    : 'Prepaid at\n' +
+                                      this.blForm.value.PREPAID_AT,
                                 fontSize: 8,
                                 bold: true,
                               },
                               {
                                 text:
-                                  'Payable at\n' + this.blForm.value.PAYABLE_AT,
+                                  this.blForm.value.PAYABLE_AT == null
+                                    ? 'Payable at\n' + ' - '
+                                    : 'Payable at\n' +
+                                      this.blForm.value.PAYABLE_AT,
                                 fontSize: 8,
                                 bold: true,
                               },
                             ],
                             [
-                              {
-                                text:
-                                  'Total prepaid in local currency\n' +
-                                  this.blForm.value.TOTAL_PREPAID,
-                                fontSize: 8,
-                                bold: true,
-                              },
+                              // {
+                              //   text:
+                              //     'Total prepaid in local currency\n' +
+                              //     this.blForm.value.TOTAL_PREPAID,
+                              //   fontSize: 8,
+                              //   bold: true,
+                              // },
                               {
                                 text:
                                   'No. of original B(s)/L\n' +
                                   this.blForm.value.NO_OF_ORIGINAL_BL,
+                                fontSize: 8,
+                                bold: true,
+                              },
+                              {
+                                text: '                                  ',
                                 fontSize: 8,
                                 bold: true,
                               },
@@ -2727,7 +2963,7 @@ export class NewBlComponent implements OnInit {
                   ],
                 },
               },
-  
+
               [
                 {
                   text:
@@ -2751,7 +2987,13 @@ export class NewBlComponent implements OnInit {
             columns: [
               [
                 {
-                  text: 'SHIPPED on board the Vessel',
+                  text:
+                    this.blForm.value.OG_TYPE == null ||
+                    this.blForm.value.OG_TYPE == ''
+                      ? 'SHIPPED on board the Vessel'
+                      : this.blForm.value.OG_TYPE === 'SOB'
+                      ? 'SHIPPED on board the Vessel'
+                      : 'Received for Shipment',
                   bold: true,
                   fontSize: 8,
                   margin: [0, 5, 0, 0],
@@ -2778,7 +3020,14 @@ export class NewBlComponent implements OnInit {
                   fontSize: 10,
                   margin: [0, 5, 0, 0],
                 },
-                { text: formatDate(this.blForm.value.CREATED_DATE,'dd-MM-yyyy','en'), fontSize: 9 },
+                {
+                  text: formatDate(
+                    this.blForm.value.CREATED_DATE,
+                    'dd-MM-yyyy',
+                    'en'
+                  ),
+                  fontSize: 9,
+                },
               ],
               [
                 {
@@ -2836,11 +3085,18 @@ export class NewBlComponent implements OnInit {
                 },
                 {
                   canvas: [
-                    { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
+                    {
+                      type: 'line',
+                      x1: 0,
+                      y1: 0,
+                      x2: 520,
+                      y2: 0,
+                      lineWidth: 1,
+                    },
                   ],
                   margin: [0, 10, 0, 0],
                 },
-  
+
                 {
                   table: {
                     //heights: [15],
@@ -2909,10 +3165,17 @@ export class NewBlComponent implements OnInit {
                     },
                   },
                 },
-  
+
                 {
                   canvas: [
-                    { type: 'line', x1: 0, y1: 0, x2: 520, y2: 0, lineWidth: 1 },
+                    {
+                      type: 'line',
+                      x1: 0,
+                      y1: 0,
+                      x2: 520,
+                      y2: 0,
+                      lineWidth: 1,
+                    },
                   ],
                   margin: [0, 0, 0, 0],
                 },
@@ -2920,7 +3183,13 @@ export class NewBlComponent implements OnInit {
                   columns: [
                     [
                       {
-                        text: 'SHIPPED on board the Vessel',
+                        text:
+                          this.blForm.value.OG_TYPE == null ||
+                          this.blForm.value.OG_TYPE == ''
+                            ? 'SHIPPED on board the Vessel'
+                            : this.blForm.value.OG_TYPE === 'SOB'
+                            ? 'SHIPPED on board the Vessel'
+                            : 'Received for Shipment',
                         bold: true,
                         fontSize: 8,
                         margin: [0, 5, 0, 0],
@@ -2947,7 +3216,14 @@ export class NewBlComponent implements OnInit {
                         fontSize: 10,
                         margin: [0, 5, 0, 0],
                       },
-                      { text: formatDate(this.blForm.value.CREATED_DATE,'dd-MM-yyyy','en'), fontSize: 9 },
+                      {
+                        text: formatDate(
+                          this.blForm.value.CREATED_DATE,
+                          'dd-MM-yyyy',
+                          'en'
+                        ),
+                        fontSize: 9,
+                      },
                     ],
                     [
                       {
@@ -3005,19 +3281,18 @@ export class NewBlComponent implements OnInit {
               body: [
                 [
                   {
-                    text: 'Page  ' + currentPage.toString() + ' of ' + pageCount,
+                    text:
+                      'Page  ' + currentPage.toString() + ' of ' + pageCount,
                   },
                 ],
               ],
             },
           };
-  
+
           return t;
         },
       };
       pdfMake.createPdf(docDefinition).open();
     }
-    
   }
-
 }

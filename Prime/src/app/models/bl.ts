@@ -12,3 +12,13 @@ export class Bl {
   TO_DATE: string = '';
   INVOICE_NO: string = '';
 }
+
+export class MergeBl {
+  POL: any = '';
+  POD: any = '';
+  SHIPPER: any = '';
+  CONSIGNEE: any = '';
+  VESSEL_NAME: any = '';
+  VOYAGE_NO: any = '';
+  NOTIFY_PARTY: any = '';
+}

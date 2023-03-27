@@ -125,7 +125,6 @@ export class DoListComponent implements OnInit {
 
   viewDoPdf(item: any, isDo: boolean) {
     this.itemPdf = item;
-
     this.doContainers = [];
     var bl = new Bl();
     bl.DO_NO = this.itemPdf.DO_NO;
