@@ -56,11 +56,6 @@
                     <li *ngFor="let element of commodityDetails">{{element.COMMODITY_NAME}} -
                         {{element.COMMODITY_TYPE}} ( {{element.WEIGHT}}{{element.WEIGHT_UNIT}} )</li>
                 </ul>
-                <!-- <label class="scroll-list">
-                    <ul>
-                        <li *ngFor="let element of commodityDetails">{{element.COMMODITY_NAME}} - {{element.COMMODITY_TYPE}} ( {{element.WEIGHT}}{{element.WEIGHT_UNIT}} )</li>
-                      </ul>
-                </label> -->
             </div>
             <div class="col-md-3">
                 <label class="label-header">Status</label>
@@ -69,18 +64,12 @@
             </div>
         </div>
     </div>
-    <!-- <div class="col-md-3 text-end">
-
-        <div class="rounded-btn mt-3 me-2">
-            <a href="/pm/srr-calculator" title="SRR Calculator"><i class="bx bxs-magic-wand text-light"></i></a>
-        </div>
-    </div> -->
 </div>
 <hr>
 <div class="col-md-12" style="font-size: 14px" *ngFor="let item1 of quotationDetails?.SRR_CONTAINERS">
     <div class="row">
         <div class="col-md-10">
-            <h6>
+            <h6 style="font-weight: 600;">
                 Container : <small class="text-dark me-2">{{item1.CONTAINERS}}</small>
                 Service Mode : <small class="text-dark me-2">{{item1.SERVICE_MODE}}</small>
                 Status : <small
@@ -90,60 +79,153 @@
             </h6>
         </div>
     </div>
-    <div class="col-md-10 mt-3">
-        <div class="row">
-            <div class="col-md-2">
-                <label class="label-header">Charge Code</label>
-            </div>
-            <div class="col-md-2">
-                <label class="label-header">Payment</label>
-            </div>
-            <div class="col-md-2">
-                <label class="label-header">Standard</label>
-            </div>
-            <div class="col-md-2">
-                <label class="label-header">Requested</label>
-            </div>
-            <div class="col-md-2">
-                <label class="label-header">Countered</label>
-            </div>
-            <div class="col-md-2">
-                <label class="label-header">Remarks</label>
-            </div>
-        </div>
-        <div *ngFor="let item of f1;let i = index" [formGroup]="item">
-            <div *ngIf="item.value.CONTAINER_TYPE == item1.CONTAINER_TYPE" class="row">
-                <div class="col-md-2 mt-2">
-                    <label class="label-subheader">{{item.value.CHARGE_CODE}}</label>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="accordion mt-3" id="accordion" role="tablist">
+                <div class="card">
+                    <div class="card-header" role="tab" id="heading-1">
+                        <h6 class="mb-0">
+                            <a data-bs-toggle="collapse" href="#collapse-1" aria-expanded="false"
+                                aria-controls="collapse-1" data-abc="true" class="collapsed">
+                                <span class="fw-bolder">Freight Charges</span>
+                            </a>
+                        </h6>
+                    </div>
+                    <div id="collapse-1" class="collapse show" role="tabpanel" aria-labelledby="heading-1"
+                        data-bs-parent="#accordion">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" style="font-size: 12px;">
+                                    <thead>
+                                        <tr>
+                                            <th width="25%">Charge Code</th>
+                                            <th width="15%">Payment</th>
+                                            <th width="15%">Cost</th>
+                                            <th width="15%">Requested (Income)</th>
+                                            <th width="15%">Countered</th>
+                                            <th width="19%">Remarks</th>
+                                            <th width="1%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of f1;let i = index" [formGroup]="item">
+                                            <td width="25%">{{item.value.CHARGE_CODE}}</td>
+                                            <td width="15%">{{item.value.PAYMENT_TERM}} ({{item.value.TRANSPORT_TYPE}})
+                                            </td>
+                                            <td width="15%">{{item.value.CURRENCY}} {{item.value.STANDARD_RATE}}</td>
+                                            <td width="15%">{{item.value.CURRENCY}} {{item.value.RATE_REQUESTED}}</td>
+                                            <td width="15%"><input class="form-control3" formControlName="APPROVED_RATE"
+                                                    type="text" />
+                                            </td>
+                                            <td width="19%"><textarea class="form-control3" formControlName="REMARKS"
+                                                    type="text"></textarea></td>
+                                            <td width="1%"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <h6 *ngIf="f1?.length == 0" class="text-center">No
+                                    Records !</h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-2 mt-2">
-                    <label class="label-subheader">{{item.value.PAYMENT_TERM}} -
-                        {{item.value.TRANSPORT_TYPE}}</label>
+                <div class="card">
+                    <div class="card-header" role="tab" id="heading-4">
+                        <h6 class="mb-0">
+                            <a data-bs-toggle="collapse" href="#collapse-4" aria-expanded="false"
+                                aria-controls="collapse-4" data-abc="true" class="collapsed">
+                                <span class="fw-bolder">POL Charges</span>
+                            </a>
+                        </h6>
+                    </div>
+                    <div id="collapse-4" class="collapse" role="tabpanel" aria-labelledby="heading-4"
+                        data-bs-parent="#accordion">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" style="font-size: 12px;">
+                                    <thead>
+                                        <tr>
+                                            <th width="25%">Charge Code</th>
+                                            <th width="15%">Payment</th>
+                                            <th width="10%">Cost</th>
+                                            <th width="10%">Income</th>
+                                            <th width="10%">Requested</th>
+                                            <th width="15%">Countered</th>
+                                            <th width="19%">Remarks</th>
+                                            <th width="1%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of f4;let i = index" [formGroup]="item">
+                                            <td width="25%">{{item.value.CHARGE_CODE}}</td>
+                                            <td width="15%">{{item.value.PAYMENT_TERM}} ({{item.value.TRANSPORT_TYPE}})
+                                            </td>
+                                            <td width="10%">{{item.value.CURRENCY}} {{item.value.COST}}</td>
+                                            <td width="10%">{{item.value.CURRENCY}} {{item.value.STANDARD_RATE}}</td>
+                                            <td width="10%">{{item.value.CURRENCY}} {{item.value.RATE_REQUESTED}}</td>
+                                            <td width="15%"><input class="form-control3" formControlName="APPROVED_RATE"
+                                                    type="text" />
+                                            </td>
+                                            <td width="19%"><textarea class="form-control3" formControlName="REMARKS"
+                                                    type="text"></textarea></td>
+                                            <td width="1%"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <h6 *ngIf="f4?.length == 0" class="text-center">No
+                                    Records !</h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-2 mt-2">
-                    <label class="label-subheader">{{item.value.CURRENCY}} {{item.value.STANDARD_RATE}}
-
-                    </label>
-                </div>
-                <div class="col-md-2 mt-2">
-                    <label class="label-subheader">{{item.value.CURRENCY}} {{item.value.RATE_REQUESTED}}
-                    </label>
-                </div>
-                <div class="col-md-2 mt-1">
-                    <input
-                        *ngIf="item1.STATUS == 'Requested' || (item1.STATUS == 'Countered' && item1.CREATED_BY == 'agent')"
-                        class="form-control3" formControlName="APPROVED_RATE" type="text" />
-                    <label
-                        *ngIf="item1.STATUS == 'Approved' || (item1.STATUS == 'Countered' && item1.CREATED_BY != 'agent')"
-                        class="label-subheader">{{item.value.APPROVED_RATE}}</label>
-                </div>
-                <div class="col-md-2 mt-1">
-                    <textarea
-                        *ngIf="item1.STATUS == 'Requested' || (item1.STATUS == 'Countered' && item1.CREATED_BY == 'agent')"
-                        class="form-control3" formControlName="REMARKS" type="text"></textarea>
-                    <label
-                        *ngIf="item1.STATUS == 'Approved' || (item1.STATUS == 'Countered' && item1.CREATED_BY != 'agent')"
-                        class="label-subheader">{{item.value.REMARKS}}</label>
+                <div class="card">
+                    <div class="card-header" role="tab" id="heading-5">
+                        <h6 class="mb-0">
+                            <a data-bs-toggle="collapse" href="#collapse-5" aria-expanded="false"
+                                aria-controls="collapse-5" data-abc="true" class="collapsed">
+                                <span class="fw-bolder">POD Charges</span>
+                            </a>
+                        </h6>
+                    </div>
+                    <div id="collapse-5" class="collapse" role="tabpanel" aria-labelledby="heading-5"
+                        data-bs-parent="#accordion">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" style="font-size: 12px;">
+                                    <thead>
+                                        <tr>
+                                            <th width="25%">Charge Code</th>
+                                            <th width="15%">Payment</th>
+                                            <th width="10%">Cost</th>
+                                            <th width="10%">Income</th>
+                                            <th width="10%">Requested</th>
+                                            <th width="15%">Countered</th>
+                                            <th width="19%">Remarks</th>
+                                            <th width="1%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of f5;let i = index" [formGroup]="item">
+                                            <td width="25%">{{item.value.CHARGE_CODE}}</td>
+                                            <td width="15%">{{item.value.PAYMENT_TERM}} ({{item.value.TRANSPORT_TYPE}})
+                                            </td>
+                                            <td width="10%">{{item.value.CURRENCY}} {{item.value.COST}}</td>
+                                            <td width="10%">{{item.value.CURRENCY}} {{item.value.STANDARD_RATE}}</td>
+                                            <td width="10%">{{item.value.CURRENCY}} {{item.value.RATE_REQUESTED}}</td>
+                                            <td width="15%"><input class="form-control3" formControlName="APPROVED_RATE"
+                                                    type="text" />
+                                            </td>
+                                            <td width="19%"><textarea class="form-control3" formControlName="REMARKS"
+                                                    type="text"></textarea></td>
+                                            <td width="1%"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <h6 *ngIf="f5?.length == 0" class="text-center">No
+                                    Records !</h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -162,7 +244,7 @@
     <hr>
 </div>
 <div class="col-md-12 mt-3 mb-5">
-    <h6 class="pointer" (click)="srrcal = !srrcal">SRR Calculator
+    <h6 style="font-weight:600" class="pointer" (click)="srrcal = !srrcal">SRR Calculator
         <i *ngIf="!srrcal" class='bx bxs-down-arrow'></i>
         <i *ngIf="srrcal" class='bx bxs-up-arrow'></i>
     </h6>
@@ -179,10 +261,15 @@
                 </div>
             </div>
             <div class="col-md-9 mt-4">
-                <h6>POL : <small class="text-danger">
+                <h6 style="font-weight:600">POL : <small class="text-danger">
                         {{quotationDetails?.POL}}</small>
                     POD :
                     <small class="text-danger">{{quotationDetails?.POD}}</small>
+                </h6>
+                <h6 style="font-weight:600">Exchange Rates :
+                    <small class="text-danger">USD : {{usdRate}}</small> |
+                    <small class="text-danger">{{excRates1.CURRENCY_CODE}} : {{polRate}}</small> |
+                    <small class="text-danger">{{excRates2.CURRENCY_CODE}} : {{podRate}}</small>
                 </h6>
             </div>
         </div>
@@ -191,14 +278,14 @@
                 <div class="accordion mt-3" id="accordion" role="tablist">
                     <div class="card">
                         <div class="card-header" role="tab" id="heading-1">
-                            <h6 class="mb-0">
-                                <a data-bs-toggle="collapse" href="#collapse-1" aria-expanded="false"
-                                    aria-controls="collapse-1" data-abc="true" class="collapsed">
-                                    Freight Rates
+                            <h6 class="mb-0" style="font-weight: 600;">
+                                <a data-bs-toggle="collapse" href="#collapse-11" aria-expanded="false"
+                                    aria-controls="collapse-11" data-abc="true" class="collapsed">
+                                    <span class="fw-bold">Freight Charges</span>
                                 </a>
                             </h6>
                         </div>
-                        <div id="collapse-1" class="collapse show" role="tabpanel" aria-labelledby="heading-1"
+                        <div id="collapse-11" class="collapse show" role="tabpanel" aria-labelledby="heading-1"
                             data-bs-parent="#accordion">
                             <div class="card-body">
                                 <div class="col-md-12">
@@ -207,17 +294,17 @@
                                             <tr>
                                                 <th width="15%">No</th>
                                                 <th width="35%">Charge Code</th>
-                                                <th width="30%">Standard Rate</th>
-                                                <th width="20%">Requested</th>
+                                                <th width="25%">Cost</th>
+                                                <th width="25%">Requested (Income)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let item of f0;let i = index" [formGroup]="item">
                                                 <td width="15%">{{i + 1}}</td>
                                                 <td width="35%">{{item.value.CHARGE_CODE}}</td>
-                                                <td width="30%">{{item.value.CURRENCY}}
-                                                    {{item.value.STANDARD_RATE}}</td>
-                                                <td width="20%"><input type="text" class="form-control2"
+                                                <td width="25%">{{item.value.CURRENCY}} {{item.value.STANDARD_RATE}}
+                                                </td>
+                                                <td width="25%"><input type="text" class="form-control2"
                                                         (keypress)="numericOnly($event)"
                                                         formControlName="RATE_REQUESTED" /></td>
                                             </tr>
@@ -231,13 +318,13 @@
                     <div class="card">
                         <div class="card-header" role="tab" id="heading-4">
                             <h6 class="mb-0">
-                                <a data-bs-toggle="collapse" href="#collapse-4" aria-expanded="false"
-                                    aria-controls="collapse-4" data-abc="true" class="collapsed">
-                                    POL Charges
+                                <a data-bs-toggle="collapse" href="#collapse-44" aria-expanded="false"
+                                    aria-controls="collapse-44" data-abc="true" class="collapsed">
+                                    <span class="fw-bold">POL Charges</span>
                                 </a>
                             </h6>
                         </div>
-                        <div id="collapse-4" class="collapse" role="tabpanel" aria-labelledby="heading-4"
+                        <div id="collapse-44" class="collapse" role="tabpanel" aria-labelledby="heading-4"
                             data-bs-parent="#accordion">
                             <div class="card-body">
                                 <div class="col-md-12">
@@ -246,17 +333,18 @@
                                             <tr>
                                                 <th width="15%">No</th>
                                                 <th width="35%">Charge Code</th>
-                                                <th width="30%">Standard Rate</th>
+                                                <th width="15%">Cost</th>
+                                                <th width="15%">Income</th>
                                                 <th width="20%">Requested</th>
-
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let item of f2; let j=index" [formGroup]="item">
-                                                <td width="15%">{{j+1}}</td>
+                                                <td width="15%">{{j + 1}}</td>
                                                 <td width="35%">{{item.value.CHARGE_CODE}}</td>
-                                                <td width="30%">{{item.value.CURRENCY}}
-                                                    {{item.value.STANDARD_RATE}}</td>
+                                                <td width="15%">{{item.value.CURRENCY}} {{item.value.COST}}</td>
+                                                <td width="15%">{{item.value.CURRENCY}} {{item.value.STANDARD_RATE}}
+                                                </td>
                                                 <td width="20%"><input type="text" class="form-control2"
                                                         (keypress)="numericOnly($event)"
                                                         formControlName="RATE_REQUESTED" /></td>
@@ -270,13 +358,13 @@
                     <div class="card">
                         <div class="card-header" role="tab" id="heading-5">
                             <h6 class="mb-0">
-                                <a data-bs-toggle="collapse" href="#collapse-5" aria-expanded="false"
-                                    aria-controls="collapse-5" data-abc="true" class="collapsed">
-                                    POD Charges
+                                <a data-bs-toggle="collapse" href="#collapse-55" aria-expanded="false"
+                                    aria-controls="collapse-55" data-abc="true" class="collapsed">
+                                    <span class="fw-bold">POD Charges</span>
                                 </a>
                             </h6>
                         </div>
-                        <div id="collapse-5" class="collapse" role="tabpanel" aria-labelledby="heading-5"
+                        <div id="collapse-55" class="collapse" role="tabpanel" aria-labelledby="heading-5"
                             data-bs-parent="#accordion">
                             <div class="card-body">
                                 <div class="col-md-12">
@@ -285,16 +373,18 @@
                                             <tr>
                                                 <th width="15%">No</th>
                                                 <th width="35%">Charge Code</th>
-                                                <th width="30%">Standard Rate</th>
+                                                <th width="15%">Cost</th>
+                                                <th width="15%">Income</th>
                                                 <th width="20%">Requested</th>
-
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let item of f3;let i = index" [formGroup]="item">
                                                 <td width="15%">{{i + 1}}</td>
                                                 <td width="35%">{{item.value.CHARGE_CODE}}</td>
-                                                <td width="30%">{{item.value.CURRENCY}} {{item.value.RATE}}</td>
+                                                <td width="15%">{{item.value.CURRENCY}} {{item.value.COST}}</td>
+                                                <td width="15%">{{item.value.CURRENCY}} {{item.value.STANDARD_RATE}}
+                                                </td>
                                                 <td width="20%"><input type="text" maxlength="15" class="form-control2"
                                                         (keypress)="numericOnly($event)"
                                                         formControlName="RATE_REQUESTED" /></td>

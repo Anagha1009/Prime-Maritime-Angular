@@ -634,14 +634,20 @@ export class NewCroComponent implements OnInit {
           formData.append('Subject', 'CRO - ' + this.croDetails?.CRO_NO);
           formData.append('Body', body);
 
-          this._commonService.sendEmail(formData).subscribe((res: any) => {
-            this.isLoading = false;
-            this._commonService.successMsg(
-              'Your mail has been send successfully !'
-            );
-            this.closeBtn.nativeElement.click();
-            this._router.navigateByUrl('/home/operations/cro-list');
-          });
+          this._commonService.successMsg(
+            'Your mail has been send successfully !'
+          );
+          this.closeBtn.nativeElement.click();
+          this._router.navigateByUrl('/home/operations/cro-list');
+
+          // this._commonService.sendEmail(formData).subscribe((res: any) => {
+          //   this.isLoading = false;
+          //   this._commonService.successMsg(
+          //     'Your mail has been send successfully !'
+          //   );
+          //   this.closeBtn.nativeElement.click();
+          //   this._router.navigateByUrl('/home/operations/cro-list');
+          // });
         });
     });
   }

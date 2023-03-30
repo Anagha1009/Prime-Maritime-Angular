@@ -13,6 +13,7 @@ import { CommonService } from 'src/app/services/common.service';
 export class NewTrackComponent implements OnInit {
   //mainrequest
   bkno: any = '';
+  bookingno: any = '';
   crno: any = '';
   currentContNo: any = '';
   currentActivity: any = '';
@@ -38,10 +39,19 @@ export class NewTrackComponent implements OnInit {
     this.previewDetails = false;
     this.previewNoData = false;
     if (this.bkno == '') {
-      alert('Please enter container number');
+      alert('Please enter BOOKING or CRO number');
     } else {
+      if (this.bkno.includes('CRO')) {
+        this.crno = this.bkno;
+        this.bookingno = '';
+      } else if (this.bkno.includes('BK')) {
+        this.bookingno = this.bkno;
+        this.crno = '';
+      } else {
+        alert('Incorrect booking or cro number! Try again!');
+      }
       this._cmService
-        .getContainerMovementBooking(this.bkno, this.crno)
+        .getContainerMovementBooking(this.bookingno, this.crno)
         .subscribe(
           (res: any) => {
             debugger;

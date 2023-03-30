@@ -42,7 +42,7 @@ export class PmLandingComponent implements OnInit {
 
   GetCompanyMasterList() {
     this._commonService.destroyDT();
-
+    // this._commonService.getDT();
     this._srrReportService.getContainerDetentionList().subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.containerDetentionList = res.Data;

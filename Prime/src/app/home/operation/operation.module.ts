@@ -21,6 +21,7 @@ import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
 import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 import { MergeBlComponent } from './merge-bl/merge-bl.component';
 import { NewDo2Component } from './new-do2/new-do2.component';
+import { TdrListComponent } from './tdr-list/tdr-list.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { NewDo2Component } from './new-do2/new-do2.component';
     NewCroComponent,
     NewDo2Component,
     TdrComponent,
+    TdrListComponent,
     ExcRateListComponent,
     NewInvoiceComponent,
     InvoiceListComponent,

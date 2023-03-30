@@ -1,6 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Bl, MergeBl } from 'src/app/models/bl';
 import { BlService } from 'src/app/services/bl.service';
 import { CommonService } from 'src/app/services/common.service';
@@ -30,6 +31,7 @@ export class MergeBlComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _commonService: CommonService,
     private _blService: BlService,
+    private _router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -85,12 +87,12 @@ export class MergeBlComponent implements OnInit {
       AGENT_CODE: [''],
       AGENT_NAME: [''],
       CREATED_BY: [''],
-      CREATED_DATE:[new Date().toString()],
+      CREATED_DATE:[new Date()],
       CONTAINER_LIST: new FormArray([]),
       //CONTAINER_LIST2: new FormArray([]),
     });
 
-    this.minDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.minDate = formatDate(new Date(), 'dd-MM-yyyy', 'en');
   }
 
   getDropdown(){
@@ -129,9 +131,24 @@ export class MergeBlComponent implements OnInit {
   }
 
   cancelBL(){
-
+    this.mergeForm.get('PORT_OF_LOADING').setValue('');
+    this.mergeForm.get('PORT_OF_DISCHARGE').setValue('');
+    this.mergeForm.get('SHIPPER').setValue('');
+    this.mergeForm.get('CONSIGNEE').setValue('');
+    this.mergeForm.get('VESSEL_NAME').setValue('');
+    this.mergeForm.get('VOYAGE_NO').setValue('');
+    this.mergeForm.get('NOTIFY_PARTY').setValue('');
   }
 
+  resetMergeBL(){
+    this.mergeBLForm.reset();
+    const add = this.mergeForm.get('BL_MERGE_LIST') as FormArray;
+    add.clear();
+    this.showF1Form=false;
+    this.hideHistory=false;
+    this.isMergeBL=false;
+
+  }
   searchBL(){
     
     this.submitted=true;
@@ -304,6 +321,8 @@ export class MergeBlComponent implements OnInit {
               })
             );
           });
+
+          this.mergeBLForm.get('TOTAL_CONTAINERS').setValue(this.mergeBLForm.get('CONTAINER_LIST').value.length);
           
         }
         
@@ -392,19 +411,9 @@ export class MergeBlComponent implements OnInit {
             if (res.responseCode == 200) {
               //this._router.navigateByUrl('/home/new-bl');
               this._commonService.successMsg('BL created Successfully');
-              // this.getBLHistory();
-              // this.tabs = '1';
-              // this.isBLForm = false;
-              // this.hideHistory = false;
-
-              //generate pdf on create / split
-              //this.generateBLPdf();
-
-              //refresh required fields
               const add = this.mergeBLForm.get('CONTAINER_LIST') as FormArray;
               add.clear();
-              // this.blNo = '';
-              // this.onUpload = false;
+              this._router.navigateByUrl('/home/operations/new-bl');
             }
           });
         //this.ContainerDescription();
