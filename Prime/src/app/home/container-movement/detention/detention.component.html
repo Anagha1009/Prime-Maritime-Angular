@@ -1,0 +1,35 @@
+<div class="section-title">
+    <h2>Detention List</h2>
+</div>
+<div class="container">
+    <table class="ratetable " id="data-table-config">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Container No</th>
+                <th>BL No</th>
+                <th>POD Free Days</th>
+                <th>Vessel Name</th>
+                <th>DCHF Date</th>
+                <th>RCCN Date</th>
+                <th>Export Detention</th>
+                <th>Import Detention</th>
+                <th>RCCN Month</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of containerDetentionList; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{item.CONTAINER_NO}}</td>
+                <td>{{item.BL_NO}}</td>
+                <td>{{item.POD_FREE_DAYS}}</td>
+                <td>{{item.VESSEL_NAME}}</td>
+                <td>{{item.DCHF_DATE}}</td>
+                <td>{{item.RCCN_DATE}}</td>
+                <td>{{item.POL_DETENTION}}</td>
+                <td>{{item.POD_DETENTION}}</td>
+                <td>{{item.RCCN_MONTH}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

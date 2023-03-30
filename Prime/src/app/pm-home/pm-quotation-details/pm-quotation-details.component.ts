@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { QUOTATION } from 'src/app/models/quotation';
@@ -28,6 +28,9 @@ export class PmQuotationDetailsComponent implements OnInit {
   SRR_NO: any = '';
   calcForm: FormGroup;
   requestOptions: any;
+
+  @ViewChild('openScBtn') openScBtn: ElementRef;
+  @ViewChild('closeScBtn') closeScBtn: ElementRef;
 
   constructor(
     private _quotationService: QuotationService,
@@ -76,10 +79,7 @@ export class PmQuotationDetailsComponent implements OnInit {
         });
 
         this.commodityDetails = res.Data.SRR_COMMODITIES;
-
-        debugger;
         this.container = this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS;
-        this.getRates(this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS);
       }
     });
   }
@@ -158,6 +158,7 @@ export class PmQuotationDetailsComponent implements OnInit {
   }
 
   getRates(container: any) {
+    debugger;
     var srr = new QUOTATION();
     srr.POL = this.quotationDetails?.SRR_NO.split('-')[0];
     srr.POD = this.quotationDetails?.SRR_NO.split('-')[1];
@@ -194,85 +195,41 @@ export class PmQuotationDetailsComponent implements OnInit {
     this._quotationService
       .getExcRates(add2.at(0)?.get('CURRENCY')?.value)
       .subscribe((res: any) => {
-        debugger;
         if (res.ResponseCode == 200) {
           this.excRates1 = res.Data;
           //convert pol aed to usd
           this.polRate = this.excRates1.TT_SELLING;
+        } else {
+          this._commonService.warnMsg('Please enter exhange rates first!');
         }
       });
 
     this._quotationService
       .getExcRates(add3.at(0)?.get('CURRENCY')?.value)
       .subscribe((res: any) => {
-        debugger;
         if (res.ResponseCode == 200) {
           this.excRates2 = res.Data;
           //convert pol aed to usd
           this.podRate = this.excRates2.TT_SELLING;
+        } else {
+          this._commonService.warnMsg('Please enter exhange rates first!');
         }
       });
 
     this._quotationService.getExcRates('USD').subscribe((res: any) => {
-      debugger;
       if (res.ResponseCode == 200) {
         this.usdExcRate = res.Data;
         //usd rate
         this.usdRate = this.usdExcRate.TT_SELLING;
+      } else {
+        this._commonService.warnMsg('Please enter exhange rates first!');
       }
     });
 
     this._quotationService.getCalRate(srr).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
-        debugger;
         this.calcForm.get('LADEN_BACK_COST').setValue(res.Data.LADEN_BACK_COST);
         this.calcForm.get('EMPTY_BACK_COST').setValue(res.Data.EMPTY_BACK_COST);
-
-        // const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
-        // add1.clear();
-        // res.Data.FREIGHTLIST.forEach((element: any) => {
-        //   add1.push(this._formBuilder.group(element));
-        // });
-
-        // const add2 = this.calcForm.get('POL_EXP') as FormArray;
-        // add2.clear();
-        // res.Data.POL_EXP.forEach((element: any) => {
-        //   add2.push(this._formBuilder.group(element));
-        // });
-
-        // this._quotationService
-        //   .getExcRates(add2.at(0)?.get('CURRENCY')?.value)
-        //   .subscribe((res: any) => {
-        //     if (res.ResponseCode == 200) {
-        //       this.excRates1 = res.Data;
-        //       //convert pol aed to usd
-        //       this.polRate = this.excRates1.TT_SELLING;
-        //     }
-        //   });
-
-        // const add3 = this.calcForm.get('POD_IMP') as FormArray;
-        // add3.clear();
-        // res.Data.POD_IMP.forEach((element: any) => {
-        //   add3.push(this._formBuilder.group(element));
-        // });
-
-        // this._quotationService
-        //   .getExcRates(add3.at(0)?.get('CURRENCY')?.value)
-        //   .subscribe((res: any) => {
-        //     if (res.ResponseCode == 200) {
-        //       this.excRates2 = res.Data;
-        //       //convert pol aed to usd
-        //       this.podRate = this.excRates2.TT_SELLING;
-        //     }
-        //   });
-
-        // this._quotationService.getExcRates('USD').subscribe((res: any) => {
-        //   if (res.ResponseCode == 200) {
-        //     this.usdExcRate = res.Data;
-        //     //usd rate
-        //     this.usdRate = this.usdExcRate.TT_SELLING;
-        //   }
-        // });
       }
     });
   }
@@ -365,5 +322,9 @@ export class PmQuotationDetailsComponent implements OnInit {
     }
 
     return Math.round(total * 100) / 100;
+  }
+  letsCalculate() {
+    this.getRates(this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS);
+    this.openScBtn.nativeElement.click();
   }
 }

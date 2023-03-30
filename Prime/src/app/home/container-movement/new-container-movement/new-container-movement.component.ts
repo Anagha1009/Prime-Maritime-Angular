@@ -2,6 +2,7 @@ import { formatDate } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { isValidProp } from 'igniteui-angular-core';
 import { CONTAINER_MOVEMENT } from 'src/app/models/cm';
 import { CmService } from 'src/app/services/cm.service';
 import { CommonService } from 'src/app/services/common.service';
@@ -202,6 +203,8 @@ export class NewContainerMovementComponent implements OnInit {
       });
     });
 
+    console.log(JSON.stringify(containerList));
+
     this._CMService
       .uploadContMov(JSON.stringify(containerList))
       .subscribe((res: any) => {
@@ -284,9 +287,10 @@ export class NewContainerMovementComponent implements OnInit {
         reader.onload = (event) => {
           const data = reader.result;
           workBook = XLSX.read(data, { type: 'binary', cellDates: true });
+
           jsonData = workBook.SheetNames.reduce((initial: any, name: any) => {
             const sheet = workBook.Sheets[name];
-            initial[name] = XLSX.utils.sheet_to_json(sheet);
+            initial[name] = XLSX.utils.sheet_to_json(sheet, { defval: '' });
             return initial;
           }, {});
 
@@ -301,7 +305,7 @@ export class NewContainerMovementComponent implements OnInit {
 
           var keyXlArray: any = [];
 
-          Object.keys(jsonData['CM'][0]).forEach(function (key) {
+          Object.keys(jsonData['Sheet1'][0]).forEach(function (key) {
             keyXlArray.push(key);
           });
 
@@ -310,13 +314,13 @@ export class NewContainerMovementComponent implements OnInit {
           if (result) {
             this.cmTable = [];
 
-            this.cmTable = jsonData['CM'];
+            this.cmTable = jsonData['Sheet1'];
             var isValid = true;
+            var isValidBKCRO = true;
 
             this.cmTable.forEach((element) => {
               if (
                 !this.checkNullEmpty([
-                  element['BOOKING_NO / CRO_NO'],
                   element.CONTAINER_NO,
                   element.ACTIVITY,
                   element.ACTIVITY_DATE,
@@ -326,20 +330,33 @@ export class NewContainerMovementComponent implements OnInit {
               ) {
                 isValid = false;
               }
+
+              if (element['BOOKING_NO / CRO_NO'] != '') {
+                var val = element['BOOKING_NO / CRO_NO'].substring(0, 2);
+                if (val == 'BK' || val == 'CR') {
+                  isValidBKCRO = true;
+                } else {
+                  isValidBKCRO = false;
+                }
+              }
             });
 
             this._commonService.destroyDT();
             if (isValid) {
-              this.cmTable = this.cmTable.filter(
-                (v, i, a) =>
-                  a.findIndex(
-                    (v2) => JSON.stringify(v2) === JSON.stringify(v)
-                  ) === i
-              );
+              if (isValidBKCRO) {
+                this.cmTable = this.cmTable.filter(
+                  (v, i, a) =>
+                    a.findIndex(
+                      (v2) => JSON.stringify(v2) === JSON.stringify(v)
+                    ) === i
+                );
 
-              this._commonService.getDT();
+                this._commonService.getDT();
 
-              this.onUpload = true;
+                this.onUpload = true;
+              } else {
+                alert('Booking No / CRO No is invalid !');
+              }
             } else {
               alert('Incorrect data!');
             }

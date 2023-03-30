@@ -193,7 +193,7 @@ export class ContainerAllotmentComponent implements OnInit {
         });
     } else {
       this._commonService.errorMsg(
-        'Sorry! You cannot enter more containers than containers in CRO !'
+        'Sorry! You cannot enter more containers than containers in CRO & the containers alloted !'
       );
     }
   }
