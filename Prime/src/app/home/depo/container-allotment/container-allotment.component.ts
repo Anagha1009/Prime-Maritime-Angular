@@ -168,23 +168,34 @@ export class ContainerAllotmentComponent implements OnInit {
   }
 
   insertContainer() {
-    this.containerForm
-      .get('CREATED_BY')
-      ?.setValue(this._commonService.getUserName());
-    this.containerForm
-      .get('DEPO_CODE')
-      ?.setValue(this._commonService.getUserCode());
-    this.containerForm.get('BOOKING_NO')?.setValue(this.croDetails?.BOOKING_NO);
+    if (
+      this.containerForm.value.CONTAINER_LIST.length <=
+      this.croDetails?.CRO_QTY - this.croDetails?.ALLOTED_CONTAINERS
+    ) {
+      this.containerForm
+        .get('CREATED_BY')
+        ?.setValue(this._commonService.getUserName());
+      this.containerForm
+        .get('DEPO_CODE')
+        ?.setValue(this._commonService.getUserCode());
+      this.containerForm
+        .get('BOOKING_NO')
+        ?.setValue(this.croDetails?.BOOKING_NO);
 
-    this._depoService
-      .createContainer(JSON.stringify(this.containerForm.value))
-      .subscribe((res: any) => {
-        if (res.responseCode == 200) {
-          this._commonService.successMsg('Container is alloted successfully');
-          this.closeBtn1.nativeElement.click();
-          this.getContainerAllotedList();
-        }
-      });
+      this._depoService
+        .createContainer(JSON.stringify(this.containerForm.value))
+        .subscribe((res: any) => {
+          if (res.responseCode == 200) {
+            this._commonService.successMsg('Container is alloted successfully');
+            this.closeBtn1.nativeElement.click();
+            this.getContainerAllotedList();
+          }
+        });
+    } else {
+      this._commonService.errorMsg(
+        'Sorry! You cannot enter more containers than containers in CRO & the containers alloted !'
+      );
+    }
   }
 
   getDetails() {

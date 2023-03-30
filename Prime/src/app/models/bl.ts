@@ -1,5 +1,5 @@
 export class Bl {
-  AGENT_CODE: any = 0;
+  AGENT_CODE: any = '';
   BOOKING_NO: any = '';
   CRO_NO: any = '';
   BL_NO: any = '';
@@ -11,4 +11,14 @@ export class Bl {
   FROM_DATE: string = '';
   TO_DATE: string = '';
   INVOICE_NO: string = '';
+}
+
+export class MergeBl {
+  POL: any = '';
+  POD: any = '';
+  SHIPPER: any = '';
+  CONSIGNEE: any = '';
+  VESSEL_NAME: any = '';
+  VOYAGE_NO: any = '';
+  NOTIFY_PARTY: any = '';
 }

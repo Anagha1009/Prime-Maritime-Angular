@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { QUOTATION } from 'src/app/models/quotation';
@@ -29,6 +29,9 @@ export class PmQuotationDetailsComponent implements OnInit {
   calcForm: FormGroup;
   requestOptions: any;
 
+  @ViewChild('openScBtn') openScBtn: ElementRef;
+  @ViewChild('closeScBtn') closeScBtn: ElementRef;
+
   constructor(
     private _quotationService: QuotationService,
     private _formBuilder: FormBuilder,
@@ -51,23 +54,6 @@ export class PmQuotationDetailsComponent implements OnInit {
       LADEN_BACK_COST: [0],
       EMPTY_BACK_COST: [0],
     });
-
-    //   var myHeaders = new Headers();
-    //   myHeaders.append("apikey", "bklDvUuxUdnMLMN8QXZHE1sFDLwl4FEJ");
-
-    //   this.requestOptions = {
-    //     method: 'GET',
-    //     redirect: 'follow',
-    //     headers: myHeaders
-    //   };
-
-    //   fetch("https://api.apilayer.com/exchangerates_data/convert?to=usd&from=aed&amount=70", this.requestOptions)
-    // .then(response => response.text())
-    // .then(result => {
-    //   var json=JSON.parse(result);
-    //   console.log(json.result);
-    // })
-    // .catch(error => console.log('error', error));
   }
 
   getDetails() {
@@ -76,7 +62,6 @@ export class PmQuotationDetailsComponent implements OnInit {
     this._quotationService.getSRRDetails(quot).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.quotationDetails = res.Data;
-
         const add = this.rateForm.get('SRR_RATES') as FormArray;
         add.clear();
         res.Data.SRR_RATES.forEach((element: any) => {
@@ -94,9 +79,7 @@ export class PmQuotationDetailsComponent implements OnInit {
         });
 
         this.commodityDetails = res.Data.SRR_COMMODITIES;
-
         this.container = this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS;
-        this.getRates(this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS);
       }
     });
   }
@@ -107,7 +90,19 @@ export class PmQuotationDetailsComponent implements OnInit {
 
   get f1() {
     var x = this.rateForm.get('SRR_RATES') as FormArray;
-    return x.controls;
+    return x.controls.filter(
+      (x) => x.get('RATE_TYPE').value === 'FREIGHT_CHARGES'
+    );
+  }
+
+  get f4() {
+    var x = this.rateForm.get('SRR_RATES') as FormArray;
+    return x.controls.filter((x) => x.get('RATE_TYPE').value === 'POL CHARGES');
+  }
+
+  get f5() {
+    var x = this.rateForm.get('SRR_RATES') as FormArray;
+    return x.controls.filter((x) => x.get('RATE_TYPE').value === 'POD_CHARGES');
   }
 
   updateRate(item: any, value: string) {
@@ -120,7 +115,7 @@ export class PmQuotationDetailsComponent implements OnInit {
 
     srrRates.forEach((element: any) => {
       element.STATUS = value;
-      element.CREATED_BY = this._commonService.getUserName();
+      element.CREATED_BY = this._commonService.getUser().role;
 
       if (element.APPROVED_RATE != 0 && value == 'Approved') {
         isApproveValid = false;
@@ -163,6 +158,7 @@ export class PmQuotationDetailsComponent implements OnInit {
   }
 
   getRates(container: any) {
+    debugger;
     var srr = new QUOTATION();
     srr.POL = this.quotationDetails?.SRR_NO.split('-')[0];
     srr.POD = this.quotationDetails?.SRR_NO.split('-')[1];
@@ -170,83 +166,71 @@ export class PmQuotationDetailsComponent implements OnInit {
     srr.SRR_NO = this.quotationDetails?.SRR_NO;
     srr.NO_OF_CONTAINERS = container.split(' X ')[1];
 
+    const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
+    add1.clear();
+
+    this.quotationDetails.SRR_RATES.filter(
+      (x: any) => x.RATE_TYPE === 'FREIGHT_CHARGES'
+    ).forEach((element: any) => {
+      add1.push(this._formBuilder.group(element));
+    });
+
+    const add2 = this.calcForm.get('POL_EXP') as FormArray;
+    add2.clear();
+
+    this.quotationDetails.SRR_RATES.filter(
+      (x: any) => x.RATE_TYPE === 'POL CHARGES'
+    ).forEach((element: any) => {
+      add2.push(this._formBuilder.group(element));
+    });
+
+    const add3 = this.calcForm.get('POD_IMP') as FormArray;
+    add3.clear();
+    this.quotationDetails.SRR_RATES.filter(
+      (x: any) => x.RATE_TYPE === 'POD_CHARGES'
+    ).forEach((element: any) => {
+      add3.push(this._formBuilder.group(element));
+    });
+
+    this._quotationService
+      .getExcRates(add2.at(0)?.get('CURRENCY')?.value)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.excRates1 = res.Data;
+          //convert pol aed to usd
+          this.polRate = this.excRates1.TT_SELLING;
+        } else {
+          this._commonService.warnMsg('Please enter exhange rates first!');
+        }
+      });
+
+    this._quotationService
+      .getExcRates(add3.at(0)?.get('CURRENCY')?.value)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.excRates2 = res.Data;
+          //convert pol aed to usd
+          this.podRate = this.excRates2.TT_SELLING;
+        } else {
+          this._commonService.warnMsg('Please enter exhange rates first!');
+        }
+      });
+
+    this._quotationService.getExcRates('USD').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.usdExcRate = res.Data;
+        //usd rate
+        this.usdRate = this.usdExcRate.TT_SELLING;
+      } else {
+        this._commonService.warnMsg('Please enter exhange rates first!');
+      }
+    });
+
     this._quotationService.getCalRate(srr).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
-        debugger;
-        this.calcForm.patchValue(res.Data);
-
-        const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
-        add1.clear();
-        res.Data.FREIGHTLIST.forEach((element: any) => {
-          add1.push(this._formBuilder.group(element));
-        });
-
-        const add2 = this.calcForm.get('POL_EXP') as FormArray;
-        add2.clear();
-        res.Data.POL_EXP.forEach((element: any) => {
-          add2.push(this._formBuilder.group(element));
-        });
-
-        this._quotationService
-          .getExcRates(add2.at(0)?.get('CURRENCY')?.value)
-          .subscribe((res: any) => {
-            if (res.ResponseCode == 200) {
-              this.excRates1 = res.Data;
-              //convert pol aed to usd
-              this.polRate = this.excRates1.TT_SELLING;
-            }
-          });
-
-        const add3 = this.calcForm.get('POD_IMP') as FormArray;
-        add3.clear();
-        res.Data.POD_IMP.forEach((element: any) => {
-          add3.push(this._formBuilder.group(element));
-        });
-
-        this._quotationService
-          .getExcRates(add3.at(0)?.get('CURRENCY')?.value)
-          .subscribe((res: any) => {
-            if (res.ResponseCode == 200) {
-              this.excRates2 = res.Data;
-              //convert pol aed to usd
-              this.podRate = this.excRates2.TT_SELLING;
-            }
-          });
-
-        this._quotationService.getExcRates('USD').subscribe((res: any) => {
-          if (res.ResponseCode == 200) {
-            this.usdExcRate = res.Data;
-            //usd rate
-            this.usdRate = this.usdExcRate.TT_SELLING;
-          }
-        });
+        this.calcForm.get('LADEN_BACK_COST').setValue(res.Data.LADEN_BACK_COST);
+        this.calcForm.get('EMPTY_BACK_COST').setValue(res.Data.EMPTY_BACK_COST);
       }
-      // if (res.Data.hasOwnProperty('FREIGHTLIST')) {
-      //   const add1 = this.calcForm.get('FREIGHT_LIST') as FormArray;
-      //   add1.clear();
-      //   res.Data.FREIGHTLIST.forEach((element: any) => {
-      //     add1.push(this._formBuilder.group(element));
-      //   });
-      // }
-      // if (res.Data.hasOwnProperty('POL_EXP')) {
-      //   const add2 = this.calcForm.get('EXP_COST_LIST') as FormArray;
-      //   add2.clear();
-      //   res.Data.POL_EXP.forEach((element: any) => {
-      //     add2.push(this._formBuilder.group(element));
-      //   });
-      // }
-      // if (res.Data.hasOwnProperty('POD_IMP')) {
-      //   var add3 = this.calcForm.get('IMP_COST_LIST') as FormArray;
-      //   add3.clear();
-      //   res.Data.POD_IMP.forEach((element: any) => {
-      //     add3.push(this._formBuilder.group(element));
-      //   });
-      // }
-      // if (res.Data.hasOwnProperty('LADEN_BACK_COST')) {
-      //   this.calcForm
-      //     .get('LADEN_BACK_COST')
-      //     ?.setValue(res.Data.LADEN_BACK_COST);
-      // }
     });
   }
 
@@ -283,6 +267,7 @@ export class PmQuotationDetailsComponent implements OnInit {
       total1 += +rr;
     }
     total1 = total1 * this.polRate;
+
     total1 = total1 / this.usdRate;
 
     //POD
@@ -292,7 +277,6 @@ export class PmQuotationDetailsComponent implements OnInit {
     }
     total2 = total2 * this.podRate;
     total2 = total2 / this.usdRate;
-
     total = total1 + total2;
 
     //freights
@@ -338,5 +322,9 @@ export class PmQuotationDetailsComponent implements OnInit {
     }
 
     return Math.round(total * 100) / 100;
+  }
+  letsCalculate() {
+    this.getRates(this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS);
+    this.openScBtn.nativeElement.click();
   }
 }

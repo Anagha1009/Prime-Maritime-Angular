@@ -107,12 +107,16 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <h6>CRO No : <small class="text-danger me-2">{{croDetails?.CRO_NO}}</small>
+                        <h6 style="font-weight: 600;">CRO No : <small
+                                class="text-danger me-2">{{croDetails?.CRO_NO}}</small>
                             Booking No : <small class="text-danger me-2">{{croDetails?.BOOKING_NO}}</small>
-                            Container: <small class="text-danger"
+                        </h6>
+                        <h6 style="font-weight: 600;">
+                            Container: <small class="text-danger me-2"
                                 *ngFor="let item of croDetails?.ContainerList; let i = index">{{item.CONTAINER_TYPE}}
                                 x
-                                {{item.IMM_VOLUME_EXPECTED}}</small>
+                                {{croDetails?.CRO_QTY}}</small>
+                            Alloted : <small class="text-danger">{{croDetails?.ALLOTED_CONTAINERS}}</small>
                         </h6>
                     </div>
                     <form [formGroup]="containerForm">

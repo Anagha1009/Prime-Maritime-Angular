@@ -240,6 +240,7 @@ export class QuotationListComponent implements OnInit {
     quotation.AGENT_CODE = this._commonService.getUserCode();
     this._quotationService.getSRRDetails(quotation).subscribe(
       (res: any) => {
+        debugger;
         this.containerList = res.Data?.SRR_CONTAINERS;
 
         const add = this.containerForm.get('SRR_CONTAINERS') as FormArray;
@@ -535,8 +536,11 @@ export class QuotationListComponent implements OnInit {
       element.CREATED_BY = this._commonService.getUserName();
     });
 
+    console.log(JSON.stringify(this.rateForm.value.SRR_RATES));
+    debugger;
     this._quotationService.counterRate(this.rateForm.value.SRR_RATES).subscribe(
       (res: any) => {
+        debugger;
         if (res.responseCode == 200) {
           this._commonService.successMsg(
             'Your request is been ' + value == 'Approved'

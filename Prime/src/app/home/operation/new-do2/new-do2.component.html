@@ -1,0 +1,309 @@
+<div class="section-title">
+    <h2>New Delivery Order</h2>
+</div>
+<div class="container">
+    <a routerLink="/home/operations/do-list"><i class='bx bx-arrow-back'></i>Back to List</a>
+    <div class="col-md-4 mx-auto mt-5" *ngIf="!isData">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="form-label2">BL No<span class="text-danger">
+                                    *</span></label>
+                            <input type="text" [(ngModel)]="blNo" [ngClass]="{'invalid': submitted2 && blNo == ''}"
+                                class="form-control2" />
+                            <div *ngIf="submitted2 && blNo == ''" class="invalid-feedback">
+                                BL No is required</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mt-4">
+                        <button [disabled]="isLoading" (click)="getBLDetails()"
+                            class="form-btn-success btn-sm rounded-pill">Create DO<span *ngIf="isLoading"
+                                class="fa fa-spinner fa-spin"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 mt-5" *ngIf="isData">
+        <div class="row">
+            <div class="col-md-3">
+                <h6 style="font-weight: 600;">
+                    BL No : <small class="text-danger">{{blNo}}</small>
+                </h6>
+            </div>
+            <div class="col-md-2 offset-md-7 text-end">
+                <button (click)="isData = false;blNo = '';submitted2 = false" class="form-btn btn-sm w-100">New
+                    DO</button>
+            </div>
+        </div>
+        <hr>
+        <div class="col-md-10 mx-auto">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <form [formGroup]="doForm" class="mt-3">
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input formControlName="ARRIVAL_DATE" onkeypress="return false" type="date"
+                                        class="form-control"
+                                        [ngClass]="{'invalid': submitted && f.ARRIVAL_DATE.errors}" />
+                                    <label class="form-label">Vessel Arrival Date<span class="text-danger">
+                                            *</span></label>
+                                    <div *ngIf="submitted && f.ARRIVAL_DATE.errors" class="invalid-feedback">
+                                        Arrival Date is required </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="isIGM">
+                                <div class="form-group">
+                                    <input formControlName="IGM_NO" type="text" class="form-control"
+                                        [ngClass]="{'invalid': submitted && f.IGM_NO.errors}" />
+                                    <label class="form-label">IGM No<span class="text-danger">
+                                            *</span></label>
+                                    <div *ngIf="submitted && f.IGM_NO.errors" class="invalid-feedback">
+                                        IGM No is required</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="!isIGM">
+                                <div class="form-group">
+                                    <ng-select [ngClass]="{'invalid':submitted && f.ACCEPTANCE_LOCATION.errors}"
+                                        formControlName="ACCEPTANCE_LOCATION">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option *ngFor="let item of acceptanceLocationList"
+                                            value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        </ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Empty Letter Location<span class="text-danger">
+                                            *</span></label>
+                                    <div *ngIf="submitted && f.ACCEPTANCE_LOCATION.errors" class="invalid-feedback">
+                                        Empty Letter Location is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="isIGM">
+                                <div class="form-group">
+                                    <input formControlName="IGM_DATE" onkeypress="return false" type="date"
+                                        class="form-control" [ngClass]="{'invalid': submitted && f.IGM_DATE.errors}" />
+                                    <label class="form-label">IGM Date<span class="text-danger">
+                                            *</span></label>
+                                    <div *ngIf="submitted && f.IGM_DATE.errors" class="invalid-feedback">
+                                        IGM Date is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-4" *ngIf="isIGM">
+                                <div class="form-group">
+                                    <input formControlName="IGM_ITEM_NO" type="text" class="form-control"
+                                        [ngClass]="{'invalid': submitted && f.IGM_ITEM_NO.errors}" />
+                                    <label class="form-label">IGM Item No<span class="text-danger">
+                                            *</span></label>
+                                    <div *ngIf="submitted && f.IGM_ITEM_NO.errors" class="invalid-feedback">
+                                        IGM Item No is required</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="isIGM">
+                                <div class="form-group">
+                                    <ng-select [ngClass]="{'invalid':submitted && f.ACCEPTANCE_LOCATION.errors}"
+                                        formControlName="ACCEPTANCE_LOCATION">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option *ngFor="let item of acceptanceLocationList"
+                                            value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        </ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Empty Letter Location<span class="text-danger">
+                                            *</span></label>
+                                    <div *ngIf="submitted && f.ACCEPTANCE_LOCATION.errors" class="invalid-feedback">
+                                        Empty Letter Location is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input formControlName="LETTER_VALIDITY" onkeypress="return false" type="date"
+                                        class="form-control"
+                                        [ngClass]="{'invalid': submitted && f.LETTER_VALIDITY.errors}" />
+                                    <label class="form-label">Empty Letter Validity<span class="text-danger">
+                                            *</span></label>
+                                    <div *ngIf="submitted && f.IGM_DATE.errors" class="invalid-feedback">
+                                        Empty Letter Validity is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <ng-select [ngClass]="{'invalid':submitted && f.CLEARING_PARTY.errors}"
+                                        formControlName="CLEARING_PARTY">
+
+                                        <ng-option value="M" disabled>
+                                            <button class="form-btn rounded-pill btn-sm" data-bs-toggle="modal"
+                                                href="#cpModal">Add
+                                                Clearing Party</button>
+                                        </ng-option>
+                                        <ng-option value="" selected="true" disabled>--Select Clearing
+                                            Party--</ng-option>
+                                        <ng-option *ngFor="let cp of clearingPartyList" value="{{cp.NAME}}">{{cp.NAME}}
+                                        </ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Clearing Party<span class="text-danger">
+                                            *</span></label>
+                                    <div *ngIf="submitted && f.CLEARING_PARTY.errors" class="invalid-feedback">
+                                        Clearing Party is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <ng-select [ngClass]="{'invalid': submitted && f.SHIPPING_TERMS.errors}"
+                                        formControlName="SHIPPING_TERMS">
+                                        <ng-option value="" selected="true" disabled>--Select Shipping Terms--
+                                        </ng-option>
+                                        <ng-option value="DPD">DPD</ng-option>
+                                        <ng-option value="CFS">CFS</ng-option>
+                                        <ng-option value="OFF DOCK">OFF DOCK</ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Shipping Terms<span class="text-danger">
+                                            *</span></label>
+                                    <div *ngIf="submitted && f.SHIPPING_TERMS.errors" class="invalid-feedback">
+                                        Shipping Terms is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <h6 style="font-weight: 600;">Container List</h6>
+                    <hr>
+                    <div class="col-md-12 mb-3">
+                        <table class="ratetable" style="font-size: 15px;" id="data-table-config">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <label class="checkbox-wrap checkbox-primary me-2 mb-2">
+                                            <input #chckAll (click)="oncheck($event,1,'')" type="checkbox">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </th>
+                                    <th>No</th>
+                                    <th>Container No</th>
+                                    <th>Container Type</th>
+                                    <th>Container Size</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of containerList;let i = index">
+                                    <td>
+                                        <label class="checkbox-wrap checkbox-primary me-2">
+                                            <input id="{{'chck' + i}}" class="chck"
+                                                (click)="oncheck($event,2,item.CONTAINER_NO)" type="checkbox">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.CONTAINER_NO}}</td>
+                                    <td>{{item.CONTAINER_TYPE}}</td>
+                                    <td>{{item.CONTAINER_TYPE.substring(0,2)}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-5 offset-md-7">
+                        <div class="row">
+                            <div class="col-md-6 text-end">
+                                <button type="button" (click)="clearForm()"
+                                    class="form-btn-light w-100 me-2">Clear</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" (click)="createDO()" class="form-btn-primary w-100">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cpModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title w-100 text-center fw-bold" id="exampleModalLabel">Clearing Party</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="cpForm">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label2">Name <span class="text-danger">*</span></label>
+                                    <input type="text" [ngClass]="{'invalid':submitted1 && f1.NAME.errors}"
+                                        formControlName="NAME" class="form-control2">
+                                    <div *ngIf="submitted1 && f1.NAME.errors" class="invalid-feedback">
+                                        Please Enter Clearing Party Name
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label2">Email <span class="text-danger">*</span></label>
+                                    <input type="text" [ngClass]="{'invalid':submitted1 && f1.EMAIL_ID.errors}"
+                                        formControlName="EMAIL_ID" class="form-control2">
+                                    <div *ngIf="submitted1 && f1.EMAIL_ID.errors" class="invalid-feedback">
+                                        Please Enter Email
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label2">Location <span class="text-danger">*</span></label>
+                                    <input type="text" [ngClass]="{'invalid':submitted1 && f1.LOCATION.errors}"
+                                        formControlName="LOCATION" class="form-control2">
+                                    <div *ngIf="submitted1 && f1.LOCATION.errors" class="invalid-feedback">
+                                        Please Enter Location
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label2">Contact No.</label>
+                                    <input type="text" [ngClass]="{'invalid':submitted1 && f1.CONTACT.errors}"
+                                        formControlName="CONTACT" class="form-control2">
+                                    <div *ngIf="submitted1 && f1.CONTACT.errors" class="invalid-feedback">
+                                        Please Enter Contact
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label2">Address</label>
+                                    <textarea type="text" [ngClass]="{'invalid':submitted1 && f1.ADDRESS.errors}"
+                                        formControlName="ADDRESS" class="form-control2"></textarea>
+                                    <div *ngIf="submitted1 && f1.ADDRESS.errors" class="invalid-feedback">
+                                        Please Enter Address
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-6 text-end">
+                        <button class="form-btn-light w-100" (click)="cpForm.reset();">Clear</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="form-btn w-100" (click)="saveCP()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

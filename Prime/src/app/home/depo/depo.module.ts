@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { DepoRoutingModule } from './depo-routing.module';
 import { ContainerAllotmentComponent } from './container-allotment/container-allotment.component';
-import { ContainerAllotmentListComponent } from './container-allotment-list/container-allotment-list.component';
 import { DepoDashboardComponent } from './depo-dashboard/depo-dashboard.component';
 import { DetentionListComponent } from './detention-list/detention-list.component';
 import { DetentionWaverRequestComponent } from './detention-waver-request/detention-waver-request.component';
@@ -16,16 +15,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { DataTablesModule } from 'angular-datatables';
 
-
 @NgModule({
   declarations: [
     ContainerAllotmentComponent,
-    ContainerAllotmentListComponent,
     DepoDashboardComponent,
     DetentionListComponent,
     DetentionWaverRequestComponent,
     MrRequestComponent,
-    MrRequestListComponent
+    MrRequestListComponent,
   ],
   imports: [
     CommonModule,
@@ -36,7 +33,7 @@ import { DataTablesModule } from 'angular-datatables';
     HttpClientModule,
     TranslateModule,
     DataTablesModule,
-    DepoRoutingModule
-  ]
+    DepoRoutingModule,
+  ],
 })
-export class DepoModule { }
+export class DepoModule {}

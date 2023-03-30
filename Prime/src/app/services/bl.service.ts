@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
-import { Bl } from '../models/bl';
+import { Bl, MergeBl } from '../models/bl';
 import { CARGO_MANIFEST } from '../models/manifest';
 
 @Injectable({
@@ -85,8 +85,10 @@ export class BlService {
       this.BASE_URL +
         'BL/GetCargoManifestList?AGENT_CODE=' +
         BL.AGENT_CODE +
-        '&BL_NO=' +
-        BL.BL_NO,
+        '&VESSEL_NAME=' +
+        BL.VESSEL_NAME +
+        '&VOYAGE_NO=' +
+        BL.VOYAGE_NO,
       this.httpOptions
     );
   }
@@ -94,6 +96,28 @@ export class BlService {
   getBLHistory(agentCode: any) {
     return this._http.get<any>(
       this.BASE_URL + 'BL/GetBLHistory?AGENT_CODE=' + agentCode,
+      this.httpOptions
+    );
+  }
+
+  getBLForMerge(bl: MergeBl) {
+    debugger;
+    return this._http.get<any>(
+      this.BASE_URL +
+        'BL/GetBLFORMERGE?PORT_OF_LOADING=' +
+        bl.POL +
+        '&PORT_OF_DISCHARGE=' +
+        bl.POD +
+        '&SHIPPER=' +
+        bl.SHIPPER +
+        '&CONSIGNEE=' +
+        bl.CONSIGNEE +
+        '&VESSEL_NAME=' +
+        bl.VESSEL_NAME +
+        '&VOYAGE_NO=' +
+        bl.VOYAGE_NO +
+        '&NOTIFY_PARTY=' +
+        bl.NOTIFY_PARTY,
       this.httpOptions
     );
   }

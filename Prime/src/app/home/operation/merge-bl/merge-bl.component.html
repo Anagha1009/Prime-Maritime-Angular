@@ -1,0 +1,502 @@
+<div class="section-title">
+    <h2>Merge BL</h2>
+</div>
+
+<section class="services">
+    <div>
+        <div class="container mt-4">
+            <div class="row mt-4">
+                <form [formGroup]="mergeForm">
+                    <div class="col-md-12">
+                        <div class="row mb-2">
+                            <div class="row">
+                                <div class="col-md-12" [hidden]="hideHistory">
+                                    <a (click)="hideHistory=true;showF1Form=true;" class="pointer" style="color: #0d6efd;"><i class='bx bx-arrow-back'></i>Back to List</a>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered" id="data-table-config">
+                                            <thead>
+                                                <tr>
+                                                    <th><input type="checkbox"
+                                                        (change)="getContainerList(1,$event,-1)" /></th>
+                                                    <th>Sr No</th>
+                                                    <th width="15%">BL No</th>
+                                                    <th width="15%">Shipper Name</th>
+                                                    <th width="7%">BL Date</th>
+                                                    <th width="15%">BL Issue Place</th>
+                                                    <th width="15%">Cons. Name</th>
+                                                    <th width="5%">POL</th>
+                                                    <th width="5%">POD</th>
+                                                    <!-- <th width="9%">Status</th> -->
+                                                    <!-- <th width="5%">Action</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                                <tr class="alert" role="alert" *ngFor="let item of m;let i = index" [formGroup]="getf1(item)">
+                                                    <td class="col-md-1"><input id="chck{{i}}" (change)="getContainerList(item,$event,i)"
+                                                        type="checkbox" />
+                                                    <td class="col-md-1">{{i+1}}</td>
+                                                    <td width="15%">
+                                                        {{mergeForm.value.BL_HISTORY_LIST[i].BL_NO}}
+                                                       
+                                                    </td>
+                                                    <td width="15%">
+                                                        {{mergeForm.value.BL_HISTORY_LIST[i].SHIPPER}}
+                                                        
+                                                    </td>
+                                                    <td width="7%">
+                                                        {{mergeForm.value.BL_HISTORY_LIST[i].BL_ISSUE_DATE | date:'mediumDate'}}
+                                                        
+                                                    </td>
+                                                    <td width="15%">
+                                                        {{mergeForm.value.BL_HISTORY_LIST[i].BL_ISSUE_PLACE}}
+                                                    </td>
+                                                    <td width="15%">
+                                                        {{mergeForm.value.BL_HISTORY_LIST[i].CONSIGNEE}}
+
+                                                    </td>
+                                                    <td width="5%">
+                                                        {{mergeForm.value.BL_HISTORY_LIST[i].PORT_OF_LOADING}}
+                                                        
+                                                    </td>
+                                                    <td width="5%">
+                                                        {{mergeForm.value.BL_HISTORY_LIST[i].PORT_OF_DISCHARGE}}
+                                                        
+                                                    </td>
+                                                    <!-- <td width="9%" class="status"><span
+                                                        [class]="mergeForm.value.BL_HISTORY_LIST.BL_STATUS == 'Drafted' ? 'waiting' : mergeForm.value.BL_HISTORY_LIST.BL_STATUS == 'Finalized' ? 'active' : 'rejected'">{{mergeForm.value.BL_HISTORY_LIST.BL_STATUS}}</span>
+                                                        
+                                                    </td> -->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 offset-md-6 text-end">
+                                            <button type="button" class="form-btn" style="margin-right: 6px;" (click)="mergeBL()">Merge</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="isMergeBL">
+                                <form [formGroup]="mergeBLForm">
+                                    <a (click)="resetMergeBL()" class="pointer" style="color: #0d6efd;"><i class='bx bx-arrow-back'></i>Back to List</a>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Shipper Name</label>
+                                                <textarea type="text" formControlName="SHIPPER" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.SHIPPER.errors}"
+                                                    style="overflow:hidden;height: max-content;"></textarea>
+                                                <div *ngIf="submitted1 && blf.SHIPPER.errors" class="invalid-feedback">Please
+                                                        Enter Shipper Name </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Shipper Address</label>
+                                                <textarea type="text" formControlName="SHIPPER_ADDRESS" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.SHIPPER_ADDRESS.errors}"
+                                                    style="overflow:hidden;height: max-content;"></textarea>
+                                                <div *ngIf="submitted1 && blf.SHIPPER_ADDRESS.errors" class="invalid-feedback">Please
+                                                        Enter Shipper Address </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Consignee Name</label>
+                                                <textarea type="text" formControlName="CONSIGNEE" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.CONSIGNEE.errors}"
+                                                    style="overflow:hidden;height: max-content;"></textarea>
+                                                <div *ngIf="submitted1 && blf.CONSIGNEE.errors" class="invalid-feedback">Please
+                                                        Enter Consignee Name </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Consignee Address</label>
+                                                <textarea type="text" formControlName="CONSIGNEE_ADDRESS" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.CONSIGNEE_ADDRESS.errors}"
+                                                    style="overflow:hidden;height: max-content;"></textarea>
+                                                    <div *ngIf="submitted1 && blf.CONSIGNEE_ADDRESS.errors" class="invalid-feedback">Please
+                                                        Enter Consignee Address </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Notify Party</label>
+                                                <input type="text" formControlName="NOTIFY_PARTY" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.NOTIFY_PARTY.errors}"/>
+                                                <div *ngIf="submitted1 && blf.NOTIFY_PARTY.errors" class="invalid-feedback">Please
+                                                    Enter Notify Party</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Notify Party Address</label>
+                                                <textarea type="text" formControlName="NOTIFY_PARTY_ADDRESS" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.NOTIFY_PARTY_ADDRESS.errors}"
+                                                    style="overflow:hidden;height: max-content;"></textarea>
+                                                    <div *ngIf="submitted1 && blf.NOTIFY_PARTY_ADDRESS.errors" class="invalid-feedback">Please
+                                                        Enter Notify Party Address</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Pre Carriage by</label>
+                                                <input formControlName="PRE_CARRIAGE_BY" type="text" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.PRE_CARRIAGE_BY.errors}"/>
+                                                <div *ngIf="submitted1 && blf.PRE_CARRIAGE_BY.errors" class="invalid-feedback">Please
+                                                    Enter Pre Carriage By</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Place of Receipt</label>
+                                                <input formControlName="PLACE_OF_RECEIPT" type="text" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.PLACE_OF_RECEIPT.errors}"/>
+                                                <div *ngIf="submitted1 && blf.PLACE_OF_RECEIPT.errors" class="invalid-feedback">Please
+                                                    Enter Place of Receipt</div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Vessel Name</label>
+                                                <input formControlName="VESSEL_NAME" type="text" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.VESSEL_NAME.errors}"/>
+                                                <div *ngIf="submitted1 && blf.VESSEL_NAME.errors" class="invalid-feedback">Please
+                                                    Enter Vessel Name</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Voyage No</label>
+                                                <input formControlName="VOYAGE_NO" type="text" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.VOYAGE_NO.errors}"/>
+                                                <div *ngIf="submitted1 && blf.VOYAGE_NO.errors" class="invalid-feedback">Please
+                                                    Enter Voyage No</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Port of Loading</label>
+                                                <input formControlName="PORT_OF_LOADING" type="text" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.PORT_OF_LOADING.errors}"/>
+                                                <div *ngIf="submitted1 && blf.PORT_OF_LOADING.errors" class="invalid-feedback">Please
+                                                    Enter Port of Loading</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Port of Discharge</label>
+                                                <input formControlName="PORT_OF_DISCHARGE" type="text" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.PORT_OF_DISCHARGE.errors}"/>
+                                                <div *ngIf="submitted1 && blf.PORT_OF_DISCHARGE.errors" class="invalid-feedback">Please
+                                                    Enter Port of Discharge</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Place of Delivery</label>
+                                                <input formControlName="PLACE_OF_DELIVERY" type="text" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.PLACE_OF_DELIVERY.errors}"/>
+                                                <div *ngIf="submitted1 && blf.PLACE_OF_DELIVERY.errors" class="invalid-feedback">Please
+                                                    Enter Place of Delivery</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Final Destination</label>
+                                                <input formControlName="FINAL_DESTINATION" type="text" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.FINAL_DESTINATION.errors}"/>
+                                                <div *ngIf="submitted1 && blf.FINAL_DESTINATION.errors" class="invalid-feedback">Please
+                                                    Enter Final Destination</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Booking No</label>
+                                                <input formControlName="BOOKING_NO" type="text" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.BOOKING_NO.errors}"/>
+                                                <div *ngIf="submitted1 && blf.BOOKING_NO.errors" class="invalid-feedback">Please
+                                                    Enter Booking No.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">CRO No</label>
+                                                <input formControlName="CRO_NO" type="text" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.CRO_NO.errors}"/>
+                                                <div *ngIf="submitted1 && blf.CRO_NO.errors" class="invalid-feedback">Please
+                                                    Enter CRO No.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h6 class="d-inline mt-3">Container Details</h6>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Marks & Numbers</label>
+                                                <textarea class="form-control2" formControlName="MARKS_NOS" [ngClass]="{'invalid': submitted1 && blf.MARKS_NOS.errors}"></textarea>
+                                                <div *ngIf="submitted1 && blf.MARKS_NOS.errors" class="invalid-feedback">Please
+                                                    Enter Marks & Numbers</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Description of Goods</label>
+                                                <textarea type="text" class="form-control2" formControlName="DESC_OF_GOODS" [ngClass]="{'invalid': submitted1 && blf.DESC_OF_GOODS.errors}"></textarea>
+                                                <div *ngIf="submitted1 && blf.DESC_OF_GOODS.errors" class="invalid-feedback">Please
+                                                    Enter Description of Goods</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="table-responsive">
+                                        <table class="table" style="font-size: 12px;">
+                                            <thead>
+                                                <tr>
+                                                    
+                                                    <th>Sr No</th>
+                                                    <th>Container No</th>
+                                                    <th>Container Type</th>
+                                                    <th>Gross Weight</th>
+                                                    <th>Measurement</th>
+                                                    <th>Seal No</th>
+                                                    <th>Agent Seal No</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of m1;let i = index" [formGroup]="getf2(item)">
+                                                    
+                                                    <td class="col-md-1">{{i+1}}</td>
+                                                    <td class="col-md-1">{{mergeBLForm.value.CONTAINER_LIST[i].CONTAINER_NO}}</td>
+                                                    <td class="col-md-1">{{mergeBLForm.value.CONTAINER_LIST[i].CONTAINER_TYPE}}</td>
+                                                    <td class="col-md-1">
+                                                        {{mergeBLForm.value.CONTAINER_LIST[i].GROSS_WEIGHT}}
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        {{mergeBLForm.value.CONTAINER_LIST[i].MEASUREMENT}}
+                                                    </td>
+                                                    <td class="col-md-1">{{mergeBLForm.value.CONTAINER_LIST[i].SEAL_NO}}</td>
+                                                    <td class="col-md-1">{{mergeBLForm.value.CONTAINER_LIST[i].AGENT_SEAL_NO}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Total No of Containers</label>
+                                                <input type="text" formControlName="TOTAL_CONTAINERS" class="form-control2" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h6>Freight & Charges</h6>
+                                    <hr>
+                                    <div class="table-responsive">
+                                        <table class="table" style="font-size: 12px;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr No</th>
+                                                    <th>Charge Code</th>
+                                                    <th>Rate</th>
+                                                    <th>Payment Term</th>
+                                                    <th>Place of Payment</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of chargeList; let i = index">
+                                                    <td>{{i + 1}}</td>
+                                                    <td>{{item.CHARGE_CODE}}</td>
+                                                    <td>{{item.CURRENCY}} {{item.RATE_REQUESTED}}</td>
+                                                    <td>{{item.PAYMENT_TERM}}</td>
+                                                    <td>{{item.TRANSPORT_TYPE}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Prepaid at</label>
+                                                <input type="text" formControlName="PREPAID_AT" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.PREPAID_AT.errors}" (keyup)="validate2P('PREPAID_AT',$event.target.value)"/>
+                                                <div *ngIf="submitted1 && blf.PREPAID_AT.errors" class="invalid-feedback">Please
+                                                    Enter Prepaid At</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Payable at</label>
+                                                <input type="text" formControlName="PAYABLE_AT" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.PAYABLE_AT.errors}" (keyup)="validate2P('PAYABLE_AT',$event.target.value)"/>
+                                                <div *ngIf="submitted1 && blf.PAYABLE_AT.errors" class="invalid-feedback">Please
+                                                    Enter Payable At</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Place of Issue</label>
+                                                <input type="text" formControlName="BL_ISSUE_PLACE" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.BL_ISSUE_PLACE.errors}"/>
+                                                <div *ngIf="submitted1 && blf.BL_ISSUE_PLACE.errors" class="invalid-feedback">Please
+                                                    Enter BL Issue Place</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">Issue Date</label>
+                                                <input type="date" formControlName="BL_ISSUE_DATE" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.BL_ISSUE_DATE.errors}" min="{{minDate}}"/>
+                                                <div *ngIf="submitted1 && blf.BL_ISSUE_DATE.errors" class="invalid-feedback">Please
+                                                    Enter BL Issue Date</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label2">No of Original BL</label>
+                                                <input type="text" formControlName="NO_OF_ORIGINAL_BL" class="form-control2" [ngClass]="{'invalid': submitted1 && blf.NO_OF_ORIGINAL_BL.errors}"/>
+                                                <div *ngIf="submitted1 && blf.NO_OF_ORIGINAL_BL.errors" class="invalid-feedback">Please
+                                                    Enter No. of Original BL</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-4">
+                                        
+                                        <!-- <div class="col-md-3 offset-md-9 text-end" *ngIf="editBL">
+                                            <button class="form-btn me-2" (click)="selectOgType()">
+                                                Finalize
+                                            </button>
+                                            <button #openOgBtn data-bs-toggle="modal" href="#ogModal"
+                                            class="form-btn d-none">og</button>
+                
+                                            <button class="form-btn" (click)="updateBL()">
+                                                Save as Draft
+                                            </button>
+                                        </div> -->
+                                        <div class="col-md-2 offset-md-10" style="text-align: right;">
+                                            <button class="form-btn" (click)="createBL()">
+                                                Save as Draft
+                                            </button>
+                                        </div>
+                                        
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="row mt-2" *ngIf="showF1Form">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <ng-select
+                                            [ngClass]="{'invalid': submitted && f.PORT_OF_LOADING.errors}" formControlName="PORT_OF_LOADING">
+                                            <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                            <ng-option
+                                                *ngFor="let item of polList" value="{{item.CODE_DESC}} ({{item.CODE}})">{{item.CODE_DESC}}
+                                                ({{item.CODE}})
+                                            </ng-option>
+                                        </ng-select>
+                                        <label class="form-label-ddl">Port of Loading<span
+                                                class="text-danger">
+                                                *</span></label>
+                                        <div *ngIf="submitted && f.PORT_OF_LOADING.errors" class="invalid-feedback">Please select
+                                            Port of Loading</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <ng-select 
+                                            [ngClass]="{'invalid': submitted && f.PORT_OF_DISCHARGE.errors}" formControlName="PORT_OF_DISCHARGE">
+                                            <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                            <ng-option
+                                                *ngFor="let item of podList" value="{{item.CODE_DESC}} ({{item.CODE}})">{{item.CODE_DESC}}
+                                                ({{item.CODE}})
+                                            </ng-option>
+                                        </ng-select>
+                                        <label class="form-label-ddl">Port of Dsicharge<span
+                                                class="text-danger">
+                                                *</span></label>
+                                        <div *ngIf="submitted && f.PORT_OF_DISCHARGE.errors" class="invalid-feedback">Please select
+                                            Port of Discharge</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <ng-select (change)="getVoyageList($event)"
+                                            [ngClass]="{'invalid': submitted && f.VESSEL_NAME.errors}"
+                                            formControlName="VESSEL_NAME">
+                                            <ng-option value="" selected="true" disabled>
+                                                --Select Vessel Name--</ng-option>
+                                            <ng-option *ngFor="let item of vesselList"
+                                                value="{{item.CODE}}">
+                                                {{item.CODE_DESC}}
+                                            </ng-option>
+                                        </ng-select>
+                                        <label class="form-label-ddl">Vessel Name<span
+                                            class="text-danger">
+                                            *</span></label>
+                                        <div *ngIf="submitted && f.VESSEL_NAME.errors"
+                                            class="invalid-feedback">Vessel Name is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4" *ngIf="showF1Form">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <ng-select
+                                            [ngClass]="{'invalid': submitted && f.VOYAGE_NO.errors}"
+                                            formControlName="VOYAGE_NO">
+                                            <ng-option value="" selected="true" disabled>
+                                                --Select Voyage No.--</ng-option>
+                                            <ng-option *ngFor="let item of voyageList"
+                                                value="{{item.CODE}}">
+                                                {{item.CODE_DESC}}
+                                            </ng-option>
+                                        </ng-select>
+                                        <label class="form-label-ddl">Voyage No<span
+                                            class="text-danger">
+                                            *</span></label>
+                                        <div *ngIf="submitted && f.VOYAGE_NO.errors"
+                                            class="invalid-feedback">Voyage No is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input type="text"  [ngClass]="{'invalid':submitted && f.SHIPPER.errors}" formControlName="SHIPPER"
+                                        class="form-control" style="margin-top: 5px;">
+                                        <label class="form-label">Shipper Name<span class="text-danger">*</span></label>
+                                        <div *ngIf="submitted && f.SHIPPER.errors" class="invalid-feedback">
+                                          Please Enter Shipper Name
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input type="text"  [ngClass]="{'invalid':submitted && f.CONSIGNEE.errors}" formControlName="CONSIGNEE"
+                                        class="form-control" style="margin-top: 5px;">
+                                        <label class="form-label">Consignee Name<span class="text-danger">*</span></label>
+                                        <div *ngIf="submitted && f.CONSIGNEE.errors" class="invalid-feedback">
+                                          Please Enter Consignee Name
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3" *ngIf="showF1Form">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input type="text" [ngClass]="{'invalid':submitted && f.NOTIFY_PARTY.errors}" formControlName="NOTIFY_PARTY"
+                                        class="form-control" style="margin-top: 5px;">
+                                        <label class="form-label" style="margin-left: 10px;">Notify Party</label>
+                                        <div *ngIf="submitted && f.NOTIFY_PARTY.errors" class="invalid-feedback">
+                                          Please Enter Notify Party
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <hr>
+            <div class="row  mt-4 mb-4" *ngIf="showF1Form">
+                <div class="col-md-6 offset-md-6 text-end">
+                    <button type="button" class="form-btn" style="margin-right: 6px;"
+                        (click)="cancelBL()">Cancel</button>
+                    <button type="button" class="form-btn" style="margin-right: 6px;" (click)="searchBL()">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

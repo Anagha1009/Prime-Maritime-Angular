@@ -300,6 +300,12 @@ export class CroListComponent implements OnInit {
                 bold: true,
                 fontSize: 10,
               },
+              {
+                text: 'Depo:',
+                margin: [0, 0, 0, 5],
+                bold: true,
+                fontSize: 10,
+              },
             ],
             [
               {
@@ -311,14 +317,14 @@ export class CroListComponent implements OnInit {
                 fontSize: 10,
               },
               {
-                text: this._commonService.getcurrentDate(
+                text: this._commonService.getIndianDate(
                   new Date(this.croDetails?.ETA)
                 ),
                 margin: [0, 0, 0, 5],
                 fontSize: 10,
               },
               {
-                text: this._commonService.getcurrentDate(
+                text: this._commonService.getIndianDate(
                   new Date(this.croDetails?.ETD)
                 ),
                 margin: [0, 0, 0, 5],
@@ -361,6 +367,16 @@ export class CroListComponent implements OnInit {
                     : this.croDetails?.FINAL_DESTINATION == ''
                     ? '-'
                     : this.croDetails?.FINAL_DESTINATION,
+                margin: [0, 0, 0, 5],
+                fontSize: 10,
+              },
+              {
+                text:
+                  this.croDetails?.EMPTY_CONT_PCKP == null
+                    ? '-'
+                    : this.croDetails?.EMPTY_CONT_PCKP == ''
+                    ? '-'
+                    : this.croDetails?.EMPTY_CONT_PCKP,
                 margin: [0, 0, 0, 5],
                 fontSize: 10,
               },

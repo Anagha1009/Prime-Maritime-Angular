@@ -47,11 +47,17 @@
                                 
                             </td>
                            
-                            <td width="5%" *ngIf="item.BL_STATUS=='Drafted'">
+                            <!-- <td width="5%" *ngIf="item.BL_STATUS=='Drafted'">
                                 <span class="pointer"><a (click)="getBLDetailsForEdit(item.BL_NO)"><i class='bx bxs-pencil me-2'></i></a>
                                     <a (click)="viewBL(item.BL_NO,false)"><i class='fa fa-eye me-2'></i></a>
                                     <a (click)="makeItFinalize(item.BL_NO)"><img src="assets/img/check-mark.png"></a>
                                 </span>
+                            </td> -->
+                            <td width="5%" *ngIf="item.BL_STATUS=='Drafted'">
+                                <div class="pointer"><a (click)="getBLDetailsForEdit(item.BL_NO)"><i class='bx bxs-pencil ms-2 me-3'></i></a>
+                                    <a (click)="viewBL(item.BL_NO,false)"><i class='fa fa-eye ms-2'></i></a>
+                                    <!-- <a (click)="makeItFinalize(item.BL_NO)"><img src="assets/img/check-mark.png"></a> -->
+                                </div>
                             </td>
                             <td width="5%" *ngIf="item.BL_STATUS=='Finalized'">
                                 <div class="pointer"><a (click)="viewBL(item.BL_NO,false)"><img src="assets/img/approved.png" class="me-3"></a>  
@@ -65,13 +71,21 @@
             </div>
         </div>
         <div [class]="hideHistory ? 'col-md-12':'col-md-3'">
-            <div class="col-md-6 offset-md-6 text-end">
-                <button class="form-btn-primary mb-3" (click)="manualBL()"><i
-                        class="fa fa-plus me-2"></i>Manual BL</button>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6 text-end">
+                        <button class="form-btn-primary mb-3" (click)="switchBL()"><i class="fa fa-repeat me-2"></i>Switch BL</button>
+                        <button #openBtn data-bs-toggle="modal" href="#mailModal"
+                            class="form-btn d-none">Submit</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="form-btn-primary mb-3" (click)="manualBL()"><i
+                            class="fa fa-plus me-2"></i>Manual BL</button>
+                    </div>
+                </div>
+                
             </div>
-            <!-- <div class="tehgjxt-end">
-                <button class="form-btn w-50 mb-3" (click)="manualBL()">Manual BL</button>
-            </div> -->
+           
             <div class="tabs mb-4" *ngIf="!isBLForm">
                 <input type="radio" (click)="tabs = '1'" class="d-none" id="radio-1" name="tabs" checked />
                 <label class="tab" for="radio-1">{{'Header.NewBL'|translate}}</label>
@@ -390,8 +404,17 @@
                                             class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" />
                                     </td>
                                     <td class="col-md-1">
-                                        <input formControlName="CONTAINER_TYPE" type="text"
-                                            class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" />
+                                        <!-- <input formControlName="CONTAINER_TYPE" type="text"
+                                            class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" /> -->
+                                        <select class="form-control2"
+                                            formControlName="CONTAINER_TYPE" style="height: calc(1rem + 0.75rem + 2px);">
+                                            <option value="" selected disabled>
+                                                --Select--</option>
+                                            <option *ngFor="let ct of latestContTypeList"
+                                                value="{{ct.CONT_TYPE_CODE}}">
+                                                {{ct.CONT_TYPE_CODE}}</option>
+                                        </select>
+                                        
                                     </td>
                                     <td class="col-md-1">
                                         <input formControlName="GROSS_WEIGHT" type="text"
@@ -410,7 +433,7 @@
                                             class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" />
                                     </td>
                                     <td class="col-md-1 text-center">
-                                        <a (click)="removeItem(j)" class="pointer"><i style="font-size:15px"
+                                        <a (click)="removeItem(i)" class="pointer"><i style="font-size:15px"
                                                 class="fa fa-trash mt-4"></i></a>
                                     </td>
                                 </tr>
@@ -453,7 +476,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label2">Prepaid at</label>
-                                <input type="text" formControlName="PREPAID_AT" class="form-control2" [ngClass]="{'invalid': submitted && blf.PREPAID_AT.errors}"/>
+                                <input type="text" formControlName="PREPAID_AT" class="form-control2" [ngClass]="{'invalid': submitted && blf.PREPAID_AT.errors}" (keyup)="validate2P('PREPAID_AT',$event.target.value)"/>
                                 <div *ngIf="submitted && blf.PREPAID_AT.errors" class="invalid-feedback">Please
                                     Enter Prepaid At</div>
                             </div>
@@ -461,7 +484,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label2">Payable at</label>
-                                <input type="text" formControlName="PAYABLE_AT" class="form-control2" [ngClass]="{'invalid': submitted && blf.PAYABLE_AT.errors}"/>
+                                <input type="text" formControlName="PAYABLE_AT" class="form-control2" [ngClass]="{'invalid': submitted && blf.PAYABLE_AT.errors}" (keyup)="validate2P('PAYABLE_AT',$event.target.value)"/>
                                 <div *ngIf="submitted && blf.PAYABLE_AT.errors" class="invalid-feedback">Please
                                     Enter Payable At</div>
                             </div>
@@ -484,14 +507,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="form-label2">Total prepaid in local currency</label>
-                                <input type="text" formControlName="TOTAL_PREPAID" class="form-control2" [ngClass]="{'invalid': submitted && blf.TOTAL_PREPAID.errors}"/>
-                                <div *ngIf="submitted && blf.TOTAL_PREPAID.errors" class="invalid-feedback">Please
-                                    Enter Total Prepaid</div>
-                            </div>
-                        </div>
+                        
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label2">No of Original BL</label>
@@ -509,15 +525,14 @@
                         </label>
                     </div> -->
                     <div class="row mb-4">
-                        <!-- <div class="col-md-2 offset-md-10" style="text-align: right;" *ngIf="editBL">
-                            <button class="form-btn" (click)="updateBL()" *ngIf="blForm.value.BLType">
-                                Save as Original
+                        
+                        <div class="col-md-3 offset-md-9 text-end" *ngIf="editBL">
+                            <button class="form-btn me-2" (click)="selectOgType()">
+                                Finalize
                             </button>
-                            <button class="form-btn" (click)="updateBL()" *ngIf="!blForm.value.BLType">
-                                Save as Draft
-                            </button>
-                        </div> -->
-                        <div class="col-md-2 offset-md-10" style="text-align: right;" *ngIf="editBL">
+                            <button #openOgBtn data-bs-toggle="modal" href="#ogModal"
+                            class="form-btn d-none">og</button>
+
                             <button class="form-btn" (click)="updateBL()">
                                 Save as Draft
                             </button>
@@ -527,16 +542,84 @@
                                 Save as Draft
                             </button>
                         </div>
-                        <!-- <div class="col-md-2 offset-md-10" style="text-align: right;" *ngIf="!editBL">
-                            <button class="form-btn" (click)="createBL()" *ngIf="blForm.value.BLType">
-                                Save as Original
-                            </button>
-                            <button class="form-btn" (click)="createBL()" *ngIf="!blForm.value.BLType">
-                                Save as Draft
-                            </button>
-                        </div> -->
+                        
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mailModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Switch BL</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+                <!-- <h6 class="text-center"><span class="text-danger">{{croNo}}</span> has successfully been
+                    created !
+                </h6> -->
+                <p class="text-center">Enter BL No. to switch</p>
+                <div class="form-group col-md-8 mx-auto">
+                    <label class="form-label2">BL No.</label>
+                    <input class="form-control2" [(ngModel)]="swicthBlNo" />
+                    <div *ngIf="!swicthBlNo && swicthBlNo == ''" class="invalid-feedback">Please Enter BL No.</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="form-btn" (click)="getBLDetailsForEdit(swicthBlNo)">
+                    Submit</button>
+                    <!-- <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ogModal" aria-labelledby="exampleModalLabel1" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">How do you want to Finalize it?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeOgBtn></button>
+            </div> 
+            <div class="modal-body">
+               
+                <div class="form-group col-md-8 mx-auto">
+                    <select class="form-control2 mb-4"
+                            [(ngModel)]="finalizeType" style="height: calc(1rem + 0.75rem + 5px);" (change)="onchangeOgType()">
+                        <option value="" selected disabled>
+                                --Select--</option>
+                        <option value="original">Original</option>
+                        <option value="seaway">Sea-Way</option>
+                        
+                    </select>
+                    <div *ngIf="showOgOptions">
+                        <p><span class="text-danger">*</span>Choose Original Type</p>
+                        <div class="form-check">
+                            <input class="form-check-input pointer" (change)="oncheck('SOB')" type="radio" 
+                                value="SOB" id="flexRadioDefault1" name="ogTypeRadio">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Shipped On Board
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input pointer" (change)="oncheck('RFS')" type="radio"
+                                value="RFS" id="flexRadioDefault2" name="ogTypeRadio">
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Received For Shipment
+                            </label>
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="form-btn" (click)="submitFinalizeBL()">
+                   Finalize</button>
+                    <!-- <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button> -->
             </div>
         </div>
     </div>

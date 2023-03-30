@@ -39,6 +39,10 @@ export class CmService {
     );
   }
 
+// testenc(){
+//  return  this._http.get<any>("http://localhost:44316/WeatherForecast/testenc1");
+// }
+
   //SINGLE
   getContMov(CM: CONTAINER_MOVEMENT) {
     return this._http.get<any>(

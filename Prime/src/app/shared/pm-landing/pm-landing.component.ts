@@ -35,14 +35,13 @@ export class PmLandingComponent implements OnInit {
     this.getMyDocCount();
     this.getMainChart();
     this.getCharts();
-    this.GetCompanyMasterList();
+    this.GetDetentionList();
 
     this.currentYear = new Date().getFullYear();
   }
 
-  GetCompanyMasterList() {
+  GetDetentionList() {
     this._commonService.destroyDT();
-
     this._srrReportService.getContainerDetentionList().subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.containerDetentionList = res.Data;
