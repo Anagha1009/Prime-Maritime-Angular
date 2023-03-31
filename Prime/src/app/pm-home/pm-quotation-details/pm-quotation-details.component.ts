@@ -158,7 +158,6 @@ export class PmQuotationDetailsComponent implements OnInit {
   }
 
   getRates(container: any) {
-    debugger;
     var srr = new QUOTATION();
     srr.POL = this.quotationDetails?.SRR_NO.split('-')[0];
     srr.POD = this.quotationDetails?.SRR_NO.split('-')[1];
@@ -193,7 +192,10 @@ export class PmQuotationDetailsComponent implements OnInit {
     });
 
     this._quotationService
-      .getExcRates(add2.at(0)?.get('CURRENCY')?.value, '8735')
+      .getExcRates(
+        add2.at(0)?.get('CURRENCY')?.value,
+        this.quotationDetails.AGENT_CODE
+      )
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.excRates1 = res.Data;
@@ -205,7 +207,10 @@ export class PmQuotationDetailsComponent implements OnInit {
       });
 
     this._quotationService
-      .getExcRates(add3.at(0)?.get('CURRENCY')?.value, '8735')
+      .getExcRates(
+        add3.at(0)?.get('CURRENCY')?.value,
+        this.quotationDetails.AGENT_CODE
+      )
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.excRates2 = res.Data;
@@ -216,15 +221,17 @@ export class PmQuotationDetailsComponent implements OnInit {
         }
       });
 
-    this._quotationService.getExcRates('USD', '8735').subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.usdExcRate = res.Data;
-        //usd rate
-        this.usdRate = this.usdExcRate.TT_SELLING;
-      } else {
-        this._commonService.warnMsg('Please enter exhange rates first!');
-      }
-    });
+    this._quotationService
+      .getExcRates('USD', this.quotationDetails.AGENT_CODE)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.usdExcRate = res.Data;
+          //usd rate
+          this.usdRate = this.usdExcRate.TT_SELLING;
+        } else {
+          this._commonService.warnMsg('Please enter exhange rates first!');
+        }
+      });
 
     this._quotationService.getCalRate(srr).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
@@ -323,6 +330,7 @@ export class PmQuotationDetailsComponent implements OnInit {
 
     return Math.round(total * 100) / 100;
   }
+
   letsCalculate() {
     this.getRates(this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS);
     this.openScBtn.nativeElement.click();

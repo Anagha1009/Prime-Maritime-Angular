@@ -167,3 +167,15 @@
   color: #40bfc1;
 }
 
+.img-wrap {
+  position: relative;
+  width: 165px;
+  margin-bottom: 30px;
+}
+
+.img-wrap .close {
+  position: absolute;
+  top: -13px;
+  z-index: 100;
+  right: 0;
+}

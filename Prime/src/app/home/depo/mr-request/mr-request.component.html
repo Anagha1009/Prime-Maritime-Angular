@@ -312,10 +312,11 @@
             </div>
             <div class="col-md-8">
                 <div class="row">
+                    <div class="col-2 m-2" *ngFor='let url of images' class="img-wrap">
+                        <span class="bx bx-x-circle close" (click)="removeFile(url)"></span>
+                        <img [src]="url" height="150" width="150">
+                    </div>
                 </div>
-
-                <img *ngFor='let url of images' [src]="url" height="150" width="150" style="margin: 3px;">
-                <br />
             </div>
         </div>
         <hr>

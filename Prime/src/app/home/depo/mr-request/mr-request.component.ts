@@ -411,4 +411,8 @@ export class MrRequestComponent implements OnInit {
 
     this.containerNo = '';
   }
+
+  removeFile(url: any) {
+    this.images = this.images.filter((a) => a !== url);
+  }
 }
