@@ -479,7 +479,7 @@ export class QuotationListComponent implements OnInit {
       ?.setValue(this._commonService.getUserCode());
 
     this.closeBtn.nativeElement.click();
-
+    console.log(JSON.stringify(this.slotDetailsForm.value));
     this._quotationService
       .booking(JSON.stringify(this.slotDetailsForm.value))
       .subscribe(

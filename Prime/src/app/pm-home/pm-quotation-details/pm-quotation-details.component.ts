@@ -193,7 +193,7 @@ export class PmQuotationDetailsComponent implements OnInit {
     });
 
     this._quotationService
-      .getExcRates(add2.at(0)?.get('CURRENCY')?.value)
+      .getExcRates(add2.at(0)?.get('CURRENCY')?.value, '8735')
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.excRates1 = res.Data;
@@ -205,7 +205,7 @@ export class PmQuotationDetailsComponent implements OnInit {
       });
 
     this._quotationService
-      .getExcRates(add3.at(0)?.get('CURRENCY')?.value)
+      .getExcRates(add3.at(0)?.get('CURRENCY')?.value, '8735')
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.excRates2 = res.Data;
@@ -216,7 +216,7 @@ export class PmQuotationDetailsComponent implements OnInit {
         }
       });
 
-    this._quotationService.getExcRates('USD').subscribe((res: any) => {
+    this._quotationService.getExcRates('USD', '8735').subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.usdExcRate = res.Data;
         //usd rate

@@ -7,16 +7,19 @@ import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-exc-rate-list',
   templateUrl: './exc-rate-list.component.html',
-  styleUrls: ['./exc-rate-list.component.scss']
+  styleUrls: ['./exc-rate-list.component.scss'],
 })
 export class ExcRateListComponent implements OnInit {
-  excRateList:any[]=[];
+  excRateList: any[] = [];
   onUpload: boolean = false;
 
-  constructor(private _commonService: CommonService,private _quotationService: QuotationService,private http: HttpClient) { }
+  constructor(
+    private _commonService: CommonService,
+    private _quotationService: QuotationService,
+    private http: HttpClient
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   isSameColumn(arr1: any, arr2: any) {
     return $(arr1).not(arr2).length === 0 && $(arr2).not(arr1).length === 0;
@@ -76,14 +79,10 @@ export class ExcRateListComponent implements OnInit {
 
           const dataString = JSON.stringify(jsonData);
 
-          var keyArray = [
-            'CURRENCY_TYPE',
-            'CURRENCY_CODE',
-            'TT_SELLING',
-          ];
+          var keyArray = ['CURRENCY_TYPE', 'CURRENCY_CODE', 'TT_SELLING'];
 
           var keyXlArray: any = [];
-          
+
           Object.keys(jsonData['Sheet1'][0]).forEach(function (key) {
             keyXlArray.push(key);
           });
@@ -131,19 +130,26 @@ export class ExcRateListComponent implements OnInit {
     }
   }
 
-  postExcRateList(){
+  postExcRateList() {
     if (this.excRateList.length == 0) {
       this._commonService.warnMsg('Please upload Shipping Instructions !');
       return;
     }
 
-    this._quotationService.postExcRateList(this.excRateList).subscribe((res: any) => {
-      if (res.responseCode == 200) {
-        this._commonService.successMsg('Exchange Rates uploaded sccessfully!');
-        this.onUpload=false;
-      }
+    this.excRateList.forEach((element) => {
+      element.AGENT_CODE = this._commonService.getUserCode();
     });
 
+    this._quotationService
+      .postExcRateList(this.excRateList)
+      .subscribe((res: any) => {
+        if (res.responseCode == 200) {
+          this._commonService.successMsg(
+            'Exchange Rates uploaded sccessfully!'
+          );
+          this.onUpload = false;
+        }
+      });
   }
 
   downloadFile() {
@@ -159,7 +165,4 @@ export class ExcRateListComponent implements OnInit {
         link.click();
       });
   }
-
 }
-
-

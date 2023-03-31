@@ -255,11 +255,79 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">SRR Calculator</h5>
+                <h5 class="modal-title fw-bold" id="exampleModalLabel1">SRR Calculator</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeScBtn></button>
             </div>
             <div class="modal-body">
-                <div class="col-md-12">
+                <div class="col-md-5 fixed-top" style="margin-top: 7rem;margin-left:10rem">
+                    <div class="services w-75">
+                        <div class="icon-box text-start">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6>Total Income : </h6>
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="text-danger">USD {{TotalIncome()}}</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6>Total Expense : </h6>
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="text-danger">USD {{TotalExpense()}}</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6>PNL : </h6>
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="text-info">USD {{TotalIncome() - TotalExpense() | number : '1.0-2'}}</h6>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6>Laden Back : </h6>
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="text-danger">USD {{calcForm.value.LADEN_BACK_COST}}</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6>PNL : </h6>
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="text-info">USD {{TotalIncome() - TotalExpense() -
+                                        calcForm.value.LADEN_BACK_COST | number : '1.0-2'}}</h6>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6>Empty Back : </h6>
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="text-danger">USD {{calcForm.value.EMPTY_BACK_COST | number : '1.0-2'}}
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6>PNL : </h6>
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="text-info">USD {{TotalIncome() - TotalExpense() -
+                                        calcForm.value.LADEN_BACK_COST -
+                                        calcForm.value.EMPTY_BACK_COST | number : '1.0-2'}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7 offset-md-5">
                     <div class="row mt-2">
                         <div class="col-md-3">
                             <div class="form-group">
@@ -286,198 +354,130 @@
                             </h6>
                         </div>
                     </div>
-                    <div class="row" [formGroup]="calcForm">
-                        <div class="col-md-7">
-                            <div class="accordion mt-3" id="accordion" role="tablist">
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="heading-7">
-                                        <h6 class="mb-0" style="font-weight: 600;">
-                                            <a data-bs-toggle="collapse" href="#collapse-7" aria-expanded="false"
-                                                aria-controls="collapse-7" data-abc="true" class="collapsed">
-                                                <span class="fw-bold">Freight Charges</span>
-                                            </a>
-                                        </h6>
-                                    </div>
-                                    <div id="collapse-7" class="collapse show" role="tabpanel"
-                                        aria-labelledby="heading-7" data-bs-parent="#accordion">
-                                        <div class="card-body">
-                                            <div class="col-md-12">
-                                                <table class="table" *ngIf="f0?.length > 0" style="font-size: 12px;">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="15%">No</th>
-                                                            <th width="35%">Charge Code</th>
-                                                            <th width="25%">Cost</th>
-                                                            <th width="25%">Requested (Income)</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr *ngFor="let item of f0;let i = index" [formGroup]="item">
-                                                            <td width="15%">{{i + 1}}</td>
-                                                            <td width="35%">{{item.value.CHARGE_CODE}}</td>
-                                                            <td width="25%">{{item.value.CURRENCY}}
-                                                                {{item.value.STANDARD_RATE}}
-                                                            </td>
-                                                            <td width="25%"><input type="text" class="form-control2"
-                                                                    (keypress)="numericOnly($event)"
-                                                                    formControlName="RATE_REQUESTED" /></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                <h6 *ngIf="f0?.length == 0" class="text-center">No Records !</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="heading-8">
-                                        <h6 class="mb-0">
-                                            <a data-bs-toggle="collapse" href="#collapse-8" aria-expanded="false"
-                                                aria-controls="collapse-8" data-abc="true" class="collapsed">
-                                                <span class="fw-bold">POL Charges</span>
-                                            </a>
-                                        </h6>
-                                    </div>
-                                    <div id="collapse-8" class="collapse" role="tabpanel" aria-labelledby="heading-8"
-                                        data-bs-parent="#accordion">
-                                        <div class="card-body">
-                                            <div class="col-md-12">
-                                                <table class="table" style="font-size: 12px;">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="15%">No</th>
-                                                            <th width="35%">Charge Code</th>
-                                                            <th width="15%">Cost</th>
-                                                            <th width="15%">Income</th>
-                                                            <th width="20%">Requested</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr *ngFor="let item of f2; let j=index" [formGroup]="item">
-                                                            <td width="15%">{{j + 1}}</td>
-                                                            <td width="35%">{{item.value.CHARGE_CODE}}</td>
-                                                            <td width="15%">{{item.value.CURRENCY}} {{item.value.COST}}
-                                                            </td>
-                                                            <td width="15%">{{item.value.CURRENCY}}
-                                                                {{item.value.STANDARD_RATE}}
-                                                            </td>
-                                                            <td width="20%"><input type="text" class="form-control2"
-                                                                    (keypress)="numericOnly($event)"
-                                                                    formControlName="RATE_REQUESTED" /></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="heading-9">
-                                        <h6 class="mb-0">
-                                            <a data-bs-toggle="collapse" href="#collapse-9" aria-expanded="false"
-                                                aria-controls="collapse-9" data-abc="true" class="collapsed">
-                                                <span class="fw-bold">POD Charges</span>
-                                            </a>
-                                        </h6>
-                                    </div>
-                                    <div id="collapse-9" class="collapse" role="tabpanel" aria-labelledby="heading-9"
-                                        data-bs-parent="#accordion">
-                                        <div class="card-body">
-                                            <div class="col-md-12">
-                                                <table class="table" style="font-size: 12px;">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="15%">No</th>
-                                                            <th width="35%">Charge Code</th>
-                                                            <th width="15%">Cost</th>
-                                                            <th width="15%">Income</th>
-                                                            <th width="20%">Requested</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr *ngFor="let item of f3;let i = index" [formGroup]="item">
-                                                            <td width="15%">{{i + 1}}</td>
-                                                            <td width="35%">{{item.value.CHARGE_CODE}}</td>
-                                                            <td width="15%">{{item.value.CURRENCY}} {{item.value.COST}}
-                                                            </td>
-                                                            <td width="15%">{{item.value.CURRENCY}}
-                                                                {{item.value.STANDARD_RATE}}
-                                                            </td>
-                                                            <td width="20%"><input type="text" maxlength="15"
-                                                                    class="form-control2"
-                                                                    (keypress)="numericOnly($event)"
-                                                                    formControlName="RATE_REQUESTED" /></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-5 mt-5">
-                            <div class="row">
-                                <div class="col-5">
-                                    <h6>Total Income : </h6>
-                                </div>
-                                <div class="col-4">
-                                    <h6 class="text-danger">USD {{TotalIncome()}}</h6>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-5">
-                                    <h6>Total Expense : </h6>
-                                </div>
-                                <div class="col-4">
-                                    <h6 class="text-danger">USD {{TotalExpense()}}</h6>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-5">
-                                    <h6>PNL : </h6>
-                                </div>
-                                <div class="col-4">
-                                    <h6 class="text-info">USD {{TotalIncome() - TotalExpense() | number : '1.0-2'}}</h6>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-5">
-                                    <h6>Laden Back : </h6>
-                                </div>
-                                <div class="col-4">
-                                    <h6 class="text-danger">USD {{calcForm.value.LADEN_BACK_COST}}</h6>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-5">
-                                    <h6>PNL : </h6>
-                                </div>
-                                <div class="col-4">
-                                    <h6 class="text-info">USD {{TotalIncome() - TotalExpense() -
-                                        calcForm.value.LADEN_BACK_COST | number : '1.0-2'}}</h6>
-                                </div>
-                            </div>
-
-                            <hr>
-                            <div class="row">
-                                <div class="col-5">
-                                    <h6>Empty Back : </h6>
-                                </div>
-                                <div class="col-4">
-                                    <h6 class="text-danger">USD {{calcForm.value.EMPTY_BACK_COST | number : '1.0-2'}}
+                    <div class="col-md-12" [formGroup]="calcForm">
+                        <div class="accordion mt-3" id="accordion2" role="tablist">
+                            <div class="card">
+                                <div class="card-header" role="tab" id="heading-7">
+                                    <h6 class="mb-0" style="font-weight: 600;">
+                                        <a data-bs-toggle="collapse" href="#collapse-7" aria-expanded="false"
+                                            aria-controls="collapse-7" data-abc="true" class="collapsed">
+                                            <span class="fw-bold">Freight Charges</span>
+                                        </a>
                                     </h6>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-5">
-                                    <h6>PNL : </h6>
+                                <div id="collapse-7" class="collapse show" role="tabpanel" aria-labelledby="heading-7"
+                                    data-bs-parent="#accordion2">
+                                    <div class="card-body">
+                                        <div class="col-md-12">
+                                            <table class="table" *ngIf="f0?.length > 0" style="font-size: 12px;">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="15%">No</th>
+                                                        <th width="35%">Charge Code</th>
+                                                        <th width="25%">Cost</th>
+                                                        <th width="25%">Requested (Income)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of f0;let i = index" [formGroup]="item">
+                                                        <td width="15%">{{i + 1}}</td>
+                                                        <td width="35%">{{item.value.CHARGE_CODE}}</td>
+                                                        <td width="25%">{{item.value.CURRENCY}}
+                                                            {{item.value.STANDARD_RATE}}
+                                                        </td>
+                                                        <td width="25%"><input type="text" class="form-control2"
+                                                                (keypress)="numericOnly($event)"
+                                                                formControlName="RATE_REQUESTED" /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <h6 *ngIf="f0?.length == 0" class="text-center">No Records !</h6>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-4">
-                                    <h6 class="text-info">USD {{TotalIncome() - TotalExpense() -
-                                        calcForm.value.LADEN_BACK_COST -
-                                        calcForm.value.EMPTY_BACK_COST | number : '1.0-2'}}</h6>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" role="tab" id="heading-8">
+                                    <h6 class="mb-0">
+                                        <a data-bs-toggle="collapse" href="#collapse-8" aria-expanded="false"
+                                            aria-controls="collapse-8" data-abc="true" class="collapsed">
+                                            <span class="fw-bold">POL Charges</span>
+                                        </a>
+                                    </h6>
+                                </div>
+                                <div id="collapse-8" class="collapse" role="tabpanel" aria-labelledby="heading-8"
+                                    data-bs-parent="#accordion2">
+                                    <div class="card-body">
+                                        <div class="col-md-12">
+                                            <table class="table" style="font-size: 12px;">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="15%">No</th>
+                                                        <th width="35%">Charge Code</th>
+                                                        <th width="15%">Cost</th>
+                                                        <th width="15%">Income</th>
+                                                        <th width="20%">Requested</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of f2; let j=index" [formGroup]="item">
+                                                        <td width="15%">{{j + 1}}</td>
+                                                        <td width="35%">{{item.value.CHARGE_CODE}}</td>
+                                                        <td width="15%">{{item.value.CURRENCY}} {{item.value.COST}}
+                                                        </td>
+                                                        <td width="15%">{{item.value.CURRENCY}}
+                                                            {{item.value.STANDARD_RATE}}
+                                                        </td>
+                                                        <td width="20%"><input type="text" class="form-control2"
+                                                                (keypress)="numericOnly($event)"
+                                                                formControlName="RATE_REQUESTED" /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" role="tab" id="heading-9">
+                                    <h6 class="mb-0">
+                                        <a data-bs-toggle="collapse" href="#collapse-9" aria-expanded="false"
+                                            aria-controls="collapse-9" data-abc="true" class="collapsed">
+                                            <span class="fw-bold">POD Charges</span>
+                                        </a>
+                                    </h6>
+                                </div>
+                                <div id="collapse-9" class="collapse" role="tabpanel" aria-labelledby="heading-9"
+                                    data-bs-parent="#accordion2">
+                                    <div class="card-body">
+                                        <div class="col-md-12">
+                                            <table class="table" style="font-size: 12px;">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="15%">No</th>
+                                                        <th width="35%">Charge Code</th>
+                                                        <th width="15%">Cost</th>
+                                                        <th width="15%">Income</th>
+                                                        <th width="20%">Requested</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of f3;let i = index" [formGroup]="item">
+                                                        <td width="15%">{{i + 1}}</td>
+                                                        <td width="35%">{{item.value.CHARGE_CODE}}</td>
+                                                        <td width="15%">{{item.value.CURRENCY}} {{item.value.COST}}
+                                                        </td>
+                                                        <td width="15%">{{item.value.CURRENCY}}
+                                                            {{item.value.STANDARD_RATE}}
+                                                        </td>
+                                                        <td width="20%"><input type="text" maxlength="15"
+                                                                class="form-control2" (keypress)="numericOnly($event)"
+                                                                formControlName="RATE_REQUESTED" /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

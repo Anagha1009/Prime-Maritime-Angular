@@ -132,7 +132,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Shipper Name</label>
+                                <label class="form-label2">Shipper Name<span class="text-danger">*</span></label>
                                 <textarea type="text" formControlName="SHIPPER" class="form-control2" [ngClass]="{'invalid': submitted && blf.SHIPPER.errors}"
                                     style="overflow:hidden;height: max-content;"></textarea>
                                 <div *ngIf="submitted && blf.SHIPPER.errors" class="invalid-feedback">Please
@@ -141,7 +141,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Shipper Address</label>
+                                <label class="form-label2">Shipper Address<span class="text-danger">*</span></label>
                                 <textarea type="text" formControlName="SHIPPER_ADDRESS" class="form-control2" [ngClass]="{'invalid': submitted && blf.SHIPPER_ADDRESS.errors}"
                                     style="overflow:hidden;height: max-content;"></textarea>
                                 <div *ngIf="submitted && blf.SHIPPER_ADDRESS.errors" class="invalid-feedback">Please
@@ -150,7 +150,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Consignee Name</label>
+                                <label class="form-label2">Consignee Name<span class="text-danger">*</span></label>
                                 <textarea type="text" formControlName="CONSIGNEE" class="form-control2" [ngClass]="{'invalid': submitted && blf.CONSIGNEE.errors}"
                                     style="overflow:hidden;height: max-content;"></textarea>
                                 <div *ngIf="submitted && blf.CONSIGNEE.errors" class="invalid-feedback">Please
@@ -159,7 +159,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Consignee Address</label>
+                                <label class="form-label2">Consignee Address<span class="text-danger">*</span></label>
                                 <textarea type="text" formControlName="CONSIGNEE_ADDRESS" class="form-control2" [ngClass]="{'invalid': submitted && blf.CONSIGNEE_ADDRESS.errors}"
                                     style="overflow:hidden;height: max-content;"></textarea>
                                     <div *ngIf="submitted && blf.CONSIGNEE_ADDRESS.errors" class="invalid-feedback">Please
@@ -170,7 +170,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Notify Party</label>
+                                <label class="form-label2">Notify Party<span class="text-danger">*</span></label>
                                 <input type="text" formControlName="NOTIFY_PARTY" class="form-control2" [ngClass]="{'invalid': submitted && blf.NOTIFY_PARTY.errors}"/>
                                 <div *ngIf="submitted && blf.NOTIFY_PARTY.errors" class="invalid-feedback">Please
                                     Enter Notify Party</div>
@@ -178,7 +178,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Notify Party Address</label>
+                                <label class="form-label2">Notify Party Address<span class="text-danger">*</span></label>
                                 <textarea type="text" formControlName="NOTIFY_PARTY_ADDRESS" class="form-control2" [ngClass]="{'invalid': submitted && blf.NOTIFY_PARTY_ADDRESS.errors}"
                                     style="overflow:hidden;height: max-content;"></textarea>
                                     <div *ngIf="submitted && blf.NOTIFY_PARTY_ADDRESS.errors" class="invalid-feedback">Please
@@ -187,7 +187,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Pre Carriage by</label>
+                                <label class="form-label2">Pre Carriage by<span class="text-danger">*</span></label>
                                 <input formControlName="PRE_CARRIAGE_BY" type="text" class="form-control2" [ngClass]="{'invalid': submitted && blf.PRE_CARRIAGE_BY.errors}"/>
                                 <div *ngIf="submitted && blf.PRE_CARRIAGE_BY.errors" class="invalid-feedback">Please
                                     Enter Pre Carriage By</div>
@@ -195,7 +195,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Place of Receipt</label>
+                                <label class="form-label2">Place of Receipt<span class="text-danger">*</span></label>
                                 <input formControlName="PLACE_OF_RECEIPT" type="text" class="form-control2" [ngClass]="{'invalid': submitted && blf.PLACE_OF_RECEIPT.errors}"/>
                                 <div *ngIf="submitted && blf.PLACE_OF_RECEIPT.errors" class="invalid-feedback">Please
                                     Enter Place of Receipt</div>
@@ -206,7 +206,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Vessel Name</label>
+                                <label class="form-label2">Vessel Name<span class="text-danger">*</span></label>
                                 <input formControlName="VESSEL_NAME" type="text" class="form-control2" [ngClass]="{'invalid': submitted && blf.VESSEL_NAME.errors}"/>
                                 <div *ngIf="submitted && blf.VESSEL_NAME.errors" class="invalid-feedback">Please
                                     Enter Vessel Name</div>
@@ -214,7 +214,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Voyage No</label>
+                                <label class="form-label2">Voyage No<span class="text-danger">*</span></label>
                                 <input formControlName="VOYAGE_NO" type="text" class="form-control2" [ngClass]="{'invalid': submitted && blf.VOYAGE_NO.errors}"/>
                                 <div *ngIf="submitted && blf.VOYAGE_NO.errors" class="invalid-feedback">Please
                                     Enter Voyage No</div>
@@ -222,7 +222,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Port of Loading</label>
+                                <label class="form-label2">Port of Loading<span class="text-danger">*</span></label>
                                 <input formControlName="PORT_OF_LOADING" type="text" class="form-control2" [ngClass]="{'invalid': submitted && blf.PORT_OF_LOADING.errors}"/>
                                 <div *ngIf="submitted && blf.PORT_OF_LOADING.errors" class="invalid-feedback">Please
                                     Enter Port of Loading</div>
@@ -230,7 +230,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Port of Discharge</label>
+                                <label class="form-label2">Port of Discharge<span class="text-danger">*</span></label>
                                 <input formControlName="PORT_OF_DISCHARGE" type="text" class="form-control2" [ngClass]="{'invalid': submitted && blf.PORT_OF_DISCHARGE.errors}"/>
                                 <div *ngIf="submitted && blf.PORT_OF_DISCHARGE.errors" class="invalid-feedback">Please
                                     Enter Port of Discharge</div>
@@ -238,7 +238,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Place of Delivery</label>
+                                <label class="form-label2">Place of Delivery<span class="text-danger">*</span></label>
                                 <input formControlName="PLACE_OF_DELIVERY" type="text" class="form-control2" [ngClass]="{'invalid': submitted && blf.PLACE_OF_DELIVERY.errors}"/>
                                 <div *ngIf="submitted && blf.PLACE_OF_DELIVERY.errors" class="invalid-feedback">Please
                                     Enter Place of Delivery</div>
@@ -246,7 +246,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Final Destination</label>
+                                <label class="form-label2">Final Destination<span class="text-danger">*</span></label>
                                 <input formControlName="FINAL_DESTINATION" type="text" class="form-control2" [ngClass]="{'invalid': submitted && blf.FINAL_DESTINATION.errors}"/>
                                 <div *ngIf="submitted && blf.FINAL_DESTINATION.errors" class="invalid-feedback">Please
                                     Enter Final Destination</div>
@@ -254,7 +254,7 @@
                         </div>
                         <div class="col-md-3" *ngIf="isManual">
                             <div class="form-group">
-                                <label class="form-label2">Booking No</label>
+                                <label class="form-label2">Booking No<span class="text-danger">*</span></label>
                                 <input formControlName="BOOKING_NO" type="text" class="form-control2" [ngClass]="{'invalid': submitted && blf.BOOKING_NO.errors}"/>
                                 <div *ngIf="submitted && blf.BOOKING_NO.errors" class="invalid-feedback">Please
                                     Enter Booking No.</div>
@@ -262,7 +262,7 @@
                         </div>
                         <div class="col-md-3" *ngIf="isManual">
                             <div class="form-group">
-                                <label class="form-label2">CRO No</label>
+                                <label class="form-label2">CRO No<span class="text-danger">*</span></label>
                                 <input formControlName="CRO_NO" type="text" class="form-control2" [ngClass]="{'invalid': submitted && blf.CRO_NO.errors}"/>
                                 <div *ngIf="submitted && blf.CRO_NO.errors" class="invalid-feedback">Please
                                     Enter CRO No.</div>
@@ -274,7 +274,7 @@
                     <div class="row" *ngIf="!editBL && !isSplit">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Marks & Numbers</label>
+                                <label class="form-label2">Marks & Numbers<span class="text-danger">*</span></label>
                                 <textarea class="form-control2" formControlName="MARKS_NOS" [ngClass]="{'invalid': submitted && blf.MARKS_NOS.errors}"></textarea>
                                 <div *ngIf="submitted && blf.MARKS_NOS.errors" class="invalid-feedback">Please
                                     Enter Marks & Numbers</div>
@@ -282,7 +282,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Description of Goods</label>
+                                <label class="form-label2">Description of Goods<span class="text-danger">*</span></label>
                                 <textarea type="text" class="form-control2" formControlName="DESC_OF_GOODS" [ngClass]="{'invalid': submitted && blf.DESC_OF_GOODS.errors}"></textarea>
                                 <div *ngIf="submitted && blf.DESC_OF_GOODS.errors" class="invalid-feedback">Please
                                     Enter Description of Goods</div>
@@ -292,7 +292,7 @@
                     <div class="row" *ngIf="editBL || isSplit">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Marks & Numbers</label>
+                                <label class="form-label2">Marks & Numbers<span class="text-danger">*</span></label>
                                 <textarea class="form-control2" formControlName="MARKS_NOS" [ngClass]="{'invalid': submitted && blf.MARKS_NOS.errors}"></textarea>
                                 <div *ngIf="submitted && blf.MARKS_NOS.errors" class="invalid-feedback">Please
                                     Enter Marks & Numbers</div>
@@ -300,7 +300,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Description of Goods</label>
+                                <label class="form-label2">Description of Goods<span class="text-danger">*</span></label>
                                 <textarea type="text" class="form-control2" formControlName="DESC_OF_GOODS" [ngClass]="{'invalid': submitted && blf.DESC_OF_GOODS.errors}"></textarea>
                                 <div *ngIf="submitted && blf.DESC_OF_GOODS.errors" class="invalid-feedback">Please
                                     Enter Description of Goods</div>
@@ -475,7 +475,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Prepaid at</label>
+                                <label class="form-label2">Freight Prepaid<span class="text-danger">*</span></label>
                                 <input type="text" formControlName="PREPAID_AT" class="form-control2" [ngClass]="{'invalid': submitted && blf.PREPAID_AT.errors}" (keyup)="validate2P('PREPAID_AT',$event.target.value)"/>
                                 <div *ngIf="submitted && blf.PREPAID_AT.errors" class="invalid-feedback">Please
                                     Enter Prepaid At</div>
@@ -483,7 +483,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Payable at</label>
+                                <label class="form-label2">Freight Payable<span class="text-danger">*</span></label>
                                 <input type="text" formControlName="PAYABLE_AT" class="form-control2" [ngClass]="{'invalid': submitted && blf.PAYABLE_AT.errors}" (keyup)="validate2P('PAYABLE_AT',$event.target.value)"/>
                                 <div *ngIf="submitted && blf.PAYABLE_AT.errors" class="invalid-feedback">Please
                                     Enter Payable At</div>
@@ -491,7 +491,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Place of Issue</label>
+                                <label class="form-label2">Place of Issue<span class="text-danger">*</span></label>
                                 <input type="text" formControlName="BL_ISSUE_PLACE" class="form-control2" [ngClass]="{'invalid': submitted && blf.BL_ISSUE_PLACE.errors}"/>
                                 <div *ngIf="submitted && blf.BL_ISSUE_PLACE.errors" class="invalid-feedback">Please
                                     Enter BL Issue Place</div>
@@ -499,7 +499,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">Issue Date</label>
+                                <label class="form-label2">Issue Date<span class="text-danger">*</span></label>
                                 <input type="date" formControlName="BL_ISSUE_DATE" class="form-control2" [ngClass]="{'invalid': submitted && blf.BL_ISSUE_DATE.errors}" min="{{minDate}}"/>
                                 <div *ngIf="submitted && blf.BL_ISSUE_DATE.errors" class="invalid-feedback">Please
                                     Enter BL Issue Date</div>
@@ -510,7 +510,7 @@
                         
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label2">No of Original BL</label>
+                                <label class="form-label2">No of Original BL<span class="text-danger">*</span></label>
                                 <input type="text" formControlName="NO_OF_ORIGINAL_BL" class="form-control2" [ngClass]="{'invalid': submitted && blf.NO_OF_ORIGINAL_BL.errors}"/>
                                 <div *ngIf="submitted && blf.NO_OF_ORIGINAL_BL.errors" class="invalid-feedback">Please
                                     Enter No. of Original BL</div>
