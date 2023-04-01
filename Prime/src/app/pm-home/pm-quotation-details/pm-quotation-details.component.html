@@ -238,7 +238,7 @@
         </div>
     </div>
     <div class="row mt-2"
-        *ngIf="item1.STATUS == 'Requested' || (item1.STATUS == 'Countered' && item1.CREATED_BY == 'agent')">
+        *ngIf="item1.STATUS == 'Requested' || (item1.STATUS == 'Countered' && item1.CREATED_BY == 'Agent')">
         <div class="col-md-6 offset-md-6 text-end">
             <button type="button" (click)="updateRate(item1.CONTAINER_TYPE,'Approved')"
                 class="form-btn-success btn-sm me-2">Approve</button>

@@ -191,6 +191,13 @@ export class PmQuotationDetailsComponent implements OnInit {
       add3.push(this._formBuilder.group(element));
     });
 
+    this.calcForm
+      .get('LADEN_BACK_COST')
+      .setValue(this.quotationDetails.LADEN_BACK_COST);
+    this.calcForm
+      .get('EMPTY_BACK_COST')
+      .setValue(this.quotationDetails.EMPTY_BACK_COST);
+
     this._quotationService
       .getExcRates(
         add2.at(0)?.get('CURRENCY')?.value,
@@ -232,13 +239,6 @@ export class PmQuotationDetailsComponent implements OnInit {
           this._commonService.warnMsg('Please enter exhange rates first!');
         }
       });
-
-    this._quotationService.getCalRate(srr).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.calcForm.get('LADEN_BACK_COST').setValue(res.Data.LADEN_BACK_COST);
-        this.calcForm.get('EMPTY_BACK_COST').setValue(res.Data.EMPTY_BACK_COST);
-      }
-    });
   }
 
   numericOnly(event: any) {

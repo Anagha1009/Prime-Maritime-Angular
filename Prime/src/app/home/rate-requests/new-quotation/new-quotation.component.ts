@@ -646,7 +646,7 @@ export class NewQuotationComponent implements OnInit {
       this.quotationForm.get('EFFECT_TO')?.setValue('');
       this.quotationForm.get('IS_VESSELVALIDITY')?.setValue(true);
     }
-
+    console.log(JSON.stringify(this.quotationForm.value));
     this._quotationService
       .insertSRR(JSON.stringify(this.quotationForm.value))
       .subscribe((res: any) => {

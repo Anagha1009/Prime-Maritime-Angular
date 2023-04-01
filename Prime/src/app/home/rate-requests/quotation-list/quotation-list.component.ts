@@ -533,7 +533,7 @@ export class QuotationListComponent implements OnInit {
 
     srrRates.forEach((element: any) => {
       element.STATUS = value;
-      element.CREATED_BY = this._commonService.getUserName();
+      element.CREATED_BY = this._commonService.getUser().role;
     });
 
     console.log(JSON.stringify(this.rateForm.value.SRR_RATES));
