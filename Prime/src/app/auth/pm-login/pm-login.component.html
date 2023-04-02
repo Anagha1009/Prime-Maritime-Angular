@@ -1,6 +1,6 @@
 <div class="container-fluid"
     style="background-image: url('assets/img/ship2.png'); background-position: center; background-repeat: no-repeat;background-size: cover;">
-    
+
     <!-- <nav id="navbar" class="navbar">
         <ul>
             <li><a  routerLink="">Home</a></li>
@@ -20,7 +20,7 @@
                     <!-- Logo -->
                     <div class="app-brand justify-content-center">
                         <a routerLink="" class="app-brand-link gap-2">
-                            <img src="assets/img/logo_p.png" height="50" width="100" />
+                            <img src="assets/img/logo_p.png" height="50" width="120" />
                         </a>
                     </div>
                     <!-- /Logo -->
@@ -38,13 +38,13 @@
                             <input type="password" formControlName="PASSWORD" class="form-control2" id="password"
                                 name="email-username" placeholder="Enter your password" autofocus />
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="remember-me" />
                                 <label class="form-check-label text-white" for="remember-me"> Remember Me </label>
                             </div>
                             <a href="#!" class="text-body">Forgot password?</a>
-                        </div>
+                        </div> -->
                         <div class="mb-3">
                             <button [disabled]="isLoading" class="btn btn-danger btn-flat w-100" (click)="login()"
                                 type="button">Log in
