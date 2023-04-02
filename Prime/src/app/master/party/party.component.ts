@@ -19,6 +19,7 @@ export class PartyComponent implements OnInit {
   isLoading: boolean = false;
   isLoading1: boolean = false;
   customer: PARTY = new PARTY();
+  isGST: boolean = false;
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
@@ -45,13 +46,26 @@ export class PartyComponent implements OnInit {
       GSTIN: [
         '',
         [
+          Validators.required,
           Validators.pattern(
             '^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$'
           ),
         ],
       ],
       STATUS: ['', Validators.required],
+      CUST_CONTACT: [''],
+      VAT_NO: ['', Validators.required],
     });
+
+    if (this._commonService.getUser()?.countrycode == 'IN') {
+      this.partyForm.get('GSTIN').enable();
+      this.partyForm.get('VAT_NO').disable();
+      this.isGST = true;
+    } else {
+      this.partyForm.get('GSTIN').disable();
+      this.partyForm.get('VAT_NO').enable();
+      this.isGST = false;
+    }
 
     this.custForm = this._formBuilder.group({
       CUST_NAME: [''],
@@ -219,5 +233,9 @@ export class PartyComponent implements OnInit {
     }
 
     this.openModalPopup.nativeElement.click();
+  }
+
+  onlyNumeric(event: any) {
+    this._commonService.numericOnly(event);
   }
 }

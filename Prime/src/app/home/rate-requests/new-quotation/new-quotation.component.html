@@ -1026,10 +1026,11 @@
                                                                             </td>
                                                                             <td width="15%">{{item.value.CURRENCY}}</td>
                                                                             <td width="20%">
-                                                                                <select class="form-control2"
+                                                                                <select class="form-control3"
                                                                                     (change)="OnPaymentTerm($event,j,'FREIGHT_CHARGES')"
                                                                                     formControlName="PAYMENT_TERM">
-                                                                                    <option value=null selected>
+                                                                                    <option value=null selected
+                                                                                        disabled>
                                                                                         --Select--
                                                                                     </option>
                                                                                     <option value="Prepaid">Prepaid
@@ -1041,9 +1042,10 @@
                                                                                     *ngIf="submiitedRate && item.get('PAYMENT_TERM').errors">required</span>
                                                                             </td>
                                                                             <td width="20%">
-                                                                                <select class="form-control2"
+                                                                                <select class="form-control3"
                                                                                     formControlName="TRANSPORT_TYPE">
-                                                                                    <option value=null selected>
+                                                                                    <option value=null selected
+                                                                                        disabled>
                                                                                         --Select--
                                                                                     </option>
                                                                                     <option value="POL">POL</option>
@@ -1054,7 +1056,7 @@
                                                                             </td>
                                                                             <td width="10%">{{item.value.RATE}}</td>
                                                                             <td width="9%">
-                                                                                <input class="form-control2"
+                                                                                <input class="form-control3"
                                                                                     maxlength="5"
                                                                                     (keypress)="numericOnly($event)"
                                                                                     formControlName="RATE_REQUESTED"
@@ -1111,10 +1113,11 @@
                                                                             </td>
                                                                             <td width="15%">{{item.value.CURRENCY}}</td>
                                                                             <td width="20%">
-                                                                                <select class="form-control2"
+                                                                                <select class="form-control3"
                                                                                     (change)="OnPaymentTerm($event,j,'POL_CHARGES')"
                                                                                     formControlName="PAYMENT_TERM">
-                                                                                    <option value=null selected>
+                                                                                    <option value=null selected
+                                                                                        disabled>
                                                                                         --Select--
                                                                                     </option>
                                                                                     <option value="Prepaid">Prepaid
@@ -1126,9 +1129,10 @@
                                                                                     *ngIf="submiitedRate && item.get('PAYMENT_TERM').errors">required</span>
                                                                             </td>
                                                                             <td width="20%">
-                                                                                <select class="form-control2"
+                                                                                <select class="form-control3"
                                                                                     formControlName="TRANSPORT_TYPE">
-                                                                                    <option value=null selected>
+                                                                                    <option value=null selected
+                                                                                        disabled>
                                                                                         --Select--
                                                                                     </option>
                                                                                     <option value="POL">POL</option>
@@ -1139,7 +1143,7 @@
                                                                             </td>
                                                                             <td width="10%">{{item.value.RATE}}</td>
                                                                             <td width="9%">
-                                                                                <input class="form-control2"
+                                                                                <input class="form-control3"
                                                                                     maxlength="5"
                                                                                     (keypress)="numericOnly($event)"
                                                                                     formControlName="RATE_REQUESTED"
@@ -1195,10 +1199,11 @@
                                                                             </td>
                                                                             <td width="15%">{{item.value.CURRENCY}}</td>
                                                                             <td width="20%">
-                                                                                <select class="form-control2"
+                                                                                <select class="form-control3"
                                                                                     (change)="OnPaymentTerm($event,j,'POD_CHARGES')"
                                                                                     formControlName="PAYMENT_TERM">
-                                                                                    <option value=null selected>
+                                                                                    <option value=null selected
+                                                                                        disabled>
                                                                                         --Select--
                                                                                     </option>
                                                                                     <option value="Prepaid">Prepaid
@@ -1210,9 +1215,10 @@
                                                                                     *ngIf="submiitedRate && item.get('PAYMENT_TERM').errors">required</span>
                                                                             </td>
                                                                             <td width="20%">
-                                                                                <select class="form-control2"
+                                                                                <select class="form-control3"
                                                                                     formControlName="TRANSPORT_TYPE">
-                                                                                    <option value=null selected>
+                                                                                    <option value=null selected
+                                                                                        disabled>
                                                                                         --Select--
                                                                                     </option>
                                                                                     <option value="POL">POL</option>
@@ -1223,7 +1229,7 @@
                                                                             </td>
                                                                             <td width="10%">{{item.value.RATE}}</td>
                                                                             <td width="9%">
-                                                                                <input class="form-control2"
+                                                                                <input class="form-control3"
                                                                                     maxlength="5"
                                                                                     (keypress)="numericOnly($event)"
                                                                                     formControlName="RATE_REQUESTED"
@@ -1576,59 +1582,70 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label2">Name<span class="text-danger">*</span></label>
-                                    <input type="text" id="name"
+                                    <label class="form-label2">Name<span class="text-danger"> *</span></label>
+                                    <input maxlength="100" type="text" id="name"
                                         [ngClass]="{'invalid':submitted5 && fcp.CUST_NAME.errors}"
                                         formControlName="CUST_NAME" class="form-control2">
-                                    <div *ngIf="submitted5 && fcp.CUST_NAME.errors" class="invalid-feedback">Please
-                                        Enter Customer Name </div>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label2">Email<span class="text-danger">*</span></label>
-                                    <input type="text" id="CustomerEmail"
-                                        [ngClass]="{'invalid':submitted5 && fcp.CUST_EMAIL.errors}"
-                                        formControlName="CUST_EMAIL" class="form-control2">
-                                    <div *ngIf="submitted5 && fcp.CUST_EMAIL.errors" class="invalid-feedback">Please
-                                        Enter Customer Email </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label2">Location <span class="text-danger">*</span></label>
-                                    <input type="text" [ngClass]="{'invalid':submitted5 && fcp.LOCATION.errors}"
-                                        formControlName="LOCATION" class="form-control2">
-                                    <div *ngIf="submitted5 && fcp.LOCATION.errors" class="invalid-feedback">
-                                        Please Enter Location
+                                    <div *ngIf="submitted5 && fcp.CUST_NAME.errors?.required" class="invalid-feedback">
+                                        Name is required
+                                    </div>
+                                    <div *ngIf="submitted5 && fcp.CUST_NAME.errors?.pattern" class="invalid-feedback">
+                                        Name is invalid
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label2">Address<span class="text-danger">*</span></label>
-                                    <textarea type="text" id="address"
+                                    <label class="form-label2">Address<span class="text-danger"> *</span></label>
+                                    <textarea maxlength="100" type="text" id="address"
                                         [ngClass]="{'invalid':submitted5 && fcp.CUST_ADDRESS.errors}"
-                                        formControlName="CUST_ADDRESS" class="form-control2"
-                                        style="height:50px"></textarea>
-                                    <div *ngIf="submitted5 && fcp.CUST_ADDRESS.errors" class="invalid-feedback">Please
-                                        Enter Customer Address </div>
+                                        formControlName="CUST_ADDRESS" class="form-control2"></textarea>
+                                    <div *ngIf="submitted5 && fcp.CUST_ADDRESS.errors?.required"
+                                        class="invalid-feedback">Address is required
+                                    </div>
+                                    <div *ngIf="submitted5 && fcp.CUST_ADDRESS.errors?.pattern"
+                                        class="invalid-feedback">Address is invalid
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label2">GST IN<span class="text-danger">*</span></label>
-                                    <input type="text" id="gstin" [ngClass]="{'invalid':submitted5 && fcp.GSTIN.errors}"
-                                        formControlName="GSTIN" class="form-control2">
-                                    <div *ngIf="submitted5 && fcp.GSTIN.errors" class="invalid-feedback">Please Enter
-                                        GSTIN </div>
+                                    <label class="form-label2">Email</label>
+                                    <input maxlength="255" type="text" id="CustomerEmail"
+                                        [ngClass]="{'invalid':submitted5 && fcp.CUST_EMAIL.errors}"
+                                        formControlName="CUST_EMAIL" class="form-control2">
+                                    <div *ngIf="submitted5 && fcp.CUST_EMAIL.errors?.email" class="invalid-feedback">
+                                        Email is invalid
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group" *ngIf="isGST">
+                                    <label class="form-label2">GST No</label>
+                                    <input maxlength="15" type="text" id="gstin"
+                                        [ngClass]="{'invalid':submitted5 && fcp.GSTIN.errors}" formControlName="GSTIN"
+                                        class="form-control2">
+                                    <div *ngIf="submitted5 && fcp.GSTIN.errors?.pattern" class="invalid-feedback">GST No
+                                        is invalid
+                                    </div>
+                                    <div *ngIf="submitted5 && fcp.GSTIN.errors?.required" class="invalid-feedback">GST
+                                        No is required
+                                    </div>
+                                </div>
+                                <div class="form-group" *ngIf="!isGST">
+                                    <label class="form-label2">Vat No/ License No</label>
+                                    <input maxlength="30" type="text" id="gstin"
+                                        [ngClass]="{'invalid':submitted5 && fcp.VAT_NO.errors}" formControlName="VAT_NO"
+                                        class="form-control2">
+                                    <div *ngIf="submitted5 && fcp.VAT_NO.errors?.required" class="invalid-feedback">Vat
+                                        No is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label2">Type <span class="text-danger"> *</span></label>
@@ -1636,12 +1653,37 @@
                                         [ngClass]="{'invalid':submitted5 && fcp.CUST_TYPE.errors}"
                                         class="form-control2">
                                         <option value="" selected="true" disabled>--Select--</option>
-                                        <option value="Shipper">Shipper</option>
-                                        <option value="Consignee">Consignee</option>
-                                        <option value="Forwarder">Forwarder</option>
+                                        <option value="S">Shipper</option>
+                                        <option value="C">Consignee</option>
+                                        <option value="F">Forwarder</option>
+                                        <option value="CHA">CHA</option>
+                                        <option value="B">Broker</option>
+                                        <option value="N">Notify Party</option>
+                                        <option value="SLOT">Slot Operator</option>
                                     </select>
-                                    <div *ngIf="submitted5 && fcp.CUST_TYPE.errors" class="invalid-feedback">Please
-                                        Select Customer Type </div>
+                                    <div *ngIf="submitted5 && fcp.CUST_TYPE.errors" class="invalid-feedback">Type is
+                                        required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label2">Contact No</label>
+                                    <input (keypress)="numericOnly($event)" maxlength="10" type="text"
+                                        formControlName="CUST_CONTACT" class="form-control2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mt-4">
+                                <div class="form-group">
+                                    <div class="form-check form-switch">
+                                        <input formControlName="STATUS" class="form-check-input" type="checkbox"
+                                            role="switch" />
+                                        <label class="form-check-label">Status</label>
+                                    </div>
+                                    <div *ngIf="submitted5 && fcp.STATUS.errors" class="invalid-feedback">Status is
+                                        required </div>
                                 </div>
                             </div>
                         </div>
@@ -1652,7 +1694,7 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-6 text-end">
-                            <button class="form-btn w-50" (click)="CancelPartyMaster()">Clear</button>
+                            <button class="form-btn-light w-50" (click)="CancelPartyMaster()">Clear</button>
                         </div>
                         <div class="col-md-6">
                             <button class="form-btn w-50" (click)="InsertPartyMaster()">Save</button>

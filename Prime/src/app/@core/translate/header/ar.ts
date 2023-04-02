@@ -38,6 +38,9 @@ export const locale = {
       Vessel: 'إناء',
       Voyage: 'رحلة',
       VesselSchedule: 'جدول سفينة',
+      Liner: 'بطانة',
+      LinerService: 'خدمة',
+      Unit: 'وحدة',
     },
     Button: {
       newRequest: 'New Rate Request',

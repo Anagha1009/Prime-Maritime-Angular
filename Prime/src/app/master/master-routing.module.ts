@@ -45,13 +45,13 @@ const routes: Routes = [
     path: 'liner-master',
     component: LinerComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Principal] },
+    data: { roles: [Role.Principal, Role.Agent] },
   },
   {
     path: 'liner-service-master',
     component: LinerServiceComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Principal] },
+    data: { roles: [Role.Principal, Role.Agent] },
   },
   {
     path: 'party-master',

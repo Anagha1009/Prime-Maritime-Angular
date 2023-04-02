@@ -22,6 +22,11 @@
             <option disabled value="">--Select--</option>
             <option value="S">Shipper</option>
             <option value="C">Consignee</option>
+            <option value="F">Forwarder</option>
+            <option value="CHA">CHA</option>
+            <option value="B">Broker</option>
+            <option value="N">Notify Party</option>
+            <option value="SLOT">Slot Operator</option>
           </select>
         </div>
       </div>
@@ -38,8 +43,8 @@
       <div class="col-md-2">
         <div class="form-group">
           <label class="form-label2">From Date</label>
-          <input (change)="custForm.get('TO_DATE')?.setValue('')" onkeypress="return false;"
-            formControlName="FROM_DATE" type="date" class="form-control2">
+          <input (change)="custForm.get('TO_DATE')?.setValue('')" onkeypress="return false;" formControlName="FROM_DATE"
+            type="date" class="form-control2">
         </div>
       </div>
       <div class="col-md-2">
@@ -66,7 +71,8 @@
         <th width="30%">Name</th>
         <th width="9%">Type</th>
         <th width="10%">Email</th>
-        <th width="30%">Address</th>
+        <th width="20%">Address</th>
+        <th width="10%">Contact</th>
         <th width="10%">Status</th>
         <th width="10%">Action</th>
       </tr>
@@ -77,7 +83,8 @@
         <td width="30%">{{item.CUST_NAME}}</td>
         <td width="9%">{{item.CUST_TYPE}}</td>
         <td width="10%">{{item.CUST_EMAIL == null ? '-' : item.CUST_EMAIL == '' ? '-' : item.CUST_EMAIL}}</td>
-        <td width="30%">{{item.CUST_ADDRESS == null ? '-' : item.CUST_ADDRESS == '' ? '-' : item.CUST_ADDRESS}}</td>
+        <td width="20%">{{item.CUST_ADDRESS == null ? '-' : item.CUST_ADDRESS == '' ? '-' : item.CUST_ADDRESS}}</td>
+        <td width="10%">{{item.CUST_CONTACT == null ? '-' : item.CUST_CONTACT == '' ? '-' : item.CUST_CONTACT}}</td>
         <td width="10%" class="status"><span [class]="!item.STATUS ? 'rejected' : 'active'">{{item.STATUS ? 'Active'
             :
             'In-Active'}}</span>
@@ -138,11 +145,20 @@
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group" *ngIf="isGST">
                   <label class="form-label2">GST No</label>
                   <input maxlength="15" type="text" id="gstin" [ngClass]="{'invalid':submitted && f.GSTIN.errors}"
                     formControlName="GSTIN" class="form-control2">
                   <div *ngIf="submitted && f.GSTIN.errors?.pattern" class="invalid-feedback">GST No is invalid
+                  </div>
+                  <div *ngIf="submitted && f.GSTIN.errors?.required" class="invalid-feedback">GST No is required
+                  </div>
+                </div>
+                <div class="form-group" *ngIf="!isGST">
+                  <label class="form-label2">Vat No/ License No</label>
+                  <input maxlength="30" type="text" id="gstin" [ngClass]="{'invalid':submitted && f.VAT_NO.errors}"
+                    formControlName="VAT_NO" class="form-control2">
+                  <div *ngIf="submitted && f.VAT_NO.errors?.required" class="invalid-feedback">Vat No is required
                   </div>
                 </div>
               </div>
@@ -157,11 +173,24 @@
                     <option value="S">Shipper</option>
                     <option value="C">Consignee</option>
                     <option value="F">Forwarder</option>
+                    <option value="CHA">CHA</option>
+                    <option value="B">Broker</option>
+                    <option value="N">Notify Party</option>
+                    <option value="SLOT">Slot Operator</option>
                   </select>
                   <div *ngIf="submitted && f.CUST_TYPE.errors" class="invalid-feedback">Type is required
                   </div>
                 </div>
               </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label2">Contact No</label>
+                  <input (keypress)="onlyNumeric($event)" maxlength="10" type="text" formControlName="CUST_CONTACT"
+                    class="form-control2">
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <div class="col-md-6 mt-4">
                 <div class="form-group">
                   <div class="form-check form-switch">
