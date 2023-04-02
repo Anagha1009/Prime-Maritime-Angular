@@ -479,7 +479,7 @@ export class QuotationListComponent implements OnInit {
       ?.setValue(this._commonService.getUserCode());
 
     this.closeBtn.nativeElement.click();
-
+    console.log(JSON.stringify(this.slotDetailsForm.value));
     this._quotationService
       .booking(JSON.stringify(this.slotDetailsForm.value))
       .subscribe(
@@ -533,7 +533,7 @@ export class QuotationListComponent implements OnInit {
 
     srrRates.forEach((element: any) => {
       element.STATUS = value;
-      element.CREATED_BY = this._commonService.getUserName();
+      element.CREATED_BY = this._commonService.getUser().role;
     });
 
     console.log(JSON.stringify(this.rateForm.value.SRR_RATES));

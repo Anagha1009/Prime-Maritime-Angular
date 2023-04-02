@@ -22,7 +22,8 @@ export class CommonService {
     key: string,
     port: string = '',
     value: string = '',
-    value1: number = 0
+    value1: number = 0,
+    value2: string = ''
   ) {
     return this._http.get<any>(
       this.BASE_URL +
@@ -33,7 +34,9 @@ export class CommonService {
         '&port=' +
         port +
         '&value1=' +
-        value1,
+        value1 +
+        '&value2=' +
+        value2,
       this.httpOptions
     );
   }
@@ -205,7 +208,7 @@ export class CommonService {
 
     if (!reg.test(input)) {
       event.preventDefault();
-    }  
+    }
 
     return true;
   }

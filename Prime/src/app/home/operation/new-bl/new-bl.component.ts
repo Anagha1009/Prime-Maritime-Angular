@@ -12,16 +12,10 @@ import { locale as english } from 'src/app/@core/translate/bl/en';
 import { locale as hindi } from 'src/app/@core/translate/bl/hi';
 import { locale as arabic } from 'src/app/@core/translate/bl/ar';
 import { formatDate } from '@angular/common';
-import { PageBreak } from 'pdfmake/interfaces';
-import { Column } from 'ag-grid-community';
-import { layouts } from 'chart.js';
-import { ClientRequest } from 'http';
-import { truncateSync } from 'fs';
-import { Convert } from 'igniteui-angular-core';
 import Swal from 'sweetalert2';
 import { ContainerTypeService } from 'src/app/services/container-type.service';
 import { TYPE } from 'src/app/models/type';
-import { resolve } from 'dns';
+import { CmService } from 'src/app/services/cm.service';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -73,7 +67,8 @@ export class NewBlComponent implements OnInit {
     private _blService: BlService,
     private _ctService: ContainerTypeService,
     private _router: Router,
-    private _coreTranslationService: CoreTranslationService
+    private _coreTranslationService: CoreTranslationService,
+    private _cm: CmService
   ) {
     this._coreTranslationService.translate(english, hindi, arabic);
   }
@@ -750,7 +745,6 @@ export class NewBlComponent implements OnInit {
 
       if (el != null && el != '') {
         reader.onload = (event) => {
-          debugger;
           const data = reader.result;
           workBook = XLSX.read(data, { type: 'binary', cellDates: true });
 
@@ -862,6 +856,18 @@ export class NewBlComponent implements OnInit {
             });
 
             if (isValid) {
+              this.containerList.forEach((element) => {
+                this._cm
+                  .isValidContainer(element.CONTAINER_NO)
+                  .subscribe((res) => {
+                    if (res.responseCode == 500) {
+                      this._commonService.warnMsg(
+                        'One of the Container No doesnt match with the Master Data! Please insert valid Container No'
+                      );
+                      this.onUpload = false;
+                    }
+                  });
+              });
               this.previewTable = this.previewTable.filter(
                 (v, i, a) =>
                   a.findIndex(
@@ -1099,7 +1105,7 @@ export class NewBlComponent implements OnInit {
       console.log('without is split', this.ContainerList1);
     }
 
-    if (this.blForm.get('BLType')?.value == 'Sea-Way') {
+    if (this.blForm.get('BL_STATUS')?.value == 'Drafted') {
       let docDefinition = {
         watermark: {
           text: 'Drafted',
@@ -1826,8 +1832,8 @@ export class NewBlComponent implements OnInit {
                               {
                                 text:
                                   this.blForm.value.PREPAID_AT == null
-                                    ? 'Prepaid at\n' + ' - '
-                                    : 'Prepaid at\n' +
+                                    ? 'Freight Prepaid\n' + ' - '
+                                    : 'Freight Prepaid\n' +
                                       this.blForm.value.PREPAID_AT,
                                 fontSize: 8,
                                 bold: true,
@@ -1835,8 +1841,8 @@ export class NewBlComponent implements OnInit {
                               {
                                 text:
                                   this.blForm.value.PAYABLE_AT == null
-                                    ? 'Payable at\n' + ' - '
-                                    : 'Payable at\n' +
+                                    ? 'Freight Payable\n' + ' - '
+                                    : 'Freight Payable\n' +
                                       this.blForm.value.PAYABLE_AT,
                                 fontSize: 8,
                                 bold: true,
@@ -2919,8 +2925,8 @@ export class NewBlComponent implements OnInit {
                               {
                                 text:
                                   this.blForm.value.PREPAID_AT == null
-                                    ? 'Prepaid at\n' + ' - '
-                                    : 'Prepaid at\n' +
+                                    ? 'Freight Prepaid\n' + ' - '
+                                    : 'Freight Prepaid\n' +
                                       this.blForm.value.PREPAID_AT,
                                 fontSize: 8,
                                 bold: true,
@@ -2928,8 +2934,8 @@ export class NewBlComponent implements OnInit {
                               {
                                 text:
                                   this.blForm.value.PAYABLE_AT == null
-                                    ? 'Payable at\n' + ' - '
-                                    : 'Payable at\n' +
+                                    ? 'Freight Payable\n' + ' - '
+                                    : 'Freight Payable\n' +
                                       this.blForm.value.PAYABLE_AT,
                                 fontSize: 8,
                                 bold: true,

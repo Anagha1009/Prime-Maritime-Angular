@@ -68,6 +68,7 @@ export class NewQuotationComponent implements OnInit {
   submitted5: boolean = false;
   partyForm: FormGroup;
   maxValue: string;
+  isGST: boolean = false;
 
   //Files
   isUploadedPOL: boolean = false;
@@ -516,6 +517,14 @@ export class NewQuotationComponent implements OnInit {
               var rate = freightcharges.at(i).get('RATE').value;
               freightcharges.at(i).get(control).setValue(rate);
             }
+
+            if (control == 'PAYMENT_TERM') {
+              freightcharges.at(i).get(control).setValue('Prepaid');
+            }
+
+            if (control == 'TRANSPORT_TYPE') {
+              freightcharges.at(i).get(control).setValue('POL');
+            }
           });
         });
 
@@ -528,6 +537,14 @@ export class NewQuotationComponent implements OnInit {
               var rate = polcharges.at(i).get('RATE').value;
               polcharges.at(i).get(control).setValue(rate);
             }
+
+            if (control == 'PAYMENT_TERM') {
+              polcharges.at(i).get(control).setValue('Prepaid');
+            }
+
+            if (control == 'TRANSPORT_TYPE') {
+              polcharges.at(i).get(control).setValue('POL');
+            }
           });
         });
 
@@ -539,6 +556,14 @@ export class NewQuotationComponent implements OnInit {
             if (control == 'RATE_REQUESTED') {
               var rate = podcharges.at(i).get('RATE').value;
               podcharges.at(i).get(control).setValue(rate);
+            }
+
+            if (control == 'PAYMENT_TERM') {
+              podcharges.at(i).get(control).setValue('Collect');
+            }
+
+            if (control == 'TRANSPORT_TYPE') {
+              podcharges.at(i).get(control).setValue('POD');
             }
           });
         });
@@ -646,7 +671,7 @@ export class NewQuotationComponent implements OnInit {
       this.quotationForm.get('EFFECT_TO')?.setValue('');
       this.quotationForm.get('IS_VESSELVALIDITY')?.setValue(true);
     }
-
+    console.log(JSON.stringify(this.quotationForm.value));
     this._quotationService
       .insertSRR(JSON.stringify(this.quotationForm.value))
       .subscribe((res: any) => {
@@ -833,15 +858,39 @@ export class NewQuotationComponent implements OnInit {
 
     this.partyForm = this._formBuilder.group({
       CUST_ID: [0],
-      CUST_NAME: ['', Validators.required],
-      CUST_EMAIL: ['', Validators.required],
-      LOCATION: ['', Validators.required],
-      CUST_ADDRESS: ['', Validators.required],
+      CUST_NAME: [
+        '',
+        [Validators.required, Validators.pattern('^[A-Za-z0-9? , _-]+$')],
+      ],
+      CUST_EMAIL: ['', [Validators.email]],
+      CUST_ADDRESS: [
+        '',
+        [Validators.required, Validators.pattern("^[a-zA-Z0-9s, '-]*$")],
+      ],
       CUST_TYPE: ['', Validators.required],
-      GSTIN: ['', Validators.required],
-      AGENT_CODE: [''],
+      GSTIN: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            '^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$'
+          ),
+        ],
+      ],
       STATUS: ['', Validators.required],
+      CUST_CONTACT: [''],
+      VAT_NO: ['', Validators.required],
     });
+
+    if (this._commonService.getUser()?.countrycode == 'IN') {
+      this.partyForm.get('GSTIN').enable();
+      this.partyForm.get('VAT_NO').disable();
+      this.isGST = true;
+    } else {
+      this.partyForm.get('GSTIN').disable();
+      this.partyForm.get('VAT_NO').enable();
+      this.isGST = false;
+    }
   }
 
   getEffectToDate(e: any, param: any) {
@@ -858,7 +907,11 @@ export class NewQuotationComponent implements OnInit {
     var portcode: any = this._commonService.getUser().port;
 
     this._commonService
-      .getDropdownData('PLACE_OF_RECEIPT', portcode)
+      .getDropdownData(
+        'PLACE_OF_RECEIPT',
+        '',
+        this._commonService.getUser().countrycode
+      )
       .subscribe((res: any) => {
         if (res.hasOwnProperty('Data')) {
           this.placeofRecpList = res.Data;

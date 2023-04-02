@@ -130,7 +130,8 @@
                     <td width="10%">
                         <div class="col-md-12">
                             <label class="form-label3">{{'Header.component'|translate}}</label>
-                            <select formControlName="COMPONENT" class="form-control3">
+                            <select (change)="GetRepairMasterList($event)" formControlName="COMPONENT"
+                                class="form-control3">
                                 <option value="" selected disabled>--Select--</option>
                                 <option *ngFor="let item of componentList" value="{{item.CODE}}">
                                     {{item.CODE}}
@@ -152,7 +153,7 @@
                     <td width="10%">
                         <div class="col-md-12">
                             <label class="form-label3">{{'Header.repair'|translate}}</label>
-                            <select formControlName="REPAIR" class="form-control3">
+                            <select (change)="GetLengthMasterList(j)" formControlName="REPAIR" class="form-control3">
                                 <option value="" selected disabled>--Select--</option>
                                 <option *ngFor="let item of repairList" value="{{item.CODE}}">
                                     {{item.CODE}}
@@ -162,21 +163,47 @@
                     </td>
                     <td width="10%">
                         <div class="row">
-                            <div class="col-md-4 px-0"><label class="form-label3">L</label>
-                                <input formControlName="LENGTH" class="form-control3" type="text" />
+                            <div class="col-md-4 px-0">
+                                <!-- <label class="form-label3">L</label>
+
+                                <input formControlName="LENGTH" class="form-control3" type="text" /> -->
+                                <label class="form-label3">L</label>
+                                <select formControlName="LENGTH" class="form-control3">
+                                    <option value=0 selected disabled>--Select--</option>
+                                    <option *ngFor="let item of lengthList" value="{{item.CODE}}">
+                                        {{item.CODE}}
+                                    </option>
+                                </select>
                             </div>
-                            <div class="col-md-4 px-1"><label class="form-label3">W</label>
-                                <input formControlName="WIDTH" class="form-control3" type="text" />
+                            <div class="col-md-4 px-1">
+                                <label class="form-label3">W</label>
+                                <select formControlName="WIDTH" class="form-control3">
+                                    <option value=0 selected disabled>--Select--</option>
+                                    <option *ngFor="let item of widthList" value="{{item.CODE}}">
+                                        {{item.CODE}}
+                                    </option>
+                                </select>
                             </div>
-                            <div class="col-md-4 px-0"><label class="form-label3">H</label>
-                                <input formControlName="HEIGHT" class="form-control3" type="text" />
+                            <div class="col-md-4 px-0">
+                                <label class="form-label3">H</label>
+                                <select formControlName="HEIGHT" class="form-control3">
+                                    <option value=0 selected disabled>--Select--</option>
+                                    <option *ngFor="let item of heightList" value="{{item.CODE}}">
+                                        {{item.CODE}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </td>
                     <td width="5%">
                         <div class="col-md-12">
-                            <label class="form-label3">{{'Header.unit'|translate}}</label>
-                            <input formControlName="UNIT" class="form-control3" type="text" />
+                            <label class="form-label3">Unit</label>
+                            <select (change)="getMNTTariff(j)" formControlName="UNIT" class="form-control3">
+                                <option value="" selected disabled>--Select--</option>
+                                <option *ngFor="let item of quantityList" value="{{item.CODE}}">
+                                    {{item.CODE}}
+                                </option>
+                            </select>
                         </div>
                     </td>
                     <td width="8%">
@@ -185,10 +212,10 @@
                             <select formControlName="RESPONSIBILITY" class="form-control3">
                                 <option value="" selected disabled>
                                     --Select--</option>
-                                <option value="S">S</option>
-                                <option value="C">C</option>
-                                <option value="T">T</option>
-                                <option value="O">O</option>
+                                <option value="S">Shipper</option>
+                                <option value="C">Consignee</option>
+                                <option value="T">Third Party</option>
+                                <option value="O">Owner</option>
                             </select>
                         </div>
                     </td>
@@ -285,10 +312,11 @@
             </div>
             <div class="col-md-8">
                 <div class="row">
+                    <div class="col-2 m-2" *ngFor='let url of images' class="img-wrap">
+                        <span class="bx bx-x-circle close" (click)="removeFile(url)"></span>
+                        <img [src]="url" height="150" width="150">
+                    </div>
                 </div>
-
-                <img *ngFor='let url of images' [src]="url" height="150" width="150" style="margin: 3px;">
-                <br />
             </div>
         </div>
         <hr>

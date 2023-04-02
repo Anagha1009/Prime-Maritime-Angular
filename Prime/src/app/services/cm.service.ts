@@ -39,9 +39,9 @@ export class CmService {
     );
   }
 
-// testenc(){
-//  return  this._http.get<any>("http://localhost:44316/WeatherForecast/testenc1");
-// }
+  // testenc(){
+  //  return  this._http.get<any>("http://localhost:44316/WeatherForecast/testenc1");
+  // }
 
   //SINGLE
   getContMov(CM: CONTAINER_MOVEMENT) {
@@ -69,6 +69,15 @@ export class CmService {
     return this._http.post<any>(
       this.BASE_URL + 'ContainerMovement/UploadContainerMovement',
       CM,
+      this.httpOptions
+    );
+  }
+
+  isValidContainer(ContainerNo: string) {
+    return this._http.post<any>(
+      this.BASE_URL +
+        'ContainerMovement/ValidContainer?CONTAINER_NO=' +
+        ContainerNo,
       this.httpOptions
     );
   }

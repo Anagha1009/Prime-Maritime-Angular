@@ -9,6 +9,7 @@ import { locale as english } from 'src/app/@core/translate/mnr/en';
 import { locale as hindi } from 'src/app/@core/translate/mnr/hi';
 import { locale as arabic } from 'src/app/@core/translate/mnr/ar';
 import { Router } from '@angular/router';
+import { Mr } from 'src/app/models/mr';
 
 @Component({
   selector: 'app-mr-request',
@@ -28,6 +29,10 @@ export class MrRequestComponent implements OnInit {
   containerDetails: any;
   isContainer: boolean = false;
   isRecords: boolean = true;
+  lengthList: any[] = [];
+  widthList: any[] = [];
+  heightList: any[] = [];
+  quantityList: any[] = [];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -73,7 +78,6 @@ export class MrRequestComponent implements OnInit {
 
     this.GetComponentMasterList();
     this.GetDamageMasterList();
-    this.GetRepairMasterList();
   }
 
   getContainerDetails() {
@@ -311,10 +315,66 @@ export class MrRequestComponent implements OnInit {
     });
   }
 
-  GetRepairMasterList() {
-    this._commonService.getDropdownData('REPAIR').subscribe((res: any) => {
+  GetRepairMasterList(event: any) {
+    this._commonService
+      .getDropdownData('REPAIR', '', event.target.value)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.repairList = res.Data;
+        }
+      });
+  }
+
+  GetLengthMasterList(i: number) {
+    const add = this.mrForm.get('MR_LIST') as FormArray;
+    var component = add.at(i).get('COMPONENT').value;
+    var repair = add.at(i).get('REPAIR').value;
+    this._commonService
+      .getDropdownData('MNR_LENGTH', '', component, 0, repair)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.lengthList = res.Data;
+        }
+      });
+    this._commonService
+      .getDropdownData('MNR_WIDTH', '', component, 0, repair)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.widthList = res.Data;
+        }
+      });
+    this._commonService
+      .getDropdownData('MNR_HEIGHT', '', component, 0, repair)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.heightList = res.Data;
+        }
+      });
+    this._commonService
+      .getDropdownData('MNR_QUANTITY', '', component, 0, repair)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.quantityList = res.Data;
+        }
+      });
+  }
+
+  getMNTTariff(i: number) {
+    var mr = new Mr();
+    const add = this.mrForm.get('MR_LIST') as FormArray;
+    mr.COMPONENT = add.at(i).get('COMPONENT').value;
+    mr.REPAIR = add.at(i).get('REPAIR').value;
+    mr.LENGTH = add.at(i).get('LENGTH').value;
+    mr.WIDTH = add.at(i).get('WIDTH').value;
+    mr.HEIGHT = add.at(i).get('HEIGHT').value;
+    mr.QUANTITY = add.at(i).get('UNIT').value;
+    this._depoService.getMNRTariff(mr).subscribe((res: any) => {
+      debugger;
       if (res.ResponseCode == 200) {
-        this.repairList = res.Data;
+        add.at(i).get('MAN_HOUR').setValue(res.Data.MAN_HOUR);
+        add.at(i).get('LABOUR').setValue(res.Data.LABOUR_CHARGE);
+        add.at(i).get('MATERIAL').setValue(res.Data.MATERIAL_COST);
+        add.at(i).get('TOTAL').setValue(res.Data.TOTAL);
       }
     });
   }
@@ -350,5 +410,9 @@ export class MrRequestComponent implements OnInit {
     this.images = [];
 
     this.containerNo = '';
+  }
+
+  removeFile(url: any) {
+    this.images = this.images.filter((a) => a !== url);
   }
 }

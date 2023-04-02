@@ -1,6 +1,12 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="!isagentMaster">
     <app-pm-sidebar></app-pm-sidebar>
     <div style="width:80%;margin-left: 20%;">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+<div *ngIf="isagentMaster">
+    <div class="container">
+        <app-header [menu]="menu" [username]="username"></app-header>
         <router-outlet></router-outlet>
     </div>
 </div>

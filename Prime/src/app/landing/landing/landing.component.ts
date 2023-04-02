@@ -3,14 +3,10 @@ import { Router } from '@angular/router';
 
 import { BookingService } from 'src/app/services/booking.service';
 
-
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
-  styleUrls: [
-    './landing.component.scss',
-   
-  ],
+  styleUrls: ['./landing.component.scss'],
 })
 export class LandingComponent implements OnInit {
   isquotation: boolean = true;
@@ -23,16 +19,13 @@ export class LandingComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private _bookingservice: BookingService,
-   
+    private _bookingservice: BookingService
   ) {}
 
   ngOnInit(): void {
     setTimeout(() => {
       this.ispreloader = false;
     }, 3000);
-
-  
   }
 
   public loadJsFile(url: any[]) {
@@ -44,16 +37,12 @@ export class LandingComponent implements OnInit {
     });
   }
 
-  
-
   getTracking() {
-    
     if (this.bookingNo == '') {
       alert('Please enter booking no!');
     } else {
       var element = document.getElementById('openModalButton') as HTMLElement;
       element.click();
-     
     }
   }
 

@@ -57,13 +57,12 @@ export class QuotationService {
     );
   }
 
-  updateSRR(rootobject:any){
+  updateSRR(rootobject: any) {
     return this._http.post<any>(
       this.BASE_URL + 'SRR/UpdateSRR',
       rootobject,
       this.httpOptions
     );
-
   }
 
   insertContainer(rootobject: any) {
@@ -97,10 +96,16 @@ export class QuotationService {
     return this._http.post<any>(this.BASE_URL + 'SRR/CounterRate', rootobject);
   }
 
-  GetFiles(SRR_NO:string, COMM_TYPE: any) {
-    return this._http.get<any>(this.BASE_URL + 'SRR/GetSRRFiles?SRR_NO=' + SRR_NO + '&COMM_TYPE='+ COMM_TYPE);
+  GetFiles(SRR_NO: string, COMM_TYPE: any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'SRR/GetSRRFiles?SRR_NO=' +
+        SRR_NO +
+        '&COMM_TYPE=' +
+        COMM_TYPE
+    );
   }
-  
+
   getRate(srr: QUOTATION) {
     return this._http.get<any>(
       this.BASE_URL +
@@ -131,7 +136,7 @@ export class QuotationService {
     );
   }
 
-  getSRRRateList(srr:QUOTATION){
+  getSRRRateList(srr: QUOTATION) {
     return this._http.get<any>(
       this.BASE_URL +
         'SRR/GetSRRRateList?POL=' +
@@ -148,20 +153,21 @@ export class QuotationService {
   }
 
   //getsrrrates
-  getExcRates(currencyCode: any) {
+  getExcRates(currencyCode: any, agentCode: any) {
     return this._http.get<any>(
       this.BASE_URL +
         'SRR/GetExcRates?CURRENCY_CODE=' +
-        currencyCode,
+        currencyCode +
+        '&AGENT_CODE=' +
+        agentCode,
       this.httpOptions
     );
   }
 
-  postExcRateList(rootobject: any){
+  postExcRateList(rootobject: any) {
     return this._http.post<any>(
-      this.BASE_URL +
-        'SRR/InsertExcRate',
-        rootobject,
+      this.BASE_URL + 'SRR/InsertExcRate',
+      rootobject,
       this.httpOptions
     );
   }

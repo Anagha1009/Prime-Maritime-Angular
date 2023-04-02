@@ -32,6 +32,25 @@ export class DepoService {
     );
   }
 
+  getMNRTariff(Mr: Mr) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'Depo/GetMNRTariff?COMPONENT=' +
+        Mr.COMPONENT +
+        '&REPAIR=' +
+        Mr.REPAIR +
+        '&LENGTH=' +
+        Mr.LENGTH +
+        '&WIDTH=' +
+        Mr.WIDTH +
+        '&HEIGHT=' +
+        Mr.HEIGHT +
+        '&QUANTITY=' +
+        Mr.QUANTITY,
+      this.httpOptions
+    );
+  }
+
   getMRList(mr: Mr) {
     return this._http.get<any>(
       this.BASE_URL +

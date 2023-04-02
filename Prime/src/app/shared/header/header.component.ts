@@ -7,6 +7,7 @@ import { locale as hindi } from 'src/app/@core/translate/header/hi';
 import { locale as arabic } from 'src/app/@core/translate/header/ar';
 import Swal from 'sweetalert2';
 import { LoginService } from 'src/app/services/login.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-header',
@@ -21,10 +22,10 @@ export class HeaderComponent implements OnInit {
   public selectedLanguage: any = 'en';
 
   constructor(
-    private _router: Router,
     public _translateService: TranslateService,
     private _coreTranslationService: CoreTranslationService,
-    private _loginService: LoginService
+    private _loginService: LoginService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +52,7 @@ export class HeaderComponent implements OnInit {
               : this.selectedLanguage == 'hi'
               ? hindi.data.Menu.rateRequest
               : arabic.data.Menu.rateRequest,
-          menuLink: 'rate-request/srr-list',
+          menuLink: '/home/rate-request/srr-list',
         },
         {
           menuName:
@@ -88,6 +89,15 @@ export class HeaderComponent implements OnInit {
               ? hindi.data.Menu.Finance
               : arabic.data.Menu.Finance,
           menuLink: 'javascript:void(0)',
+        },
+        {
+          menuName:
+            this.selectedLanguage == 'en'
+              ? english.data.Menu.Others
+              : this.selectedLanguage == 'hi'
+              ? hindi.data.Menu.Others
+              : arabic.data.Menu.Others,
+          menuLink: 'javascript:void(0)',
         }
       );
     } else if (param == 3) {
@@ -99,7 +109,7 @@ export class HeaderComponent implements OnInit {
               : this.selectedLanguage == 'hi'
               ? hindi.data.Menu.containerAllotment
               : arabic.data.Menu.containerAllotment,
-          menuLink: 'depo/container-allotment',
+          menuLink: '/home/depo/container-allotment',
         },
         {
           menuName:
@@ -108,7 +118,7 @@ export class HeaderComponent implements OnInit {
               : this.selectedLanguage == 'hi'
               ? hindi.data.Menu.mnrRequest
               : arabic.data.Menu.mnrRequest,
-          menuLink: 'depo/mr-request',
+          menuLink: '/home/depo/mr-request',
         },
         {
           menuName:
@@ -137,5 +147,19 @@ export class HeaderComponent implements OnInit {
         this._loginService.logout();
       }
     });
+  }
+
+  downloadSI() {
+    this.http
+      .get('assets/img/SI.xlsx', { responseType: 'blob' })
+      .subscribe((data) => {
+        const blob = new Blob([data], { type: 'application/vnd.ms-excel' });
+
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        var path = 'assets/img/SI.xlsx';
+        link.download = path.replace(/^.*[\\\/]/, '');
+        link.click();
+      });
   }
 }
