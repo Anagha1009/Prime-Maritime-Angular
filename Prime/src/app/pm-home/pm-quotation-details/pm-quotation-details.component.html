@@ -80,7 +80,7 @@
 
         </div>
         <div class="col-md-2">
-            <button class="form-btn text-end" (click)="letsCalculate()">
+            <button class="form-btn text-end" (click)="getRates(quotationDetails?.SRR_CONTAINERS[0].CONTAINERS,1)">
                 SRR Calculator
             </button>
             <button #openScBtn data-bs-toggle="modal" href="#srrCalculateModal" class="form-btn d-none">Submit</button>
@@ -349,8 +349,8 @@
                             </h6>
                             <h6 style="font-weight:600">Exchange Rates :
                                 <small class="text-danger">USD : {{usdRate}}</small> |
-                                <small class="text-danger">{{excRates1?.CURRENCY_CODE}} : {{polRate}}</small> |
-                                <small class="text-danger">{{excRates2?.CURRENCY_CODE}} : {{podRate}}</small>
+                                <small class="text-danger">{{excRates1?.CURRENCY}} : {{polRate}}</small> |
+                                <small class="text-danger">{{excRates2?.CURRENCY}} : {{podRate}}</small>
                             </h6>
                         </div>
                     </div>

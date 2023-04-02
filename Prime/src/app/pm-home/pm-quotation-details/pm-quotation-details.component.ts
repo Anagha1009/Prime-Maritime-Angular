@@ -13,7 +13,6 @@ import { QuotationService } from 'src/app/services/quotation.service';
 export class PmQuotationDetailsComponent implements OnInit {
   excRates1: any;
   excRates2: any;
-  usdExcRate: any;
   usdRate: any = 0;
   polRate: any = 0;
   podRate: any = 0;
@@ -157,7 +156,7 @@ export class PmQuotationDetailsComponent implements OnInit {
     }
   }
 
-  getRates(container: any) {
+  getRates(container: any, i: number = 0) {
     var srr = new QUOTATION();
     srr.POL = this.quotationDetails?.SRR_NO.split('-')[0];
     srr.POD = this.quotationDetails?.SRR_NO.split('-')[1];
@@ -206,10 +205,11 @@ export class PmQuotationDetailsComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.excRates1 = res.Data;
-          //convert pol aed to usd
-          this.polRate = this.excRates1.TT_SELLING;
+          this.polRate = res.Data.RATE;
         } else {
-          this._commonService.warnMsg('Please enter exhange rates first!');
+          this._commonService.warnMsg(
+            'This Agent has not added POL exchange rates!'
+          );
         }
       });
 
@@ -221,10 +221,11 @@ export class PmQuotationDetailsComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.excRates2 = res.Data;
-          //convert pol aed to usd
-          this.podRate = this.excRates2.TT_SELLING;
+          this.podRate = res.Data.RATE;
         } else {
-          this._commonService.warnMsg('Please enter exhange rates first!');
+          this._commonService.warnMsg(
+            'This Agent has not added POD exchange rates!'
+          );
         }
       });
 
@@ -232,13 +233,15 @@ export class PmQuotationDetailsComponent implements OnInit {
       .getExcRates('USD', this.quotationDetails.AGENT_CODE)
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
-          this.usdExcRate = res.Data;
-          //usd rate
-          this.usdRate = this.usdExcRate.TT_SELLING;
+          this.usdRate = res.Data.RATE;
         } else {
-          this._commonService.warnMsg('Please enter exhange rates first!');
+          this._commonService.warnMsg(
+            'This Agent has not added USD exchange rates!'
+          );
         }
       });
+
+    this.openScBtn.nativeElement.click();
   }
 
   numericOnly(event: any) {
@@ -329,10 +332,5 @@ export class PmQuotationDetailsComponent implements OnInit {
     }
 
     return Math.round(total * 100) / 100;
-  }
-
-  letsCalculate() {
-    this.getRates(this.quotationDetails?.SRR_CONTAINERS[0].CONTAINERS);
-    this.openScBtn.nativeElement.click();
   }
 }

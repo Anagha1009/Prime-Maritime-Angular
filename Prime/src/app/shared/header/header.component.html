@@ -1,42 +1,59 @@
 <header id="header" class="fixed-top d-flex align-items-center header-transparent header-scrolled">
-    <div class="container d-flex justify-content-between align-items-center">
-
+    <div class="container-fluid d-flex justify-content-between align-items-center">
         <div class="logo">
-            <a class="pointer"><img src="assets/img/logo_p.png" alt="" class="img-fluid"></a>
+            <a routerLink="" class="pointer"><img src="assets/img/logo_p.png" alt="" class="img-fluid"></a>
         </div>
-
         <nav id="navbar" class="navbar">
             <ul>
-                <li [class]="item.menuName == 'Finance' || item.menuName == 'वित्त' || item.menuName == 'تمويل' || item.menuName == 'Bookings'  || item.menuName == 'बुकिंग' || item.menuName == 'الحجوزات' || item.menuName == 'Container Movement' || item.menuName == 'कंटेनर मूवमेंट' || item.menuName == 'كونتينر موفمنة' || item.menuName == 'Operations' || item.menuName == 'संचालन' || item.menuName == 'عمليات' ? 'dropdown' : ''"
+                <li [class]="item.menuName == 'Finance' || item.menuName == 'वित्त' || item.menuName == 'تمويل' || item.menuName == 'Bookings'  || item.menuName == 'बुकिंग' || item.menuName == 'الحجوزات' || item.menuName == 'Container Movement' || item.menuName == 'कंटेनर मूवमेंट' || item.menuName == 'كونتينر موفمنة' || item.menuName == 'Operations' || item.menuName == 'संचालन' || item.menuName == 'عمليات' || item.menuName == 'Others' || item.menuName == 'अन्य' || item.menuName == 'آحرون' ? 'dropdown' : ''"
                     *ngFor="let item of menuList">
                     <a routerLink="{{item.menuLink}}">{{item.menuName}}
-                        <i *ngIf="item.menuName == 'Finance' || item.menuName == 'वित्त' || item.menuName == 'تمويل' || item.menuName == 'Bookings' || item.menuName == 'बुकिंग' || item.menuName == 'الحجوزات' || item.menuName == 'Container Movement' || item.menuName == 'कंटेनर मूवमेंट' || item.menuName == 'كونتينر موفمنة' || item.menuName == 'Operations' || item.menuName == 'संचालन' || item.menuName == 'عمليات'"
+                        <i *ngIf="item.menuName == 'Finance' || item.menuName == 'वित्त' || item.menuName == 'تمويل' || item.menuName == 'Bookings' || item.menuName == 'बुकिंग' || item.menuName == 'الحجوزات' || item.menuName == 'Container Movement' || item.menuName == 'कंटेनर मूवमेंट' || item.menuName == 'كونتينر موفمنة' || item.menuName == 'Operations' || item.menuName == 'संचालन' || item.menuName == 'عمليات' || item.menuName == 'Others' || item.menuName == 'अन्य' || item.menuName == 'آحرون'"
                             class="bi bi-chevron-down"></i>
                     </a>
                     <ul *ngIf="item.menuName == 'Bookings' || item.menuName == 'बुकिंग' || item.menuName == 'الحجوزات'">
-                        <li><a routerLink="booking/booking-list">{{'Menu.bookingList'|translate}}</a></li>
-                        <li><a routerLink="booking/rollover">{{'Menu.rollover'|translate}}</a></li>
-                        <li><a routerLink="booking/er-list">{{'Menu.emptyRepoLocal'|translate}}</a></li>
+                        <li><a routerLink="/home/booking/booking-list">{{'Menu.bookingList'|translate}}</a></li>
+                        <li><a routerLink="/home/booking/rollover">{{'Menu.rollover'|translate}}</a></li>
+                        <li><a routerLink="/home/booking/er-list">{{'Menu.emptyRepoLocal'|translate}}</a></li>
                     </ul>
                     <ul *ngIf="item.menuName == 'Operations' || item.menuName == 'संचालन' || item.menuName == 'عمليات'">
-                        <li><a routerLink="operations/cro-list">{{'Menu.CRO'|translate}}</a></li>
-                        <li><a routerLink="operations/new-bl">{{'Menu.BL'|translate}}</a></li>
-                        <li><a routerLink="operations/merge-bl">MERGE BL</a></li>
-                        <li><a routerLink="operations/do-list">{{'Menu.DO'|translate}}</a></li>
-                        <li><a routerLink="operations/tdr-list">{{'Menu.TDR'|translate}}</a></li>
-                        <li><a routerLink="operations/load-list">{{'Menu.loadList'|translate}}</a></li>
-                        <li><a routerLink="operations/manifest-list">{{'Menu.MANIFEST'|translate}}</a></li>
-                        <li><a routerLink="operations/invoice-list">{{'Menu.newinvoice'|translate}}</a></li>
+                        <li><a routerLink="/home/operations/cro-list">{{'Menu.CRO'|translate}}</a></li>
+                        <li><a routerLink="/home/operations/new-bl">{{'Menu.BL'|translate}}</a></li>
+                        <li><a routerLink="/home/operations/merge-bl">MERGE BL</a></li>
+                        <li><a routerLink="/home/operations/do-list">{{'Menu.DO'|translate}}</a></li>
+                        <li><a routerLink="/home/operations/tdr-list">{{'Menu.TDR'|translate}}</a></li>
+                        <li><a routerLink="/home/operations/load-list">{{'Menu.loadList'|translate}}</a></li>
+                        <li><a routerLink="/home/operations/manifest-list">{{'Menu.MANIFEST'|translate}}</a></li>
+                        <!-- <li><a routerLink="operations/invoice-list">{{'Menu.newinvoice'|translate}}</a></li> -->
+                        <li><a class="text-light" routerLink="#">{{'Menu.newinvoice'|translate}}</a></li>
                     </ul>
                     <ul
                         *ngIf="item.menuName == 'Container Movement' || item.menuName == 'कंटेनर मूवमेंट' || item.menuName == 'كونتينر موفمنة'">
-                        <li><a routerLink="container/new-container-movement">{{'Menu.movement'|translate}}</a></li>
-                        <li><a routerLink="container/container-tracking">{{'Menu.tracking'|translate}}</a></li>
-                        <li><a routerLink="container/container-history">{{'Menu.history'|translate}}</a></li>
+                        <li><a routerLink="/home/container/new-container-movement">{{'Menu.movement'|translate}}</a>
+                        </li>
+                        <li><a routerLink="/home/container/container-tracking">{{'Menu.tracking'|translate}}</a></li>
+                        <li><a routerLink="/home/container/container-history">{{'Menu.history'|translate}}</a></li>
                     </ul>
                     <ul *ngIf="item.menuName == 'Finance'|| item.menuName == 'वित्त' || item.menuName == 'تمويل'">
                         <li><a routerLink="#">{{'Menu.VDA'|translate}}</a></li>
                         <li><a routerLink="#">{{'Menu.FDA'|translate}}</a></li>
+                    </ul>
+                    <ul *ngIf="item.menuName == 'Others' || item.menuName == 'अन्य' || item.menuName == 'آحرون'">
+                        <li><a routerLink="/home/operations/exc-rate-list">{{'Menu.ExchangeRates'|translate}}</a></li>
+                        <li><a class="pointer" (click)="downloadSI()">{{'Menu.SI'|translate}}</a></li>
+                        <li class="dropdown"><a routerLink="#">{{'Menu.Masters'|translate}} <i
+                                    class="bi bi-chevron-down"></i></a>
+                            <ul>
+                                <!-- <li><a routerLink="/master/container-master">{{'Menu.Container'|translate}}</a></li> -->
+                                <li><a routerLink="/master/container-type-master">{{'Menu.ContainerType'|translate}}</a>
+                                </li>
+                                <li><a routerLink="/master/currency-master">{{'Menu.Currency'|translate}}</a></li>
+                                <li><a routerLink="/master/party-master">{{'Menu.Customer'|translate}}</a></li>
+                                <!-- <li><a routerLink="/master/port-master">{{'Menu.Port'|translate}}</a></li> -->
+                                <li><a routerLink="/master/vessel-master">{{'Menu.Vessel'|translate}}</a></li>
+                                <li><a routerLink="/master/voyage-master">{{'Menu.Voyage'|translate}}</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
             </ul>

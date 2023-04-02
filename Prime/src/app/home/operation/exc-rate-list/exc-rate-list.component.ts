@@ -77,9 +77,7 @@ export class ExcRateListComponent implements OnInit {
             return initial;
           }, {});
 
-          const dataString = JSON.stringify(jsonData);
-
-          var keyArray = ['CURRENCY_TYPE', 'CURRENCY_CODE', 'TT_SELLING'];
+          var keyArray = ['CURRENCY', 'RATE'];
 
           var keyXlArray: any = [];
 
@@ -96,13 +94,7 @@ export class ExcRateListComponent implements OnInit {
             var isValid = true;
 
             this.excRateList.forEach((element) => {
-              if (
-                !this.checkNullEmpty([
-                  element.CURRENCY_TYPE,
-                  element.CURRENCY_CODE,
-                  element.TT_SELLING,
-                ])
-              ) {
+              if (!this.checkNullEmpty([element.CURRENCY, element.RATE])) {
                 isValid = false;
               }
             });
@@ -132,7 +124,7 @@ export class ExcRateListComponent implements OnInit {
 
   postExcRateList() {
     if (this.excRateList.length == 0) {
-      this._commonService.warnMsg('Please upload Shipping Instructions !');
+      this._commonService.warnMsg('Please upload Exchange Rates !');
       return;
     }
 
@@ -154,13 +146,13 @@ export class ExcRateListComponent implements OnInit {
 
   downloadFile() {
     this.http
-      .get('assets/img/ExcRate.xlsx', { responseType: 'blob' })
+      .get('assets/img/ExchangeRate.xlsx', { responseType: 'blob' })
       .subscribe((data) => {
         const blob = new Blob([data], { type: 'application/vnd.ms-excel' });
 
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        var path = 'assets/img/ExcRate.xlsx';
+        var path = 'assets/img/ExchangeRate.xlsx';
         link.download = path.replace(/^.*[\\\/]/, '');
         link.click();
       });

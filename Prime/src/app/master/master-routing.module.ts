@@ -33,13 +33,13 @@ const routes: Routes = [
     path: 'container-type-master',
     component: ContainerTypeComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Principal] },
+    data: { roles: [Role.Principal, Role.Agent] },
   },
   {
     path: 'currency-master',
     component: CurrencyComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Principal] },
+    data: { roles: [Role.Principal, Role.Agent] },
   },
   {
     path: 'liner-master',
@@ -57,7 +57,7 @@ const routes: Routes = [
     path: 'party-master',
     component: PartyComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Principal] },
+    data: { roles: [Role.Principal, Role.Agent] },
   },
   {
     path: 'port-master',
@@ -69,36 +69,36 @@ const routes: Routes = [
     path: 'schedule-master',
     component: ScheduleComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Principal] },
+    data: { roles: [Role.Principal, Role.Agent] },
   },
   {
     path: 'service-type-master',
     component: ServicetypeComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Principal] },
+    data: { roles: [Role.Principal, Role.Agent] },
   },
   {
     path: 'unit-master',
     component: UnitComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Principal] },
+    data: { roles: [Role.Principal, Role.Agent] },
   },
   {
     path: 'vessel-master',
     component: VesselComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Principal] },
+    data: { roles: [Role.Principal, Role.Agent] },
   },
   {
     path: 'voyage-master',
     component: VoyageComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Principal] },
+    data: { roles: [Role.Principal, Role.Agent] },
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class MasterRoutingModule { }
+export class MasterRoutingModule {}
