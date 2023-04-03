@@ -284,7 +284,9 @@
                                                     <td class="col-md-6">
                                                         <label
                                                             class="form-label3">{{'Header.SlotOperator'|translate}}</label>
-                                                        <select class="form-control3" formControlName="SLOT_OPERATOR">
+                                                        <select
+                                                            [ngClass]="{'invalid': submitted && f5.SLOT_LIST.controls[j].get('SLOT_OPERATOR').errors}"
+                                                            class="form-control3" formControlName="SLOT_OPERATOR">
                                                             <option value="" selected disabled>
                                                                 --Slot
                                                                 Operator--</option>
@@ -292,18 +294,25 @@
                                                                 value="{{item.CODE}}">
                                                                 {{item.CODE_DESC}}</option>
                                                         </select>
+                                                        <div *ngIf="submitted && f5.SLOT_LIST.controls[j].get('SLOT_OPERATOR').errors"
+                                                            class="invalid-feedback">Slot Operator is required
+                                                        </div>
                                                     </td>
                                                     <td class="col-md-4">
                                                         <label
                                                             class="form-label3">{{'Header.NoofSlots'|translate}}</label>
                                                         <input maxlength="5"
+                                                            [ngClass]="{'invalid': submitted && f5.SLOT_LIST.controls[j].get('NO_OF_SLOTS').errors}"
                                                             onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
                                                             (keypress)="numericOnly($event)" class="form-control3"
                                                             formControlName="NO_OF_SLOTS" type="text" />
-
+                                                        <div *ngIf="submitted && f5.SLOT_LIST.controls[j].get('NO_OF_SLOTS').errors"
+                                                            class="invalid-feedback">No of Slots is required
+                                                        </div>
                                                     </td>
                                                     <td class="col-md-2">
-                                                        <a (click)="removeItem(j)"><i class="fa fa-trash  mt-4"
+                                                        <a *ngIf="j>0" (click)="removeItem(j)"><i
+                                                                class="fa fa-trash  mt-4"
                                                                 style="font-size:15px"></i></a>
                                                     </td>
                                                 </tr>

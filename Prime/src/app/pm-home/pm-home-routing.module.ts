@@ -11,24 +11,24 @@ const routes: Routes = [
     path: 'mnr-request',
     component: PmMrRequestComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Principal] },
+    data: { roles: [Role.Principal, Role.EQC] },
   },
   {
     path: 'srr-details/:SRR_NO',
     component: PmQuotationDetailsComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Principal] },
+    data: { roles: [Role.Principal, Role.Admin] },
   },
   {
     path: 'srr-list',
     component: PmQuotationListComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Principal] },
+    data: { roles: [Role.Principal, Role.Admin] },
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class PmHomeRoutingModule { }
+export class PmHomeRoutingModule {}

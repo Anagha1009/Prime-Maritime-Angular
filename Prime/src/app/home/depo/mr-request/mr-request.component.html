@@ -130,8 +130,7 @@
                     <td width="10%">
                         <div class="col-md-12">
                             <label class="form-label3">{{'Header.component'|translate}}</label>
-                            <select (change)="GetRepairMasterList($event)" formControlName="COMPONENT"
-                                class="form-control3">
+                            <select formControlName="COMPONENT" class="form-control3">
                                 <option value="" selected disabled>--Select--</option>
                                 <option *ngFor="let item of componentList" value="{{item.CODE}}">
                                     {{item.CODE}}
@@ -155,7 +154,7 @@
                             <label class="form-label3">{{'Header.repair'|translate}}</label>
                             <select (change)="GetLengthMasterList(j)" formControlName="REPAIR" class="form-control3">
                                 <option value="" selected disabled>--Select--</option>
-                                <option *ngFor="let item of repairList" value="{{item.CODE}}">
+                                <option *ngFor="let item of getRepairList(j)" value="{{item.CODE}}">
                                     {{item.CODE}}
                                 </option>
                             </select>

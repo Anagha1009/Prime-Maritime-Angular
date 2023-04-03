@@ -15,4 +15,5 @@ export enum Role {
   Agent = 'Agent',
   Principal = 'Principal',
   Depot = 'Depot',
+  EQC = 'EQC',
 }

@@ -55,7 +55,7 @@ const routes: Routes = [
         path: 'dashboard',
         component: PmLandingComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Principal] },
+        data: { roles: [Role.Principal, Role.Admin, Role.EQC] },
       },
       {
         path: '',
