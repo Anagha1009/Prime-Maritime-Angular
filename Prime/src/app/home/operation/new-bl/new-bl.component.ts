@@ -260,9 +260,13 @@ export class NewBlComponent implements OnInit {
           AGENT_SEAL_NO: [element.AGENT_SEAL_NO],
           MARKS_NOS: [this.blForm.get('MARKS_NOS')?.value],
           DESC_OF_GOODS: [this.blForm.get('DESC_OF_GOODS')?.value],
+          // MARKS_NOS: [this.previewTable[0]?.MARKS_NOS],
+          // DESC_OF_GOODS: [this.previewTable[0]?.DESC_OF_GOODS],
         })
       );
     });
+
+    console.log("Latest Conatiner List",this.blForm.get('CONTAINER_LIST2').value);
 
     this.isBLForm = true;
     this.isSplit = false;
@@ -303,7 +307,41 @@ export class NewBlComponent implements OnInit {
         BL.BL_NO = BLNO;
         console.log(BL);
         this._blService.getBLDetails(BL).subscribe((res: any) => {
+          //new code
+          var mkn=this.blForm.get('MARKS_NOS').value;
+          var dog=this.blForm.get('DESC_OF_GOODS').value;
+          //
+
           this.blForm.patchValue(res.Data);
+
+          //new code
+          this.blForm.get('MARKS_NOS').setValue(mkn);
+          this.blForm.get('DESC_OF_GOODS').setValue(dog);
+          //
+
+          //container
+          var contList: any[] = res.Data.CONTAINER_LIST;
+
+      const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
+
+      add.clear();
+      contList.forEach((element) => {
+        add.push(
+          this._formBuilder.group({
+            CONTAINER_NO: [element.CONTAINER_NO],
+            CONTAINER_TYPE: [element.CONTAINER_TYPE],
+            //CONTAINER_SIZE: [element.CONTAINER_SIZE],
+            SEAL_NO: [element.SEAL_NO],
+            AGENT_SEAL_NO: [element.SEAL_NO],
+            GROSS_WEIGHT: [element.GROSS_WEIGHT],
+            MEASUREMENT: [element.MEASUREMENT?.toString()],
+            MARKS_NOS: [element.MARKS_NOS],
+            DESC_OF_GOODS: [element.DESC_OF_GOODS],
+          })
+        );
+      });
+          
+          //
           //finalize status/bltype/ogtype
           this.blForm.get('BL_STATUS')?.setValue('Finalized');
           //new code
@@ -951,6 +989,7 @@ export class NewBlComponent implements OnInit {
   }
 
   viewBL(BLNO: any, isNN: any) {
+    debugger;
     this.isSplit = false;
     this.editBL = false;
     this.isManual = false;
@@ -966,7 +1005,7 @@ export class NewBlComponent implements OnInit {
       console.log('BL FORM', JSON.stringify(this.blForm.value));
 
       var contList: any[] = res.Data.CONTAINER_LIST;
-
+      console.log("Container List",contList);
       //No. of Containers /Packages logic
       this.groupingViaCommonProperty = Object.values(
         contList.reduce((acc, current) => {
@@ -1002,7 +1041,8 @@ export class NewBlComponent implements OnInit {
         );
         this.i = this.i + 1;
       });
-
+      
+      console.log("Container List Array",this.blForm.get('CONTAINER_LIST2').value);
       if (this.blForm.get('BL_STATUS')?.value == 'Finalized') {
         if (isNN == false) {
           this.blForm.get('BLType')?.setValue('Original');
@@ -1021,6 +1061,8 @@ export class NewBlComponent implements OnInit {
             }).then((result) => {
               if (result.isConfirmed) {
                 this.blForm.get('OGView')?.setValue(1);
+                this.blForm.get('MARKS_NOS').setValue(contList[0]?.MARKS_NOS);
+                this.blForm.get('DESC_OF_GOODS').setValue(contList[0]?.DESC_OF_GOODS);
                 this._blService
                   .updateBL(JSON.stringify(this.blForm.value))
                   .subscribe((res: any) => {
@@ -1050,6 +1092,8 @@ export class NewBlComponent implements OnInit {
             }).then((result) => {
               if (result.isConfirmed) {
                 this.blForm.get('NNView')?.setValue(1);
+                this.blForm.get('MARKS_NOS').setValue(contList[0]?.MARKS_NOS);
+                this.blForm.get('DESC_OF_GOODS').setValue(contList[0]?.DESC_OF_GOODS);
                 this._blService
                   .updateBL(JSON.stringify(this.blForm.value))
                   .subscribe((res: any) => {
@@ -1753,7 +1797,7 @@ export class NewBlComponent implements OnInit {
           {
             text:
               'Total No. of Containers\nor Packages (in words)  ' +
-              this.containerList.length,
+              this.ContainerList1.length,
             bold: true,
             fontSize: 8,
             margin: [0, 20, 0, 3],
@@ -1822,7 +1866,20 @@ export class NewBlComponent implements OnInit {
                       { text: 'Ex. Rate', fontSize: 8, bold: true },
                       {
                         //layout: 'noBorders',
-                        layout: 'headerLineOnly',
+                        //layout: 'headerLineOnly',
+                        layout: {hLineWidth: function (i:any, node:any) {
+                          if (i === 0 || i === node.table.body.length) {
+                            return 0;
+                          }
+                          return (i === node.table.headerRows) ? 1 : 1;
+                        },
+                        vLineWidth: function (i:any) {
+                          if(i===1){
+                            return 1;
+                          }
+                          return 0;
+                        },
+                      },
                         table: {
                           widths: [125, 125],
                           headerRows: 1,
@@ -2846,7 +2903,7 @@ export class NewBlComponent implements OnInit {
           {
             text:
               'Total No. of Containers\nor Packages (in words)  ' +
-              this.containerList.length,
+              this.ContainerList1.length,
             bold: true,
             fontSize: 8,
             margin: [0, 20, 0, 3],
