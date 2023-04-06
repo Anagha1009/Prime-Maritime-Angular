@@ -433,8 +433,9 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Issue Date<span class="text-danger">*</span></label>
-                        <input type="date" formControlName="BL_ISSUE_DATE" class="form-control2"
-                            [ngClass]="{'invalid': submitted && blf.BL_ISSUE_DATE.errors}" min="{{minDate}}" />
+                        <input type="date" onkeypress="return false" formControlName="BL_ISSUE_DATE"
+                            class="form-control2" [ngClass]="{'invalid': submitted && blf.BL_ISSUE_DATE.errors}"
+                            min="{{minDate}}" />
                         <div *ngIf="submitted && blf.BL_ISSUE_DATE.errors" class="invalid-feedback">Please
                             Enter BL Issue Date</div>
                     </div>
@@ -522,7 +523,7 @@
                             {{item.PORT_OF_DISCHARGE}}
                         </td> -->
                         <td width="15%" class="status"><span
-                                [class]="item.BL_STATUS == 'Drafted' ? 'waiting' : item.BL_STATUS == 'Finalized' ? 'active' : 'rejected'">{{item.BL_STATUS}}</span>
+                                [class]="item.BL_STATUS == 'Draft' ? 'waiting' : item.BL_STATUS == 'Finalized' ? 'active' : 'rejected'">{{item.BL_STATUS}}</span>
 
                         </td>
 
@@ -532,7 +533,7 @@
                                 <a (click)="makeItFinalize(item.BL_NO)"><img src="assets/img/check-mark.png"></a>
                             </span>
                         </td> -->
-                        <td width="9%" *ngIf="item.BL_STATUS=='Drafted'">
+                        <td width="9%" *ngIf="item.BL_STATUS=='Draft'">
                             <div class="pointer"><a (click)="getBLDetailsForEdit(item.BL_NO)"><i
                                         class='bx bxs-pencil ms-2 me-3'></i></a>
                                 <a (click)="viewBL(item.BL_NO,false)"><i class='fa fa-eye ms-2'></i></a>

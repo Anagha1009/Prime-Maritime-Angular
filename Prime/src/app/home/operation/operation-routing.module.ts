@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/@core/services/auth.guard';
+import { ForgotPwdComponent } from 'src/app/auth/forgot-pwd/forgot-pwd.component';
 import { Role } from 'src/app/models/login';
 import { CroListComponent } from './cro-list/cro-list.component';
 import { DoDetailsComponent } from './do-details/do-details.component';
@@ -107,6 +108,12 @@ const routes: Routes = [
     component: InvoiceListComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Agent] },
+  },
+  {
+    path: 'change-password',
+    component: ForgotPwdComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Agent, Role.Depot] },
   },
 ];
 

@@ -3,18 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { PmLoginComponent } from './pm-login/pm-login.component';
 
 const routes: Routes = [
-
   {
     path: '',
-    component:PmLoginComponent,
+    component: PmLoginComponent,
     data: {
-      title: 'Landing'
-    }
-  }, 
+      title: 'Landing',
+    },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {}

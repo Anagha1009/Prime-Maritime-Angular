@@ -11,19 +11,17 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
-  declarations: [
-    PmLoginComponent
-  ],
+  declarations: [PmLoginComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
     NgMultiSelectDropDownModule,
     HttpClientModule,
     TranslateModule,
-    DataTablesModule 
-  ]
+    DataTablesModule,
+  ],
 })
-export class AuthModule { }
+export class AuthModule {}

@@ -182,6 +182,11 @@ export class CommonService {
     return JSON.parse(localStorage.getItem('user'));
   }
 
+  getUserId() {
+    var user = JSON.parse(localStorage.getItem('user'));
+    return user.id;
+  }
+
   numericOnly(event: any): boolean {
     // restrict e,+,-,E characters in  input type number
     const charCode = event.which ? event.which : event.keyCode;

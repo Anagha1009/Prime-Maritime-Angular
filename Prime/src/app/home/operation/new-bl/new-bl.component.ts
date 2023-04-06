@@ -264,11 +264,10 @@ export class NewBlComponent implements OnInit {
 
     this.isBLForm = true;
     this.isSplit = false;
-
     this.blForm.get('TOTAL_CONTAINERS')?.setValue(this.containerList.length);
     this.blForm
       .get('BL_ISSUE_DATE')
-      ?.setValue(formatDate(new Date(), 'dd-MM-yyyy', 'en'));
+      ?.setValue(formatDate(new Date(), 'yyyy-MM-dd', 'en'));
     var bl = new Bl();
     bl.AGENT_CODE = this._commonService.getUserCode();
     bl.BL_NO = this.isSplit ? this.blNo : '';
@@ -392,7 +391,7 @@ export class NewBlComponent implements OnInit {
       }
     }
     this.blForm.get('BLType')?.setValue('Draft');
-    this.blForm.get('BL_STATUS')?.setValue('Drafted');
+    this.blForm.get('BL_STATUS')?.setValue('Draft');
 
     // var bltypevalue = this.blForm.get('BLType')?.value;
     // this.blForm.get('BLType')?.setValue(bltypevalue ? 'Original' : 'Draft');
@@ -451,7 +450,7 @@ export class NewBlComponent implements OnInit {
 
     this.blForm.get('BL_NO')?.setValue(this.getRandomNumber());
     this.blForm.get('BLType')?.setValue('Draft');
-    this.blForm.get('BL_STATUS')?.setValue('Drafted');
+    this.blForm.get('BL_STATUS')?.setValue('Draft');
 
     var voyageNo = this.blForm.get('VOYAGE_NO')?.value;
     this.blForm.get('VOYAGE_NO')?.setValue(voyageNo.toString());
@@ -491,11 +490,12 @@ export class NewBlComponent implements OnInit {
     var json = JSON.stringify(this.blForm.value);
     json = json.replace(/\\n/g, '');
     json = json.replace(/\\r/g, '');
+
     this._blService.getSRRDetails(bl).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
         this.blForm.get('SRR_NO')?.setValue(res.Data.SRR_NO);
-
+        console.log(json);
         this._blService.createBL(json).subscribe((res: any) => {
           if (res.responseCode == 200) {
             //this._router.navigateByUrl('/home/new-bl');
@@ -999,7 +999,8 @@ export class NewBlComponent implements OnInit {
               CONTAINER_TYPE: [element.CONTAINER_TYPE],
               // CONTAINER_SIZE: [element.CONTAINER_SIZE],
               SEAL_NO: [element.SEAL_NO.toString()],
-              MARKS_NOS: [element.MARKS_NOS],
+              // MARKS_NOS: [element.MARKS_NOS],
+              MARKS_NOS: [''],
               DESC_OF_GOODS: [element.DESC_OF_GOODS],
               GROSS_WEIGHT: [element.GROSS_WEIGHT],
               MEASUREMENT: [element.MEASUREMENT?.toString()],
@@ -1079,7 +1080,7 @@ export class NewBlComponent implements OnInit {
           }
         }
       } else {
-        this.blForm.get('BLType')?.setValue('Drafted');
+        this.blForm.get('BLType')?.setValue('Draft');
         this.generateBLPdf();
       }
     });
@@ -1118,10 +1119,10 @@ export class NewBlComponent implements OnInit {
       this.ContainerList1 = this.ContainerList1.flat();
     }
 
-    if (this.blForm.get('BL_STATUS')?.value == 'Drafted') {
+    if (this.blForm.get('BL_STATUS')?.value == 'Draft') {
       let docDefinition = {
         watermark: {
-          text: 'Drafted',
+          text: 'Draft',
           color: '#808080',
           opacity: 0.3,
           bold: true,
@@ -1688,19 +1689,42 @@ export class NewBlComponent implements OnInit {
                     heights: 3,
                   },
                   {
-                    text: 'No. of Contai-\nners or pkgs.',
+                    text: 'No. of Containers or pkgs.',
                     fontSize: 8,
                     bold: true,
                     heights: 3,
                   },
                   {
-                    text: 'Kind of packages; description fo goods',
-                    fontSize: 8,
-                    bold: true,
-                    heights: 3,
+                    text: [
+                      {
+                        text: 'Kind of packages; description of goods\n',
+                        fontSize: 8,
+                        bold: true,
+                        heights: 3,
+                      },
+                      {
+                        text: 'Said to Contain. Shipper Load, Stow & Count',
+                        fontSize: 10,
+                        bold: true,
+                      },
+                    ],
                   },
                   { text: 'Gross Weight', fontSize: 9, bold: true, heights: 3 },
-                  { text: 'Measurement', fontSize: 9, bold: true, heights: 3 },
+                  {
+                    text: [
+                      {
+                        text: 'Measurement\n',
+                        fontSize: 8,
+                        bold: true,
+                        heights: 3,
+                      },
+                      {
+                        text: 'CY/CY FCL/FCL',
+                        fontSize: 10,
+                        bold: true,
+                      },
+                    ],
+                  },
                 ],
                 ...this.ContainerList1.slice(
                   0,
@@ -1709,7 +1733,7 @@ export class NewBlComponent implements OnInit {
                     : this.ContainerList1.length
                 ).map((p: any) => [
                   { text: p.CONTAINER_NO, fontSize: 9 },
-                  { text: p.SEAL_NO + '-' + p.MARKS_NOS, fontSize: 9 },
+                  { text: p.MARKS_NOS + '  ' + p.SEAL_NO, fontSize: 9 },
                   {
                     rowSpan:
                       this.ContainerList1.length > 5
@@ -1763,7 +1787,7 @@ export class NewBlComponent implements OnInit {
           },
           {
             table: {
-              heights: 2,
+              heights: 1,
               headerRows: 1,
               widths: [140, '*', 95, '*', '*'],
               body: [
@@ -1801,7 +1825,7 @@ export class NewBlComponent implements OnInit {
                 table: {
                   widths: [50, 270],
                   headerRows: 1,
-                  heights: 20,
+                  heights: 10,
                   body: [
                     [
                       { text: 'Ex. Rate', fontSize: 8, bold: true },
@@ -2026,7 +2050,7 @@ export class NewBlComponent implements OnInit {
                           bold: true,
                         },
                         {
-                          text: 'No. of Contai-\nners or pkgs.',
+                          text: 'No. of Containers or pkgs.',
                           fontSize: 8,
                           bold: true,
                         },
@@ -2034,13 +2058,18 @@ export class NewBlComponent implements OnInit {
                           text: 'Kind of packages; description of goods',
                           fontSize: 8,
                           bold: true,
+                          heights: 3,
                         },
                         { text: 'Gross Weight', fontSize: 9, bold: true },
-                        { text: 'Measurement', fontSize: 9, bold: true },
+                        {
+                          text: 'Measurement',
+                          fontSize: 9,
+                          bold: true,
+                        },
                       ],
                       ...this.ContainerList1.slice(5).map((p: any) => [
                         { text: p.CONTAINER_NO, fontSize: 9 },
-                        { text: p.SEAL_NO + '-' + p.MARKS_NOS, fontSize: 9 },
+                        { text: p.MARKS_NOS + '  ' + p.SEAL_NO, fontSize: 9 },
                         { text: '   -', fontSize: 9 },
                         { text: p.KIND_OF_GOODS, fontSize: 9 },
                         { text: p.GROSS_WEIGHT, fontSize: 9 },
@@ -2761,19 +2790,42 @@ export class NewBlComponent implements OnInit {
                     heights: 3,
                   },
                   {
-                    text: 'No. of Contai-\nners or pkgs.',
+                    text: 'No. of Containers or pkgs.',
                     fontSize: 8,
                     bold: true,
                     heights: 3,
                   },
                   {
-                    text: 'Kind of packages; description of goods',
-                    fontSize: 8,
-                    bold: true,
-                    heights: 3,
+                    text: [
+                      {
+                        text: 'Kind of packages; description of goods\n',
+                        fontSize: 8,
+                        bold: true,
+                        heights: 3,
+                      },
+                      {
+                        text: 'Said to Contain. Shipper Load, Stow & Count',
+                        fontSize: 10,
+                        bold: true,
+                      },
+                    ],
                   },
                   { text: 'Gross Weight', fontSize: 9, bold: true, heights: 3 },
-                  { text: 'Measurement', fontSize: 9, bold: true, heights: 3 },
+                  {
+                    text: [
+                      {
+                        text: 'Measurement\n',
+                        fontSize: 8,
+                        bold: true,
+                        heights: 3,
+                      },
+                      {
+                        text: 'CY/CY FCL/FCL',
+                        fontSize: 10,
+                        bold: true,
+                      },
+                    ],
+                  },
                 ],
                 ...this.ContainerList1.slice(
                   0,
@@ -2782,7 +2834,7 @@ export class NewBlComponent implements OnInit {
                     : this.ContainerList1.length
                 ).map((p: any) => [
                   { text: p.CONTAINER_NO, fontSize: 9 },
-                  { text: p.SEAL_NO + '-' + p.MARKS_NOS, fontSize: 9 },
+                  { text: p.MARKS_NOS + '  ' + p.SEAL_NO, fontSize: 9 },
                   {
                     rowSpan:
                       this.ContainerList1.length > 5
@@ -2835,7 +2887,7 @@ export class NewBlComponent implements OnInit {
           },
           {
             table: {
-              heights: 2,
+              heights: 1,
               headerRows: 1,
               widths: [140, '*', 95, '*', '*'],
               body: [
@@ -2873,7 +2925,7 @@ export class NewBlComponent implements OnInit {
                 table: {
                   widths: [50, 270],
                   headerRows: 1,
-                  heights: 20,
+                  heights: 10,
                   body: [
                     [
                       { text: 'Ex. Rate', fontSize: 8, bold: true },
@@ -3089,12 +3141,12 @@ export class NewBlComponent implements OnInit {
                           bold: true,
                         },
                         {
-                          text: 'No. of Contai-\nners or pkgs.',
+                          text: 'No. of Containers or pkgs.',
                           fontSize: 8,
                           bold: true,
                         },
                         {
-                          text: 'Kind of packages; description fo goods',
+                          text: 'Kind of packages; description of goods',
                           fontSize: 8,
                           bold: true,
                         },
@@ -3103,7 +3155,7 @@ export class NewBlComponent implements OnInit {
                       ],
                       ...this.ContainerList1.slice(5).map((p: any) => [
                         { text: p.CONTAINER_NO, fontSize: 9 },
-                        { text: p.SEAL_NO + '-' + p.MARKS_NOS, fontSize: 9 },
+                        { text: p.MARKS_NOS + '  ' + p.SEAL_NO, fontSize: 9 },
                         { text: '   -', fontSize: 9 },
                         { text: p.KIND_OF_GOODS, fontSize: 9 },
                         { text: p.GROSS_WEIGHT, fontSize: 9 },
