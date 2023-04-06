@@ -8,6 +8,7 @@ import { ContainerComponent } from './container/container.component';
 import { CurrencyComponent } from './currency/currency.component';
 import { LinerServiceComponent } from './liner-service/liner-service.component';
 import { LinerComponent } from './liner/liner.component';
+import { LocationComponent } from './location/location.component';
 import { PartyComponent } from './party/party.component';
 import { PortComponent } from './port/port.component';
 import { ScheduleComponent } from './schedule/schedule.component';
@@ -92,6 +93,12 @@ const routes: Routes = [
   {
     path: 'voyage-master',
     component: VoyageComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Agent] },
+  },
+  {
+    path: 'location-master',
+    component: LocationComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Principal, Role.Agent] },
   },

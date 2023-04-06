@@ -78,6 +78,7 @@ export class MrRequestComponent implements OnInit {
 
     this.GetComponentMasterList();
     this.GetDamageMasterList();
+    this.GetRepairMasterList();
   }
 
   getContainerDetails() {
@@ -103,7 +104,15 @@ export class MrRequestComponent implements OnInit {
         });
     }
   }
-
+  getRepairList(i: number) {
+    const add = this.mrForm.get('MR_LIST') as FormArray;
+    var component = add.at(i).get('COMPONENT').value;
+    if (component) {
+      return this.repairList.filter((x) => x.CODE_DESC == component);
+    }
+    return [];
+    // console.log(component);
+  }
   Sum(index: number) {
     const add = this.mrForm.get('MR_LIST') as FormArray;
     var labour = add.at(index)?.get('LABOUR')?.value;
@@ -315,14 +324,12 @@ export class MrRequestComponent implements OnInit {
     });
   }
 
-  GetRepairMasterList(event: any) {
-    this._commonService
-      .getDropdownData('REPAIR', '', event.target.value)
-      .subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.repairList = res.Data;
-        }
-      });
+  GetRepairMasterList() {
+    this._commonService.getDropdownData('REPAIR').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.repairList = res.Data;
+      }
+    });
   }
 
   GetLengthMasterList(i: number) {

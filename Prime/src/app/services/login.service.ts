@@ -53,4 +53,20 @@ export class LoginService {
     this.userSubject.next(null);
     this.router.navigate(['/login']);
   }
+
+  validatePwd(password: any, userId: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Account/Validate-Pwd',
+      { PASSWORD: password, ID: userId },
+      this.httpOptions
+    );
+  }
+
+  resetPwd(userId: any, password: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Account/Reset-Pwd',
+      { PASSWORD: password, ID: userId },
+      this.httpOptions
+    );
+  }
 }

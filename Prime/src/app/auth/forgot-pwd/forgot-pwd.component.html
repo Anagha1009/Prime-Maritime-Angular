@@ -1,0 +1,73 @@
+<div class="section-title">
+    <h2>Change Password</h2>
+</div>
+<div class="container">
+    <!-- <a routerLink="/home/operations/do-list"><i class='bx bx-arrow-back'></i>Back to List</a> -->
+    <div class="col-md-5 mx-auto mt-5" *ngIf="!showFields">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="form-label2">Current Password<span class="text-danger">
+                                    *</span></label>
+                            <input type="text" [(ngModel)]="currentPwd"
+                                [ngClass]="{'invalid': submitted && currentPwd == ''}" class="form-control2" />
+                            <div *ngIf="submitted && currentPwd == ''" class="invalid-feedback">
+                                Current Password is required</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mt-4">
+                        <button [disabled]="isLoading" (click)="checkPwd()"
+                            class="form-btn-success btn-sm rounded-pill">Change<span *ngIf="isLoading"
+                                class="fa fa-spinner fa-spin"></span></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5 mx-auto mt-5" *ngIf="showFields">
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="changePwdForm">
+                    <div class="row">
+                        <div class="col-md-8 mx-auto mt-3">
+                            <div class="form-group">
+                                <input formControlName="NEW_PWD" type="text" class="form-control"
+                                    [ngClass]="{'invalid': submitted1 && f.NEW_PWD.errors}" />
+
+                                <label class="form-label-ddl">New Password<span class="text-danger">
+                                        *</span></label>
+                                <div *ngIf="submitted1 && f.NEW_PWD.errors" class="invalid-feedback">Please enter New
+                                    Password
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 mx-auto mt-3">
+                            <div class="form-group">
+                                <input formControlName="CONFIRM_PWD" type="text" class="form-control"
+                                    [ngClass]="{'invalid': submitted1 && f.CONFIRM_PWD.errors}" />
+
+                                <label class="form-label-ddl">Confirm Password<span class="text-danger">
+                                        *</span></label>
+                                <div *ngIf="submitted1 && f.CONFIRM_PWD.errors" class="invalid-feedback">Please Confirm
+                                    Password
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center mt-2">
+                            <button type="button" (click)="resetPwd()" class="form-btn-primary">Reset</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

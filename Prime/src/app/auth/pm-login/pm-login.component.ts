@@ -39,10 +39,6 @@ export class PmLoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
-  onChange(changeEvent: boolean, idx: number): void {
-    console.log(changeEvent, idx);
-  }
-
   login() {
     this.submitted = true;
 
@@ -62,11 +58,13 @@ export class PmLoginComponent implements OnInit {
           this._cmService.warnMsg(
             'Account is not Registered! Try logging in with a registered account'
           );
+          this._loginservice.logout();
           return;
         } else if (res.message?.includes('Credentials for')) {
           this._cmService.warnMsg(
             'Invalid Credentials! Try entering valid credentials'
           );
+          this._loginservice.logout();
           return;
         } else {
           if (res.roleCode == '1') {
@@ -74,6 +72,10 @@ export class PmLoginComponent implements OnInit {
           } else if (res.roleCode == '3') {
             this._router.navigateByUrl('/home/depo/depo-dashboard');
           } else if (res.roleCode == '2') {
+            this._router.navigateByUrl('/pm/dashboard');
+          } else if (res.roleCode == '4') {
+            this._router.navigateByUrl('/pm/dashboard');
+          } else if (res.roleCode == '5') {
             this._router.navigateByUrl('/pm/dashboard');
           }
         }

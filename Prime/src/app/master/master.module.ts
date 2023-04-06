@@ -21,6 +21,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { DataTablesModule } from 'angular-datatables';
+import { LocationComponent } from './location/location.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import { DataTablesModule } from 'angular-datatables';
         ServicetypeComponent,
         UnitComponent,
         VesselComponent,
-        VoyageComponent
+        VoyageComponent,
+        LocationComponent
     ],
     imports: [
         CommonModule,

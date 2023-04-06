@@ -262,6 +262,11 @@ export class NewQuotationComponent implements OnInit {
       return;
     }
 
+    if (this.slotDetailsForm.get('SLOT_LIST').invalid) {
+      this.isgeneralcompleted = false;
+      return;
+    }
+
     this.isgeneralcompleted = true;
     this.onchangeTab('2');
   }
@@ -973,14 +978,6 @@ export class NewQuotationComponent implements OnInit {
       }
     });
 
-    this._commonService
-      .getDropdownData('SLOT_OPERATOR')
-      .subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.slotoperatorList = res.Data;
-        }
-      });
-
     this._commonService.getDropdownData('CURRENCY').subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.currencyList = res.Data;
@@ -1032,6 +1029,19 @@ export class NewQuotationComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.hasOwnProperty('Data')) {
           this.finalDestList = res.Data;
+        }
+      });
+
+    this.slotoperatorList = [];
+    this._commonService
+      .getDropdownData(
+        'SLOT_OPERATOR',
+        this.quotationForm.get('POL').value,
+        event
+      )
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.slotoperatorList = res.Data;
         }
       });
   }
@@ -1129,8 +1139,8 @@ export class NewQuotationComponent implements OnInit {
 
     slotDetails.push(
       this._formBuilder.group({
-        SLOT_OPERATOR: [''],
-        NO_OF_SLOTS: [''],
+        SLOT_OPERATOR: ['', Validators.required],
+        NO_OF_SLOTS: ['', Validators.required],
       })
     );
 
@@ -1231,8 +1241,8 @@ export class NewQuotationComponent implements OnInit {
 
       slotDetails.push(
         this._formBuilder.group({
-          SLOT_OPERATOR: [''],
-          NO_OF_SLOTS: [''],
+          SLOT_OPERATOR: ['', Validators.required],
+          NO_OF_SLOTS: ['', Validators.required],
         })
       );
 

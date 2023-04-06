@@ -27,7 +27,7 @@
                     <h4 class="mb-2" style="color: #07386c">Welcome to Prime Maritime! 👋</h4>
                     <p class="mb-4 text-white">Please sign-in to your account</p>
 
-                    <form id="formAuthentication" [formGroup]="loginForm" class="mb-3">
+                    <form id="formAuthentication" [formGroup]="loginForm" class="mb-3" (enter.keyup)="login()">
                         <div class="mb-3 form-group">
                             <label for="email" class="text-white">Username</label>
                             <input type="text" formControlName="USERNAME" class="form-control2" id="email"

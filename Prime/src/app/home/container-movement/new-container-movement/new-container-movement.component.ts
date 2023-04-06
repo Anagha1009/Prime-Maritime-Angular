@@ -268,6 +268,7 @@ export class NewContainerMovementComponent implements OnInit {
   }
 
   onFileChange(ev: any) {
+    debugger;
     this.files = ev.target.files;
     let workBook: any = null;
     let jsonData = null;
@@ -285,6 +286,7 @@ export class NewContainerMovementComponent implements OnInit {
 
       if (el != null && el != '') {
         reader.onload = (event) => {
+          debugger;
           const data = reader.result;
           workBook = XLSX.read(data, { type: 'binary', cellDates: true });
 
@@ -344,6 +346,7 @@ export class NewContainerMovementComponent implements OnInit {
             this._commonService.destroyDT();
             if (isValid) {
               if (isValidBKCRO) {
+                debugger;
                 this.cmTable = this.cmTable.filter(
                   (v, i, a) =>
                     a.findIndex(
