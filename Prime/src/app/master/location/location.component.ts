@@ -1,5 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Location } from 'src/app/models/location';
 import { CommonService } from 'src/app/services/common.service';
 import { LocationService } from 'src/app/services/location.service';
@@ -20,6 +26,8 @@ export class LocationComponent implements OnInit {
   isLoading: boolean = false;
   isLoading1: boolean = false;
   portList: any[] = [];
+  dropdownSettings = {};
+  selectedItems: any[] = [];
 
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
@@ -31,14 +39,39 @@ export class LocationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'CODE',
+      textField: 'CODE_DESC',
+      enableCheckAll: true,
+      selectAllText: 'Select All',
+      unSelectAllText: 'Unselect All',
+      allowSearchFilter: true,
+      limitSelection: -1,
+      clearSearchFilter: true,
+      maxHeight: 170,
+      itemsShowLimit: 3,
+      searchPlaceholderText: 'Select Port',
+      noDataAvailablePlaceholderText: 'No Records',
+      closeDropDownOnSelection: false,
+      showSelectedItemsAtTop: false,
+      defaultOpen: false,
+    };
+
     this.locationForm = this._formBuilder.group({
       ID: [0],
       LOC_NAME: ['', Validators.required],
       LOC_CODE: ['', Validators.required],
-      LOC_TYPE: ['', Validators.required],
+      IS_DEPO: [false],
+      IS_CFS: [false],
+      IS_TERMINAL: [false],
+      IS_YARD: [false],
       ADDRESS: ['', Validators.required],
       COUNTRY_CODE: ['', Validators.required],
-      PORT_CODE_LIST: new FormArray([]),
+      PORT: new FormControl(this.portList, Validators.required),
+      PORT_CODE: [''],
+      STATUS: ['', Validators.required],
+      CREATED_BY: [''],
     });
 
     this.locForm = this._formBuilder.group({
@@ -50,19 +83,33 @@ export class LocationComponent implements OnInit {
     });
 
     this.GetLocationMasterList();
-    this.getDropdown();
   }
 
   get f() {
     return this.locationForm.controls;
   }
 
-  getDropdown() {
-    this._commonService.getDropdownData('PORT').subscribe((res: any) => {
-      if (res.hasOwnProperty('Data')) {
-        this.portList = res.Data;
-      }
-    });
+  getDropdown(event: any, value: any = '') {
+    this.portList = [];
+    this.locationForm.get('PORT').setValue('');
+    this._commonService
+      .getDropdownData('PORT', '', value == '' ? event.target.value : value)
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.portList = res.Data;
+
+          if (value != '') {
+            var x = this.locationForm.get('PORT_CODE').value.split(',');
+            var ss: any = [];
+            x.forEach((element: any) => {
+              if (element != '') {
+                ss.push(this.portList.filter((x) => x.CODE === element)[0]);
+              }
+            });
+            this.selectedItems = ss;
+          }
+        }
+      });
   }
 
   InsertLocation() {
@@ -70,7 +117,24 @@ export class LocationComponent implements OnInit {
 
     if (this.locationForm.invalid) {
       return;
+    } else if (
+      !this.f.IS_DEPO.value &&
+      !this.f.IS_CFS.value &&
+      !this.f.IS_TERMINAL.value &&
+      !this.f.IS_YARD.value
+    ) {
+      return;
     }
+
+    const add = this.locationForm.get('PORT') as FormArray;
+    var port = '';
+    add.value.forEach((element: any) => {
+      port += element.CODE + ',';
+    });
+    this.locationForm.get('PORT_CODE').setValue(port);
+    this.locationForm
+      .get('CREATED_BY')
+      .setValue(this._commonService.getUserCode());
 
     this._locationService
       .postLocation(JSON.stringify(this.locationForm.value))
@@ -136,7 +200,11 @@ export class LocationComponent implements OnInit {
   ClearForm() {
     this.locationForm.reset();
     this.locationForm.get('ID')?.setValue(0);
-    this.locationForm.get('LOC_TYPE')?.setValue('');
+    this.locationForm.get('COUNTRY_CODE')?.setValue('');
+    this.locationForm.get('IS_DEPO')?.setValue(false);
+    this.locationForm.get('IS_CFS')?.setValue(false);
+    this.locationForm.get('IS_TERMINAL')?.setValue(false);
+    this.locationForm.get('IS_YARD')?.setValue(false);
   }
 
   Clear() {
@@ -148,19 +216,37 @@ export class LocationComponent implements OnInit {
     this.GetLocationMasterList();
   }
 
-  GetLocationMasterDetails(Id: number) {
-    this._locationService.GetLocationMasterDetails(Id).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.locationForm.patchValue(res.Data);
-      }
-    });
+  GetLocationMasterDetails(LOC_CODE: string) {
+    this._locationService
+      .GetLocationMasterDetails(LOC_CODE)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.locationForm.patchValue(res.Data);
+          var country = this.locationForm.get('COUNTRY_CODE').value;
+          this.getDropdown('', country);
+        }
+      });
   }
 
   updateLocationMaster() {
     this.submitted = true;
     if (this.locationForm.invalid) {
       return;
+    } else if (
+      !this.f.IS_DEPO.value &&
+      !this.f.IS_CFS.value &&
+      !this.f.IS_TERMINAL.value &&
+      !this.f.IS_YARD.value
+    ) {
+      return;
     }
+
+    const add = this.locationForm.get('PORT') as FormArray;
+    var port = '';
+    add.value.forEach((element: any) => {
+      port += element.CODE + ',';
+    });
+    this.locationForm.get('PORT_CODE').setValue(port);
 
     this._locationService
       .updateLocationMaster(JSON.stringify(this.locationForm.value))
@@ -175,7 +261,7 @@ export class LocationComponent implements OnInit {
       });
   }
 
-  deleteLocationMaster(Id: number) {
+  deleteLocationMaster(LOC_CODE: string) {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -186,24 +272,26 @@ export class LocationComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        this._locationService.deletelocationMaster(Id).subscribe((res: any) => {
-          if (res.ResponseCode == 200) {
-            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
-            this.GetLocationMasterList();
-          }
-        });
+        this._locationService
+          .deletelocationMaster(LOC_CODE)
+          .subscribe((res: any) => {
+            if (res.ResponseCode == 200) {
+              Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+              this.GetLocationMasterList();
+            }
+          });
       }
     });
   }
 
-  openModal(ID: any = 0) {
+  openModal(LOC_CODE: any = '') {
     this.submitted = false;
     this.isUpdate = false;
     this.ClearForm();
 
-    if (ID > 0) {
+    if (LOC_CODE != '') {
       this.isUpdate = true;
-      this.GetLocationMasterDetails(ID);
+      this.GetLocationMasterDetails(LOC_CODE);
     }
 
     this.openModalPopup.nativeElement.click();

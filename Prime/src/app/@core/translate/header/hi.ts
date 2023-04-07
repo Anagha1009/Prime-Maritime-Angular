@@ -41,6 +41,7 @@ export const locale = {
       Liner: 'लाइनर',
       LinerService: 'लाइनर सेवा',
       Unit: 'इकाई',
+      Location: 'जगह',
     },
     Button: {
       newRequest: 'New Rate Request',

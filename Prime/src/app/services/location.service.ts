@@ -19,7 +19,7 @@ export class LocationService {
 
   postLocation(location: any) {
     return this._http.post<any>(
-      this.BASE_URL + 'Loadlist/GetLoadList?ID=',
+      this.BASE_URL + 'Master/InsertLocationMaster',
       location,
       this.httpOptions
     );
@@ -28,7 +28,7 @@ export class LocationService {
   GetLocationMasterList(loc: Location) {
     return this._http.get<any>(
       this.BASE_URL +
-        'Loadlist/GetLoadList?LOC_NAME=' +
+        'Master/GetLocationMasterList?LOC_NAME=' +
         loc.LOC_NAME +
         '&LOC_TYPE=' +
         loc.LOC_TYPE +
@@ -41,24 +41,24 @@ export class LocationService {
     );
   }
 
-  GetLocationMasterDetails(Id: number) {
+  GetLocationMasterDetails(LOC_CODE: string) {
     return this._http.get<any>(
-      this.BASE_URL + 'Loadlist/GetLoadList?ID=' + Id,
+      this.BASE_URL + 'Master/GetLocationMasterDetails?LOC_CODE=' + LOC_CODE,
       this.httpOptions
     );
   }
 
   updateLocationMaster(loc: any) {
     return this._http.post<any>(
-      this.BASE_URL + 'Loadlist/GetLoadList?ID=',
+      this.BASE_URL + 'Master/UpdateLocationMasterList',
       loc,
       this.httpOptions
     );
   }
 
-  deletelocationMaster(id: number) {
+  deletelocationMaster(LOC_CODE: string) {
     return this._http.post<any>(
-      this.BASE_URL + 'Loadlist/GetLoadList?ID=' + id,
+      this.BASE_URL + 'Master/DeleteLocationMasterList?LOC_CODE=' + LOC_CODE,
       this.httpOptions
     );
   }
