@@ -66,6 +66,7 @@ export class LocationComponent implements OnInit {
       IS_CFS: [false],
       IS_TERMINAL: [false],
       IS_YARD: [false],
+      IS_ICD: [false],
       ADDRESS: ['', Validators.required],
       COUNTRY_CODE: ['', Validators.required],
       PORT: new FormControl(this.portList, Validators.required),
@@ -121,7 +122,8 @@ export class LocationComponent implements OnInit {
       !this.f.IS_DEPO.value &&
       !this.f.IS_CFS.value &&
       !this.f.IS_TERMINAL.value &&
-      !this.f.IS_YARD.value
+      !this.f.IS_YARD.value &&
+      !this.f.IS_ICD.value
     ) {
       return;
     }
@@ -205,6 +207,7 @@ export class LocationComponent implements OnInit {
     this.locationForm.get('IS_CFS')?.setValue(false);
     this.locationForm.get('IS_TERMINAL')?.setValue(false);
     this.locationForm.get('IS_YARD')?.setValue(false);
+    this.locationForm.get('IS_ICD')?.setValue(false);
   }
 
   Clear() {
@@ -236,7 +239,8 @@ export class LocationComponent implements OnInit {
       !this.f.IS_DEPO.value &&
       !this.f.IS_CFS.value &&
       !this.f.IS_TERMINAL.value &&
-      !this.f.IS_YARD.value
+      !this.f.IS_YARD.value &&
+      !this.f.IS_ICD.value
     ) {
       return;
     }

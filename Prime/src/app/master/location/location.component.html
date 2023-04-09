@@ -51,9 +51,10 @@
                 <th width="5%">Depo</th>
                 <th width="5%">CFS</th>
                 <th width="5%">Terminal</th>
+                <th width="5%">ICD</th>
                 <th width="5%">Yard</th>
                 <th width="10%">Port</th>
-                <th width="20%">Address</th>
+                <th width="15%">Address</th>
                 <th width="10%">Status</th>
                 <th width="9%">Action</th>
             </tr>
@@ -74,10 +75,13 @@
                         [class]="item.IS_TERMINAL ? 'fs-5 bx bxs-check-circle text-success' : 'fs-5 bx bxs-x-circle text-danger'"></i>
                 </td>
                 <td width="5%"><i
+                        [class]="item.IS_ICD ? 'fs-5 bx bxs-check-circle text-success' : 'fs-5 bx bxs-x-circle text-danger'"></i>
+                </td>
+                <td width="5%"><i
                         [class]="item.IS_YARD ? 'fs-5 bx bxs-check-circle text-success' : 'fs-5 bx bxs-x-circle text-danger'"></i>
                 </td>
                 <td width="10%">{{item.PORT_CODE}}</td>
-                <td width="20%">{{item.ADDRESS}}</td>
+                <td width="15%">{{item.ADDRESS}}</td>
                 <td width="10%" class="status"><span [class]="!item.STATUS ? 'rejected' : 'active'">{{item.STATUS ?
                         'Active'
                         :
@@ -177,7 +181,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3 offset-md-1">
+                        <div class="col-md-2 offset-md-1">
                             <div class="row">
                                 <label class="checkbox-wrap checkbox-primary">
                                     <input formControlName="IS_DEPO" class="chck" type="checkbox">
@@ -204,7 +208,16 @@
                                 <label>TERMINAL</label>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
+                            <div class="row">
+                                <label class="checkbox-wrap checkbox-primary">
+                                    <input formControlName="IS_ICD" class="chck" type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label>ICD</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
                             <div class="row">
                                 <label class="checkbox-wrap checkbox-primary">
                                     <input formControlName="IS_YARD" class="chck" type="checkbox">
@@ -215,7 +228,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div *ngIf="submitted && !f.IS_DEPO.value && !f.IS_CFS.value && !f.IS_TERMINAL.value && !f.IS_YARD.value"
+                        <div *ngIf="submitted && !f.IS_DEPO.value && !f.IS_CFS.value && !f.IS_TERMINAL.value && !f.IS_YARD.value && !f.IS_ICD.value"
                             class="invalid-feedback">Select atleast 1 Location Type</div>
                     </div>
                 </form>

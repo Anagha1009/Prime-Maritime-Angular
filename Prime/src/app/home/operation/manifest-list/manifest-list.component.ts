@@ -21,6 +21,8 @@ export class ManifestListComponent implements OnInit {
   manifestlistForm: FormGroup;
   VesselList: any[] = [];
   VoyageList: any[] = [];
+  finalList: any[] = [];
+  freightList: any[] = [];
 
   constructor(
     private _blService: BlService,
@@ -53,27 +55,163 @@ export class ManifestListComponent implements OnInit {
     this._blService
       .getCargoManifestList(cargoManifest)
       .subscribe((res: any) => {
-        debugger;
         this.isLoading = false;
         if (res.ResponseCode == 200) {
           this.cargoList = res.Data;
           this.isManifest = true;
 
-          var employees3: any = [];
+          res.Data.CUSTOMER_LIST.forEach((cust: any) => {
+            const findEmp = res.Data.CONTAINER_LIST.filter(
+              (el2: any) => el2.BL_NO === cust.BL_NO
+            ).map((element: any) => element);
 
-          res.Data.CONTAINER_LIST.forEach((cont: any) => {
-            const findEmp = res.Data.CUSTOMER_LIST.find(
-              (cust: any) => cust.BL_NO === cont.BL_NO
-            );
-            if (findEmp) {
-              employees3.push({
-                ...cont,
-                ...findEmp,
-              });
-            }
+            const findFreight = res.Data.FREIGHT_DETAILS.filter(
+              (el3: any) => el3.BL_NO === cust.BL_NO
+            ).map((element1: any) => element1);
+
+            this.finalList.push({
+              KEY1: 'BL',
+              KEY2: 'SHIPPER',
+              KEY3: 'CONSIGNEE',
+              KEY4: 'NOTIFY',
+              KEY5: 'MARKS',
+              KEY6: 'DESC',
+              KEY7: 'GWT',
+              KEY8: 'DM',
+              KEY9: 'V',
+              KEY10: '20',
+              KEY11: '40',
+            });
+            this.finalList.push(cust);
+            this.finalList.push({
+              KEY1: '**',
+              KEY2: '',
+              KEY3: '',
+              KEY4: '',
+              KEY5: '',
+              KEY6: '',
+              KEY7: '',
+              KEY8: '',
+              KEY9: '',
+              KEY10: '',
+              KEY11: '',
+            });
+            this.finalList.push({
+              KEY1: 'Container No',
+              KEY2: 'Size',
+              KEY3: 'Type',
+              KEY4: 'Seal No',
+              KEY5: 'NOPCKG',
+              KEY6: 'GWT',
+              KEY7: 'V',
+              KEY8: 'I',
+              KEY9: 'UN',
+              KEY10: 'T',
+              KEY11: 'SOC',
+            });
+            findEmp.forEach((z: any) => {
+              this.finalList.push(z);
+            });
+            this.finalList.push({
+              KEY1: '*',
+              KEY2: '',
+              KEY3: '',
+              KEY4: '',
+              KEY5: '',
+              KEY6: '',
+              KEY7: '',
+              KEY8: '',
+              KEY9: '',
+              KEY10: '',
+              KEY11: '',
+            });
+
+            this.freightList.push({
+              KEY1: 'BL',
+              KEY2: 'SHIPPER',
+              KEY3: 'CONSIGNEE',
+              KEY4: 'NOTIFY',
+              KEY5: 'MARKS',
+              KEY6: 'DESC',
+              KEY7: 'GWT',
+              KEY8: 'DM',
+              KEY9: 'V',
+              KEY10: '20',
+              KEY11: '40',
+            });
+            this.freightList.push(cust);
+            this.freightList.push({
+              KEY1: '**',
+              KEY2: '',
+              KEY3: '',
+              KEY4: '',
+              KEY5: '',
+              KEY6: '',
+              KEY7: '',
+              KEY8: '',
+              KEY9: '',
+              KEY10: '',
+              KEY11: '',
+            });
+            this.freightList.push({
+              KEY1: 'Charge',
+              KEY2: 'Rate Basis',
+              KEY3: 'Currency',
+              KEY4: 'Rate',
+              KEY5: 'Pre',
+              KEY6: 'Amount',
+              KEY7: '',
+              KEY8: '',
+              KEY9: '',
+              KEY10: '',
+              KEY11: '',
+            });
+            findFreight.forEach((z: any) => {
+              this.freightList.push(z);
+            });
+            this.freightList.push({
+              KEY1: '**',
+              KEY2: '',
+              KEY3: '',
+              KEY4: '',
+              KEY5: '',
+              KEY6: '',
+              KEY7: '',
+              KEY8: '',
+              KEY9: '',
+              KEY10: '',
+              KEY11: '',
+            });
+            this.freightList.push({
+              KEY1: 'Container No',
+              KEY2: 'Size',
+              KEY3: 'Type',
+              KEY4: 'Seal No',
+              KEY5: 'NOPCKG',
+              KEY6: 'GWT',
+              KEY7: 'V',
+              KEY8: 'I',
+              KEY9: 'UN',
+              KEY10: 'T',
+              KEY11: 'SOC',
+            });
+            findEmp.forEach((z: any) => {
+              this.freightList.push(z);
+            });
+            this.freightList.push({
+              KEY1: '*',
+              KEY2: '',
+              KEY3: '',
+              KEY4: '',
+              KEY5: '',
+              KEY6: '',
+              KEY7: '',
+              KEY8: '',
+              KEY9: '',
+              KEY10: '',
+              KEY11: '',
+            });
           });
-
-          console.log(employees3);
         } else if (res.ResponseCode == 500) {
           this._commonService.errorMsg('Sorry ! No Records found !');
         }
@@ -111,9 +249,6 @@ export class ManifestListComponent implements OnInit {
   async generateCargoPDF() {
     let docDefinition = {
       pageOrientation: 'landscape',
-
-      //pageMargins: [60, 60, 80, 40],
-
       content: [
         {
           text: 'PRIME MARITIME',
@@ -127,7 +262,6 @@ export class ManifestListComponent implements OnInit {
         {
           style: 'tableExample',
           table: {
-            //widths: ['6%', '6%', '6%','6%','6%','6%','6%','6%','6%','6%','6%'],
             headerRows: 1,
             body: [
               [
@@ -168,83 +302,106 @@ export class ManifestListComponent implements OnInit {
         {
           style: 'tableExample',
           table: {
-            headerRows: 1,
+            //headerRows: 1,
             body: [
-              [
-                { text: 'BL No / Date', style: 'tableHeader' },
-                { text: 'Shipper', style: 'tableHeader' },
-                { text: 'Consignee', style: 'tableHeader' },
-                { text: 'Notify', style: 'tableHeader' },
-                { text: 'Marks & Numbers', style: 'tableHeader' },
-                {
-                  text: 'No & Kind of Pkgs. Description of Goods',
-                  style: 'tableHeader',
-                },
-                { text: 'Gr Wt/ Net Wt in Kgs', style: 'tableHeader' },
-                { text: 'Rcpt./Divy. Mode', style: 'tableHeader' },
-                { text: 'VOLUME', style: 'tableHeader' },
-                { text: "20'", style: 'tableHeader' },
-                { text: "40'", style: 'tableHeader' },
-              ],
-              ...this.cargoList?.CUSTOMER_LIST.map((p: any) => [
-                p.BL_NO_DATE,
-                p.SHIPPER,
-                p.CONSIGNEE,
-                p.NOTIFY_PARTY,
-                p.MARKS_NOS,
-                p.DESC_OF_GOODS,
-                p.GROSS_WEIGHT,
-                p.DELIVERY_MODE,
-                '0',
-                p.TWEENTY_FT,
-                p.FORTY_FT,
+              ...this.finalList.map((p: any) => [
+                p.KEY1 == 'BL'
+                  ? { text: 'BL No / Date', style: 'tableHeader' }
+                  : p.KEY1 == 'Container No'
+                  ? { text: 'Container No', style: 'tableHeader' }
+                  : p.KEY1 == '*'
+                  ? {
+                      canvas: [
+                        {
+                          type: 'line',
+                          x1: 0,
+                          y1: 0,
+                          x2: 780,
+                          y2: 0,
+                          lineWidth: 2,
+                        },
+                      ],
+                      colSpan: 11,
+                      margin: [0, 10, 0, 10],
+                    }
+                  : p.KEY1 == '**'
+                  ? {
+                      canvas: [
+                        {
+                          type: 'line',
+                          x1: 0,
+                          y1: 0,
+                          x2: 780,
+                          y2: 0,
+                          lineWidth: 1,
+                          lineColor: 'gray',
+                        },
+                      ],
+                      colSpan: 11,
+                      margin: [0, 10, 0, 10],
+                    }
+                  : p.KEY1,
+                p.KEY2 == 'SHIPPER'
+                  ? { text: 'Shipper', style: 'tableHeader' }
+                  : p.KEY2 == 'Size'
+                  ? { text: 'Size', style: 'tableHeader' }
+                  : p.KEY2 == '20GP'
+                  ? p.KEY2.substring(0, 2)
+                  : p.KEY2,
+                p.KEY3 == 'CONSIGNEE'
+                  ? { text: 'Consignee', style: 'tableHeader' }
+                  : p.KEY3 == 'Type'
+                  ? { text: 'Type', style: 'tableHeader' }
+                  : p.KEY3,
+                p.KEY4 == 'NOTIFY'
+                  ? { text: 'Notify', style: 'tableHeader' }
+                  : p.KEY4 == 'Seal No'
+                  ? { text: 'Seal No', style: 'tableHeader' }
+                  : p.KEY4,
+                p.KEY5 == 'MARKS'
+                  ? { text: 'Marks & Numbers', style: 'tableHeader' }
+                  : p.KEY5 == 'NOPCKG'
+                  ? { text: 'No. of PKGS and Type', style: 'tableHeader' }
+                  : p.KEY5,
+                p.KEY6 == 'DESC'
+                  ? {
+                      text: 'No & Kind of Pkgs. Description of Goods',
+                      style: 'tableHeader',
+                    }
+                  : p.KEY6 == 'GWT'
+                  ? { text: 'Gross Weight (KGS)', style: 'tableHeader' }
+                  : p.KEY6,
+                p.KEY7 == 'GWT'
+                  ? { text: 'Gr Wt/ Net Wt in Kgs', style: 'tableHeader' }
+                  : p.KEY7 == 'V'
+                  ? { text: 'Volume CBM', style: 'tableHeader' }
+                  : p.KEY7,
+                p.KEY8 == 'DM'
+                  ? { text: 'Rcpt./Divy. Mode', style: 'tableHeader' }
+                  : p.KEY8 == 'I'
+                  ? { text: 'IMO CLass', style: 'tableHeader' }
+                  : p.KEY8,
+                p.KEY9 == 'V'
+                  ? { text: 'VOLUME', style: 'tableHeader' }
+                  : p.KEY9 == 'UN'
+                  ? { text: 'UN No.', style: 'tableHeader' }
+                  : p.KEY9,
+                p.KEY10 == '20'
+                  ? { text: "20'", style: 'tableHeader' }
+                  : p.KEY10 == 'T'
+                  ? { text: 'Temp', style: 'tableHeader' }
+                  : p.KEY10,
+                p.KEY11 == 'SOC'
+                  ? { text: 'SOC', style: 'tableHeader' }
+                  : p.KEY11 == '40'
+                  ? { text: "40'", style: 'tableHeader' }
+                  : p.KEY11,
               ]),
             ],
           },
           layout: 'noBorders',
         },
-        {
-          canvas: [
-            { type: 'line', x1: 0, y1: 0, x2: 780, y2: 0, lineWidth: 1 },
-          ],
-        },
-        {
-          style: 'tableExample',
-          table: {
-            headerRows: 1,
-            body: [
-              [
-                { text: 'Container No', style: 'tableHeader' },
-                { text: 'Size', style: 'tableHeader' },
-                { text: 'Type', style: 'tableHeader' },
-                { text: 'Seal No', style: 'tableHeader' },
-                { text: 'No. of PKGS and Type', style: 'tableHeader' },
-                { text: 'Gross Weight(KGS)', style: 'tableHeader' },
-                { text: 'Volume CBM', style: 'tableHeader' },
-                { text: 'IMO CLass', style: 'tableHeader' },
-                { text: 'UN No.', style: 'tableHeader' },
-                { text: 'Temp', style: 'tableHeader' },
-                { text: 'SOC', style: 'tableHeader' },
-                { text: 'Shut Out', style: 'tableHeader' },
-              ],
-              ...this.cargoList?.CONTAINER_LIST.map((p: any) => [
-                p.CONTAINER_NO,
-                p.CONTAINER_TYPE.substring(0, 2),
-                p.CONTAINER_TYPE,
-                p.SEAL_NO,
-                p.NO_OF_PACKAGES + ' - ' + p.PACKAGES,
-                p.GROSS_WEIGHT,
-                '0',
-                p.IMO_CLASS,
-                p.UN_NO,
-                '-',
-                '-',
-                '-',
-              ]),
-            ],
-          },
-          layout: 'noBorders',
-        },
+
         {
           text: '',
           style: 'rightStyle',
@@ -267,13 +424,13 @@ export class ManifestListComponent implements OnInit {
           alignment: 'center',
         },
         midheading: {
-          fontSize: 11,
+          fontSize: 10,
           alignment: 'center',
           bold: true,
         },
         tableHeader: {
           bold: true,
-          fontSize: 9,
+          fontSize: 8,
         },
         tableExample: {
           fontSize: 7,
@@ -293,9 +450,6 @@ export class ManifestListComponent implements OnInit {
   async generateFreightPDF() {
     let docDefinition = {
       pageOrientation: 'landscape',
-
-      //pageMargins: [60, 60, 80, 40],
-
       content: [
         {
           text: 'PRIME MARITIME',
@@ -309,8 +463,6 @@ export class ManifestListComponent implements OnInit {
         {
           style: 'tableExample',
           table: {
-            //widths: ['6%', '6%', '6%','6%','6%','6%','6%','6%','6%','6%','6%'],
-            headerRows: 1,
             body: [
               [
                 { text: 'Vessel', style: 'tableHeader' },
@@ -351,119 +503,116 @@ export class ManifestListComponent implements OnInit {
           style: 'tableExample',
           width: '*',
           table: {
-            headerRows: 1,
             body: [
-              [
-                { text: 'BL No / Date', style: 'tableHeader' },
-                { text: 'Shipper', style: 'tableHeader' },
-                { text: 'Consignee', style: 'tableHeader' },
-                { text: 'Notify', style: 'tableHeader' },
-                { text: 'Marks & Numbers', style: 'tableHeader' },
-                {
-                  text: 'No & Kind of Pkgs. Description of Goods',
-                  style: 'tableHeader',
-                },
-                { text: 'Gr Wt/ Net Wt in Kgs', style: 'tableHeader' },
-                { text: 'Rcpt./Divy. Mode', style: 'tableHeader' },
-                { text: 'VOLUME', style: 'tableHeader' },
-                { text: "20'", style: 'tableHeader' },
-                { text: "40'", style: 'tableHeader' },
-              ],
-              ...this.cargoList?.CUSTOMER_LIST.map((p: any) => [
-                p.BL_NO_DATE,
-                p.SHIPPER,
-                p.CONSIGNEE,
-                p.NOTIFY_PARTY,
-                p.MARKS_NOS,
-                p.DESC_OF_GOODS,
-                p.GROSS_WEIGHT,
-                p.DELIVERY_MODE,
-                '0',
-                p.TWEENTY_FT,
-                p.FORTY_FT,
+              ...this.freightList.map((p: any) => [
+                p.KEY1 == 'BL'
+                  ? { text: 'BL No / Date', style: 'tableHeader' }
+                  : p.KEY1 == 'Container No'
+                  ? { text: 'Container No', style: 'tableHeader' }
+                  : p.KEY1 == '*'
+                  ? {
+                      canvas: [
+                        {
+                          type: 'line',
+                          x1: 0,
+                          y1: 0,
+                          x2: 780,
+                          y2: 0,
+                          lineWidth: 2,
+                        },
+                      ],
+                      colSpan: 11,
+                      margin: [0, 10, 0, 10],
+                    }
+                  : p.KEY1 == '**'
+                  ? {
+                      canvas: [
+                        {
+                          type: 'line',
+                          x1: 0,
+                          y1: 0,
+                          x2: 780,
+                          y2: 0,
+                          lineWidth: 1,
+                          lineColor: 'gray',
+                        },
+                      ],
+                      colSpan: 11,
+                      margin: [0, 10, 0, 10],
+                    }
+                  : p.KEY1 == 'Charge'
+                  ? { text: 'Chrg.Code', style: 'tableHeader' }
+                  : p.KEY1,
+                p.KEY2 == 'SHIPPER'
+                  ? { text: 'Shipper', style: 'tableHeader' }
+                  : p.KEY2 == 'Size'
+                  ? { text: 'Size', style: 'tableHeader' }
+                  : p.KEY2 == '20GP'
+                  ? p.KEY2.substring(0, 2)
+                  : p.KEY2 == 'Rate Basis'
+                  ? { text: 'Rate Basis', style: 'tableHeader' }
+                  : p.KEY2,
+                p.KEY3 == 'CONSIGNEE'
+                  ? { text: 'Consignee', style: 'tableHeader' }
+                  : p.KEY3 == 'Type'
+                  ? { text: 'Type', style: 'tableHeader' }
+                  : p.KEY3 == 'Currency'
+                  ? { text: 'Currency', style: 'tableHeader' }
+                  : p.KEY3,
+                p.KEY4 == 'NOTIFY'
+                  ? { text: 'Notify', style: 'tableHeader' }
+                  : p.KEY4 == 'Seal No'
+                  ? { text: 'Seal No', style: 'tableHeader' }
+                  : p.KEY4 == 'Rate'
+                  ? { text: 'Rate', style: 'tableHeader' }
+                  : p.KEY4,
+                p.KEY5 == 'MARKS'
+                  ? { text: 'Marks & Numbers', style: 'tableHeader' }
+                  : p.KEY5 == 'NOPCKG'
+                  ? { text: 'No. of PKGS and Type', style: 'tableHeader' }
+                  : p.KEY5 == 'Pre'
+                  ? { text: 'Prepaid/ Collect', style: 'tableHeader' }
+                  : p.KEY5,
+                p.KEY6 == 'DESC'
+                  ? {
+                      text: 'No & Kind of Pkgs. Description of Goods',
+                      style: 'tableHeader',
+                    }
+                  : p.KEY6 == 'GWT'
+                  ? { text: 'Gross Weight (KGS)', style: 'tableHeader' }
+                  : p.KEY6 == 'Amount'
+                  ? { text: 'Amount', style: 'tableHeader' }
+                  : p.KEY6,
+                p.KEY7 == 'GWT'
+                  ? { text: 'Gr Wt/ Net Wt in Kgs', style: 'tableHeader' }
+                  : p.KEY7 == 'V'
+                  ? { text: 'Volume CBM', style: 'tableHeader' }
+                  : p.KEY7,
+                p.KEY8 == 'DM'
+                  ? { text: 'Rcpt./Divy. Mode', style: 'tableHeader' }
+                  : p.KEY8 == 'I'
+                  ? { text: 'IMO CLass', style: 'tableHeader' }
+                  : p.KEY8,
+                p.KEY9 == 'V'
+                  ? { text: 'VOLUME', style: 'tableHeader' }
+                  : p.KEY9 == 'UN'
+                  ? { text: 'UN No.', style: 'tableHeader' }
+                  : p.KEY9,
+                p.KEY10 == '20'
+                  ? { text: "20'", style: 'tableHeader' }
+                  : p.KEY10 == 'T'
+                  ? { text: 'Temp', style: 'tableHeader' }
+                  : p.KEY10,
+                p.KEY11 == 'SOC'
+                  ? { text: 'SOC', style: 'tableHeader' }
+                  : p.KEY11 == '40'
+                  ? { text: "40'", style: 'tableHeader' }
+                  : p.KEY11,
               ]),
             ],
           },
           layout: 'noBorders',
           margin: [0, 0, 20, 0],
-        },
-        {
-          canvas: [
-            { type: 'line', x1: 0, y1: 0, x2: 780, y2: 0, lineWidth: 1 },
-          ],
-        },
-        {
-          text: 'Freight Details',
-          style: 'underlineStyle',
-        },
-        {
-          style: 'tableExample',
-          width: '*',
-          table: {
-            headerRows: 1,
-            body: [
-              [
-                { text: 'Chrg.Code', style: 'tableHeader' },
-                { text: 'Rate Basis', style: 'tableHeader' },
-                { text: 'Curr', style: 'tableHeader' },
-                { text: 'Rate', style: 'tableHeader' },
-                { text: 'Prepaid/ Collect', style: 'tableHeader' },
-                { text: 'Amount(INR)', style: 'tableHeader' },
-              ],
-              ...this.cargoList?.FREIGHT_DETAILS.map((p: any) => [
-                p.CHARGE_CODE,
-                '-',
-                p.CURRENCY,
-                p.STANDARD_RATE,
-                p.TRANSPORT_TYPE,
-                p.APPROVED_RATE,
-              ]),
-            ],
-          },
-          layout: 'noBorders',
-          margin: [0, 0, 20, 0],
-        },
-        {
-          canvas: [
-            { type: 'line', x1: 0, y1: 0, x2: 780, y2: 0, lineWidth: 1 },
-          ],
-        },
-        {
-          style: 'tableExample',
-          table: {
-            headerRows: 1,
-            body: [
-              [
-                { text: 'Container No', style: 'tableHeader' },
-                { text: 'Size', style: 'tableHeader' },
-                { text: 'Type', style: 'tableHeader' },
-                { text: 'Seal No', style: 'tableHeader' },
-                { text: 'No. of PKGS and Type', style: 'tableHeader' },
-                { text: 'Gross Weight(KGS)', style: 'tableHeader' },
-                { text: 'Volume CBM', style: 'tableHeader' },
-                { text: 'IMO CLass', style: 'tableHeader' },
-                { text: 'UN No.', style: 'tableHeader' },
-                { text: 'Temp', style: 'tableHeader' },
-                { text: 'SOC', style: 'tableHeader' },
-                { text: 'Shut Out', style: 'tableHeader' },
-              ],
-              ...this.cargoList?.CONTAINER_LIST.map((p: any) => [
-                p.CONTAINER_NO,
-                p.CONTAINER_TYPE.substring(0, 2),
-                p.CONTAINER_TYPE,
-                p.SEAL_NO,
-                p.NO_OF_PACKAGES + ' - ' + p.PACKAGES,
-                p.GROSS_WEIGHT,
-                '0',
-                p.IMO_CLASS,
-                p.UN_NO,
-                '-',
-                '-',
-                '-',
-              ]),
-            ],
-          },
-          layout: 'noBorders',
         },
         {
           text: '',
