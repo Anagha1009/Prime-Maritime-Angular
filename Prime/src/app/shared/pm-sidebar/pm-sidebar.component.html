@@ -39,6 +39,11 @@
                             <div data-i18n="Accordion">Customer</div>
                         </a>
                     </li>
+                    <li [class]="submenu == 'user' ? 'menu-item active' : 'menu-item'">
+                        <a (click)="redirectToSubMenu('user-master')" class="menu-link pointer">
+                            <div data-i18n="Accordion">User</div>
+                        </a>
+                    </li>
                     <li [class]="submenu == 'location' ? 'menu-item active' : 'menu-item'">
                         <a (click)="redirectToSubMenu('location-master')" class="menu-link pointer">
                             <div data-i18n="Accordion">Location</div>

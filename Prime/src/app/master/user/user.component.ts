@@ -207,8 +207,17 @@ export class UserComponent implements OnInit {
     this._loginService.getUser(USERCODE).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.userForm.patchValue(res.Data);
-        var country = this.userForm.get('COUNTRYCODE').value;
-        this.getDropdown('', country);
+
+        this.getDropdown('', res.Data.COUNTRYCODE);
+
+        if (res.Data.USERTYPE == 'agent') {
+          this.isDEPO = false;
+          this.userForm.get('DEPO').disable();
+        } else {
+          this.isDEPO = true;
+          this.userForm.get('DEPO').enable();
+        }
+
         this.userForm.get('PASSWORD').disable();
         this.userForm.get('CONFIRMPASSWORD').disable();
       }
@@ -267,6 +276,9 @@ export class UserComponent implements OnInit {
     this.isUpdate = false;
     this.ClearForm();
 
+    this.userForm.get('PASSWORD').enable();
+    this.userForm.get('CONFIRMPASSWORD').enable();
+
     if (USERCODE != '') {
       this.isUpdate = true;
       this.GetUserMasterDetails(USERCODE);
@@ -275,17 +287,17 @@ export class UserComponent implements OnInit {
     this.openModalPopup.nativeElement.click();
   }
 
-  onchangeType(event: any) {
+  onchangeType(value: any) {
     this.userForm.get('DEPO').setValue('');
-    if (event.target.value == 'depo') {
+    if (value == 'depo') {
       this.isDEPO = true;
       this.userForm.get('DEPO').enable();
       this.userForm.get('ROLE_ID').setValue('3');
-    } else if (event.target.value == 'agent' || event.target.value == 'admin') {
-      if (event.target.value == 'agent') {
+    } else if (value == 'agent' || value == 'admin') {
+      if (value == 'agent') {
         this.userForm.get('ROLE_ID').setValue('1');
       }
-      if (event.target.value == 'admin') {
+      if (value == 'admin') {
         this.userForm.get('ROLE_ID').setValue('4');
       }
       this.isDEPO = false;

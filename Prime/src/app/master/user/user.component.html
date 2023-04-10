@@ -8,48 +8,45 @@
         <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#userModal">New
             User</button>
     </div>
-    <table class="ratetable table-bordered" id="data-table-config">
-        <thead>
-            <tr>
-                <th width="1%">No</th>
-                <th width="20%">Name</th>
-                <th width="5%">Username</th>
-                <th width="5%">Type</th>
-                <th width="5%">Usercode</th>
-                <th width="5%">Organisation</th>
-                <th width="5%">Port</th>
-                <th width="5%">Depo</th>
-                <th width="5%">Email</th>
-                <th width="5%">Location</th>
-                <th width="30%">Status</th>
-                <th width="9%">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of userList; let i = index">
-                <td width="1%">{{i+1}}</td>
-                <td width="20%">{{item.NAME}}</td>
-                <td width="5%">{{item.USERNAME}}</td>
-                <td width="5%">{{item.USERTYPE}}</td>
-                <td width="5%">{{item.USERCODE}}</td>
-                <td width="5%">{{item.ORGANISATION}}</td>
-                <td width="5%">{{item.PORT == null ? '-' : item.PORT}}</td>
-                <td width="5%">{{item.DEPO == null ? '-' : item.DEPO}}</td>
-                <td width="5%">{{item.EMAIL == null ? '-' : item.EMAIL}}</td>
-                <td width="5%">{{item.LOCATION}}</td>
-                <td width="30%" class="status"><span [class]="!item.STATUS ? 'rejected' : 'active'">{{item.STATUS ?
-                        'Active'
-                        :
-                        'In-Active'}}</span></td>
-                <td width="9%">
-                    <i class="fa fa-pencil mx-2 pointer text-success" (click)="openModal(item.USERCODE)"></i>
-                    <i class="fa fa-trash ms-2 pointer text-danger" (click)="deleteuserMaster(item.USERCODE)"></i>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="ratetable table-bordered" id="data-table-config">
+            <thead>
+                <tr>
+                    <th width="1%">No</th>
+                    <th width="10%">Username</th>
+                    <th width="10%">Type</th>
+                    <th width="30%">Organisation</th>
+                    <th width="10%">Port</th>
+                    <th width="5%">Depo</th>
+                    <th width="10%">Location</th>
+                    <th width="15%">Status</th>
+                    <th width="9%">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of userList; let i = index">
+                    <td width="1%">{{i+1}}</td>
+                    <td width="10%">{{item.USERNAME}}</td>
+                    <td width="10%">{{item.USERTYPE}}</td>
+                    <td width="30%">{{item.ORGANISATION}}</td>
+                    <td width="10%">{{item.PORT == null ? '-' : item.PORT}}</td>
+                    <td width="5%">{{item.DEPO == null ? '-' : item.DEPO}}</td>
+                    <td width="10%">{{item.LOCATION}}</td>
+                    <td width="15%" class="status"><span [class]="!item.STATUS ? 'rejected' : 'active'">{{item.STATUS ?
+                            'Active'
+                            :
+                            'In-Active'}}</span></td>
+                    <td width="9%">
+                        <i class="fa fa-pencil mx-2 pointer text-success" (click)="openModal(item.USERCODE)"></i>
+                        <i class="fa fa-trash ms-2 pointer text-danger" (click)="deleteuserMaster(item.USERCODE)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 <div class="modal fade" id="userModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">User Details</h5>
@@ -79,7 +76,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label2">User Type<span class="text-danger"> *</span></label>
-                                <select (change)="onchangeType($event)" formControlName="USERTYPE"
+                                <select (change)="onchangeType($event.target.value)" formControlName="USERTYPE"
                                     [ngClass]="{'invalid':submitted && f.USERTYPE.errors}" class="form-control2">
                                     <option disabled value="">--Select--</option>
                                     <option value="agent">Agent</option>
