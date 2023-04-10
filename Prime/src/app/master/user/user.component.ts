@@ -279,6 +279,9 @@ export class UserComponent implements OnInit {
     this.userForm.get('PASSWORD').enable();
     this.userForm.get('CONFIRMPASSWORD').enable();
 
+    this.isDEPO = false;
+    this.userForm.get('DEPO').disable();
+
     if (USERCODE != '') {
       this.isUpdate = true;
       this.GetUserMasterDetails(USERCODE);
