@@ -1,0 +1,249 @@
+<div class="section-title pt-3">
+    <h2>User Master</h2>
+</div>
+<div class="mb-4">
+    <div class="col-md-6 offset-md-6 text-end mb-4">
+        <button (click)="openModal()" class="form-btn-primary"><i class="fa fa-plus me-1"></i>New
+            User</button>
+        <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#userModal">New
+            User</button>
+    </div>
+    <table class="ratetable table-bordered" id="data-table-config">
+        <thead>
+            <tr>
+                <th width="1%">No</th>
+                <th width="20%">Name</th>
+                <th width="5%">Username</th>
+                <th width="5%">Type</th>
+                <th width="5%">Usercode</th>
+                <th width="5%">Organisation</th>
+                <th width="5%">Port</th>
+                <th width="5%">Depo</th>
+                <th width="5%">Email</th>
+                <th width="5%">Location</th>
+                <th width="30%">Status</th>
+                <th width="9%">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of userList; let i = index">
+                <td width="1%">{{i+1}}</td>
+                <td width="20%">{{item.NAME}}</td>
+                <td width="5%">{{item.USERNAME}}</td>
+                <td width="5%">{{item.USERTYPE}}</td>
+                <td width="5%">{{item.USERCODE}}</td>
+                <td width="5%">{{item.ORGANISATION}}</td>
+                <td width="5%">{{item.PORT == null ? '-' : item.PORT}}</td>
+                <td width="5%">{{item.DEPO == null ? '-' : item.DEPO}}</td>
+                <td width="5%">{{item.EMAIL == null ? '-' : item.EMAIL}}</td>
+                <td width="5%">{{item.LOCATION}}</td>
+                <td width="30%" class="status"><span [class]="!item.STATUS ? 'rejected' : 'active'">{{item.STATUS ?
+                        'Active'
+                        :
+                        'In-Active'}}</span></td>
+                <td width="9%">
+                    <i class="fa fa-pencil mx-2 pointer text-success" (click)="openModal(item.USERCODE)"></i>
+                    <i class="fa fa-trash ms-2 pointer text-danger" (click)="deleteuserMaster(item.USERCODE)"></i>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="userModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">User Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="userForm" autocomplete="off">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Name<span class="text-danger"> *</span></label>
+                                <input type="text" [ngClass]="{'invalid':submitted && f.NAME.errors}"
+                                    formControlName="NAME" class="form-control2" maxlength="100">
+                                <div *ngIf="submitted && f.NAME.errors" class="invalid-feedback">Name is
+                                    required</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Username<span class="text-danger"> *</span></label>
+                                <input type="text" [ngClass]="{'invalid':submitted && f.USERNAME.errors}"
+                                    formControlName="USERNAME" class="form-control2" maxlength="10">
+                                <div *ngIf="submitted && f.USERNAME.errors" class="invalid-feedback">Username is
+                                    required</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">User Type<span class="text-danger"> *</span></label>
+                                <select (change)="onchangeType($event)" formControlName="USERTYPE"
+                                    [ngClass]="{'invalid':submitted && f.USERTYPE.errors}" class="form-control2">
+                                    <option disabled value="">--Select--</option>
+                                    <option value="agent">Agent</option>
+                                    <option value="depo">Depo</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                                <div *ngIf="submitted && f.USERTYPE.errors" class="invalid-feedback">User Type
+                                    is
+                                    required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Usercode<span class="text-danger"> *</span></label>
+                                <input type="text" [readonly]="isUpdate || f.USERTYPE.value == 'depo'"
+                                    oninput="this.value = this.value.toUpperCase()" autocomplete="off"
+                                    [ngClass]="{'invalid':submitted && f.USERCODE.errors}" formControlName="USERCODE"
+                                    class="form-control2" maxlength="5">
+                                <div *ngIf="submitted && f.USERCODE.errors?.required" class="invalid-feedback">Usercode
+                                    is
+                                    required</div>
+                                <div *ngIf="submitted && f.USERCODE.errors?.pattern" class="invalid-feedback">Usercode
+                                    is
+                                    invalid</div>
+                                <small *ngIf="f.USERTYPE.value == 'depo'" class="text-primary">Please Select Depo to get
+                                    Usercode</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Password<span class="text-danger"> *</span></label>
+                                <input type="password" autocomplete="off" [readonly]="isUpdate"
+                                    [ngClass]="{'invalid':submitted && f.PASSWORD.errors}" formControlName="PASSWORD"
+                                    class="form-control2" maxlength="100">
+                                <div *ngIf="submitted && f.PASSWORD.errors" class="invalid-feedback">Password is
+                                    required</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Confirm Password<span class="text-danger"> *</span></label>
+                                <input type="password" [readonly]="isUpdate"
+                                    [ngClass]="{'invalid':submitted && f.CONFIRMPASSWORD.errors}"
+                                    formControlName="CONFIRMPASSWORD" class="form-control2" maxlength="10">
+                                <div *ngIf="submitted && f.CONFIRMPASSWORD.errors" class="invalid-feedback">Confirm
+                                    Password is
+                                    required</div>
+                                <div *ngIf="submitted && f.CONFIRMPASSWORD.value != null && f.PASSWORD.value != f.CONFIRMPASSWORD.value"
+                                    class="invalid-feedback">
+                                    Confirm Password doesnt match Password
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Location</label>
+                                <input type="text" formControlName="LOCATION" class="form-control2" maxlength="100">
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Email<span class="text-danger"> *</span></label>
+                                <input type="text" [ngClass]="{'invalid':submitted && f.EMAIL.errors}"
+                                    formControlName="EMAIL" class="form-control2" maxlength="100">
+                                <div *ngIf="submitted && f.EMAIL.errors?.required" class="invalid-feedback">Email is
+                                    required</div>
+                                <div *ngIf="submitted && f.EMAIL.errors?.email" class="invalid-feedback">Email is
+                                    invalid</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Address</label>
+                                <textarea type="text" formControlName="USERADDRESS" class="form-control2"
+                                    maxlength="100"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Country<span class="text-danger"> *</span></label>
+                                <select (change)="getDropdown($event)" formControlName="COUNTRYCODE"
+                                    [ngClass]="{'invalid':submitted && f.COUNTRYCODE.errors}" class="form-control2">
+                                    <option disabled value="">--Select--</option>
+                                    <option value="IN">India</option>
+                                    <option value="AE">UAE</option>
+                                    <option value="BH">Bahrain</option>
+                                    <option value="IR">Iraq</option>
+                                    <option value="KW">Kuwait</option>
+                                    <option value="QA">Qatar</option>
+                                    <option value="SA">Saudi Arabia</option>
+                                </select>
+                                <div *ngIf="submitted && f.COUNTRYCODE.errors" class="invalid-feedback">Confirm
+                                    Country is
+                                    required</div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="form-label2" style="z-index: 1;">Port List<span class="text-danger">
+                                        *</span></label>
+                                <ng-multiselect-dropdown #multiSelect
+                                    [ngClass]="{'invalid':submitted && f.PORT_CODE.errors}"
+                                    [placeholder]="'Select Port'" [settings]="dropdownSettings"
+                                    [formControl]="f.PORT_CODE" [data]="portList" [(ngModel)]="selectedItems">
+                                </ng-multiselect-dropdown>
+                                <div *ngIf="submitted && f.PORT_CODE.errors" class="invalid-feedback">Select
+                                    atleast 1 Port</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div *ngIf="isDEPO" class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label2">Depo<span class="text-danger"> *</span></label>
+                                <select (change)="onchangeDepo($event)" formControlName="DEPO"
+                                    [ngClass]="{'invalid':submitted && f.DEPO.errors}" class="form-control2">
+                                    <option disabled value="">--Select--</option>
+                                    <option value="{{item.CODE}}" *ngFor="let item of depoList">{{item.CODE_DESC}}
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f.DEPO.errors" class="invalid-feedback">Depo Code
+                                    is
+                                    required</div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="form-label2">Organisation</label>
+                                <select formControlName="ORG_CODE" class="form-control2">
+                                    <option disabled value="">--Select--</option>
+                                    <option value="{{item.CODE}}" *ngFor="let item of orgList">{{item.CODE_DESC}}
+                                    </option>
+                                </select>
+                                <small (click)="f.ORG_CODE.setValue('')" class="text-gray pointer ms-2">clear
+                                    value</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mt-4">
+                            <div class="form-group">
+                                <div class="form-check form-switch">
+                                    <input formControlName="STATUS" class="form-check-input" type="checkbox"
+                                        role="switch" />
+                                    <label class="form-check-label">Status <span class="text-danger"> *</span></label>
+                                </div>
+                                <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Status is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="!isUpdate" (click)="InsertUser()" class="form-btn me-2"
+                    class="form-btn me-2">Save</button>
+                <button (click)="ClearForm()" class="form-btn-light me-2">Clear</button>
+                <button *ngIf="isUpdate" (click)="updateUserMaster()" class="form-btn">Update</button>
+            </div>
+        </div>
+    </div>
+</div>

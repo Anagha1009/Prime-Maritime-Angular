@@ -69,4 +69,48 @@ export class LoginService {
       this.httpOptions
     );
   }
+
+  getUserList() {
+    return this._http.get<any>(
+      this.BASE_URL + 'User/GetUserList',
+      this.httpOptions
+    );
+  }
+
+  insertUser(user: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'User/InsertUser',
+      user,
+      this.httpOptions
+    );
+  }
+
+  validateUsercode(usercode: string) {
+    return this._http.post<any>(
+      this.BASE_URL + 'User/ValidateUsercode?usercode=' + usercode,
+      this.httpOptions
+    );
+  }
+
+  getUser(usercode: string) {
+    return this._http.get<any>(
+      this.BASE_URL + 'User/GetUser?usercode=' + usercode,
+      this.httpOptions
+    );
+  }
+
+  updateUser(user: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'User/UpdateUser',
+      user,
+      this.httpOptions
+    );
+  }
+
+  deleteUser(usercode: string) {
+    return this._http.post<any>(
+      this.BASE_URL + 'User/DeleteUser?usercode=' + usercode,
+      this.httpOptions
+    );
+  }
 }

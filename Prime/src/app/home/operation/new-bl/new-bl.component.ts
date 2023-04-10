@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 import { ContainerTypeService } from 'src/app/services/container-type.service';
 import { TYPE } from 'src/app/models/type';
 import { CmService } from 'src/app/services/cm.service';
+import { ToWords } from 'to-words';
 
 const pdfMake = require('pdfmake/build/pdfmake.js');
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
@@ -54,6 +55,7 @@ export class NewBlComponent implements OnInit {
   isManual: boolean = false;
   minDate: any = '';
   i: any = 0;
+  toWords = new ToWords();
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
@@ -968,9 +970,15 @@ export class NewBlComponent implements OnInit {
         }, {})
       );
       this.groupingViaCommonProperty.forEach((element) => {
+        var a = element[0].CONTAINER_TYPE;
+        var b = "'";
+        var position = 2;
         this.groupedList.push(
-          element.length + ' x ' + element[0].CONTAINER_TYPE
+          element.length + ' x ' + [a.slice(0, position), b, a.slice(position)].join('')
         );
+        // this.groupedList.push(
+        //   element.length + ' x ' + element[0].CONTAINER_TYPE
+        // );
       });
 
       const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
@@ -989,10 +997,29 @@ export class NewBlComponent implements OnInit {
               GROSS_WEIGHT: [element.GROSS_WEIGHT],
               MEASUREMENT: [element.MEASUREMENT?.toString()],
               NO_OF_CONTPKG: [this.groupedList[this.i]],
-              KIND_OF_GOODS: [element.DESC_OF_GOODS],
+              KIND_OF_GOODS: [element.DESC_OF_GOODS.substr(0,451)],
             })
           );
-        } else {
+        } 
+        else if(this.i == 5){
+          add.push(
+            this._formBuilder.group({
+              CONTAINER_NO: [element.CONTAINER_NO],
+              CONTAINER_TYPE: [element.CONTAINER_TYPE],
+              // CONTAINER_SIZE: [element.CONTAINER_SIZE],
+              SEAL_NO: [element.SEAL_NO.toString()],
+              //MARKS_NOS: [element.MARKS_NOS],
+              MARKS_NOS: [''],
+              DESC_OF_GOODS: [element.DESC_OF_GOODS],
+              GROSS_WEIGHT: [element.GROSS_WEIGHT],
+              MEASUREMENT: [element.MEASUREMENT?.toString()],
+              NO_OF_CONTPKG: [this.groupedList[this.i]],
+              KIND_OF_GOODS: [element.DESC_OF_GOODS.substr(452,element.DESC_OF_GOODS.length-1)],
+            })
+          );
+
+        }
+        else {
           add.push(
             this._formBuilder.group({
               CONTAINER_NO: [element.CONTAINER_NO],
@@ -1121,6 +1148,14 @@ export class NewBlComponent implements OnInit {
 
     if (this.blForm.get('BL_STATUS')?.value == 'Draft') {
       let docDefinition = {
+        header:(currentPage:any)=>{
+          if(currentPage>=3){
+            return [{text:'ANNEXURE',bold: true,fontSize: 15,alignment:'center'}]
+          }
+          else{
+            return []
+          }
+        },
         watermark: {
           text: 'Draft',
           color: '#808080',
@@ -1703,8 +1738,18 @@ export class NewBlComponent implements OnInit {
                         heights: 3,
                       },
                       {
-                        text: 'Said to Contain. Shipper Load, Stow & Count',
-                        fontSize: 10,
+                        text: 'Said to Contain.\n',
+                        fontSize: 9,
+                        bold: true,
+                      },
+                      {
+                        text: 'Shipper Load\n',
+                        fontSize: 9,
+                        bold: true,
+                      },
+                      {
+                        text: 'Stow & Count',
+                        fontSize: 9,
                         bold: true,
                       },
                     ],
@@ -1733,7 +1778,7 @@ export class NewBlComponent implements OnInit {
                     : this.ContainerList1.length
                 ).map((p: any) => [
                   { text: p.CONTAINER_NO, fontSize: 9 },
-                  { text: p.MARKS_NOS + '  ' + p.SEAL_NO, fontSize: 9 },
+                  { text: p.SEAL_NO + '  ' + p.MARKS_NOS, fontSize: 9 },
                   {
                     rowSpan:
                       this.ContainerList1.length > 5
@@ -1774,7 +1819,9 @@ export class NewBlComponent implements OnInit {
           {
             text:
               'Total No. of Containers\nor Packages (in words)  ' +
-              this.ContainerList1.length,
+              this.ContainerList1.length +' ( '+
+              this.toWords.convert(this.ContainerList1.length) +
+              ' Containers )',
             bold: true,
             fontSize: 8,
             margin: [0, 20, 0, 3],
@@ -2013,93 +2060,160 @@ export class NewBlComponent implements OnInit {
             pageBreak: 'before',
             columns: [
               [
-                {
-                  text: 'ANNEXURE',
-                  bold: true,
-                  fontSize: 50,
-                  margin: [130, 0, 0, 0],
-                },
-                {
-                  canvas: [
+                // {
+                //   text: 'ANNEXURE',
+                //   bold: true,
+                //   fontSize: 50,
+                //   margin: [130, 0, 0, 0],
+                // },
+                // {
+                //   canvas: [
+                //     {
+                //       type: 'line',
+                //       x1: 0,
+                //       y1: 0,
+                //       x2: 520,
+                //       y2: 0,
+                //       lineWidth: 1,
+                //     },
+                //   ],
+                //   margin: [0, 10, 0, 0],
+                // },
+
+                ...this.ContainerList1.length<=5?
+                  [
                     {
-                      type: 'line',
-                      x1: 0,
-                      y1: 0,
-                      x2: 520,
-                      y2: 0,
-                      lineWidth: 1,
+                  
+                      table: {
+                        //heights: [15],
+                        headerRows: 1,
+                        body: [
+                          [
+                            {
+                              text: 'Container No.',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            {
+                              text: 'Seal No.\nMarks and Numbers',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            {
+                              text: 'No. of Containers or pkgs.',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            {
+                              text: 'Kind of packages; description of goods',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            { text: 'Gross Weight', fontSize: 9, bold: true },
+                            { text: 'Measurement', fontSize: 9, bold: true },
+                          ],
+                         
+                          [
+                            { text: ' ', fontSize: 9},
+                            { text: ' ', fontSize: 9},
+                            { text: ' ', fontSize: 9},
+                            { text: this.ContainerList1[0].DESC_OF_GOODS.substr(452,this.ContainerList1[0].DESC_OF_GOODS.length-1), fontSize: 9},
+                            { text: ' ', fontSize: 9},
+                            { text: ' ', fontSize: 9},
+                          ],
+                          [
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                          ],
+                        ],
+                      },
+                      layout: {
+                        hLineWidth: function (i: any, node: any) {
+                          
+                          return i==0?1:0;
+                        },
+                        vLineWidth: function (i: any, node: any) {
+                          return i === 0 || i === node.table.widths.length ? 0 : 1;
+                        },
+                        hLineStyle: function (i: any, node: any) {
+                          return 0;
+                        },
+                        vLineStyle: function (i: any, node: any) {
+                          return { dash: { length: 4 } };
+                        },
+                      },
+                    },
+                  ]:
+                  [
+                    {
+                  
+                      table: {
+                        //heights: [15],
+                        headerRows: 1,
+                        body: [
+                          [
+                            {
+                              text: 'Container No.',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            {
+                              text: 'Seal No.\nMarks and Numbers',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            {
+                              text: 'No. of Containers or pkgs.',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            {
+                              text: 'Kind of packages; description of goods',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            { text: 'Gross Weight', fontSize: 9, bold: true },
+                            { text: 'Measurement', fontSize: 9, bold: true },
+                          ],
+                          
+                          ...this.ContainerList1.slice(5).map((p: any) => [
+                            { text: p.CONTAINER_NO, fontSize: 9 },
+                            { text: p.MARKS_NOS + '  ' + p.SEAL_NO, fontSize: 9 },
+                            { text: '   -', fontSize: 9 },
+                            { rowSpan:this.ContainerList1.length-5,text: p.KIND_OF_GOODS, fontSize: 9 },
+                            { text: p.GROSS_WEIGHT, fontSize: 9 },
+                            { text: p.MEASUREMENT, fontSize: 9 },
+                          ]),
+                          [
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                          ],
+                        ],
+                      },
+                      layout: {
+                        hLineWidth: function (i: any, node: any) {
+                          return 0;
+                        },
+                        vLineWidth: function (i: any, node: any) {
+                          return i === 0 || i === node.table.widths.length ? 0 : 1;
+                        },
+                        hLineStyle: function (i: any, node: any) {
+                          return 0;
+                        },
+                        vLineStyle: function (i: any, node: any) {
+                          return { dash: { length: 4 } };
+                        },
+                      },
                     },
                   ],
-                  margin: [0, 10, 0, 0],
-                },
-
-                {
-                  table: {
-                    //heights: [15],
-                    headerRows: 1,
-                    body: [
-                      [
-                        {
-                          text: 'Container No.',
-                          fontSize: 8,
-                          bold: true,
-                        },
-                        {
-                          text: 'Seal No.\nMarks and Numbers',
-                          fontSize: 8,
-                          bold: true,
-                        },
-                        {
-                          text: 'No. of Containers or pkgs.',
-                          fontSize: 8,
-                          bold: true,
-                        },
-                        {
-                          text: 'Kind of packages; description of goods',
-                          fontSize: 8,
-                          bold: true,
-                          heights: 3,
-                        },
-                        { text: 'Gross Weight', fontSize: 9, bold: true },
-                        {
-                          text: 'Measurement',
-                          fontSize: 9,
-                          bold: true,
-                        },
-                      ],
-                      ...this.ContainerList1.slice(5).map((p: any) => [
-                        { text: p.CONTAINER_NO, fontSize: 9 },
-                        { text: p.MARKS_NOS + '  ' + p.SEAL_NO, fontSize: 9 },
-                        { text: '   -', fontSize: 9 },
-                        { text: p.KIND_OF_GOODS, fontSize: 9 },
-                        { text: p.GROSS_WEIGHT, fontSize: 9 },
-                        { text: p.MEASUREMENT, fontSize: 9 },
-                      ]),
-                      [
-                        { text: ' ', fontSize: 9, heights: 140 },
-                        { text: ' ', fontSize: 9, heights: 140 },
-                        { text: ' ', fontSize: 9, heights: 140 },
-                        { text: ' ', fontSize: 9, heights: 140 },
-                        { text: ' ', fontSize: 9, heights: 140 },
-                        { text: ' ', fontSize: 9, heights: 140 },
-                      ],
-                    ],
-                  },
-                  layout: {
-                    hLineWidth: function (i: any, node: any) {
-                      return 0;
-                    },
-                    vLineWidth: function (i: any, node: any) {
-                      return i === 0 || i === node.table.widths.length ? 0 : 1;
-                    },
-                    hLineStyle: function (i: any, node: any) {
-                      return 0;
-                    },
-                    vLineStyle: function (i: any, node: any) {
-                      return { dash: { length: 4 } };
-                    },
-                  },
-                },
 
                 {
                   canvas: [
@@ -2230,6 +2344,15 @@ export class NewBlComponent implements OnInit {
       pdfMake.createPdf(docDefinition).open();
     } else {
       let docDefinition = {
+        header:(currentPage:any)=>{
+          if(currentPage>=3){
+            return [{text:'ANNEXURE',bold: true,fontSize: 15,alignment:'center'}]
+          }
+          else{
+            return []
+          }
+        },
+        
         pageMargins: [40, 20, 40, 20],
 
         content: [
@@ -2804,8 +2927,18 @@ export class NewBlComponent implements OnInit {
                         heights: 3,
                       },
                       {
-                        text: 'Said to Contain. Shipper Load, Stow & Count',
-                        fontSize: 10,
+                        text: 'Said to Contain.\n',
+                        fontSize: 9,
+                        bold: true,
+                      },
+                      {
+                        text: 'Shipper Load\n',
+                        fontSize: 9,
+                        bold: true,
+                      },
+                      {
+                        text: 'Stow & Count\n',
+                        fontSize: 9,
                         bold: true,
                       },
                     ],
@@ -2834,7 +2967,7 @@ export class NewBlComponent implements OnInit {
                     : this.ContainerList1.length
                 ).map((p: any) => [
                   { text: p.CONTAINER_NO, fontSize: 9 },
-                  { text: p.MARKS_NOS + '  ' + p.SEAL_NO, fontSize: 9 },
+                  { text: p.SEAL_NO + '  ' + p.MARKS_NOS, fontSize: 9 },
                   {
                     rowSpan:
                       this.ContainerList1.length > 5
@@ -2874,7 +3007,9 @@ export class NewBlComponent implements OnInit {
           {
             text:
               'Total No. of Containers\nor Packages (in words)  ' +
-              this.ContainerList1.length,
+              this.ContainerList1.length +' ( '+
+              this.toWords.convert(this.ContainerList1.length) +
+              ' Containers )',
             bold: true,
             fontSize: 8,
             margin: [0, 20, 0, 3],
@@ -3104,89 +3239,161 @@ export class NewBlComponent implements OnInit {
             pageBreak: 'before',
             columns: [
               [
-                {
-                  text: 'ANNEXURE',
-                  bold: true,
-                  fontSize: 50,
-                  margin: [130, 0, 0, 0],
-                },
-                {
-                  canvas: [
+                // {
+                //   text: 'ANNEXURE',
+                //   bold: true,
+                //   fontSize: 50,
+                //   margin: [130, 0, 0, 0],
+                // },
+                // {
+                //   canvas: [
+                //     {
+                //       type: 'line',
+                //       x1: 0,
+                //       y1: 0,
+                //       x2: 520,
+                //       y2: 0,
+                //       lineWidth: 1,
+                //     },
+                //   ],
+                //   margin: [0, 10, 0, 0],
+                // },
+                ...this.ContainerList1.length<=5?
+                  [
                     {
-                      type: 'line',
-                      x1: 0,
-                      y1: 0,
-                      x2: 520,
-                      y2: 0,
-                      lineWidth: 1,
+                  
+                      table: {
+                        //heights: [15],
+                        headerRows: 1,
+                        body: [
+                          [
+                            {
+                              text: 'Container No.',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            {
+                              text: 'Seal No.\nMarks and Numbers',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            {
+                              text: 'No. of Containers or pkgs.',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            {
+                              text: 'Kind of packages; description of goods',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            { text: 'Gross Weight', fontSize: 9, bold: true },
+                            { text: 'Measurement', fontSize: 9, bold: true },
+                          ],
+                          
+                         
+                          [
+                            { text: ' ', fontSize: 9},
+                            { text: ' ', fontSize: 9},
+                            { text: ' ', fontSize: 9},
+                            { text: this.ContainerList1[0].DESC_OF_GOODS.substr(452,this.ContainerList1[0].DESC_OF_GOODS.length-1), fontSize: 9},
+                            { text: ' ', fontSize: 9},
+                            { text: ' ', fontSize: 9},
+                          ],
+                          [
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                          ],
+                        ],
+                      },
+                      layout: {
+                        hLineWidth: function (i: any, node: any) {
+                          return i==0?1:0;
+                        },
+                        vLineWidth: function (i: any, node: any) {
+                          return i === 0 || i === node.table.widths.length ? 0 : 1;
+                        },
+                        hLineStyle: function (i: any, node: any) {
+                          return 0;
+                        },
+                        vLineStyle: function (i: any, node: any) {
+                          return { dash: { length: 4 } };
+                        },
+                      },
+                    },
+                  ]:
+                  [
+                    {
+                  
+                      table: {
+                        //heights: [15],
+                        headerRows: 1,
+                        body: [
+                          [
+                            {
+                              text: 'Container No.',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            {
+                              text: 'Seal No.\nMarks and Numbers',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            {
+                              text: 'No. of Containers or pkgs.',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            {
+                              text: 'Kind of packages; description of goods',
+                              fontSize: 8,
+                              bold: true,
+                            },
+                            { text: 'Gross Weight', fontSize: 9, bold: true },
+                            { text: 'Measurement', fontSize: 9, bold: true },
+                          ],
+                          
+                          ...this.ContainerList1.slice(5).map((p: any) => [
+                            { text: p.CONTAINER_NO, fontSize: 9 },
+                            { text: p.MARKS_NOS + '  ' + p.SEAL_NO, fontSize: 9 },
+                            { text: '   -', fontSize: 9 },
+                            { rowSpan:this.ContainerList1.length-5,text: p.KIND_OF_GOODS, fontSize: 9 },
+                            { text: p.GROSS_WEIGHT, fontSize: 9 },
+                            { text: p.MEASUREMENT, fontSize: 9 },
+                          ]),
+                          [
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                            { text: ' ', fontSize: 9, heights: 140 },
+                          ],
+                        ],
+                      },
+                      layout: {
+                        hLineWidth: function (i: any, node: any) {
+                          return 0;
+                        },
+                        vLineWidth: function (i: any, node: any) {
+                          return i === 0 || i === node.table.widths.length ? 0 : 1;
+                        },
+                        hLineStyle: function (i: any, node: any) {
+                          return 0;
+                        },
+                        vLineStyle: function (i: any, node: any) {
+                          return { dash: { length: 4 } };
+                        },
+                      },
                     },
                   ],
-                  margin: [0, 10, 0, 0],
-                },
 
-                {
-                  table: {
-                    //heights: [15],
-                    headerRows: 1,
-                    body: [
-                      [
-                        {
-                          text: 'Container No.',
-                          fontSize: 8,
-                          bold: true,
-                        },
-                        {
-                          text: 'Seal No.\nMarks and Numbers',
-                          fontSize: 8,
-                          bold: true,
-                        },
-                        {
-                          text: 'No. of Containers or pkgs.',
-                          fontSize: 8,
-                          bold: true,
-                        },
-                        {
-                          text: 'Kind of packages; description of goods',
-                          fontSize: 8,
-                          bold: true,
-                        },
-                        { text: 'Gross Weight', fontSize: 9, bold: true },
-                        { text: 'Measurement', fontSize: 9, bold: true },
-                      ],
-                      ...this.ContainerList1.slice(5).map((p: any) => [
-                        { text: p.CONTAINER_NO, fontSize: 9 },
-                        { text: p.MARKS_NOS + '  ' + p.SEAL_NO, fontSize: 9 },
-                        { text: '   -', fontSize: 9 },
-                        { text: p.KIND_OF_GOODS, fontSize: 9 },
-                        { text: p.GROSS_WEIGHT, fontSize: 9 },
-                        { text: p.MEASUREMENT, fontSize: 9 },
-                      ]),
-                      [
-                        { text: ' ', fontSize: 9, heights: 140 },
-                        { text: ' ', fontSize: 9, heights: 140 },
-                        { text: ' ', fontSize: 9, heights: 140 },
-                        { text: ' ', fontSize: 9, heights: 140 },
-                        { text: ' ', fontSize: 9, heights: 140 },
-                        { text: ' ', fontSize: 9, heights: 140 },
-                      ],
-                    ],
-                  },
-                  layout: {
-                    hLineWidth: function (i: any, node: any) {
-                      return 0;
-                    },
-                    vLineWidth: function (i: any, node: any) {
-                      return i === 0 || i === node.table.widths.length ? 0 : 1;
-                    },
-                    hLineStyle: function (i: any, node: any) {
-                      return 0;
-                    },
-                    vLineStyle: function (i: any, node: any) {
-                      return { dash: { length: 4 } };
-                    },
-                  },
-                },
-
+                
                 {
                   canvas: [
                     {
