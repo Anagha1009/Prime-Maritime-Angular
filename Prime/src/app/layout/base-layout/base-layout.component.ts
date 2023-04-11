@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookingService } from 'src/app/services/booking.service';
+import { CommonService } from 'src/app/services/common.service';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -23,7 +24,8 @@ export class BaseLayoutComponent implements OnInit {
   constructor(
     private _router: Router,
     private _bookingservice: BookingService,
-    private _loginService: LoginService
+    private _loginService: LoginService,
+    private _cs: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -33,10 +35,13 @@ export class BaseLayoutComponent implements OnInit {
 
     this.user = this._loginService.userValue;
     if (this.user) {
-      this.isLoggedIn = true;
-    } else {
-      this.isLoggedIn = false;
+      // this.isLoggedIn = true;
+      this._cs.errorMsg('You have been logged out ! Please login again');
+      this._loginService.logout();
     }
+    // else {
+    //   this.isLoggedIn = false;
+    // }
   }
 
   public loadJsFile(url: any[]) {
