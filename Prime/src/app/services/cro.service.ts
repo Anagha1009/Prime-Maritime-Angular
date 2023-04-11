@@ -40,6 +40,19 @@ export class CroService {
     );
   }
 
+  getCROListPM(cro: CRO) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'CRO/GetCROListPM?FROM_DATE=' +
+        cro.FROM_DATE +
+        '&TO_DATE=' +
+        cro.TO_DATE +
+        '&CRO_NO=' +
+        cro.CRO_NO,
+      this.httpOptions
+    );
+  }
+
   getCRODetails(cro: CRO) {
     return this._http.get<any>(
       this.BASE_URL +

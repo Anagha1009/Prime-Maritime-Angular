@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../@core/services/auth.guard';
 import { Role } from '../models/login';
+import { PmBookingListComponent } from './pm-booking-list/pm-booking-list.component';
+import { PmCroListComponent } from './pm-cro-list/pm-cro-list.component';
 import { PmMrRequestComponent } from './pm-mr-request/pm-mr-request.component';
 import { PmQuotationDetailsComponent } from './pm-quotation-details/pm-quotation-details.component';
 import { PmQuotationListComponent } from './pm-quotation-list/pm-quotation-list.component';
@@ -22,6 +24,18 @@ const routes: Routes = [
   {
     path: 'srr-list',
     component: PmQuotationListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
+    path: 'booking-list',
+    component: PmBookingListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
+    path: 'cro-list',
+    component: PmCroListComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Principal, Role.Admin] },
   },

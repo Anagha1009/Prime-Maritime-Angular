@@ -12,6 +12,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { DataTablesModule } from 'angular-datatables';
+import { PmBookingListComponent } from './pm-booking-list/pm-booking-list.component';
+import { PmCroListComponent } from './pm-cro-list/pm-cro-list.component';
 
 
 @NgModule({
@@ -20,6 +22,8 @@ import { DataTablesModule } from 'angular-datatables';
         PmMrRequestComponent,
         PmQuotationDetailsComponent,
         PmQuotationListComponent,
+        PmBookingListComponent,
+        PmCroListComponent,
     ],
     imports: [
         CommonModule,
