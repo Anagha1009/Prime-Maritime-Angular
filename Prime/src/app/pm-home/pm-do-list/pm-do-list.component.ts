@@ -1,53 +1,53 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CRO } from 'src/app/models/cro';
+import { DO } from 'src/app/models/do';
 import { CommonService } from 'src/app/services/common.service';
-import { CroService } from 'src/app/services/cro.service';
+import { DoService } from 'src/app/services/do.service';
 
 @Component({
-  selector: 'app-pm-cro-list',
-  templateUrl: './pm-cro-list.component.html',
-  styleUrls: ['./pm-cro-list.component.scss'],
+  selector: 'app-pm-do-list',
+  templateUrl: './pm-do-list.component.html',
+  styleUrls: ['./pm-do-list.component.scss'],
 })
-export class PmCroListComponent implements OnInit {
+export class PmDoListComponent implements OnInit {
   filterForm: FormGroup;
-  croList: any[] = [];
-  cro: CRO = new CRO();
+  doList: any[] = [];
+  do: DO = new DO();
   isLoading: boolean = false;
   isLoading1: boolean = false;
 
   constructor(
     private _formBuilder: FormBuilder,
     private _commonService: CommonService,
-    private _croService: CroService
+    private _doService: DoService
   ) {}
 
   ngOnInit(): void {
     this.filterForm = this._formBuilder.group({
-      CRO_NO: [''],
+      DO_NO: [''],
       CUSTOMER_NAME: [''],
       FROM_DATE: [''],
       TO_DATE: [''],
     });
 
-    this.getCROList();
+    this.getDOList();
   }
 
   Search() {
-    var CRO_NO = this.filterForm.value.CRO_NO;
+    var DO_NO = this.filterForm.value.DO_NO;
     var FROM_DATE = this.filterForm.value.FROM_DATE;
     var TO_DATE = this.filterForm.value.TO_DATE;
 
-    if (CRO_NO == '' && FROM_DATE == '' && TO_DATE == '') {
+    if (DO_NO == '' && FROM_DATE == '' && TO_DATE == '') {
       alert('Please enter atleast one filter to search !');
       return;
     }
 
-    this.cro.CRO_NO = CRO_NO;
-    this.cro.FROM_DATE = FROM_DATE;
-    this.cro.TO_DATE = TO_DATE;
+    this.do.DO_NO = DO_NO;
+    this.do.FROM_DATE = FROM_DATE;
+    this.do.TO_DATE = TO_DATE;
     this.isLoading = true;
-    this.getCROList();
+    this.getDOList();
   }
 
   Clear() {
@@ -55,22 +55,22 @@ export class PmCroListComponent implements OnInit {
     this.filterForm.get('FROM_DATE')?.setValue('');
     this.filterForm.get('TO_DATE')?.setValue('');
 
-    this.cro.CRO_NO = '';
-    this.cro.FROM_DATE = '';
-    this.cro.TO_DATE = '';
+    this.do.DO_NO = '';
+    this.do.FROM_DATE = '';
+    this.do.TO_DATE = '';
     this.isLoading1 = true;
-    this.getCROList();
+    this.getDOList();
   }
 
-  getCROList() {
+  getDOList() {
     this._commonService.destroyDT();
-    this._croService.getCROListPM(this.cro).subscribe((res: any) => {
-      this.croList = [];
+    this._doService.getDOListPM(this.do).subscribe((res: any) => {
+      this.doList = [];
       this.isLoading = false;
       this.isLoading1 = false;
       if (res.ResponseCode == 200) {
         if (res.Data.length > 0) {
-          this.croList = res.Data;
+          this.doList = res.Data;
         }
       }
       this._commonService.getDT();

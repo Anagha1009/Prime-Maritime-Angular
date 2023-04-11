@@ -39,6 +39,19 @@ export class DoService {
     );
   }
 
+  getDOListPM(dO: DO) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'DO/GetDOListPM?DO_NO=' +
+        dO.DO_NO +
+        '&FROM_DATE=' +
+        dO.FROM_DATE +
+        '&TO_DATE=' +
+        dO.TO_DATE,
+      this.httpOptions
+    );
+  }
+
   getDODetails(dO: any) {
     return this._http.get<any>(
       this.BASE_URL +

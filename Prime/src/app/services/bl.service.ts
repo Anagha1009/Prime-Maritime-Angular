@@ -101,7 +101,6 @@ export class BlService {
   }
 
   getBLForMerge(bl: MergeBl) {
-    debugger;
     return this._http.get<any>(
       this.BASE_URL +
         'BL/GetBLFORMERGE?PORT_OF_LOADING=' +
@@ -152,6 +151,13 @@ export class BlService {
     return this._http.post<any>(
       this.BASE_URL + 'SRR/InsertInvoice',
       bl,
+      this.httpOptions
+    );
+  }
+
+  getBLListPM() {
+    return this._http.get<any>(
+      this.BASE_URL + 'BL/GetBLListPM',
       this.httpOptions
     );
   }
