@@ -22,7 +22,6 @@ import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 import { MergeBlComponent } from './merge-bl/merge-bl.component';
 import { NewDo2Component } from './new-do2/new-do2.component';
 import { TdrListComponent } from './tdr-list/tdr-list.component';
-import { NewBl2Component } from './new-bl2/new-bl2.component';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { ForgotPwdComponent } from 'src/app/auth/forgot-pwd/forgot-pwd.component';
 
@@ -42,7 +41,6 @@ import { ForgotPwdComponent } from 'src/app/auth/forgot-pwd/forgot-pwd.component
     NewInvoiceComponent,
     InvoiceListComponent,
     MergeBlComponent,
-    NewBl2Component,
     ForgotPwdComponent,
   ],
   imports: [

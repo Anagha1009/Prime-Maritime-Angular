@@ -161,4 +161,15 @@ export class BlService {
       this.httpOptions
     );
   }
+
+  getOrgDetails(orgCode: any, orgLocCode: any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'BL/GetOrgDetails?ORG_CODE=' +
+        orgCode +
+        '&ORG_LOC_CODE=' +
+        orgLocCode,
+      this.httpOptions
+    );
+  }
 }
