@@ -1010,13 +1010,14 @@ export class NewBlComponent implements OnInit {
 
     this._blService.getBLDetails(BL).subscribe((res: any) => {
       this.blForm.patchValue(res.Data);
-
+      debugger;
       this._blService
         .getOrgDetails(
           this.blForm.get('DESTINATION_AGENT_CODE')?.value,
           this.blForm.get('PORT_OF_DISCHARGE')?.value
         )
         .subscribe((desres: any) => {
+          debugger;
           if (desres.ResponseCode == 200) {
             this.destinationAgent = desres.Data;
             var contList: any[] = res.Data.CONTAINER_LIST;
@@ -1926,7 +1927,7 @@ export class NewBlComponent implements OnInit {
           },
           {
             table: {
-              heights: 1,
+              heights: [40],
               headerRows: 1,
               widths: [140, '*', 95, '*', '*'],
               body: [
@@ -1962,7 +1963,7 @@ export class NewBlComponent implements OnInit {
             columns: [
               {
                 table: {
-                  widths: [50, 360],
+                  widths: [50, 270],
                   headerRows: 1,
                   heights: 5,
                   body: [
@@ -1986,9 +1987,9 @@ export class NewBlComponent implements OnInit {
                           },
                         },
                         table: {
-                          widths: [75, 270],
+                          widths: [75, 180],
                           headerRows: 1,
-                          heights: [20, 60],
+                          heights: [20, 80],
                           body: [
                             [
                               {
@@ -3180,7 +3181,7 @@ export class NewBlComponent implements OnInit {
           },
           {
             table: {
-              heights: 1,
+              heights: [40],
               headerRows: 1,
               widths: [140, '*', 95, '*', '*'],
               body: [
@@ -3216,7 +3217,7 @@ export class NewBlComponent implements OnInit {
             columns: [
               {
                 table: {
-                  widths: [50, 360],
+                  widths: [50, 270],
                   headerRows: 1,
                   heights: 5,
                   body: [
@@ -3239,9 +3240,9 @@ export class NewBlComponent implements OnInit {
                           },
                         },
                         table: {
-                          widths: [75, 270],
+                          widths: [75, 180],
                           headerRows: 1,
-                          heights: [20, 60],
+                          heights: [20, 80],
                           body: [
                             [
                               {

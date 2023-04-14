@@ -14,6 +14,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { DataTablesModule } from 'angular-datatables';
+import { InventoryListComponent } from './inventory-list/inventory-list.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { DataTablesModule } from 'angular-datatables';
     DetentionWaverRequestComponent,
     MrRequestComponent,
     MrRequestListComponent,
+    InventoryListComponent,
   ],
   imports: [
     CommonModule,

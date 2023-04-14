@@ -6,6 +6,7 @@ import { ContainerAllotmentComponent } from './container-allotment/container-all
 import { DepoDashboardComponent } from './depo-dashboard/depo-dashboard.component';
 import { DetentionListComponent } from './detention-list/detention-list.component';
 import { DetentionWaverRequestComponent } from './detention-waver-request/detention-waver-request.component';
+import { InventoryListComponent } from './inventory-list/inventory-list.component';
 import { MrRequestListComponent } from './mr-request-list/mr-request-list.component';
 import { MrRequestComponent } from './mr-request/mr-request.component';
 
@@ -14,13 +15,13 @@ const routes: Routes = [
     path: 'container-allotment',
     component: ContainerAllotmentComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Agent, Role.Depot] },
+    data: { roles: [Role.Depot] },
   },
   {
     path: 'depo-dashboard',
     component: DepoDashboardComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Agent, Role.Depot] },
+    data: { roles: [Role.Depot] },
   },
   {
     path: 'detention-list',
@@ -38,13 +39,19 @@ const routes: Routes = [
     path: 'mr-request',
     component: MrRequestComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Agent, Role.Depot] },
+    data: { roles: [Role.Depot] },
   },
   {
     path: 'mr-request-list',
     component: MrRequestListComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Agent, Role.Depot] },
+    data: { roles: [Role.Depot] },
+  },
+  {
+    path: 'inventory-list',
+    component: InventoryListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Depot] },
   },
 ];
 

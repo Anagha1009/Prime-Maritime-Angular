@@ -23,6 +23,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DataTablesModule } from 'angular-datatables';
 import { LocationComponent } from './location/location.component';
 import { UserComponent } from './user/user.component';
+import { SlotOperatorComponent } from './slot-operator/slot-operator.component';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,8 @@ import { UserComponent } from './user/user.component';
         VesselComponent,
         VoyageComponent,
         LocationComponent,
-        UserComponent
+        UserComponent,
+        SlotOperatorComponent
     ],
     imports: [
         CommonModule,

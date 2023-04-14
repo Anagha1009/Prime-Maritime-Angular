@@ -39,10 +39,6 @@ export class CmService {
     );
   }
 
-  // testenc(){
-  //  return  this._http.get<any>("http://localhost:44316/WeatherForecast/testenc1");
-  // }
-
   //SINGLE
   getContMov(CM: CONTAINER_MOVEMENT) {
     return this._http.get<any>(
@@ -128,6 +124,16 @@ export class CmService {
     return this._http.post<any>(
       this.BASE_URL + 'ContainerMovement/InsertContainerTracking',
       ct,
+      this.httpOptions
+    );
+  }
+
+  //ANAGHA
+  getAllCMAvailable(depocode: string) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'ContainerMovement/GetAllContainerListForDepo?DEPO_CODE=' +
+        depocode,
       this.httpOptions
     );
   }

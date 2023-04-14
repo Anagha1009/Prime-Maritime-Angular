@@ -112,7 +112,7 @@
                                 <label class="form-label2">Password<span class="text-danger"> *</span></label>
                                 <input type="password" autocomplete="off" [readonly]="isUpdate"
                                     [ngClass]="{'invalid':submitted && f.PASSWORD.errors}" formControlName="PASSWORD"
-                                    class="form-control2" maxlength="100">
+                                    class="form-control2" maxlength="15">
                                 <div *ngIf="submitted && f.PASSWORD.errors" class="invalid-feedback">Password is
                                     required</div>
                             </div>
@@ -122,7 +122,7 @@
                                 <label class="form-label2">Confirm Password<span class="text-danger"> *</span></label>
                                 <input type="password" [readonly]="isUpdate"
                                     [ngClass]="{'invalid':submitted && f.CONFIRMPASSWORD.errors}"
-                                    formControlName="CONFIRMPASSWORD" class="form-control2" maxlength="10">
+                                    formControlName="CONFIRMPASSWORD" class="form-control2" maxlength="15">
                                 <div *ngIf="submitted && f.CONFIRMPASSWORD.errors" class="invalid-feedback">Confirm
                                     Password is
                                     required</div>

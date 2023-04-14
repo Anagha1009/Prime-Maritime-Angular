@@ -13,6 +13,7 @@ import { PartyComponent } from './party/party.component';
 import { PortComponent } from './port/port.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { ServicetypeComponent } from './servicetype/servicetype.component';
+import { SlotOperatorComponent } from './slot-operator/slot-operator.component';
 import { UnitComponent } from './unit/unit.component';
 import { UserComponent } from './user/user.component';
 import { VesselComponent } from './vessel/vessel.component';
@@ -106,6 +107,12 @@ const routes: Routes = [
   {
     path: 'user-master',
     component: UserComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
+    path: 'slot-master',
+    component: SlotOperatorComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Principal, Role.Admin] },
   },

@@ -42,6 +42,7 @@ export const locale = {
       LinerService: 'Liner Service',
       Unit: 'Unit',
       Location: 'Location',
+      Inventory: 'Inventory',
     },
     Button: {
       newRequest: 'New Rate Request',
