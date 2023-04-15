@@ -2,11 +2,14 @@
     <h2>New Container Movement</h2>
 </div>
 <div class="container" [formGroup]="cmForm">
-    <div class="row">
+    <span *ngIf="ismanually && submitted1 && isData" class="text-primary pointer" (click)="backTo()"><i
+            class='bx bx-arrow-back'></i>Go Back</span>
+    <div class="row" *ngIf="!isData">
         <div class="col-md-4">
             <div class="form-group">
                 <div class="form-check form-switch">
-                    <input (change)="switchToggle($event)" class="form-check-input" type="checkbox" role="switch" />
+                    <input #chck id="chck" (change)="switchToggle($event.target.checked)" class="form-check-input"
+                        type="checkbox" role="switch" [checked]='ismanually' />
                     <label class="form-check-label">Enter Container No Manually</label>
                 </div>
             </div>
@@ -21,7 +24,7 @@
             </i>
         </div>
     </div>
-    <div class="row" *ngIf="ismanually">
+    <div class="row" *ngIf="ismanually && !isData">
         <div class="col-md-4">
             <div class="form-group">
                 <label class="form-label2">Container No<span class="text-danger">
@@ -47,12 +50,12 @@
             <button type="button" (click)="getCMList()" class="form-btn">Get Container</button>
         </div>
     </div>
-    <div class="table-responsive" *ngIf="containerMovementList.length > 0 && !ismanually && isGetContainer">
+    <div class="table-responsive" *ngIf="containerMovementList.length > 0 && submitted && !ismanually">
         <table class="ratetable" id="data-table-config">
             <thead>
                 <tr>
                     <th width="1%">No.</th>
-                    <th width="10%">Container No</th>
+                    <th width="10%">Container</th>
                     <th width="20%">Previous Activity</th>
                     <th width="20%">Current Activity</th>
                     <th width="10%">Activity Date</th>
@@ -84,190 +87,228 @@
             </tbody>
         </table>
     </div>
-    <div class="col-md-8" *ngIf="!isnoRecord && ismanually && isGetContainer1">
-        <form [formGroup]="containerMovementForm">
-            <h6>Previous : <small class="text-danger">{{containerMovementForm.value.PREV_ACT_NAME == '' ||
-                    containerMovementForm.value.PREV_ACT_NAME == null ? '-' :
-                    containerMovementForm.value.PREV_ACT_NAME}}
-                    <span
-                        *ngIf="containerMovementForm.value.PREV_ACT_CODE != null">(</span>{{containerMovementForm.value.PREV_ACT_CODE}}<span
-                        *ngIf="containerMovementForm.value.PREV_ACT_CODE != null">)</span></small>
-            </h6>
-            <h6>Current : <small class="text-danger">{{containerMovementForm.value.CURR_ACT_NAME}}
-                    ({{containerMovementForm.value.CURR_ACT_CODE2}})</small></h6>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label2">Container No
-                        </label>
-                        <input readonly type="text" formControlName="CONTAINER_NO" class="form-control2" />
+    <div class="col-md-8 mx-auto" *ngIf="isData && submitted1 && ismanually">
+        <div class="services">
+            <div class="icon-box text-start">
+                <form [formGroup]="containerMovementForm">
+                    <h6 class="fw-bold"><span class="me-2">Container No : <small
+                                class="text-danger">{{containerMovementForm.value.CONTAINER_NO}}
+                            </small></span><span class="me-2">Status : <small
+                                class="text-danger">{{containerMovementForm.value.STATUS1}}
+                            </small></span><span class="me-2">Location : <small
+                                class="text-danger">{{containerMovementForm.value.LOCATION1}}
+                            </small></span><span>Date : <small
+                                class="text-danger">{{containerMovementForm.value.ACTIVITY_DATE1}}
+                            </small></span></h6>
+                    <h6 class="fw-bold">Previous : <small
+                            class="text-danger">{{containerMovementForm.value.PREV_ACT_NAME == '' ||
+                            containerMovementForm.value.PREV_ACT_NAME == null ? '-' :
+                            containerMovementForm.value.PREV_ACT_NAME}}
+                            <span
+                                *ngIf="containerMovementForm.value.PREV_ACT_CODE != ''">(</span>{{containerMovementForm.value.PREV_ACT_CODE}}<span
+                                *ngIf="containerMovementForm.value.PREV_ACT_CODE != ''">)</span></small>
+                        <span class="ms-2">Current : <small
+                                class="text-danger">{{containerMovementForm.value.CURR_ACT_NAME}}
+                                ({{containerMovementForm.value.CURR_ACT_CODE2}})</small></span>
+                    </h6>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6 mt-4">
+                            <div class="form-group">
+                                <ng-select (change)="onchangeNextAct($event)"
+                                    [ngClass]="{'invalid': updateSubmitted && f.CURR_ACT_CODE.errors}"
+                                    formControlName="CURR_ACT_CODE">
+                                    <ng-option value="" disabled>--Select--</ng-option>
+                                    <ng-option value="{{item.NEXT_ACT_CODE}}"
+                                        *ngFor="let item of containerMovementForm.value.NEXT_ACTIVITY_LIST" value="">
+                                        {{item.NEXT_ACT_NAME}} ({{item.NEXT_ACT_CODE}})</ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">Next Activity<span class="text-danger">
+                                        *</span></label>
+                                <div *ngIf="updateSubmitted && f.CURR_ACT_CODE.errors" class="invalid-feedback">Next
+                                    Activity
+                                    is
+                                    required</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-4">
+                            <div class="form-group">
+                                <ng-select [ngClass]="{'invalid': updateSubmitted && f.LOCATION.errors}"
+                                    formControlName="LOCATION">
+                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                    <ng-option *ngFor="let item of depoList" value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        ({{item.CODE}})
+                                    </ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">Next Location <span class="text-danger">
+                                        *</span></label>
+                                <div *ngIf="updateSubmitted && f.LOCATION.errors" class="invalid-feedback">
+                                    Location is required</div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label2">Next Activity<span class="text-danger">
-                                *</span></label>
-                        <select class="form-control2" (change)="onchangeNextAct($event)"
-                            [ngClass]="{'invalid': submitted && f.CURR_ACT_CODE.errors}"
-                            formControlName="CURR_ACT_CODE">
-                            <option value="" disabled>--Select--</option>
-                            <option value="{{item.NEXT_ACT_CODE}}"
-                                *ngFor="let item of containerMovementForm.value.NEXT_ACTIVITY_LIST" value="">
-                                {{item.NEXT_ACT_NAME}} ({{item.NEXT_ACT_CODE}})</option>
-                        </select>
-                        <div *ngIf="submitted && f.CURR_ACT_CODE.errors" class="invalid-feedback">Next Activity is
-                            required</div>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <ng-select formControlName="STATUS"
+                                    [ngClass]="{'invalid': updateSubmitted && f.STATUS.errors}">
+                                    <ng-option value="" disabled>--Select--</ng-option>
+                                    <ng-option value="Emergency Repair">Emergency Repair</ng-option>
+                                    <ng-option value="Full">Full</ng-option>
+                                    <ng-option value="Empty">Empty</ng-option>
+                                    <ng-option value="Damage">Damage</ng-option>
+                                    <ng-option value="Hold">Hold</ng-option>
+                                    <ng-option value="Awaiting Survey">Awaiting Survey</ng-option>
+                                    <ng-option value="Available">Available</ng-option>
+                                    <ng-option value="Awaiting Repair">Awaiting Repair</ng-option>
+                                </ng-select>
+                                <label class="form-label-ddl">Status<span class="text-danger">
+                                        *</span></label>
+                                <div *ngIf="updateSubmitted && f.STATUS.errors" class="invalid-feedback">Status is
+                                    required</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input [ngClass]="{'invalid': updateSubmitted && f.ACTIVITY_DATE.errors}" type="date"
+                                    max="{{currentDate}}" formControlName="ACTIVITY_DATE" onkeypress="return false"
+                                    class="form-control" />
+                                <label class="form-label">Activity Date <span class="text-danger">
+                                        *</span>
+                                </label>
+                                <div *ngIf="updateSubmitted && f.ACTIVITY_DATE.errors" class="invalid-feedback">Activity
+                                    Date
+                                    is
+                                    required</div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <hr>
+                    <div class="col-md-6 mx-auto text-center">
+                        <button type="button" (click)="updateMovement()" class="form-btn">Update Movement</button>
+                    </div>
+                </form>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label2">Status<span class="text-danger">
-                                *</span></label>
-                        <select class="form-control2" formControlName="STATUS"
-                            [ngClass]="{'invalid': submitted && f.STATUS.errors}">
-                            <option value="" disabled>--Select--</option>
-                            <option value="Emergency Repair">Emergency Repair</option>
-                            <option value="Full">Full</option>
-                            <option value="Empty">Empty</option>
-                            <option value="Damage">Damage</option>
-                            <option value="Hold">Hold</option>
-                            <option value="Awaiting Survey">Awaiting Survey</option>
-                            <option value="Available">Available</option>
-                            <option value="Awaiting Repair">Awaiting Repair</option>
-                        </select>
-                        <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Status is
-                            required</div>
-                    </div>
-                </div>
-                <div class="col-md-6 mt-4">
-                    <div class="form-group">
-                        <ng-select [ngClass]="{'invalid': submitted && f.LOCATION.errors}" formControlName="LOCATION">
-                            <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                            <ng-option *ngFor="let item of depoList" value="{{item.CODE}}">{{item.CODE_DESC}}
-                                ({{item.CODE}})
-                            </ng-option>
-                        </ng-select>
-                        <label class="form-label-ddl">Location <span class="text-danger">
-                                *</span></label>
-                        <div *ngIf="submitted && f.LOCATION.errors" class="invalid-feedback">
-                            Location is required</div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label2">Activity Date
-                        </label>
-                        <input type="date" max="{{currentDate}}" formControlName="ACTIVITY_DATE"
-                            onkeypress="return false" class="form-control2" />
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="col-md-6 offset-md-6 text-end">
-                <button type="button" (click)="updateMovement()" class="form-btn">Update Movement</button>
-            </div>
-        </form>
+        </div>
     </div>
-    <div class="col-md-5 mx-auto" *ngIf="containerMovementList.length == 0 && isGetContainer">
+    <div class="col-md-5 mx-auto" *ngIf="containerMovementList.length == 0 && submitted && !ismanually">
         <h5 class="text-center">Sorry! No records found !!</h5>
         <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
     </div>
-    <div class="col-md-5 mx-auto" *ngIf="isnoRecord && ismanually && isGetContainer1">
+    <div class="col-md-5 mx-auto" *ngIf="!isData && submitted1 && ismanually">
         <h5 class="text-center">Sorry! No records found !!</h5>
         <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
     </div>
 </div>
 <div class="modal fade" id="containerModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog  modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Container Movement Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
             </div>
-            <div class="modal-body" [formGroup]="containerMovementForm">
-                <h6>Previous : <small class="text-danger">{{containerMovementForm.value.PREV_ACT_NAME == '' ||
-                        containerMovementForm.value.PREV_ACT_NAME == null ? '-' :
-                        containerMovementForm.value.PREV_ACT_NAME}}
-                        <span
-                            *ngIf="containerMovementForm.value.PREV_ACT_CODE != null">(</span>{{containerMovementForm.value.PREV_ACT_CODE}}<span
-                            *ngIf="containerMovementForm.value.PREV_ACT_CODE != null">)</span></small>
-                </h6>
-                <h6>Current : <small class="text-danger">{{containerMovementForm.value.CURR_ACT_NAME}}
-                        ({{containerMovementForm.value.CURR_ACT_CODE2}})</small></h6>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label2">Container No
-                            </label>
-                            <input readonly type="text" formControlName="CONTAINER_NO" class="form-control2" />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label2">Next Activity<span class="text-danger">
-                                    *</span></label>
-                            <select class="form-control2" (change)="onchangeNextAct($event)"
-                                [ngClass]="{'invalid': submitted && f.CURR_ACT_CODE.errors}"
-                                formControlName="CURR_ACT_CODE">
-                                <option value="" disabled>--Select--</option>
-                                <option value="{{item.NEXT_ACT_CODE}}"
-                                    *ngFor="let item of containerMovementForm.value.NEXT_ACTIVITY_LIST" value="">
-                                    {{item.NEXT_ACT_NAME}} ({{item.NEXT_ACT_CODE}})</option>
-                            </select>
-                            <div *ngIf="submitted && f.CURR_ACT_CODE.errors" class="invalid-feedback">Next Activity is
-                                required</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label2">Status<span class="text-danger">
-                                    *</span></label>
-                            <select class="form-control2" formControlName="STATUS"
-                                [ngClass]="{'invalid': submitted && f.STATUS.errors}">
-                                <option value="" disabled>--Select--</option>
-                                <option value="Emergency Repair">Emergency Repair</option>
-                                <option value="Full">Full</option>
-                                <option value="Empty">Empty</option>
-                                <option value="Damage">Damage</option>
-                                <option value="Hold">Hold</option>
-                                <option value="Awaiting Survey">Awaiting Survey</option>
-                                <option value="Available">Available</option>
-                                <option value="Awaiting Repair">Awaiting Repair</option>
-                            </select>
-                            <div *ngIf="submitted && f.STATUS.errors" class="invalid-feedback">Status is
-                                required</div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mt-4">
-                        <div class="form-group">
-                            <ng-select [ngClass]="{'invalid': submitted && f.LOCATION.errors}"
-                                formControlName="LOCATION">
-                                <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                <ng-option *ngFor="let item of depoList" value="{{item.CODE}}">{{item.CODE_DESC}}
-                                    ({{item.CODE}})
-                                </ng-option>
-                            </ng-select>
-                            <label class="form-label-ddl">Location <span class="text-danger">
-                                    *</span></label>
-                            <div *ngIf="submitted && f.LOCATION.errors" class="invalid-feedback">
-                                Location is required</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label2">Activity Date
-                            </label>
-                            <input type="date" max="{{currentDate}}" formControlName="ACTIVITY_DATE"
-                                onkeypress="return false" class="form-control2" />
-                        </div>
+            <div class="modal-body">
+                <div class="services">
+                    <div class="icon-box text-start">
+                        <form [formGroup]="containerMovementForm">
+                            <h6 class="fw-bold"><span class="me-2">Container No : <small
+                                        class="text-danger">{{containerMovementForm.value.CONTAINER_NO}}
+                                    </small></span><span class="me-2">Status : <small
+                                        class="text-danger">{{containerMovementForm.value.STATUS1}}
+                                    </small></span><span class="me-2">Location : <small
+                                        class="text-danger">{{containerMovementForm.value.LOCATION1}}
+                                    </small></span><span>Date : <small
+                                        class="text-danger">{{containerMovementForm.value.ACTIVITY_DATE1}}
+                                    </small></span></h6>
+                            <h6 class="fw-bold">Previous : <small
+                                    class="text-danger">{{containerMovementForm.value.PREV_ACT_NAME == '' ||
+                                    containerMovementForm.value.PREV_ACT_NAME == null ? '-' :
+                                    containerMovementForm.value.PREV_ACT_NAME}}
+                                    <span
+                                        *ngIf="containerMovementForm.value.PREV_ACT_CODE != ''">(</span>{{containerMovementForm.value.PREV_ACT_CODE}}<span
+                                        *ngIf="containerMovementForm.value.PREV_ACT_CODE != ''">)</span></small>
+                                <span class="ms-2">Current : <small
+                                        class="text-danger">{{containerMovementForm.value.CURR_ACT_NAME}}
+                                        ({{containerMovementForm.value.CURR_ACT_CODE2}})</small></span>
+                            </h6>
+
+                            <div class="row mt-4">
+                                <div class="col-md-6 mt-4">
+                                    <div class="form-group">
+                                        <ng-select (change)="onchangeNextAct($event)"
+                                            [ngClass]="{'invalid': updateSubmitted && f.CURR_ACT_CODE.errors}"
+                                            formControlName="CURR_ACT_CODE">
+                                            <ng-option value="" disabled>--Select--</ng-option>
+                                            <ng-option value="{{item.NEXT_ACT_CODE}}"
+                                                *ngFor="let item of containerMovementForm.value.NEXT_ACTIVITY_LIST"
+                                                value="">
+                                                {{item.NEXT_ACT_NAME}} ({{item.NEXT_ACT_CODE}})</ng-option>
+                                        </ng-select>
+                                        <label class="form-label-ddl">Next Activity<span class="text-danger">
+                                                *</span></label>
+                                        <div *ngIf="updateSubmitted && f.CURR_ACT_CODE.errors" class="invalid-feedback">
+                                            Next
+                                            Activity
+                                            is
+                                            required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mt-4">
+                                    <div class="form-group">
+                                        <ng-select [ngClass]="{'invalid': updateSubmitted && f.LOCATION.errors}"
+                                            formControlName="LOCATION">
+                                            <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                            <ng-option *ngFor="let item of depoList"
+                                                value="{{item.CODE}}">{{item.CODE_DESC}}
+                                                ({{item.CODE}})
+                                            </ng-option>
+                                        </ng-select>
+                                        <label class="form-label-ddl">Next Location <span class="text-danger">
+                                                *</span></label>
+                                        <div *ngIf="updateSubmitted && f.LOCATION.errors" class="invalid-feedback">
+                                            Location is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <ng-select formControlName="STATUS"
+                                            [ngClass]="{'invalid': updateSubmitted && f.STATUS.errors}">
+                                            <ng-option value="" disabled>--Select--</ng-option>
+                                            <ng-option value="Emergency Repair">Emergency Repair</ng-option>
+                                            <ng-option value="Full">Full</ng-option>
+                                            <ng-option value="Empty">Empty</ng-option>
+                                            <ng-option value="Damage">Damage</ng-option>
+                                            <ng-option value="Hold">Hold</ng-option>
+                                            <ng-option value="Awaiting Survey">Awaiting Survey</ng-option>
+                                            <ng-option value="Available">Available</ng-option>
+                                            <ng-option value="Awaiting Repair">Awaiting Repair</ng-option>
+                                        </ng-select>
+                                        <label class="form-label-ddl">Status<span class="text-danger">
+                                                *</span></label>
+                                        <div *ngIf="updateSubmitted && f.STATUS.errors" class="invalid-feedback">Status
+                                            is
+                                            required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input [ngClass]="{'invalid': updateSubmitted && f.ACTIVITY_DATE.errors}"
+                                            type="date" max="{{currentDate}}" formControlName="ACTIVITY_DATE"
+                                            onkeypress="return false" class="form-control" />
+                                        <label class="form-label">Activity Date <span class="text-danger">
+                                                *</span>
+                                        </label>
+                                        <div *ngIf="updateSubmitted && f.ACTIVITY_DATE.errors" class="invalid-feedback">
+                                            Activity
+                                            Date
+                                            is
+                                            required</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
