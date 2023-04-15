@@ -315,60 +315,68 @@ export class NewContainerMovementComponent implements OnInit {
 
           var keyXlArray: any = [];
 
-          Object.keys(jsonData['Sheet1'][0]).forEach(function (key) {
-            keyXlArray.push(key);
-          });
+          if (jsonData.hasOwnProperty('CM')) {
+            if (jsonData.CM.length > 0) {
+              Object.keys(jsonData['CM'][0]).forEach(function (key) {
+                keyXlArray.push(key);
+              });
 
-          var result = this.isSameColumn(keyXlArray, keyArray);
+              var result = this.isSameColumn(keyXlArray, keyArray);
 
-          if (result) {
-            this.cmTable = [];
+              if (result) {
+                this.cmTable = [];
 
-            this.cmTable = jsonData['Sheet1'];
-            var isValid = true;
-            var isValidBKCRO = true;
+                this.cmTable = jsonData['CM'];
+                var isValid = true;
+                var isValidBKCRO = true;
 
-            this.cmTable.forEach((element) => {
-              if (
-                !this.checkNullEmpty([
-                  element.CONTAINER_NO,
-                  element.ACTIVITY,
-                  element.ACTIVITY_DATE,
-                  element.LOCATION,
-                  element.STATUS,
-                ])
-              ) {
-                isValid = false;
-              }
+                this.cmTable.forEach((element) => {
+                  if (
+                    !this.checkNullEmpty([
+                      element.CONTAINER_NO,
+                      element.ACTIVITY,
+                      element.ACTIVITY_DATE,
+                      element.LOCATION,
+                      element.STATUS,
+                    ])
+                  ) {
+                    isValid = false;
+                  }
 
-              if (element['BOOKING_NO / CRO_NO'] != '') {
-                var val = element['BOOKING_NO / CRO_NO'].substring(0, 2);
-                if (val == 'BK' || val == 'CR') {
-                  isValidBKCRO = true;
+                  if (element['BOOKING_NO / CRO_NO'] != '') {
+                    var val = element['BOOKING_NO / CRO_NO'].substring(0, 2);
+                    if (val == 'BK' || val == 'CR') {
+                      isValidBKCRO = true;
+                    } else {
+                      isValidBKCRO = false;
+                    }
+                  }
+                });
+
+                this._commonService.destroyDT();
+                if (isValid) {
+                  if (isValidBKCRO) {
+                    this.cmTable = this.cmTable.filter(
+                      (v, i, a) =>
+                        a.findIndex(
+                          (v2) => JSON.stringify(v2) === JSON.stringify(v)
+                        ) === i
+                    );
+
+                    this._commonService.getDT();
+
+                    this.onUpload = true;
+                  } else {
+                    alert('Booking No / CRO No is invalid !');
+                  }
                 } else {
-                  isValidBKCRO = false;
+                  alert('Incorrect data!');
                 }
-              }
-            });
-
-            this._commonService.destroyDT();
-            if (isValid) {
-              if (isValidBKCRO) {
-                this.cmTable = this.cmTable.filter(
-                  (v, i, a) =>
-                    a.findIndex(
-                      (v2) => JSON.stringify(v2) === JSON.stringify(v)
-                    ) === i
-                );
-
-                this._commonService.getDT();
-
-                this.onUpload = true;
               } else {
-                alert('Booking No / CRO No is invalid !');
+                alert('Invalid file !');
               }
             } else {
-              alert('Incorrect data!');
+              alert('Empty File !');
             }
           } else {
             alert('Invalid file !');
