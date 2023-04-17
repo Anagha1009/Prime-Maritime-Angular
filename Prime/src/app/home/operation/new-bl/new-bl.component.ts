@@ -1927,7 +1927,7 @@ export class NewBlComponent implements OnInit {
           },
           {
             table: {
-              heights: [40],
+              heights: [20],
               headerRows: 1,
               widths: [140, '*', 95, '*', '*'],
               body: [
@@ -3181,7 +3181,7 @@ export class NewBlComponent implements OnInit {
           },
           {
             table: {
-              heights: [40],
+              heights: [20],
               headerRows: 1,
               widths: [140, '*', 95, '*', '*'],
               body: [

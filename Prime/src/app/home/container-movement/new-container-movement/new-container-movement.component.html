@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 offset-md-2 text-end">
+        <!-- <div class="col-md-6 offset-md-2 text-end">
             <button (click)="downloadFile()" class="form-btn-danger me-2">Download
                 Excel Format</button>
             <button class="form-btn-primary" (click)="openUploadModal()">Upload Excel</button>
@@ -22,7 +22,7 @@
                 Excel</button>
             <i class="d-none" #openModalPopup data-bs-toggle="modal" href="#containerModal">
             </i>
-        </div>
+        </div> -->
     </div>
     <div class="row" *ngIf="ismanually && !isData">
         <div class="col-md-4">
@@ -100,14 +100,7 @@
                             </small></span><span>Date : <small
                                 class="text-danger">{{containerMovementForm.value.ACTIVITY_DATE1}}
                             </small></span></h6>
-                    <h6 class="fw-bold">Previous : <small
-                            class="text-danger">{{containerMovementForm.value.PREV_ACT_NAME == '' ||
-                            containerMovementForm.value.PREV_ACT_NAME == null ? '-' :
-                            containerMovementForm.value.PREV_ACT_NAME}}
-                            <span
-                                *ngIf="containerMovementForm.value.PREV_ACT_CODE != ''">(</span>{{containerMovementForm.value.PREV_ACT_CODE}}<span
-                                *ngIf="containerMovementForm.value.PREV_ACT_CODE != ''">)</span></small>
-                        <span class="ms-2">Current : <small
+                    <h6 class="fw-bold"><span>Current : <small
                                 class="text-danger">{{containerMovementForm.value.CURR_ACT_NAME}}
                                 ({{containerMovementForm.value.CURR_ACT_CODE2}})</small></span>
                     </h6>
@@ -220,15 +213,8 @@
                                     </small></span><span>Date : <small
                                         class="text-danger">{{containerMovementForm.value.ACTIVITY_DATE1}}
                                     </small></span></h6>
-                            <h6 class="fw-bold">Previous : <small
-                                    class="text-danger">{{containerMovementForm.value.PREV_ACT_NAME == '' ||
-                                    containerMovementForm.value.PREV_ACT_NAME == null ? '-' :
-                                    containerMovementForm.value.PREV_ACT_NAME}}
-                                    <span
-                                        *ngIf="containerMovementForm.value.PREV_ACT_CODE != ''">(</span>{{containerMovementForm.value.PREV_ACT_CODE}}<span
-                                        *ngIf="containerMovementForm.value.PREV_ACT_CODE != ''">)</span></small>
-                                <span class="ms-2">Current : <small
-                                        class="text-danger">{{containerMovementForm.value.CURR_ACT_NAME}}
+                            <h6 class="fw-bold">
+                                <span>Current : <small class="text-danger">{{containerMovementForm.value.CURR_ACT_NAME}}
                                         ({{containerMovementForm.value.CURR_ACT_CODE2}})</small></span>
                             </h6>
 
