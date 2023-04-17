@@ -137,4 +137,22 @@ export class CmService {
       this.httpOptions
     );
   }
+
+  getNxtActivityList(containerno: string) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'ContainerMovement/GetNextActivityList?CONTAINER_NO=' +
+        containerno,
+      this.httpOptions
+    );
+  }
+
+  isvalidCROforContainer(containerno: string) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'ContainerMovement/ValidCROForContainer?CONTAINER_NO=' +
+        containerno,
+      this.httpOptions
+    );
+  }
 }

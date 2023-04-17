@@ -131,12 +131,12 @@ export class NewContainerMovementComponent implements OnInit {
     var value = this.cmForm.get('BKCR_NO')?.value.substring(0, 2);
 
     var cm = new CONTAINER_MOVEMENT();
-    cm.BOOKING_NO = value == 'BK' ? this.cmForm.get('BKCR_NO')?.value : '';
+    cm.BOOKING_NO = '';
     cm.CRO_NO = value == 'CR' ? this.cmForm.get('BKCR_NO')?.value : '';
 
-    if (value == 'BK' || value == 'CR') {
+    if (value == 'CR') {
     } else {
-      alert('Please enter correct Booking No / CRO No');
+      alert('Please enter correct CRO No');
       this.submitted = false;
       return;
     }
@@ -204,27 +204,41 @@ export class NewContainerMovementComponent implements OnInit {
 
   upload() {
     var containerList: any = [];
-    this.cmTable.forEach((element) => {
-      var value = element['BOOKING_NO / CRO_NO'].substring(0, 2);
-      containerList.push({
-        BOOKING_NO: value == 'BK' ? element['BOOKING_NO / CRO_NO'] : '',
-        CRO_NO: value == 'CR' ? element['BOOKING_NO / CRO_NO'] : '',
-        CONTAINER_NO: element.CONTAINER_NO,
-        CURR_ACT_CODE: element.ACTIVITY,
-        ACTIVITY_DATE: element.ACTIVITY_DATE,
-        LOCATION: element.LOCATION,
-        STATUS: element.STATUS,
-      });
-    });
+    var locationList: any = [];
+    this._commonService.getDropdownData('CM_LOCATION').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        locationList = res.Data;
 
-    this._CMService
-      .uploadContMov(JSON.stringify(containerList))
-      .subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.closeBtn2.nativeElement.click();
-          this._commonService.successMsg('Records are uploaded successfully !');
-        }
-      });
+        this.cmTable.forEach((element) => {
+          debugger;
+          var loccode = locationList.find(
+            (x: any) => x.CODE_DESC === element.LOCATION
+          );
+          var value = element['CRO_NO'].substring(0, 2);
+
+          containerList.push({
+            BOOKING_NO: '',
+            CRO_NO: value == 'CR' ? element['CRO_NO'] : '',
+            CONTAINER_NO: element.CONTAINER_NO,
+            CURR_ACT_CODE: element.ACTIVITY,
+            ACTIVITY_DATE: element.ACTIVITY_DATE,
+            LOCATION: loccode?.CODE,
+            STATUS: element.STATUS,
+          });
+        });
+
+        this._CMService
+          .uploadContMov(JSON.stringify(containerList))
+          .subscribe((res: any) => {
+            if (res.ResponseCode == 200) {
+              this.closeBtn2.nativeElement.click();
+              this._commonService.successMsg(
+                'Records are uploaded successfully !'
+              );
+            }
+          });
+      }
+    });
   }
 
   openUploadModal() {
@@ -305,7 +319,7 @@ export class NewContainerMovementComponent implements OnInit {
           }, {});
 
           var keyArray = [
-            'BOOKING_NO / CRO_NO',
+            'CRO_NO',
             'CONTAINER_NO',
             'ACTIVITY',
             'ACTIVITY_DATE',
@@ -343,9 +357,9 @@ export class NewContainerMovementComponent implements OnInit {
                     isValid = false;
                   }
 
-                  if (element['BOOKING_NO / CRO_NO'] != '') {
-                    var val = element['BOOKING_NO / CRO_NO'].substring(0, 2);
-                    if (val == 'BK' || val == 'CR') {
+                  if (element['CRO_NO'] != '') {
+                    var val = element['CRO_NO'].substring(0, 2);
+                    if (val == 'CR') {
                       isValidBKCRO = true;
                     } else {
                       isValidBKCRO = false;
@@ -363,27 +377,88 @@ export class NewContainerMovementComponent implements OnInit {
                         ) === i
                     );
 
-                    this._commonService.getDT();
+                    var isValidNxt = true;
+                    this.cmTable.forEach((el: any) => {
+                      this._CMService
+                        .getNxtActivityList(el.CONTAINER_NO)
+                        .subscribe((r: any) => {
+                          if (r.ResponseCode == 200) {
+                            var nxtactList = r.Data;
+                            var findactivity = nxtactList.find(
+                              (x: any) => x.NEXT_ACT_CODE === el.ACTIVITY
+                            );
+                            if (!findactivity) {
+                              this._commonService.warnMsg(
+                                el.CONTAINER_NO +
+                                  ' Container Activity is invalid <br> As it does not match to its Next Actvity'
+                              );
+                              this.onUpload = false;
+                              this.files = [];
+                              isValidNxt = false;
+                              return;
+                            }
+
+                            if (isValidNxt) {
+                              this._CMService
+                                .isvalidCROforContainer(el.CONTAINER_NO)
+                                .subscribe((r1: any) => {
+                                  if (
+                                    r1.responseCode == 200 &&
+                                    el.CRO_NO != ''
+                                  ) {
+                                    if (el.CRO_NO != r1.data) {
+                                      this._commonService.warnMsg(
+                                        el.CONTAINER_NO +
+                                          " Container's CRO No is invalid <br> Please enter valid CRO No"
+                                      );
+                                      this.onUpload = false;
+                                      this.files = [];
+                                      return;
+                                    }
+                                  } else if (
+                                    r1.responseCode == 500 &&
+                                    el.CRO_NO != ''
+                                  ) {
+                                    this._commonService.warnMsg(
+                                      el.CONTAINER_NO +
+                                        ' Container is not mapped to any CRO No, Please allot the Container to map it to the CRO No'
+                                    );
+                                    this.onUpload = false;
+                                    this.files = [];
+                                    return;
+                                  }
+                                });
+                            }
+                          }
+                        });
+                    });
 
                     this.onUpload = true;
+                    this._commonService.getDT();
                   } else {
-                    alert('Booking No / CRO No is invalid !');
+                    this.files = [];
+                    alert('CRO No is invalid !');
                   }
                 } else {
+                  this.files = [];
                   alert('Incorrect data!');
                 }
               } else {
+                this.files = [];
                 alert('Invalid file !');
               }
             } else {
+              this.files = [];
               alert('Empty File !');
             }
           } else {
+            this.files = [];
             alert('Invalid file !');
           }
         };
         reader.readAsBinaryString(file);
       } else {
+        this.files = [];
         alert('Only .xlsx or .csv files allowed');
       }
     }

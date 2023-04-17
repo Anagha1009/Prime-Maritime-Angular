@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="col-md-6 offset-md-2 text-end">
+        <div class="col-md-6 offset-md-2 text-end">
             <button (click)="downloadFile()" class="form-btn-danger me-2">Download
                 Excel Format</button>
             <button class="form-btn-primary" (click)="openUploadModal()">Upload Excel</button>
@@ -22,7 +22,7 @@
                 Excel</button>
             <i class="d-none" #openModalPopup data-bs-toggle="modal" href="#containerModal">
             </i>
-        </div> -->
+        </div>
     </div>
     <div class="row" *ngIf="ismanually && !isData">
         <div class="col-md-4">
@@ -40,7 +40,7 @@
     <div class="row" *ngIf="!ismanually">
         <div class="col-md-4">
             <div class="form-group">
-                <label class="form-label2">Booking No / CRO No<span class="text-danger">
+                <label class="form-label2">CRO No<span class="text-danger">
                         *</span>
                 </label>
                 <input type="text" formControlName="BKCR_NO" class="form-control2" />
@@ -313,7 +313,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn1></button>
             </div>
             <div class="modal-body">
-                <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload">
+                <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload && files.length == 0">
                     <input type="file" (change)="onFileChange($event)" name="file" id="file" />
                     <label for="file">
                         <div>
@@ -323,7 +323,7 @@
                         </div>
                     </label>
                 </div>
-                <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload">
+                <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload && files.length > 0">
                     <div class="formbold-file-item">
                         <span class="formbold-file-name">Container Movement File</span>
                         <button (click)="onUpload = false;files=[]"><span class="bx bx-x-circle"></span></button>
@@ -353,7 +353,7 @@
                     <table class="table-bordered ratetable" id="data-table-config">
                         <thead>
                             <tr>
-                                <th>Booking/CRO No</th>
+                                <th>CRO No</th>
                                 <th>Container No</th>
                                 <th>Activity</th>
                                 <th>Activity Date</th>
@@ -363,7 +363,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor=" let data of cmTable">
-                                <td>{{data['BOOKING_NO / CRO_NO']}}</td>
+                                <td>{{data.CRO_NO}}</td>
                                 <td>{{data.CONTAINER_NO}}</td>
                                 <td>{{data.ACTIVITY}}</td>
                                 <td>{{data.ACTIVITY_DATE | date: 'dd/MM/yyyy'}}</td>
