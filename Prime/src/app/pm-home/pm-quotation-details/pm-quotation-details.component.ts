@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { QUOTATION } from 'src/app/models/quotation';
 import { CommonService } from 'src/app/services/common.service';
 import { QuotationService } from 'src/app/services/quotation.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pm-quotation-details',
@@ -27,9 +28,18 @@ export class PmQuotationDetailsComponent implements OnInit {
   SRR_NO: any = '';
   calcForm: FormGroup;
   requestOptions: any;
+  submitted: boolean = false;
+  destinationAgent: string = '';
+  destAgentList: any[] = [];
+  destAgentDetails: any;
+  isDAgent: boolean = false;
+  srrRates: any[] = [];
+  value: any = '';
 
   @ViewChild('openScBtn') openScBtn: ElementRef;
+  @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeScBtn') closeScBtn: ElementRef;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(
     private _quotationService: QuotationService,
@@ -104,56 +114,66 @@ export class PmQuotationDetailsComponent implements OnInit {
     return x.controls.filter((x) => x.get('RATE_TYPE').value === 'POD_CHARGES');
   }
 
-  updateRate(item: any, value: string) {
-    var srrRates = this.rateForm.value.SRR_RATES.filter(
+  updateRate(item: any, values: string) {
+    this.value = values;
+    this.srrRates = [];
+    this.srrRates = this.rateForm.value.SRR_RATES.filter(
       (x: any) => x.CONTAINER_TYPE === item
     );
 
     var isApproveValid = true;
     var isRejectValid = true;
 
-    srrRates.forEach((element: any) => {
-      element.STATUS = value;
+    this.srrRates.forEach((element: any) => {
+      element.STATUS = values;
       element.CREATED_BY = this._commonService.getUser().role;
 
-      if (element.APPROVED_RATE != 0 && value == 'Approved') {
+      if (element.APPROVED_RATE != 0 && values == 'Approved') {
         isApproveValid = false;
-      } else if (element.APPROVED_RATE != 0 && value == 'Rejected') {
+      } else if (element.APPROVED_RATE != 0 && values == 'Rejected') {
         isRejectValid = false;
       }
     });
 
     if (!isApproveValid || !isRejectValid) {
-      srrRates.forEach((element: any) => {
+      this.srrRates.forEach((element: any) => {
         element.APPROVED_RATE = element.RATE_REQUESTED;
         element.REMARKS = '';
       });
     }
 
-    if (
-      confirm(
-        value == 'Approved'
+    Swal.fire({
+      title: values,
+      text:
+        values == 'Approved'
           ? 'Are you sure want to approve this Rate ?'
-          : value == 'Rejected'
+          : values == 'Rejected'
           ? 'Are you sure want to reject this Rate ?'
-          : 'Are you sure want to counter this Rate ?'
-      )
-    ) {
-      this._quotationService.approveRate(srrRates).subscribe((res: any) => {
-        if (res.responseCode == 200) {
-          if (value == 'Approved') {
-            this._commonService.successMsg('Rates are approved successfully !');
-          } else if (value == 'Rejected') {
-            this._commonService.successMsg('Rates are rejected successfully !');
-          } else {
-            this._commonService.successMsg(
-              'Rates are countered successfully !'
-            );
-          }
-          this.getDetails();
+          : 'Are you sure want to counter this Rate ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (values == 'Approved' || values == 'Countered') {
+          this.getDestinationAgent();
+          this.openBtn.nativeElement.click();
+        } else {
+          this._quotationService
+            .approveRate(this.srrRates)
+            .subscribe((res: any) => {
+              if (res.responseCode == 200) {
+                this._commonService.successMsg(
+                  'Rates are rejected successfully !'
+                );
+                this.getDetails();
+              }
+            });
         }
-      });
-    }
+      }
+    });
   }
 
   getRates(container: any, i: number = 0) {
@@ -332,5 +352,70 @@ export class PmQuotationDetailsComponent implements OnInit {
     }
 
     return Math.round(total * 100) / 100;
+  }
+
+  getDestinationAgent() {
+    this.destAgentList = [];
+    this._commonService
+      .getDropdownData(
+        'DESTINATION_AGENT',
+        this.quotationDetails?.SRR_NO.split('-')[1]
+      )
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.destAgentList = res.Data;
+        }
+      });
+  }
+
+  onchangeDAgent(event: any) {
+    this.isDAgent = false;
+    this._quotationService
+      .getOrgDetails(
+        event.target.value,
+        this.quotationDetails?.SRR_NO.split('-')[1]
+      )
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.destAgentDetails = res.Data;
+          this.isDAgent = true;
+        } else {
+          this.isDAgent = false;
+        }
+      });
+  }
+
+  insertDAgent() {
+    this.submitted = true;
+    if (this.destinationAgent == '') {
+      return;
+    }
+
+    this._quotationService
+      .insertDestinationAgent(
+        this.destinationAgent,
+        this.quotationDetails?.SRR_NO
+      )
+      .subscribe((res: any) => {
+        if (res.responseCode == 200) {
+          this._quotationService
+            .approveRate(this.srrRates)
+            .subscribe((res: any) => {
+              if (res.responseCode == 200) {
+                if (this.value == 'Approved') {
+                  this._commonService.successMsg(
+                    'Rates are approved successfully !'
+                  );
+                } else {
+                  this._commonService.successMsg(
+                    'Rates are countered successfully !'
+                  );
+                }
+                this.getDetails();
+                this.closeBtn.nativeElement.click();
+              }
+            });
+        }
+      });
   }
 }

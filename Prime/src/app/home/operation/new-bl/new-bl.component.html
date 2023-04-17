@@ -176,7 +176,7 @@
                     <div class="form-group">
                         <label class="form-label2">Port of Discharge<span class="text-danger">*</span></label>
                         <input formControlName="PORT_OF_DISCHARGE" type="text" class="form-control2"
-                            [ngClass]="{'invalid': submitted && blf.PORT_OF_DISCHARGE.errors}"/>
+                            [ngClass]="{'invalid': submitted && blf.PORT_OF_DISCHARGE.errors}" />
                         <div *ngIf="submitted && blf.PORT_OF_DISCHARGE.errors" class="invalid-feedback">Please
                             Enter Port of Discharge</div>
                     </div>
@@ -202,13 +202,11 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label3">Destination Agent</label>
-                        <select
-                            [ngClass]="{'invalid': submitted && blf.DESTINATION_AGENT_CODE.errors}"
+                        <select [ngClass]="{'invalid': submitted && blf.DESTINATION_AGENT_CODE.errors}"
                             class="form-control3" formControlName="DESTINATION_AGENT_CODE">
                             <option value="" selected disabled>
-                                    --Select--</option>
-                           <option *ngFor="let item of destAgentList"
-                                value="{{item.CODE}}">
+                                --Select--</option>
+                            <option *ngFor="let item of destAgentList" value="{{item.KEY_NAME}}">
                                 {{item.CODE_DESC}}</option>
                         </select>
                         <div *ngIf="submitted && blf.DESTINATION_AGENT_CODE.errors" class="invalid-feedback">Please

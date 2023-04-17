@@ -1,6 +1,7 @@
 <div class="section-title pt-3">
     <h2>Rate Request Details</h2>
 </div>
+<button #openBtn data-bs-toggle="modal" href="#dAgentModal" class="form-btn d-none">Submit</button>
 <a routerLink="/pm/srr-list"><i class='bx bx-arrow-back'></i>Back to List</a>
 <div class="row mt-3">
     <div class="col-md-12">
@@ -488,6 +489,48 @@
             <!-- <div class="modal-footer">
                 
             </div> -->
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" id="dAgentModal" aria-labelledby="exampleModalLabel1" tabindex="-1"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="exampleModalLabel1">Destination Agent</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-8 mx-auto">
+                    <div class="form-group">
+                        <label class="form-label3">Destination Agent <span class="text-danger"> *</span></label>
+                        <select [(ngModel)]="destinationAgent" (change)="onchangeDAgent($event)"
+                            [ngClass]="{'invalid': submitted && destinationAgent == ''}" class="form-control3">
+                            <option value="" selected disabled>
+                                --Select--</option>
+                            <option *ngFor="let item of destAgentList" value="{{item.KEY_NAME}}">
+                                {{item.CODE_DESC}}</option>
+                        </select>
+                        <div *ngIf="submitted && destinationAgent == ''" class="invalid-feedback">Please
+                            Enter Destination Agent</div>
+                    </div>
+                </div>
+                <div class="col-md-8 mx-auto" *ngIf="isDAgent">
+                    <h6 class="fw-bold">
+                        Name : <small class="text-dark">{{destAgentDetails?.ORG_NAME}}</small>
+                    </h6>
+                    <h6 class="fw-bold">
+                        Contact : <small class="text-dark">{{destAgentDetails?.CONTACT}}</small>
+                    </h6>
+                    <h6 class="fw-bold">
+                        Address : <small class="text-dark">{{destAgentDetails?.ORG_ADDRESS1}}</small>
+                    </h6>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="form-btn" (click)="insertDAgent()">Submit</button>
+            </div>
         </div>
     </div>
 </div>
