@@ -107,7 +107,7 @@ export class NewBlComponent implements OnInit {
       BL_ISSUE_PLACE: ['', Validators.required],
       BL_ISSUE_DATE: ['', Validators.required],
       TOTAL_PREPAID: [0],
-      NO_OF_ORIGINAL_BL: [0, Validators.required],
+      NO_OF_ORIGINAL_BL: ['', Validators.required],
       BL_STATUS: [''],
       BL_TYPE: [''],
       OG_TYPE: [''],
@@ -189,18 +189,6 @@ export class NewBlComponent implements OnInit {
     //  }
   }
 
-  onChangePOD(POD: any) {
-    //destination agent list
-    this.destAgentList = [];
-    this._commonService
-      .getDropdownData('DESTINATION_AGENT', POD)
-      .subscribe((res: any) => {
-        if (res.ResponseCode) {
-          this.destAgentList = res.Data;
-        }
-      });
-  }
-
   //
   manualBL() {
     this.submitted = false;
@@ -259,20 +247,6 @@ export class NewBlComponent implements OnInit {
     this.editBL = false;
     this.isManual = false;
     this.blForm.patchValue(this.previewTable[0]);
-
-    //destination agent list
-    this.destAgentList = [];
-    this._commonService
-      .getDropdownData(
-        'DESTINATION_AGENT',
-        this.blForm.get('PORT_OF_DISCHARGE')?.value
-      )
-      .subscribe((res: any) => {
-        if (res.ResponseCode) {
-          this.destAgentList = res.Data;
-        }
-      });
-
     const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
 
     add.clear();
@@ -362,11 +336,7 @@ export class NewBlComponent implements OnInit {
             );
           });
 
-          //
-          //this.blForm.get('DESTINATION_AGENT_CODE')?.setValue(this.destAgentCode);
-          //finalize status/bltype/ogtype
           this.blForm.get('BL_STATUS')?.setValue('Finalized');
-          //new code
           this.blForm.get('BL_TYPE')?.setValue(this.finalizeType);
           this.blForm.get('OG_TYPE')?.setValue(this.ogType);
           //
@@ -480,15 +450,11 @@ export class NewBlComponent implements OnInit {
     // var bltypevalue = this.blForm.get('BLType')?.value;
     // this.blForm.get('BLType')?.setValue(bltypevalue ? 'Original' : 'Draft');
     // this.blForm.get('BL_STATUS')?.setValue(bltypevalue ? 'Finalized' : 'Drafted');
-
-    this.blForm
-      .get('BL_NO')
-      ?.setValue(
-        this.getRandomNumber(
-          this.blForm.get('PORT_OF_LOADING').value,
-          this.blForm.get('PORT_OF_DISCHARGE').value
-        )
-      );
+    var blNo = this.getRandomNumber(
+      this.blForm.get('PORT_OF_LOADING').value.split('(')[1].split(')')[0],
+      this.blForm.get('PORT_OF_DISCHARGE').value.split('(')[1].split(')')[0]
+    );
+    this.blForm.get('BL_NO')?.setValue(blNo);
     this.blForm.get('BLType')?.setValue('Draft');
     this.blForm.get('BL_STATUS')?.setValue('Draft');
 
@@ -535,11 +501,12 @@ export class NewBlComponent implements OnInit {
       if (res.ResponseCode == 200) {
         this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
         this.blForm.get('SRR_NO')?.setValue(res.Data.SRR_NO);
-        console.log(json);
         this._blService.createBL(json).subscribe((res: any) => {
           if (res.responseCode == 200) {
             //this._router.navigateByUrl('/home/new-bl');
-            this._commonService.successMsg('BL created Successfully');
+            this._commonService.successMsg(
+              'BL is created Successfully <br> BL No : ' + blNo
+            );
             this.getBLHistory();
             this.tabs = '1';
             this.isBLForm = false;
@@ -555,7 +522,6 @@ export class NewBlComponent implements OnInit {
             this.onUpload = false;
           }
         });
-        //this.ContainerDescription();
       }
     });
   }
@@ -1010,14 +976,16 @@ export class NewBlComponent implements OnInit {
 
     this._blService.getBLDetails(BL).subscribe((res: any) => {
       this.blForm.patchValue(res.Data);
-      debugger;
+      var x = this.blForm
+        .get('PORT_OF_DISCHARGE')
+        .value.split('(')[1]
+        .split(')')[0];
       this._blService
         .getOrgDetails(
           this.blForm.get('DESTINATION_AGENT_CODE')?.value,
-          this.blForm.get('PORT_OF_DISCHARGE')?.value
+          this.blForm.get('PORT_OF_DISCHARGE').value.split('(')[1].split(')')[0]
         )
         .subscribe((desres: any) => {
-          debugger;
           if (desres.ResponseCode == 200) {
             this.destinationAgent = desres.Data;
             var contList: any[] = res.Data.CONTAINER_LIST;

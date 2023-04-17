@@ -55,7 +55,7 @@
         </div>
     </div>
     <div *ngIf="isBLForm">
-        <a (click)="tabs='1';isBLForm = false;hideHistory=false;" class="pointer" style="color: #0d6efd;"><i
+        <a (click)="tabs='1';isBLForm = false;hideHistory=false;" class="pointer text-primary"><i
                 class='bx bx-arrow-back'></i>Back to List</a>
         <!-- <div class="text-end">
             <button (click)="tabs='1';isBLForm = false;hideHistory=false;" class="form-btn-primary">Re-Upload</button>
@@ -65,9 +65,8 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Shipper Name<span class="text-danger">*</span></label>
-                        <textarea type="text" formControlName="SHIPPER" class="form-control2"
-                            [ngClass]="{'invalid': submitted && blf.SHIPPER.errors}"
-                            style="overflow:hidden;height: max-content;"></textarea>
+                        <textarea type="text" formControlName="SHIPPER" class="form-control2 addressbox"
+                            [ngClass]="{'invalid': submitted && blf.SHIPPER.errors}"></textarea>
                         <div *ngIf="submitted && blf.SHIPPER.errors" class="invalid-feedback">Please
                             Enter Shipper Name </div>
                     </div>
@@ -75,9 +74,8 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Shipper Address<span class="text-danger">*</span></label>
-                        <textarea type="text" formControlName="SHIPPER_ADDRESS" class="form-control2"
-                            [ngClass]="{'invalid': submitted && blf.SHIPPER_ADDRESS.errors}"
-                            style="overflow:hidden;height: max-content;"></textarea>
+                        <textarea type="text" formControlName="SHIPPER_ADDRESS" class="form-control2 addressbox"
+                            [ngClass]="{'invalid': submitted && blf.SHIPPER_ADDRESS.errors}"></textarea>
                         <div *ngIf="submitted && blf.SHIPPER_ADDRESS.errors" class="invalid-feedback">Please
                             Enter Shipper Address </div>
                     </div>
@@ -85,9 +83,8 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Consignee Name<span class="text-danger">*</span></label>
-                        <textarea type="text" formControlName="CONSIGNEE" class="form-control2"
-                            [ngClass]="{'invalid': submitted && blf.CONSIGNEE.errors}"
-                            style="overflow:hidden;height: max-content;"></textarea>
+                        <textarea type="text" formControlName="CONSIGNEE" class="form-control2 addressbox"
+                            [ngClass]="{'invalid': submitted && blf.CONSIGNEE.errors}"></textarea>
                         <div *ngIf="submitted && blf.CONSIGNEE.errors" class="invalid-feedback">Please
                             Enter Consignee Name </div>
                     </div>
@@ -95,9 +92,8 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Consignee Address<span class="text-danger">*</span></label>
-                        <textarea type="text" formControlName="CONSIGNEE_ADDRESS" class="form-control2"
-                            [ngClass]="{'invalid': submitted && blf.CONSIGNEE_ADDRESS.errors}"
-                            style="overflow:hidden;height: max-content;"></textarea>
+                        <textarea type="text" formControlName="CONSIGNEE_ADDRESS" class="form-control2 addressbox"
+                            [ngClass]="{'invalid': submitted && blf.CONSIGNEE_ADDRESS.errors}"></textarea>
                         <div *ngIf="submitted && blf.CONSIGNEE_ADDRESS.errors" class="invalid-feedback">Please
                             Enter Consignee Address </div>
                     </div>
@@ -107,8 +103,8 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Notify Party<span class="text-danger">*</span></label>
-                        <input type="text" formControlName="NOTIFY_PARTY" class="form-control2"
-                            [ngClass]="{'invalid': submitted && blf.NOTIFY_PARTY.errors}" />
+                        <textarea type="text" formControlName="NOTIFY_PARTY" class="form-control2 addressbox"
+                            [ngClass]="{'invalid': submitted && blf.NOTIFY_PARTY.errors}"></textarea>
                         <div *ngIf="submitted && blf.NOTIFY_PARTY.errors" class="invalid-feedback">Please
                             Enter Notify Party</div>
                     </div>
@@ -116,9 +112,8 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Notify Party Address<span class="text-danger">*</span></label>
-                        <textarea type="text" formControlName="NOTIFY_PARTY_ADDRESS" class="form-control2"
-                            [ngClass]="{'invalid': submitted && blf.NOTIFY_PARTY_ADDRESS.errors}"
-                            style="overflow:hidden;height: max-content;"></textarea>
+                        <textarea type="text" formControlName="NOTIFY_PARTY_ADDRESS" class="form-control2 addressbox"
+                            [ngClass]="{'invalid': submitted && blf.NOTIFY_PARTY_ADDRESS.errors}"></textarea>
                         <div *ngIf="submitted && blf.NOTIFY_PARTY_ADDRESS.errors" class="invalid-feedback">
                             Please
                             Enter Notify Party Address</div>
@@ -166,7 +161,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Port of Loading<span class="text-danger">*</span></label>
-                        <input formControlName="PORT_OF_LOADING" type="text" class="form-control2"
+                        <input readonly formControlName="PORT_OF_LOADING" type="text" class="form-control2"
                             [ngClass]="{'invalid': submitted && blf.PORT_OF_LOADING.errors}" />
                         <div *ngIf="submitted && blf.PORT_OF_LOADING.errors" class="invalid-feedback">Please
                             Enter Port of Loading</div>
@@ -175,7 +170,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Port of Discharge<span class="text-danger">*</span></label>
-                        <input formControlName="PORT_OF_DISCHARGE" type="text" class="form-control2"
+                        <input readonly formControlName="PORT_OF_DISCHARGE" type="text" class="form-control2"
                             [ngClass]="{'invalid': submitted && blf.PORT_OF_DISCHARGE.errors}" />
                         <div *ngIf="submitted && blf.PORT_OF_DISCHARGE.errors" class="invalid-feedback">Please
                             Enter Port of Discharge</div>
@@ -197,20 +192,6 @@
                             [ngClass]="{'invalid': submitted && blf.FINAL_DESTINATION.errors}" />
                         <div *ngIf="submitted && blf.FINAL_DESTINATION.errors" class="invalid-feedback">Please
                             Enter Final Destination</div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="form-label3">Destination Agent</label>
-                        <select [ngClass]="{'invalid': submitted && blf.DESTINATION_AGENT_CODE.errors}"
-                            class="form-control3" formControlName="DESTINATION_AGENT_CODE">
-                            <option value="" selected disabled>
-                                --Select--</option>
-                            <option *ngFor="let item of destAgentList" value="{{item.KEY_NAME}}">
-                                {{item.CODE_DESC}}</option>
-                        </select>
-                        <div *ngIf="submitted && blf.DESTINATION_AGENT_CODE.errors" class="invalid-feedback">Please
-                            Enter Destination Agent</div>
                     </div>
                 </div>
                 <div class="col-md-3" *ngIf="isManual">
@@ -238,7 +219,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Marks & Numbers<span class="text-danger">*</span></label>
-                        <textarea class="form-control2" formControlName="MARKS_NOS"
+                        <textarea class="form-control2 addressbox" formControlName="MARKS_NOS"
                             [ngClass]="{'invalid': submitted && blf.MARKS_NOS.errors}"></textarea>
                         <div *ngIf="submitted && blf.MARKS_NOS.errors" class="invalid-feedback">Please
                             Enter Marks & Numbers</div>
@@ -247,7 +228,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Description of Goods<span class="text-danger">*</span></label>
-                        <textarea type="text" class="form-control2" formControlName="DESC_OF_GOODS"
+                        <textarea type="text" class="form-control2 addressbox" formControlName="DESC_OF_GOODS"
                             [ngClass]="{'invalid': submitted && blf.DESC_OF_GOODS.errors}"></textarea>
                         <div *ngIf="submitted && blf.DESC_OF_GOODS.errors" class="invalid-feedback">Please
                             Enter Description of Goods</div>
@@ -258,7 +239,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Marks & Numbers<span class="text-danger">*</span></label>
-                        <textarea class="form-control2" formControlName="MARKS_NOS"
+                        <textarea class="form-control2 addressbox" formControlName="MARKS_NOS"
                             [ngClass]="{'invalid': submitted && blf.MARKS_NOS.errors}"></textarea>
                         <div *ngIf="submitted && blf.MARKS_NOS.errors" class="invalid-feedback">Please
                             Enter Marks & Numbers</div>
@@ -267,7 +248,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Description of Goods<span class="text-danger">*</span></label>
-                        <textarea type="text" class="form-control2" formControlName="DESC_OF_GOODS"
+                        <textarea type="text" class="form-control2 addressbox" formControlName="DESC_OF_GOODS"
                             [ngClass]="{'invalid': submitted && blf.DESC_OF_GOODS.errors}"></textarea>
                         <div *ngIf="submitted && blf.DESC_OF_GOODS.errors" class="invalid-feedback">Please
                             Enter Description of Goods</div>
@@ -298,11 +279,11 @@
                             <td class="col-md-1">{{i+1}}</td>
                             <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
                             <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_TYPE}}</td>
-                            <td class="col-md-1"><input formControlName="GROSS_WEIGHT" type="text" class="form-control2"
-                                    style="height: calc(1rem + 0.75rem + 2px);" />
+                            <td class="col-md-1"><input formControlName="GROSS_WEIGHT" type="text"
+                                    class="form-control2 inputheight" />
                             </td>
-                            <td class="col-md-1"><input formControlName="MEASUREMENT" type="text" class="form-control2"
-                                    style="height: calc(1rem + 0.75rem + 2px);" />
+                            <td class="col-md-1"><input formControlName="MEASUREMENT" type="text"
+                                    class="form-control2 inputheight" />
                             </td>
                             <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].SEAL_NO}}</td>
                             <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].AGENT_SEAL_NO}}</td>
@@ -366,14 +347,10 @@
 
                             <td class="col-md-1">{{i+1}}</td>
                             <td class="col-md-1">
-                                <input formControlName="CONTAINER_NO" type="text" class="form-control2"
-                                    style="height: calc(1rem + 0.75rem + 2px);" />
+                                <input formControlName="CONTAINER_NO" type="text" class="form-control2 inputheight" />
                             </td>
                             <td class="col-md-1">
-                                <!-- <input formControlName="CONTAINER_TYPE" type="text"
-                                    class="form-control2" style="height: calc(1rem + 0.75rem + 2px);" /> -->
-                                <select class="form-control2" formControlName="CONTAINER_TYPE"
-                                    style="height: calc(1rem + 0.75rem + 2px);">
+                                <select class="form-control2 inputheight" formControlName="CONTAINER_TYPE">
                                     <option value="" selected disabled>
                                         --Select--</option>
                                     <option *ngFor="let ct of latestContTypeList" value="{{ct.CONT_TYPE_CODE}}">
@@ -382,20 +359,16 @@
 
                             </td>
                             <td class="col-md-1">
-                                <input formControlName="GROSS_WEIGHT" type="text" class="form-control2"
-                                    style="height: calc(1rem + 0.75rem + 2px);" />
+                                <input formControlName="GROSS_WEIGHT" type="text" class="form-control2 inputheight" />
                             </td>
                             <td class="col-md-1">
-                                <input formControlName="MEASUREMENT" type="text" class="form-control2"
-                                    style="height: calc(1rem + 0.75rem + 2px);" />
+                                <input formControlName="MEASUREMENT" type="text" class="form-control2 inputheight" />
                             </td>
                             <td class="col-md-1">
-                                <input formControlName="SEAL_NO" type="text" class="form-control2"
-                                    style="height: calc(1rem + 0.75rem + 2px);" />
+                                <input formControlName="SEAL_NO" type="text" class="form-control2 inputheight" />
                             </td>
                             <td class="col-md-1">
-                                <input formControlName="AGENT_SEAL_NO" type="text" class="form-control2"
-                                    style="height: calc(1rem + 0.75rem + 2px);" />
+                                <input formControlName="AGENT_SEAL_NO" type="text" class="form-control2 inputheight" />
                             </td>
                             <td class="col-md-1 text-center">
                                 <a (click)="removeItem(i)" class="pointer"><i style="font-size:15px"
@@ -460,7 +433,9 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">No of Original BL<span class="text-danger">*</span></label>
-                        <input type="text" formControlName="NO_OF_ORIGINAL_BL" class="form-control2"
+                        <input type="text"
+                            onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                            formControlName="NO_OF_ORIGINAL_BL" class="form-control2"
                             [ngClass]="{'invalid': submitted && blf.NO_OF_ORIGINAL_BL.errors}" />
                         <div *ngIf="submitted && blf.NO_OF_ORIGINAL_BL.errors" class="invalid-feedback">Please
                             Enter No. of Original BL</div>
@@ -486,7 +461,7 @@
                         Save as Draft
                     </button>
                 </div>
-                <div class="col-md-2 offset-md-10" style="text-align: right;" *ngIf="!editBL || isManual">
+                <div class="col-md-2 offset-md-10 text-end" *ngIf="!editBL || isManual">
                     <button class="form-btn" (click)="createBL()">
                         Save as Draft
                     </button>
@@ -514,7 +489,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="alert" role="alert" *ngFor="let item of blHistoryList;let i = index">
+                    <tr *ngFor="let item of blHistoryList;let i = index">
                         <td width="15%">
                             {{item.BL_NO}}
                         </td>
@@ -607,8 +582,8 @@
             <div class="modal-body">
 
                 <div class="form-group col-md-8 mx-auto">
-                    <select class="form-control2 mb-4" [(ngModel)]="finalizeType"
-                        style="height: calc(1rem + 0.75rem + 5px);" (change)="onchangeOgType()">
+                    <select class="form-control2 mb-4 inputheight" [(ngModel)]="finalizeType"
+                        (change)="onchangeOgType()">
                         <option value="" selected disabled>
                             --Select--</option>
                         <option value="original">Original</option>
@@ -631,23 +606,8 @@
                                 Received For Shipment
                             </label>
                         </div>
-
                     </div>
-
                 </div>
-
-                <!-- <div class="form-group col-md-8 mx-auto">
-                    <p><span class="text-danger">*</span>Select Destination Agent</p>
-                    <select class="form-control2 mb-4" [(ngModel)]="destAgentCode"
-                        style="height: calc(1rem + 0.75rem + 5px);">
-                        <option value="" selected disabled>
-                            --Select--</option>
-                            <option *ngFor="let item of destAgentList"
-                            value="{{item.CODE}}">
-                            {{item.CODE_DESC}}</option>
-                    </select>
-
-                </div> -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="form-btn" (click)="submitFinalizeBL()">

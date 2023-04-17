@@ -720,3 +720,12 @@ input:-webkit-autofill:focus {
 hr {
   opacity: 0.1 !important;
 }
+
+.inputheight {
+  height: calc(1rem + 0.75rem + 2px);
+}
+
+.addressbox {
+  overflow: hidden;
+  height: max-content;
+}
