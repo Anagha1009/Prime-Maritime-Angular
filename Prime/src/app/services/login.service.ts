@@ -113,4 +113,29 @@ export class LoginService {
       this.httpOptions
     );
   }
+
+  sendResetPasswordLink(email: any) {
+    return this._http.post<any>(
+      `${this.BASE_URL}Account/send-reset-email/${email}`,
+      {}
+    );
+  }
+
+  renewPwd(
+    email: any,
+    emailToken: any,
+    newPassword: any,
+    confirmPassword: any
+  ) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Account/renew-pwd',
+      {
+        Email: email,
+        EmailToken: emailToken,
+        NewPassword: newPassword,
+        ConfirmPassword: confirmPassword,
+      },
+      this.httpOptions
+    );
+  }
 }

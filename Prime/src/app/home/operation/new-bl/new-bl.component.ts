@@ -5,7 +5,6 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/services/common.service';
 import { Bl } from 'src/app/models/bl';
 import { BlService } from 'src/app/services/bl.service';
-import { Router } from '@angular/router';
 import $ from 'jquery';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 import { locale as english } from 'src/app/@core/translate/bl/en';
@@ -975,6 +974,7 @@ export class NewBlComponent implements OnInit {
     BL.BL_NO = BLNO;
 
     this._blService.getBLDetails(BL).subscribe((res: any) => {
+      debugger;
       this.blForm.patchValue(res.Data);
       var x = this.blForm
         .get('PORT_OF_DISCHARGE')
@@ -986,6 +986,7 @@ export class NewBlComponent implements OnInit {
           this.blForm.get('PORT_OF_DISCHARGE').value.split('(')[1].split(')')[0]
         )
         .subscribe((desres: any) => {
+          debugger;
           if (desres.ResponseCode == 200) {
             this.destinationAgent = desres.Data;
             var contList: any[] = res.Data.CONTAINER_LIST;

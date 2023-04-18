@@ -9,6 +9,7 @@ import { MasterLayoutComponent } from './layout/master-layout/master-layout.comp
 
 import { BaseLayoutComponent } from './layout/base-layout/base-layout.component';
 import { PmLoginComponent } from './auth/pm-login/pm-login.component';
+import { RenewPwdComponent } from './renew-pwd/renew-pwd/renew-pwd.component';
 
 const RateRequestsModule = () =>
   import('./home/rate-requests/rate-requests.module').then(
@@ -31,6 +32,8 @@ const PmHomeModule = () =>
 const LandingModule = () =>
   import('./landing/landing.module').then((m) => m.LandingModule);
 const AuthModule = () => import('./auth/auth.module').then((m) => m.AuthModule);
+const RenewPwdModule = () =>
+  import('./renew-pwd/renew-pwd.module').then((m) => m.RenewPwdModule);
 
 const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
@@ -80,7 +83,19 @@ const routes: Routes = [
       },
     ],
   },
-
+  {
+    path: 'renew-password',
+    component: RenewPwdComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: RenewPwdModule,
+        data: {
+          title: 'renew-password',
+        },
+      },
+    ],
+  },
   {
     path: 'master',
     component: MasterLayoutComponent,
