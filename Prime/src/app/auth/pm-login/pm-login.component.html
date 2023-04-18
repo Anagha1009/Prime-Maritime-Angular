@@ -38,13 +38,16 @@
                             <input type="password" formControlName="PASSWORD" class="form-control2" id="password"
                                 name="email-username" placeholder="Enter your password" autofocus />
                         </div>
-                        <!-- <div class="mb-3">
-                            <div class="form-check">
+                        <div class="mb-3 text-end">
+                            <!-- <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="remember-me" />
                                 <label class="form-check-label text-white" for="remember-me"> Remember Me </label>
-                            </div>
-                            <a href="#!" class="text-body">Forgot password?</a>
-                        </div> -->
+                            </div> -->
+                            <a (click)="askMail()" class="pointer" style="color: white;">Forgot password?</a>
+                            <button #openBtn data-bs-toggle="modal" href="#mailModal"
+                                class="form-btn d-none">Submit</button>
+                        </div>
+
                         <div class="mb-3">
                             <button [disabled]="isLoading" class="btn btn-danger btn-flat w-100" (click)="login()"
                                 type="submit">Log in
@@ -56,6 +59,28 @@
                 </div>
             </div>
             <!-- /Register -->
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mailModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Forgot your password?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">Please provide email to receive the reset password link</p>
+                <div class="form-group col-md-8 mx-auto">
+                    <label class="form-label2">Email</label>
+                    <input class="form-control2" [(ngModel)]="email" />
+                    <div *ngIf="!isemail && email == ''" class="invalid-feedback">Please Enter Email</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="isLoading1" type="button" class="form-btn" (click)="sendLink()">Send
+                    Email <span *ngIf="isLoading1" class="fa fa-spinner fa-spin"></span></button>
+            </div>
         </div>
     </div>
 </div>
