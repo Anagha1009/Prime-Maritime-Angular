@@ -1,0 +1,167 @@
+<div class="section-title pt-3">
+    <h2>Freight Master</h2>
+</div>
+<div class="mb-4">
+    <div class="col-md-6 offset-md-6 mb-4 text-end">
+        <button class="form-btn-primary" (click)="openModal()"><i class="fa fa-plus me-1"></i>New Freight</button>
+        <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#customerModal">New
+            Customer</button>
+    </div>
+    <table class="ratetable table-bordered" id="data-table-config">
+        <thead>
+            <tr>
+                <th width="1%">No</th>
+                <th width="15%">POL</th>
+                <th width="15%">POD</th>
+                <th width="20%">Charge</th>
+                <th width="10%">Currency</th>
+                <th width="10%">DRY 20</th>
+                <th width="10%">Laden</th>
+                <th width="10%">Service</th>
+                <th width="9%">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of freightList; let i = index">
+                <td width="1%">{{i+1}}</td>
+                <td width="15%">{{item.POL}}</td>
+                <td width="15%">{{item.POD}}</td>
+                <td width="20%">{{item.Charge}}</td>
+                <td width="10%">{{item.Currency}}
+                </td>
+                <td width="10%">{{item.DRY20}}
+                </td>
+                <td width="10%">{{item.LadenStatus == 'L' ? 'Loaded' : 'Empty'}}
+                </td>
+                <td width="10%">{{item.ServiceMode}}
+                </td>
+                <td width="9%">
+                    <i class="fa fa-pencil mx-2 pointer text-success" (click)="openModal(item.ID)"></i>
+                    <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteFreightMaster(item.ID)"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" #customerModal id="customerModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Freight Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="freightForm">
+                    <div class="col-md-12">
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <ng-select formControlName="POL" [ngClass]="{'invalid':submitted && f.POL.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of portList">{{item.CODE_DESC}}
+                                        </ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">POL<span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.POL.errors" class="invalid-feedback">POL
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <ng-select formControlName="POD" [ngClass]="{'invalid':submitted && f.POD.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of portList">{{item.CODE_DESC}}
+                                        </ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">POD<span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.POD.errors" class="invalid-feedback">POD
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <ng-select formControlName="Charge"
+                                        [ngClass]="{'invalid':submitted && f.Charge.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="Freight">Freight
+                                        </ng-option>
+                                        <ng-option value="EWRI">EWRI
+                                        </ng-option>
+                                        <ng-option value="BAF">BAF
+                                        </ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Charge Code<span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.Charge.errors" class="invalid-feedback">Charge
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <ng-select formControlName="Currency"
+                                        [ngClass]="{'invalid':submitted && f.Currency.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of currencyList">{{item.CODE_DESC}}</ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Currency <span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.Currency.errors" class="invalid-feedback">Currency is
+                                        required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input maxlength="100" type="text"
+                                        [ngClass]="{'invalid':submitted && f.ServiceMode.errors}"
+                                        formControlName="ServiceMode" class="form-control">
+                                    <label class="form-label">Service Mode</label>
+                                    <div *ngIf="submitted && f.ServiceMode.errors" class="invalid-feedback">Service Mode
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-4">
+                                <div class="form-group">
+                                    <div class="form-check form-switch">
+                                        <input (change)="onchangeLaden($event)" formControlName="LadenStatus1"
+                                            class="form-check-input" type="checkbox" role="switch" />
+                                        <label class="form-check-label">Laden</label>
+                                    </div>
+                                    <div *ngIf="submitted && f.LadenStatus1.errors" class="invalid-feedback">Laden
+                                        is
+                                        required </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input maxlength="10" type="text"
+                                        [ngClass]="{'invalid':submitted && f.DRY20.errors}" formControlName="DRY20"
+                                        class="form-control">
+                                    <label class="form-label">Dry 20 Rate</label>
+                                    <div *ngIf="submitted && f.DRY20.errors" class="invalid-feedback">Dry 20 Rate
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="!isUpdate" (click)="InsertFreightMaster()" class="form-btn">Save</button>
+                <button *ngIf="isUpdate" (click)="UpdateFreightMaster()" class="form-btn">Update</button>
+                <button class="form-btn-light me-2" (click)="ClearForm()">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>

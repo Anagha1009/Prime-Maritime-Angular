@@ -6,6 +6,7 @@ import { ContainerSizeComponent } from './container-size/container-size.componen
 import { ContainerTypeComponent } from './container-type/container-type.component';
 import { ContainerComponent } from './container/container.component';
 import { CurrencyComponent } from './currency/currency.component';
+import { FreightComponent } from './freight/freight.component';
 import { LinerServiceComponent } from './liner-service/liner-service.component';
 import { LinerComponent } from './liner/liner.component';
 import { LocationComponent } from './location/location.component';
@@ -113,6 +114,12 @@ const routes: Routes = [
   {
     path: 'slot-master',
     component: SlotOperatorComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
+    path: 'freight-master',
+    component: FreightComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Principal, Role.Admin] },
   },
