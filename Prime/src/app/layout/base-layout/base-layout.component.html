@@ -33,10 +33,12 @@
             <!-- <i class="bi bi-list mobile-nav-toggle" (click)="clickmobilenav()" ></i> -->
             <!-- <div  (click)="mobilenav=!mobilenav"><i class="bi bi-list mobile-nav-toggle" *ngIf="mobilenav"></i><i class="bi bi-x mobile-nav-toggle1" *ngIf="!mobilenav"></i></div> -->
         </nav>
-        <span class="text-end ms-4"><a routerLink="/login" *ngIf="!isLoggedIn"><strong>Login</strong></a>
+        <!-- <span class="text-end ms-4"><a routerLink="/login" *ngIf="!isLoggedIn"><strong>Login</strong></a>
             <a placement="right" tooltip="click to goto its resptv. page !" (click)="redirectToHome()"
                 class="text-primary pointer" *ngIf="isLoggedIn">Hi {{user.userName}}
-                !</a></span>
+                !</a></span> -->
+        <span class="text-end ms-4"><a routerLink="/login"><strong>Login</strong></a>
+        </span>
         <!-- .navbar -->
 
     </div>

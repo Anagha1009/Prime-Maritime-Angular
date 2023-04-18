@@ -22,7 +22,7 @@ export class NewDo2Component implements OnInit {
   containerList: any[] = [];
   doForm: FormGroup;
   cpForm: FormGroup;
-  isIGM: boolean = true;
+  isIGM: boolean = false;
   acceptanceLocationList: any[] = [];
   IcdList: any[] = [];
   clearingPartyList: any[] = [];
@@ -44,8 +44,6 @@ export class NewDo2Component implements OnInit {
     this.getForm();
     if (this._commonService.getUser()?.countrycode == 'IN') {
       this.isIGM = true;
-    } else {
-      this.isIGM = false;
     }
     this.getDropdown();
     this.getClearingParty();
@@ -199,6 +197,11 @@ export class NewDo2Component implements OnInit {
     if (this.doForm.value.CONTAINER_LIST.length == 0) {
       this._commonService.warnMsg('Please add atleast 1 Container !');
     } else {
+      if (!this.isIGM) {
+        this.doForm.get('IGM_NO').disable();
+        this.doForm.get('IGM_ITEM_NO').disable();
+        this.doForm.get('IGM_DATE').disable();
+      }
       this.submitted = true;
       if (this.doForm.invalid) {
         return;
@@ -207,6 +210,10 @@ export class NewDo2Component implements OnInit {
       var doNo = this._commonService.getRandomNumber('DO');
       this.doForm.get('DO_NO')?.setValue(doNo);
       this.doForm.get('BL_NO')?.setValue(this.blNo);
+      if (!this.isIGM) {
+        this.doForm.get('IGM_DATE').enable();
+        this.doForm.get('IGM_DATE').setValue(null);
+      }
       this.doForm
         .get('AGENT_NAME')
         ?.setValue(this._commonService.getUserName());
@@ -216,7 +223,6 @@ export class NewDo2Component implements OnInit {
       this.doForm
         .get('CREATED_BY')
         ?.setValue(this._commonService.getUser().role);
-
       this._dOService
         .postDODetails(JSON.stringify(this.doForm.value))
         .subscribe((res: any) => {

@@ -81,6 +81,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-4" *ngIf="!isIGM">
+                                <div class="form-group">
+                                    <input formControlName="LETTER_VALIDITY" onkeypress="return false" type="date"
+                                        class="form-control"
+                                        [ngClass]="{'invalid': submitted && f.LETTER_VALIDITY.errors}" />
+                                    <label class="form-label">Empty Letter Validity<span class="text-danger">
+                                            *</span></label>
+                                    <div *ngIf="submitted && f.LETTER_VALIDITY.errors" class="invalid-feedback">
+                                        Empty Letter Validity is required</div>
+                                </div>
+                            </div>
                             <div class="col-md-4" *ngIf="isIGM">
                                 <div class="form-group">
                                     <input formControlName="IGM_DATE" onkeypress="return false" type="date"
@@ -119,14 +130,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" *ngIf="isIGM">
                                 <div class="form-group">
                                     <input formControlName="LETTER_VALIDITY" onkeypress="return false" type="date"
                                         class="form-control"
                                         [ngClass]="{'invalid': submitted && f.LETTER_VALIDITY.errors}" />
                                     <label class="form-label">Empty Letter Validity<span class="text-danger">
                                             *</span></label>
-                                    <div *ngIf="submitted && f.IGM_DATE.errors" class="invalid-feedback">
+                                    <div *ngIf="submitted && f.LETTER_VALIDITY.errors" class="invalid-feedback">
                                         Empty Letter Validity is required</div>
                                 </div>
                             </div>
@@ -174,38 +185,40 @@
                     </form>
                     <h6 style="font-weight: 600;">Container List</h6>
                     <hr>
-                    <div class="col-md-12 mb-3">
-                        <table class="ratetable" style="font-size: 15px;" id="data-table-config">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        <label class="checkbox-wrap checkbox-primary me-2 mb-2">
-                                            <input #chckAll (click)="oncheck($event,1,'')" type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </th>
-                                    <th>No</th>
-                                    <th>Container No</th>
-                                    <th>Container Type</th>
-                                    <th>Container Size</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of containerList;let i = index">
-                                    <td>
-                                        <label class="checkbox-wrap checkbox-primary me-2">
-                                            <input id="{{'chck' + i}}" class="chck"
-                                                (click)="oncheck($event,2,item.CONTAINER_NO)" type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </td>
-                                    <td>{{i+1}}</td>
-                                    <td>{{item.CONTAINER_NO}}</td>
-                                    <td>{{item.CONTAINER_TYPE}}</td>
-                                    <td>{{item.CONTAINER_TYPE.substring(0,2)}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="col-md-12">
+                        <div class="table-responsive mb-3">
+                            <table class="ratetable" style="font-size: 15px;" id="data-table-config">
+                                <thead>
+                                    <tr>
+                                        <th width="5%">
+                                            <label class="checkbox-wrap checkbox-primary me-2 mb-2">
+                                                <input #chckAll (click)="oncheck($event,1,'')" type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </th>
+                                        <th width="5%">No</th>
+                                        <th width="50%">Container No</th>
+                                        <th width="20%">Container Type</th>
+                                        <th width="20%">Container Size</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of containerList;let i = index">
+                                        <td width="5%">
+                                            <label class="checkbox-wrap checkbox-primary me-2">
+                                                <input id="{{'chck' + i}}" class="chck"
+                                                    (click)="oncheck($event,2,item.CONTAINER_NO)" type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </td>
+                                        <td width="5%">{{i+1}}</td>
+                                        <td width="50%">{{item.CONTAINER_NO}}</td>
+                                        <td width="20%">{{item.CONTAINER_TYPE}}</td>
+                                        <td width="20%">{{item.CONTAINER_TYPE.substring(0,2)}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="col-md-5 offset-md-7">
                         <div class="row">

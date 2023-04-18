@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment.prod';
 import { SERVICEMASTER } from '../models/servicemaster';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ServiceService {
   BASE_URL = environment.BASE_URL;
@@ -15,10 +15,9 @@ export class ServiceService {
     }),
   };
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {}
 
   InsertMaster(type: any) {
-    debugger
     return this._http.post<any>(
       this.BASE_URL + 'Master/InsertServiceMaster',
       type,
@@ -26,10 +25,9 @@ export class ServiceService {
     );
   }
 
-  GetAllServiceList(){
+  GetAllServiceList() {
     return this._http.get<any>(
-      this.BASE_URL +
-        'Master/GetServiceMasterList',
+      this.BASE_URL + 'Master/GetServiceMasterList',
       this.httpOptions
     );
   }
@@ -39,27 +37,25 @@ export class ServiceService {
   //   return this._http.get<any>(
   //     this.BASE_URL + 'Master/GetServiceMasterDetails?ID=' + ID,
   //     this.httpOptions
-  //   ); 
+  //   );
   // }
 
   GetMasterDetails(ID: any) {
-    debugger
-    return this._http.get<any>( this.BASE_URL +'Master/GetServiceMasterDetails?ID=' + 
-    ID,this.httpOptions);
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetServiceMasterDetails?ID=' + ID,
+      this.httpOptions
+    );
   }
 
-  UpdateServiceMaster(service:any){
-    debugger
+  UpdateServiceMaster(service: any) {
     return this._http.post<any>(
-      this.BASE_URL+ 'Master/UpdateServiceMasterList',
+      this.BASE_URL + 'Master/UpdateServiceMasterList',
       service,
       this.httpOptions
     );
   }
 
-
   DeleteMaster(ID: number) {
-    debugger;
     return this._http.delete<any>(
       this.BASE_URL + 'Master/DeleteServiceMasterList?ID=' + ID,
       this.httpOptions

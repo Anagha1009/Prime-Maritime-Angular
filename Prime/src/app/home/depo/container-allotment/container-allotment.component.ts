@@ -206,6 +206,8 @@ export class ContainerAllotmentComponent implements OnInit {
       if (res.ResponseCode == 200) {
         this.croDetails = res.Data;
         this.openModal2.nativeElement.click();
+      } else if (res.ResponseCode == 500) {
+        this._commonService.warnMsg('Sorry ! No Records found !');
       }
     });
   }

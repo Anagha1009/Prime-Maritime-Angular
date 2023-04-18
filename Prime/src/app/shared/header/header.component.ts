@@ -123,6 +123,15 @@ export class HeaderComponent implements OnInit {
         {
           menuName:
             this.selectedLanguage == 'en'
+              ? english.data.Menu.Inventory
+              : this.selectedLanguage == 'hi'
+              ? hindi.data.Menu.Inventory
+              : arabic.data.Menu.Inventory,
+          menuLink: '/home/depo/inventory-list',
+        },
+        {
+          menuName:
+            this.selectedLanguage == 'en'
               ? english.data.Menu.containerMovement
               : this.selectedLanguage == 'hi'
               ? hindi.data.Menu.containerMovement

@@ -2,7 +2,6 @@ import { formatDate } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { isValidProp } from 'igniteui-angular-core';
 import { CONTAINER_MOVEMENT } from 'src/app/models/cm';
 import { CmService } from 'src/app/services/cm.service';
 import { CommonService } from 'src/app/services/common.service';
@@ -17,16 +16,16 @@ export class NewContainerMovementComponent implements OnInit {
   containerMovementList: any[] = [];
   containerMovementForm: FormGroup;
   ismanually: boolean = false;
-  isGetContainer: boolean = false;
-  isGetContainer1: boolean = false;
-  isnoRecord: boolean = false;
   cmForm: FormGroup;
   onUpload: boolean = false;
   cmTable: any[] = [];
   files: any[] = [];
-  submitted: boolean;
+  submitted: boolean = false;
+  submitted1: boolean = false;
+  isData: boolean = false;
   depoList: any[] = [];
   currentDate: string = '';
+  updateSubmitted: boolean = false;
 
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
@@ -34,6 +33,7 @@ export class NewContainerMovementComponent implements OnInit {
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('closeBtn1') closeBtn1: ElementRef;
   @ViewChild('closeBtn2') closeBtn2: ElementRef;
+  @ViewChild('chck') chck: ElementRef;
 
   constructor(
     private _CMService: CmService,
@@ -58,9 +58,12 @@ export class NewContainerMovementComponent implements OnInit {
       CURR_ACT_NAME: [''],
       CURR_ACT_CODE: ['', Validators.required],
       CURR_ACT_CODE2: [''],
-      ACTIVITY_DATE: [''],
-      LOCATION: [''],
+      ACTIVITY_DATE: ['', Validators.required],
+      ACTIVITY_DATE1: [''],
+      LOCATION: ['', Validators.required],
+      LOCATION1: [''],
       STATUS: ['', Validators.required],
+      STATUS1: [''],
       NEXT_ACTIVITY_LIST: new FormArray([]),
     });
 
@@ -70,7 +73,7 @@ export class NewContainerMovementComponent implements OnInit {
   }
 
   getCM(CM: any) {
-    this.submitted = false;
+    this.updateSubmitted = false;
     var cm = new CONTAINER_MOVEMENT();
     cm.BOOKING_NO = CM.BOOKING_NO;
     cm.CRO_NO = CM.CRO_NO;
@@ -83,7 +86,9 @@ export class NewContainerMovementComponent implements OnInit {
     add.clear();
     this._CMService.getContMov(cm).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
-        this.isnoRecord = false;
+        if (this.ismanually) {
+          this.isData = true;
+        }
         this.containerMovementForm.patchValue(res.Data);
         this.containerMovementForm
           .get('PREV_ACTIVITY')
@@ -94,16 +99,25 @@ export class NewContainerMovementComponent implements OnInit {
           ?.setValue(res.Data.CURR_ACT_CODE);
         this.containerMovementForm.get('CURR_ACT_CODE')?.setValue('');
 
+        this.containerMovementForm.get('STATUS1')?.setValue(res.Data.STATUS);
+        this.containerMovementForm.get('STATUS')?.setValue('');
+        this.containerMovementForm
+          .get('LOCATION1')
+          ?.setValue(res.Data.LOCATION);
+        this.containerMovementForm.get('LOCATION')?.setValue('');
+
         res.Data.NEXT_ACTIVITY_LIST.forEach((element: any) => {
           add.push(this._formBuilder.group(element));
         });
 
         this.containerMovementForm
-          .get('ACTIVITY_DATE')
-          ?.setValue(formatDate(res.Data.ACTIVITY_DATE, 'yyyy-MM-dd', 'en'));
+          .get('ACTIVITY_DATE1')
+          ?.setValue(formatDate(res.Data.ACTIVITY_DATE, 'dd-MM-yyyy', 'en'));
+        this.containerMovementForm.get('ACTIVITY_DATE')?.setValue('');
       } else {
-        this.isnoRecord = true;
-        this.isGetContainer1 = true;
+        if (this.ismanually) {
+          this.isData = false;
+        }
       }
     });
 
@@ -113,19 +127,19 @@ export class NewContainerMovementComponent implements OnInit {
   }
 
   getCMList() {
+    this.submitted = true;
     var value = this.cmForm.get('BKCR_NO')?.value.substring(0, 2);
 
     var cm = new CONTAINER_MOVEMENT();
-    cm.BOOKING_NO = value == 'BK' ? this.cmForm.get('BKCR_NO')?.value : '';
+    cm.BOOKING_NO = '';
     cm.CRO_NO = value == 'CR' ? this.cmForm.get('BKCR_NO')?.value : '';
 
-    if (value == 'BK' || value == 'CR') {
+    if (value == 'CR') {
     } else {
-      alert('Please enter correct Booking No / CRO No');
+      alert('Please enter correct CRO No');
+      this.submitted = false;
       return;
     }
-
-    this.isGetContainer = true;
 
     this._commonService.destroyDT();
     this._CMService.getContainerMovement(cm).subscribe((res: any) => {
@@ -141,7 +155,7 @@ export class NewContainerMovementComponent implements OnInit {
   }
 
   updateMovement() {
-    this.submitted = true;
+    this.updateSubmitted = true;
     if (this.containerMovementForm.invalid) {
       return;
     }
@@ -156,8 +170,8 @@ export class NewContainerMovementComponent implements OnInit {
           );
           if (this.ismanually) {
             this.containerMovementForm.reset();
-            this.isGetContainer1 = false;
             this.cmForm.reset();
+            this.backTo();
           } else {
             this.getCMList();
           }
@@ -190,29 +204,41 @@ export class NewContainerMovementComponent implements OnInit {
 
   upload() {
     var containerList: any = [];
-    this.cmTable.forEach((element) => {
-      var value = element['BOOKING_NO / CRO_NO'].substring(0, 2);
-      containerList.push({
-        BOOKING_NO: value == 'BK' ? element['BOOKING_NO / CRO_NO'] : '',
-        CRO_NO: value == 'CR' ? element['BOOKING_NO / CRO_NO'] : '',
-        CONTAINER_NO: element.CONTAINER_NO,
-        CURR_ACT_CODE: element.ACTIVITY,
-        ACTIVITY_DATE: element.ACTIVITY_DATE,
-        LOCATION: element.LOCATION,
-        STATUS: element.STATUS,
-      });
+    var locationList: any = [];
+    this._commonService.getDropdownData('CM_LOCATION').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        locationList = res.Data;
+
+        this.cmTable.forEach((element) => {
+          debugger;
+          var loccode = locationList.find(
+            (x: any) => x.CODE_DESC === element.LOCATION
+          );
+          var value = element['CRO_NO'].substring(0, 2);
+
+          containerList.push({
+            BOOKING_NO: '',
+            CRO_NO: value == 'CR' ? element['CRO_NO'] : '',
+            CONTAINER_NO: element.CONTAINER_NO,
+            CURR_ACT_CODE: element.ACTIVITY,
+            ACTIVITY_DATE: element.ACTIVITY_DATE,
+            LOCATION: loccode?.CODE,
+            STATUS: element.STATUS,
+          });
+        });
+
+        this._CMService
+          .uploadContMov(JSON.stringify(containerList))
+          .subscribe((res: any) => {
+            if (res.ResponseCode == 200) {
+              this.closeBtn2.nativeElement.click();
+              this._commonService.successMsg(
+                'Records are uploaded successfully !'
+              );
+            }
+          });
+      }
     });
-
-    console.log(JSON.stringify(containerList));
-
-    this._CMService
-      .uploadContMov(JSON.stringify(containerList))
-      .subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.closeBtn2.nativeElement.click();
-          this._commonService.successMsg('Records are uploaded successfully !');
-        }
-      });
   }
 
   openUploadModal() {
@@ -258,17 +284,14 @@ export class NewContainerMovementComponent implements OnInit {
   }
 
   getContainerData() {
-    this.submitted = false;
+    this.submitted1 = true;
     var CM = new CONTAINER_MOVEMENT();
     CM.CONTAINER_NO = this.cmForm.get('CONTAINER_NO')?.value;
 
     this.getCM(CM);
-
-    this.isGetContainer1 = true;
   }
 
   onFileChange(ev: any) {
-    debugger;
     this.files = ev.target.files;
     let workBook: any = null;
     let jsonData = null;
@@ -286,7 +309,6 @@ export class NewContainerMovementComponent implements OnInit {
 
       if (el != null && el != '') {
         reader.onload = (event) => {
-          debugger;
           const data = reader.result;
           workBook = XLSX.read(data, { type: 'binary', cellDates: true });
 
@@ -297,7 +319,7 @@ export class NewContainerMovementComponent implements OnInit {
           }, {});
 
           var keyArray = [
-            'BOOKING_NO / CRO_NO',
+            'CRO_NO',
             'CONTAINER_NO',
             'ACTIVITY',
             'ACTIVITY_DATE',
@@ -307,78 +329,148 @@ export class NewContainerMovementComponent implements OnInit {
 
           var keyXlArray: any = [];
 
-          Object.keys(jsonData['Sheet1'][0]).forEach(function (key) {
-            keyXlArray.push(key);
-          });
+          if (jsonData.hasOwnProperty('CM')) {
+            if (jsonData.CM.length > 0) {
+              Object.keys(jsonData['CM'][0]).forEach(function (key) {
+                keyXlArray.push(key);
+              });
 
-          var result = this.isSameColumn(keyXlArray, keyArray);
+              var result = this.isSameColumn(keyXlArray, keyArray);
 
-          if (result) {
-            this.cmTable = [];
+              if (result) {
+                this.cmTable = [];
 
-            this.cmTable = jsonData['Sheet1'];
-            var isValid = true;
-            var isValidBKCRO = true;
+                this.cmTable = jsonData['CM'];
+                var isValid = true;
+                var isValidBKCRO = true;
 
-            this.cmTable.forEach((element) => {
-              if (
-                !this.checkNullEmpty([
-                  element.CONTAINER_NO,
-                  element.ACTIVITY,
-                  element.ACTIVITY_DATE,
-                  element.LOCATION,
-                  element.STATUS,
-                ])
-              ) {
-                isValid = false;
-              }
+                this.cmTable.forEach((element) => {
+                  if (
+                    !this.checkNullEmpty([
+                      element.CONTAINER_NO,
+                      element.ACTIVITY,
+                      element.ACTIVITY_DATE,
+                      element.LOCATION,
+                      element.STATUS,
+                    ])
+                  ) {
+                    isValid = false;
+                  }
 
-              if (element['BOOKING_NO / CRO_NO'] != '') {
-                var val = element['BOOKING_NO / CRO_NO'].substring(0, 2);
-                if (val == 'BK' || val == 'CR') {
-                  isValidBKCRO = true;
+                  if (element['CRO_NO'] != '') {
+                    var val = element['CRO_NO'].substring(0, 2);
+                    if (val == 'CR') {
+                      isValidBKCRO = true;
+                    } else {
+                      isValidBKCRO = false;
+                    }
+                  }
+                });
+
+                this._commonService.destroyDT();
+                if (isValid) {
+                  if (isValidBKCRO) {
+                    this.cmTable = this.cmTable.filter(
+                      (v, i, a) =>
+                        a.findIndex(
+                          (v2) => JSON.stringify(v2) === JSON.stringify(v)
+                        ) === i
+                    );
+
+                    var isValidNxt = true;
+                    this.cmTable.forEach((el: any) => {
+                      this._CMService
+                        .getNxtActivityList(el.CONTAINER_NO)
+                        .subscribe((r: any) => {
+                          if (r.ResponseCode == 200) {
+                            var nxtactList = r.Data;
+                            var findactivity = nxtactList.find(
+                              (x: any) => x.NEXT_ACT_CODE === el.ACTIVITY
+                            );
+                            if (!findactivity) {
+                              this._commonService.warnMsg(
+                                el.CONTAINER_NO +
+                                  ' Container Activity is invalid <br> As it does not match to its Next Actvity'
+                              );
+                              this.onUpload = false;
+                              this.files = [];
+                              isValidNxt = false;
+                              return;
+                            }
+
+                            if (isValidNxt) {
+                              this._CMService
+                                .isvalidCROforContainer(el.CONTAINER_NO)
+                                .subscribe((r1: any) => {
+                                  if (
+                                    r1.responseCode == 200 &&
+                                    el.CRO_NO != ''
+                                  ) {
+                                    if (el.CRO_NO != r1.data) {
+                                      this._commonService.warnMsg(
+                                        el.CONTAINER_NO +
+                                          " Container's CRO No is invalid <br> Please enter valid CRO No"
+                                      );
+                                      this.onUpload = false;
+                                      this.files = [];
+                                      return;
+                                    }
+                                  } else if (
+                                    r1.responseCode == 500 &&
+                                    el.CRO_NO != ''
+                                  ) {
+                                    this._commonService.warnMsg(
+                                      el.CONTAINER_NO +
+                                        ' Container is not mapped to any CRO No, Please allot the Container to map it to the CRO No'
+                                    );
+                                    this.onUpload = false;
+                                    this.files = [];
+                                    return;
+                                  }
+                                });
+                            }
+                          }
+                        });
+                    });
+
+                    this.onUpload = true;
+                    this._commonService.getDT();
+                  } else {
+                    this.files = [];
+                    alert('CRO No is invalid !');
+                  }
                 } else {
-                  isValidBKCRO = false;
+                  this.files = [];
+                  alert('Incorrect data!');
                 }
-              }
-            });
-
-            this._commonService.destroyDT();
-            if (isValid) {
-              if (isValidBKCRO) {
-                debugger;
-                this.cmTable = this.cmTable.filter(
-                  (v, i, a) =>
-                    a.findIndex(
-                      (v2) => JSON.stringify(v2) === JSON.stringify(v)
-                    ) === i
-                );
-
-                this._commonService.getDT();
-
-                this.onUpload = true;
               } else {
-                alert('Booking No / CRO No is invalid !');
+                this.files = [];
+                alert('Invalid file !');
               }
             } else {
-              alert('Incorrect data!');
+              this.files = [];
+              alert('Empty File !');
             }
           } else {
+            this.files = [];
             alert('Invalid file !');
           }
         };
         reader.readAsBinaryString(file);
       } else {
+        this.files = [];
         alert('Only .xlsx or .csv files allowed');
       }
     }
   }
 
-  switchToggle(event: any) {
+  switchToggle(value: any) {
     this.cmForm.reset();
-    this.isGetContainer = false;
-    this.isGetContainer1 = false;
-    this.ismanually = event.target.checked;
+    this.ismanually = value;
+    if (!value) {
+      this.containerMovementList = [];
+      this.submitted = false;
+    }
   }
 
   isSameColumn(arr1: any, arr2: any) {
@@ -393,5 +485,12 @@ export class NewContainerMovementComponent implements OnInit {
       }
     });
     return x;
+  }
+
+  backTo() {
+    this.ismanually = true;
+    this.isData = false;
+    this.submitted1 = false;
+    this.cmForm.get('CONTAINER_NO').setValue('');
   }
 }

@@ -42,12 +42,8 @@ export class VoyageComponent implements OnInit {
       ID: [0],
       VESSEL_NAME: ['', Validators.required],
       VOYAGE_NO: ['', Validators.required],
-      ATA: ['', Validators.required],
-      ATD: ['', Validators.required],
-      IMM_CURR: ['', Validators.required],
-      IMM_CURR_RATE: ['', Validators.required],
-      EXP_CURR: ['', Validators.required],
-      EXP_CURR_RATE: ['', Validators.required],
+      ATA: [''],
+      ATD: [''],
       TERMINAL_CODE: ['', Validators.required],
       SERVICE_NAME: ['', Validators.required],
       VIA_NO: ['', Validators.required],
@@ -55,7 +51,7 @@ export class VoyageComponent implements OnInit {
       ETA: ['', Validators.required],
       ETD: ['', Validators.required],
       CREATED_BY: [''],
-      STATUS: [''],
+      STATUS: ['', Validators.required],
     });
 
     this.voyageForm1 = this._formBuilder.group({
@@ -110,7 +106,7 @@ export class VoyageComponent implements OnInit {
     this.voyageForm
       .get('CREATED_BY')
       ?.setValue(this._commonService.getUserName());
-
+    console.log(JSON.stringify(this.voyageForm.value));
     this._bookingService
       .insertVoyage(JSON.stringify(this.voyageForm.value))
       .subscribe((res: any) => {
@@ -118,6 +114,7 @@ export class VoyageComponent implements OnInit {
           this._commonService.successMsg(
             'Your record has been inserted successfully !'
           );
+          this.GetVoyageList();
           this.closeBtn.nativeElement.click();
         }
       });
@@ -165,12 +162,23 @@ export class VoyageComponent implements OnInit {
 
   getServiceName1(event: any) {
     this.servicenameList = [];
-    // this.slotDetailsForm.get('SERVICE_NAME')?.setValue('');
+    this.terminalList = [];
+    this.voyageForm.get('SERVICE_NAME')?.setValue('');
+    this.voyageForm.get('TERMINAL_CODE')?.setValue('');
+
     this._commonService
       .getDropdownData('SERVICE_NAME', event, '')
       .subscribe((res: any) => {
         if (res.hasOwnProperty('Data')) {
           this.servicenameList = res.Data;
+        }
+      });
+
+    this._commonService
+      .getDropdownData('TERMINAL', event)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.terminalList = res.Data;
         }
       });
   }
@@ -186,21 +194,9 @@ export class VoyageComponent implements OnInit {
       }
     });
 
-    this._commonService.getDropdownData('CURRENCY').subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.currencyList = res.Data;
-      }
-    });
-
     this._commonService.getDropdownData('PORT').subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.portList = res.Data;
-      }
-    });
-
-    this._commonService.getDropdownData('TERMINAL').subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.terminalList = res.Data;
       }
     });
   }
@@ -208,6 +204,10 @@ export class VoyageComponent implements OnInit {
   ClearForm() {
     this.voyageForm.reset();
     this.voyageForm.get('ID')?.setValue(0);
+    this.voyageForm.get('PORT_CODE')?.setValue('');
+    this.voyageForm.get('VESSEL_NAME')?.setValue('');
+    this.voyageForm.get('TERMINAL_CODE')?.setValue('');
+    this.voyageForm.get('SERVICE_NAME')?.setValue('');
   }
 
   Search() {

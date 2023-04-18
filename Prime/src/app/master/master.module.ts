@@ -22,6 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { DataTablesModule } from 'angular-datatables';
 import { LocationComponent } from './location/location.component';
+import { UserComponent } from './user/user.component';
+import { SlotOperatorComponent } from './slot-operator/slot-operator.component';
 
 @NgModule({
     declarations: [
@@ -38,7 +40,9 @@ import { LocationComponent } from './location/location.component';
         UnitComponent,
         VesselComponent,
         VoyageComponent,
-        LocationComponent
+        LocationComponent,
+        UserComponent,
+        SlotOperatorComponent
     ],
     imports: [
         CommonModule,

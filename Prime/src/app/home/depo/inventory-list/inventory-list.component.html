@@ -1,0 +1,35 @@
+<div class="section-title">
+    <h2>Inventory List</h2>
+</div>
+<div class="container">
+    <div class="table-responsive">
+        <table class="ratetable table-striped table-bordered" id="data-table-config">
+            <thead>
+                <tr>
+                    <th width="1%">No.</th>
+                    <th width="30%">Container No</th>
+                    <th width="20%">Activity</th>
+                    <th width="29%">Activity Date</th>
+                    <th width="20%">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="alert" role="alert" *ngFor="let item of inventoryList;let i = index">
+                    <td width="1%">{{i +1}}</td>
+                    <td width="30%">
+                        {{item.CONTAINER_NO}}
+                    </td>
+                    <td width="20%">
+                        {{item.ACTIVITY}}
+                    </td>
+                    <td width="29%">
+                        {{item.ACTIVITY_DATE | date:'mediumDate'}}
+                    </td>
+                    <td width="20%" class="status"><span
+                            [class]="item.STATUS == 'Hold' ? 'waiting' : item.STATUS == 'Empty' ? 'countered' : item.STATUS == 'Damage' ? 'rejected' : 'active'">{{item.STATUS}}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

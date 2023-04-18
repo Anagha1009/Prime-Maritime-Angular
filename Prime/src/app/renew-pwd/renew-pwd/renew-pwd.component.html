@@ -1,0 +1,50 @@
+<div class="main">
+    <div class="col-md-4 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <p><img src="assets/img/logo_p.png" class="img-fluid" alt="" height="130px" width="130px"></p>
+                <img src="assets/img/deal.png" class="img-fluid" alt="" style="margin-left: 200px;">
+                <p class="myreset">RESET PASSWORD</p>
+                <p class="desc">Enter your new password and re-type the same password<br>before you submit</p>
+                <form [formGroup]="changePwdForm">
+                    
+                    <div class="row">
+                        <div class="col-md-8 mx-auto mt-3">
+                            <div class="form-group">
+                                <input [type]="hide ? 'password' : 'text'" formControlName="NEW_PWD" class="form-control2" id="email"
+                                name="email-username" placeholder="New Password" autofocus />
+                                <div *ngIf="submitted1 && f.NEW_PWD.errors" class="invalid-feedback">Please enter New
+                                    Password
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 mx-auto mt-3">
+                            <div class="form-group">
+                                <input [type]="hide ? 'password' : 'text'" formControlName="CONFIRM_PWD" class="form-control2" id="email"
+                                name="email-username" placeholder="Confirm Password" autofocus />
+                                <div *ngIf="submitted1 && f.CONFIRM_PWD.errors" class="invalid-feedback">Please Confirm
+                                    Password
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 mx-auto mt-2">
+                            <button type="button" (click)="resetPwd()" class="block">Submit</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mx-auto mt-2" style="margin-bottom: 30px;">
+                            <a href="#" class="pointer" style="color: grey;font-size: 15px;"><i
+                                class='bx bx-arrow-back'></i> Back to Login</a>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

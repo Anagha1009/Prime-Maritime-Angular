@@ -1,12 +1,13 @@
-import { Component,  HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookingService } from 'src/app/services/booking.service';
+import { CommonService } from 'src/app/services/common.service';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-base-layout',
   templateUrl: './base-layout.component.html',
-  styleUrls: ['./base-layout.component.scss']
+  styleUrls: ['./base-layout.component.scss'],
 })
 export class BaseLayoutComponent implements OnInit {
   isquotation: boolean = true;
@@ -19,11 +20,12 @@ export class BaseLayoutComponent implements OnInit {
   isSticky: boolean = false;
   mobilenav: boolean = false;
   navbarmobile: boolean = false;
-  
+
   constructor(
     private _router: Router,
     private _bookingservice: BookingService,
-    private _loginService: LoginService
+    private _loginService: LoginService,
+    private _cs: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -33,10 +35,13 @@ export class BaseLayoutComponent implements OnInit {
 
     this.user = this._loginService.userValue;
     if (this.user) {
-      this.isLoggedIn = true;
-    } else {
-      this.isLoggedIn = false;
+      // this.isLoggedIn = true;
+      this._cs.errorMsg('You have been logged out ! Please login again');
+      this._loginService.logout();
     }
+    // else {
+    //   this.isLoggedIn = false;
+    // }
   }
 
   public loadJsFile(url: any[]) {
@@ -55,17 +60,17 @@ export class BaseLayoutComponent implements OnInit {
       this._router.navigateByUrl('/home/depo/depo-dashboard');
     } else if (this.user.roleCode == '2') {
       this._router.navigateByUrl('/pm/dashboard');
+    } else if (this.user.roleCode == '4') {
+      this._router.navigateByUrl('/pm/dashboard');
     }
   }
 
   getTracking() {
-   
     if (this.bookingNo == '') {
       alert('Please enter booking no!');
     } else {
       var element = document.getElementById('openModalButton') as HTMLElement;
       element.click();
-     
     }
   }
 
@@ -111,15 +116,12 @@ export class BaseLayoutComponent implements OnInit {
       });
   }
 
-  
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
     this.isSticky = window.pageYOffset >= 50;
   }
 
- 
-clickmobilenav(){
-    this.mobilenav = !this.mobilenav;       
-}
-
+  clickmobilenav() {
+    this.mobilenav = !this.mobilenav;
+  }
 }

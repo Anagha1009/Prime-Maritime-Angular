@@ -35,6 +35,19 @@ export class BookingService {
     );
   }
 
+  getBookingListPM(Booking: BOOKING) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'Booking/GetBookingListPM?BOOKING_NO=' +
+        Booking.BOOKING_NO +
+        '&FROM_DATE=' +
+        Booking.FROM_DATE +
+        '&TO_DATE=' +
+        Booking.TO_DATE,
+      this.httpOptions
+    );
+  }
+
   getBookingDetails(Booking: BOOKING) {
     return this._http.get<any>(
       this.BASE_URL +

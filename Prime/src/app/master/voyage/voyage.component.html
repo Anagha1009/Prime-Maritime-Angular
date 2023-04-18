@@ -49,12 +49,10 @@
                 <th width="1%">No</th>
                 <th width="9%">Vessel</th>
                 <th width="10%">Voyage No</th>
-                <th width="10%">ATA - ATD</th>
-                <th width="10%">Imp Curr</th>
-                <th width="10%">Exp Curr</th>
+                <th width="20%">ATA - ATD</th>
                 <th width="10%">VIA No</th>
                 <th width="10%">Port</th>
-                <th width="10%">ETA - ETD</th>
+                <th width="20%">ETA - ETD</th>
                 <th width="10%">Status</th>
                 <th width="10%">Action</th>
             </tr>
@@ -64,14 +62,12 @@
                 <td width="1%">{{i+1}}</td>
                 <td width="9%">{{item.VESSEL_NAME}}</td>
                 <td width="10%">{{item.VOYAGE_NO}}</td>
-                <td width="10%">{{item.ATA | date:'mediumDate'}} - {{item.ATD | date:'mediumDate'}}</td>
-                <td width="10%">{{item.IMM_CURR}} {{item.IMM_CURR_RATE}}</td>
-                <td width="10%">{{item.EXP_CURR}} {{item.EXP_CURR_RATE}}</td>
+                <td width="20%">{{item.ATA | date:'mediumDate'}} - {{item.ATD | date:'mediumDate'}}</td>
                 <td width="10%">{{item.VIA_NO}}</td>
                 <td width="10%">{{item.PORT_CODE}}</td>
-                <td width="10%">{{item.ETA | date:'mediumDate'}} - {{item.ETD | date:'mediumDate'}}</td>
-                <td width="10%" class="status"><span
-                        [class]="!item.STATUS ? 'rejected' : 'active'">{{item.STATUS ? 'Active'
+                <td width="20%">{{item.ETA | date:'mediumDate'}} - {{item.ETD | date:'mediumDate'}}</td>
+                <td width="10%" class="status"><span [class]="!item.STATUS ? 'rejected' : 'active'">{{item.STATUS ?
+                        'Active'
                         :
                         'In-Active'}}</span></td>
                 <td width="10%">
@@ -85,7 +81,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Currency Details</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Voyage Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
             </div>
             <div class="modal-body">
@@ -121,10 +117,7 @@
                                 <input type="date" onkeypress="return false"
                                     [ngClass]="{'invalid': submitted && f.ATA.errors}" formControlName="ATA"
                                     class="form-control">
-                                <label class="form-label">ATA <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted && f.ATA.errors" class="invalid-feedback">
-                                    ATA is required</div>
+                                <label class="form-label">ATA </label>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -132,10 +125,7 @@
                                 <input type="date" onkeypress="return false"
                                     [ngClass]="{'invalid': submitted && f.ATD.errors}" formControlName="ATD"
                                     class="form-control">
-                                <label class="form-label">ATD <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted && f.ATD.errors" class="invalid-feedback">
-                                    ATD is required</div>
+                                <label class="form-label">ATD</label>
                             </div>
                         </div>
                     </div>
@@ -164,56 +154,18 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <ng-select [ngClass]="{'invalid': submitted && f.IMM_CURR.errors}"
-                                    formControlName="IMM_CURR">
+                                <ng-select (change)="getServiceName1($event)"
+                                    [ngClass]="{'invalid': submitted && f.PORT_CODE.errors}"
+                                    formControlName="PORT_CODE">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of currencyList"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}}
+                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
-                                <label class="form-label-ddl">Import Currency <span class="text-danger">
+                                <label class="form-label-ddl">Port<span class="text-danger">
                                         *</span></label>
-                                <div *ngIf="submitted && f.IMM_CURR.errors" class="invalid-feedback">
-                                    Vessel is required</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" [ngClass]="{'invalid': submitted && f.IMM_CURR_RATE.errors}"
-                                    maxlength="100" formControlName="IMM_CURR_RATE" class="form-control">
-                                <label class="form-label">Import Currency Rate <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted && f.IMM_CURR_RATE.errors" class="invalid-feedback">
-                                    Import Currency Rate is required</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <ng-select [ngClass]="{'invalid': submitted && f.EXP_CURR.errors}"
-                                    formControlName="EXP_CURR">
-                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of currencyList"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}}
-                                        ({{item.CODE}})
-                                    </ng-option>
-                                </ng-select>
-                                <label class="form-label-ddl">Export Currency <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted && f.EXP_CURR.errors" class="invalid-feedback">
-                                    Export Currency is required</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" [ngClass]="{'invalid': submitted && f.EXP_CURR_RATE.errors}"
-                                    maxlength="100" formControlName="EXP_CURR_RATE" class="form-control">
-                                <label class="form-label">Export Currency Rate <span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted && f.EXP_CURR_RATE.errors" class="invalid-feedback">
-                                    Export Currency Rate is required</div>
+                                <div *ngIf="submitted && f.PORT_CODE.errors" class="invalid-feedback">
+                                    Port is required</div>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -230,22 +182,6 @@
                                         *</span></label>
                                 <div *ngIf="submitted && f.TERMINAL_CODE.errors" class="invalid-feedback">Terminal is
                                     required</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <ng-select (change)="getServiceName1($event)"
-                                    [ngClass]="{'invalid': submitted && f.PORT_CODE.errors}"
-                                    formControlName="PORT_CODE">
-                                    <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                    <ng-option *ngFor="let item of portList" value="{{item.CODE}}">{{item.CODE_DESC}}
-                                        ({{item.CODE}})
-                                    </ng-option>
-                                </ng-select>
-                                <label class="form-label-ddl">Port<span class="text-danger">
-                                        *</span></label>
-                                <div *ngIf="submitted && f.PORT_CODE.errors" class="invalid-feedback">
-                                    Port is required</div>
                             </div>
                         </div>
                     </div>
