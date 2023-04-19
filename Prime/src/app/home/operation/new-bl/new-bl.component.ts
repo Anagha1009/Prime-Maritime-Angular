@@ -256,10 +256,10 @@ export class NewBlComponent implements OnInit {
           CONTAINER_NO: [element.CONTAINER_NO],
           CONTAINER_TYPE: [element.CONTAINER_TYPE],
           //CONTAINER_SIZE: [element.CONTAINER_SIZE],
-          SEAL_NO: [element.SEAL_NO.toString()],
+          SEAL_NO: [element.SEAL_NO?.toString()],
           GROSS_WEIGHT: [element.GROSS_WEIGHT],
-          MEASUREMENT: [element.MEASUREMENT.toString()],
-          AGENT_SEAL_NO: [element.AGENT_SEAL_NO],
+          MEASUREMENT: [element.MEASUREMENT?.toString()],
+          AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
           MARKS_NOS: [this.blForm.get('MARKS_NOS')?.value],
           DESC_OF_GOODS: [this.blForm.get('DESC_OF_GOODS')?.value],
           // MARKS_NOS: [this.previewTable[0]?.MARKS_NOS],
@@ -326,8 +326,8 @@ export class NewBlComponent implements OnInit {
                 CONTAINER_NO: [element.CONTAINER_NO],
                 CONTAINER_TYPE: [element.CONTAINER_TYPE],
                 //CONTAINER_SIZE: [element.CONTAINER_SIZE],
-                SEAL_NO: [element.SEAL_NO.toString()],
-                AGENT_SEAL_NO: [element.AGENT_SEAL_NO],
+                SEAL_NO: [element.SEAL_NO?.toString()],
+                AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
                 GROSS_WEIGHT: [element.GROSS_WEIGHT],
                 MEASUREMENT: [element.MEASUREMENT?.toString()],
                 MARKS_NOS: [element.MARKS_NOS],
@@ -401,7 +401,7 @@ export class NewBlComponent implements OnInit {
     // this.blForm.get('BL_STATUS')?.setValue(bltypevalue ? 'Finalized' : 'Drafted');
 
     var voyageNo = this.blForm.get('VOYAGE_NO')?.value;
-    this.blForm.get('VOYAGE_NO')?.setValue(voyageNo.toString());
+    this.blForm.get('VOYAGE_NO')?.setValue(voyageNo?.toString());
 
     this._blService
       .updateBL(JSON.stringify(this.blForm.value))
@@ -459,10 +459,10 @@ export class NewBlComponent implements OnInit {
     this.blForm.get('BL_STATUS')?.setValue('Draft');
 
     var voyageNo = this.blForm.get('VOYAGE_NO')?.value;
-    this.blForm.get('VOYAGE_NO')?.setValue(voyageNo.toString());
+    this.blForm.get('VOYAGE_NO')?.setValue(voyageNo?.toString());
 
     var noBL = this.blForm.get('NO_OF_ORIGINAL_BL')?.value;
-    this.blForm.get('NO_OF_ORIGINAL_BL')?.setValue(noBL.toString());
+    this.blForm.get('NO_OF_ORIGINAL_BL')?.setValue(noBL?.toString());
 
     this.blForm.get('AGENT_CODE')?.setValue(this._commonService.getUserCode());
     this.blForm.get('AGENT_NAME')?.setValue(this._commonService.getUserName());
@@ -496,7 +496,7 @@ export class NewBlComponent implements OnInit {
     var json = JSON.stringify(this.blForm.value);
     json = json.replace(/\\n/g, ' ');
     json = json.replace(/\\r/g, ' ');
-
+    console.log(json);
     this._blService.getSRRDetails(bl).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
@@ -558,8 +558,8 @@ export class NewBlComponent implements OnInit {
             CONTAINER_NO: [element.CONTAINER_NO],
             CONTAINER_TYPE: [element.CONTAINER_TYPE],
             //CONTAINER_SIZE: [element.CONTAINER_SIZE],
-            SEAL_NO: [element.SEAL_NO.toString()],
-            AGENT_SEAL_NO: [element.AGENT_SEAL_NO],
+            SEAL_NO: [element.SEAL_NO?.toString()],
+            AGENT_SEAL_NO: [element.AGENT_SEAL_NO]?.toString(),
             GROSS_WEIGHT: [element.GROSS_WEIGHT],
             MEASUREMENT: [element.MEASUREMENT?.toString()],
             MARKS_NOS: [element.MARKS_NOS],
@@ -630,8 +630,8 @@ export class NewBlComponent implements OnInit {
               CONTAINER_NO: [element.CONTAINER_NO],
               CONTAINER_TYPE: [element.CONTAINER_TYPE],
               //CONTAINER_SIZE: [element.CONTAINER_SIZE],
-              SEAL_NO: [element.SEAL_NO.toString()],
-              AGENT_SEAL_NO: [element.SEAL_NO],
+              SEAL_NO: [element.SEAL_NO?.toString()],
+              AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
               GROSS_WEIGHT: [element.GROSS_WEIGHT],
               MEASUREMENT: [element.MEASUREMENT?.toString()],
               DESC_OF_GOODS: [element.DESC_OF_GOODS],
@@ -678,7 +678,7 @@ export class NewBlComponent implements OnInit {
   }
 
   getRandomNumber(POL: any, POD: any) {
-    var num = Math.floor(Math.random() * 1e3).toString();
+    var num = Math.floor(Math.random() * 1e3)?.toString();
     var date = new Date();
     var month: any = date.getMonth() + 1;
     if (month < 10) {
@@ -1023,8 +1023,8 @@ export class NewBlComponent implements OnInit {
                     CONTAINER_NO: [element.CONTAINER_NO],
                     CONTAINER_TYPE: [element.CONTAINER_TYPE],
                     // CONTAINER_SIZE: [element.CONTAINER_SIZE],
-                    SEAL_NO: [element.SEAL_NO.toString()],
-                    AGENT_SEAL_NO: [element.AGENT_SEAL_NO.toString()],
+                    SEAL_NO: [element.SEAL_NO?.toString()],
+                    AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
                     MARKS_NOS: [element.MARKS_NOS],
                     DESC_OF_GOODS: [element.DESC_OF_GOODS],
                     GROSS_WEIGHT: [element.GROSS_WEIGHT],
@@ -1040,8 +1040,8 @@ export class NewBlComponent implements OnInit {
                     CONTAINER_NO: [element.CONTAINER_NO],
                     CONTAINER_TYPE: [element.CONTAINER_TYPE],
                     // CONTAINER_SIZE: [element.CONTAINER_SIZE],
-                    SEAL_NO: [element.SEAL_NO.toString()],
-                    AGENT_SEAL_NO: [element.AGENT_SEAL_NO.toString()],
+                    SEAL_NO: [element.SEAL_NO?.toString()],
+                    AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
                     //MARKS_NOS: [element.MARKS_NOS],
                     MARKS_NOS: [''],
                     DESC_OF_GOODS: [element.DESC_OF_GOODS],
@@ -1068,8 +1068,8 @@ export class NewBlComponent implements OnInit {
                     CONTAINER_NO: [element.CONTAINER_NO],
                     CONTAINER_TYPE: [element.CONTAINER_TYPE],
                     // CONTAINER_SIZE: [element.CONTAINER_SIZE],
-                    SEAL_NO: [element.SEAL_NO.toString()],
-                    AGENT_SEAL_NO: [element.AGENT_SEAL_NO.toString()],
+                    SEAL_NO: [element.SEAL_NO?.toString()],
+                    AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
                     // MARKS_NOS: [element.MARKS_NOS],
                     MARKS_NOS: [''],
                     DESC_OF_GOODS: [element.DESC_OF_GOODS],
@@ -1198,8 +1198,8 @@ export class NewBlComponent implements OnInit {
           this._formBuilder.group({
             CONTAINER_NO: [element.CONTAINER_NO],
             CONTAINER_TYPE: [element.CONTAINER_TYPE],
-            SEAL_NO: [element.SEAL_NO.toString()],
-            AGENT_SEAL_NO: [element.AGENT_SEAL_NO.toString()],
+            SEAL_NO: [element.SEAL_NO?.toString()],
+            AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
             MARKS_NOS: [''],
             GROSS_WEIGHT: [element.GROSS_WEIGHT],
             MEASUREMENT: [element.MEASUREMENT?.toString()],
@@ -1344,7 +1344,7 @@ export class NewBlComponent implements OnInit {
             body: [
               [
                 {
-                  text: 'Page  ' + currentPage.toString() + ' of ' + pageCount,
+                  text: 'Page  ' + currentPage?.toString() + ' of ' + pageCount,
                 },
               ],
             ],
@@ -2013,7 +2013,16 @@ export class NewBlComponent implements OnInit {
                     : this.ContainerList1.length
                 ).map((p: any) => [
                   {
-                    text: p.CONTAINER_NO + ' / ' + p.AGENT_SEAL_NO,
+                    text:
+                      p.SEAL_NO == null || p.SEAL_NO == ''
+                        ? p.CONTAINER_NO + '/\n' + p.AGENT_SEAL_NO
+                        : p.AGENT_SEAL_NO == null || p.AGENT_SEAL_NO == ''
+                        ? p.CONTAINER_NO + '/\n' + p.SEAL_NO
+                        : p.CONTAINER_NO +
+                          '/\n' +
+                          p.SEAL_NO +
+                          '/\n' +
+                          p.AGENT_SEAL_NO,
                     fontSize: 7,
                   },
                   {
@@ -2466,7 +2475,17 @@ export class NewBlComponent implements OnInit {
 
                             ...this.ContainerList1.slice(5).map((p: any) => [
                               {
-                                text: p.CONTAINER_NO + ' / ' + p.AGENT_SEAL_NO,
+                                text:
+                                  p.SEAL_NO == null || p.SEAL_NO == ''
+                                    ? p.CONTAINER_NO + '/\n' + p.AGENT_SEAL_NO
+                                    : p.AGENT_SEAL_NO == null ||
+                                      p.AGENT_SEAL_NO == ''
+                                    ? p.CONTAINER_NO + '/\n' + p.SEAL_NO
+                                    : p.CONTAINER_NO +
+                                      '/\n' +
+                                      p.SEAL_NO +
+                                      '/\n' +
+                                      p.AGENT_SEAL_NO,
                                 fontSize: 7,
                               },
                               {
@@ -2628,7 +2647,7 @@ export class NewBlComponent implements OnInit {
                 [
                   {
                     text:
-                      'Page  ' + currentPage.toString() + ' of ' + pageCount,
+                      'Page  ' + currentPage?.toString() + ' of ' + pageCount,
                   },
                 ],
               ],
@@ -3275,7 +3294,16 @@ export class NewBlComponent implements OnInit {
                     : this.ContainerList1.length
                 ).map((p: any) => [
                   {
-                    text: p.CONTAINER_NO + ' / ' + p.AGENT_SEAL_NO,
+                    text:
+                      p.SEAL_NO == null || p.SEAL_NO == ''
+                        ? p.CONTAINER_NO + '/\n' + p.AGENT_SEAL_NO
+                        : p.AGENT_SEAL_NO == null || p.AGENT_SEAL_NO == ''
+                        ? p.CONTAINER_NO + '/\n' + p.SEAL_NO
+                        : p.CONTAINER_NO +
+                          '/\n' +
+                          p.SEAL_NO +
+                          '/\n' +
+                          p.AGENT_SEAL_NO,
                     fontSize: 7,
                   },
                   {
@@ -3718,7 +3746,17 @@ export class NewBlComponent implements OnInit {
 
                             ...this.ContainerList1.slice(5).map((p: any) => [
                               {
-                                text: p.CONTAINER_NO + ' / ' + p.AGENT_SEAL_NO,
+                                text:
+                                  p.SEAL_NO == null || p.SEAL_NO == ''
+                                    ? p.CONTAINER_NO + '/\n' + p.AGENT_SEAL_NO
+                                    : p.AGENT_SEAL_NO == null ||
+                                      p.AGENT_SEAL_NO == ''
+                                    ? p.CONTAINER_NO + '/\n' + p.SEAL_NO
+                                    : p.CONTAINER_NO +
+                                      '/\n' +
+                                      p.SEAL_NO +
+                                      '/\n' +
+                                      p.AGENT_SEAL_NO,
                                 fontSize: 7,
                               },
                               {
@@ -3880,7 +3918,7 @@ export class NewBlComponent implements OnInit {
                 [
                   {
                     text:
-                      'Page  ' + currentPage.toString() + ' of ' + pageCount,
+                      'Page  ' + currentPage?.toString() + ' of ' + pageCount,
                   },
                 ],
               ],

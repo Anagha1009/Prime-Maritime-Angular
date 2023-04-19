@@ -59,6 +59,20 @@
                 </ul>
             </div>
             <div class="col-md-3">
+                <label class="label-header">Place of Receipt</label>
+                <label class="label-subheader">{{quotationDetails?.PLACE_OF_RECEIPT == '' ||
+                    quotationDetails?.PLACE_OF_RECEIPT == null ? '-' : quotationDetails?.PLACE_OF_RECEIPT }}</label>
+            </div>
+            <div class="col-md-3">
+                <label class="label-header">Place of Delivery</label>
+                <label class="label-subheader">{{quotationDetails?.PLACE_OF_DELIVERY == '' ||
+                    quotationDetails?.PLACE_OF_DELIVERY == null ? '-' : quotationDetails?.PLACE_OF_DELIVERY }}</label>
+            </div>
+            <div class="col-md-3">
+                <label class="label-header">Agent</label>
+                <label class="label-subheader">{{quotationDetails?.AGENT_NAME }}</label>
+            </div>
+            <div class="col-md-3">
                 <label class="label-header">Status</label>
                 <label><span style="font-size: 10px;"
                         [class]="quotationDetails?.STATUS == 'Approved' ? 'badge rounded-pill bg-success me-2' : quotationDetails?.STATUS == 'Requested' ? 'badge rounded-pill bg-warning me-2': quotationDetails?.STATUS == 'Countered' ? 'badge rounded-pill bg-info me-2' : 'badge rounded-pill bg-danger me-2'">{{quotationDetails?.STATUS}}</span></label>

@@ -1598,9 +1598,6 @@
                                     <div *ngIf="submitted5 && fcp.CUST_NAME.errors?.required" class="invalid-feedback">
                                         Name is required
                                     </div>
-                                    <div *ngIf="submitted5 && fcp.CUST_NAME.errors?.pattern" class="invalid-feedback">
-                                        Name is invalid
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -1611,9 +1608,6 @@
                                         formControlName="CUST_ADDRESS" class="form-control2"></textarea>
                                     <div *ngIf="submitted5 && fcp.CUST_ADDRESS.errors?.required"
                                         class="invalid-feedback">Address is required
-                                    </div>
-                                    <div *ngIf="submitted5 && fcp.CUST_ADDRESS.errors?.pattern"
-                                        class="invalid-feedback">Address is invalid
                                     </div>
                                 </div>
                             </div>
