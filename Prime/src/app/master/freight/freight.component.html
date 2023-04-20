@@ -3,9 +3,9 @@
 </div>
 <div class="mb-4">
     <div class="col-md-6 offset-md-6 mb-4 text-end">
-        <button class="form-btn-primary" (click)="openModal()"><i class="fa fa-plus me-1"></i>New Freight</button>
-        <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#customerModal">New
-            Customer</button>
+        <button class="form-btn-primary" (click)="openChargeModal()"><i class="fa fa-plus me-1"></i>New Charge</button>
+        <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#chargeModal"><i
+                class="fa fa-plus me-1"></i>New Charge</button>
     </div>
     <table class="ratetable table-bordered" id="data-table-config">
         <thead>
@@ -36,24 +36,27 @@
                 <td width="10%">{{item.ServiceMode}}
                 </td>
                 <td width="9%">
-                    <i class="fa fa-pencil mx-2 pointer text-success" (click)="openModal(item.ID)"></i>
+                    <i class="fa fa-pencil mx-2 pointer text-success" (click)="GetFreightMasterDetails(item.ID)"></i>
                     <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteFreightMaster(item.ID)"></i>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
-<div class="modal fade" #customerModal id="customerModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+
+<div class="modal fade" #detailModal id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Freight Details</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Charge Details
+                    <span class="fw-bold text-success">: {{chargeType}}</span>
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
             </div>
             <div class="modal-body">
                 <form [formGroup]="freightForm">
-                    <div class="col-md-12">
+                    <div class="col-md-12" *ngIf="chargeType != ''">
                         <div class="row mt-4">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -69,7 +72,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" *ngIf="chargeType == 'Freight'">
                                 <div class="form-group">
                                     <ng-select formControlName="POD" [ngClass]="{'invalid':submitted && f.POD.errors}">
                                         <ng-option value="" selected="true" disabled>--Select--</ng-option>
@@ -83,7 +86,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" *ngIf="chargeType == 'Freight'">
                                 <div class="form-group">
                                     <ng-select formControlName="Charge"
                                         [ngClass]="{'invalid':submitted && f.Charge.errors}">
@@ -101,8 +104,38 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-4" *ngIf="chargeType == 'Charge'">
+                                <div class="form-group">
+                                    <ng-select formControlName="Currency"
+                                        [ngClass]="{'invalid':submitted && f.Currency.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of currencyList">{{item.CODE_DESC}}
+                                            ({{item.CODE}})</ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Currency <span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.Currency.errors" class="invalid-feedback">Currency is
+                                        required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="chargeType == 'Charge'">
+                                <div class="form-group">
+                                    <ng-select formControlName="CHARGE_CODE"
+                                        [ngClass]="{'invalid':submitted && f.CHARGE_CODE.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of tariffchargeList">{{item.CODE_DESC}}
+                                        </ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Charge<span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.CHARGE_CODE.errors" class="invalid-feedback">Charge
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row mt-4">
+                        <div class="row mt-4" *ngIf="chargeType == 'Freight'">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <ng-select formControlName="Currency"
@@ -141,7 +174,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-4">
+                        <div class="row mt-4" *ngIf="chargeType == 'Freight'">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <input maxlength="10" type="text"
@@ -154,13 +187,140 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mt-4" *ngIf="chargeType == 'Charge'">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.FROM_VAL.errors}"
+                                        formControlName="FROM_VAL" class="form-control">
+                                    <label class="form-label">From Val</label>
+                                    <div *ngIf="submitted && f.FROM_VAL.errors" class="invalid-feedback">From Val
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.TO_VAL.errors}" formControlName="TO_VAL"
+                                        class="form-control">
+                                    <label class="form-label">To Val</label>
+                                    <div *ngIf="submitted && f.TO_VAL.errors" class="invalid-feedback">To Val
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
+                <div class="col-md-3 offset-md-9 text-end mb-3" *ngIf="chargeType== 'Charge'">
+                    <button (click)="addNew()" class="form-btn-primary"><i class="fa fa-plus me-2"></i>Add New</button>
+                </div>
+                <div class="table-responsive" *ngIf="f1?.length > 0 && chargeType == 'Charge'">
+                    <table class="ratetable table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <th width="1%">No</th>
+                                <th width="10%">Charge</th>
+                                <th width="10%">Currency</th>
+                                <th width="10%">POL</th>
+                                <th width="10%">Type</th>
+                                <th width="10%">Type</th>
+                                <th width="10%">20'</th>
+                                <th width="10%">40'</th>
+                                <th width="10%">From</th>
+                                <th width="10%">To</th>
+                                <th width="9%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of f1; let i = index" [formGroup]="item">
+                                <td width="1%">{{i+1}}</td>
+                                <td width="10%">{{item.value.CHARGE_CODE}}</td>
+                                <td width="10%">{{item.value.CURRENCY}}</td>
+                                <td width="10%">{{item.value.POL}}</td>
+                                <td width="10%"><select formControlName="IETYPE" class="form-control3">
+                                        <option value="" selected="true" disabled>--Select--</option>
+                                        <option value="I">Import</option>
+                                        <option value="E">Export</option>
+                                    </select></td>
+                                <td width="10%"><select formControlName="ICTYPE" class="form-control3">
+                                        <option value="" selected="true" disabled>--Select--</option>
+                                        <option value="I">Income</option>
+                                        <option value="C">Cost</option>
+                                    </select></td>
+                                <td width="10%">
+                                    <input *ngIf="item.value.IETYPE == 'I' && item.value.ICTYPE == 'C'" type="text"
+                                        formControlName="IMPCOST20" class="form-control3" />
+                                    <input *ngIf="item.value.IETYPE == 'E' && item.value.ICTYPE == 'C'" type="text"
+                                        formControlName="EXPCOST20" class="form-control3" />
+
+                                    <input *ngIf="item.value.IETYPE == 'I' && item.value.ICTYPE == 'I'" type="text"
+                                        formControlName="IMPREVENUE20" class="form-control3" />
+                                    <input *ngIf="item.value.IETYPE == 'E' && item.value.ICTYPE == 'I'" type="text"
+                                        formControlName="EXPREVENUE20" class="form-control3" />
+                                </td>
+                                <td width="10%">
+                                    <input *ngIf="item.value.IETYPE == 'I' && item.value.ICTYPE == 'C'" type="text"
+                                        formControlName="IMPCOST40" type="text" class="form-control3" />
+                                    <input *ngIf="item.value.IETYPE == 'E' && item.value.ICTYPE == 'C'" type="text"
+                                        formControlName="EXPCOST40" type="text" class="form-control3" />
+
+                                    <input *ngIf="item.value.IETYPE == 'I' && item.value.ICTYPE == 'I'" type="text"
+                                        formControlName="IMPREVENUE40" class="form-control3" />
+                                    <input *ngIf="item.value.IETYPE == 'E' && item.value.ICTYPE == 'I'" type="text"
+                                        formControlName="EXPREVENUE40" class="form-control3" />
+                                </td>
+                                <td width="10%">{{item.value.FROM_VAL}}</td>
+                                <td width="10%">{{item.value.TO_VAL}}</td>
+                                <td width="9%">
+                                    <i class="fa fa-trash ms-2 pointer text-danger" (click)="deleteCharge(i)"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" *ngIf="(f1?.length > 0 && chargeType == 'Charge') || chargeType == 'Freight'">
                 <button *ngIf="!isUpdate" (click)="InsertFreightMaster()" class="form-btn">Save</button>
                 <button *ngIf="isUpdate" (click)="UpdateFreightMaster()" class="form-btn">Update</button>
                 <button class="form-btn-light me-2" (click)="ClearForm()">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" #chargeModal id="chargeModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Charge Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-8 mt-4">
+                    <div class="form-group">
+                        <ng-select [ngClass]="{'invalid':submitted1 && chargeType == ''}" (change)="chargeType = $event"
+                            [(ngModel)]="chargeType">
+                            <ng-option value="" selected disabled>--Select--</ng-option>
+                            <ng-option value="Freight">Freight
+                            </ng-option>
+                            <ng-option value="Charge">Charge
+                            </ng-option>
+                            <ng-option value="Stevedoring">Stevedoring / THC
+                            </ng-option>
+                        </ng-select>
+                        <label class="form-label-ddl">Charge<span class="text-danger"> *</span></label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="form-btn" (click)="openModal()">Submit</button>
+                <button class="form-btn d-none" #openModalPopup1 data-bs-toggle="modal"
+                    href="#detailModal">Submit</button>
             </div>
         </div>
     </div>

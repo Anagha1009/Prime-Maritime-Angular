@@ -1,5 +1,6 @@
+import { Format } from '@angular-devkit/build-angular/src/builders/extract-i18n/schema';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/services/common.service';
 import { MasterService } from 'src/app/services/master.service';
 import Swal from 'sweetalert2';
@@ -16,9 +17,13 @@ export class FreightComponent implements OnInit {
   isUpdate: boolean = false;
   portList: any[] = [];
   currencyList: any[] = [];
+  chargeType: any = '';
+  submitted1: boolean = false;
+  tariffchargeList: any[] = [];
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
+  @ViewChild('openModalPopup1') openModalPopup1: ElementRef;
 
   constructor(
     private _masterService: MasterService,
@@ -32,11 +37,16 @@ export class FreightComponent implements OnInit {
       POL: ['', Validators.required],
       POD: ['', Validators.required],
       Charge: ['', Validators.required],
+      CHARGE_CODE: ['', Validators.required],
       Currency: ['', Validators.required],
       LadenStatus: ['', Validators.required],
       LadenStatus1: ['', Validators.required],
       ServiceMode: ['', Validators.required],
       DRY20: ['', Validators.required],
+      FROM_VAL: [0],
+      TO_VAL: [0],
+      STATUS: [Validators.required],
+      CHARGELIST: new FormArray([]),
     });
 
     this.GetFreightMasterList();
@@ -45,6 +55,11 @@ export class FreightComponent implements OnInit {
 
   get f() {
     return this.freightForm.controls;
+  }
+
+  get f1() {
+    const add = this.freightForm.get('CHARGELIST') as FormArray;
+    return add.controls;
   }
 
   getDropdown() {
@@ -59,6 +74,14 @@ export class FreightComponent implements OnInit {
         this.currencyList = res.Data;
       }
     });
+
+    this._commonService
+      .getDropdownData('TARIFF_CHARGE')
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.tariffchargeList = res.Data;
+        }
+      });
   }
 
   GetFreightMasterList() {
@@ -113,6 +136,8 @@ export class FreightComponent implements OnInit {
   }
 
   GetFreightMasterDetails(ID: number) {
+    this.isUpdate = true;
+    this.chargeType = 'Freight';
     this._masterService.getFreightDetails(ID).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.freightForm.patchValue(res.Data);
@@ -124,6 +149,7 @@ export class FreightComponent implements OnInit {
         }
       }
     });
+    this.openModalPopup1.nativeElement.click();
   }
 
   UpdateFreightMaster() {
@@ -154,16 +180,58 @@ export class FreightComponent implements OnInit {
     this.freightForm.get('Currency').setValue('');
   }
 
-  openModal(ID: any = 0) {
+  openModal() {
+    this.submitted1 = true;
     this.submitted = false;
     this.isUpdate = false;
-    this.ClearForm();
 
-    if (ID > 0) {
-      this.isUpdate = true;
-      this.GetFreightMasterDetails(ID);
+    this.freightForm.reset();
+    this.freightForm.get('POL').setValue('');
+    this.freightForm.get('POD').setValue('');
+    this.freightForm.get('CHARGE_CODE').setValue('');
+    this.freightForm.get('Charge').setValue('');
+    this.freightForm.get('Currency').setValue('');
+    this.freightForm.get('FROM_VAL').setValue(0);
+    this.freightForm.get('TO_VAL').setValue(0);
+    this.freightForm.get('ID').setValue(0);
+
+    const add = this.freightForm.get('CHARGELIST') as FormArray;
+    add.clear();
+
+    if (this.chargeType == '') {
+      return;
+    } else if (this.chargeType == 'Freight') {
+      this.freightForm.get('CHARGE_CODE').disable();
+      this.freightForm.get('FROM_VAL').disable();
+      this.freightForm.get('TO_VAL').disable();
+      this.freightForm.get('STATUS').disable();
+
+      this.freightForm.get('Charge').enable();
+      this.freightForm.get('POD').enable();
+      this.freightForm.get('LadenStatus').enable();
+      this.freightForm.get('LadenStatus1').enable();
+      this.freightForm.get('ServiceMode').enable();
+      this.freightForm.get('DRY20').enable();
+    } else if (this.chargeType == 'Charge') {
+      this.freightForm.get('Charge').disable();
+      this.freightForm.get('POD').disable();
+      this.freightForm.get('LadenStatus').disable();
+      this.freightForm.get('LadenStatus1').disable();
+      this.freightForm.get('ServiceMode').disable();
+      this.freightForm.get('DRY20').disable();
+
+      this.freightForm.get('CHARGE_CODE').enable();
+      this.freightForm.get('FROM_VAL').enable();
+      this.freightForm.get('TO_VAL').enable();
+      this.freightForm.get('STATUS').enable();
     }
 
+    this.openModalPopup1.nativeElement.click();
+  }
+
+  openChargeModal() {
+    this.submitted1 = false;
+    this.chargeType = '';
     this.openModalPopup.nativeElement.click();
   }
 
@@ -173,5 +241,41 @@ export class FreightComponent implements OnInit {
     } else {
       this.freightForm.get('LadenStatus').setValue('E');
     }
+  }
+
+  addNew() {
+    this.submitted = true;
+
+    if (this.freightForm.invalid) {
+      return;
+    }
+
+    const add = this.freightForm.get('CHARGELIST') as FormArray;
+    add.push(
+      this._formBuilder.group({
+        POL: [this.freightForm.get('POL').value],
+        CHARGE_CODE: [this.freightForm.get('CHARGE_CODE').value],
+        IETYPE: [''],
+        ICTYPE: [''],
+        IMPCOST20: [0],
+        IMPCOST40: [0],
+        IMPREVENUE20: [0],
+        IMPREVENUE40: [0],
+        EXPCOST20: [0],
+        EXPCOST40: [0],
+        EXPREVENUE20: [0],
+        EXPREVENUE40: [0],
+        CURRENCY: [this.freightForm.get('Currency').value],
+        FROM_VAL: [this.freightForm.get('FROM_VAL').value],
+        TO_VAL: [this.freightForm.get('TO_VAL').value],
+        STATUS: [''],
+      })
+    );
+  }
+
+  deleteCharge(i: any) {
+    const add = this.freightForm.get('CHARGELIST') as FormArray;
+
+    add.removeAt(i);
   }
 }

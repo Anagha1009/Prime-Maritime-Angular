@@ -44,10 +44,8 @@
                                 <label class="form-check-label text-white" for="remember-me"> Remember Me </label>
                             </div> -->
                             <a (click)="askMail()" class="pointer" style="color: white;">Forgot password?</a>
-                            <button #openBtn data-bs-toggle="modal" href="#mailModal"
-                                class="form-btn d-none">Submit</button>
+                            <a #openBtn data-bs-toggle="modal" href="#mailModal" class="form-btn d-none"></a>
                         </div>
-
                         <div class="mb-3">
                             <button [disabled]="isLoading" class="btn btn-danger btn-flat w-100" (click)="login()"
                                 type="submit">Log in

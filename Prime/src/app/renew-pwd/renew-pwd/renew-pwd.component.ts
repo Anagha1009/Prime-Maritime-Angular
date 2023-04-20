@@ -15,6 +15,8 @@ export class RenewPwdComponent implements OnInit {
   submitted1: boolean = false;
   hide: boolean = true;
   renewPwd: RenewPassword = new RenewPassword();
+  hide1: boolean = true;
+  hide2: boolean = true;
 
   constructor(
     private _commonService: CommonService,
@@ -85,5 +87,12 @@ export class RenewPwdComponent implements OnInit {
     } else {
       this._commonService.warnMsg('Password mismatch!');
     }
+  }
+
+  showHide1() {
+    this.hide1 = !this.hide1;
+  }
+  showHide2() {
+    this.hide2 = !this.hide2;
   }
 }
