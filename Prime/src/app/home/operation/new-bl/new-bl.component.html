@@ -524,20 +524,24 @@
                         </td> -->
                         <td width="9%" *ngIf="item.BL_STATUS=='Draft'">
                             <div class="pointer"><a (click)="getBLDetailsForEdit(item.BL_NO)"><i
-                                        class='bx bxs-pencil ms-2 me-3'></i></a>
-                                <a (click)="viewBL(item.BL_NO,false)"><i class='fa fa-eye ms-2'></i></a>
+                                        class='bx bxs-pencil ms-2 me-2'></i></a>
+                                <a (click)="viewBL(item.BL_NO,false)"><i class='fa fa-eye ms-1 me-2'></i></a>
+                                <a tooltip="Container Annexure" placement="top" (click)="annexureBL(item.BL_NO)"><img
+                                        src="assets/img/attachment.png" width="14px" height="14px"></a>
                                 <!-- <a (click)="makeItFinalize(item.BL_NO)"><img src="assets/img/check-mark.png"></a> -->
                             </div>
                         </td>
                         <td width="9%" *ngIf="item.BL_STATUS=='Finalized'">
                             <div class="pointer"><a tooltip="Original" placement="top"
-                                    (click)="viewBL(item.BL_NO,false)"><img src="assets/img/approved.png"
-                                        class="me-3"></a>
+                                    (click)="viewBL(item.BL_NO,false)"><img src="assets/img/approved.png" class="me-3"
+                                        width="18px" height="18px"></a>
                                 <a tooltip="Non-Negotiable" placement="top" (click)="viewBL(item.BL_NO,true)"><img
-                                        src="assets/img/nn.png" width="23px" height="23px"></a>
+                                        src="assets/img/nn.png" width="18px" height="18px" class="me-2"></a>
+
+                                <a tooltip="Container Annexure" placement="top" (click)="annexureBL(item.BL_NO)"><img
+                                        src="assets/img/attachment.png" width="14px" height="14px"></a>
                             </div>
                         </td>
-
                     </tr>
                 </tbody>
             </table>

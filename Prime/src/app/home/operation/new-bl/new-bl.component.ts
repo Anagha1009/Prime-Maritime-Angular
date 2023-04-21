@@ -172,6 +172,7 @@ export class NewBlComponent implements OnInit {
   }
 
   submitFinalizeBL() {
+    debugger;
     if (this.finalizeType === '') {
       alert('Please select finalize type!');
     } else if (this.finalizeType === 'original' && this.ogType === '') {
@@ -255,10 +256,10 @@ export class NewBlComponent implements OnInit {
           CONTAINER_NO: [element.CONTAINER_NO],
           CONTAINER_TYPE: [element.CONTAINER_TYPE],
           //CONTAINER_SIZE: [element.CONTAINER_SIZE],
-          SEAL_NO: [element.SEAL_NO.toString()],
+          SEAL_NO: [element.SEAL_NO?.toString()],
           GROSS_WEIGHT: [element.GROSS_WEIGHT],
-          MEASUREMENT: [element.MEASUREMENT.toString()],
-          AGENT_SEAL_NO: [element.AGENT_SEAL_NO],
+          MEASUREMENT: [element.MEASUREMENT?.toString()],
+          AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
           MARKS_NOS: [this.blForm.get('MARKS_NOS')?.value],
           DESC_OF_GOODS: [this.blForm.get('DESC_OF_GOODS')?.value],
           // MARKS_NOS: [this.previewTable[0]?.MARKS_NOS],
@@ -317,7 +318,7 @@ export class NewBlComponent implements OnInit {
           var contList: any[] = res.Data.CONTAINER_LIST;
 
           const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
-
+          debugger;
           add.clear();
           contList.forEach((element) => {
             add.push(
@@ -325,8 +326,8 @@ export class NewBlComponent implements OnInit {
                 CONTAINER_NO: [element.CONTAINER_NO],
                 CONTAINER_TYPE: [element.CONTAINER_TYPE],
                 //CONTAINER_SIZE: [element.CONTAINER_SIZE],
-                SEAL_NO: [element.SEAL_NO.toString()],
-                AGENT_SEAL_NO: [element.SEAL_NO],
+                SEAL_NO: [element.SEAL_NO?.toString()],
+                AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
                 GROSS_WEIGHT: [element.GROSS_WEIGHT],
                 MEASUREMENT: [element.MEASUREMENT?.toString()],
                 MARKS_NOS: [element.MARKS_NOS],
@@ -400,7 +401,7 @@ export class NewBlComponent implements OnInit {
     // this.blForm.get('BL_STATUS')?.setValue(bltypevalue ? 'Finalized' : 'Drafted');
 
     var voyageNo = this.blForm.get('VOYAGE_NO')?.value;
-    this.blForm.get('VOYAGE_NO')?.setValue(voyageNo.toString());
+    this.blForm.get('VOYAGE_NO')?.setValue(voyageNo?.toString());
 
     this._blService
       .updateBL(JSON.stringify(this.blForm.value))
@@ -458,10 +459,10 @@ export class NewBlComponent implements OnInit {
     this.blForm.get('BL_STATUS')?.setValue('Draft');
 
     var voyageNo = this.blForm.get('VOYAGE_NO')?.value;
-    this.blForm.get('VOYAGE_NO')?.setValue(voyageNo.toString());
+    this.blForm.get('VOYAGE_NO')?.setValue(voyageNo?.toString());
 
     var noBL = this.blForm.get('NO_OF_ORIGINAL_BL')?.value;
-    this.blForm.get('NO_OF_ORIGINAL_BL')?.setValue(noBL.toString());
+    this.blForm.get('NO_OF_ORIGINAL_BL')?.setValue(noBL?.toString());
 
     this.blForm.get('AGENT_CODE')?.setValue(this._commonService.getUserCode());
     this.blForm.get('AGENT_NAME')?.setValue(this._commonService.getUserName());
@@ -495,7 +496,7 @@ export class NewBlComponent implements OnInit {
     var json = JSON.stringify(this.blForm.value);
     json = json.replace(/\\n/g, ' ');
     json = json.replace(/\\r/g, ' ');
-
+    console.log(json);
     this._blService.getSRRDetails(bl).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
@@ -557,8 +558,8 @@ export class NewBlComponent implements OnInit {
             CONTAINER_NO: [element.CONTAINER_NO],
             CONTAINER_TYPE: [element.CONTAINER_TYPE],
             //CONTAINER_SIZE: [element.CONTAINER_SIZE],
-            SEAL_NO: [element.SEAL_NO.toString()],
-            AGENT_SEAL_NO: [element.SEAL_NO],
+            SEAL_NO: [element.SEAL_NO?.toString()],
+            AGENT_SEAL_NO: [element.AGENT_SEAL_NO]?.toString(),
             GROSS_WEIGHT: [element.GROSS_WEIGHT],
             MEASUREMENT: [element.MEASUREMENT?.toString()],
             MARKS_NOS: [element.MARKS_NOS],
@@ -629,8 +630,8 @@ export class NewBlComponent implements OnInit {
               CONTAINER_NO: [element.CONTAINER_NO],
               CONTAINER_TYPE: [element.CONTAINER_TYPE],
               //CONTAINER_SIZE: [element.CONTAINER_SIZE],
-              SEAL_NO: [element.SEAL_NO.toString()],
-              AGENT_SEAL_NO: [element.SEAL_NO],
+              SEAL_NO: [element.SEAL_NO?.toString()],
+              AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
               GROSS_WEIGHT: [element.GROSS_WEIGHT],
               MEASUREMENT: [element.MEASUREMENT?.toString()],
               DESC_OF_GOODS: [element.DESC_OF_GOODS],
@@ -677,7 +678,7 @@ export class NewBlComponent implements OnInit {
   }
 
   getRandomNumber(POL: any, POD: any) {
-    var num = Math.floor(Math.random() * 1e3).toString();
+    var num = Math.floor(Math.random() * 1e3)?.toString();
     var date = new Date();
     var month: any = date.getMonth() + 1;
     if (month < 10) {
@@ -1022,7 +1023,8 @@ export class NewBlComponent implements OnInit {
                     CONTAINER_NO: [element.CONTAINER_NO],
                     CONTAINER_TYPE: [element.CONTAINER_TYPE],
                     // CONTAINER_SIZE: [element.CONTAINER_SIZE],
-                    SEAL_NO: [element.SEAL_NO.toString()],
+                    SEAL_NO: [element.SEAL_NO?.toString()],
+                    AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
                     MARKS_NOS: [element.MARKS_NOS],
                     DESC_OF_GOODS: [element.DESC_OF_GOODS],
                     GROSS_WEIGHT: [element.GROSS_WEIGHT],
@@ -1038,7 +1040,8 @@ export class NewBlComponent implements OnInit {
                     CONTAINER_NO: [element.CONTAINER_NO],
                     CONTAINER_TYPE: [element.CONTAINER_TYPE],
                     // CONTAINER_SIZE: [element.CONTAINER_SIZE],
-                    SEAL_NO: [element.SEAL_NO.toString()],
+                    SEAL_NO: [element.SEAL_NO?.toString()],
+                    AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
                     //MARKS_NOS: [element.MARKS_NOS],
                     MARKS_NOS: [''],
                     DESC_OF_GOODS: [element.DESC_OF_GOODS],
@@ -1065,7 +1068,8 @@ export class NewBlComponent implements OnInit {
                     CONTAINER_NO: [element.CONTAINER_NO],
                     CONTAINER_TYPE: [element.CONTAINER_TYPE],
                     // CONTAINER_SIZE: [element.CONTAINER_SIZE],
-                    SEAL_NO: [element.SEAL_NO.toString()],
+                    SEAL_NO: [element.SEAL_NO?.toString()],
+                    AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
                     // MARKS_NOS: [element.MARKS_NOS],
                     MARKS_NOS: [''],
                     DESC_OF_GOODS: [element.DESC_OF_GOODS],
@@ -1178,6 +1182,179 @@ export class NewBlComponent implements OnInit {
           this.generateBLPdf();
         }
       });
+  }
+
+  annexureBL(BLNO: any) {
+    var BL = new Bl();
+    BL.AGENT_CODE = this._commonService.getUserCode();
+    BL.BL_NO = BLNO;
+    this._blService.getBLDetails(BL).subscribe((res: any) => {
+      this.blForm.patchValue(res.Data);
+      var contList: any[] = res.Data.CONTAINER_LIST;
+      const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
+      add.clear();
+      contList.forEach((element) => {
+        add.push(
+          this._formBuilder.group({
+            CONTAINER_NO: [element.CONTAINER_NO],
+            CONTAINER_TYPE: [element.CONTAINER_TYPE],
+            SEAL_NO: [element.SEAL_NO?.toString()],
+            AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
+            MARKS_NOS: [''],
+            GROSS_WEIGHT: [element.GROSS_WEIGHT],
+            MEASUREMENT: [element.MEASUREMENT?.toString()],
+          })
+        );
+      });
+      this.generateAnnexurePdf();
+    });
+  }
+
+  async generateAnnexurePdf() {
+    const add1 = this.blForm.get('CONTAINER_LIST2') as FormArray;
+    this.ContainerList1 = [];
+    this.ContainerList1.push(add1.value);
+    this.ContainerList1 = this.ContainerList1.flat();
+
+    let docDefinition1 = {
+      header: (currentPage: any) => {
+        return [
+          {
+            text: 'ANNEXURE for BL ' + this.blForm.value.BL_NO,
+            bold: true,
+            fontSize: 10,
+            alignment: 'center',
+          },
+        ];
+      },
+
+      pageMargins: [40, 20, 40, 20],
+
+      content: [
+        {
+          table: {
+            //heights: [15],
+            widths: [60, 60, 60, 60, 70, 40, 40, 40],
+            headerRows: 1,
+            body: [
+              [
+                {
+                  text: 'Container No.',
+                  fontSize: 8,
+                  bold: true,
+                },
+                {
+                  text: 'Seal No.',
+                  fontSize: 8,
+                  bold: true,
+                },
+                {
+                  text: 'Agent Seal No.',
+                  fontSize: 8,
+                  bold: true,
+                },
+                {
+                  text: 'Pkg Cnt',
+                  fontSize: 8,
+                  bold: true,
+                },
+                {
+                  text: 'Pkg Description',
+                  fontSize: 8,
+                  bold: true,
+                },
+                {
+                  text: 'Gross Wt',
+                  fontSize: 8,
+                  bold: true,
+                },
+                {
+                  text: 'Net Wt',
+                  fontSize: 8,
+                  bold: true,
+                },
+                { text: 'CBM', fontSize: 8, bold: true },
+              ],
+
+              ...this.ContainerList1.map((p: any) => [
+                {
+                  text: p.CONTAINER_NO,
+                  fontSize: 7,
+                },
+                {
+                  text: p.SEAL_NO,
+                  fontSize: 7,
+                },
+                {
+                  text: p.AGENT_SEAL_NO,
+                  fontSize: 7,
+                },
+                {
+                  text: '-',
+                  fontSize: 7,
+                },
+                {
+                  text: '-',
+                  fontSize: 7,
+                },
+                { text: p.GROSS_WEIGHT, fontSize: 7 },
+                {
+                  text: '-',
+                  fontSize: 7,
+                },
+                { text: p.MEASUREMENT, fontSize: 7 },
+              ]),
+            ],
+          },
+          layout: {
+            hLineWidth: function (i: any, node: any) {
+              debugger;
+              return i === 0 || i === 1 || i === node.table.body.length ? 1 : 0;
+            },
+            vLineWidth: function (i: any, node: any) {
+              return 0;
+            },
+            hLineStyle: function (i: any, node: any) {
+              return 0;
+            },
+            vLineStyle: function (i: any, node: any) {
+              return { dash: { length: 4 } };
+            },
+          },
+        },
+      ],
+      styles: {
+        sectionHeader: {
+          bold: true,
+          fontSize: 14,
+          margin: [0, 15, 0, 15],
+        },
+        tableHeight: {
+          margin: [0, 0, 0, 0],
+        },
+      },
+      footer: (currentPage: any, pageCount: any) => {
+        var t = {
+          layout: 'noBorders',
+          fontSize: 8,
+          margin: [25, 0, 25, 0],
+          table: {
+            heights: 100,
+            widths: ['*', '*'],
+            body: [
+              [
+                {
+                  text: 'Page  ' + currentPage?.toString() + ' of ' + pageCount,
+                },
+              ],
+            ],
+          },
+        };
+
+        return t;
+      },
+    };
+    pdfMake.createPdf(docDefinition1).open();
   }
 
   async generateBLPdf() {
@@ -1639,7 +1816,9 @@ export class NewBlComponent implements OnInit {
                         margin: [0, 2, 0, 0],
                       },
                       {
-                        text: this.blForm.value.PORT_OF_LOADING.toUpperCase(),
+                        text: this.blForm.value.PORT_OF_LOADING.split(
+                          '('
+                        )[0].toUpperCase(),
                         fontSize: 7,
                       },
                     ],
@@ -1717,7 +1896,9 @@ export class NewBlComponent implements OnInit {
                   margin: [0, 2, 0, 0],
                 },
                 {
-                  text: this.blForm.value.PORT_OF_DISCHARGE.toUpperCase(),
+                  text: this.blForm.value.PORT_OF_DISCHARGE.split(
+                    '('
+                  )[0].toUpperCase(),
                   fontSize: 7,
                 },
               ],
@@ -1831,7 +2012,19 @@ export class NewBlComponent implements OnInit {
                     ? 5
                     : this.ContainerList1.length
                 ).map((p: any) => [
-                  { text: p.CONTAINER_NO + ' / ' + p.SEAL_NO, fontSize: 7 },
+                  {
+                    text:
+                      p.SEAL_NO == null || p.SEAL_NO == ''
+                        ? p.CONTAINER_NO + '/\n' + p.AGENT_SEAL_NO
+                        : p.AGENT_SEAL_NO == null || p.AGENT_SEAL_NO == ''
+                        ? p.CONTAINER_NO + '/\n' + p.SEAL_NO
+                        : p.CONTAINER_NO +
+                          '/\n' +
+                          p.SEAL_NO +
+                          '/\n' +
+                          p.AGENT_SEAL_NO,
+                    fontSize: 7,
+                  },
                   {
                     rowSpan:
                       this.ContainerList1.length > 5
@@ -2282,7 +2475,17 @@ export class NewBlComponent implements OnInit {
 
                             ...this.ContainerList1.slice(5).map((p: any) => [
                               {
-                                text: p.CONTAINER_NO + ' / ' + p.SEAL_NO,
+                                text:
+                                  p.SEAL_NO == null || p.SEAL_NO == ''
+                                    ? p.CONTAINER_NO + '/\n' + p.AGENT_SEAL_NO
+                                    : p.AGENT_SEAL_NO == null ||
+                                      p.AGENT_SEAL_NO == ''
+                                    ? p.CONTAINER_NO + '/\n' + p.SEAL_NO
+                                    : p.CONTAINER_NO +
+                                      '/\n' +
+                                      p.SEAL_NO +
+                                      '/\n' +
+                                      p.AGENT_SEAL_NO,
                                 fontSize: 7,
                               },
                               {
@@ -2444,7 +2647,7 @@ export class NewBlComponent implements OnInit {
                 [
                   {
                     text:
-                      'Page  ' + currentPage.toString() + ' of ' + pageCount,
+                      'Page  ' + currentPage?.toString() + ' of ' + pageCount,
                   },
                 ],
               ],
@@ -2894,7 +3097,9 @@ export class NewBlComponent implements OnInit {
                         margin: [0, 2, 0, 0],
                       },
                       {
-                        text: this.blForm.value.PORT_OF_LOADING.toUpperCase(),
+                        text: this.blForm.value.PORT_OF_LOADING.split(
+                          '('
+                        )[0].toUpperCase(),
                         fontSize: 7,
                       },
                     ],
@@ -2972,7 +3177,9 @@ export class NewBlComponent implements OnInit {
                   margin: [0, 2, 0, 0],
                 },
                 {
-                  text: this.blForm.value.PORT_OF_DISCHARGE.toUpperCase(),
+                  text: this.blForm.value.PORT_OF_DISCHARGE.split(
+                    '('
+                  )[0].toUpperCase(),
                   fontSize: 7,
                 },
               ],
@@ -3086,7 +3293,19 @@ export class NewBlComponent implements OnInit {
                     ? 5
                     : this.ContainerList1.length
                 ).map((p: any) => [
-                  { text: p.CONTAINER_NO + ' / ' + p.SEAL_NO, fontSize: 7 },
+                  {
+                    text:
+                      p.SEAL_NO == null || p.SEAL_NO == ''
+                        ? p.CONTAINER_NO + '/\n' + p.AGENT_SEAL_NO
+                        : p.AGENT_SEAL_NO == null || p.AGENT_SEAL_NO == ''
+                        ? p.CONTAINER_NO + '/\n' + p.SEAL_NO
+                        : p.CONTAINER_NO +
+                          '/\n' +
+                          p.SEAL_NO +
+                          '/\n' +
+                          p.AGENT_SEAL_NO,
+                    fontSize: 7,
+                  },
                   {
                     rowSpan:
                       this.ContainerList1.length > 5
@@ -3527,7 +3746,17 @@ export class NewBlComponent implements OnInit {
 
                             ...this.ContainerList1.slice(5).map((p: any) => [
                               {
-                                text: p.CONTAINER_NO + ' / ' + p.SEAL_NO,
+                                text:
+                                  p.SEAL_NO == null || p.SEAL_NO == ''
+                                    ? p.CONTAINER_NO + '/\n' + p.AGENT_SEAL_NO
+                                    : p.AGENT_SEAL_NO == null ||
+                                      p.AGENT_SEAL_NO == ''
+                                    ? p.CONTAINER_NO + '/\n' + p.SEAL_NO
+                                    : p.CONTAINER_NO +
+                                      '/\n' +
+                                      p.SEAL_NO +
+                                      '/\n' +
+                                      p.AGENT_SEAL_NO,
                                 fontSize: 7,
                               },
                               {
@@ -3689,7 +3918,7 @@ export class NewBlComponent implements OnInit {
                 [
                   {
                     text:
-                      'Page  ' + currentPage.toString() + ' of ' + pageCount,
+                      'Page  ' + currentPage?.toString() + ' of ' + pageCount,
                   },
                 ],
               ],

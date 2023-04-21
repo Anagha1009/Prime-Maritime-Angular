@@ -863,15 +863,9 @@ export class NewQuotationComponent implements OnInit {
 
     this.partyForm = this._formBuilder.group({
       CUST_ID: [0],
-      CUST_NAME: [
-        '',
-        [Validators.required, Validators.pattern('^[A-Za-z0-9? , _-]+$')],
-      ],
+      CUST_NAME: ['', Validators.required],
       CUST_EMAIL: ['', [Validators.email]],
-      CUST_ADDRESS: [
-        '',
-        [Validators.required, Validators.pattern("^[a-zA-Z0-9s, '-]*$")],
-      ],
+      CUST_ADDRESS: ['', Validators.required],
       CUST_TYPE: ['', Validators.required],
       GSTIN: [
         '',

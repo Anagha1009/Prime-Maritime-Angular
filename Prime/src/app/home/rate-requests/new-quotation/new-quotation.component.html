@@ -1592,28 +1592,22 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label2">Name<span class="text-danger"> *</span></label>
-                                    <input maxlength="100" type="text" id="name"
+                                    <input maxlength="500" type="text" id="name"
                                         [ngClass]="{'invalid':submitted5 && fcp.CUST_NAME.errors}"
                                         formControlName="CUST_NAME" class="form-control2">
                                     <div *ngIf="submitted5 && fcp.CUST_NAME.errors?.required" class="invalid-feedback">
                                         Name is required
-                                    </div>
-                                    <div *ngIf="submitted5 && fcp.CUST_NAME.errors?.pattern" class="invalid-feedback">
-                                        Name is invalid
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label2">Address<span class="text-danger"> *</span></label>
-                                    <textarea maxlength="100" type="text" id="address"
+                                    <textarea maxlength="500" type="text" id="address"
                                         [ngClass]="{'invalid':submitted5 && fcp.CUST_ADDRESS.errors}"
                                         formControlName="CUST_ADDRESS" class="form-control2"></textarea>
                                     <div *ngIf="submitted5 && fcp.CUST_ADDRESS.errors?.required"
                                         class="invalid-feedback">Address is required
-                                    </div>
-                                    <div *ngIf="submitted5 && fcp.CUST_ADDRESS.errors?.pattern"
-                                        class="invalid-feedback">Address is invalid
                                     </div>
                                 </div>
                             </div>

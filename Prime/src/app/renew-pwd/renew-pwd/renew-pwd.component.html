@@ -7,26 +7,44 @@
                 <p class="myreset">RESET PASSWORD</p>
                 <p class="desc">Enter your new password and re-type the same password<br>before you submit</p>
                 <form [formGroup]="changePwdForm">
-                    
+
                     <div class="row">
                         <div class="col-md-8 mx-auto mt-3">
                             <div class="form-group">
-                                <input [type]="hide ? 'password' : 'text'" formControlName="NEW_PWD" class="form-control2" id="email"
-                                name="email-username" placeholder="New Password" autofocus />
-                                <div *ngIf="submitted1 && f.NEW_PWD.errors" class="invalid-feedback">Please enter New
-                                    Password
+                                <div class="input-group">
+                                    <input [type]="hide1 ? 'password' : 'text'" formControlName="NEW_PWD" id="email"
+                                        class="form-control" name="email-username" placeholder="New Password"
+                                        autofocus />
+                                    <span (click)="showHide1()" class="input-group-text"><img src="assets/img/view.png"
+                                            class="img-fluid" alt="" *ngIf="hide1" height="18px" width="18px">
+                                        <img src="assets/img/hide.png" class="img-fluid" alt="" *ngIf="!hide1"
+                                            height="18px" width="18px"></span>
+                                    <div *ngIf="submitted1 && f.NEW_PWD.errors" class="invalid-feedback">Please enter
+                                        New
+                                        Password
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-8 mx-auto mt-3">
                             <div class="form-group">
-                                <input [type]="hide ? 'password' : 'text'" formControlName="CONFIRM_PWD" class="form-control2" id="email"
-                                name="email-username" placeholder="Confirm Password" autofocus />
-                                <div *ngIf="submitted1 && f.CONFIRM_PWD.errors" class="invalid-feedback">Please Confirm
-                                    Password
+                                <div class="input-group">
+                                    <input [type]="hide2 ? 'password' : 'text'" formControlName="CONFIRM_PWD"
+                                        class="form-control" id="email" name="email-username"
+                                        placeholder="Confirm Password" autofocus />
+                                    <span (click)="showHide2()" class="input-group-text"><img src="assets/img/view.png"
+                                            class="img-fluid" alt="" *ngIf="hide2" height="18px" width="18px">
+                                        <img src="assets/img/hide.png" class="img-fluid" alt="" *ngIf="!hide2"
+                                            height="18px" width="18px"></span>
+                                    <div *ngIf="submitted1 && f.CONFIRM_PWD.errors" class="invalid-feedback">Please
+                                        Confirm
+                                        Password
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -38,7 +56,7 @@
                     <div class="row">
                         <div class="col-md-4 mx-auto mt-2" style="margin-bottom: 30px;">
                             <a href="#" class="pointer" style="color: grey;font-size: 15px;"><i
-                                class='bx bx-arrow-back'></i> Back to Login</a>
+                                    class='bx bx-arrow-back'></i> Back to Login</a>
                         </div>
                     </div>
 

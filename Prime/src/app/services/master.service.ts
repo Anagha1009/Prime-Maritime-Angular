@@ -90,4 +90,41 @@ export class MasterService {
       this.httpOptions
     );
   }
+
+  insertFreight(freight: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/InsertFreightMaster',
+      freight,
+      this.httpOptions
+    );
+  }
+
+  updateFreight(freight: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateFreightMasterList',
+      freight,
+      this.httpOptions
+    );
+  }
+
+  getFreightList() {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetFreightMasterList',
+      this.httpOptions
+    );
+  }
+
+  getFreightDetails(ID: any) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetFreightMasterDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  deleteFreight(ID: any) {
+    return this._http.delete<any>(
+      this.BASE_URL + 'Master/DeleteFreightMasterList?ID=' + ID,
+      this.httpOptions
+    );
+  }
 }

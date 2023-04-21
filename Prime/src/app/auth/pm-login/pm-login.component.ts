@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LOGIN } from 'src/app/models/login';
@@ -15,6 +15,12 @@ export class PmLoginComponent implements OnInit {
   submitted: boolean = false;
   isLoading: boolean = false;
   button: string;
+
+  @ViewChild('openBtn') openBtn: ElementRef;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
+  isLoading1: boolean = false;
+  email: any = '';
+  isemail: boolean = true;
 
   constructor(
     private _loginservice: LoginService,
@@ -79,6 +85,39 @@ export class PmLoginComponent implements OnInit {
           } else if (res.roleCode == '5') {
             this._router.navigateByUrl('/pm/dashboard');
           }
+        }
+      });
+  }
+
+  //forgot pwd logic
+  askMail() {
+    this.openBtn.nativeElement.click();
+  }
+  sendLink() {
+    if (this.email == '') {
+      this.isemail = false;
+      return;
+    }
+    this.isLoading1 = true;
+
+    this._loginservice
+      .sendResetPasswordLink(this.email)
+      .subscribe((res: any) => {
+        debugger;
+        if (res.responseCode == 200) {
+          this.isLoading1 = false;
+          this._cmService.successMsg(
+            'Reset Password Link has been send successfully ! Check your mail and reset your password before the link gets expired'
+          );
+          this.email = '';
+          this.closeBtn.nativeElement.click();
+        } else {
+          this.isLoading1 = false;
+          this._cmService.errorMsg(
+            "Reset Link send Failed because email doesn't exist!"
+          );
+          this.email = '';
+          this.closeBtn.nativeElement.click();
         }
       });
   }
