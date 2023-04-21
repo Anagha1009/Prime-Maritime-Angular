@@ -25,6 +25,7 @@ import { LocationComponent } from './location/location.component';
 import { UserComponent } from './user/user.component';
 import { SlotOperatorComponent } from './slot-operator/slot-operator.component';
 import { FreightComponent } from './freight/freight.component';
+import { TariffComponent } from './tariff/tariff.component';
 
 @NgModule({
     declarations: [
@@ -44,7 +45,8 @@ import { FreightComponent } from './freight/freight.component';
         LocationComponent,
         UserComponent,
         SlotOperatorComponent,
-        FreightComponent
+        FreightComponent,
+        TariffComponent
     ],
     imports: [
         CommonModule,

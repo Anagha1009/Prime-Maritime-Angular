@@ -138,6 +138,22 @@ export class FreightComponent implements OnInit {
   GetFreightMasterDetails(ID: number) {
     this.isUpdate = true;
     this.chargeType = 'Freight';
+
+    this.freightForm.get('Charge').enable();
+    this.freightForm.get('POD').enable();
+    this.freightForm.get('LadenStatus').enable();
+    this.freightForm.get('LadenStatus1').enable();
+    this.freightForm.get('ServiceMode').enable();
+    this.freightForm.get('DRY20').enable();
+
+    this.freightForm.get('CHARGE_CODE').disable();
+    this.freightForm.get('FROM_VAL').disable();
+    this.freightForm.get('TO_VAL').disable();
+    this.freightForm.get('STATUS').disable();
+
+    const add = this.freightForm.get('CHARGELIST') as FormArray;
+    add.clear();
+
     this._masterService.getFreightDetails(ID).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.freightForm.patchValue(res.Data);
@@ -190,7 +206,9 @@ export class FreightComponent implements OnInit {
     this.freightForm.get('POD').setValue('');
     this.freightForm.get('CHARGE_CODE').setValue('');
     this.freightForm.get('Charge').setValue('');
-    this.freightForm.get('Currency').setValue('');
+    this.freightForm
+      .get('Currency')
+      .setValue(this.chargeType == 'Freight' ? 'USD' : '');
     this.freightForm.get('FROM_VAL').setValue(0);
     this.freightForm.get('TO_VAL').setValue(0);
     this.freightForm.get('ID').setValue(0);

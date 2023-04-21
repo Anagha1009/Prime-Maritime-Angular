@@ -7,7 +7,7 @@
         <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#chargeModal"><i
                 class="fa fa-plus me-1"></i>New Charge</button>
     </div>
-    <table class="ratetable table-bordered" id="data-table-config">
+    <table class="ratetable" id="data-table-config">
         <thead>
             <tr>
                 <th width="1%">No</th>
@@ -62,8 +62,10 @@
                                 <div class="form-group">
                                     <ng-select formControlName="POL" [ngClass]="{'invalid':submitted && f.POL.errors}">
                                         <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                        <ng-option value="{{item.CODE}}"
-                                            *ngFor="let item of portList">{{item.CODE_DESC}}
+                                        <ng-option
+                                            [disabled]="item.CODE == this.freightForm.get('POD').value ? true : false"
+                                            value="{{item.CODE}}" *ngFor="let item of portList">{{item.CODE_DESC}}
+                                            ({{item.CODE}})
                                         </ng-option>
                                     </ng-select>
                                     <label class="form-label-ddl">POL<span class="text-danger"> *</span></label>
@@ -76,8 +78,10 @@
                                 <div class="form-group">
                                     <ng-select formControlName="POD" [ngClass]="{'invalid':submitted && f.POD.errors}">
                                         <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                        <ng-option value="{{item.CODE}}"
-                                            *ngFor="let item of portList">{{item.CODE_DESC}}
+                                        <ng-option
+                                            [disabled]="item.CODE == this.freightForm.get('POL').value ? true : false"
+                                            value="{{item.CODE}}" *ngFor="let item of portList">{{item.CODE_DESC}}
+                                            ({{item.CODE}})
                                         </ng-option>
                                     </ng-select>
                                     <label class="form-label-ddl">POD<span class="text-danger"> *</span></label>
@@ -140,9 +144,9 @@
                                 <div class="form-group">
                                     <ng-select formControlName="Currency"
                                         [ngClass]="{'invalid':submitted && f.Currency.errors}">
-                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
-                                        <ng-option value="{{item.CODE}}"
-                                            *ngFor="let item of currencyList">{{item.CODE_DESC}}</ng-option>
+                                        <ng-option value="USD">USD</ng-option>
+                                        <!-- <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of currencyList">{{item.CODE_DESC}}</ng-option> -->
                                     </ng-select>
                                     <label class="form-label-ddl">Currency <span class="text-danger"> *</span></label>
                                     <div *ngIf="submitted && f.Currency.errors" class="invalid-feedback">Currency is

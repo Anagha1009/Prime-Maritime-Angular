@@ -1,0 +1,44 @@
+<div class="section-title pt-3">
+    <h2>Tariff Master</h2>
+</div>
+<div class="col-md-6 offset-md-6 text-end mt-4">
+    <button (click)="downloadFile()" class="form-btn-danger me-2">Download
+        Excel Format</button>
+    <button class="form-btn-primary" data-bs-toggle="modal" href="#uploadModal">Upload Excel</button>
+</div>
+<div class="modal fade" id="uploadModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upload Freight Tariff
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn1></button>
+            </div>
+            <div class="modal-body">
+                <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload && files.length == 0">
+                    <input type="file" (change)="onFileChange($event)" name="file" id="file" />
+                    <label for="file">
+                        <div>
+                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                            <span class="formbold-drop-file">Upload</span>
+                            <span class="formbold-file-item">Freight Tariff File</span>
+                        </div>
+                    </label>
+                </div>
+                <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload && files.length > 0">
+                    <div class="formbold-file-item">
+                        <span class="formbold-file-name">Freight Tariff File</span>
+                        <button (click)="onUpload = false;files=[]"><span class="bx bx-x-circle"></span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-5 mx-auto text-end">
+                    <button class="form-btn w-100">Upload</button>
+                    <button #openModalPopup1 data-bs-toggle="modal" href="#previewModal"
+                        class="form-btn w-100 d-none">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
