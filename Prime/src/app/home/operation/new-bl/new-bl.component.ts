@@ -48,6 +48,7 @@ export class NewBlComponent implements OnInit {
   isSplit: boolean = false;
   srrId: any;
   srrNo: any;
+  portList:any[]=[];
   destAgentList: any[] = [];
   allContainerType: any[] = [];
   latestContTypeList: any[] = [];
@@ -119,8 +120,18 @@ export class NewBlComponent implements OnInit {
       CONTAINER_LIST: new FormArray([]),
       CONTAINER_LIST2: new FormArray([]),
     });
+    this.getDropdown();
     this.minDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.getBLHistory();
+  }
+
+  getDropdown(){
+    this.portList = [];
+    this._commonService.getDropdownData("PORT").subscribe((res:any)=>{
+      if(res.ResponseCode == 200){
+        this.portList = res.Data;
+      }
+    })
   }
 
   get blf() {
@@ -204,10 +215,15 @@ export class NewBlComponent implements OnInit {
       this._formBuilder.group({
         CONTAINER_NO: ['', Validators.required],
         CONTAINER_TYPE: ['', Validators.required],
+        PKG_COUNT:[0,Validators.required],
+        PKG_DESC:['',Validators.required],
         GROSS_WEIGHT: ['', Validators.required],
+        NET_WEIGHT:['',Validators.required],
         MEASUREMENT: ['', Validators.required],
         SEAL_NO: ['', Validators.required],
         AGENT_SEAL_NO: ['', Validators.required],
+        MARKS_NOS:[this.blForm.get('MARKS_NOS').value],
+        DESC_OF_GOODS:[this.blForm.get('DESC_OF_GOODS').value]
       })
     );
 
@@ -230,10 +246,15 @@ export class NewBlComponent implements OnInit {
       this._formBuilder.group({
         CONTAINER_NO: ['', Validators.required],
         CONTAINER_TYPE: ['', Validators.required],
+        PKG_COUNT:[0,Validators.required],
+        PKG_DESC:['',Validators.required],
         GROSS_WEIGHT: ['', Validators.required],
+        NET_WEIGHT:['',Validators.required],
         MEASUREMENT: ['', Validators.required],
         SEAL_NO: ['', Validators.required],
         AGENT_SEAL_NO: ['', Validators.required],
+        MARKS_NOS:[this.blForm.get('MARKS_NOS').value],
+        DESC_OF_GOODS:[this.blForm.get('DESC_OF_GOODS').value]
       })
     );
   }
@@ -257,7 +278,10 @@ export class NewBlComponent implements OnInit {
           CONTAINER_TYPE: [element.CONTAINER_TYPE],
           //CONTAINER_SIZE: [element.CONTAINER_SIZE],
           SEAL_NO: [element.SEAL_NO?.toString()],
+          PKG_COUNT: [element.PKG_COUNT],
+          PKG_DESC: [element.PKG_DESC],
           GROSS_WEIGHT: [element.GROSS_WEIGHT],
+          NET_WEIGHT: [element.NET_WEIGHT],
           MEASUREMENT: [element.MEASUREMENT?.toString()],
           AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
           MARKS_NOS: [this.blForm.get('MARKS_NOS')?.value],
@@ -328,7 +352,10 @@ export class NewBlComponent implements OnInit {
                 //CONTAINER_SIZE: [element.CONTAINER_SIZE],
                 SEAL_NO: [element.SEAL_NO?.toString()],
                 AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
+                PKG_COUNT: [element.PKG_COUNT],
+                PKG_DESC: [element.PKG_DESC],
                 GROSS_WEIGHT: [element.GROSS_WEIGHT],
+                NET_WEIGHT: [element.NET_WEIGHT],
                 MEASUREMENT: [element.MEASUREMENT?.toString()],
                 MARKS_NOS: [element.MARKS_NOS],
                 DESC_OF_GOODS: [element.DESC_OF_GOODS],
@@ -420,6 +447,7 @@ export class NewBlComponent implements OnInit {
       });
   }
   createBL() {
+    debugger;
     this.submitted = true;
     if (this.blForm.invalid) {
       return;
@@ -493,16 +521,26 @@ export class NewBlComponent implements OnInit {
     //newcode
     this.blForm.get('PREPAID_AT').enable();
     this.blForm.get('PAYABLE_AT').enable();
-    var json = JSON.stringify(this.blForm.value);
-    json = json.replace(/\\n/g, ' ');
-    json = json.replace(/\\r/g, ' ');
-    console.log(json);
+    // var json = JSON.stringify(this.blForm.value);
+    // json = json.replace(/\\n/g, ' ');
+    // json = json.replace(/\\r/g, ' ');
+    // console.log(json);
     this._blService.getSRRDetails(bl).subscribe((res: any) => {
+      debugger;
       if (res.ResponseCode == 200) {
         this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
         this.blForm.get('SRR_NO')?.setValue(res.Data.SRR_NO);
+        this.blForm.get('TOTAL_PREPAID')?.setValue(0.00);
+        //
+        var json = JSON.stringify(this.blForm.value);
+        json = json.replace(/\\n/g, ' ');
+        json = json.replace(/\\r/g, ' ');
+        console.log(json);
+        //
         this._blService.createBL(json).subscribe((res: any) => {
+          debugger;
           if (res.responseCode == 200) {
+            debugger;
             //this._router.navigateByUrl('/home/new-bl');
             this._commonService.successMsg(
               'BL is created Successfully <br> BL No : ' + blNo
@@ -560,7 +598,10 @@ export class NewBlComponent implements OnInit {
             //CONTAINER_SIZE: [element.CONTAINER_SIZE],
             SEAL_NO: [element.SEAL_NO?.toString()],
             AGENT_SEAL_NO: [element.AGENT_SEAL_NO]?.toString(),
+            PKG_COUNT: [element.PKG_COUNT],
+            PKG_DESC: [element.PKG_DESC],
             GROSS_WEIGHT: [element.GROSS_WEIGHT],
+            NET_WEIGHT: [element.NET_WEIGHT],
             MEASUREMENT: [element.MEASUREMENT?.toString()],
             MARKS_NOS: [element.MARKS_NOS],
             DESC_OF_GOODS: [element.DESC_OF_GOODS],
@@ -632,7 +673,10 @@ export class NewBlComponent implements OnInit {
               //CONTAINER_SIZE: [element.CONTAINER_SIZE],
               SEAL_NO: [element.SEAL_NO?.toString()],
               AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
+              PKG_COUNT: [element.PKG_COUNT],
+              PKG_DESC: [element.PKG_DESC],
               GROSS_WEIGHT: [element.GROSS_WEIGHT],
+              NET_WEIGHT: [element.NET_WEIGHT],
               MEASUREMENT: [element.MEASUREMENT?.toString()],
               DESC_OF_GOODS: [element.DESC_OF_GOODS],
               MARKS_NOS: [element.MARKS_NOS],
@@ -800,7 +844,10 @@ export class NewBlComponent implements OnInit {
             'CONTAINER_TYPE',
             'SEAL_NO',
             'AGENT_SEAL_NO',
+            'PKG_COUNT',
+            'PKG_DESC',
             'GROSS_WEIGHT',
+            'NET_WEIGHT',
             'MEASUREMENT',
           ];
 
@@ -859,7 +906,10 @@ export class NewBlComponent implements OnInit {
                   element.CONTAINER_NO,
                   element.CONTAINER_TYPE,
                   element.SEAL_NO,
+                  element.PKG_COUNT,
+                  element.PKG_DESC,
                   element.GROSS_WEIGHT,
+                  element.NET_WEIGHT,
                   element.MEASUREMENT,
                   element.AGENT_SEAL_NO,
                 ])
@@ -1087,10 +1137,7 @@ export class NewBlComponent implements OnInit {
 
             if (this.blForm.get('BL_STATUS')?.value == 'Finalized') {
               if (isNN == false) {
-                debugger;
-                this.blForm
-                  .get('BLType')
-                  ?.setValue(this.blForm.get('BL_TYPE')?.value.toUpperCase());
+                this.blForm.get('BLType')?.setValue('Original');
                 if (this.blForm.get('OGView')?.value == 1) {
                   this._commonService.warnMsg('This BL is locked!');
                   return;
@@ -1204,7 +1251,10 @@ export class NewBlComponent implements OnInit {
             SEAL_NO: [element.SEAL_NO?.toString()],
             AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
             MARKS_NOS: [''],
+            PKG_COUNT: [element.PKG_COUNT],
+            PKG_DESC: [element.PKG_DESC],
             GROSS_WEIGHT: [element.GROSS_WEIGHT],
+            NET_WEIGHT: [element.NET_WEIGHT],
             MEASUREMENT: [element.MEASUREMENT?.toString()],
           })
         );
@@ -1293,16 +1343,16 @@ export class NewBlComponent implements OnInit {
                   fontSize: 7,
                 },
                 {
-                  text: '-',
+                  text: p.PKG_COUNT,
                   fontSize: 7,
                 },
                 {
-                  text: '-',
+                  text: p.PKG_DESC,
                   fontSize: 7,
                 },
                 { text: p.GROSS_WEIGHT, fontSize: 7 },
                 {
-                  text: '-',
+                  text: p.NET_WEIGHT,
                   fontSize: 7,
                 },
                 { text: p.MEASUREMENT, fontSize: 7 },

@@ -158,7 +158,7 @@
                             Enter Voyage No</div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" *ngIf="!isManual">
                     <div class="form-group">
                         <label class="form-label2">Port of Loading<span class="text-danger">*</span></label>
                         <input readonly formControlName="PORT_OF_LOADING" type="text" class="form-control2"
@@ -167,7 +167,7 @@
                             Enter Port of Loading</div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" *ngIf="!isManual">
                     <div class="form-group">
                         <label class="form-label2">Port of Discharge<span class="text-danger">*</span></label>
                         <input readonly formControlName="PORT_OF_DISCHARGE" type="text" class="form-control2"
@@ -176,6 +176,38 @@
                             Enter Port of Discharge</div>
                     </div>
                 </div>
+                <!-- manualfields for POL and POD -->
+                <div class="col-md-3 mt-3" *ngIf="isManual">
+                    <div class="form-group">
+                        <ng-select [ngClass]="{'invalid': submitted && blf.PORT_OF_LOADING.errors}" formControlName="PORT_OF_LOADING">
+                            <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                            <ng-option *ngFor="let item of portList" value="{{item.CODE_DESC}} ({{item.CODE}})">
+                                {{item.CODE_DESC}} ({{item.CODE}})
+                            </ng-option>
+                        </ng-select>
+                        <label class="form-label-ddl">Port of Loading <span
+                                class="text-danger">
+                                *</span></label>
+                        <div *ngIf="submitted && blf.PORT_OF_LOADING.errors" class="invalid-feedback">Please select
+                            Port of Loading</div>
+                    </div>
+                </div>
+                <div class="col-md-3 mt-3" *ngIf="isManual">
+                    <div class="form-group">
+                        <ng-select [ngClass]="{'invalid': submitted && blf.PORT_OF_DISCHARGE.errors}" formControlName="PORT_OF_DISCHARGE">
+                            <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                            <ng-option *ngFor="let item of portList;" value="{{item.CODE_DESC}} ({{item.CODE}})">
+                                {{item.CODE_DESC}} ({{item.CODE}})
+                            </ng-option>
+                        </ng-select>
+                        <label class="form-label-ddl">Port of Discharge<span
+                                class="text-danger">
+                                *</span></label>
+                        <div *ngIf="submitted && blf.PORT_OF_DISCHARGE.errors" class="invalid-feedback">Please select
+                            Port of Discharge</div>
+                    </div>
+                </div>
+                <!-- --- -->
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Place of Delivery<span class="text-danger">*</span></label>
@@ -185,6 +217,8 @@
                             Enter Place of Delivery</div>
                     </div>
                 </div>
+                
+
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label2">Final Destination<span class="text-danger">*</span></label>
@@ -265,7 +299,10 @@
                             <th>Sr No</th>
                             <th>Container No</th>
                             <th>Container Type</th>
+                            <th>Pkg Cnt</th>
+                            <th>Pkg Desc</th>
                             <th>Gross Weight</th>
+                            <th>Net Weight</th>
                             <th>Measurement</th>
                             <th>Seal No</th>
                             <th>Agent Seal No</th>
@@ -279,14 +316,28 @@
                             <td class="col-md-1">{{i+1}}</td>
                             <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
                             <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_TYPE}}</td>
+                            <td class="col-md-1">
+                                <input formControlName="PKG_COUNT" type="number" class="form-control2 inputheight" />
+                            </td>
+                            <td class="col-md-1">
+                                <input formControlName="PKG_DESC" type="text" class="form-control2 inputheight" />
+                            </td>
                             <td class="col-md-1"><input formControlName="GROSS_WEIGHT" type="text"
-                                    class="form-control2 inputheight" />
+                                    class="form-control2 inputheight" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"/>
+                            </td>
+                            <td class="col-md-1">
+                                <input formControlName="NET_WEIGHT" type="text" class="form-control2 inputheight" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"/>
                             </td>
                             <td class="col-md-1"><input formControlName="MEASUREMENT" type="text"
-                                    class="form-control2 inputheight" />
+                                    class="form-control2 inputheight" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"/>
                             </td>
-                            <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].SEAL_NO}}</td>
-                            <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].AGENT_SEAL_NO}}</td>
+                            <td class="col-md-1">
+                                <input formControlName="SEAL_NO" type="text" class="form-control2 inputheight" />
+                            </td>
+                            <td class="col-md-1">
+                                <input formControlName="AGENT_SEAL_NO" type="text" class="form-control2 inputheight" />
+                            </td>
+                            
                         </tr>
                     </tbody>
                 </table>
@@ -299,7 +350,10 @@
                             <th>Sr No</th>
                             <th>Container No</th>
                             <th>Container Type</th>
+                            <th>Pkg Cnt</th>
+                            <th>Pkg Desc</th>
                             <th>Gross Weight</th>
+                            <th>Net Weight</th>
                             <th>Measurement</th>
                             <th>Seal No</th>
                             <th>Agent Seal No</th>
@@ -312,13 +366,26 @@
                             <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
                             <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_TYPE}}</td>
                             <td class="col-md-1">
-                                {{blForm.value.CONTAINER_LIST2[i].GROSS_WEIGHT}}
+                                <input formControlName="PKG_COUNT" type="number" class="form-control2 inputheight" />
                             </td>
                             <td class="col-md-1">
-                                {{blForm.value.CONTAINER_LIST2[i].MEASUREMENT}}
+                                <input formControlName="PKG_DESC" type="text" class="form-control2 inputheight" />
                             </td>
-                            <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].SEAL_NO}}</td>
-                            <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].AGENT_SEAL_NO}}</td>
+                            <td class="col-md-1">
+                                <input formControlName="GROSS_WEIGHT" type="text" class="form-control2 inputheight" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"/>
+                            </td>
+                            <td class="col-md-1">
+                                <input formControlName="NET_WEIGHT" type="text" class="form-control2 inputheight" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"/>
+                            </td>
+                            <td class="col-md-1">
+                                <input formControlName="MEASUREMENT" type="text" class="form-control2 inputheight" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
+                            </td>
+                            <td class="col-md-1">
+                                <input formControlName="SEAL_NO" type="text" class="form-control2 inputheight" />
+                            </td>
+                            <td class="col-md-1">
+                                <input formControlName="AGENT_SEAL_NO" type="text" class="form-control2 inputheight" />
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -335,7 +402,10 @@
                             <th>Sr No</th>
                             <th>Container No</th>
                             <th>Container Type</th>
+                            <th>Pkg Cnt</th>
+                            <th>Pkg Desc</th>
                             <th>Gross Weight</th>
+                            <th>Net Weight</th>
                             <th>Measurement</th>
                             <th>Seal No</th>
                             <th>Agent Seal No</th>
@@ -359,7 +429,16 @@
 
                             </td>
                             <td class="col-md-1">
+                                <input formControlName="PKG_COUNT" type="number" class="form-control2 inputheight" />
+                            </td>
+                            <td class="col-md-1">
+                                <input formControlName="PKG_DESC" type="text" class="form-control2 inputheight" />
+                            </td>
+                            <td class="col-md-1">
                                 <input formControlName="GROSS_WEIGHT" type="text" class="form-control2 inputheight" />
+                            </td>
+                            <td class="col-md-1">
+                                <input formControlName="NET_WEIGHT" type="text" class="form-control2 inputheight" />
                             </td>
                             <td class="col-md-1">
                                 <input formControlName="MEASUREMENT" type="text" class="form-control2 inputheight" />
