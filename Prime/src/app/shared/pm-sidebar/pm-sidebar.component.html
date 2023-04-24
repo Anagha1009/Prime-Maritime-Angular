@@ -8,6 +8,8 @@
         </a>
     </div>
     <div class="menu-inner-shadow"></div>
+    <h6 class="ms-4 my-2 fw-bold"><i class="fa fa-user"></i> {{username}} | <a class="pointer text-danger"
+            (click)="logout()">Logout</a></h6>
     <ul class="menu-inner py-1">
         <li class="menu-item active">
             <a routerLink="/pm/dashboard" class="menu-link">
@@ -142,7 +144,4 @@
             </ul>
         </li>
     </ul>
-    <div class="ms-3 mb-3"><a (click)="logout()" class="btn btn-light">LOGOUT USER <i title="logout"
-                style="font-size: 20px" class='ms-2 bx bx-user-x'></i></a>
-    </div>
 </aside>

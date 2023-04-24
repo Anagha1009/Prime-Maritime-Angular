@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 
@@ -8,8 +8,10 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./pm-sidebar.component.scss'],
 })
 export class PmSidebarComponent implements OnInit {
-  ismenu: boolean = true;
+  ismenu: boolean = false;
   submenu: string = '';
+  @Input() username: string;
+
   constructor(private _router: Router, private _loginService: LoginService) {}
 
   ngOnInit(): void {
