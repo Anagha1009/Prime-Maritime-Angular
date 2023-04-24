@@ -6,4 +6,5 @@ export class CONTAINER {
   ONHIRE_DATE: string = '';
   LEASED_FROM: Date;
   STATUS: string = '';
+  LOCATION: any = '';
 }
