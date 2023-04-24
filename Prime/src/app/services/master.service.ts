@@ -143,4 +143,48 @@ export class MasterService {
       this.httpOptions
     );
   }
+
+  insertOrg(charge: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/InsertOrgMaster',
+      charge,
+      this.httpOptions
+    );
+  }
+
+  GetOrgMasterList() {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetOrgMasterList',
+      this.httpOptions
+    );
+  }
+
+  GetOrgMasterDetails(orgcode: any) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetOrgMasterDetails?ORG_CODE=' + orgcode,
+      this.httpOptions
+    );
+  }
+
+  UpdateOrgMasterList(charge: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateOrgMasterList',
+      charge,
+      this.httpOptions
+    );
+  }
+
+  DeleteOrgMasterList(orgcode: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/DeleteOrgMasterList?ORG_CODE=' + orgcode,
+      this.httpOptions
+    );
+  }
+
+  ValidateOrgCode(orgcode: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/ValidateOrgCode?ORG_CODE=' + orgcode,
+      this.httpOptions
+    );
+  }
 }

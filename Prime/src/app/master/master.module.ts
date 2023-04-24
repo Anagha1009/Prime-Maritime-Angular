@@ -26,6 +26,7 @@ import { UserComponent } from './user/user.component';
 import { SlotOperatorComponent } from './slot-operator/slot-operator.component';
 import { FreightComponent } from './freight/freight.component';
 import { TariffComponent } from './tariff/tariff.component';
+import { OrganisationComponent } from './organisation/organisation.component';
 
 @NgModule({
     declarations: [
@@ -46,7 +47,8 @@ import { TariffComponent } from './tariff/tariff.component';
         UserComponent,
         SlotOperatorComponent,
         FreightComponent,
-        TariffComponent
+        TariffComponent,
+        OrganisationComponent
     ],
     imports: [
         CommonModule,

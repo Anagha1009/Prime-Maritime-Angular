@@ -10,6 +10,7 @@ import { FreightComponent } from './freight/freight.component';
 import { LinerServiceComponent } from './liner-service/liner-service.component';
 import { LinerComponent } from './liner/liner.component';
 import { LocationComponent } from './location/location.component';
+import { OrganisationComponent } from './organisation/organisation.component';
 import { PartyComponent } from './party/party.component';
 import { PortComponent } from './port/port.component';
 import { ScheduleComponent } from './schedule/schedule.component';
@@ -127,6 +128,12 @@ const routes: Routes = [
   {
     path: 'tariff-master',
     component: TariffComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
+    path: 'organisation-master',
+    component: OrganisationComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Principal, Role.Admin] },
   },

@@ -1,0 +1,82 @@
+<div class="section-title pt-3">
+    <h2>Organisation Master</h2>
+</div>
+<div class="mb-4">
+    <div class="col-md-6 offset-md-6 text-end mb-4">
+        <button (click)="openModal()" class="form-btn-primary"><i class="fa fa-plus me-1"></i>New
+            Organisation</button>
+        <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#orgModal">New
+            Location</button>
+    </div>
+    <table class="ratetable table-bordered" id="data-table-config">
+        <thead>
+            <tr>
+                <th width="1%">No</th>
+                <th width="30%">Name</th>
+                <th width="25%">Code</th>
+                <th width="25%">Created By</th>
+                <th width="10%">Created Date</th>
+                <th width="9%">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of orgList; let i = index">
+                <td width="1%">{{i+1}}</td>
+                <td width="30%">{{item.ORG_NAME}}</td>
+                <td width="25%">{{item.ORG_CODE}}</td>
+                <td width="25%">{{item.CREATED_BY}}</td>
+                <td width="10%">{{item.CREATED_DATE | date:'mediumDate'}}</td>
+                <td width="9%">
+                    <i class="fa fa-pencil mx-2 pointer text-success" (click)="openModal(item.ORG_CODE)"></i>
+                    <i class="fa fa-trash ms-2 pointer text-danger" (click)="deleteOrgMaster(item.ORG_CODE)"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="orgModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Organisation Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="orgForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label2">Organisation Name<span class="text-danger"> *</span></label>
+                                <input type="text" [ngClass]="{'invalid':submitted && f.ORG_NAME.errors}"
+                                    formControlName="ORG_NAME" class="form-control2" maxlength="100">
+                                <div *ngIf="submitted && f.ORG_NAME.errors" class="invalid-feedback">Organisation Name
+                                    is
+                                    required</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label2">Organisation Code<span class="text-danger"> *</span></label>
+                                <input type="text" oninput="this.value = this.value.toUpperCase()" [readonly]="isUpdate"
+                                    [ngClass]="{'invalid':submitted && f.ORG_CODE.errors}" formControlName="ORG_CODE"
+                                    class="form-control2" maxlength="5">
+                                <div *ngIf="submitted && f.ORG_CODE.errors?.required" class="invalid-feedback">
+                                    Organisation Code
+                                    is
+                                    required</div>
+                                <div *ngIf="submitted && f.ORG_CODE.errors?.pattern" class="invalid-feedback">
+                                    Only Alphanumeric values allowed</div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="!isUpdate" (click)="InsertOrganisation()" class="form-btn me-2"
+                    class="form-btn me-2">Save</button>
+                <button (click)="ClearForm()" class="form-btn-light me-2">Clear</button>
+                <button *ngIf="isUpdate" (click)="updateOrgMaster()" class="form-btn">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
