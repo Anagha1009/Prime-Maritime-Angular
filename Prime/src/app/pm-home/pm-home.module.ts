@@ -16,6 +16,7 @@ import { PmBookingListComponent } from './pm-booking-list/pm-booking-list.compon
 import { PmCroListComponent } from './pm-cro-list/pm-cro-list.component';
 import { PmBlListComponent } from './pm-bl-list/pm-bl-list.component';
 import { PmDoListComponent } from './pm-do-list/pm-do-list.component';
+import { PmContainerListComponent } from './pm-container-list/pm-container-list.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { PmDoListComponent } from './pm-do-list/pm-do-list.component';
         PmCroListComponent,
         PmBlListComponent,
         PmDoListComponent,
+        PmContainerListComponent,
     ],
     imports: [
         CommonModule,

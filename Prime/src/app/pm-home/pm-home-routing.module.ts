@@ -4,6 +4,7 @@ import { AuthGuard } from '../@core/services/auth.guard';
 import { Role } from '../models/login';
 import { PmBlListComponent } from './pm-bl-list/pm-bl-list.component';
 import { PmBookingListComponent } from './pm-booking-list/pm-booking-list.component';
+import { PmContainerListComponent } from './pm-container-list/pm-container-list.component';
 import { PmCroListComponent } from './pm-cro-list/pm-cro-list.component';
 import { PmDoListComponent } from './pm-do-list/pm-do-list.component';
 import { PmMrRequestComponent } from './pm-mr-request/pm-mr-request.component';
@@ -50,6 +51,12 @@ const routes: Routes = [
   {
     path: 'do-list',
     component: PmDoListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
+    path: 'container-list',
+    component: PmContainerListComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Principal, Role.Admin] },
   },
