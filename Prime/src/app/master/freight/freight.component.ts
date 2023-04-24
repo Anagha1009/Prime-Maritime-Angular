@@ -100,7 +100,6 @@ export class FreightComponent implements OnInit {
       return;
     }
 
-    console.log(JSON.stringify(this.freightForm.value));
     this._masterService
       .insertFreight(JSON.stringify(this.freightForm.value))
       .subscribe((res: any) => {

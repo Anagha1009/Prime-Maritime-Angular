@@ -1087,7 +1087,10 @@ export class NewBlComponent implements OnInit {
 
             if (this.blForm.get('BL_STATUS')?.value == 'Finalized') {
               if (isNN == false) {
-                this.blForm.get('BLType')?.setValue('Original');
+                debugger;
+                this.blForm
+                  .get('BLType')
+                  ?.setValue(this.blForm.get('BL_TYPE')?.value.toUpperCase());
                 if (this.blForm.get('OGView')?.value == 1) {
                   this._commonService.warnMsg('This BL is locked!');
                   return;

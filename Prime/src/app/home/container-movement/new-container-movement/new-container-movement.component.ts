@@ -210,7 +210,6 @@ export class NewContainerMovementComponent implements OnInit {
         locationList = res.Data;
 
         this.cmTable.forEach((element) => {
-          debugger;
           var loccode = locationList.find(
             (x: any) => x.CODE_DESC === element.LOCATION
           );
@@ -227,6 +226,7 @@ export class NewContainerMovementComponent implements OnInit {
           });
         });
 
+        console.log(JSON.stringify(containerList));
         this._CMService
           .uploadContMov(JSON.stringify(containerList))
           .subscribe((res: any) => {

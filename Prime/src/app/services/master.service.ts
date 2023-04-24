@@ -93,7 +93,7 @@ export class MasterService {
 
   insertFreight(freight: any) {
     return this._http.post<any>(
-      this.BASE_URL + 'Master/InsertFreightMaster',
+      this.BASE_URL + 'Master/UploadFreightTariff',
       freight,
       this.httpOptions
     );
@@ -124,6 +124,22 @@ export class MasterService {
   deleteFreight(ID: any) {
     return this._http.delete<any>(
       this.BASE_URL + 'Master/DeleteFreightMasterList?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  insertCharge(charge: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UploadChargeTariff',
+      charge,
+      this.httpOptions
+    );
+  }
+
+  insertStev(charge: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UploadStevTariff',
+      charge,
       this.httpOptions
     );
   }

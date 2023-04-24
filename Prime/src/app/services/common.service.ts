@@ -87,6 +87,36 @@ export class CommonService {
     }, 1);
   }
 
+  destroyDT1() {
+    $('#data-table-config1').DataTable().clear().destroy();
+  }
+
+  getDT1() {
+    setTimeout(() => {
+      $('#data-table-config1').DataTable({
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+        lengthMenu: [5, 10, 25],
+      });
+    }, 1);
+  }
+
+  destroyDT3() {
+    $('#data-table-config3').DataTable().clear().destroy();
+  }
+
+  getDT3() {
+    setTimeout(() => {
+      $('#data-table-config3').DataTable({
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+        lengthMenu: [5, 10, 25],
+      });
+    }, 1);
+  }
+
   getcurrentDate(date: any) {
     var todate: any = date.getDate();
     if (todate < 10) {

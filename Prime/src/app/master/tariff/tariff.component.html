@@ -1,42 +1,194 @@
 <div class="section-title pt-3">
     <h2>Tariff Master</h2>
 </div>
-<div class="col-md-6 offset-md-6 text-end mt-4">
-    <button (click)="downloadFile()" class="form-btn-danger me-2">Download
-        Excel Format</button>
-    <button class="form-btn-primary" data-bs-toggle="modal" href="#uploadModal">Upload Excel</button>
+<div class="col-md-3 offset-md-9 text-end mt-4">
+    <nav id="navbar" class="navbar pointer">
+        <ul>
+            <li class="dropdown"><a class="form-btn-danger text-danger p-2">Download Excel Format<i
+                        class="bi bi-chevron-down"></i></a>
+                <ul>
+                    <li><a (click)="downloadFile()">Freight Master</a></li>
+                    <li><a (click)="downloadFile1()">Charge Master</a></li>
+                    <li><a (click)="downloadFile2()">Stevedoring/ THC Master</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
 </div>
-<div class="modal fade" id="uploadModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload && files.length == 0">
+                <input type="file" (change)="onFileChange($event)" name="file" id="file" />
+                <label for="file">
+                    <div>
+                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                        <span class="formbold-drop-file">Upload</span>
+                        <span class="formbold-file-item">Freight Tariff File</span>
+                    </div>
+                </label>
+            </div>
+            <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload && files.length > 0">
+                <div class="formbold-file-item">
+                    <span class="formbold-file-name">Freight Tariff File</span>
+                    <button (click)="onUpload = false;files=[]"><span class="bx bx-x-circle"></span></button>
+                </div>
+            </div>
+            <div class="col-md-10 mx-auto">
+                <button (click)="openPreviewModal('F')" class="form-btn-primary w-100">Upload Freight</button>
+                <button #openModalPopup1 data-bs-toggle="modal" href="#previewModal" class="d-none">Upload</button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload1 && files1.length == 0">
+                <input type="file" (change)="onFileChange1($event)" name="file1" id="file1" />
+                <label for="file1">
+                    <div>
+                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                        <span class="formbold-drop-file">Upload</span>
+                        <span class="formbold-file-item">Charge Tariff File</span>
+                    </div>
+                </label>
+            </div>
+            <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload1 && files1.length > 0">
+                <div class="formbold-file-item">
+                    <span class="formbold-file-name">Charge Tariff File</span>
+                    <button (click)="onUpload1 = false;files1=[]"><span class="bx bx-x-circle"></span></button>
+                </div>
+            </div>
+            <div class="col-md-10 mx-auto">
+                <button (click)="openPreviewModal('C')" class="form-btn-primary w-100">Upload Charge</button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload2 && files2.length == 0">
+                <input type="file" (change)="onFileChange2($event)" name="file2" id="file2" />
+                <label for="file2">
+                    <div>
+                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                        <span class="formbold-drop-file">Upload</span>
+                        <span class="formbold-file-item">Stevedoring/ THC Tariff File</span>
+                    </div>
+                </label>
+            </div>
+            <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload2 && files2.length > 0">
+                <div class="formbold-file-item">
+                    <span class="formbold-file-name">Stevedoring/ THC Tariff File</span>
+                    <button (click)="onUpload2 = false;files2=[]"><span class="bx bx-x-circle"></span></button>
+                </div>
+            </div>
+            <div class="col-md-10 mx-auto">
+                <button (click)="openPreviewModal('S')" class="form-btn-primary w-100">Upload Stevedoring/ THC</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="previewModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Upload Freight Tariff
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn1></button>
+                <h5 class="modal-title" id="exampleModalLabel">Preview</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn2></button>
             </div>
             <div class="modal-body">
-                <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload && files.length == 0">
-                    <input type="file" (change)="onFileChange($event)" name="file" id="file" />
-                    <label for="file">
-                        <div>
-                            <h3><i class="fa fa-file-pdf-o"></i></h3>
-                            <span class="formbold-drop-file">Upload</span>
-                            <span class="formbold-file-item">Freight Tariff File</span>
-                        </div>
-                    </label>
+                <div class="table-responsive" *ngIf="freightTable?.length > 0">
+                    <table class="table-bordered ratetable" style="width:150%" id="data-table-config">
+                        <thead>
+                            <tr>
+                                <th>Port</th>
+                                <th>Charge (Currency)</th>
+                                <th>Laden / Service</th>
+                                <th>DRY (20 / 40 / 45)</th>
+                                <th>RF (20 / 40 / 45)</th>
+                                <th>HAZ (20 / 40 / 45)</th>
+                                <th>SEQ (20 / 40)</th>
+                                <th>DRY40HC / RF40HC / HAZ40HC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of freightTable">
+                                <td>{{data.POL}} {{data.POD}}</td>
+                                <td>{{data.Charge}} ({{data.Currency}})</td>
+                                <td>{{data.LadenStatus}} / {{data.ServiceMode}}</td>
+                                <td>{{data.DRY20}} / {{data.DRY40}} / {{data.DRY45}}</td>
+                                <td>{{data.RF20}} / {{data.RF40}} / {{data.RF45}}</td>
+                                <td>{{data.HAZ20}} / {{data.HAZ40}} / {{data.HAZ45}}</td>
+                                <td>{{data.SEQ20}} / {{data.SEQ40}}</td>
+                                <td>{{data.DRY40HC}} / {{data.RF40HC}} / {{data.HAZ40HC}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload && files.length > 0">
-                    <div class="formbold-file-item">
-                        <span class="formbold-file-name">Freight Tariff File</span>
-                        <button (click)="onUpload = false;files=[]"><span class="bx bx-x-circle"></span></button>
-                    </div>
+                <div class="table-responsive" *ngIf="chargeTable?.length > 0">
+                    <table class="table-bordered ratetable" style="width:120%" id="data-table-config1">
+                        <thead>
+                            <tr>
+                                <th>Port</th>
+                                <th>Charge (Currency)</th>
+                                <th>IMP COST 20 / 40</th>
+                                <th>IMP INCOME 20 / 40</th>
+                                <th>EXP COST 20 / 40</th>
+                                <th>EXP INCOME 20 / 40</th>
+                                <th>From</th>
+                                <th>To</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of chargeTable">
+                                <td>{{data.POL}} {{data.POD}}</td>
+                                <td>{{data.CHARGE_CODE}} ({{data.CURRENCY}})</td>
+                                <td>{{data.IMPCOST20}} / {{data.IMPCOST40}}</td>
+                                <td>{{data.IMPINCOME20}} / {{data.IMPINCOME40}}</td>
+                                <td>{{data.EXPCOST20}} / {{data.EXPCOST40}}</td>
+                                <td>{{data.EXPINCOME20}} / {{data.EXPINCOME40}}</td>
+                                <td>{{data.FROM_VAL}}</td>
+                                <td>{{data.TO_VAL}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-responsive" *ngIf="stevTable?.length > 0">
+                    <table class="table-bordered ratetable" style="width:170%" id="data-table-config3">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Port</th>
+                                <th>Terminal</th>
+                                <th>Charge (Currency)</th>
+                                <th>Laden / Service</th>
+                                <th>DRY (20 / 40 / 45)</th>
+                                <th>RF (20 / 40 / 45)</th>
+                                <th>HAZ (20 / 40 / 45)</th>
+                                <th>SEQ (20 / 40)</th>
+                                <th>DRY40HC / RF40HC / HAZ40HC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of stevTable">
+                                <td>{{data.IE_TYPE}}</td>
+                                <td>{{data.POL}}</td>
+                                <td>{{data.TERMINAL}}</td>
+                                <td>{{data.CHARGE_CODE}} ({{data.CURRENCY}})</td>
+                                <td>{{data.LADEN_STATUS}} / {{data.SERVICE_MODE}}</td>
+                                <td>{{data.DRY20}} / {{data.DRY40}} / {{data.DRY45}}</td>
+                                <td>{{data.RF20}} / {{data.RF40}} / {{data.RF45}}</td>
+                                <td>{{data.HAZ20}} / {{data.HAZ40}} / {{data.HAZ45}}</td>
+                                <td>{{data.SEQ20}} / {{data.SEQ40}}</td>
+                                <td>{{data.DRY40HC}} / {{data.RF40HC}} / {{data.HAZ40HC}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="modal-footer">
                 <div class="col-md-5 mx-auto text-end">
-                    <button class="form-btn w-100">Upload</button>
-                    <button #openModalPopup1 data-bs-toggle="modal" href="#previewModal"
-                        class="form-btn w-100 d-none">Upload</button>
+                    <button *ngIf="freightTable?.length > 0" (click)="upload('F')" class="form-btn w-100">Upload
+                        Freight</button>
+                    <button *ngIf="chargeTable?.length > 0" (click)="upload('C')" class="form-btn w-100">Upload
+                        Charge</button>
+                    <button *ngIf="stevTable?.length > 0" (click)="upload('S')" class="form-btn w-100">Upload
+                        Stevedoring / THC</button>
                 </div>
             </div>
         </div>
