@@ -11,6 +11,11 @@
                 <label class="label-subheader">{{quotationDetails?.SRR_NO}}</label>
             </div>
             <div class="col-md-3">
+                <label class="label-header">Place of Receipt</label>
+                <label class="label-subheader">{{quotationDetails?.PLACE_OF_RECEIPT == '' ||
+                    quotationDetails?.PLACE_OF_RECEIPT == null ? '-' : quotationDetails?.PLACE_OF_RECEIPT }}</label>
+            </div>
+            <div class="col-md-3">
                 <label class="label-header">Port of Loading</label>
                 <label class="label-subheader">{{quotationDetails?.POL}}</label>
             </div>
@@ -18,12 +23,17 @@
                 <label class="label-header">Port of Discharge</label>
                 <label class="label-subheader">{{quotationDetails?.POD}}</label>
             </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <label class="label-header">Place of Delivery</label>
+                <label class="label-subheader">{{quotationDetails?.PLACE_OF_DELIVERY == '' ||
+                    quotationDetails?.PLACE_OF_DELIVERY == null ? '-' : quotationDetails?.PLACE_OF_DELIVERY }}</label>
+            </div>
             <div class="col-md-3">
                 <label class="label-header">Final Destination</label>
                 <label class="label-subheader">{{quotationDetails?.FINAL_DESTINATION}}</label>
             </div>
-        </div>
-        <div class="row mt-3">
             <div class="col-md-3">
                 <label class="label-header">Customer</label>
                 <label class="label-subheader">{{quotationDetails?.CUSTOMER_NAME}}</label>
@@ -31,6 +41,15 @@
             <div class="col-md-3">
                 <label class="label-header">Service</label>
                 <label class="label-subheader">{{quotationDetails?.SERVICE_NAME}}</label>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <label class="label-header">Commodity(s)</label>
+                <ul [ngClass]="{'scroll-list' : commodityDetails?.length > 3}">
+                    <li *ngFor="let element of commodityDetails">{{element.COMMODITY_NAME}} -
+                        {{element.COMMODITY_TYPE}} ( {{element.WEIGHT}}{{element.WEIGHT_UNIT}} )</li>
+                </ul>
             </div>
             <div class="col-md-3">
                 <label class="label-header">Rate Requested Date</label>
@@ -47,26 +66,6 @@
                     class="label-subheader">{{quotationDetails?.CREATED_DATE |
                     date:'mediumDate'}} - {{quotationDetails?.ETA |
                     date:'mediumDate'}}</label>
-            </div>
-
-        </div>
-        <div class="row mt-3">
-            <div class="col-md-3">
-                <label class="label-header">Commodity(s)</label>
-                <ul [ngClass]="{'scroll-list' : commodityDetails?.length > 3}">
-                    <li *ngFor="let element of commodityDetails">{{element.COMMODITY_NAME}} -
-                        {{element.COMMODITY_TYPE}} ( {{element.WEIGHT}}{{element.WEIGHT_UNIT}} )</li>
-                </ul>
-            </div>
-            <div class="col-md-3">
-                <label class="label-header">Place of Receipt</label>
-                <label class="label-subheader">{{quotationDetails?.PLACE_OF_RECEIPT == '' ||
-                    quotationDetails?.PLACE_OF_RECEIPT == null ? '-' : quotationDetails?.PLACE_OF_RECEIPT }}</label>
-            </div>
-            <div class="col-md-3">
-                <label class="label-header">Place of Delivery</label>
-                <label class="label-subheader">{{quotationDetails?.PLACE_OF_DELIVERY == '' ||
-                    quotationDetails?.PLACE_OF_DELIVERY == null ? '-' : quotationDetails?.PLACE_OF_DELIVERY }}</label>
             </div>
             <div class="col-md-3">
                 <label class="label-header">Agent</label>
