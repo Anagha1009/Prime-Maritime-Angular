@@ -48,7 +48,7 @@ export class NewBlComponent implements OnInit {
   isSplit: boolean = false;
   srrId: any;
   srrNo: any;
-  portList:any[]=[];
+  portList: any[] = [];
   destAgentList: any[] = [];
   allContainerType: any[] = [];
   latestContTypeList: any[] = [];
@@ -125,13 +125,13 @@ export class NewBlComponent implements OnInit {
     this.getBLHistory();
   }
 
-  getDropdown(){
+  getDropdown() {
     this.portList = [];
-    this._commonService.getDropdownData("PORT").subscribe((res:any)=>{
-      if(res.ResponseCode == 200){
+    this._commonService.getDropdownData('PORT').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
         this.portList = res.Data;
       }
-    })
+    });
   }
 
   get blf() {
@@ -215,15 +215,15 @@ export class NewBlComponent implements OnInit {
       this._formBuilder.group({
         CONTAINER_NO: ['', Validators.required],
         CONTAINER_TYPE: ['', Validators.required],
-        PKG_COUNT:[0,Validators.required],
-        PKG_DESC:['',Validators.required],
+        PKG_COUNT: [0, Validators.required],
+        PKG_DESC: ['', Validators.required],
         GROSS_WEIGHT: ['', Validators.required],
-        NET_WEIGHT:['',Validators.required],
+        NET_WEIGHT: ['', Validators.required],
         MEASUREMENT: ['', Validators.required],
         SEAL_NO: ['', Validators.required],
         AGENT_SEAL_NO: ['', Validators.required],
-        MARKS_NOS:[this.blForm.get('MARKS_NOS').value],
-        DESC_OF_GOODS:[this.blForm.get('DESC_OF_GOODS').value]
+        MARKS_NOS: [this.blForm.get('MARKS_NOS').value],
+        DESC_OF_GOODS: [this.blForm.get('DESC_OF_GOODS').value],
       })
     );
 
@@ -246,15 +246,15 @@ export class NewBlComponent implements OnInit {
       this._formBuilder.group({
         CONTAINER_NO: ['', Validators.required],
         CONTAINER_TYPE: ['', Validators.required],
-        PKG_COUNT:[0,Validators.required],
-        PKG_DESC:['',Validators.required],
+        PKG_COUNT: [0, Validators.required],
+        PKG_DESC: ['', Validators.required],
         GROSS_WEIGHT: ['', Validators.required],
-        NET_WEIGHT:['',Validators.required],
+        NET_WEIGHT: ['', Validators.required],
         MEASUREMENT: ['', Validators.required],
         SEAL_NO: ['', Validators.required],
         AGENT_SEAL_NO: ['', Validators.required],
-        MARKS_NOS:[this.blForm.get('MARKS_NOS').value],
-        DESC_OF_GOODS:[this.blForm.get('DESC_OF_GOODS').value]
+        MARKS_NOS: [this.blForm.get('MARKS_NOS').value],
+        DESC_OF_GOODS: [this.blForm.get('DESC_OF_GOODS').value],
       })
     );
   }
@@ -530,7 +530,7 @@ export class NewBlComponent implements OnInit {
       if (res.ResponseCode == 200) {
         this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
         this.blForm.get('SRR_NO')?.setValue(res.Data.SRR_NO);
-        this.blForm.get('TOTAL_PREPAID')?.setValue(0.00);
+        this.blForm.get('TOTAL_PREPAID')?.setValue(0.0);
         //
         var json = JSON.stringify(this.blForm.value);
         json = json.replace(/\\n/g, ' ');
@@ -1137,7 +1137,9 @@ export class NewBlComponent implements OnInit {
 
             if (this.blForm.get('BL_STATUS')?.value == 'Finalized') {
               if (isNN == false) {
-                this.blForm.get('BLType')?.setValue('Original');
+                this.blForm
+                  .get('BLType')
+                  ?.setValue(this.blForm.get('BL_TYPE')?.value);
                 if (this.blForm.get('OGView')?.value == 1) {
                   this._commonService.warnMsg('This BL is locked!');
                   return;

@@ -580,13 +580,13 @@ export class NewCroComponent implements OnInit {
     const pdfDocGenerator = pdfMake.createPdf(docDefinition);
     pdfDocGenerator.getBlob((blob: any) => {
       this.http
-        .get('assets/img/SI.xlsx', {
+        .get('assets/img/Shipping Instructions.xlsx', {
           responseType: 'blob',
         })
         .subscribe((data: any) => {
           this.fileData = data;
           const blob1 = new Blob([data], { type: 'application/vnd.ms-excel' });
-          this.excelFile = new File([blob1], 'SI.xlsx', {
+          this.excelFile = new File([blob1], 'Shipping Instructions.xlsx', {
             type: 'application/vnd.ms-excel',
           });
 
