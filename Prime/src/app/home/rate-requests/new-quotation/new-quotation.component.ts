@@ -1,5 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 import { QUOTATION } from 'src/app/models/quotation';
@@ -99,6 +105,9 @@ export class NewQuotationComponent implements OnInit {
   submiitedRate: boolean = false;
   rateList: any[] = [];
   connIndex: number = 0;
+  custTypeList: any[] = [];
+  dropdownSettings = {};
+  selectedItems: any[] = [];
 
   @ViewChild('RateModal') RateModal: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
@@ -121,8 +130,28 @@ export class NewQuotationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'CODE',
+      textField: 'CODE_DESC',
+      enableCheckAll: true,
+      selectAllText: 'Select All',
+      unSelectAllText: 'Unselect All',
+      allowSearchFilter: true,
+      limitSelection: -1,
+      clearSearchFilter: true,
+      maxHeight: 170,
+      itemsShowLimit: 3,
+      searchPlaceholderText: 'Select Type',
+      noDataAvailablePlaceholderText: 'No Records',
+      closeDropDownOnSelection: false,
+      showSelectedItemsAtTop: false,
+      defaultOpen: false,
+    };
+
     this.getForm();
     this.getDropdown();
+    this.getCustTypeDropdown();
 
     var currentDate = new Date();
 
@@ -142,6 +171,12 @@ export class NewQuotationComponent implements OnInit {
       .get('CREATED_BY')
       ?.setValue(this._commonService.getUserName());
     this.partyForm.get('STATUS')?.setValue(true);
+    const add = this.partyForm.get('CUST_TYPE_CODE') as FormArray;
+    var custType = '';
+    add.value.forEach((element: any) => {
+      custType += element.CODE + ',';
+    });
+    this.partyForm.get('CUST_TYPE').setValue(custType);
     if (this.partyForm.invalid) {
       return;
     }
@@ -866,7 +901,8 @@ export class NewQuotationComponent implements OnInit {
       CUST_NAME: ['', Validators.required],
       CUST_EMAIL: ['', [Validators.email]],
       CUST_ADDRESS: ['', Validators.required],
-      CUST_TYPE: ['', Validators.required],
+      CUST_TYPE: [''],
+      CUST_TYPE_CODE: new FormControl(this.custTypeList, Validators.required),
       GSTIN: [
         '',
         [
@@ -991,6 +1027,18 @@ export class NewQuotationComponent implements OnInit {
         this.unnoList = res.Data;
       }
     });
+  }
+
+  getCustTypeDropdown() {
+    this.custTypeList = [];
+    this.partyForm.get('CUST_TYPE_CODE').setValue('');
+    this._commonService
+      .getDropdownData('CUST_TYPE', '', '')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.custTypeList = res.Data;
+        }
+      });
   }
 
   getServiceName(event: any) {

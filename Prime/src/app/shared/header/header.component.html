@@ -39,7 +39,6 @@
                         <li><a routerLink="#">{{'Menu.FDA'|translate}}</a></li>
                     </ul>
                     <ul *ngIf="item.menuName == 'Others' || item.menuName == 'अन्य' || item.menuName == 'آحرون'">
-                        <li><a routerLink="/home/operations/change-password">Change Password</a></li>
                         <li><a routerLink="/home/operations/exc-rate-list">{{'Menu.ExchangeRates'|translate}}</a></li>
                         <li><a class="pointer" (click)="downloadSI()">{{'Menu.SI'|translate}}</a></li>
                         <li class="dropdown"><a routerLink="#">{{'Menu.Masters'|translate}} <i
@@ -71,11 +70,19 @@
                 <option value="ar">Arabic</option>
             </select>
         </div>
-        <!-- <img src="../../../assets/img/united-kingdom.png" /> -->
-        <!-- <span class="text-light">Hi User !<a (click)="logout()"><i title="logout" style="font-size: 20px"
-                    class='ms-2 pointer bx bx-user-x'></i></a></span> -->
-        <span class="text-light">Hi {{username}} ({{menu == '1' ? 'Agent' : 'Depo'}}) !<a (click)="logout()"
-                class="ms-3 pointer"><img src="assets/img/sign_out.png" width="25px" height="25px"></a></span>
+        <div class="navbar">
+            <ul>
+                <li class="dropdown"><a class="p-2 pointer"> <i class="fa fa-user me-2"></i>{{username}} ({{menu == '1'
+                        ?
+                        'Agent' :
+                        'Depo'}})<i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li><a (click)="logout()" class="pointer">Logout</a></li>
+                        <li><a routerLink="/home/operations/change-password">Change Password</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 </header>
 <div class="mt-5 pt-4"></div>
