@@ -307,27 +307,27 @@ export class NewQuotationComponent implements OnInit {
   }
 
   addCommodity() {
-    if (this.commodityType == 'HAZ') {
-      var Hazfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'HAZ');
-      if (Hazfiles.length != 3) {
-        alert('Please Upload All 3 Hazardous Files !');
-        return;
-      }
-    } else if (this.commodityType == 'FLEXIBAG') {
-      var flexifiles = this.fileList.filter(
-        (x) => x.COMMODITY_TYPE == 'FLEXIBAG'
-      );
-      if (flexifiles.length != 2) {
-        alert('Please Upload All 2 Flexibag Files !');
-        return;
-      }
-    } else if (this.commodityType == 'SP') {
-      var spfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'SP');
-      if (spfiles.length != 2) {
-        alert('Please Upload All 2 Special Equipment Files !');
-        return;
-      }
-    }
+    // if (this.commodityType == 'HAZ') {
+    //   var Hazfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'HAZ');
+    //   if (Hazfiles.length != 3) {
+    //     alert('Please Upload All 3 Hazardous Files !');
+    //     return;
+    //   }
+    // } else if (this.commodityType == 'FLEXIBAG') {
+    //   var flexifiles = this.fileList.filter(
+    //     (x) => x.COMMODITY_TYPE == 'FLEXIBAG'
+    //   );
+    //   if (flexifiles.length != 2) {
+    //     alert('Please Upload All 2 Flexibag Files !');
+    //     return;
+    //   }
+    // } else if (this.commodityType == 'SP') {
+    //   var spfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'SP');
+    //   if (spfiles.length != 2) {
+    //     alert('Please Upload All 2 Special Equipment Files !');
+    //     return;
+    //   }
+    // }
 
     this.submitted2 = true;
 
@@ -711,18 +711,18 @@ export class NewQuotationComponent implements OnInit {
       this.quotationForm.get('EFFECT_TO')?.setValue('');
       this.quotationForm.get('IS_VESSELVALIDITY')?.setValue(true);
     }
-    console.log(JSON.stringify(this.quotationForm.value));
+
     this._quotationService
       .insertSRR(JSON.stringify(this.quotationForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          if (
-            this.disabledcommodityType.includes('HAZ') ||
-            this.commodityType.includes('FLEXIBAG') ||
-            this.commodityType.includes('SP')
-          ) {
-            this.uploadFilestoDB(SRRNO);
-          }
+          // if (
+          //   this.disabledcommodityType.includes('HAZ') ||
+          //   this.commodityType.includes('FLEXIBAG') ||
+          //   this.commodityType.includes('SP')
+          // ) {
+          //   this.uploadFilestoDB(SRRNO);
+          // }
 
           if (this.isVesselVal) {
             this.isLoading = true;

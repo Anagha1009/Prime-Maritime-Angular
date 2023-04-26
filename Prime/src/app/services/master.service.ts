@@ -174,9 +174,13 @@ export class MasterService {
     );
   }
 
-  DeleteOrgMasterList(orgcode: any) {
+  DeleteOrgMasterList(orgcode: any, orgloccode: any) {
     return this._http.post<any>(
-      this.BASE_URL + 'Master/DeleteOrgMasterList?ORG_CODE=' + orgcode,
+      this.BASE_URL +
+        'Master/DeleteOrgMasterList?ORG_CODE=' +
+        orgcode +
+        '&ORG_LOC_CODE=' +
+        orgloccode,
       this.httpOptions
     );
   }
