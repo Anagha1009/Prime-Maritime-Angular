@@ -31,7 +31,8 @@
                 <td width="10%">{{item.EMAIL}}</td>
                 <td width="10%">{{item.CREATED_DATE | date:'mediumDate'}}</td>
                 <td width="9%">
-                    <i class="fa fa-pencil mx-2 pointer text-success" (click)="openModal(item.ORG_CODE)"></i>
+                    <i class="fa fa-pencil mx-2 pointer text-success"
+                        (click)="openModal(item.ORG_CODE,item.ORG_LOC_CODE)"></i>
                     <i class="fa fa-trash ms-2 pointer text-danger"
                         (click)="deleteOrgMaster(item.ORG_CODE,item.ORG_LOC_CODE)"></i>
                 </td>

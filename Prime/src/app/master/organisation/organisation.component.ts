@@ -158,13 +158,15 @@ export class OrganisationComponent implements OnInit {
     this.orgForm.get('FAX').setValue('');
   }
 
-  GetOrgMasterDetails(ORG_CODE: string) {
-    this._masterService.GetOrgMasterDetails(ORG_CODE).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.orgForm.patchValue(res.Data);
-        this.getDropdown('1');
-      }
-    });
+  GetOrgMasterDetails(ORG_CODE: string, ORG_LOC_CODE: string) {
+    this._masterService
+      .GetOrgMasterDetails(ORG_CODE, ORG_LOC_CODE)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.orgForm.patchValue(res.Data);
+          this.getDropdown('1');
+        }
+      });
   }
 
   updateOrgMaster() {
@@ -216,14 +218,14 @@ export class OrganisationComponent implements OnInit {
     });
   }
 
-  openModal(CODE: any = '') {
+  openModal(CODE: any = '', ORGLOCCODE: any = '') {
     this.submitted = false;
     this.isUpdate = false;
     this.ClearForm();
 
     if (CODE != '') {
       this.isUpdate = true;
-      this.GetOrgMasterDetails(CODE);
+      this.GetOrgMasterDetails(CODE, ORGLOCCODE);
     }
 
     this.openModalPopup.nativeElement.click();

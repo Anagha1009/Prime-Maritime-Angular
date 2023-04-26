@@ -159,9 +159,13 @@ export class MasterService {
     );
   }
 
-  GetOrgMasterDetails(orgcode: any) {
+  GetOrgMasterDetails(orgcode: any, orgloccode: any) {
     return this._http.get<any>(
-      this.BASE_URL + 'Master/GetOrgMasterDetails?ORG_CODE=' + orgcode,
+      this.BASE_URL +
+        'Master/GetOrgMasterDetails?ORG_CODE=' +
+        orgcode +
+        '&ORG_LOC_CODE=' +
+        orgloccode,
       this.httpOptions
     );
   }
