@@ -24,7 +24,7 @@
                                 <ng-select formControlName="PLACE_OF_RECEIPT">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                     <ng-option *ngFor="let item of placeofRecpList"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        value="{{item.CODE_DESC}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -76,7 +76,7 @@
                                 <ng-select formControlName="PLACE_OF_DELIVERY">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                     <ng-option *ngFor="let item of placeofDelList"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        value="{{item.CODE_DESC}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -93,7 +93,7 @@
                                     <ng-option value="" selected="true" disabled>--Select--
                                     </ng-option>
                                     <ng-option *ngFor="let item of finalDestList"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}} ({{item.CODE}})
+                                        value="{{item.CODE_DESC}}">{{item.CODE_DESC}} ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
                                 <label class="form-label-ddl">{{'Header.FinalDestination'|translate}} <span
@@ -453,11 +453,7 @@
                                 <input type="text" maxlength="20" formControlName="HAZ_APPROVAL_REF"
                                     [ngClass]="{'invalid': submitted2 && f2.HAZ_APPROVAL_REF.errors}"
                                     class="form-control" />
-                                <label class="form-label">HAZ Approval Ref <span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.HAZ_APPROVAL_REF.errors?.required"
-                                    class="invalid-feedback">
-                                    Please enter HAZ Approval Ref
-                                </div>
+                                <label class="form-label">HAZ Approval Ref </label>
                                 <div *ngIf="submitted2 && f2.HAZ_APPROVAL_REF.errors?.pattern" class="invalid-feedback">
                                     HAZ Approval Ref should be alphanumeric
                                 </div>
@@ -590,22 +586,26 @@
                         <div class="col-md-2 mb-4">
                             <div class="form-group">
                                 <input type="text" formControlName="VENTILATION"
-                                    [ngClass]="{'invalid': submitted2 && f2.VENTILATION.errors}"
-                                    (keypress)="numericOnly($event)" class="form-control" />
-                                <label class="form-label">Ventilation (%)<span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.VENTILATION.errors" class="invalid-feedback">
+                                    [ngClass]="{'invalid': submitted2 && f2.VENTILATION.errors}" class="form-control" />
+                                <label class="form-label">Ventilation<span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.VENTILATION.errors?.required" class="invalid-feedback">
                                     Please enter Ventilation
+                                </div>
+                                <div *ngIf="submitted2 && f2.VENTILATION.errors?.pattern" class="invalid-feedback">
+                                    Ventilation should be alphanumeric
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2 mb-4">
                             <div class="form-group">
                                 <input type="text" formControlName="HUMIDITY"
-                                    [ngClass]="{'invalid': submitted2 && f2.HUMIDITY.errors}"
-                                    (keypress)="numericOnly($event)" class="form-control" />
-                                <label class="form-label">Humidity (°C)<span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.HUMIDITY.errors" class="invalid-feedback">
+                                    [ngClass]="{'invalid': submitted2 && f2.HUMIDITY.errors}" class="form-control" />
+                                <label class="form-label">Humidity<span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.HUMIDITY.errors?.required" class="invalid-feedback">
                                     Please enter Humidity
+                                </div>
+                                <div *ngIf="submitted2 && f2.HUMIDITY.errors?.pattern" class="invalid-feedback">
+                                    Humidity should be alphanumeric
                                 </div>
                             </div>
                         </div>

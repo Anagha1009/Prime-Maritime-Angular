@@ -179,14 +179,14 @@
                 <!-- manualfields for POL and POD -->
                 <div class="col-md-3 mt-3" *ngIf="isManual">
                     <div class="form-group">
-                        <ng-select [ngClass]="{'invalid': submitted && blf.PORT_OF_LOADING.errors}" formControlName="PORT_OF_LOADING">
+                        <ng-select [ngClass]="{'invalid': submitted && blf.PORT_OF_LOADING.errors}"
+                            formControlName="PORT_OF_LOADING">
                             <ng-option value="" selected="true" disabled>--Select--</ng-option>
                             <ng-option *ngFor="let item of portList" value="{{item.CODE_DESC}} ({{item.CODE}})">
                                 {{item.CODE_DESC}} ({{item.CODE}})
                             </ng-option>
                         </ng-select>
-                        <label class="form-label-ddl">Port of Loading <span
-                                class="text-danger">
+                        <label class="form-label-ddl">Port of Loading <span class="text-danger">
                                 *</span></label>
                         <div *ngIf="submitted && blf.PORT_OF_LOADING.errors" class="invalid-feedback">Please select
                             Port of Loading</div>
@@ -194,14 +194,14 @@
                 </div>
                 <div class="col-md-3 mt-3" *ngIf="isManual">
                     <div class="form-group">
-                        <ng-select [ngClass]="{'invalid': submitted && blf.PORT_OF_DISCHARGE.errors}" formControlName="PORT_OF_DISCHARGE">
+                        <ng-select [ngClass]="{'invalid': submitted && blf.PORT_OF_DISCHARGE.errors}"
+                            formControlName="PORT_OF_DISCHARGE">
                             <ng-option value="" selected="true" disabled>--Select--</ng-option>
                             <ng-option *ngFor="let item of portList;" value="{{item.CODE_DESC}} ({{item.CODE}})">
                                 {{item.CODE_DESC}} ({{item.CODE}})
                             </ng-option>
                         </ng-select>
-                        <label class="form-label-ddl">Port of Discharge<span
-                                class="text-danger">
+                        <label class="form-label-ddl">Port of Discharge<span class="text-danger">
                                 *</span></label>
                         <div *ngIf="submitted && blf.PORT_OF_DISCHARGE.errors" class="invalid-feedback">Please select
                             Port of Discharge</div>
@@ -217,7 +217,7 @@
                             Enter Place of Delivery</div>
                     </div>
                 </div>
-                
+
 
                 <div class="col-md-3">
                     <div class="form-group">
@@ -317,19 +317,24 @@
                             <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
                             <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_TYPE}}</td>
                             <td class="col-md-1">
-                                <input formControlName="PKG_COUNT" type="number" class="form-control2 inputheight" />
+                                <input formControlName="PKG_COUNT"
+                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                    type="text" class="form-control2 inputheight" />
                             </td>
                             <td class="col-md-1">
                                 <input formControlName="PKG_DESC" type="text" class="form-control2 inputheight" />
                             </td>
                             <td class="col-md-1"><input formControlName="GROSS_WEIGHT" type="text"
-                                    class="form-control2 inputheight" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"/>
+                                    class="form-control2 inputheight"
+                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
                             </td>
                             <td class="col-md-1">
-                                <input formControlName="NET_WEIGHT" type="text" class="form-control2 inputheight" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"/>
+                                <input formControlName="NET_WEIGHT" type="text" class="form-control2 inputheight"
+                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
                             </td>
                             <td class="col-md-1"><input formControlName="MEASUREMENT" type="text"
-                                    class="form-control2 inputheight" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"/>
+                                    class="form-control2 inputheight"
+                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
                             </td>
                             <td class="col-md-1">
                                 <input formControlName="SEAL_NO" type="text" class="form-control2 inputheight" />
@@ -337,7 +342,7 @@
                             <td class="col-md-1">
                                 <input formControlName="AGENT_SEAL_NO" type="text" class="form-control2 inputheight" />
                             </td>
-                            
+
                         </tr>
                     </tbody>
                 </table>
@@ -366,19 +371,24 @@
                             <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_NO}}</td>
                             <td class="col-md-1">{{blForm.value.CONTAINER_LIST2[i].CONTAINER_TYPE}}</td>
                             <td class="col-md-1">
-                                <input formControlName="PKG_COUNT" type="number" class="form-control2 inputheight" />
+                                <input formControlName="PKG_COUNT" type="text"
+                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                    class="form-control2 inputheight" />
                             </td>
                             <td class="col-md-1">
                                 <input formControlName="PKG_DESC" type="text" class="form-control2 inputheight" />
                             </td>
                             <td class="col-md-1">
-                                <input formControlName="GROSS_WEIGHT" type="text" class="form-control2 inputheight" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"/>
+                                <input formControlName="GROSS_WEIGHT" type="text" class="form-control2 inputheight"
+                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
                             </td>
                             <td class="col-md-1">
-                                <input formControlName="NET_WEIGHT" type="text" class="form-control2 inputheight" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"/>
+                                <input formControlName="NET_WEIGHT" type="text" class="form-control2 inputheight"
+                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
                             </td>
                             <td class="col-md-1">
-                                <input formControlName="MEASUREMENT" type="text" class="form-control2 inputheight" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
+                                <input formControlName="MEASUREMENT" type="text" class="form-control2 inputheight"
+                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
                             </td>
                             <td class="col-md-1">
                                 <input formControlName="SEAL_NO" type="text" class="form-control2 inputheight" />
@@ -429,7 +439,9 @@
 
                             </td>
                             <td class="col-md-1">
-                                <input formControlName="PKG_COUNT" type="number" class="form-control2 inputheight" />
+                                <input formControlName="PKG_COUNT"
+                                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                    type="text" class="form-control2 inputheight" />
                             </td>
                             <td class="col-md-1">
                                 <input formControlName="PKG_DESC" type="text" class="form-control2 inputheight" />

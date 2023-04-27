@@ -399,21 +399,9 @@ export class NewQuotationComponent implements OnInit {
         HAZ_APPROVAL_REF: [this.commoditiesForm.value.HAZ_APPROVAL_REF],
         FLASH_POINT: [this.commoditiesForm.value.FLASH_POINT],
         CAS_NO: [this.commoditiesForm.value.CAS_NO],
-        VENTILATION: [
-          this.commoditiesForm.value.VENTILATION == undefined
-            ? 0
-            : +this.commoditiesForm.value.VENTILATION,
-        ],
-        HUMIDITY: [
-          this.commoditiesForm.value.HUMIDITY == undefined
-            ? 0
-            : +this.commoditiesForm.value.HUMIDITY,
-        ],
-        TEMPERATURE: [
-          this.commoditiesForm.value.TEMPERATURE == undefined
-            ? 0
-            : +this.commoditiesForm.value.TEMPERATURE,
-        ],
+        VENTILATION: [this.commoditiesForm.value.VENTILATION],
+        HUMIDITY: [this.commoditiesForm.value.HUMIDITY],
+        TEMPERATURE: [this.commoditiesForm.value.TEMPERATURE],
         REMARKS: [this.commoditiesForm.value.REMARKS],
       })
     );
@@ -824,14 +812,17 @@ export class NewQuotationComponent implements OnInit {
       IMO_CLASS_NAME: [''],
       UN_NO: ['', Validators.required],
       UN_NO_NAME: [''],
-      HAZ_APPROVAL_REF: [
+      HAZ_APPROVAL_REF: ['', [Validators.pattern('^([a-zA-Z0-9]+)$')]],
+      FLASH_POINT: ['', Validators.required],
+      CAS_NO: ['', Validators.required],
+      VENTILATION: [
         '',
         [Validators.required, Validators.pattern('^([a-zA-Z0-9]+)$')],
       ],
-      FLASH_POINT: ['', Validators.required],
-      CAS_NO: ['', Validators.required],
-      VENTILATION: ['', Validators.required],
-      HUMIDITY: ['', Validators.required],
+      HUMIDITY: [
+        '',
+        [Validators.required, Validators.pattern('^([a-zA-Z0-9]+)$')],
+      ],
       TEMPERATURE: ['', Validators.required],
       REMARKS: [''],
     });
