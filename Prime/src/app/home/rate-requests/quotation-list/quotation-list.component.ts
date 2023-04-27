@@ -46,12 +46,45 @@ export class QuotationListComponent implements OnInit {
   submitted3: boolean = false;
   terminalList: any[] = [];
   isrefresh: boolean = false;
+  commodityHAZ: boolean = false;
+  commodityFLEXI: boolean = false;
+  commoditySP: boolean = false;
+  isTranshipment: boolean = false;
+  bookingNo: string = '';
+
+  //Files
+  isUploadedPOL: boolean = false;
+  POLAcceptanceFile: string = '';
+
+  isUploadedPOD: boolean = false;
+  PODAcceptanceFile: string = '';
+
+  isUploadedVslOp: boolean = false;
+  VslOpAcceptanceFile: string = '';
+
+  isUploadedShpLOY: boolean = false;
+  ShpLOYAcceptanceFile: string = '';
+
+  isUploadedVslOpAp: boolean = false;
+  VslOpApAcceptanceFile: string = '';
+
+  isUploadedTS: boolean = false;
+  TSAcceptanceFile: string = '';
+
+  isUploadedVslOpAp2: boolean = false;
+  VslOpAp2AcceptanceFile: string = '';
+
+  isUploadedSur: boolean = false;
+  SurAcceptanceFile: string = '';
+  fileList: any[] = [];
 
   @ViewChild('openBtn') openBtn: ElementRef;
+  @ViewChild('openBtn1') openBtn1: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('closeBtn1') closeBtn1: ElementRef;
   @ViewChild('closeBtn2') closeBtn2: ElementRef;
   @ViewChild('closeBtn3') closeBtn3: ElementRef;
+  @ViewChild('closeBtn4') closeBtn4: ElementRef;
   @ViewChild('containerModal') containerModal: ElementRef;
   @ViewChild('rateModal') rateModal: ElementRef;
 
@@ -240,7 +273,6 @@ export class QuotationListComponent implements OnInit {
     quotation.AGENT_CODE = this._commonService.getUserCode();
     this._quotationService.getSRRDetails(quotation).subscribe(
       (res: any) => {
-        debugger;
         this.containerList = res.Data?.SRR_CONTAINERS;
 
         const add = this.containerForm.get('SRR_CONTAINERS') as FormArray;
@@ -289,7 +321,6 @@ export class QuotationListComponent implements OnInit {
   addContainer() {
     var valid = true;
     this.containerList.forEach((element, i) => {
-      debugger;
       if (
         +element.IMM_VOLUME_EXPECTED +
           +this.containerForm.value.SRR_CONTAINERS[i].IMM_VOLUME_EXPECTED >
@@ -411,14 +442,59 @@ export class QuotationListComponent implements OnInit {
       );
   }
 
-  bookingSuccessful(item: any) {
+  bookingSuccessful(item: any, i: any, totalBookings: any) {
+    this.openBtn1.nativeElement.click();
+    this.bookingNo = item.BOOKING_NO;
+    this.srrNo = item.SRR_NO;
+    if (totalBookings == 1) {
+      this.quotationList[i].COMMODITY?.split(', ').forEach((element: any) => {
+        if (element.split('-')[0].includes('HAZ')) {
+          this.commodityHAZ = true;
+        } else if (element.split('-')[0].includes('SP')) {
+          this.commoditySP = true;
+        } else if (element.split('-')[0].includes('FLEXIBAG')) {
+          this.commodityFLEXI = true;
+        }
+      });
+    }
+  }
+
+  bookingSuccessfulSubmit() {
+    if (this.commodityHAZ) {
+      var Hazfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'HAZ');
+      if (Hazfiles.length != 3) {
+        alert('Please Upload All 3 Hazardous Files !');
+        return;
+      }
+    }
+    if (this.commodityFLEXI) {
+      var flexifiles = this.fileList.filter(
+        (x) => x.COMMODITY_TYPE == 'FLEXIBAG'
+      );
+      if (flexifiles.length != 2) {
+        alert('Please Upload All 2 Flexibag Files !');
+        return;
+      }
+    }
+    if (this.commoditySP) {
+      var spfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'SP');
+      if (spfiles.length != 2) {
+        alert('Please Upload All 2 Special Equipment Files !');
+        return;
+      }
+    }
+
+    if (this.commodityHAZ || this.commodityFLEXI || this.commoditySP) {
+      this.uploadFilestoDB(this.srrNo);
+    }
+    this.closeBtn4.nativeElement.click();
     this._commonService.successMsg(
-      'Your booking is already created ! Booking No is ' + item.BOOKING_NO
+      'Your booking is already created ! Booking No is ' + this.bookingNo
     );
     this._router.navigateByUrl('/home/booking-list');
   }
 
-  openBookingModal(i: any) {
+  openBookingModal(i: any, totalBookings: any) {
     this.quotationDetails = new QUOTATION();
     this.quotationDetails.POL = this.quotationList[i].POL;
     this.quotationDetails.POD = this.quotationList[i].POD;
@@ -426,6 +502,18 @@ export class QuotationListComponent implements OnInit {
     this.quotationDetails.SRR_NO = this.quotationList[i].SRR_NO;
     this.quotationDetails.NO_OF_CONTAINERS =
       this.quotationList[i].NO_OF_CONTAINERS;
+
+    if (totalBookings == 0) {
+      this.quotationList[i].COMMODITY?.split(', ').forEach((element: any) => {
+        if (element.split('-')[0].includes('HAZ')) {
+          this.commodityHAZ = true;
+        } else if (element.split('-')[0].includes('SP')) {
+          this.commoditySP = true;
+        } else if (element.split('-')[0].includes('FLEXIBAG')) {
+          this.commodityFLEXI = true;
+        }
+      });
+    }
 
     this.slotDetailsForm.reset();
     this.submitted = false;
@@ -449,7 +537,6 @@ export class QuotationListComponent implements OnInit {
         this.quotationDetails?.POD.split('(')[1].split(')')[0]
       )
       .subscribe((res: any) => {
-        debugger;
         if (res.ResponseCode == 200) {
           this.slotoperatorList = res.Data;
         }
@@ -459,6 +546,30 @@ export class QuotationListComponent implements OnInit {
   }
 
   bookNow() {
+    if (this.commodityHAZ) {
+      var Hazfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'HAZ');
+      if (Hazfiles.length != 3) {
+        alert('Please Upload All 3 Hazardous Files !');
+        return;
+      }
+    }
+    if (this.commodityFLEXI) {
+      var flexifiles = this.fileList.filter(
+        (x) => x.COMMODITY_TYPE == 'FLEXIBAG'
+      );
+      if (flexifiles.length != 2) {
+        alert('Please Upload All 2 Flexibag Files !');
+        return;
+      }
+    }
+    if (this.commoditySP) {
+      var spfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'SP');
+      if (spfiles.length != 2) {
+        alert('Please Upload All 2 Special Equipment Files !');
+        return;
+      }
+    }
+
     this.submitted = true;
     if (this.slotDetailsForm.invalid) {
       return;
@@ -479,12 +590,15 @@ export class QuotationListComponent implements OnInit {
       ?.setValue(this._commonService.getUserCode());
 
     this.closeBtn.nativeElement.click();
-    console.log(JSON.stringify(this.slotDetailsForm.value));
     this._quotationService
       .booking(JSON.stringify(this.slotDetailsForm.value))
       .subscribe(
         (res: any) => {
           if (res.responseCode == 200) {
+            if (this.commodityHAZ || this.commodityFLEXI || this.commoditySP) {
+              this.uploadFilestoDB(this.quotationDetails?.SRR_NO);
+            }
+
             this._commonService.successMsg(
               'Your booking is placed successfully ! Booking No is ' + bookingNo
             );
@@ -536,11 +650,8 @@ export class QuotationListComponent implements OnInit {
       element.CREATED_BY = this._commonService.getUser().role;
     });
 
-    console.log(JSON.stringify(this.rateForm.value.SRR_RATES));
-    debugger;
     this._quotationService.counterRate(this.rateForm.value.SRR_RATES).subscribe(
       (res: any) => {
-        debugger;
         if (res.responseCode == 200) {
           this._commonService.successMsg(
             'Your request is been ' + value == 'Approved'
@@ -576,5 +687,106 @@ export class QuotationListComponent implements OnInit {
       ETD: ['', Validators.required],
       CREATED_BY: [''],
     });
+  }
+
+  fileUpload(event: any, value: string, commodityType: string) {
+    if (
+      event.target.files[0].type == 'application/pdf' ||
+      event.target.files[0].type ==
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+      event.target.files[0].type ==
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      event.target.files[0].type == 'application/xls' ||
+      event.target.files[0].type == 'application/xlsx' ||
+      event.target.files[0].type == 'application/doc'
+    ) {
+    } else {
+      alert('Please Select PDF or Excel or Word Format only');
+      return;
+    }
+
+    if (+event.target.files[0].size > 5000000) {
+      alert('Please upload file less than 5 mb..!');
+      return;
+    }
+
+    this.fileList.push({
+      FILE: event.target.files[0],
+      COMMODITY_TYPE: commodityType,
+    });
+
+    if (value == 'POL') {
+      this.isUploadedPOL = true;
+      this.POLAcceptanceFile = event.target.files[0].name;
+    }
+
+    if (value == 'POD') {
+      this.isUploadedPOD = true;
+      this.PODAcceptanceFile = event.target.files[0].name;
+    }
+
+    if (value == 'VslOp') {
+      this.isUploadedVslOp = true;
+      this.VslOpAcceptanceFile = event.target.files[0].name;
+    }
+
+    if (value == 'ShpLOY') {
+      this.isUploadedShpLOY = true;
+      this.ShpLOYAcceptanceFile = event.target.files[0].name;
+    }
+
+    if (value == 'VslOpAp') {
+      this.isUploadedVslOpAp = true;
+      this.VslOpApAcceptanceFile = event.target.files[0].name;
+    }
+
+    if (value == 'TS') {
+      this.isUploadedTS = true;
+      this.TSAcceptanceFile = event.target.files[0].name;
+    }
+
+    if (value == 'VslOpAp2') {
+      this.isUploadedVslOpAp2 = true;
+      this.VslOpAp2AcceptanceFile = event.target.files[0].name;
+    }
+
+    if (value == 'Sur') {
+      this.isUploadedSur = true;
+      this.SurAcceptanceFile = event.target.files[0].name;
+    }
+  }
+
+  removeFile(item: any, value: any) {
+    this.fileList.splice(
+      this.fileList.findIndex((el) => el.FILE.name === item),
+      1
+    );
+    if (value == 'POL') {
+      this.isUploadedPOL = false;
+    } else if (value == 'POD') {
+      this.isUploadedPOD = false;
+    } else if (value == 'VslOp') {
+      this.isUploadedVslOp = false;
+    } else if (value == 'TS') {
+      this.isUploadedTS = false;
+    } else if (value == 'ShpLOY') {
+      this.isUploadedShpLOY = false;
+    } else if (value == 'VslOpAp') {
+      this.isUploadedVslOp = false;
+    } else if (value == 'VslOpAp2') {
+      this.isUploadedVslOpAp2 = false;
+    } else if (value == 'Sur') {
+      this.isUploadedSur = false;
+    }
+  }
+
+  uploadFilestoDB(SRRNO: string) {
+    const payload = new FormData();
+    this.fileList.forEach((element: any) => {
+      payload.append('FILE', element.FILE);
+      payload.append('COMMODITY_TYPE', element.COMMODITY_TYPE);
+    });
+
+    this._quotationService.uploadFiles(payload, SRRNO).subscribe();
   }
 }

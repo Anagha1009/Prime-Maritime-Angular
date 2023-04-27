@@ -307,28 +307,6 @@ export class NewQuotationComponent implements OnInit {
   }
 
   addCommodity() {
-    // if (this.commodityType == 'HAZ') {
-    //   var Hazfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'HAZ');
-    //   if (Hazfiles.length != 3) {
-    //     alert('Please Upload All 3 Hazardous Files !');
-    //     return;
-    //   }
-    // } else if (this.commodityType == 'FLEXIBAG') {
-    //   var flexifiles = this.fileList.filter(
-    //     (x) => x.COMMODITY_TYPE == 'FLEXIBAG'
-    //   );
-    //   if (flexifiles.length != 2) {
-    //     alert('Please Upload All 2 Flexibag Files !');
-    //     return;
-    //   }
-    // } else if (this.commodityType == 'SP') {
-    //   var spfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'SP');
-    //   if (spfiles.length != 2) {
-    //     alert('Please Upload All 2 Special Equipment Files !');
-    //     return;
-    //   }
-    // }
-
     this.submitted2 = true;
 
     if (this.commodityType == 'GEN') {
@@ -512,7 +490,6 @@ export class NewQuotationComponent implements OnInit {
     srr.NO_OF_CONTAINERS = this.containerForm.value.IMM_VOLUME_EXPECTED;
 
     this._quotationService.getSRRRateList(srr).subscribe((res: any) => {
-      debugger;
       if (res.ResponseCode == 200) {
         const freightcharges = this.quotationForm.get(
           'FREIGHT_CHARGES'
@@ -640,7 +617,7 @@ export class NewQuotationComponent implements OnInit {
 
   submitRate() {
     this.submiitedRate = true;
-    debugger;
+
     const add1 = this.quotationForm.get('FREIGHT_CHARGES') as FormArray;
     const add2 = this.quotationForm.get('POL_CHARGES') as FormArray;
     const add3 = this.quotationForm.get('POD_CHARGES') as FormArray;
@@ -716,14 +693,6 @@ export class NewQuotationComponent implements OnInit {
       .insertSRR(JSON.stringify(this.quotationForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          // if (
-          //   this.disabledcommodityType.includes('HAZ') ||
-          //   this.commodityType.includes('FLEXIBAG') ||
-          //   this.commodityType.includes('SP')
-          // ) {
-          //   this.uploadFilestoDB(SRRNO);
-          // }
-
           if (this.isVesselVal) {
             this.isLoading = true;
             this.slotDetailsForm
@@ -1263,16 +1232,6 @@ export class NewQuotationComponent implements OnInit {
       this.isUploadedSur = true;
       this.SurAcceptanceFile = event.target.files[0].name;
     }
-  }
-
-  uploadFilestoDB(SRRNO: string) {
-    const payload = new FormData();
-    this.fileList.forEach((element: any) => {
-      payload.append('FILE', element.FILE);
-      payload.append('COMMODITY_TYPE', element.COMMODITY_TYPE);
-    });
-
-    this._quotationService.uploadFiles(payload, SRRNO).subscribe();
   }
 
   isVesselValidity(e: any) {

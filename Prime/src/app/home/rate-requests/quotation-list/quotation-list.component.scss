@@ -1,3 +1,8 @@
 section {
   padding: 0px;
 }
+
+.modal-dialog-scrollable .modal-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
