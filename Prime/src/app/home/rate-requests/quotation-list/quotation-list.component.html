@@ -730,7 +730,7 @@
     </div>
 
     <div class="modal fade" id="counterRateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Rate Details : <small class="text-primary"
@@ -766,10 +766,10 @@
                                 <div class="col-md-2">
                                     <label class="label-header">Payment</label>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <label class="label-header">Standard</label>
                                 </div>
-                                <div class="col-md-2"
+                                <div class="col-md-1"
                                     *ngIf="item1.STATUS == 'Countered'  || item1.STATUS == 'Approved'">
                                     <label class="label-header">Countered</label>
                                 </div>
@@ -777,7 +777,10 @@
                                     <label class="label-header">Requested</label>
                                 </div>
                                 <div class="col-md-2" *ngIf="item1.STATUS != 'Requested'">
-                                    <label class="label-header">Remarks</label>
+                                    <label class="label-header">PM Remarks</label>
+                                </div>
+                                <div class="col-md-2" *ngIf="item1.STATUS != 'Requested'">
+                                    <label class="label-header">Agent Remarks</label>
                                 </div>
                             </div>
                             <div *ngFor="let item of f3;let i = index" [formGroup]="item">
@@ -789,11 +792,11 @@
                                         <label class="label-subheader">{{item.value.PAYMENT_TERM}} -
                                             {{item.value.TRANSPORT_TYPE}}</label>
                                     </div>
-                                    <div class="col-md-2 mt-2">
+                                    <div class="col-md-1 mt-2">
                                         <label class="label-subheader">{{item.value.CURRENCY}}
                                             {{item.value.STANDARD_RATE}}</label>
                                     </div>
-                                    <div class="col-md-2 mt-2"
+                                    <div class="col-md-1 mt-2"
                                         *ngIf="item1.STATUS == 'Countered'  || item1.STATUS == 'Approved'">
                                         <label
                                             [class]="item.value.APPROVED_RATE > 0 ? 'text-success label-subheader' : 'label-subheader'">{{item.value.CURRENCY}}
@@ -812,6 +815,10 @@
                                     <div class="col-md-2 mt-1" *ngIf="item1.STATUS != 'Requested'">
                                         <label class="label-subheader">{{item.value.REMARKS == '' ? '-' :
                                             item.value.REMARKS == null ? '-' : item.value.REMARKS }}</label>
+                                    </div>
+                                    <div class="col-md-2 mt-1" *ngIf="item1.STATUS != 'Requested'">
+                                        <textarea formControlName="AGENT_REMARKS" class="form-control3"
+                                            type="text"></textarea>
                                     </div>
                                 </div>
                             </div>

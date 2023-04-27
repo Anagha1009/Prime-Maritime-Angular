@@ -138,7 +138,6 @@ export class PmQuotationDetailsComponent implements OnInit {
     if (!isApproveValid || !isRejectValid) {
       this.srrRates.forEach((element: any) => {
         element.APPROVED_RATE = element.RATE_REQUESTED;
-        element.REMARKS = '';
       });
     }
 

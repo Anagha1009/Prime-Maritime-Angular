@@ -129,27 +129,31 @@
                                 <table class="table" style="font-size: 12px;">
                                     <thead>
                                         <tr>
-                                            <th width="25%">Charge Code</th>
+                                            <th width="20%">Charge Code</th>
                                             <th width="15%">Payment</th>
-                                            <th width="15%">Cost</th>
-                                            <th width="15%">Requested (Income)</th>
-                                            <th width="15%">Countered</th>
-                                            <th width="19%">Remarks</th>
+                                            <th width="12%">Cost</th>
+                                            <th width="12%">Requested (Income)</th>
+                                            <th width="12%">Countered</th>
+                                            <th width="14%">PM Remarks</th>
+                                            <th width="14%">Agent Remarks</th>
                                             <th width="1%"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let item of f1;let i = index" [formGroup]="item">
-                                            <td width="25%">{{item.value.CHARGE_CODE}}</td>
+                                            <td width="20%">{{item.value.CHARGE_CODE}}</td>
                                             <td width="15%">{{item.value.PAYMENT_TERM}} ({{item.value.TRANSPORT_TYPE}})
                                             </td>
-                                            <td width="15%">{{item.value.CURRENCY}} {{item.value.STANDARD_RATE}}</td>
-                                            <td width="15%">{{item.value.CURRENCY}} {{item.value.RATE_REQUESTED}}</td>
-                                            <td width="15%"><input class="form-control3" formControlName="APPROVED_RATE"
+                                            <td width="12%">{{item.value.CURRENCY}} {{item.value.STANDARD_RATE}}</td>
+                                            <td width="12%">{{item.value.CURRENCY}} {{item.value.RATE_REQUESTED}}</td>
+                                            <td width="12%"><input class="form-control3" formControlName="APPROVED_RATE"
                                                     type="text" />
                                             </td>
-                                            <td width="19%"><textarea class="form-control3" formControlName="REMARKS"
+                                            <td width="14%"><textarea class="form-control3" formControlName="REMARKS"
                                                     type="text"></textarea></td>
+                                            <td width="14%">
+                                                {{item.value.AGENT_REMARKS}}
+                                            </td>
                                             <td width="1%"></td>
                                         </tr>
                                     </tbody>
@@ -176,29 +180,29 @@
                                 <table class="table" style="font-size: 12px;">
                                     <thead>
                                         <tr>
-                                            <th width="25%">Charge Code</th>
+                                            <th width="20%">Charge Code</th>
                                             <th width="15%">Payment</th>
-                                            <th width="10%">Cost</th>
-                                            <th width="10%">Income</th>
-                                            <th width="10%">Requested</th>
-                                            <th width="15%">Countered</th>
-                                            <th width="19%">Remarks</th>
+                                            <th width="12%">Cost</th>
+                                            <th width="12%">Requested (Income)</th>
+                                            <th width="12%">Countered</th>
+                                            <th width="14%">PM Remarks</th>
+                                            <th width="14%">Agent Remarks</th>
                                             <th width="1%"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let item of f4;let i = index" [formGroup]="item">
-                                            <td width="25%">{{item.value.CHARGE_CODE}}</td>
+                                            <td width="20%">{{item.value.CHARGE_CODE}}</td>
                                             <td width="15%">{{item.value.PAYMENT_TERM}} ({{item.value.TRANSPORT_TYPE}})
                                             </td>
-                                            <td width="10%">{{item.value.CURRENCY}} {{item.value.COST}}</td>
-                                            <td width="10%">{{item.value.CURRENCY}} {{item.value.STANDARD_RATE}}</td>
-                                            <td width="10%">{{item.value.CURRENCY}} {{item.value.RATE_REQUESTED}}</td>
-                                            <td width="15%"><input class="form-control3" formControlName="APPROVED_RATE"
+                                            <td width="12%">{{item.value.CURRENCY}} {{item.value.STANDARD_RATE}}</td>
+                                            <td width="12%">{{item.value.CURRENCY}} {{item.value.RATE_REQUESTED}}</td>
+                                            <td width="12%"><input class="form-control3" formControlName="APPROVED_RATE"
                                                     type="text" />
                                             </td>
-                                            <td width="19%"><textarea class="form-control3" formControlName="REMARKS"
+                                            <td width="14%"><textarea class="form-control3" formControlName="REMARKS"
                                                     type="text"></textarea></td>
+                                            <td width="14%">{{item.value.AGENT_REMARKS}}</td>
                                             <td width="1%"></td>
                                         </tr>
                                     </tbody>
@@ -225,29 +229,29 @@
                                 <table class="table" style="font-size: 12px;">
                                     <thead>
                                         <tr>
-                                            <th width="25%">Charge Code</th>
+                                            <th width="20%">Charge Code</th>
                                             <th width="15%">Payment</th>
-                                            <th width="10%">Cost</th>
-                                            <th width="10%">Income</th>
-                                            <th width="10%">Requested</th>
-                                            <th width="15%">Countered</th>
-                                            <th width="19%">Remarks</th>
+                                            <th width="12%">Cost</th>
+                                            <th width="12%">Requested (Income)</th>
+                                            <th width="12%">Countered</th>
+                                            <th width="14%">PM Remarks</th>
+                                            <th width="14%">Agent Remarks</th>
                                             <th width="1%"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let item of f5;let i = index" [formGroup]="item">
-                                            <td width="25%">{{item.value.CHARGE_CODE}}</td>
+                                            <td width="20%">{{item.value.CHARGE_CODE}}</td>
                                             <td width="15%">{{item.value.PAYMENT_TERM}} ({{item.value.TRANSPORT_TYPE}})
                                             </td>
-                                            <td width="10%">{{item.value.CURRENCY}} {{item.value.COST}}</td>
-                                            <td width="10%">{{item.value.CURRENCY}} {{item.value.STANDARD_RATE}}</td>
-                                            <td width="10%">{{item.value.CURRENCY}} {{item.value.RATE_REQUESTED}}</td>
-                                            <td width="15%"><input class="form-control3" formControlName="APPROVED_RATE"
+                                            <td width="12%">{{item.value.CURRENCY}} {{item.value.STANDARD_RATE}}</td>
+                                            <td width="12%">{{item.value.CURRENCY}} {{item.value.RATE_REQUESTED}}</td>
+                                            <td width="12%"><input class="form-control3" formControlName="APPROVED_RATE"
                                                     type="text" />
                                             </td>
-                                            <td width="19%"><textarea class="form-control3" formControlName="REMARKS"
+                                            <td width="14%"><textarea class="form-control3" formControlName="REMARKS"
                                                     type="text"></textarea></td>
+                                            <td width="14%">{{item.value.AGENT_REMARKS}}</td>
                                             <td width="1%"></td>
                                         </tr>
                                     </tbody>
