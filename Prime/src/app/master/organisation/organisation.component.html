@@ -79,7 +79,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label2">Country<span class="text-danger"> *</span></label>
-                                <select (change)="getDropdown($event)" formControlName="COUNTRY_CODE"
+                                <select formControlName="COUNTRY_CODE"
                                     [ngClass]="{'invalid':submitted && f.COUNTRY_CODE.errors}" class="form-control2">
                                     <option disabled value="">--Select--</option>
                                     <option value="IN">India</option>
