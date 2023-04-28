@@ -1,158 +1,160 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme position-fixed h-100">
-    <div class="app-brand demo logo">
-        <a class="pointer">
-            <img src="assets/img/logo_p.png" height="50">
-        </a>
-        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-            <i class="bx bx-chevron-left bx-sm align-middle"></i>
-        </a>
-    </div>
-    <div class="menu-inner-shadow"></div>
-    <h6 class="ms-4 my-2 fw-bold"><i class="fa fa-user"></i> {{username}} | <a class="pointer text-danger"
-            (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a></h6>
-    <ul class="menu-inner py-1">
-        <li [class]="menu == 'dashboard' ? 'menu-item active' : 'menu-item'">
-            <a (click)="redirectToMenu('dashboard')" class="menu-link pointer">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Dashboard</div>
-            </a>
-        </li>
-        <li [class]="menu == 'srr-list' ? 'menu-item active' : 'menu-item'">
-            <a (click)="redirectToMenu('srr-list')" class="menu-link pointer">
-                <i class='menu-icon tf-icons bx bxs-badge-dollar'></i>
-                <div data-i18n="Basic">Rate Requests</div>
-            </a>
-        </li>
-        <li [class]="menu == 'booking-list' ? 'menu-item active' : 'menu-item'">
-            <a (click)="redirectToMenu('booking-list')" class="menu-link pointer">
-                <i class='menu-icon tf-icons bx bxs-calendar-check'></i>
-                <div data-i18n="Basic">Bookings</div>
-            </a>
-        </li>
-        <li [class]="menu == 'cro-list' ? 'menu-item active' : 'menu-item'">
-            <a (click)="redirectToMenu('cro-list')" class="menu-link pointer">
-                <i class='menu-icon tf-icons bx bxs-truck'></i>
-                <div data-i18n="Basic">CROs</div>
-            </a>
-        </li>
-        <li [class]="menu == 'bl-list' ? 'menu-item active' : 'menu-item'">
-            <a (click)="redirectToMenu('bl-list')" class="menu-link pointer">
-                <i class='menu-icon tf-icons bx bxs-file'></i>
-                <div data-i18n="Basic">BLs</div>
-            </a>
-        </li>
-        <li [class]="menu == 'do-list' ? 'menu-item active' : 'menu-item'">
-            <a (click)="redirectToMenu('do-list')" class="menu-link pointer">
-                <i class='menu-icon tf-icons bx bxs-package'></i>
-                <div data-i18n="Basic">DOs</div>
-            </a>
-        </li>
-        <li [class]="menu == 'container-list' ? 'menu-item active' : 'menu-item'">
-            <a (click)="redirectToMenu('container-list')" class="menu-link pointer">
-                <i class='menu-icon tf-icons bx bx-box'></i>
-                <div data-i18n="Basic">Containers</div>
-            </a>
-        </li>
-        <li [class]="menu == 'mnr-request' ? 'menu-item active' : 'menu-item'">
-            <a (click)="redirectToMenu('mnr-request')" class="menu-link pointer">
-                <i class='menu-icon tf-icons bx bxs-car-crash'></i>
-                <div data-i18n="Basic">M&R Requests</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="javascript:void(0)" (click)="ismenu = !ismenu" class="menu-link menu-toggle">
-                <i class='menu-icon tf-icons bx bx-user-circle'></i>
-                <div data-i18n="User interface">Masters</div>
-            </a>
-            <ul id="style-3" [class]="ismenu ? 'menu-sub d-block scrollbar' : 'menu-sub d-none scrollbar'">
-                <div class="force-overflow">
-                    <li [class]="submenu == 'party-master' ? 'menu-item active' : 'menu-item'">
-                        <a (click)="redirectToSubMenu('party-master')" class="menu-link pointer">
-                            <div data-i18n="Accordion">Customer</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'user-master' ? 'menu-item active' : 'menu-item'">
-                        <a (click)="redirectToSubMenu('user-master')" class="menu-link pointer">
-                            <div data-i18n="Accordion">User</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'organisation-master' ? 'menu-item active' : 'menu-item'">
-                        <a (click)="redirectToSubMenu('organisation-master')" class="menu-link pointer">
-                            <div data-i18n="Accordion">Organisation</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'location-master' ? 'menu-item active' : 'menu-item'">
-                        <a (click)="redirectToSubMenu('location-master')" class="menu-link pointer">
-                            <div data-i18n="Accordion">Location</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'tariff-master' ? 'menu-item active' : 'menu-item'">
-                        <a (click)="redirectToSubMenu('tariff-master')" class="menu-link pointer">
-                            <div data-i18n="Accordion">Tariff</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'freight-master' ? 'menu-item active' : 'menu-item'">
-                        <a (click)="redirectToSubMenu('freight-master')" class="menu-link pointer">
-                            <div data-i18n="Accordion">Freight</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'container-master' ? 'menu-item active' : 'menu-item'">
-                        <a (click)="redirectToSubMenu('container-master')" class="menu-link pointer">
-                            <div data-i18n="Alerts">Container</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'containerType-master' ? 'menu-item active' : 'menu-item'">
-                        <a routerLink="/master/container-type-master" class="menu-link">
-                            <div data-i18n="Buttons">Container Type</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'currency-master' ? 'menu-item active' : 'menu-item'">
-                        <a routerLink="/master/currency-master" class="menu-link">
-                            <div data-i18n="Carousel">Currency</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'port-master' ? 'menu-item active' : 'menu-item'">
-                        <a routerLink="/master/port-master" class="menu-link">
-                            <div data-i18n="Collapse">Port</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'serviceType-master' ? 'menu-item active' : 'menu-item'">
-                        <a routerLink="/master/service-type-master" class="menu-link">
-                            <div data-i18n="Footer">Service Type</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'unit-master' ? 'menu-item active' : 'menu-item'">
-                        <a routerLink="/master/unit-master" class="menu-link">
-                            <div data-i18n="List Groups">Unit</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'vessel-master' ? 'menu-item active' : 'menu-item'">
-                        <a routerLink="/master/vessel-master" class="menu-link">
-                            <div data-i18n="Modals">Vessel</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'voyage-master' ? 'menu-item active' : 'menu-item'">
-                        <a routerLink="/master/voyage-master" class="menu-link">
-                            <div data-i18n="Navbar">Voyage</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'liner-master' ? 'menu-item active' : 'menu-item'">
-                        <a routerLink="/master/liner-master" class="menu-link">
-                            <div data-i18n="Navbar">Liner</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'linerService-master' ? 'menu-item active' : 'menu-item'">
-                        <a routerLink="/master/liner-service-master" class="menu-link">
-                            <div data-i18n="Navbar">Liner Service</div>
-                        </a>
-                    </li>
-                    <li [class]="submenu == 'vesselSchedule-master' ? 'menu-item active' : 'menu-item'">
-                        <a routerLink="/master/schedule-master" class="menu-link">
-                            <div data-i18n="Navbar">Vessel Schedule</div>
-                        </a>
-                    </li>
-                </div>
+    <div id="style-3" [class]="ismenu ? 'side-scrollbar' : ''">
+        <div [class]="ismenu ? 'side-force-overflow' : ''">
+            <div class="app-brand demo logo">
+                <a class="pointer">
+                    <img src="assets/img/logo_p.png" height="50">
+                </a>
+                <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                    <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                </a>
+            </div>
+            <div class="menu-inner-shadow"></div>
+            <h6 class="ms-4 my-2 fw-bold"><i class="fa fa-user"></i> {{username}} | <a class="pointer text-danger"
+                    (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a></h6>
+            <ul class="menu-inner py-1">
+                <li [class]="menu == 'dashboard' ? 'menu-item active' : 'menu-item'">
+                    <a (click)="redirectToMenu('dashboard')" class="menu-link pointer">
+                        <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                        <div data-i18n="Analytics">Dashboard</div>
+                    </a>
+                </li>
+                <li [class]="menu == 'srr-list' ? 'menu-item active' : 'menu-item'">
+                    <a (click)="redirectToMenu('srr-list')" class="menu-link pointer">
+                        <i class='menu-icon tf-icons bx bxs-badge-dollar'></i>
+                        <div data-i18n="Basic">Rate Requests</div>
+                    </a>
+                </li>
+                <li [class]="menu == 'booking-list' ? 'menu-item active' : 'menu-item'">
+                    <a (click)="redirectToMenu('booking-list')" class="menu-link pointer">
+                        <i class='menu-icon tf-icons bx bxs-calendar-check'></i>
+                        <div data-i18n="Basic">Bookings</div>
+                    </a>
+                </li>
+                <li [class]="menu == 'cro-list' ? 'menu-item active' : 'menu-item'">
+                    <a (click)="redirectToMenu('cro-list')" class="menu-link pointer">
+                        <i class='menu-icon tf-icons bx bxs-truck'></i>
+                        <div data-i18n="Basic">CROs</div>
+                    </a>
+                </li>
+                <li [class]="menu == 'bl-list' ? 'menu-item active' : 'menu-item'">
+                    <a (click)="redirectToMenu('bl-list')" class="menu-link pointer">
+                        <i class='menu-icon tf-icons bx bxs-file'></i>
+                        <div data-i18n="Basic">BLs</div>
+                    </a>
+                </li>
+                <li [class]="menu == 'do-list' ? 'menu-item active' : 'menu-item'">
+                    <a (click)="redirectToMenu('do-list')" class="menu-link pointer">
+                        <i class='menu-icon tf-icons bx bxs-package'></i>
+                        <div data-i18n="Basic">DOs</div>
+                    </a>
+                </li>
+                <li [class]="menu == 'container-list' ? 'menu-item active' : 'menu-item'">
+                    <a (click)="redirectToMenu('container-list')" class="menu-link pointer">
+                        <i class='menu-icon tf-icons bx bx-box'></i>
+                        <div data-i18n="Basic">Containers</div>
+                    </a>
+                </li>
+                <li [class]="menu == 'mnr-request' ? 'menu-item active' : 'menu-item'">
+                    <a (click)="redirectToMenu('mnr-request')" class="menu-link pointer">
+                        <i class='menu-icon tf-icons bx bxs-car-crash'></i>
+                        <div data-i18n="Basic">M&R Requests</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0)" (click)="ismenu = !ismenu" class="menu-link menu-toggle">
+                        <i class='menu-icon tf-icons bx bx-user-circle'></i>
+                        <div data-i18n="User interface">Masters</div>
+                    </a>
+                    <ul [class]="ismenu ? 'menu-sub d-block' : 'menu-sub d-none'">
+                        <li [class]="submenu == 'party-master' ? 'menu-item active' : 'menu-item'">
+                            <a (click)="redirectToSubMenu('party-master')" class="menu-link pointer">
+                                <div data-i18n="Accordion">Customer</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'user-master' ? 'menu-item active' : 'menu-item'">
+                            <a (click)="redirectToSubMenu('user-master')" class="menu-link pointer">
+                                <div data-i18n="Accordion">User</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'organisation-master' ? 'menu-item active' : 'menu-item'">
+                            <a (click)="redirectToSubMenu('organisation-master')" class="menu-link pointer">
+                                <div data-i18n="Accordion">Organisation</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'location-master' ? 'menu-item active' : 'menu-item'">
+                            <a (click)="redirectToSubMenu('location-master')" class="menu-link pointer">
+                                <div data-i18n="Accordion">Location</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'tariff-master' ? 'menu-item active' : 'menu-item'">
+                            <a (click)="redirectToSubMenu('tariff-master')" class="menu-link pointer">
+                                <div data-i18n="Accordion">Tariff</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'freight-master' ? 'menu-item active' : 'menu-item'">
+                            <a (click)="redirectToSubMenu('freight-master')" class="menu-link pointer">
+                                <div data-i18n="Accordion">Freight</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'container-master' ? 'menu-item active' : 'menu-item'">
+                            <a (click)="redirectToSubMenu('container-master')" class="menu-link pointer">
+                                <div data-i18n="Alerts">Container</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'containerType-master' ? 'menu-item active' : 'menu-item'">
+                            <a routerLink="/master/container-type-master" class="menu-link">
+                                <div data-i18n="Buttons">Container Type</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'currency-master' ? 'menu-item active' : 'menu-item'">
+                            <a routerLink="/master/currency-master" class="menu-link">
+                                <div data-i18n="Carousel">Currency</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'port-master' ? 'menu-item active' : 'menu-item'">
+                            <a routerLink="/master/port-master" class="menu-link">
+                                <div data-i18n="Collapse">Port</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'serviceType-master' ? 'menu-item active' : 'menu-item'">
+                            <a routerLink="/master/service-type-master" class="menu-link">
+                                <div data-i18n="Footer">Service Type</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'unit-master' ? 'menu-item active' : 'menu-item'">
+                            <a routerLink="/master/unit-master" class="menu-link">
+                                <div data-i18n="List Groups">Unit</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'vessel-master' ? 'menu-item active' : 'menu-item'">
+                            <a routerLink="/master/vessel-master" class="menu-link">
+                                <div data-i18n="Modals">Vessel</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'voyage-master' ? 'menu-item active' : 'menu-item'">
+                            <a routerLink="/master/voyage-master" class="menu-link">
+                                <div data-i18n="Navbar">Voyage</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'liner-master' ? 'menu-item active' : 'menu-item'">
+                            <a routerLink="/master/liner-master" class="menu-link">
+                                <div data-i18n="Navbar">Liner</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'linerService-master' ? 'menu-item active' : 'menu-item'">
+                            <a routerLink="/master/liner-service-master" class="menu-link">
+                                <div data-i18n="Navbar">Liner Service</div>
+                            </a>
+                        </li>
+                        <li [class]="submenu == 'vesselSchedule-master' ? 'menu-item active' : 'menu-item'">
+                            <a routerLink="/master/schedule-master" class="menu-link">
+                                <div data-i18n="Navbar">Vessel Schedule</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
-        </li>
-    </ul>
+        </div>
+    </div>
 </aside>
