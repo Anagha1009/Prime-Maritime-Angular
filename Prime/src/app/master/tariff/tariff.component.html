@@ -10,6 +10,7 @@
                     <li><a (click)="downloadFile()">Freight Master</a></li>
                     <li><a (click)="downloadFile1()">Charge Master</a></li>
                     <li><a (click)="downloadFile2()">Stevedoring/ THC Master</a></li>
+                    <li><a (click)="downloadFile3()">Detention Master</a></li>
                 </ul>
             </li>
         </ul>
@@ -79,6 +80,29 @@
             </div>
             <div class="col-md-10 mx-auto">
                 <button (click)="openPreviewModal('S')" class="form-btn-primary w-100">Upload Stevedoring/ THC</button>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload3 && files3.length == 0">
+                <input type="file" (change)="onFileChange3($event)" name="file3" id="file3" />
+                <label for="file3">
+                    <div>
+                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                        <span class="formbold-drop-file">Upload</span>
+                        <span class="formbold-file-item">Detention File</span>
+                    </div>
+                </label>
+            </div>
+            <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload3 && files3.length > 0">
+                <div class="formbold-file-item">
+                    <span class="formbold-file-name">Detention File</span>
+                    <button (click)="onUpload3 = false;files3=[]"><span class="bx bx-x-circle"></span></button>
+                </div>
+            </div>
+            <div class="col-md-10 mx-auto">
+                <button (click)="openPreviewModal('D')" class="form-btn-primary w-100">Upload Detention</button>
             </div>
         </div>
     </div>
@@ -180,6 +204,32 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="table-responsive" *ngIf="detentionTable?.length > 0">
+                    <table class="table-bordered ratetable" id="data-table-config4">
+                        <thead>
+                            <tr>
+                                <th>Port</th>
+                                <th>Container Type</th>
+                                <th>Currency</th>
+                                <th>From - To Days</th>
+                                <th>20'FT Rate</th>
+                                <th>40'FT Rate</th>
+                                <th>HC Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of detentionTable">
+                                <td>{{data.PORT_CODE}}</td>
+                                <td>{{data.CONTAINER_TYPE}}</td>
+                                <td>{{data.CURRENCY}}</td>
+                                <td>{{data.FROM_DAYS}} - {{data.TO_DAYS}}</td>
+                                <td>{{data.RATE20}}</td>
+                                <td>{{data.RATE40}}</td>
+                                <td>{{data.HC_RATE}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <div class="col-md-5 mx-auto text-end">
@@ -189,6 +239,8 @@
                         Charge</button>
                     <button *ngIf="stevTable?.length > 0" (click)="upload('S')" class="form-btn w-100">Upload
                         Stevedoring / THC</button>
+                    <button *ngIf="detentionTable?.length > 0" (click)="upload('D')" class="form-btn w-100">Upload
+                        Detention</button>
                 </div>
             </div>
         </div>

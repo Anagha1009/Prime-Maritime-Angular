@@ -144,6 +144,14 @@ export class MasterService {
     );
   }
 
+  insertDetention(detention: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UploadDetentionTariff',
+      detention,
+      this.httpOptions
+    );
+  }
+
   insertOrg(charge: any) {
     return this._http.post<any>(
       this.BASE_URL + 'Master/InsertOrgMaster',

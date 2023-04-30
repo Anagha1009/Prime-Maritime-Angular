@@ -14,12 +14,16 @@ export class TariffComponent implements OnInit {
   files1: any[] = [];
   files2: any[] = [];
   files3: any[] = [];
+
   freightTable: any[];
   chargeTable: any[];
   stevTable: any[];
+  detentionTable: any[];
+
   onUpload: boolean = false;
   onUpload1: boolean = false;
   onUpload2: boolean = false;
+  onUpload3: boolean = false;
 
   @ViewChild('openModalPopup1') openModalPopup1: ElementRef;
   @ViewChild('closeBtn2') closeBtn2: ElementRef;
@@ -69,6 +73,20 @@ export class TariffComponent implements OnInit {
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         var path = 'assets/img/Charge Tariff.xlsx';
+        link.download = path.replace(/^.*[\\\/]/, '');
+        link.click();
+      });
+  }
+
+  downloadFile3() {
+    this.http
+      .get('assets/img/Detention Tariff.xlsx', { responseType: 'blob' })
+      .subscribe((data) => {
+        const blob = new Blob([data], { type: 'application/vnd.ms-excel' });
+
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        var path = 'assets/img/Detention Tariff.xlsx';
         link.download = path.replace(/^.*[\\\/]/, '');
         link.click();
       });
@@ -375,7 +393,7 @@ export class TariffComponent implements OnInit {
         };
         reader.readAsBinaryString(file);
       } else {
-        this.files = [];
+        this.files1 = [];
         alert('Only .xlsx or .csv files allowed');
       }
     }
@@ -540,7 +558,136 @@ export class TariffComponent implements OnInit {
         };
         reader.readAsBinaryString(file);
       } else {
-        this.files = [];
+        this.files2 = [];
+        alert('Only .xlsx or .csv files allowed');
+      }
+    }
+  }
+
+  onFileChange3(ev: any) {
+    this.files3 = ev.target.files;
+    let workBook: any = null;
+    let jsonData = null;
+    const reader = new FileReader();
+    var file = ev.target.files[0];
+
+    var extension = file.name.split('.').pop();
+    var array = ['csv', 'xls', 'xlsx'];
+
+    if (file.size > 5000000) {
+      alert('Please upload file less than 5 mb..!');
+      return;
+    } else {
+      var el = array.find((a) => a.includes(extension));
+
+      if (el != null && el != '') {
+        reader.onload = (event) => {
+          const data = reader.result;
+          workBook = XLSX.read(data, { type: 'binary', cellDates: true });
+
+          jsonData = workBook.SheetNames.reduce((initial: any, name: any) => {
+            const sheet = workBook.Sheets[name];
+            initial[name] = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+            return initial;
+          }, {});
+
+          var keyArray = [
+            'PORT_CODE',
+            'CONTAINER_TYPE',
+            'CURRENCY',
+            'FROM_DAYS',
+            'TO_DAYS',
+            'RATE20',
+            'RATE40',
+            'HC_RATE',
+          ];
+
+          var keyXlArray: any = [];
+
+          if (jsonData.hasOwnProperty('DETENTION')) {
+            if (jsonData.DETENTION.length > 0) {
+              Object.keys(jsonData['DETENTION'][0]).forEach(function (key) {
+                keyXlArray.push(key);
+              });
+
+              var result = this.isSameColumn(keyXlArray, keyArray);
+
+              if (result) {
+                this.detentionTable = [];
+
+                this.detentionTable = jsonData['DETENTION'];
+                var isValid = true;
+                debugger;
+                this.detentionTable.forEach((element) => {
+                  if (
+                    !this.checkNullEmpty([
+                      element.PORT_CODE,
+                      element.CONTAINER_TYPE,
+                      element.CURRENCY,
+                      element.TO_DAYS,
+                    ])
+                  ) {
+                    isValid = false;
+                  }
+
+                  if (
+                    !this.checkZero([
+                      element.FROM_DAYS,
+                      element.RATE20,
+                      element.RATE40,
+                      element.HC_RATE,
+                    ])
+                  ) {
+                    isValid = false;
+                  }
+                });
+
+                this._commonService.destroyDT4();
+                if (isValid) {
+                  this.detentionTable.forEach((element) => {
+                    Object.keys(element).forEach(function (key) {
+                      if (
+                        key == 'RATE20' ||
+                        key == 'RATE40' ||
+                        key == 'HC_RATE' ||
+                        key == 'FROM_DAYS'
+                      ) {
+                        if (element[key] == '') {
+                          element[key] = 0;
+                        }
+                      }
+                    });
+                  });
+
+                  this.detentionTable = this.detentionTable.filter(
+                    (v, i, a) =>
+                      a.findIndex(
+                        (v2) => JSON.stringify(v2) === JSON.stringify(v)
+                      ) === i
+                  );
+
+                  this.onUpload3 = true;
+                  this._commonService.getDT4();
+                } else {
+                  this.files3 = [];
+                  alert('Incorrect data!');
+                }
+              } else {
+                this.files3 = [];
+                alert('Invalid file !');
+              }
+            } else {
+              this.files3 = [];
+              alert('Empty File !');
+            }
+          } else {
+            this.files3 = [];
+            alert('Invalid file !');
+          }
+        };
+        reader.readAsBinaryString(file);
+      } else {
+        this.files3 = [];
         alert('Only .xlsx or .csv files allowed');
       }
     }
@@ -552,7 +699,9 @@ export class TariffComponent implements OnInit {
         ? this.files.length == 0
         : value == 'C'
         ? this.files1.length == 0
-        : this.files2.length == 0
+        : value == 'S'
+        ? this.files2.length == 0
+        : this.files3.length == 0
     ) {
       alert('Please add file !');
       return;
@@ -561,12 +710,19 @@ export class TariffComponent implements OnInit {
     if (value == 'F') {
       this.chargeTable = [];
       this.stevTable = [];
+      this.detentionTable = [];
     } else if (value == 'C') {
       this.freightTable = [];
       this.stevTable = [];
+      this.detentionTable = [];
     } else if (value == 'S') {
       this.freightTable = [];
       this.chargeTable = [];
+      this.detentionTable = [];
+    } else if (value == 'D') {
+      this.freightTable = [];
+      this.chargeTable = [];
+      this.stevTable = [];
     }
     this.openModalPopup1.nativeElement.click();
   }
@@ -608,6 +764,19 @@ export class TariffComponent implements OnInit {
             );
             this.onUpload2 = false;
             this.files2 = [];
+            this.closeBtn2.nativeElement.click();
+          }
+        });
+    } else if (value == 'D') {
+      this._masterService
+        .insertDetention(JSON.stringify(this.detentionTable))
+        .subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            this._commonService.successMsg(
+              'Detention is been uploaded successfully !'
+            );
+            this.onUpload3 = false;
+            this.files3 = [];
             this.closeBtn2.nativeElement.click();
           }
         });

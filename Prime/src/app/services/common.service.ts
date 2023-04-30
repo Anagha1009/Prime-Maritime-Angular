@@ -106,9 +106,24 @@ export class CommonService {
     $('#data-table-config3').DataTable().clear().destroy();
   }
 
+  destroyDT4() {
+    $('#data-table-config4').DataTable().clear().destroy();
+  }
+
   getDT3() {
     setTimeout(() => {
       $('#data-table-config3').DataTable({
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+        lengthMenu: [5, 10, 25],
+      });
+    }, 1);
+  }
+
+  getDT4() {
+    setTimeout(() => {
+      $('#data-table-config4').DataTable({
         pagingType: 'full_numbers',
         pageLength: 10,
         processing: true,
