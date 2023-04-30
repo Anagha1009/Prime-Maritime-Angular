@@ -4,35 +4,32 @@
 <div class="mb-4">
     <div class="col-md-6 offset-md-6 text-end">
         <button (click)="openModal()" class="form-btn-primary"><i class="fa fa-plus me-1"></i>New
-            Container</button>
+            Slot Operator</button>
         <button class="form-btn-primary d-none" #openModalPopup data-bs-toggle="modal" href="#contModal">New
-            Container</button>
+            Slot Operator</button>
     </div>
     <form [formGroup]="sForm">
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="form-group">
-                    <label class="form-label2">From Date</label>
-                    <input onkeypress="return false;" formControlName="FROM_DATE" type="date" class="form-control2">
+                    <ng-select formControlName="PORT">
+                        <ng-option disabled value="">--Select--</ng-option>
+                        <ng-option value="{{item.CODE}}" *ngFor="let item of portList1">{{item.CODE_DESC}}</ng-option>
+                    </ng-select>
+                    <label class="form-label-ddl">Port</label>
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="form-group">
-                    <label class="form-label2">To Date</label>
-                    <input onkeypress="return false;" formControlName="TO_DATE" type="date" class="form-control2">
+                    <ng-select formControlName="SERVICE">
+                        <ng-option disabled value="">--Select--</ng-option>
+                        <ng-option value="{{item.CODE}}"
+                            *ngFor="let item of serviceList1">{{item.CODE_DESC}}</ng-option>
+                    </ng-select>
+                    <label class="form-label-ddl">Service</label>
                 </div>
             </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label class="form-label2">Status</label>
-                    <select class="form-control2" formControlName="STATUS">
-                        <option disabled value="">--Select--</option>
-                        <option value="true">Active</option>
-                        <option value="false">In-Active</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3 mt-4">
+            <div class="col-md-3">
                 <button class="form-btn me-2" (click)="Search()" [disabled]="isLoading">Search
                     <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
                 <button class="form-btn-light me-2" (click)="Clear()" [disabled]="isLoading1">Clear<span
@@ -44,11 +41,11 @@
         <thead>
             <tr>
                 <th width="1%">No</th>
-                <th width="19%">Container No</th>
-                <th width="10%">Type</th>
-                <th width="15%">On Hire</th>
-                <th width="20%">On Hire Location</th>
-                <th width="15%">Leased From</th>
+                <th width="19%">Slot Operator</th>
+                <th width="10%">Liner</th>
+                <th width="15%">Services</th>
+                <th width="20%">Port(s)</th>
+                <th width="15%">Term</th>
                 <th width="10%">Status</th>
                 <th width="10%">Action</th>
             </tr>
@@ -56,11 +53,11 @@
         <tbody>
             <tr *ngFor="let item of slotList; let i = index">
                 <td width="1%">{{i+1}}</td>
-                <td width="19%">{{item.CONTAINER_NO}}</td>
-                <td width="10%">{{item.CONTAINER_TYPE}}</td>
-                <td width="15%">{{item.ONHIRE_DATE | date:'mediumDate'}}</td>
-                <td width="20%">{{item.ONHIRE_LOCATION}}</td>
-                <td width="15%">{{item.LEASED_FROM}}</td>
+                <td width="19%">{{item.SLOT_OPERATOR}}</td>
+                <td width="10%">{{item.LINER_CODE}}</td>
+                <td width="15%">{{item.SERVICES}}</td>
+                <td width="20%">{{item.PORT_CODE}}</td>
+                <td width="15%">{{item.TERM}}</td>
                 <td width="10%" class="status"><span [class]="!item.STATUS ? 'rejected' : 'active'">{{item.STATUS ?
                         'Active'
                         :
@@ -68,77 +65,96 @@
                 </td>
                 <td width="10%">
                     <i class="fa fa-pencil mx-2 pointer text-success" (click)="openModal(item.ID)"></i>
-                    <i class="fa fa-trash ms-2 pointer text-danger" (click)="deleteContainerMaster(item.ID)"></i>
+                    <i class="fa fa-trash ms-2 pointer text-danger" (click)="deleteSlotMaster(item.ID)"></i>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
 <div class="modal fade" id="contModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Container Details</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Slot Operator Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
             </div>
             <div class="modal-body">
                 <form [formGroup]="slotForm">
                     <div class="col-md-12">
-                        <div class="row">
+                        <div class="row mt-4">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label2">Container No<span class="text-danger">
+                                    <input type="text" maxlength="255"
+                                        [ngClass]="{'invalid':submitted && f.SLOT_OPERATOR.errors}"
+                                        formControlName="SLOT_OPERATOR" class="form-control">
+                                    <label class="form-label">Slot Operator<span class="text-danger">
                                             *</span></label>
-                                    <input type="text" [readonly]="isUpdate"
-                                        [ngClass]="{'invalid':submitted && f.CONTAINER_NO.errors}"
-                                        formControlName="CONTAINER_NO" class="form-control2">
-                                    <div *ngIf="submitted && f.CONTAINER_NO.errors" class="invalid-feedback">
-                                        Container No is required
+                                    <div *ngIf="submitted && f.SLOT_OPERATOR.errors" class="invalid-feedback">
+                                        Slot Operator is required
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label2">On Hire Date<span class="text-danger">
-                                            *</span></label>
-                                    <input formControlName="ONHIRE_DATE"
-                                        [ngClass]="{'invalid':submitted && f.ONHIRE_DATE.errors}" type="date"
-                                        class="form-control2">
-                                    <div *ngIf="submitted && f.ONHIRE_DATE.errors" class="invalid-feedback">On
-                                        Hire Date is required</div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mt-4">
-                                <div class="form-group">
-                                    <label class="form-label-ddl">On Hire Location<span class="text-danger">
-                                            *</span></label>
-                                    <ng-select class="{'invalid': submitted && f.ONHIRE_LOCATION.errors}"
-                                        formControlName="ONHIRE_LOCATION" class="form-Control2">
-                                        <ng-option value="" selected="true" disabled>--Select
-                                            Container--</ng-option>
-                                        <ng-option *ngFor="let item of portList"
-                                            value="{{item.CODE}}">{{item.CODE_DESC}} ({{item.CODE}})</ng-option>
+                                    <ng-select (change)="getServiceDropdown($event)"
+                                        class="{'invalid': submitted && f.LINER_CODE.errors}"
+                                        formControlName="LINER_CODE" class="form-Control2">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of linerList">{{item.CODE_DESC}}</ng-option>
                                     </ng-select>
-                                    <div *ngIf="submitted && f.ONHIRE_LOCATION.errors" class="invalid-feedback">On
-                                        Hire Location is required</div>
+                                    <label class="form-label-ddl">Liner <span class="text-danger">
+                                            *</span></label>
+                                    <div *ngIf="submitted && f.LINER_CODE.errors" class="invalid-feedback">
+                                        Liner is required
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label2">Leased From<span class="text-danger">
+                                    <label class="form-label2" style="z-index: 1;">Service List<span
+                                            class="text-danger">
                                             *</span></label>
-                                    <input type="text" [ngClass]="{'invalid':submitted && f.LEASED_FROM.errors}"
-                                        formControlName="LEASED_FROM" class="form-control2">
-                                    <div *ngIf="submitted && f.LEASED_FROM.errors" class="invalid-feedback">
-                                        Leased From is required</div>
+                                    <small class="text-primary ms-3">Please select liner to get service names</small>
+                                    <ng-multiselect-dropdown #multiSelect
+                                        [ngClass]="{'invalid':submitted && f.SERVICE.errors}"
+                                        [placeholder]="'Select Service'" [settings]="dropdownSettings"
+                                        [formControl]="f.SERVICE" [data]="serviceList" [(ngModel)]="selectedItems">
+                                    </ng-multiselect-dropdown>
+                                    <div *ngIf="submitted && f.SERVICE.errors" class="invalid-feedback">Select
+                                        atleast 1 Service</div>
                                 </div>
                             </div>
-                            <div class="col-md-6 mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label2" style="z-index: 1;">Port List<span class="text-danger">
+                                            *</span></label>
+                                    <ng-multiselect-dropdown #multiSelect
+                                        [ngClass]="{'invalid':submitted && f.PORT.errors}" [placeholder]="'Select Port'"
+                                        [settings]="dropdownSettings" [formControl]="f.PORT" [data]="portList"
+                                        [(ngModel)]="selectedPortItems">
+                                    </ng-multiselect-dropdown>
+                                    <div *ngIf="submitted && f.PORT.errors" class="invalid-feedback">Select
+                                        atleast 1 Port</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" oninput="this.value = this.value.toUpperCase()" maxlength="50"
+                                        [ngClass]="{'invalid':submitted && f.TERM.errors}" formControlName="TERM"
+                                        class="form-control">
+                                    <label class="form-label">Term<span class="text-danger">
+                                            *</span></label>
+                                    <div *ngIf="submitted && f.TERM.errors" class="invalid-feedback">
+                                        Term is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="form-check form-switch">
                                         <input formControlName="STATUS" class="form-check-input" type="checkbox"
@@ -154,9 +170,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button *ngIf="!isUpdate" (click)="InsertContainer()" class="form-btn me-2">Save</button>
+                <button *ngIf="!isUpdate" (click)="InsertSlot()" class="form-btn me-2">Save</button>
                 <button (click)="ClearForm()" class="form-btn-light me-2">Clear</button>
-                <button *ngIf="isUpdate" (click)="updateContainerMaster() " class="form-btn">Update</button>
+                <button *ngIf="isUpdate" (click)="updateSlotMaster() " class="form-btn">Update</button>
             </div>
         </div>
     </div>

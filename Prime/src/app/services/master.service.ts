@@ -195,4 +195,45 @@ export class MasterService {
       this.httpOptions
     );
   }
+
+  insertSlot(master: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/InsertSlotMaster',
+      master,
+      this.httpOptions
+    );
+  }
+
+  GetSlotMasterList(slot: any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'Master/GetSlotMasterList?SERVICE=' +
+        slot.SERVICE +
+        '&PORT=' +
+        slot.PORT,
+      this.httpOptions
+    );
+  }
+
+  GetSlotMasterDetails(ID: number) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetSlotMasterDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  UpdateSlotMasterList(charge: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateSlotMasterList',
+      charge,
+      this.httpOptions
+    );
+  }
+
+  DeleteSlotMasterList(ID: number) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/DeleteSlotMasterList?ID=' + ID,
+      this.httpOptions
+    );
+  }
 }

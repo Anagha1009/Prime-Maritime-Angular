@@ -87,6 +87,11 @@
                                 <div data-i18n="Accordion">Location</div>
                             </a>
                         </li>
+                        <li [class]="submenu == 'slot-master' ? 'menu-item active' : 'menu-item'">
+                            <a (click)="redirectToSubMenu('slot-master')" class="menu-link pointer">
+                                <div data-i18n="Accordion">Slot Operator</div>
+                            </a>
+                        </li>
                         <li [class]="submenu == 'tariff-master' ? 'menu-item active' : 'menu-item'">
                             <a (click)="redirectToSubMenu('tariff-master')" class="menu-link pointer">
                                 <div data-i18n="Accordion">Tariff</div>
