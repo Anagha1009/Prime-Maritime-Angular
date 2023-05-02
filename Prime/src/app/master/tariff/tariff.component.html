@@ -11,6 +11,7 @@
                     <li><a (click)="downloadFile1()">Charge Master</a></li>
                     <li><a (click)="downloadFile2()">Stevedoring/ THC Master</a></li>
                     <li><a (click)="downloadFile3()">Detention Master</a></li>
+                    <li><a (click)="downloadFile4()">Mandatory Expense Master</a></li>
                 </ul>
             </li>
         </ul>
@@ -103,6 +104,27 @@
             </div>
             <div class="col-md-10 mx-auto">
                 <button (click)="openPreviewModal('D')" class="form-btn-primary w-100">Upload Detention</button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload4 && files4.length == 0">
+                <input type="file" (change)="onFileChange4($event)" name="file4" id="file4" />
+                <label for="file4">
+                    <div>
+                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                        <span class="formbold-drop-file">Upload</span>
+                        <span class="formbold-file-item">Mandatory Expense File</span>
+                    </div>
+                </label>
+            </div>
+            <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload4 && files4.length > 0">
+                <div class="formbold-file-item">
+                    <span class="formbold-file-name">Mandatory Expense File</span>
+                    <button (click)="onUpload4 = false;files4=[]"><span class="bx bx-x-circle"></span></button>
+                </div>
+            </div>
+            <div class="col-md-10 mx-auto">
+                <button (click)="openPreviewModal('M')" class="form-btn-primary w-100">Upload Mandatory Expense</button>
             </div>
         </div>
     </div>
@@ -230,6 +252,38 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="table-responsive" *ngIf="mandatoryTable?.length > 0">
+                    <table class="table-bordered ratetable" id="data-table-config5">
+                        <thead>
+                            <tr>
+                                <th>Port</th>
+                                <th>Organisation</th>
+                                <th>Charge</th>
+                                <th>Laden</th>
+                                <th>IE Type</th>
+                                <th>Currency</th>
+                                <th>20'FT Rate</th>
+                                <th>40'FT Rate</th>
+                                <th>Is Percentage</th>
+                                <th>Percentage Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of mandatoryTable">
+                                <td>{{data.PORT_CODE}}</td>
+                                <td>{{data.ORG_CODE}}</td>
+                                <td>{{data.CHARGE_CODE}}</td>
+                                <td>{{data.LADEN_STATUS}}</td>
+                                <td>{{data.IE_TYPE}}</td>
+                                <td>{{data.CURRENCY}}</td>
+                                <td>{{data.RATE20}}</td>
+                                <td>{{data.RATE40}}</td>
+                                <td>{{data.IS_PERCENTAGE}}</td>
+                                <td>{{data.PERCENTAGE_VALUE}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <div class="col-md-5 mx-auto text-end">
@@ -241,6 +295,8 @@
                         Stevedoring / THC</button>
                     <button *ngIf="detentionTable?.length > 0" (click)="upload('D')" class="form-btn w-100">Upload
                         Detention</button>
+                    <button *ngIf="mandatoryTable?.length > 0" (click)="upload('M')" class="form-btn w-100">Upload
+                        Mandatory Expense</button>
                 </div>
             </div>
         </div>

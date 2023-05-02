@@ -14,16 +14,19 @@ export class TariffComponent implements OnInit {
   files1: any[] = [];
   files2: any[] = [];
   files3: any[] = [];
+  files4: any[] = [];
 
   freightTable: any[];
   chargeTable: any[];
   stevTable: any[];
   detentionTable: any[];
+  mandatoryTable: any[];
 
   onUpload: boolean = false;
   onUpload1: boolean = false;
   onUpload2: boolean = false;
   onUpload3: boolean = false;
+  onUpload4: boolean = false;
 
   @ViewChild('openModalPopup1') openModalPopup1: ElementRef;
   @ViewChild('closeBtn2') closeBtn2: ElementRef;
@@ -87,6 +90,20 @@ export class TariffComponent implements OnInit {
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         var path = 'assets/img/Detention Tariff.xlsx';
+        link.download = path.replace(/^.*[\\\/]/, '');
+        link.click();
+      });
+  }
+
+  downloadFile4() {
+    this.http
+      .get('assets/img/Mandatory Expense Tariff.xlsx', { responseType: 'blob' })
+      .subscribe((data) => {
+        const blob = new Blob([data], { type: 'application/vnd.ms-excel' });
+
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        var path = 'assets/img/Mandatory Expense Tariff.xlsx';
         link.download = path.replace(/^.*[\\\/]/, '');
         link.click();
       });
@@ -617,7 +634,7 @@ export class TariffComponent implements OnInit {
 
                 this.detentionTable = jsonData['DETENTION'];
                 var isValid = true;
-                debugger;
+
                 this.detentionTable.forEach((element) => {
                   if (
                     !this.checkNullEmpty([
@@ -693,6 +710,146 @@ export class TariffComponent implements OnInit {
     }
   }
 
+  onFileChange4(ev: any) {
+    this.files4 = ev.target.files;
+    let workBook: any = null;
+    let jsonData = null;
+    const reader = new FileReader();
+    var file = ev.target.files[0];
+
+    var extension = file.name.split('.').pop();
+    var array = ['csv', 'xls', 'xlsx'];
+
+    if (file.size > 5000000) {
+      alert('Please upload file less than 5 mb..!');
+      return;
+    } else {
+      var el = array.find((a) => a.includes(extension));
+
+      if (el != null && el != '') {
+        reader.onload = (event) => {
+          const data = reader.result;
+          workBook = XLSX.read(data, { type: 'binary', cellDates: true });
+
+          jsonData = workBook.SheetNames.reduce((initial: any, name: any) => {
+            const sheet = workBook.Sheets[name];
+            initial[name] = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+            return initial;
+          }, {});
+
+          var keyArray = [
+            'PORT_CODE',
+            'ORG_CODE',
+            'CHARGE_CODE',
+            'IE_TYPE',
+            'LADEN_STATUS',
+            'CURRENCY',
+            'RATE20',
+            'RATE40',
+            'IS_PERCENTAGE',
+            'PERCENTAGE_VALUE',
+          ];
+
+          var keyXlArray: any = [];
+
+          if (jsonData.hasOwnProperty('MANDATORY EXPENSE')) {
+            if (jsonData['MANDATORY EXPENSE'].length > 0) {
+              Object.keys(jsonData['MANDATORY EXPENSE'][0]).forEach(function (
+                key
+              ) {
+                keyXlArray.push(key);
+              });
+
+              var result = this.isSameColumn(keyXlArray, keyArray);
+
+              if (result) {
+                this.mandatoryTable = [];
+
+                this.mandatoryTable = jsonData['MANDATORY EXPENSE'];
+                var isValid = true;
+
+                this.mandatoryTable.forEach((element) => {
+                  if (
+                    !this.checkNullEmpty([
+                      element.PORT_CODE,
+                      element.ORG_CODE,
+                      element.CHARGE_CODE,
+                      element.IE_TYPE,
+                      element.LADEN_STATUS,
+                      element.CURRENCY,
+                      element.IS_PERCENTAGE,
+                    ])
+                  ) {
+                    isValid = false;
+                  }
+
+                  if (
+                    !this.checkZero([
+                      element.RATE20,
+                      element.RATE40,
+                      element.PERCENTAGE_VALUE,
+                    ])
+                  ) {
+                    isValid = false;
+                  }
+                });
+
+                this._commonService.destroyDT5();
+                if (isValid) {
+                  this.mandatoryTable.forEach((element) => {
+                    Object.keys(element).forEach(function (key) {
+                      if (
+                        key == 'RATE20' ||
+                        key == 'RATE40' ||
+                        key == 'PERCENTAGE_VALUE'
+                      ) {
+                        if (element[key] == '') {
+                          element[key] = 0;
+                        }
+                      }
+
+                      if (key == 'IS_PERCENTAGE') {
+                        element[key] == 'Yes'
+                          ? (element[key] = true)
+                          : (element[key] = false);
+                      }
+                    });
+                  });
+
+                  this.mandatoryTable = this.mandatoryTable.filter(
+                    (v, i, a) =>
+                      a.findIndex(
+                        (v2) => JSON.stringify(v2) === JSON.stringify(v)
+                      ) === i
+                  );
+
+                  this.onUpload4 = true;
+                  this._commonService.getDT5();
+                } else {
+                  this.files4 = [];
+                  alert('Incorrect data!');
+                }
+              } else {
+                this.files4 = [];
+                alert('Invalid file !');
+              }
+            } else {
+              this.files4 = [];
+              alert('Empty File !');
+            }
+          } else {
+            this.files4 = [];
+            alert('Invalid file !');
+          }
+        };
+        reader.readAsBinaryString(file);
+      } else {
+        this.files4 = [];
+        alert('Only .xlsx or .csv files allowed');
+      }
+    }
+  }
+
   openPreviewModal(value: any) {
     if (
       value == 'F'
@@ -701,7 +858,9 @@ export class TariffComponent implements OnInit {
         ? this.files1.length == 0
         : value == 'S'
         ? this.files2.length == 0
-        : this.files3.length == 0
+        : value == 'D'
+        ? this.files3.length == 0
+        : this.files4.length == 0
     ) {
       alert('Please add file !');
       return;
@@ -711,18 +870,27 @@ export class TariffComponent implements OnInit {
       this.chargeTable = [];
       this.stevTable = [];
       this.detentionTable = [];
+      this.mandatoryTable = [];
     } else if (value == 'C') {
       this.freightTable = [];
       this.stevTable = [];
       this.detentionTable = [];
+      this.mandatoryTable = [];
     } else if (value == 'S') {
       this.freightTable = [];
       this.chargeTable = [];
       this.detentionTable = [];
+      this.mandatoryTable = [];
     } else if (value == 'D') {
       this.freightTable = [];
       this.chargeTable = [];
       this.stevTable = [];
+      this.mandatoryTable = [];
+    } else if (value == 'M') {
+      this.freightTable = [];
+      this.chargeTable = [];
+      this.stevTable = [];
+      this.detentionTable = [];
     }
     this.openModalPopup1.nativeElement.click();
   }
@@ -777,6 +945,19 @@ export class TariffComponent implements OnInit {
             );
             this.onUpload3 = false;
             this.files3 = [];
+            this.closeBtn2.nativeElement.click();
+          }
+        });
+    } else if (value == 'M') {
+      this._masterService
+        .insertMandatory(JSON.stringify(this.mandatoryTable))
+        .subscribe((res: any) => {
+          if (res.ResponseCode == 200) {
+            this._commonService.successMsg(
+              'Mandatory Expense is been uploaded successfully !'
+            );
+            this.onUpload4 = false;
+            this.files4 = [];
             this.closeBtn2.nativeElement.click();
           }
         });

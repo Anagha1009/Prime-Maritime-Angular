@@ -152,6 +152,14 @@ export class MasterService {
     );
   }
 
+  insertMandatory(mandatory: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UploadMandatoryTariff',
+      mandatory,
+      this.httpOptions
+    );
+  }
+
   insertOrg(charge: any) {
     return this._http.post<any>(
       this.BASE_URL + 'Master/InsertOrgMaster',

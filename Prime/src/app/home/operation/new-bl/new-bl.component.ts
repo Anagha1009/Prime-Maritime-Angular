@@ -1025,7 +1025,6 @@ export class NewBlComponent implements OnInit {
     BL.BL_NO = BLNO;
 
     this._blService.getBLDetails(BL).subscribe((res: any) => {
-      debugger;
       this.blForm.patchValue(res.Data);
       var x = this.blForm
         .get('PORT_OF_DISCHARGE')
