@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../@core/services/auth.guard';
 import { Role } from '../models/login';
+import { ChargeComponent } from './charge/charge.component';
 import { ContainerSizeComponent } from './container-size/container-size.component';
 import { ContainerTypeComponent } from './container-type/container-type.component';
 import { ContainerComponent } from './container/container.component';
@@ -122,6 +123,12 @@ const routes: Routes = [
   {
     path: 'freight-master',
     component: FreightComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
+    path: 'charge-master',
+    component: ChargeComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Principal, Role.Admin] },
   },

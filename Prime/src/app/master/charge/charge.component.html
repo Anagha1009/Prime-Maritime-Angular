@@ -1,0 +1,252 @@
+<div class="section-title pt-3">
+    <h2>Charge Master</h2>
+</div>
+<a href="#detailModal" data-bs-toggle="modal" #openModalPopup class="d-none"></a>
+<div class="mb-4">
+    <table class="ratetable" id="data-table-config">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>POL</th>
+                <th>Charge</th>
+                <th>Currency</th>
+                <th>Imp'20 (C / I)</th>
+                <th>Imp'40 (C / I)</th>
+                <th>Exp'20 (C / I)</th>
+                <th>Exp'40 (C / I)</th>
+                <th>From - To</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of chargeList; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{item.POL}}</td>
+                <td>{{item.CHARGE_CODE}}</td>
+                <td>{{item.CURRENCY}}
+                </td>
+                <td>{{item.IMPCOST20}} / {{item.IMPINCOME20}}
+                </td>
+                <td>{{item.IMPCOST40}} / {{item.IMPINCOME40}}
+                </td>
+                <td>{{item.EXPCOST20}} / {{item.EXPINCOME20}}
+                </td>
+                <td>{{item.EXPCOST40}} / {{item.EXPINCOME40}}
+                </td>
+                <td>{{item.FROM_VAL}} - {{item.TO_VAL}}</td>
+                <td>
+                    <i class="fa fa-pencil mx-2 pointer text-success" (click)="GetChargeMasterDetails(item.ID)"></i>
+                    <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteChargeMaster(item.ID)"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" #detailModal id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Charge Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="chargeForm">
+                    <div class="col-md-12">
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <ng-select formControlName="POL" [ngClass]="{'invalid':submitted && f.POL.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of portList">{{item.CODE_DESC}}
+                                            ({{item.CODE}})
+                                        </ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Port<span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.POL.errors" class="invalid-feedback">Port
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <ng-select formControlName="CURRENCY"
+                                        [ngClass]="{'invalid':submitted && f.CURRENCY.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of currencyList">{{item.CODE_DESC}}
+                                            ({{item.CODE}})</ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Currency <span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.CURRENCY.errors" class="invalid-feedback">Currency is
+                                        required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <ng-select formControlName="CHARGE_CODE"
+                                        [ngClass]="{'invalid':submitted && f.CHARGE_CODE.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of tariffchargeList">{{item.CODE_DESC}}
+                                        </ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Charge<span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.CHARGE_CODE.errors" class="invalid-feedback">Charge
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.FROM_VAL.errors}"
+                                        formControlName="FROM_VAL" class="form-control">
+                                    <label class="form-label">From Val</label>
+                                    <div *ngIf="submitted && f.FROM_VAL.errors" class="invalid-feedback">From Val
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.TO_VAL.errors}" formControlName="TO_VAL"
+                                        class="form-control">
+                                    <label class="form-label">To Val</label>
+                                    <div *ngIf="submitted && f.TO_VAL.errors" class="invalid-feedback">To Val
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.IMPCOST20.errors}"
+                                        formControlName="IMPCOST20" class="form-control">
+                                    <label class="form-label">Import Cost 20'</label>
+                                    <div *ngIf="submitted && f.IMPCOST20.errors" class="invalid-feedback">Import Cost
+                                        20'
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.IMPINCOME20.errors}"
+                                        formControlName="IMPINCOME20" class="form-control">
+                                    <label class="form-label">Import Income 20'</label>
+                                    <div *ngIf="submitted && f.IMPINCOME20.errors" class="invalid-feedback">Import
+                                        Income
+                                        20'
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.IMPCOST40.errors}"
+                                        formControlName="IMPCOST40" class="form-control">
+                                    <label class="form-label">Import Cost 40'</label>
+                                    <div *ngIf="submitted && f.IMPCOST40.errors" class="invalid-feedback">Import Cost
+                                        40'
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.IMPINCOME40.errors}"
+                                        formControlName="IMPINCOME40" class="form-control">
+                                    <label class="form-label">Import Income 40'</label>
+                                    <div *ngIf="submitted && f.IMPINCOME40.errors" class="invalid-feedback">Import
+                                        Income
+                                        40'
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.EXPCOST20.errors}"
+                                        formControlName="EXPCOST20" class="form-control">
+                                    <label class="form-label">Export Cost 20'</label>
+                                    <div *ngIf="submitted && f.EXPCOST20.errors" class="invalid-feedback">Export Cost
+                                        20'
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.EXPINCOME20.errors}"
+                                        formControlName="EXPINCOME20" class="form-control">
+                                    <label class="form-label">Export Income 20'</label>
+                                    <div *ngIf="submitted && f.EXPINCOME20.errors" class="invalid-feedback">Export
+                                        Income
+                                        20'
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.EXPCOST40.errors}"
+                                        formControlName="EXPCOST40" class="form-control">
+                                    <label class="form-label">Export Cost 40'</label>
+                                    <div *ngIf="submitted && f.EXPCOST40.errors" class="invalid-feedback">Export Cost
+                                        20'
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.EXPINCOME40.errors}"
+                                        formControlName="EXPINCOME40" class="form-control">
+                                    <label class="form-label">Export Income 40'</label>
+                                    <div *ngIf="submitted && f.EXPINCOME40.errors" class="invalid-feedback">Export
+                                        Income
+                                        40'
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button (click)="UpdateChargeMaster()" class="form-btn">Update</button>
+                <button class="form-btn-light me-2" (click)="ClearForm()">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>

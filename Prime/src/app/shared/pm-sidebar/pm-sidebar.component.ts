@@ -9,7 +9,9 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class PmSidebarComponent implements OnInit {
   ismenu: boolean = false;
+  ismenu1: boolean = false;
   submenu: string = '';
+  submenu1: string = '';
   menu: string = 'dashboard';
   @Input() username: string;
 
@@ -29,6 +31,15 @@ export class PmSidebarComponent implements OnInit {
   redirectToSubMenu(value: string) {
     this.ismenu = true;
     this.submenu = value;
+    this.submenu1 = '';
+    this.menu = 'master';
+    this._router.navigateByUrl('/master/' + value);
+  }
+
+  redirectToSubMenu1(value: string) {
+    this.ismenu1 = true;
+    this.submenu1 = value;
+    this.ismenu = true;
     this._router.navigateByUrl('/master/' + value);
   }
 

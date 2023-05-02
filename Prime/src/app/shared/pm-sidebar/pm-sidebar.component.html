@@ -61,8 +61,9 @@
                         <div data-i18n="Basic">M&R Requests</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="javascript:void(0)" (click)="ismenu = !ismenu" class="menu-link menu-toggle">
+                <li [class]="menu == 'master' ? 'menu-item active' : 'menu-item'">
+                    <a href="javascript:void(0)" (click)="ismenu = !ismenu;menu = 'master'"
+                        class="menu-link menu-toggle">
                         <i class='menu-icon tf-icons bx bx-user-circle'></i>
                         <div data-i18n="User interface">Masters</div>
                     </a>
@@ -92,69 +93,82 @@
                                 <div data-i18n="Accordion">Slot Operator</div>
                             </a>
                         </li>
-                        <li [class]="submenu == 'tariff-master' ? 'menu-item active' : 'menu-item'">
-                            <a (click)="redirectToSubMenu('tariff-master')" class="menu-link pointer">
-                                <div data-i18n="Accordion">Tariff</div>
+                        <li [class]="submenu == 'tariff' ? 'menu-item active' : 'menu-item'">
+                            <a href="javascript:void(0)" (click)="ismenu1 = !ismenu1;submenu = 'tariff'"
+                                class="menu-link menu-toggle">
+                                <div data-i18n="User interface">Tariff</div>
                             </a>
-                        </li>
-                        <li [class]="submenu == 'freight-master' ? 'menu-item active' : 'menu-item'">
-                            <a (click)="redirectToSubMenu('freight-master')" class="menu-link pointer">
-                                <div data-i18n="Accordion">Freight</div>
-                            </a>
+                            <ul [class]="ismenu1 ? 'menu-sub d-block' : 'menu-sub d-none'">
+                                <li [class]="submenu1 == 'tariff-master' ? 'menu-item active' : 'menu-item'">
+                                    <a (click)="redirectToSubMenu1('tariff-master')" class="menu-link pointer">
+                                        <div data-i18n="Accordion">Tariff Upload</div>
+                                    </a>
+                                </li>
+                                <li [class]="submenu1 == 'freight-master' ? 'menu-item active' : 'menu-item'">
+                                    <a (click)="redirectToSubMenu1('freight-master')" class="menu-link pointer">
+                                        <div data-i18n="Accordion">Freight List</div>
+                                    </a>
+                                </li>
+                                <li [class]="submenu1 == 'charge-master' ? 'menu-item active' : 'menu-item'">
+                                    <a (click)="redirectToSubMenu1('charge-master')" class="menu-link pointer">
+                                        <div data-i18n="Accordion">Charge List</div>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li [class]="submenu == 'container-master' ? 'menu-item active' : 'menu-item'">
                             <a (click)="redirectToSubMenu('container-master')" class="menu-link pointer">
                                 <div data-i18n="Alerts">Container</div>
                             </a>
                         </li>
-                        <li [class]="submenu == 'containerType-master' ? 'menu-item active' : 'menu-item'">
-                            <a routerLink="/master/container-type-master" class="menu-link">
-                                <div data-i18n="Buttons">Container Type</div>
+                        <li [class]="submenu == 'container-type-master' ? 'menu-item active' : 'menu-item'">
+                            <a (click)="redirectToSubMenu('container-type-master')" class="menu-link pointer">
+                                <div data-i18n="Alerts">Container Type</div>
                             </a>
                         </li>
                         <li [class]="submenu == 'currency-master' ? 'menu-item active' : 'menu-item'">
-                            <a routerLink="/master/currency-master" class="menu-link">
-                                <div data-i18n="Carousel">Currency</div>
+                            <a (click)="redirectToSubMenu('currency-master')" class="menu-link pointer">
+                                <div data-i18n="Alerts">Currency</div>
                             </a>
                         </li>
                         <li [class]="submenu == 'port-master' ? 'menu-item active' : 'menu-item'">
-                            <a routerLink="/master/port-master" class="menu-link">
-                                <div data-i18n="Collapse">Port</div>
+                            <a (click)="redirectToSubMenu('port-master')" class="menu-link pointer">
+                                <div data-i18n="Alerts">Port</div>
                             </a>
                         </li>
-                        <li [class]="submenu == 'serviceType-master' ? 'menu-item active' : 'menu-item'">
-                            <a routerLink="/master/service-type-master" class="menu-link">
-                                <div data-i18n="Footer">Service Type</div>
+                        <li [class]="submenu == 'service-type-master' ? 'menu-item active' : 'menu-item'">
+                            <a (click)="redirectToSubMenu('service-type-master')" class="menu-link pointer">
+                                <div data-i18n="Alerts">Service Type</div>
                             </a>
                         </li>
                         <li [class]="submenu == 'unit-master' ? 'menu-item active' : 'menu-item'">
-                            <a routerLink="/master/unit-master" class="menu-link">
-                                <div data-i18n="List Groups">Unit</div>
+                            <a (click)="redirectToSubMenu('unit-master')" class="menu-link pointer">
+                                <div data-i18n="Alerts">Unit</div>
                             </a>
                         </li>
                         <li [class]="submenu == 'vessel-master' ? 'menu-item active' : 'menu-item'">
-                            <a routerLink="/master/vessel-master" class="menu-link">
-                                <div data-i18n="Modals">Vessel</div>
+                            <a (click)="redirectToSubMenu('vessel-master')" class="menu-link pointer">
+                                <div data-i18n="Alerts">Vessel</div>
                             </a>
                         </li>
                         <li [class]="submenu == 'voyage-master' ? 'menu-item active' : 'menu-item'">
-                            <a routerLink="/master/voyage-master" class="menu-link">
-                                <div data-i18n="Navbar">Voyage</div>
+                            <a (click)="redirectToSubMenu('voyage-master')" class="menu-link pointer">
+                                <div data-i18n="Alerts">Voyage</div>
                             </a>
                         </li>
                         <li [class]="submenu == 'liner-master' ? 'menu-item active' : 'menu-item'">
-                            <a routerLink="/master/liner-master" class="menu-link">
-                                <div data-i18n="Navbar">Liner</div>
+                            <a (click)="redirectToSubMenu('liner-master')" class="menu-link pointer">
+                                <div data-i18n="Alerts">Liner</div>
                             </a>
                         </li>
-                        <li [class]="submenu == 'linerService-master' ? 'menu-item active' : 'menu-item'">
-                            <a routerLink="/master/liner-service-master" class="menu-link">
-                                <div data-i18n="Navbar">Liner Service</div>
+                        <li [class]="submenu == 'liner-service-master' ? 'menu-item active' : 'menu-item'">
+                            <a (click)="redirectToSubMenu('liner-service-master')" class="menu-link pointer">
+                                <div data-i18n="Alerts">Liner Service</div>
                             </a>
                         </li>
-                        <li [class]="submenu == 'vesselSchedule-master' ? 'menu-item active' : 'menu-item'">
-                            <a routerLink="/master/schedule-master" class="menu-link">
-                                <div data-i18n="Navbar">Vessel Schedule</div>
+                        <li [class]="submenu == 'schedule-master' ? 'menu-item active' : 'menu-item'">
+                            <a (click)="redirectToSubMenu('schedule-master')" class="menu-link pointer">
+                                <div data-i18n="Alerts">Vessel Schedule</div>
                             </a>
                         </li>
                     </ul>

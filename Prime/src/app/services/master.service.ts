@@ -136,6 +136,35 @@ export class MasterService {
     );
   }
 
+  updateCharge(freight: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateChargeMasterList',
+      freight,
+      this.httpOptions
+    );
+  }
+
+  getChargeList() {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetChargeMasterList',
+      this.httpOptions
+    );
+  }
+
+  getChargeDetails(ID: any) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetChargeMasterDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  deleteCharge(ID: any) {
+    return this._http.delete<any>(
+      this.BASE_URL + 'Master/DeleteChargeMasterList?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
   insertStev(charge: any) {
     return this._http.post<any>(
       this.BASE_URL + 'Master/UploadStevTariff',
