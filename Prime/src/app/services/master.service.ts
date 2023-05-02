@@ -173,6 +173,35 @@ export class MasterService {
     );
   }
 
+  updateSteve(freight: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateStevedoringMasterList',
+      freight,
+      this.httpOptions
+    );
+  }
+
+  getSteveList() {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetStevedoringMasterList',
+      this.httpOptions
+    );
+  }
+
+  getSteveDetails(ID: any) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetStevedoringMasterDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  deleteSteve(ID: any) {
+    return this._http.delete<any>(
+      this.BASE_URL + 'Master/DeleteStevedoringMasterList?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
   insertDetention(detention: any) {
     return this._http.post<any>(
       this.BASE_URL + 'Master/UploadDetentionTariff',

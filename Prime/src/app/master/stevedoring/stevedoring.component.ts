@@ -1,21 +1,21 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/services/common.service';
 import { MasterService } from 'src/app/services/master.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-charge',
-  templateUrl: './charge.component.html',
-  styleUrls: ['./charge.component.scss'],
+  selector: 'app-stevedoring',
+  templateUrl: './stevedoring.component.html',
+  styleUrls: ['./stevedoring.component.scss'],
 })
-export class ChargeComponent implements OnInit {
+export class StevedoringComponent implements OnInit {
   submitted: boolean = false;
-  chargeForm: FormGroup;
-  chargeList: any[] = [];
+  steveForm: FormGroup;
+  steveList: any[] = [];
   portList: any[] = [];
   currencyList: any[] = [];
-  tariffchargeList: any[] = [];
+  terminalList: any[] = [];
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
@@ -27,29 +27,37 @@ export class ChargeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.chargeForm = this._formBuilder.group({
+    this.steveForm = this._formBuilder.group({
       ID: [0],
+      IE_TYPE: ['', Validators.required],
       POL: ['', Validators.required],
+      TERMINAL: ['', Validators.required],
       CHARGE_CODE: ['', Validators.required],
       CURRENCY: ['', Validators.required],
-      IMPCOST20: [0, Validators.required],
-      IMPCOST40: [0, Validators.required],
-      IMPINCOME20: [0, Validators.required],
-      IMPINCOME40: [0, Validators.required],
-      EXPCOST20: [0, Validators.required],
-      EXPCOST40: [0, Validators.required],
-      EXPINCOME20: [0, Validators.required],
-      EXPINCOME40: [0, Validators.required],
-      FROM_VAL: [0, Validators.required],
-      TO_VAL: [0, Validators.required],
+      LADEN_STATUS: ['', Validators.required],
+      SERVICE_MODE: ['', Validators.required],
+      DRY20: [0, Validators.required],
+      DRY40: [0, Validators.required],
+      DRY40HC: [0, Validators.required],
+      DRY45: [0, Validators.required],
+      RF20: [0, Validators.required],
+      RF40: [0, Validators.required],
+      RF40HC: [0, Validators.required],
+      RF45: [0, Validators.required],
+      HAZ20: [0, Validators.required],
+      HAZ40: [0, Validators.required],
+      HAZ40HC: [0, Validators.required],
+      HAZ45: [0, Validators.required],
+      SEQ20: [0, Validators.required],
+      SEQ40: [0, Validators.required],
     });
 
-    this.GetChargeMasterList();
+    this.GetSteveMasterList();
     this.getDropdown();
   }
 
   get f() {
-    return this.chargeForm.controls;
+    return this.steveForm.controls;
   }
 
   getDropdown() {
@@ -64,27 +72,31 @@ export class ChargeComponent implements OnInit {
         this.currencyList = res.Data;
       }
     });
+  }
 
+  getTerminalDropdown(event: any) {
+    this.steveForm.get('TERMINAL').setValue('');
+    this.terminalList = [];
     this._commonService
-      .getDropdownData('TARIFF_CHARGE')
+      .getDropdownData('TERMINAL', event)
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
-          this.tariffchargeList = res.Data;
+          this.terminalList = res.Data;
         }
       });
   }
 
-  GetChargeMasterList() {
+  GetSteveMasterList() {
     this._commonService.destroyDT();
-    this._masterService.getChargeList().subscribe((res: any) => {
+    this._masterService.getSteveList().subscribe((res: any) => {
       if (res.ResponseCode == 200) {
-        this.chargeList = res.Data;
+        this.steveList = res.Data;
       }
       this._commonService.getDT();
     });
   }
 
-  DeleteChargeMaster(ID: number) {
+  DeleteSteveMaster(ID: number) {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -95,50 +107,50 @@ export class ChargeComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        this._masterService.deleteCharge(ID).subscribe((res: any) => {
+        this._masterService.deleteSteve(ID).subscribe((res: any) => {
           if (res.ResponseCode == 200) {
             Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
-            this.GetChargeMasterList();
+            this.GetSteveMasterList();
           }
         });
       }
     });
   }
 
-  GetChargeMasterDetails(ID: number) {
+  GetSteveMasterDetails(ID: number) {
     this.submitted = false;
-    this._masterService.getChargeDetails(ID).subscribe((res: any) => {
+    this._masterService.getSteveDetails(ID).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
-        this.chargeForm.patchValue(res.Data);
+        this.steveForm.patchValue(res.Data);
       }
     });
     this.openModalPopup.nativeElement.click();
   }
 
-  UpdateChargeMaster() {
+  UpdateSteveMaster() {
     this.submitted = true;
-    if (this.chargeForm.invalid) {
+    if (this.steveForm.invalid) {
       return;
     }
 
     this._masterService
-      .updateCharge(JSON.stringify(this.chargeForm.value))
+      .updateSteve(JSON.stringify(this.steveForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
           this._commonService.successMsg(
             'Your record has been updated successfully !'
           );
-          this.GetChargeMasterList();
+          this.GetSteveMasterList();
           this.closeBtn.nativeElement.click();
         }
       });
   }
 
   ClearForm() {
-    this.chargeForm.reset();
-    this.chargeForm.get('ID').setValue(0);
-    this.chargeForm.get('POL').setValue('');
-    this.chargeForm.get('CHARGE_CODE').setValue('');
-    this.chargeForm.get('CURRENCY').setValue('');
+    this.steveForm.reset();
+    this.steveForm.get('ID').setValue(0);
+    this.steveForm.get('POL').setValue('');
+    this.steveForm.get('CHARGE_CODE').setValue('');
+    this.steveForm.get('CURRENCY').setValue('');
   }
 }

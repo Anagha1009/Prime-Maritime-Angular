@@ -114,6 +114,11 @@
                                         <div data-i18n="Accordion">Charge List</div>
                                     </a>
                                 </li>
+                                <li [class]="submenu1 == 'stevedoring-master' ? 'menu-item active' : 'menu-item'">
+                                    <a (click)="redirectToSubMenu1('stevedoring-master')" class="menu-link pointer">
+                                        <div data-i18n="Accordion">Stevedoring/ THC List</div>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li [class]="submenu == 'container-master' ? 'menu-item active' : 'menu-item'">

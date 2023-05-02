@@ -17,6 +17,7 @@ import { PortComponent } from './port/port.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { ServicetypeComponent } from './servicetype/servicetype.component';
 import { SlotOperatorComponent } from './slot-operator/slot-operator.component';
+import { StevedoringComponent } from './stevedoring/stevedoring.component';
 import { TariffComponent } from './tariff/tariff.component';
 import { UnitComponent } from './unit/unit.component';
 import { UserComponent } from './user/user.component';
@@ -129,6 +130,12 @@ const routes: Routes = [
   {
     path: 'charge-master',
     component: ChargeComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
+    path: 'stevedoring-master',
+    component: StevedoringComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Principal, Role.Admin] },
   },

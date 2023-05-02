@@ -28,6 +28,7 @@ import { FreightComponent } from './freight/freight.component';
 import { TariffComponent } from './tariff/tariff.component';
 import { OrganisationComponent } from './organisation/organisation.component';
 import { ChargeComponent } from './charge/charge.component';
+import { StevedoringComponent } from './stevedoring/stevedoring.component';
 
 @NgModule({
     declarations: [
@@ -50,7 +51,8 @@ import { ChargeComponent } from './charge/charge.component';
         FreightComponent,
         TariffComponent,
         OrganisationComponent,
-        ChargeComponent
+        ChargeComponent,
+        StevedoringComponent
     ],
     imports: [
         CommonModule,

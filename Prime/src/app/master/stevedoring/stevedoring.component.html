@@ -1,0 +1,350 @@
+<div class="section-title pt-3">
+    <h2>Stevedoring Master</h2>
+</div>
+<a href="#detailModal" data-bs-toggle="modal" #openModalPopup class="d-none"></a>
+<div class="mb-4">
+    <div class="table-responsive">
+        <table class="ratetable" style="width:170%" id="data-table-config">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Type</th>
+                    <th>Port</th>
+                    <th>Terminal</th>
+                    <th>Charge (Currency)</th>
+                    <th>Laden / Service</th>
+                    <th>DRY (20 / 40 / 45)</th>
+                    <th>RF (20 / 40 / 45)</th>
+                    <th>HAZ (20 / 40 / 45)</th>
+                    <th>SEQ (20 / 40)</th>
+                    <th>DRY40HC / RF40HC / HAZ40HC</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of steveList; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.IE_TYPE}}</td>
+                    <td>{{item.POL}}</td>
+                    <td>{{item.TERMINAL}}</td>
+                    <td>{{item.CHARGE_CODE}} ({{item.CURRENCY}})</td>
+                    <td>{{item.LADEN_STATUS == 'L' ? 'Laden' : 'Empty'}} / {{item.SERVICE_MODE}}</td>
+                    <td>{{item.DRY20}} / {{item.DRY40}} / {{item.DRY45}}</td>
+                    <td>{{item.RF20}} / {{item.RF40}} / {{item.RF45}}</td>
+                    <td>{{item.HAZ20}} / {{item.HAZ40}} / {{item.HAZ45}}</td>
+                    <td>{{item.SEQ20}} / {{item.SEQ40}}</td>
+                    <td>{{item.DRY40HC}} / {{item.RF40HC}} / {{item.HAZ40HC}}</td>
+                    <td>
+                        <i class="fa fa-pencil mx-2 pointer text-success" (click)="GetSteveMasterDetails(item.ID)"></i>
+                        <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteSteveMaster(item.ID)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" #detailModal id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Charge Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="steveForm">
+                    <div class="col-md-12">
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <ng-select formControlName="IE_TYPE"
+                                        [ngClass]="{'invalid':submitted && f.IE_TYPE.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="IMPORT">Import</ng-option>
+                                        <ng-option value="EXPORT">Export</ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">IE Type<span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.IE_TYPE.errors" class="invalid-feedback">IE Type
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <ng-select (change)="getTerminalDropdown($event)" formControlName="POL"
+                                        [ngClass]="{'invalid':submitted && f.POL.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of portList">{{item.CODE_DESC}} ({{item.CODE}})</ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Port<span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.POL.errors" class="invalid-feedback">Port
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <ng-select formControlName="TERMINAL"
+                                        [ngClass]="{'invalid':submitted && f.TERMINAL.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of terminalList">{{item.CODE_DESC}}</ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Terminal<span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.TERMINAL.errors" class="invalid-feedback">Terminal
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <ng-select formControlName="CHARGE_CODE"
+                                        [ngClass]="{'invalid':submitted && f.CHARGE_CODE.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="Stevedoring">Stevedoring</ng-option>
+                                        <ng-option value="THC">THC</ng-option>
+                                        <ng-option value="TLUC">TLUC</ng-option>
+                                        <ng-option value="Waterfront">Waterfront</ng-option>
+                                        <ng-option value="Waterfront (C)">Waterfront (C)</ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Charge<span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.CHARGE_CODE.errors" class="invalid-feedback">Charge
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <ng-select formControlName="CURRENCY"
+                                        [ngClass]="{'invalid':submitted && f.CURRENCY.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of currencyList">{{item.CODE_DESC}}
+                                            ({{item.CODE}})</ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Currency <span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.CURRENCY.errors" class="invalid-feedback">Currency is
+                                        required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <ng-select formControlName="LADEN_STATUS"
+                                        [ngClass]="{'invalid':submitted && f.LADEN_STATUS.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="L">Laden</ng-option>
+                                        <ng-option value="E">Empty</ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Laden
+                                        Status<span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.LADEN_STATUS.errors" class="invalid-feedback">Laden
+                                        Status
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="10" type="text"
+                                        [ngClass]="{'invalid':submitted && f.SERVICE_MODE.errors}"
+                                        formControlName="SERVICE_MODE" class="form-control">
+                                    <label class="form-label">Service Mode</label>
+                                    <div *ngIf="submitted && f.SERVICE_MODE.errors" class="invalid-feedback">Service
+                                        Mode
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.DRY20.errors}" formControlName="DRY20"
+                                        class="form-control">
+                                    <label class="form-label">DRY 20</label>
+                                    <div *ngIf="submitted && f.DRY20.errors" class="invalid-feedback">DRY 20
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.DRY40.errors}" formControlName="DRY40"
+                                        class="form-control">
+                                    <label class="form-label">DRY 40</label>
+                                    <div *ngIf="submitted && f.DRY40.errors" class="invalid-feedback">DRY 40
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.DRY40HC.errors}" formControlName="DRY40HC"
+                                        class="form-control">
+                                    <label class="form-label">DRY 40HC</label>
+                                    <div *ngIf="submitted && f.DRY40HC.errors" class="invalid-feedback">DRY 40HC
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.DRY45.errors}" formControlName="DRY45"
+                                        class="form-control">
+                                    <label class="form-label">DRY 45</label>
+                                    <div *ngIf="submitted && f.DRY45.errors" class="invalid-feedback">DRY 45
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.RF20.errors}" formControlName="RF20"
+                                        class="form-control">
+                                    <label class="form-label">RF 20</label>
+                                    <div *ngIf="submitted && f.RF20.errors" class="invalid-feedback">RF 20
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.RF40.errors}" formControlName="RF40"
+                                        class="form-control">
+                                    <label class="form-label">RF 40</label>
+                                    <div *ngIf="submitted && f.RF40.errors" class="invalid-feedback">RF 40
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.RF40HC.errors}" formControlName="RF40HC"
+                                        class="form-control">
+                                    <label class="form-label">RF 40HC</label>
+                                    <div *ngIf="submitted && f.RF40HC.errors" class="invalid-feedback">RF 40HC
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.RF45.errors}" formControlName="RF45"
+                                        class="form-control">
+                                    <label class="form-label">RF 45</label>
+                                    <div *ngIf="submitted && f.RF45.errors" class="invalid-feedback">RF 45
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.HAZ20.errors}" formControlName="HAZ20"
+                                        class="form-control">
+                                    <label class="form-label">HAZ 20</label>
+                                    <div *ngIf="submitted && f.HAZ20.errors" class="invalid-feedback">HAZ 20
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.HAZ40.errors}" formControlName="HAZ40"
+                                        class="form-control">
+                                    <label class="form-label">HAZ 40</label>
+                                    <div *ngIf="submitted && f.HAZ40.errors" class="invalid-feedback">HAZ 40
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.HAZ40HC.errors}" formControlName="HAZ40HC"
+                                        class="form-control">
+                                    <label class="form-label">HAZ 40HC</label>
+                                    <div *ngIf="submitted && f.HAZ40HC.errors" class="invalid-feedback">HAZ 40HC
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.HAZ45.errors}" formControlName="HAZ45"
+                                        class="form-control">
+                                    <label class="form-label">HAZ 45</label>
+                                    <div *ngIf="submitted && f.HAZ45.errors" class="invalid-feedback">HAZ 45
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.SEQ20.errors}" formControlName="SEQ20"
+                                        class="form-control">
+                                    <label class="form-label">SEQ 20</label>
+                                    <div *ngIf="submitted && f.SEQ20.errors" class="invalid-feedback">SEQ 20
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input maxlength="3" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.SEQ40.errors}" formControlName="SEQ40"
+                                        class="form-control">
+                                    <label class="form-label">SEQ 40</label>
+                                    <div *ngIf="submitted && f.SEQ40.errors" class="invalid-feedback">SEQ 40
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button (click)="UpdateSteveMaster()" class="form-btn">Update</button>
+                <button class="form-btn-light me-2" (click)="ClearForm()">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>
