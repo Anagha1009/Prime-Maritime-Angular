@@ -107,10 +107,15 @@
                                         [ngClass]="{'invalid':submitted && f.CHARGE_CODE.errors}">
                                         <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                         <ng-option value="Stevedoring">Stevedoring</ng-option>
+                                        <ng-option value="Stevedoring Pvt">Stevedoring Pvt</ng-option>
+                                        <ng-option value="Stevedoring Port">Stevedoring Port</ng-option>
+                                        <ng-option value="MTY Container Monitoring">MTY Container Monitoring</ng-option>
                                         <ng-option value="THC">THC</ng-option>
                                         <ng-option value="TLUC">TLUC</ng-option>
-                                        <ng-option value="Waterfront">Waterfront</ng-option>
-                                        <ng-option value="Waterfront (C)">Waterfront (C)</ng-option>
+                                        <ng-option value="Water Front">Waterfront</ng-option>
+                                        <ng-option value="Water Front (C)">Waterfront (C)</ng-option>
+                                        <ng-option value="Custom Declaration">Custom Declaration</ng-option>
+                                        <ng-option value="Trucking">Trucking</ng-option>
                                     </ng-select>
                                     <label class="form-label-ddl">Charge<span class="text-danger"> *</span></label>
                                     <div *ngIf="submitted && f.CHARGE_CODE.errors" class="invalid-feedback">Charge
