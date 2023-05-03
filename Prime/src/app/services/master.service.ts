@@ -247,6 +247,35 @@ export class MasterService {
     );
   }
 
+  updateMandatory(freight: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateMandatoryMasterList',
+      freight,
+      this.httpOptions
+    );
+  }
+
+  getMandatoryList() {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetMandatoryMasterList',
+      this.httpOptions
+    );
+  }
+
+  getMandatoryDetails(ID: any) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetMandatoryMasterDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  deleteMandatory(ID: any) {
+    return this._http.delete<any>(
+      this.BASE_URL + 'Master/DeleteMandatoryMasterList?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
   insertOrg(charge: any) {
     return this._http.post<any>(
       this.BASE_URL + 'Master/InsertOrgMaster',

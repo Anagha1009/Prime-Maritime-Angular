@@ -12,6 +12,7 @@ import { FreightComponent } from './freight/freight.component';
 import { LinerServiceComponent } from './liner-service/liner-service.component';
 import { LinerComponent } from './liner/liner.component';
 import { LocationComponent } from './location/location.component';
+import { MandatoryComponent } from './mandatory/mandatory.component';
 import { OrganisationComponent } from './organisation/organisation.component';
 import { PartyComponent } from './party/party.component';
 import { PortComponent } from './port/port.component';
@@ -143,6 +144,12 @@ const routes: Routes = [
   {
     path: 'detention-master',
     component: DetentionComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
+    path: 'mandatory-master',
+    component: MandatoryComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Principal, Role.Admin] },
   },

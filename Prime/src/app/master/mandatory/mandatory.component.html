@@ -1,0 +1,202 @@
+<div class="section-title pt-3">
+    <h2>Mandatory Master</h2>
+</div>
+<a href="#detailModal" data-bs-toggle="modal" #openModalPopup class="d-none"></a>
+<div class="mb-4">
+    <div class="table-responsive">
+        <table class="ratetable" id="data-table-config">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Port</th>
+                    <th>Organisation</th>
+                    <th>Charge</th>
+                    <th>IE Type</th>
+                    <th>20'FT Rate</th>
+                    <th>40'FT Rate</th>
+                    <th>Percentage Value</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of mandatoryList; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.PORT_CODE}}</td>
+                    <td>{{item.ORG_CODE}}</td>
+                    <td>{{item.CHARGE_CODE}}</td>
+                    <td>{{item.LADEN_STATUS == 'L' ? 'Laden' : 'Empty'}} | {{item.IE_TYPE}}</td>
+                    <td>{{item.CURRENCY}} {{item.RATE20}}</td>
+                    <td>{{item.CURRENCY}} {{item.RATE40}}</td>
+                    <td>{{item.PERCENTAGE_VALUE}}</td>
+                    <td>
+                        <i class="fa fa-pencil mx-2 pointer text-success"
+                            (click)="GetMandatoryMasterDetails(item.ID)"></i>
+                        <i class="fa fa-trash ms-2 pointer text-danger" (click)="DeleteMandatoryMaster(item.ID)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" #detailModal id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Charge Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="mandatoryForm">
+                    <div class="col-md-12">
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <ng-select formControlName="PORT_CODE"
+                                        [ngClass]="{'invalid':submitted && f.PORT_CODE.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of portList">{{item.CODE_DESC}} ({{item.CODE}})</ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Port<span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.PORT_CODE.errors" class="invalid-feedback">Port
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <ng-select formControlName="ORG_CODE"
+                                        [ngClass]="{'invalid':submitted && f.ORG_CODE.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE_DESC}} | {{item.CODE}}"
+                                            *ngFor="let item of orgList">{{item.CODE_DESC}}
+                                            ({{item.CODE}})</ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Organisation<span class="text-danger">
+                                            *</span></label>
+                                    <div *ngIf="submitted && f.ORG_CODE.errors" class="invalid-feedback">Organisation
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input maxlength="100" type="text"
+                                        [ngClass]="{'invalid':submitted && f.CHARGE_CODE.errors}"
+                                        formControlName="CHARGE_CODE" class="form-control">
+                                    <label class="form-label">Charge</label>
+                                    <div *ngIf="submitted && f.CHARGE_CODE.errors" class="invalid-feedback">Charge
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <ng-select formControlName="IE_TYPE"
+                                        [ngClass]="{'invalid':submitted && f.IE_TYPE.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="Import">Import
+                                        </ng-option>
+                                        <ng-option value="Export">Export
+                                        </ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">IE Type <span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.IE_TYPE.errors" class="invalid-feedback">IE Type is
+                                        required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <ng-select formControlName="LADEN_STATUS"
+                                        [ngClass]="{'invalid':submitted && f.LADEN_STATUS.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="L">Laden</ng-option>
+                                        <ng-option value="E">Empty</ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Laden<span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.LADEN_STATUS.errors" class="invalid-feedback">Laden is
+                                        required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <ng-select formControlName="CURRENCY"
+                                        [ngClass]="{'invalid':submitted && f.CURRENCY.errors}">
+                                        <ng-option value="" selected="true" disabled>--Select--</ng-option>
+                                        <ng-option value="{{item.CODE}}"
+                                            *ngFor="let item of currencyList">{{item.CODE_DESC}}
+                                            ({{item.CODE}})</ng-option>
+                                    </ng-select>
+                                    <label class="form-label-ddl">Currency <span class="text-danger"> *</span></label>
+                                    <div *ngIf="submitted && f.CURRENCY.errors" class="invalid-feedback">Currency is
+                                        required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input maxlength="10" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.RATE20.errors}" formControlName="RATE20"
+                                        class="form-control">
+                                    <label class="form-label">20' Rate</label>
+                                    <div *ngIf="submitted && f.RATE20.errors" class="invalid-feedback">20' Rate
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input maxlength="10" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.RATE40.errors}" formControlName="RATE40"
+                                        class="form-control">
+                                    <label class="form-label">40' Rate</label>
+                                    <div *ngIf="submitted && f.RATE40.errors" class="invalid-feedback">40' Rate
+                                        is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-check form-switch">
+                                        <input formControlName="IS_PERCENTAGE" class="form-check-input" type="checkbox"
+                                            role="switch" />
+                                        <label class="form-check-label">Is Percentage <span class="text-danger">
+                                                *</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input maxlength="10" type="text"
+                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                        [ngClass]="{'invalid':submitted && f.PERCENTAGE_VALUE.errors}"
+                                        formControlName="PERCENTAGE_VALUE" class="form-control">
+                                    <label class="form-label">Percentage Value</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button (click)="UpdateMandatoryMaster()" class="form-btn">Update</button>
+                <button class="form-btn-light me-2" (click)="ClearForm()">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>
