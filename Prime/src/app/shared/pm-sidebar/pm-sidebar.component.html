@@ -124,6 +124,11 @@
                                         <div data-i18n="Accordion">Detention List</div>
                                     </a>
                                 </li>
+                                <li [class]="submenu1 == 'mandatory-master' ? 'menu-item active' : 'menu-item'">
+                                    <a (click)="redirectToSubMenu1('mandatory-master')" class="menu-link pointer">
+                                        <div data-i18n="Accordion">Mandatory List</div>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li [class]="submenu == 'container-master' ? 'menu-item active' : 'menu-item'">
