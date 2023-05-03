@@ -288,9 +288,7 @@
                             Enter Description of Goods</div>
                     </div>
                 </div>
-
             </div>
-
             <div class="table-responsive" *ngIf="isSplit && !isManual">
                 <table class="table" style="font-size: 12px;">
                     <thead>
@@ -568,61 +566,47 @@
             <table class="ratetable table-striped table-bordered" id="data-table-config">
                 <thead>
                     <tr>
-                        <th width="15%">BL No</th>
+                        <th width="1%">No</th>
+                        <th width="11%">BL No</th>
                         <th width="15%">Shipper Name</th>
-                        <th width="12%">BL Date</th>
-                        <th width="20%">Booking No</th>
-                        <th width="15%">Cons. Name</th>
-                        <!-- <th width="5%">POL</th>
-                        <th width="5%">POD</th> -->
+                        <th width="10%">BL Date</th>
+                        <th width="15%">Booking No</th>
+                        <th width="15%">Consignee Name</th>
                         <th width="15%">Status</th>
-                        <th width="9%">Action</th>
+                        <th width="18%">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of blHistoryList;let i = index">
-                        <td width="15%">
+                        <td>{{i+1}}</td>
+                        <td width="11%">
                             {{item.BL_NO}}
                         </td>
                         <td width="15%">
                             {{item.SHIPPER}}
                         </td>
-                        <td width="12%">
+                        <td width="10%">
                             {{item.BL_ISSUE_DATE | date:'mediumDate'}}
                         </td>
-                        <td width="20%">
+                        <td width="15%">
                             {{item.BOOKING_NO}}
                         </td>
                         <td width="15%">
                             {{item.CONSIGNEE}}
                         </td>
-                        <!-- <td width="5%">
-                            {{item.PORT_OF_LOADING}}
-                        </td>
-                        <td width="5%">
-                            {{item.PORT_OF_DISCHARGE}}
-                        </td> -->
                         <td width="15%" class="status"><span
                                 [class]="item.BL_STATUS == 'Draft' ? 'waiting' : item.BL_STATUS == 'Finalized' ? 'active' : 'rejected'">{{item.BL_STATUS}}</span>
 
                         </td>
-
-                        <!-- <td width="5%" *ngIf="item.BL_STATUS=='Drafted'">
-                            <span class="pointer"><a (click)="getBLDetailsForEdit(item.BL_NO)"><i class='bx bxs-pencil me-2'></i></a>
-                                <a (click)="viewBL(item.BL_NO,false)"><i class='fa fa-eye me-2'></i></a>
-                                <a (click)="makeItFinalize(item.BL_NO)"><img src="assets/img/check-mark.png"></a>
-                            </span>
-                        </td> -->
-                        <td width="9%" *ngIf="item.BL_STATUS=='Draft'">
+                        <td width="18%" *ngIf="item.BL_STATUS=='Draft'">
                             <div class="pointer"><a (click)="getBLDetailsForEdit(item.BL_NO)"><i
-                                        class='bx bxs-pencil ms-2 me-2'></i></a>
+                                        class='bx bxs-pencil text-success ms-2 me-2'></i></a>
                                 <a (click)="viewBL(item.BL_NO,false)"><i class='fa fa-eye ms-1 me-2'></i></a>
                                 <a tooltip="Container Annexure" placement="top" (click)="annexureBL(item.BL_NO)"><img
                                         src="assets/img/attachment.png" width="14px" height="14px"></a>
-                                <!-- <a (click)="makeItFinalize(item.BL_NO)"><img src="assets/img/check-mark.png"></a> -->
                             </div>
                         </td>
-                        <td width="9%" *ngIf="item.BL_STATUS=='Finalized'">
+                        <td width="18%" *ngIf="item.BL_STATUS=='Finalized'">
                             <div class="pointer"><a tooltip="Original" placement="top"
                                     (click)="viewBL(item.BL_NO,false)"><img src="assets/img/approved.png" class="me-3"
                                         width="18px" height="18px"></a>
