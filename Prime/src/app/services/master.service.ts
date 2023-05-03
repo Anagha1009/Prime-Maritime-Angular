@@ -210,6 +210,35 @@ export class MasterService {
     );
   }
 
+  updateDetention(freight: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateDetentionMasterList',
+      freight,
+      this.httpOptions
+    );
+  }
+
+  getDetentionList() {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetDetentionMasterList',
+      this.httpOptions
+    );
+  }
+
+  getDetentionDetails(ID: any) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetDetentionMasterDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  deleteDetention(ID: any) {
+    return this._http.delete<any>(
+      this.BASE_URL + 'Master/DeleteDetentionMasterList?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
   insertMandatory(mandatory: any) {
     return this._http.post<any>(
       this.BASE_URL + 'Master/UploadMandatoryTariff',

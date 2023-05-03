@@ -11,15 +11,13 @@ import { DataTablesModule } from 'angular-datatables';
 import { NewContainerMovementComponent } from './new-container-movement/new-container-movement.component';
 import { NewTrackComponent } from './new-track/new-track.component';
 import { CtListComponent } from './ct-list/ct-list.component';
-import { DetentionComponent } from './detention/detention.component';
 
 @NgModule({
   declarations: [
-     CtListComponent,
+    CtListComponent,
     // NewCmComponent,
     NewContainerMovementComponent,
     NewTrackComponent,
-    DetentionComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +28,7 @@ import { DetentionComponent } from './detention/detention.component';
     HttpClientModule,
     TranslateModule,
     DataTablesModule,
-    ContainerMovementRoutingModule
-  ]
+    ContainerMovementRoutingModule,
+  ],
 })
-export class ContainerMovementModule { }
+export class ContainerMovementModule {}

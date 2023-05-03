@@ -7,6 +7,7 @@ import { ContainerSizeComponent } from './container-size/container-size.componen
 import { ContainerTypeComponent } from './container-type/container-type.component';
 import { ContainerComponent } from './container/container.component';
 import { CurrencyComponent } from './currency/currency.component';
+import { DetentionComponent } from './detention/detention.component';
 import { FreightComponent } from './freight/freight.component';
 import { LinerServiceComponent } from './liner-service/liner-service.component';
 import { LinerComponent } from './liner/liner.component';
@@ -136,6 +137,12 @@ const routes: Routes = [
   {
     path: 'stevedoring-master',
     component: StevedoringComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
+    path: 'detention-master',
+    component: DetentionComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Principal, Role.Admin] },
   },

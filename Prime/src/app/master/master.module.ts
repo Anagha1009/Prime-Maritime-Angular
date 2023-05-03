@@ -29,6 +29,7 @@ import { TariffComponent } from './tariff/tariff.component';
 import { OrganisationComponent } from './organisation/organisation.component';
 import { ChargeComponent } from './charge/charge.component';
 import { StevedoringComponent } from './stevedoring/stevedoring.component';
+import { DetentionComponent } from './detention/detention.component';
 
 @NgModule({
     declarations: [
@@ -52,7 +53,8 @@ import { StevedoringComponent } from './stevedoring/stevedoring.component';
         TariffComponent,
         OrganisationComponent,
         ChargeComponent,
-        StevedoringComponent
+        StevedoringComponent,
+        DetentionComponent
     ],
     imports: [
         CommonModule,
