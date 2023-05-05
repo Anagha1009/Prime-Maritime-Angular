@@ -59,11 +59,18 @@ export class NewBlComponent implements OnInit {
   minDate: any = '';
   i: any = 0;
   toWords = new ToWords();
+  fileList: any[] = [];
+  emailForm: FormGroup;
+  surrendersubmitted: boolean = false;
+
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
   @ViewChild('openOgBtn') openOgBtn: ElementRef;
   @ViewChild('closeOgBtn') closeOgBtn: ElementRef;
+
+  @ViewChild('openBtnSurrender') openBtnSurrender: ElementRef;
+  @ViewChild('closeBtnSurrender') closeBtnSurrender: ElementRef;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -77,6 +84,31 @@ export class NewBlComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getForms();
+    this.getDropdown();
+    this.minDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.getBLHistory();
+  }
+
+  get E() {
+    const add = this.emailForm.get('EMAIL_LIST') as FormArray;
+    return add.controls;
+  }
+
+  getForms() {
+    this.emailForm = this._formBuilder.group({
+      EMAIL_BODY: [''],
+      EMAIL_LIST: new FormArray([]),
+    });
+
+    const add = this.emailForm.get('EMAIL_LIST') as FormArray;
+    add.clear();
+    add.push(
+      this._formBuilder.group({
+        EMAIL: ['', [Validators.required, Validators.email]],
+      })
+    );
+
     this.blForm = this._formBuilder.group({
       BLType: [true],
       BL_NO: [''],
@@ -120,9 +152,180 @@ export class NewBlComponent implements OnInit {
       CONTAINER_LIST: new FormArray([]),
       CONTAINER_LIST2: new FormArray([]),
     });
-    this.getDropdown();
-    this.minDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
-    this.getBLHistory();
+  }
+
+  addnewEmail() {
+    const add = this.emailForm.get('EMAIL_LIST') as FormArray;
+    add.push(
+      this._formBuilder.group({
+        EMAIL: ['', [Validators.required, Validators.email]],
+      })
+    );
+  }
+
+  removeEmail(i: number) {
+    const add = this.emailForm.get('EMAIL_LIST') as FormArray;
+    add.removeAt(i);
+  }
+
+  openSurrenderBLModal(blNo: string) {
+    this.blNo = blNo;
+    const a = this.emailForm.get('EMAIL_LIST') as FormArray;
+    a.clear();
+    a.push(
+      this._formBuilder.group({
+        EMAIL: ['', [Validators.required, Validators.email]],
+      })
+    );
+
+    var BL: Bl = new Bl();
+    BL.BL_NO = blNo;
+    BL.AGENT_CODE = this._commonService.getUserCode();
+
+    this._blService.getBLDetails(BL).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        var blDetails = res.Data;
+
+        if (res.Data.IS_SURRENDERED) {
+          this._commonService.warnMsg('This BL is already surrendered !');
+          return;
+        } else {
+          var x =
+            '<b>VSL :</b> ' +
+            blDetails.VESSEL_NAME +
+            ' / ' +
+            blDetails.VOYAGE_NO +
+            '<br><br><b>POD :</b> ' +
+            blDetails.PORT_OF_DISCHARGE +
+            '<br><br><b>SHIPPER :</b> ' +
+            blDetails.SHIPPER +
+            '<br><br><b>CONSIGNEE :</b> ' +
+            blDetails.CONSIGNEE +
+            '<br><br><b>NOTIFY :</b> ' +
+            blDetails.NOTIFY_PARTY +
+            '<br><br><b>PAYMENT TERMS :</b> ' +
+            56 +
+            '<br><br><b>B/L NO :</b> ' +
+            blDetails.BL_NO +
+            '<br><br>Dear Sir, Shipper ' +
+            blDetails.SHIPPER +
+            ' has surrendered full set of Original B/L (3/3), duly endorsed' +
+            'by shipper at our office.Kindly released cargo to ' +
+            blDetails.CONSIGNEE +
+            ' (Consignee) without presentation of OBL.';
+
+          this.emailForm.get('EMAIL_BODY').setValue(x);
+
+          this.openBtnSurrender.nativeElement.click();
+          this.fileList = [];
+          this.fileList.push(
+            {
+              FILE_NAME: [''],
+              FILE_SIZE: [''],
+              FILE: [''],
+            },
+            {
+              FILE_NAME: [''],
+              FILE_SIZE: [''],
+              FILE: [''],
+            },
+            {
+              FILE_NAME: [''],
+              FILE_SIZE: [''],
+              FILE: [''],
+            }
+          );
+        }
+      }
+    });
+  }
+
+  SurrenderBL() {
+    if (this.fileList.length < 3) {
+      this._commonService.warnMsg('Pls upload 3 Mandatory OBL Files');
+      return;
+    }
+
+    for (var i = 0; i < this.fileList.length; i++) {
+      if (i < 4) {
+        if (this.fileList[i].FILE_NAME == '') {
+          this._commonService.warnMsg('Pls upload 3 Mandatory OBL Files');
+          return;
+        }
+      }
+    }
+
+    this.surrendersubmitted = true;
+    if (this.emailForm.get('EMAIL_LIST').invalid) {
+      return;
+    }
+
+    const payload = new FormData();
+    this.fileList.forEach((element: any) => {
+      payload.append('FILE', element.FILE);
+      payload.append('Attachments', element.FILE);
+    });
+
+    const add = this.emailForm.get('EMAIL_LIST') as FormArray;
+
+    add.controls.forEach((element) => {
+      payload.append('ToEmails', element.value.EMAIL);
+    });
+
+    payload.append('Subject', 'Surrender BL');
+    payload.append('Body', this.emailForm.get('EMAIL_BODY').value);
+
+    this._commonService.successMsg(
+      'Your mail has been send successfully !<br> You will receive an email shortly in 5-10 mins.'
+    );
+
+    this._blService.uploadFiles(payload, this.blNo).subscribe();
+    this.closeBtnSurrender.nativeElement.click();
+  }
+
+  fileUpload(event: any, index: number) {
+    if (
+      event.target.files[0].type == 'application/pdf' ||
+      event.target.files[0].type ==
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+      event.target.files[0].type ==
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      event.target.files[0].type == 'application/xls' ||
+      event.target.files[0].type == 'application/xlsx' ||
+      event.target.files[0].type == 'application/doc'
+    ) {
+    } else {
+      alert('Please Select PDF or Excel or Word Format only');
+      return;
+    }
+
+    if (+event.target.files[0].size > 5000000) {
+      alert('Please upload file less than 5 mb..!');
+      return;
+    }
+
+    this.fileList[index].FILE_NAME = event.target.files[0].name;
+    this.fileList[index].FILE_SIZE = event.target.files[0].size;
+    this.fileList[index].FILE = event.target.files[0];
+  }
+
+  removeFile(i: number) {
+    this.fileList.splice(i, 1);
+    if (this.fileList.length == 0) {
+      this.fileList.push({
+        FILE_NAME: [''],
+        FILE_SIZE: [''],
+        FILE: [''],
+      });
+    }
+  }
+
+  addNewFile() {
+    this.fileList.push({
+      FILE_NAME: [''],
+      FILE_SIZE: [''],
+      FILE: [''],
+    });
   }
 
   getDropdown() {

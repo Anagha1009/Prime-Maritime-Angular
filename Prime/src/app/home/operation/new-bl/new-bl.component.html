@@ -54,6 +54,7 @@
             </div>
         </div>
     </div>
+    <button #openBtnSurrender data-bs-toggle="modal" href="#surrenderModal" class="form-btn d-none">surrender</button>
     <div *ngIf="isBLForm">
         <a (click)="tabs='1';isBLForm = false;hideHistory=false;" class="pointer text-primary"><i
                 class='bx bx-arrow-back'></i>Back to List</a>
@@ -612,9 +613,11 @@
                                         width="18px" height="18px"></a>
                                 <a tooltip="Non-Negotiable" placement="top" (click)="viewBL(item.BL_NO,true)"><img
                                         src="assets/img/nn.png" width="18px" height="18px" class="me-2"></a>
-
                                 <a tooltip="Container Annexure" placement="top" (click)="annexureBL(item.BL_NO)"><img
-                                        src="assets/img/attachment.png" width="14px" height="14px"></a>
+                                        src="assets/img/attachment.png" class="me-2" width="14px" height="14px"></a>
+                                <a tooltip="Surrender BL" placement="top"
+                                    (click)="openSurrenderBLModal(item.BL_NO)"><img src="assets/img/folder.png"
+                                        width="14px" height="14px"></a>
                             </div>
                         </td>
                     </tr>
@@ -692,6 +695,84 @@
                 <button type="button" class="form-btn" (click)="submitFinalizeBL()">
                     Finalize</button>
                 <!-- <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="surrenderModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Surrender BL</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    #closeBtnSurrender></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="emailForm">
+                    <div class="col-md-4" *ngFor="let item of E;let i = index" [formGroup]="item">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label class="form-label2">Email {{i + 1}}
+                                    </label>
+                                    <input [ngClass]="{'invalid':surrendersubmitted && E[i].get('EMAIL')?.errors}"
+                                        formControlName="EMAIL" type="text" class="form-control2" />
+                                    <span *ngIf="surrendersubmitted && E[i].get('EMAIL')?.errors?.required"
+                                        class="invalid-feedback">
+                                        Email is required</span>
+                                    <span *ngIf="surrendersubmitted && E[i].get('EMAIL')?.errors?.email"
+                                        class="invalid-feedback">
+                                        Email is invalid</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mt-4 p-0" *ngIf="i == 0">
+                                <button (click)="addnewEmail()" class="form-btn-info btn-sm"><i
+                                        class="fa fa-plus"></i></button>
+                            </div>
+                            <div class="col-md-2 mt-4 p-0" *ngIf="i > 0">
+                                <button (click)="removeEmail(i)" class="form-btn-danger btn-sm"><i
+                                        class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <h6>Pre Text</h6>
+                            <span [innerHTML]="emailForm.get('EMAIL_BODY')?.value"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <button (click)="addNewFile()" class="form-btn-primary">Add New <i
+                                class="fa fa-plus"></i></button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4" *ngFor="let item of fileList;let i = index;">
+                            <div class="formbold-mb-5 formbold-file-input" *ngIf="fileList[i].FILE_NAME == ''">
+                                <input (change)="fileUpload($event,i)" type="file" name="{{'file' + i}}"
+                                    id="{{'file' + i}}" />
+                                <label for="{{'file' + i}}">
+                                    <div>
+                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                        <span class="formbold-drop-file">Upload</span>
+                                        <small class="fw-bold">OBL FILE {{i + 1}}</small>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="formbold-file-list formbold-mb-5" *ngIf="fileList[i].FILE_NAME != ''">
+                                <div class="formbold-file-item">
+                                    <span class="formbold-file-name">{{item.FILE_NAME}}</span>
+                                    <small class="formbold-file-size">{{item.FILE_SIZE}} Kb</small>
+                                    <button><span class="bx bx-x-circle" (click)="removeFile(i)"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button (click)="SurrenderBL()" type="button" class="form-btn">
+                    Submit</button>
             </div>
         </div>
     </div>

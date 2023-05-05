@@ -263,3 +263,7 @@ input[id="radio-4"] {
 .switch-green > .switch-input:checked ~ .switch-label {
   background: #68a4c4;
 }
+
+.inputheight {
+  height: calc(8.75rem + 30px);
+}

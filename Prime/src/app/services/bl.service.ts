@@ -172,4 +172,11 @@ export class BlService {
       this.httpOptions
     );
   }
+
+  uploadFiles(file: any, blNo: string) {
+    return this._http.post<any>(
+      this.BASE_URL + 'BL/UploadBLFiles?BL_NO=' + blNo,
+      file
+    );
+  }
 }
