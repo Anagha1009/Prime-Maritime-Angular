@@ -532,13 +532,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="row">
-                <label class="switch">
-                    <input type="checkbox" formControlName="BLType" class="switch-input">
-                    <span class="switch-label" data-on="Original" data-off="Sea Way"></span>
-                    <span class="switch-handle"></span>
-                </label>
-            </div> -->
             <div class="row mb-4">
 
                 <div class="col-md-3 offset-md-9 text-end" *ngIf="editBL">
@@ -635,9 +628,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
             </div>
             <div class="modal-body">
-                <!-- <h6 class="text-center"><span class="text-danger">{{croNo}}</span> has successfully been
-                    created !
-                </h6> -->
                 <p class="text-center">Enter BL No. to switch</p>
                 <div class="form-group col-md-8 mx-auto">
                     <label class="form-label2">BL No.</label>
@@ -648,7 +638,6 @@
             <div class="modal-footer">
                 <button type="button" class="form-btn" (click)="getBLDetailsForEdit(swicthBlNo)">
                     Submit</button>
-                <!-- <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button> -->
             </div>
         </div>
     </div>

@@ -56,7 +56,9 @@ export class SurrenderedListComponent implements OnInit {
 
   markSurrender() {
     if (this.isSurrendered) {
-      this._commonService.warnMsg('This BL is already marked as surrendered !');
+      this._commonService.warnMsg(
+        this.blNo + ' BL is already marked as surrendered !'
+      );
     } else {
       Swal.fire({
         title: 'Mark Surrender',
