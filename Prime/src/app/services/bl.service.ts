@@ -179,4 +179,28 @@ export class BlService {
       file
     );
   }
+
+  GetBLSurrenderedList(orgCode: any, pod: any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'BL/GetBLSurrenderedList?ORG_CODE=' +
+        orgCode +
+        '&POD=' +
+        pod,
+      this.httpOptions
+    );
+  }
+
+  GetBLFiles(blNO: any) {
+    return this._http.get<any>(
+      this.BASE_URL + 'BL/GetBLFiles?BL_NO=' + blNO,
+      this.httpOptions
+    );
+  }
+
+  InsertSurrender(blNo: string) {
+    return this._http.get<any>(
+      this.BASE_URL + 'BL/InsertSurrender?BL_NO=' + blNo
+    );
+  }
 }

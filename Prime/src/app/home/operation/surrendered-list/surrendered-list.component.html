@@ -1,0 +1,66 @@
+<div class="section-title">
+    <h2>Surrenderd BL</h2>
+</div>
+<a class="d-none" #openBtn href="#fileModal" data-bs-toggle="modal"></a>
+<div class="container">
+    <div class="table-responsive">
+        <table class="ratetable table-bordered" id="data-table-config">
+            <thead>
+                <tr>
+                    <th width="1%">No</th>
+                    <th width="10%">BL No</th>
+                    <th width="10%">POL</th>
+                    <th width="10%">POD</th>
+                    <th width="10%">Vessel</th>
+                    <th width="20%">Shipper</th>
+                    <th width="20%">Consignee</th>
+                    <th width="5%">Containers</th>
+                    <th width="5%">Commodity</th>
+                    <th width="9%">View</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of blSurrenderedList;let i = index">
+                    <td width="1%">{{i+1}}</td>
+                    <td width="10%">{{item.BL_NO}}</td>
+                    <td width="10%">{{item.PORT_OF_LOADING}}</td>
+                    <td width="10%">{{item.PORT_OF_DISCHARGE}}</td>
+                    <td width="10%">{{item.VESSEL_NAME}}</td>
+                    <td width="20%">{{item.SHIPPER}}</td>
+                    <td width="20%">{{item.CONSIGNEE}}</td>
+                    <td width="5%">{{item.CONTAINERS}}</td>
+                    <td width="5%">{{item.COMMODITY}}</td>
+                    <td width="9%"><i class="fa fa-eye pointer"
+                            (click)="getBLFiles(item.BL_NO,item.IS_SURRENDERED)"></i></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="fileModal" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">BL Surrendered Files</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeBtn></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" *ngFor="let file of blFiles">
+                        <div class="formbold-file-list formbold-mb-5">
+                            <div class="formbold-file-item">
+                                <span class="formbold-file-name">{{file.filE_NAME.split('_')[1]}}</span>
+                                <a target="_blank" href="{{BASE_URL + file.filE_PATH}}"><i
+                                        class="fa fa-eye text-dark ms-5 pointer"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="markSurrender()" class="form-btn-primary">Mark Surrender</button>
+            </div>
+        </div>
+    </div>
+</div>

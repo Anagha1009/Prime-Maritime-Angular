@@ -15,6 +15,7 @@ import { NewBlComponent } from './new-bl/new-bl.component';
 import { NewCroComponent } from './new-cro/new-cro.component';
 import { NewDo2Component } from './new-do2/new-do2.component';
 import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
+import { SurrenderedListComponent } from './surrendered-list/surrendered-list.component';
 import { TdrListComponent } from './tdr-list/tdr-list.component';
 import { TdrComponent } from './tdr/tdr.component';
 
@@ -114,6 +115,12 @@ const routes: Routes = [
     component: ForgotPwdComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Agent, Role.Depot] },
+  },
+  {
+    path: 'surrendered-list',
+    component: SurrenderedListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Agent] },
   },
 ];
 

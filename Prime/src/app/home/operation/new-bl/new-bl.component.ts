@@ -186,7 +186,7 @@ export class NewBlComponent implements OnInit {
       if (res.ResponseCode == 200) {
         var blDetails = res.Data;
 
-        if (res.Data.IS_SURRENDERED) {
+        if (res.Data.IS_UPLOADED) {
           this._commonService.warnMsg('This BL is already surrendered !');
           return;
         } else {

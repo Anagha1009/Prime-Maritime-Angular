@@ -24,6 +24,7 @@ import { NewDo2Component } from './new-do2/new-do2.component';
 import { TdrListComponent } from './tdr-list/tdr-list.component';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { ForgotPwdComponent } from 'src/app/auth/forgot-pwd/forgot-pwd.component';
+import { SurrenderedListComponent } from './surrendered-list/surrendered-list.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { ForgotPwdComponent } from 'src/app/auth/forgot-pwd/forgot-pwd.component
     InvoiceListComponent,
     MergeBlComponent,
     ForgotPwdComponent,
+    SurrenderedListComponent,
   ],
   imports: [
     CommonModule,
