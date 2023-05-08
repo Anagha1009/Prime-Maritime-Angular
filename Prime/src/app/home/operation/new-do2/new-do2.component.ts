@@ -142,6 +142,7 @@ export class NewDo2Component implements OnInit {
 
       this.isData = false;
       this.containerList = [];
+      this._commonService.destroyDT1();
       this._blService.getContainerList(bl).subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.isData = true;
@@ -154,6 +155,7 @@ export class NewDo2Component implements OnInit {
             this.isData = false;
             this.blNo = '';
           }
+          this._commonService.getDT1();
         }
       });
     }
