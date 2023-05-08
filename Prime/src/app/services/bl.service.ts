@@ -93,9 +93,15 @@ export class BlService {
     );
   }
 
-  getBLHistory(agentCode: any) {
+  getBLHistory(bl: any) {
     return this._http.get<any>(
-      this.BASE_URL + 'BL/GetBLHistory?AGENT_CODE=' + agentCode,
+      this.BASE_URL +
+        'BL/GetBLHistory?AGENT_CODE=' +
+        bl.AGENT_CODE +
+        '&ORG_CODE=' +
+        bl.ORG_CODE +
+        '&PORT=' +
+        bl.PORT,
       this.httpOptions
     );
   }

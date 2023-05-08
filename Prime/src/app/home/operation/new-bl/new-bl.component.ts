@@ -343,14 +343,16 @@ export class NewBlComponent implements OnInit {
 
   getBLHistory() {
     this._commonService.destroyDT();
-    this._blService
-      .getBLHistory(this._commonService.getUserCode())
-      .subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.blHistoryList = res.Data;
-        }
-        this._commonService.getDT();
-      });
+    var bl: Bl = new Bl();
+    bl.ORG_CODE = this._commonService.getUserOrgCode();
+    bl.PORT = this._commonService.getUserPort();
+    bl.AGENT_CODE = this._commonService.getUserCode();
+    this._blService.getBLHistory(bl).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.blHistoryList = res.Data;
+      }
+      this._commonService.getDT();
+    });
   }
 
   removeItem(i: any) {

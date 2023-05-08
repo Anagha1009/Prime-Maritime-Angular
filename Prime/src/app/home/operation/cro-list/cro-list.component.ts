@@ -82,7 +82,8 @@ export class CroListComponent implements OnInit {
 
   getCROList() {
     this.cro.AGENT_CODE = this._commonService.getUserCode();
-    debugger;
+    this.cro.ORG_CODE = this._commonService.getUserOrgCode();
+    this.cro.PORT = this._commonService.getUserPort();
     this._croService.getCROList(this.cro).subscribe((res: any) => {
       this.isLoading = false;
       this.isLoading1 = false;

@@ -242,6 +242,16 @@ export class CommonService {
     return JSON.parse(localStorage.getItem('user'));
   }
 
+  getUserOrgCode() {
+    var user = JSON.parse(localStorage.getItem('user'));
+    return user.orgcode;
+  }
+
+  getUserPort() {
+    var user = JSON.parse(localStorage.getItem('user'));
+    return user.port;
+  }
+
   getUserId() {
     var user = JSON.parse(localStorage.getItem('user'));
     return user.id;

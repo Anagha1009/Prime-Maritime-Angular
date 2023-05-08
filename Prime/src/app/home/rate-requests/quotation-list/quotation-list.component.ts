@@ -228,6 +228,8 @@ export class QuotationListComponent implements OnInit {
 
   getSRRList() {
     this.quotation.AGENT_CODE = this._commonService.getUserCode();
+    this.quotation.ORG_CODE = this._commonService.getUserOrgCode();
+    this.quotation.PORT = this._commonService.getUserPort();
     this.quotation.OPERATION = 'GET_SRRLIST';
 
     this._quotationService.getSRRList(this.quotation).subscribe(

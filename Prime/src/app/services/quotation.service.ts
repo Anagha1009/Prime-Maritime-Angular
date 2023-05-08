@@ -32,6 +32,10 @@ export class QuotationService {
         quotation.TODATE +
         '&AGENT_CODE=' +
         quotation.AGENT_CODE +
+        '&ORG_CODE=' +
+        quotation.ORG_CODE +
+        '&PORT=' +
+        quotation.PORT +
         '&OPERATION=' +
         quotation.OPERATION,
       this.httpOptions

@@ -5,4 +5,6 @@ export class CRO {
   STATUS: string = '';
   FROM_DATE: string = '';
   TO_DATE: string = '';
+  ORG_CODE: string = '';
+  PORT: string = '';
 }
