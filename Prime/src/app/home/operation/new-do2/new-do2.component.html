@@ -2,40 +2,50 @@
     <h2>New Delivery Order</h2>
 </div>
 <div class="container">
-    <a routerLink="/home/operations/do-list"><i class='bx bx-arrow-back'></i>Back to List</a>
-    <div class="col-md-4 mx-auto mt-5" *ngIf="!isData">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <label class="form-label2">BL No<span class="text-danger">
-                                    *</span></label>
-                            <input type="text" [(ngModel)]="blNo" [ngClass]="{'invalid': submitted2 && blNo == ''}"
-                                class="form-control2" />
-                            <div *ngIf="submitted2 && blNo == ''" class="invalid-feedback">
-                                BL No is required</div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mt-4">
-                        <button [disabled]="isLoading" (click)="getBLDetails()"
-                            class="form-btn-success btn-sm rounded-pill">Create DO<span *ngIf="isLoading"
-                                class="fa fa-spinner fa-spin"></span></button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <a routerLink="/home/operations/do-list" *ngIf="!isData"><i class='bx bx-arrow-back'></i>Back to List</a>
+    <a (click)="backToList()" class="pointer text-primary" *ngIf="isData"><i class='bx bx-arrow-back'></i>Back to
+        List</a>
+    <div class="table-responsive" *ngIf="!isData">
+        <table class="ratetable table-bordered" id="data-table-config">
+            <thead>
+                <tr>
+                    <th width="1%">No</th>
+                    <th width="10%">BL No</th>
+                    <th width="10%">POL</th>
+                    <th width="10%">POD</th>
+                    <th width="10%">Vessel</th>
+                    <th width="20%">Shipper</th>
+                    <th width="20%">Consignee</th>
+                    <th width="5%">Containers</th>
+                    <th width="5%">Commodity</th>
+                    <th width="9%">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of blSurrenderedList;let i = index">
+                    <td width="1%">{{i+1}}</td>
+                    <td width="10%">{{item.BL_NO}}</td>
+                    <td width="10%">{{item.PORT_OF_LOADING}}</td>
+                    <td width="10%">{{item.PORT_OF_DISCHARGE}}</td>
+                    <td width="10%">{{item.VESSEL_NAME}} {{item.VOYAGE_NO}}</td>
+                    <td width="20%">{{item.SHIPPER}}</td>
+                    <td width="20%">{{item.CONSIGNEE}}</td>
+                    <td width="5%">{{item.CONTAINERS}}</td>
+                    <td width="5%">{{item.COMMODITY}}</td>
+                    <td width="9%"><button class="form-btn-info btn-sm"
+                            (click)="getBLDetails(item.IS_SURRENDERED,item.BL_NO)">New
+                            DO</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <div class="col-md-12 mt-5" *ngIf="isData">
+    <div class="col-md-12" *ngIf="isData">
         <div class="row">
             <div class="col-md-3">
                 <h6 style="font-weight: 600;">
                     BL No : <small class="text-danger">{{blNo}}</small>
                 </h6>
-            </div>
-            <div class="col-md-2 offset-md-7 text-end">
-                <button (click)="isData = false;blNo = '';submitted2 = false" class="form-btn btn-sm w-100">New
-                    DO</button>
             </div>
         </div>
         <hr>

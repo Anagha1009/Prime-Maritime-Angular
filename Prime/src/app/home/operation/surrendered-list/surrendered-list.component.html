@@ -12,11 +12,12 @@
                     <th width="10%">POL</th>
                     <th width="10%">POD</th>
                     <th width="10%">Vessel</th>
-                    <th width="20%">Shipper</th>
-                    <th width="20%">Consignee</th>
-                    <th width="5%">Containers</th>
-                    <th width="5%">Commodity</th>
-                    <th width="9%">View</th>
+                    <th width="15%">Shipper</th>
+                    <th width="15%">Consignee</th>
+                    <th width="10%">Containers</th>
+                    <th width="10%">Commodity</th>
+                    <th width="5%">Suurendered</th>
+                    <th width="4%">View</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,12 +26,15 @@
                     <td width="10%">{{item.BL_NO}}</td>
                     <td width="10%">{{item.PORT_OF_LOADING}}</td>
                     <td width="10%">{{item.PORT_OF_DISCHARGE}}</td>
-                    <td width="10%">{{item.VESSEL_NAME}}</td>
-                    <td width="20%">{{item.SHIPPER}}</td>
-                    <td width="20%">{{item.CONSIGNEE}}</td>
-                    <td width="5%">{{item.CONTAINERS}}</td>
-                    <td width="5%">{{item.COMMODITY}}</td>
-                    <td width="9%"><i class="fa fa-eye pointer"
+                    <td width="10%">{{item.VESSEL_NAME}} {{item.VOYAGE_NO}}</td>
+                    <td width="15%">{{item.SHIPPER}}</td>
+                    <td width="15%">{{item.CONSIGNEE}}</td>
+                    <td width="10%">{{item.CONTAINERS}}</td>
+                    <td width="10%">{{item.COMMODITY}}</td>
+                    <td width="5%" class="text-center"> <i
+                            [class]="item.IS_SURRENDERED ? 'fs-5 bx bxs-check-circle text-success' : 'fs-5 bx bxs-x-circle text-danger'"></i>
+                    </td>
+                    <td width="4%"><i class="fa fa-eye pointer"
                             (click)="getBLFiles(item.BL_NO,item.IS_SURRENDERED)"></i></td>
                 </tr>
             </tbody>

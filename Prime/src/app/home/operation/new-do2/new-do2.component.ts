@@ -17,7 +17,6 @@ export class NewDo2Component implements OnInit {
   blNo: string = '';
   submitted: boolean = false;
   submitted1: boolean = false;
-  submitted2: boolean = false;
   isData: boolean = false;
   containerList: any[] = [];
   doForm: FormGroup;
@@ -26,6 +25,7 @@ export class NewDo2Component implements OnInit {
   acceptanceLocationList: any[] = [];
   IcdList: any[] = [];
   clearingPartyList: any[] = [];
+  blSurrenderedList: any[] = [];
 
   @ViewChild('chckAll') chckAll: ElementRef;
   @ViewChild('openBtn') openBtn: ElementRef;
@@ -47,6 +47,20 @@ export class NewDo2Component implements OnInit {
     }
     this.getDropdown();
     this.getClearingParty();
+    this.getDOList();
+  }
+
+  getDOList() {
+    this._commonService.destroyDT();
+    var pod = this._commonService.getUser().port.replace(',', ' ');
+    var orgCode = this._commonService.getUser().orgcode;
+
+    this._blService.GetBLSurrenderedList(orgCode, pod).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.blSurrenderedList = res.Data;
+      }
+      this._commonService.getDT();
+    });
   }
 
   get f() {
@@ -112,36 +126,37 @@ export class NewDo2Component implements OnInit {
     });
   }
 
-  getBLDetails() {
-    this.submitted2 = true;
+  getBLDetails(value: any, blNo: any) {
+    if (!value) {
+      this._commonService.warnMsg(
+        blNo +
+          ' is not marked as surrendered yet ! Please mark this BL as surrender to create DO'
+      );
+    } else {
+      this.blNo = blNo;
 
-    if (this.blNo == '') {
-      return;
-    }
+      var bl = new Bl();
+      bl.AGENT_CODE = this._commonService.getUserCode();
+      bl.BL_NO = this.blNo;
+      bl.fromDO = true;
 
-    var bl = new Bl();
-    bl.AGENT_CODE = this._commonService.getUserCode();
-    bl.BL_NO = this.blNo;
-    bl.fromDO = true;
+      this.isData = false;
+      this.containerList = [];
+      this._blService.getContainerList(bl).subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.isData = true;
+          this.containerList = res.Data;
 
-    this.isData = false;
-    this.containerList = [];
-    this._commonService.destroyDT();
-    this._blService.getContainerList(bl).subscribe((res: any) => {
-      if (res.ResponseCode == 200) {
-        this.isData = true;
-        this.containerList = res.Data;
-
-        if (this.containerList.length == 0) {
-          this._commonService.errorMsg(
-            'Sorry ! None of the containers in this BL has DCHF Activity Completed !'
-          );
-          this.isData = false;
-          this.blNo = '';
+          if (this.containerList.length == 0) {
+            this._commonService.errorMsg(
+              'Sorry ! None of the containers in this BL has DCHF Activity Completed !'
+            );
+            this.isData = false;
+            this.blNo = '';
+          }
         }
-      }
-      this._commonService.getDT();
-    });
+      });
+    }
   }
 
   oncheck(event: any, value = 0, containerNo: string) {
@@ -191,6 +206,12 @@ export class NewDo2Component implements OnInit {
         this.chckAll.nativeElement.checked = false;
       }
     }
+  }
+
+  backToList() {
+    this.isData = false;
+    this.clearForm;
+    this.getDOList();
   }
 
   createDO() {
