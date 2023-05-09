@@ -48,7 +48,6 @@ export class RenewPwdComponent implements OnInit {
   }
 
   resetPwd() {
-    debugger;
     this.submitted1 = true;
 
     if (this.changePwdForm.invalid) {

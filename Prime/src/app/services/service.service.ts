@@ -32,14 +32,6 @@ export class ServiceService {
     );
   }
 
-  // GetMasterDetails(ID: number) {
-  //   debugger
-  //   return this._http.get<any>(
-  //     this.BASE_URL + 'Master/GetServiceMasterDetails?ID=' + ID,
-  //     this.httpOptions
-  //   );
-  // }
-
   GetMasterDetails(ID: any) {
     return this._http.get<any>(
       this.BASE_URL + 'Master/GetServiceMasterDetails?ID=' + ID,

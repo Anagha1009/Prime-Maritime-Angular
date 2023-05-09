@@ -4,10 +4,9 @@ import { environment } from 'src/environments/environment.prod';
 import { DETENTION } from '../models/detention';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DetentionService {
-
   BASE_URL = environment.BASE_URL;
 
   httpOptions = {
@@ -19,25 +18,19 @@ export class DetentionService {
 
   getDetentionList(DET: DETENTION) {
     return this._http.get<any>(
-      this.BASE_URL +
-        'Detention/GetDetentionList?AGENT_CODE=' +
-        DET.AGENT_CODE ,
+      this.BASE_URL + 'Detention/GetDetentionList?AGENT_CODE=' + DET.AGENT_CODE,
       this.httpOptions
     );
   }
 
-  
   getDetentionListByDO(DO: string) {
     return this._http.get<any>(
-      this.BASE_URL +
-        'Detention/GetDetentionListByDO?DO_NO=' +
-        DO ,
+      this.BASE_URL + 'Detention/GetDetentionListByDO?DO_NO=' + DO,
       this.httpOptions
     );
   }
 
-  insertDetention(Detention:any){
-    debugger
+  insertDetention(Detention: any) {
     return this._http.post<any>(
       this.BASE_URL + 'Detention/InsertDetention',
       Detention,

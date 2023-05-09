@@ -77,7 +77,6 @@ export class ErListComponent implements OnInit {
   }
 
   getERList() {
-    debugger;
     this.previewList = false;
     this.previewNoData = false;
     if (this._commonService.getUser().roleCode == '1') {
@@ -88,7 +87,6 @@ export class ErListComponent implements OnInit {
     }
     this._erService.getERList(this.agentCode, this.depoCode).subscribe(
       (res: any) => {
-        debugger;
         this.erList = [];
         this.isScroll = false;
         if (res.hasOwnProperty('Data')) {
@@ -146,7 +144,6 @@ export class ErListComponent implements OnInit {
       )
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
-          debugger;
           this.erDetails = res.Data;
           if (
             Convert.toInt32(this.erCROForm.get('REQ_QUANTITY')?.value) ==
@@ -232,7 +229,6 @@ export class ErListComponent implements OnInit {
   }
 
   getERDetails(erNo: any) {
-    debugger;
     localStorage.setItem('ER_NO', erNo);
     this._router.navigateByUrl('home/er-details');
   }
@@ -248,7 +244,6 @@ export class ErListComponent implements OnInit {
       )
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
-          debugger;
           this.erDetails = res.Data;
           console.log(this.erDetails);
           this._erService
@@ -258,7 +253,6 @@ export class ErListComponent implements OnInit {
               this.depoCode
             )
             .subscribe((res: any) => {
-              debugger;
               if (res.ResponseCode == 200) {
                 this.erContDetails = res.Data;
                 console.log(this.erDetails);

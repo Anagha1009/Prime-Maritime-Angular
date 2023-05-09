@@ -35,7 +35,6 @@ export class NewTrackComponent implements OnInit {
 
   //LOGIC
   getTrackingHistoryList() {
-    debugger;
     this.previewDetails = false;
     this.previewNoData = false;
     if (this.bkno == '') {
@@ -54,7 +53,6 @@ export class NewTrackComponent implements OnInit {
         .getContainerMovementBooking(this.bookingno, this.crno)
         .subscribe(
           (res: any) => {
-            debugger;
             this.cmList = [];
             //this.isScroll = false;
             if (res.ResponseCode == 200) {
@@ -85,7 +83,6 @@ export class NewTrackComponent implements OnInit {
     }
   }
   getBookingDetails() {
-    debugger;
     this.previewNoData = false;
     this.previewDetails = false;
     var bk = new BOOKING();
@@ -93,7 +90,6 @@ export class NewTrackComponent implements OnInit {
     bk.BOOKING_NO = this.bkno;
 
     this._bookingService.getBookingDetails(bk).subscribe((res: any) => {
-      debugger;
       if (res.ResponseCode == 200) {
         console.log(res.data);
         this.booking = res.Data;
@@ -105,7 +101,6 @@ export class NewTrackComponent implements OnInit {
   }
 
   openTracking(data: any) {
-    debugger;
     this.currentActivity = data.ACTIVITY;
 
     this.currentContNo = data.CONTAINER_NO;
@@ -137,8 +132,6 @@ export class NewTrackComponent implements OnInit {
   }
 
   trackContainer(data: any) {
-    debugger;
-
     //this.currentActivity=data.ACTIVITY;
     switch (this.currentActivity) {
       case 'SNTC':

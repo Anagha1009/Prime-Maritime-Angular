@@ -59,7 +59,6 @@ export class PmLoginComponent implements OnInit {
     this._loginservice
       .login(JSON.stringify(rootobject))
       .subscribe((res: any) => {
-        debugger;
         this.isLoading = false;
         if (res.message?.includes('No Accounts Registered')) {
           this._cmService.warnMsg(
@@ -103,7 +102,6 @@ export class PmLoginComponent implements OnInit {
     this._loginservice
       .sendResetPasswordLink(this.email)
       .subscribe((res: any) => {
-        debugger;
         if (res.responseCode == 200) {
           this.isLoading1 = false;
           this._cmService.successMsg(

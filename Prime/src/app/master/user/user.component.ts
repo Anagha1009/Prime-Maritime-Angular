@@ -95,13 +95,12 @@ export class UserComponent implements OnInit {
 
   getDropdown(event: any, value: any = '') {
     this.portList = [];
-    debugger;
+
     this.userForm.get('PORT_CODE').setValue('');
     this._commonService
       .getDropdownData('PORT', '', value == '' ? event.target.value : value)
       .subscribe((res: any) => {
         if (res.hasOwnProperty('Data')) {
-          debugger;
           this.portList = res.Data;
 
           if (value != '') {

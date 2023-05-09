@@ -183,7 +183,6 @@ export class NewBlComponent implements OnInit {
     BL.AGENT_CODE = this._commonService.getUserCode();
 
     this._blService.getBLDetails(BL).subscribe((res: any) => {
-      debugger;
       if (res.ResponseCode == 200) {
         var blDetails = res.Data;
 
@@ -389,7 +388,6 @@ export class NewBlComponent implements OnInit {
   }
 
   submitFinalizeBL() {
-    debugger;
     if (this.finalizeType === '') {
       alert('Please select finalize type!');
     } else if (this.finalizeType === 'original' && this.ogType === '') {
@@ -548,7 +546,7 @@ export class NewBlComponent implements OnInit {
           var contList: any[] = res.Data.CONTAINER_LIST;
 
           const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
-          debugger;
+
           add.clear();
           contList.forEach((element) => {
             add.push(
@@ -653,7 +651,6 @@ export class NewBlComponent implements OnInit {
       });
   }
   createBL() {
-    debugger;
     this.submitted = true;
     if (this.blForm.invalid) {
       return;
@@ -732,7 +729,6 @@ export class NewBlComponent implements OnInit {
     // json = json.replace(/\\r/g, ' ');
     // console.log(json);
     this._blService.getSRRDetails(bl).subscribe((res: any) => {
-      debugger;
       if (res.ResponseCode == 200) {
         this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
         this.blForm.get('SRR_NO')?.setValue(res.Data.SRR_NO);
@@ -744,9 +740,7 @@ export class NewBlComponent implements OnInit {
         console.log(json);
         //
         this._blService.createBL(json).subscribe((res: any) => {
-          debugger;
           if (res.responseCode == 200) {
-            debugger;
             //this._router.navigateByUrl('/home/new-bl');
             this._commonService.successMsg(
               'BL is created Successfully <br> BL No : ' + blNo
@@ -1242,7 +1236,6 @@ export class NewBlComponent implements OnInit {
           this.blForm.get('PORT_OF_DISCHARGE').value.split('(')[1].split(')')[0]
         )
         .subscribe((desres: any) => {
-          debugger;
           if (desres.ResponseCode == 200) {
             this.destinationAgent = desres.Data;
             var contList: any[] = res.Data.CONTAINER_LIST;
@@ -1568,7 +1561,6 @@ export class NewBlComponent implements OnInit {
           },
           layout: {
             hLineWidth: function (i: any, node: any) {
-              debugger;
               return i === 0 || i === 1 || i === node.table.body.length ? 1 : 0;
             },
             vLineWidth: function (i: any, node: any) {

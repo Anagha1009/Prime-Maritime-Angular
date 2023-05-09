@@ -103,7 +103,6 @@ export class LinerServiceComponent implements OnInit {
   GetServiceDetails(ID: number) {
     this._linerService.GetServiceDetails(ID).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
-        debugger;
         this.LinerServiceform.patchValue(res.Data);
       }
     });

@@ -44,7 +44,6 @@ export class ExcRateListComponent implements OnInit {
     var extension = file.name.split('.').pop();
     var array = ['csv', 'xls', 'xlsx'];
 
-    debugger;
     if (
       ev.target.files[0].type ==
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -62,7 +61,6 @@ export class ExcRateListComponent implements OnInit {
 
       if (el != null && el != '') {
         reader.onload = (event) => {
-          debugger;
           const data = reader.result;
           workBook = XLSX.read(data, { type: 'binary', cellDates: true });
 

@@ -376,7 +376,6 @@ export class MrRequestComponent implements OnInit {
     mr.HEIGHT = add.at(i).get('HEIGHT').value;
     mr.QUANTITY = add.at(i).get('UNIT').value;
     this._depoService.getMNRTariff(mr).subscribe((res: any) => {
-      debugger;
       if (res.ResponseCode == 200) {
         add.at(i).get('MAN_HOUR').setValue(res.Data.MAN_HOUR);
         add.at(i).get('LABOUR').setValue(res.Data.LABOUR_CHARGE);

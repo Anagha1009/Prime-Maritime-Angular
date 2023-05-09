@@ -424,7 +424,6 @@ export class NewErComponent implements OnInit {
   }
 
   saveER() {
-    debugger;
     this.isVessel = false;
     this.submitted = true;
     if (this.roleCode == '1') {
@@ -500,7 +499,6 @@ export class NewErComponent implements OnInit {
       )
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
-          debugger;
           this.erDetails = res.Data;
           if (
             Convert.toInt32(this.erCROForm.get('REQ_QUANTITY')?.value) ==
@@ -546,7 +544,6 @@ export class NewErComponent implements OnInit {
       )
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
-          debugger;
           this.erDetails = res.Data;
           //console.log(this.erDetails);
           this._erService
@@ -556,7 +553,6 @@ export class NewErComponent implements OnInit {
               this.depoCode
             )
             .subscribe((res: any) => {
-              debugger;
               if (res.ResponseCode == 200) {
                 this.erContDetails = res.Data;
                 //console.log(this.erDetails);
