@@ -116,7 +116,6 @@ export class OrganisationComponent implements OnInit {
       loc += element.CODE + ',';
     });
     this.orgForm.get('ORG_LOC_CODE').setValue(loc);
-    console.log(JSON.stringify(this.orgForm.value));
     this._masterService
       .ValidateOrgCode(this.orgForm.get('ORG_CODE')?.value)
       .subscribe((res: any) => {

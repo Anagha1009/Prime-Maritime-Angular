@@ -92,7 +92,6 @@ export class ErListComponent implements OnInit {
         if (res.hasOwnProperty('Data')) {
           if (res.Data?.length > 0) {
             this.erList = res.Data;
-            console.log(this.erList);
             //getContainerCount
             //this.getContainerCount();
             this.previewList = true;
@@ -245,7 +244,6 @@ export class ErListComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.erDetails = res.Data;
-          console.log(this.erDetails);
           this._erService
             .getERContainerDetails(
               this.erCROForm.get('REPO_NO')?.value,
@@ -255,7 +253,6 @@ export class ErListComponent implements OnInit {
             .subscribe((res: any) => {
               if (res.ResponseCode == 200) {
                 this.erContDetails = res.Data;
-                console.log(this.erDetails);
                 this.generatePDF(
                   CRO_NO,
                   this.erCROForm.get('CRO_VALIDITY_DATE')?.value
@@ -513,7 +510,6 @@ export class ErListComponent implements OnInit {
             const formData: FormData = new FormData();
             formData.append('Attachments', blob);
             formData.append('Attachments', this.excelFile);
-            console.log('excel ' + this.excelFile);
             formData.append('ToEmail', this.email);
             formData.append('Subject', 'CRO - ' + this.croNo);
 
@@ -714,7 +710,6 @@ export class ErListComponent implements OnInit {
             const formData: FormData = new FormData();
             formData.append('Attachments', blob);
             formData.append('Attachments', this.excelFile);
-            console.log('excel ' + this.excelFile);
             formData.append('ToEmail', this.email);
             formData.append('Subject', 'CRO - ' + this.croNo);
 

@@ -47,7 +47,6 @@ export class LandingComponent implements OnInit {
   }
 
   Tracking() {
-    console.log('in  tracking');
     const steps = Array.from(document.getElementsByClassName('step'));
     const progess = document.getElementsByClassName('progress-bar');
     const icon = document.getElementsByClassName('train');
@@ -72,9 +71,7 @@ export class LandingComponent implements OnInit {
     this._bookingservice
       .getTrackingDetail(this.bookingNo)
       .subscribe((res: any) => {
-        console.log(JSON.stringify(res));
         if (res.ResponseCode == 200) {
-          console.log('res' + res.Data);
           if (res.Data == 0) {
             this.isTracking = false;
           } else {

@@ -107,7 +107,6 @@ export class CroListComponent implements OnInit {
     this._croService.getCRODetails(cro).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.croDetails = res.Data;
-        console.log(this.croDetails);
         this.generatePDF();
       }
     });

@@ -37,7 +37,6 @@ export class ErDetailsComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.er = res.Data;
-          console.log(this.er);
         }
       });
     this._erService

@@ -724,10 +724,7 @@ export class NewBlComponent implements OnInit {
     //newcode
     this.blForm.get('PREPAID_AT').enable();
     this.blForm.get('PAYABLE_AT').enable();
-    // var json = JSON.stringify(this.blForm.value);
-    // json = json.replace(/\\n/g, ' ');
-    // json = json.replace(/\\r/g, ' ');
-    // console.log(json);
+
     this._blService.getSRRDetails(bl).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
@@ -737,7 +734,7 @@ export class NewBlComponent implements OnInit {
         var json = JSON.stringify(this.blForm.value);
         json = json.replace(/\\n/g, ' ');
         json = json.replace(/\\r/g, ' ');
-        console.log(json);
+
         //
         this._blService.createBL(json).subscribe((res: any) => {
           if (res.responseCode == 200) {

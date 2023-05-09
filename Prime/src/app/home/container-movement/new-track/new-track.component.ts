@@ -91,7 +91,6 @@ export class NewTrackComponent implements OnInit {
 
     this._bookingService.getBookingDetails(bk).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
-        console.log(res.data);
         this.booking = res.Data;
       }
       if (res.ResponseCode == 500) {
@@ -153,7 +152,6 @@ export class NewTrackComponent implements OnInit {
         this.shift5();
         break;
       default:
-        //console.log("No such day exists!");
         break;
     }
   }

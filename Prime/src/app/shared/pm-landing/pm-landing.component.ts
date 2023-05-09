@@ -95,7 +95,6 @@ export class PmLandingComponent implements OnInit {
           { label: 'Nov', y: 1.13 },
           { label: 'Dec', y: 1.79 },
         ];
-        console.log(this.srrCountList);
         this.getCharts();
         this.srrCountList.forEach((element: any) => {
           if (element.MONTH == 'Dec') {

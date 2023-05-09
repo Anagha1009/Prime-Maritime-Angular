@@ -144,7 +144,6 @@ export class CtListComponent implements OnInit {
           {
             if (res.Data?.length > 0) {
               this.ctList = res.Data;
-              console.log(this.ctList);
               this.rowData = res.Data;
               this.previewDetails = true;
               // if (this.doList?.length >= 4) {

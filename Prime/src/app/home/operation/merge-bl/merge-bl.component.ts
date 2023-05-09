@@ -148,7 +148,6 @@ export class MergeBlComponent implements OnInit {
   }
   searchBL() {
     this.submitted = true;
-    console.log(JSON.stringify(this.mergeForm.value));
     if (this.mergeForm.invalid) {
       return;
     }
@@ -197,8 +196,6 @@ export class MergeBlComponent implements OnInit {
   }
 
   getContainerList(item: any, event: any, index: number) {
-    console.log(item);
-    console.log(index);
     if (item == 1) {
       const add = this.mergeForm.get('BL_HISTORY_LIST') as FormArray;
       const add1 = this.mergeForm.get('BL_MERGE_LIST') as FormArray;
@@ -289,8 +286,6 @@ export class MergeBlComponent implements OnInit {
       .setValue(this.mergeForm.get('NOTIFY_PARTY').value);
 
     const formArray = this.mergeForm.get('BL_MERGE_LIST') as FormArray;
-    console.log(formArray);
-    console.log('Bl merge list' + this.blmergeList);
 
     const add = this.mergeBLForm.get('CONTAINER_LIST') as FormArray;
     add.clear();
@@ -398,14 +393,11 @@ export class MergeBlComponent implements OnInit {
     //newcode
     this.mergeBLForm.get('PREPAID_AT').enable();
     this.mergeBLForm.get('PAYABLE_AT').enable();
-    //
-    console.log(JSON.stringify(this.mergeBLForm.value));
+
     this._blService.getSRRDetails(bl).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.mergeBLForm.get('SRR_ID')?.setValue(res.Data.ID);
         this.mergeBLForm.get('SRR_NO')?.setValue(res.Data.SRR_NO);
-        console.log(this.mergeBLForm.get('SRR_ID')?.value);
-        console.log(this.mergeBLForm.get('SRR_NO')?.value);
 
         this._blService
           .createBL(JSON.stringify(this.mergeBLForm.value))

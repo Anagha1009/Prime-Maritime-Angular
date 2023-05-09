@@ -67,7 +67,6 @@ export class MandatoryComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
           this.orgList = res.Data;
-          console.log(JSON.stringify(this.orgList));
         }
       });
   }

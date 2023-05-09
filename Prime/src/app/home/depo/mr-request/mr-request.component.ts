@@ -111,7 +111,6 @@ export class MrRequestComponent implements OnInit {
       return this.repairList.filter((x) => x.CODE_DESC == component);
     }
     return [];
-    // console.log(component);
   }
   Sum(index: number) {
     const add = this.mrForm.get('MR_LIST') as FormArray;
@@ -217,7 +216,6 @@ export class MrRequestComponent implements OnInit {
       this.mrForm.value.MR_LIST[i].CREATED_BY =
         this._commonService.getUserName();
     }
-    //console.log(this.mrForm.value.MR_LIST[0].MR_NO);
 
     var MR = this.mrForm.value.MR_LIST[0].MR_NO;
 
@@ -300,7 +298,6 @@ export class MrRequestComponent implements OnInit {
 
   uploadFilestoDB(MR: string) {
     const payload = new FormData();
-    //console.log(this.imageUploads)
     this.imageUploads.forEach((element: any) => {
       payload.append('formFile', element);
     });

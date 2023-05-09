@@ -62,8 +62,6 @@ export class RenewPwdComponent implements OnInit {
       this.renewPwd.confirmPassword =
         this.changePwdForm.get('CONFIRM_PWD').value;
 
-      console.log(JSON.stringify(this.renewPwd));
-
       this._loginservice
         .renewPwd(
           this.renewPwd.email,

@@ -43,7 +43,6 @@ export class MrRequestListComponent implements OnInit {
     this._depoService.getMRList(this.mr).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.mrList = res.Data;
-        console.log(this.mrList);
       }
     });
   }
