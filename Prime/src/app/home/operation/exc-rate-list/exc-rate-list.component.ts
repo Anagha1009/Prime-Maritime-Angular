@@ -12,6 +12,7 @@ import * as XLSX from 'xlsx';
 export class ExcRateListComponent implements OnInit {
   excRateList: any[] = [];
   onUpload: boolean = false;
+  exclist: any[] = [];
 
   constructor(
     private _commonService: CommonService,
@@ -19,7 +20,23 @@ export class ExcRateListComponent implements OnInit {
     private http: HttpClient
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getList();
+  }
+
+  getList() {
+    var orgcode = this._commonService.getUserOrgCode();
+    var port = this._commonService.getUserPort();
+    this._commonService.destroyDT();
+    this._quotationService
+      .getExcRateList(orgcode, port)
+      .subscribe((res: any) => {
+        if (res.ResponseCode == 200) {
+          this.exclist = res.Data;
+        }
+        this._commonService.getDT();
+      });
+  }
 
   isSameColumn(arr1: any, arr2: any) {
     return $(arr1).not(arr2).length === 0 && $(arr2).not(arr1).length === 0;

@@ -172,6 +172,17 @@ export class QuotationService {
     );
   }
 
+  getExcRateList(orgcode: any, port: any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'SRR/GetExcRateList?ORG_CODE=' +
+        orgcode +
+        '&PORT=' +
+        port,
+      this.httpOptions
+    );
+  }
+
   postExcRateList(rootobject: any) {
     return this._http.post<any>(
       this.BASE_URL + 'SRR/InsertExcRate',
