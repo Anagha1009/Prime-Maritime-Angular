@@ -504,6 +504,14 @@ export class QuotationListComponent implements OnInit {
     this.quotationDetails.SRR_NO = this.quotationList[i].SRR_NO;
     this.quotationDetails.NO_OF_CONTAINERS =
       this.quotationList[i].NO_OF_CONTAINERS;
+    this.quotationDetails.NO_OF_SLOTS = this.quotationList[i].NO_OF_SLOTS;
+
+    if (this.quotationDetails.NO_OF_CONTAINERS < 0) {
+      this._commonService.errorMsg(
+        'Sorry ! You cannot book Slots more than the total volume expected !'
+      );
+      return;
+    }
 
     if (totalBookings == 0) {
       this.quotationList[i].COMMODITY?.split(', ').forEach((element: any) => {
@@ -548,6 +556,21 @@ export class QuotationListComponent implements OnInit {
   }
 
   bookNow() {
+    var slotDetails = this.slotDetailsForm.get('SLOT_LIST') as FormArray;
+
+    var totalSlots = slotDetails.value
+      .map((x: any) => x.NO_OF_SLOTS)
+      .reduce((a: any, b: any) => +a + +b, 0);
+
+    if (totalSlots > this.quotationDetails.NO_OF_CONTAINERS) {
+      this._commonService.errorMsg(
+        'Sorry ! You cannot book Slots more than the total volume expected !<br>' +
+          this.quotationDetails.NO_OF_CONTAINERS +
+          ' slots remaining !'
+      );
+      return;
+    }
+
     if (this.commodityHAZ) {
       var Hazfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'HAZ');
       if (Hazfiles.length != 3) {

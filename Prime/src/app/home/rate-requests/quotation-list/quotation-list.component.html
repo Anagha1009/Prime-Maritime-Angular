@@ -98,8 +98,9 @@
                                         src="assets/img/container.png" />
                                     <img *ngIf="sc.substring(0,2) == '40'" height="25" width="30" class="me-2"
                                         src="assets/img/container (1).png" />
-                                    <span class="me-2">{{sc}} | </span>
+                                    <span class="me-2">{{sc}}</span>
                                 </span>
+                                <span class="fw-bold text-danger">| ({{item.TOTAL_VOLUME_EXPECTED}})</span>
                             </p>
                             <p class="description">
                                 <span *ngFor="let comms of item.COMMODITY?.split(', ')">
@@ -139,8 +140,10 @@
                                 Now</button>
                             <button class="form-btn d-none" #openBtn1 data-bs-toggle="modal" href="#bookingModal2">Book
                                 Now</button>
-                            <h6 *ngIf="item.BOOKINGS > 0 && item.IS_VESSELVALIDITY == false" class="pe-2 mt-2">
-                                {{item.BOOKINGS}} Booking(s)</h6>
+                            <br>
+                            <small *ngIf="item.BOOKINGS > 0 && item.IS_VESSELVALIDITY == false"
+                                class="pe-2 mt-2 fw-bold">
+                                {{item.BOOKINGS}} Booking(s) | {{item.NO_OF_SLOTS}} Slot(s)</small>
                         </div>
                     </div>
                     <div class="modal fade" id="bookingModal" aria-labelledby="exampleModalLabel" tabindex="-1"
