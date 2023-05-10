@@ -530,6 +530,14 @@ export class NewQuotationComponent implements OnInit {
             if (control == 'TRANSPORT_TYPE') {
               freightcharges.at(i).get(control).setValue('POL');
             }
+
+            if (control == 'AGENT_REMARKS') {
+              freightcharges.at(i).get('AGENT_REMARKS').setValidators(null);
+              freightcharges
+                .at(i)
+                .get('AGENT_REMARKS')
+                .updateValueAndValidity();
+            }
           });
         });
 
@@ -550,6 +558,11 @@ export class NewQuotationComponent implements OnInit {
             if (control == 'TRANSPORT_TYPE') {
               polcharges.at(i).get(control).setValue('POL');
             }
+
+            if (control == 'AGENT_REMARKS') {
+              polcharges.at(i).get('AGENT_REMARKS').setValidators(null);
+              polcharges.at(i).get('AGENT_REMARKS').updateValueAndValidity();
+            }
           });
         });
 
@@ -569,6 +582,11 @@ export class NewQuotationComponent implements OnInit {
 
             if (control == 'TRANSPORT_TYPE') {
               podcharges.at(i).get(control).setValue('POD');
+            }
+
+            if (control == 'AGENT_REMARKS') {
+              podcharges.at(i).get('AGENT_REMARKS').setValidators(null);
+              podcharges.at(i).get('AGENT_REMARKS').updateValueAndValidity();
             }
           });
         });

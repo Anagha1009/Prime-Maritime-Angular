@@ -856,21 +856,22 @@
                                                                     style="font-size: 12px;">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th width="25%">Charge Code</th>
-                                                                            <th width="15%">Currency</th>
+                                                                            <th width="15%">Charge</th>
+                                                                            <th width="10%">Currency</th>
                                                                             <th width="20%">Payment</th>
-                                                                            <th width="20%">Place</th>
+                                                                            <th width="15%">Place</th>
                                                                             <th width="10%">Income</th>
                                                                             <th width="9%">Requested</th>
+                                                                            <th width="20%">Remarks</th>
                                                                             <th width="1%"></th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr *ngFor="let item of f3;let j = index;"
                                                                             [formGroup]="item">
-                                                                            <td width="25%">{{item.value.CHARGE_CODE}}
+                                                                            <td width="15%">{{item.value.CHARGE_CODE}}
                                                                             </td>
-                                                                            <td width="15%">{{item.value.CURRENCY}}</td>
+                                                                            <td width="10%">{{item.value.CURRENCY}}</td>
                                                                             <td width="20%">
                                                                                 <select class="form-control3"
                                                                                     (change)="OnPaymentTerm($event,j,'FREIGHT_CHARGES')"
@@ -887,7 +888,7 @@
                                                                                 <span class="invalid-feedback"
                                                                                     *ngIf="submiitedRate && item.get('PAYMENT_TERM').errors">required</span>
                                                                             </td>
-                                                                            <td width="20%">
+                                                                            <td width="15%">
                                                                                 <select class="form-control3"
                                                                                     formControlName="TRANSPORT_TYPE">
                                                                                     <option value=null selected
@@ -910,7 +911,10 @@
                                                                                 <span class="invalid-feedback"
                                                                                     *ngIf="submiitedRate && item.get('RATE_REQUESTED').errors">required</span>
                                                                             </td>
-                                                                            <td> <i style="font-size: 20px;"
+                                                                            <td width="20%"><input type="text"
+                                                                                    formControlName="AGENT_REMARKS"
+                                                                                    class="form-control3" /></td>
+                                                                            <td width="1%"> <i style="font-size: 20px;"
                                                                                     placement="right"
                                                                                     tooltip="Please enter rate after deducting BAF & EWRI"
                                                                                     *ngIf="item.value.CHARGE_CODE == 'Freight'"
@@ -943,21 +947,22 @@
                                                                     style="font-size: 12px;">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th width="25%">Charge Code</th>
-                                                                            <th width="15%">Currency</th>
+                                                                            <th width="15%">Charge</th>
+                                                                            <th width="10%">Currency</th>
                                                                             <th width="20%">Payment</th>
-                                                                            <th width="20%">Place</th>
+                                                                            <th width="15%">Place</th>
                                                                             <th width="10%">Income</th>
                                                                             <th width="9%">Requested</th>
+                                                                            <th width="20%">Remarks</th>
                                                                             <th width="1%"></th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr *ngFor="let item of f4;let j = index;"
                                                                             [formGroup]="item">
-                                                                            <td width="25%">{{item.value.CHARGE_CODE}}
+                                                                            <td width="15%">{{item.value.CHARGE_CODE}}
                                                                             </td>
-                                                                            <td width="15%">{{item.value.CURRENCY}}</td>
+                                                                            <td width="10%">{{item.value.CURRENCY}}</td>
                                                                             <td width="20%">
                                                                                 <select class="form-control3"
                                                                                     (change)="OnPaymentTerm($event,j,'POL_CHARGES')"
@@ -974,7 +979,7 @@
                                                                                 <span class="invalid-feedback"
                                                                                     *ngIf="submiitedRate && item.get('PAYMENT_TERM').errors">required</span>
                                                                             </td>
-                                                                            <td width="20%">
+                                                                            <td width="15%">
                                                                                 <select class="form-control3"
                                                                                     formControlName="TRANSPORT_TYPE">
                                                                                     <option value=null selected
@@ -997,7 +1002,10 @@
                                                                                 <span class="invalid-feedback"
                                                                                     *ngIf="submiitedRate && item.get('RATE_REQUESTED').errors">required</span>
                                                                             </td>
-                                                                            <td> <i placement="right"
+                                                                            <td width="20%"><input type="text"
+                                                                                    formControlName="AGENT_REMARKS"
+                                                                                    class="form-control3" /></td>
+                                                                            <td width="1%"> <i placement="right"
                                                                                     tooltip="Please enter rate after deducting BAF & EWRI"
                                                                                     *ngIf="item.value.CHARGE_CODE == 'Freight'"
                                                                                     class="fa fa-info-circle ms-1"></i>
@@ -1029,21 +1037,22 @@
                                                                     style="font-size: 12px;">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th width="25%">Charge Code</th>
-                                                                            <th width="15%">Currency</th>
+                                                                            <th width="15%">Charge</th>
+                                                                            <th width="10%">Currency</th>
                                                                             <th width="20%">Payment</th>
-                                                                            <th width="20%">Place</th>
+                                                                            <th width="15%">Place</th>
                                                                             <th width="10%">Income</th>
                                                                             <th width="9%">Requested</th>
+                                                                            <th width="20%">Remarks</th>
                                                                             <th width="1%"></th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr *ngFor="let item of f8;let j = index;"
                                                                             [formGroup]="item">
-                                                                            <td width="25%">{{item.value.CHARGE_CODE}}
+                                                                            <td width="15%">{{item.value.CHARGE_CODE}}
                                                                             </td>
-                                                                            <td width="15%">{{item.value.CURRENCY}}</td>
+                                                                            <td width="10%">{{item.value.CURRENCY}}</td>
                                                                             <td width="20%">
                                                                                 <select class="form-control3"
                                                                                     (change)="OnPaymentTerm($event,j,'POD_CHARGES')"
@@ -1060,7 +1069,7 @@
                                                                                 <span class="invalid-feedback"
                                                                                     *ngIf="submiitedRate && item.get('PAYMENT_TERM').errors">required</span>
                                                                             </td>
-                                                                            <td width="20%">
+                                                                            <td width="15%">
                                                                                 <select class="form-control3"
                                                                                     formControlName="TRANSPORT_TYPE">
                                                                                     <option value=null selected
@@ -1083,7 +1092,10 @@
                                                                                 <span class="invalid-feedback"
                                                                                     *ngIf="submiitedRate && item.get('RATE_REQUESTED').errors">required</span>
                                                                             </td>
-                                                                            <td> <i placement="right"
+                                                                            <td width="20%"><input type="text"
+                                                                                    formControlName="AGENT_REMARKS"
+                                                                                    class="form-control3" /></td>
+                                                                            <td width="1%"> <i placement="right"
                                                                                     tooltip="Please enter rate after deducting BAF & EWRI"
                                                                                     *ngIf="item.value.CHARGE_CODE == 'Freight'"
                                                                                     class="fa fa-info-circle ms-1"></i>
@@ -1142,9 +1154,9 @@
                     </div>
 
                     <div class="row" *ngIf="isContainer">
-                        <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button [disabled]="isLoading" (click)="saveContainer()" class="form-btn w-100">Submit <span
-                                    *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
+                        <div class="col-md-2 offset-md-10 text-end">
+                            <button [disabled]="isLoading" (click)="saveContainer()" class="form-btn w-100">Submit
+                                <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
                         </div>
                     </div>
                 </div>
