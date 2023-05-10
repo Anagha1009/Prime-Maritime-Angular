@@ -204,7 +204,7 @@ export class NewBlComponent implements OnInit {
             '<br><br><b>NOTIFY :</b> ' +
             blDetails.NOTIFY_PARTY +
             '<br><br><b>PAYMENT TERMS :</b> ' +
-            56 +
+            blDetails.PAYMENT_TERM +
             '<br><br><b>B/L NO :</b> ' +
             blDetails.BL_NO +
             '<br><br>Dear Sir, Shipper ' +
