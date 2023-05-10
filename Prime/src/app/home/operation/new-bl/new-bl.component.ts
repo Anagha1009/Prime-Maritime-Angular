@@ -1356,6 +1356,7 @@ export class NewBlComponent implements OnInit {
                       this.blForm
                         .get('DESC_OF_GOODS')
                         .setValue(contList[0]?.DESC_OF_GOODS);
+
                       this._blService
                         .updateBL(JSON.stringify(this.blForm.value))
                         .subscribe((res: any) => {
