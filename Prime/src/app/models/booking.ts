@@ -1,6 +1,6 @@
 export class BOOKING {
   ID: number;
-  BOOKING_ID:number;
+  BOOKING_ID: number;
   BOOKING_NO: any = '';
   SRR_ID: number;
   SRR_NO: string;
@@ -19,6 +19,8 @@ export class BOOKING {
   CONTAINER_LIST: SRRCONTAINER[];
   FROM_DATE: string = '';
   TO_DATE: string = '';
+  ORG_CODE: string = '';
+  PORT: string = '';
 }
 
 export class SRRCONTAINER {

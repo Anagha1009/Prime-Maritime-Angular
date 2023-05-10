@@ -93,7 +93,7 @@ export class MasterService {
 
   insertFreight(freight: any) {
     return this._http.post<any>(
-      this.BASE_URL + 'Master/InsertFreightMaster',
+      this.BASE_URL + 'Master/UploadFreightTariff',
       freight,
       this.httpOptions
     );
@@ -124,6 +124,247 @@ export class MasterService {
   deleteFreight(ID: any) {
     return this._http.delete<any>(
       this.BASE_URL + 'Master/DeleteFreightMasterList?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  insertCharge(charge: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UploadChargeTariff',
+      charge,
+      this.httpOptions
+    );
+  }
+
+  updateCharge(freight: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateChargeMasterList',
+      freight,
+      this.httpOptions
+    );
+  }
+
+  getChargeList() {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetChargeMasterList',
+      this.httpOptions
+    );
+  }
+
+  getChargeDetails(ID: any) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetChargeMasterDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  deleteCharge(ID: any) {
+    return this._http.delete<any>(
+      this.BASE_URL + 'Master/DeleteChargeMasterList?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  insertStev(charge: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UploadStevTariff',
+      charge,
+      this.httpOptions
+    );
+  }
+
+  updateSteve(freight: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateStevedoringMasterList',
+      freight,
+      this.httpOptions
+    );
+  }
+
+  getSteveList() {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetStevedoringMasterList',
+      this.httpOptions
+    );
+  }
+
+  getSteveDetails(ID: any) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetStevedoringMasterDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  deleteSteve(ID: any) {
+    return this._http.delete<any>(
+      this.BASE_URL + 'Master/DeleteStevedoringMasterList?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  insertDetention(detention: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UploadDetentionTariff',
+      detention,
+      this.httpOptions
+    );
+  }
+
+  updateDetention(freight: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateDetentionMasterList',
+      freight,
+      this.httpOptions
+    );
+  }
+
+  getDetentionList() {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetDetentionMasterList',
+      this.httpOptions
+    );
+  }
+
+  getDetentionDetails(ID: any) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetDetentionMasterDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  deleteDetention(ID: any) {
+    return this._http.delete<any>(
+      this.BASE_URL + 'Master/DeleteDetentionMasterList?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  insertMandatory(mandatory: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UploadMandatoryTariff',
+      mandatory,
+      this.httpOptions
+    );
+  }
+
+  updateMandatory(freight: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateMandatoryMasterList',
+      freight,
+      this.httpOptions
+    );
+  }
+
+  getMandatoryList() {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetMandatoryMasterList',
+      this.httpOptions
+    );
+  }
+
+  getMandatoryDetails(ID: any) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetMandatoryMasterDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  deleteMandatory(ID: any) {
+    return this._http.delete<any>(
+      this.BASE_URL + 'Master/DeleteMandatoryMasterList?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  insertOrg(charge: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/InsertOrgMaster',
+      charge,
+      this.httpOptions
+    );
+  }
+
+  GetOrgMasterList() {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetOrgMasterList',
+      this.httpOptions
+    );
+  }
+
+  GetOrgMasterDetails(orgcode: any, orgloccode: any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'Master/GetOrgMasterDetails?ORG_CODE=' +
+        orgcode +
+        '&ORG_LOC_CODE=' +
+        orgloccode,
+      this.httpOptions
+    );
+  }
+
+  UpdateOrgMasterList(charge: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateOrgMasterList',
+      charge,
+      this.httpOptions
+    );
+  }
+
+  DeleteOrgMasterList(orgcode: any, orgloccode: any) {
+    return this._http.post<any>(
+      this.BASE_URL +
+        'Master/DeleteOrgMasterList?ORG_CODE=' +
+        orgcode +
+        '&ORG_LOC_CODE=' +
+        orgloccode,
+      this.httpOptions
+    );
+  }
+
+  ValidateOrgCode(orgcode: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/ValidateOrgCode?ORG_CODE=' + orgcode,
+      this.httpOptions
+    );
+  }
+
+  insertSlot(master: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/InsertSlotMaster',
+      master,
+      this.httpOptions
+    );
+  }
+
+  GetSlotMasterList(slot: any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'Master/GetSlotMasterList?SERVICE=' +
+        slot.SERVICE +
+        '&PORT=' +
+        slot.PORT,
+      this.httpOptions
+    );
+  }
+
+  GetSlotMasterDetails(ID: number) {
+    return this._http.get<any>(
+      this.BASE_URL + 'Master/GetSlotMasterDetails?ID=' + ID,
+      this.httpOptions
+    );
+  }
+
+  UpdateSlotMasterList(charge: any) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/UpdateSlotMasterList',
+      charge,
+      this.httpOptions
+    );
+  }
+
+  DeleteSlotMasterList(ID: number) {
+    return this._http.post<any>(
+      this.BASE_URL + 'Master/DeleteSlotMasterList?ID=' + ID,
       this.httpOptions
     );
   }

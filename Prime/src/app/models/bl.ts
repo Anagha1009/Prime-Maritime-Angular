@@ -11,6 +11,8 @@ export class Bl {
   FROM_DATE: string = '';
   TO_DATE: string = '';
   INVOICE_NO: string = '';
+  ORG_CODE: string = '';
+  PORT: string = '';
 }
 
 export class MergeBl {

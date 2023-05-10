@@ -60,7 +60,6 @@ export class PmMrRequestComponent implements OnInit {
     this._depoService.getMRDetails(mr).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.mrDetailsList = res.Data;
-        //console.log("Details" + JSON.stringify(res.Data));
         const add = this.mrForm.get('MR_REQ') as FormArray;
         const add1 = this.mrForm.get('MR_REQ1') as FormArray;
         add1.clear();
@@ -73,11 +72,9 @@ export class PmMrRequestComponent implements OnInit {
         this.MRModal.nativeElement.click();
       }
     });
-    //console.log(MR_NO);
     this._depoService.GetFiles(MR_NO).subscribe((res: any) => {
       if (res.responseCode == 200) {
         this.imgList = res.data;
-        //console.log("Images-" + JSON.stringify(res.data));
       }
     });
   }
@@ -190,7 +187,7 @@ export class PmMrRequestComponent implements OnInit {
     var labour = add.at(index)?.get('LABOUR')?.value;
     var material = add.at(index)?.get('MATERIAL')?.value;
     var totalAmount = +labour + +material;
-    console.log('Sum' + totalAmount);
+
     return Math.round(totalAmount * 100) / 100;
   }
 

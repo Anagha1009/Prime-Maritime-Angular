@@ -32,6 +32,10 @@ export class QuotationService {
         quotation.TODATE +
         '&AGENT_CODE=' +
         quotation.AGENT_CODE +
+        '&ORG_CODE=' +
+        quotation.ORG_CODE +
+        '&PORT=' +
+        quotation.PORT +
         '&OPERATION=' +
         quotation.OPERATION,
       this.httpOptions
@@ -153,13 +157,28 @@ export class QuotationService {
   }
 
   //getsrrrates
-  getExcRates(currencyCode: any, agentCode: any) {
+  getExcRates(currencyCode: any, agentCode: any, orgcode: any, port: any) {
     return this._http.get<any>(
       this.BASE_URL +
         'SRR/GetExcRates?CURRENCY_CODE=' +
         currencyCode +
         '&AGENT_CODE=' +
-        agentCode,
+        agentCode +
+        '&ORG_CODE=' +
+        orgcode +
+        '&PORT=' +
+        port,
+      this.httpOptions
+    );
+  }
+
+  getExcRateList(orgcode: any, port: any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'SRR/GetExcRateList?ORG_CODE=' +
+        orgcode +
+        '&PORT=' +
+        port,
       this.httpOptions
     );
   }

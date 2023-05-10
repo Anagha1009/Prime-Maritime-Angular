@@ -35,21 +35,10 @@
             </div>
         </div>
     </form>
-    <section class="services" *ngIf="previewNoData">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-7 text-end">
-                    <h5>Sorry! No records found</h5>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-5 mt-3 pt-5 mb-5">
-                    <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="col-md-5 mx-auto text-center" *ngIf="previewNoData">
+        <h5>Sorry! No records found</h5>
+        <img src="assets/img/doimg.jpg" class="img-fluid" alt="">
+    </div>
 
     <section class="services" *ngIf="previewList">
         <div class="container">
@@ -101,12 +90,10 @@
                                 </p>
                             </div>
                             <div class="col-md-2 text-end">
-                                <button class="form-btn btn-sm rounded-pill mb-2" (click)="viewDoPdf(item,true)"><i
-                                        class="fa fa-plus me-1"></i>
-                                    View DO PDF</button>
-                                <button class="form-btn btn-sm rounded-pill" (click)="viewDoPdf(item,false)"><i
-                                        class="fa fa-plus me-1"></i>
-                                    View EMPTY LETTER</button>
+                                <i (click)="viewDoPdf(item,true)" tooltip="DO" placement="top"
+                                    class="bx bxs-file-doc pointer fs-3 me-3"></i>
+                                <i (click)="viewDoPdf(item,false)" tooltip="Empty Letter" placement="top"
+                                    class="bx bx-file pointer fs-3"></i>
                             </div>
                         </div>
                     </div>

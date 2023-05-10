@@ -30,7 +30,11 @@ export class BookingService {
         '&FROM_DATE=' +
         Booking.FROM_DATE +
         '&TO_DATE=' +
-        Booking.TO_DATE,
+        Booking.TO_DATE +
+        '&ORG_CODE=' +
+        Booking.ORG_CODE +
+        '&PORT=' +
+        Booking.PORT,
       this.httpOptions
     );
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 
@@ -8,25 +8,16 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./pm-sidebar.component.scss'],
 })
 export class PmSidebarComponent implements OnInit {
-  ismenu: boolean = true;
+  ismenu: boolean = false;
+  ismenu1: boolean = false;
   submenu: string = '';
+  submenu1: string = '';
+  menu: string = 'dashboard';
+  @Input() username: string;
+
   constructor(private _router: Router, private _loginService: LoginService) {}
 
-  ngOnInit(): void {
-    // this.loadJsFile([
-    //   'assets/pm-assets/vendor/js/helpers.js',
-    //   'assets/pm-assets/js/config.js',
-    //   'assets/pm-assets/vendor/libs/jquery/jquery.js',
-    //   'assets/pm-assets/vendor/libs/popper/popper.js',
-    //   'assets/pm-assets/vendor/js/bootstrap.js',
-    //   'assets/pm-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js',
-    //   'assets/pm-assets/vendor/js/menu.js',
-    //   //'./../../../assets/pm-assets/vendor/libs/apex-charts/apexcharts.js',
-    //   'assets/pm-assets/js/main.js',
-    //   // './../../../assets/pm-assets/js/dashboards-analytics.js',
-    //   'https://buttons.github.io/buttons.js',
-    // ]);
-  }
+  ngOnInit(): void {}
 
   public loadJsFile(url: any[]) {
     url.forEach((el) => {
@@ -40,7 +31,21 @@ export class PmSidebarComponent implements OnInit {
   redirectToSubMenu(value: string) {
     this.ismenu = true;
     this.submenu = value;
+    this.submenu1 = '';
+    this.menu = 'master';
     this._router.navigateByUrl('/master/' + value);
+  }
+
+  redirectToSubMenu1(value: string) {
+    this.ismenu1 = true;
+    this.submenu1 = value;
+    this.ismenu = true;
+    this._router.navigateByUrl('/master/' + value);
+  }
+
+  redirectToMenu(value: string) {
+    this.menu = value;
+    this._router.navigateByUrl('/pm/' + value);
   }
 
   logout() {

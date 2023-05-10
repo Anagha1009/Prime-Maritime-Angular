@@ -16,23 +16,22 @@ export class ContainerTypeService {
   };
   constructor(private _http: HttpClient) {}
 
-  GetContainerTypeMasterList(ContainerType:TYPE) {
+  GetContainerTypeMasterList(ContainerType: TYPE) {
     return this._http.get<any>(
-      this.BASE_URL + 'Master/GetContainerTypeMasterList?CONT_TYPE_CODE'+
-      '&CONT_TYPE_CODE='+
-      ContainerType.CONT_TYPE_CODE +
-      '&CONT_TYPE='+
-      ContainerType.CONT_TYPE +
-      '&CONT_SIZE='+
-      ContainerType.CONT_SIZE +
-      '&FROM_DATE=' +
-      ContainerType.FROM_DATE +
-      '&TO_DATE=' +
-      ContainerType.TO_DATE +
-       (ContainerType.STATUS != '' ? '&STATUS=' + ContainerType.STATUS : ''),
-    this.httpOptions
-
-      
+      this.BASE_URL +
+        'Master/GetContainerTypeMasterList?CONT_TYPE_CODE' +
+        '&CONT_TYPE_CODE=' +
+        ContainerType.CONT_TYPE_CODE +
+        '&CONT_TYPE=' +
+        ContainerType.CONT_TYPE +
+        '&CONT_SIZE=' +
+        ContainerType.CONT_SIZE +
+        '&FROM_DATE=' +
+        ContainerType.FROM_DATE +
+        '&TO_DATE=' +
+        ContainerType.TO_DATE +
+        (ContainerType.STATUS != '' ? '&STATUS=' + ContainerType.STATUS : ''),
+      this.httpOptions
     );
   }
 
@@ -52,7 +51,6 @@ export class ContainerTypeService {
   }
 
   updateContainerType(type: any) {
-    debugger;
     return this._http.post<any>(
       this.BASE_URL + 'Master/UpdateConatinerTypeMaster',
       type,
@@ -60,7 +58,6 @@ export class ContainerTypeService {
     );
   }
   DeleteContainerType(ID: number) {
-    debugger;
     return this._http.delete<any>(
       this.BASE_URL + 'Master/DeleteContainerTypeMaster?ID=' + ID,
       this.httpOptions

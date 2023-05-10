@@ -108,7 +108,7 @@
                             <div class="form-group">
                                 <label class="form-label2">Location Name<span class="text-danger"> *</span></label>
                                 <input type="text" [ngClass]="{'invalid':submitted && f.LOC_NAME.errors}"
-                                    formControlName="LOC_NAME" class="form-control2" maxlength="100">
+                                    formControlName="LOC_NAME" class="form-control2" maxlength="500">
                                 <div *ngIf="submitted && f.LOC_NAME.errors" class="invalid-feedback">Location Name
                                     is
                                     required</div>
@@ -130,7 +130,7 @@
                             <div class="form-group">
                                 <label class="form-label2">Location Address<span class="text-danger"> *</span></label>
                                 <textarea type="text" [ngClass]="{'invalid':submitted && f.ADDRESS.errors}"
-                                    formControlName="ADDRESS" class="form-control2" maxlength="100"></textarea>
+                                    formControlName="ADDRESS" class="form-control2" maxlength="500"></textarea>
                                 <div *ngIf="submitted && f.ADDRESS.errors" class="invalid-feedback">Location Address
                                     is
                                     required</div>

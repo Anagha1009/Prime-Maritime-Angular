@@ -24,7 +24,7 @@
                                 <ng-select formControlName="PLACE_OF_RECEIPT">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                     <ng-option *ngFor="let item of placeofRecpList"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        value="{{item.CODE_DESC}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -76,7 +76,7 @@
                                 <ng-select formControlName="PLACE_OF_DELIVERY">
                                     <ng-option value="" selected="true" disabled>--Select--</ng-option>
                                     <ng-option *ngFor="let item of placeofDelList"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}}
+                                        value="{{item.CODE_DESC}}">{{item.CODE_DESC}}
                                         ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
@@ -93,7 +93,7 @@
                                     <ng-option value="" selected="true" disabled>--Select--
                                     </ng-option>
                                     <ng-option *ngFor="let item of finalDestList"
-                                        value="{{item.CODE}}">{{item.CODE_DESC}} ({{item.CODE}})
+                                        value="{{item.CODE_DESC}}">{{item.CODE_DESC}} ({{item.CODE}})
                                     </ng-option>
                                 </ng-select>
                                 <label class="form-label-ddl">{{'Header.FinalDestination'|translate}} <span
@@ -453,11 +453,7 @@
                                 <input type="text" maxlength="20" formControlName="HAZ_APPROVAL_REF"
                                     [ngClass]="{'invalid': submitted2 && f2.HAZ_APPROVAL_REF.errors}"
                                     class="form-control" />
-                                <label class="form-label">HAZ Approval Ref <span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.HAZ_APPROVAL_REF.errors?.required"
-                                    class="invalid-feedback">
-                                    Please enter HAZ Approval Ref
-                                </div>
+                                <label class="form-label">HAZ Approval Ref </label>
                                 <div *ngIf="submitted2 && f2.HAZ_APPROVAL_REF.errors?.pattern" class="invalid-feedback">
                                     HAZ Approval Ref should be alphanumeric
                                 </div>
@@ -590,22 +586,26 @@
                         <div class="col-md-2 mb-4">
                             <div class="form-group">
                                 <input type="text" formControlName="VENTILATION"
-                                    [ngClass]="{'invalid': submitted2 && f2.VENTILATION.errors}"
-                                    (keypress)="numericOnly($event)" class="form-control" />
-                                <label class="form-label">Ventilation (%)<span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.VENTILATION.errors" class="invalid-feedback">
+                                    [ngClass]="{'invalid': submitted2 && f2.VENTILATION.errors}" class="form-control" />
+                                <label class="form-label">Ventilation<span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.VENTILATION.errors?.required" class="invalid-feedback">
                                     Please enter Ventilation
+                                </div>
+                                <div *ngIf="submitted2 && f2.VENTILATION.errors?.pattern" class="invalid-feedback">
+                                    Ventilation should be alphanumeric
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2 mb-4">
                             <div class="form-group">
                                 <input type="text" formControlName="HUMIDITY"
-                                    [ngClass]="{'invalid': submitted2 && f2.HUMIDITY.errors}"
-                                    (keypress)="numericOnly($event)" class="form-control" />
-                                <label class="form-label">Humidity (°C)<span class="text-danger"> *</span></label>
-                                <div *ngIf="submitted2 && f2.HUMIDITY.errors" class="invalid-feedback">
+                                    [ngClass]="{'invalid': submitted2 && f2.HUMIDITY.errors}" class="form-control" />
+                                <label class="form-label">Humidity<span class="text-danger"> *</span></label>
+                                <div *ngIf="submitted2 && f2.HUMIDITY.errors?.required" class="invalid-feedback">
                                     Please enter Humidity
+                                </div>
+                                <div *ngIf="submitted2 && f2.HUMIDITY.errors?.pattern" class="invalid-feedback">
+                                    Humidity should be alphanumeric
                                 </div>
                             </div>
                         </div>
@@ -627,170 +627,7 @@
                             </div>
                         </div>
                     </div>
-                    <h6 *ngIf="commodityType == 'HAZ' || commodityType == 'FLEXIBAG' || commodityType == 'SP'">Upload
-                        Files</h6>
-                    <div class="row" *ngIf="commodityType == 'HAZ'">
-                        <div class="col-md-4">
-                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOL">
-                                <input type="file" (change)="fileUpload($event,'POL','HAZ')" name="file" id="file" />
-                                <label for="file">
-                                    <div>
-                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
-                                        <span class="formbold-drop-file">Upload</span>
-                                        <small>POL Acceptance<span class="text-danger"> *</span></small>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOL">
-                                <div class="formbold-file-item">
-                                    <span class="formbold-file-name">{{POLAcceptanceFile}}</span>
-                                    <button (click)="removeFile(POLAcceptanceFile,'POL')"><span
-                                            class="bx bx-x-circle"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOD">
-                                <input type="file" (change)="fileUpload($event,'POD','HAZ')" name="file1" id="file1" />
-                                <label for="file1">
-                                    <div>
-                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
-                                        <span class="formbold-drop-file">Upload</span>
-                                        <small>POD Acceptance<span class="text-danger"> *</span></small>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOD">
-                                <div class="formbold-file-item">
-                                    <span class="formbold-file-name">{{PODAcceptanceFile}}</span>
-                                    <button (click)="removeFile(PODAcceptanceFile,'POD')"><span
-                                            class="bx bx-x-circle"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOp">
-                                <input type="file" (change)="fileUpload($event,'VslOp','HAZ')" name="file3"
-                                    id="file3" />
-                                <label for="file3">
-                                    <div>
-                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
-                                        <span class="formbold-drop-file">Upload</span>
-                                        <small>Vessel Operator Acceptance<span class="text-danger"> *</span></small>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOp">
-                                <div class="formbold-file-item">
-                                    <span class="formbold-file-name">{{VslOpAcceptanceFile}}</span>
-                                    <button (click)="removeFile(VslOpAcceptanceFile,'VslOp')"><span
-                                            class="bx bx-x-circle"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4" *ngIf="isTranshipment">
-                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedTS">
-                                <input type="file" (change)="fileUpload($event,'TS')" name="file4" id="file4" />
-                                <label for="file">
-                                    <div>
-                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
-                                        <span class="formbold-drop-file">Upload</span>
-                                        <small>Transhipment Acceptance<span class="text-danger"> *</span></small>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedTS">
-                                <div class="formbold-file-item">
-                                    <span class="formbold-file-name">{{TSAcceptanceFile}}</span>
-                                    <button (click)="removeFile(TSAcceptanceFile,'TS')"><span
-                                            class="bx bx-x-circle"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="commodityType == 'FLEXIBAG'">
-                        <div class="col-md-4">
-                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedShpLOY">
-                                <input type="file" (change)="fileUpload($event,'ShpLOY','FLEXIBAG')" name="file4"
-                                    id="file4" />
-                                <label for="file4">
-                                    <div>
-                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
-                                        <span class="formbold-drop-file">Upload</span>
-                                        <small>Shipper LOI<span class="text-danger"> *</span></small>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedShpLOY">
-                                <div class="formbold-file-item">
-                                    <span class="formbold-file-name">{{ShpLOYAcceptanceFile}}</span>
-                                    <button (click)="removeFile(ShpLOYAcceptanceFile,'ShpLOY')"><span
-                                            class="bx bx-x-circle"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOpAp">
-                                <input type="file" (change)="fileUpload($event,'VslOpAp','FLEXIBAG')" name="file5"
-                                    id="file5" />
-                                <label for="file5">
-                                    <div>
-                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
-                                        <span class="formbold-drop-file">Upload</span>
-                                        <small>POD Acceptance<span class="text-danger"> *</span></small>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOpAp">
-                                <div class="formbold-file-item">
-                                    <span class="formbold-file-name">{{VslOpApAcceptanceFile}}</span>
-                                    <button (click)="removeFile(VslOpApAcceptanceFile,'VslOpAp')"><span
-                                            class="bx bx-x-circle"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="commodityType == 'SP'">
-                        <div class="col-md-4">
-                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOpAp2">
-                                <input type="file" (change)="fileUpload($event,'VslOpAp2','SP')" name="file6"
-                                    id="file6" />
-                                <label for="file6">
-                                    <div>
-                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
-                                        <span class="formbold-drop-file">Upload</span>
-                                        <small>Vessel Operator Acceptance<span class="text-danger"> *</span></small>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOpAp2">
-                                <div class="formbold-file-item">
-                                    <span class="formbold-file-name">{{VslOpAp2AcceptanceFile}}</span>
-                                    <button (click)="removeFile(VslOpAp2AcceptanceFile,'VslOpAp2')"><span
-                                            class="bx bx-x-circle"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedSur">
-                                <input type="file" (change)="fileUpload($event,'Sur','SP')" name="file7" id="file7" />
-                                <label for="file7">
-                                    <div>
-                                        <h3><i class="fa fa-file-pdf-o"></i></h3>
-                                        <span class="formbold-drop-file">Upload</span>
-                                        <small>Surveyor File<span class="text-danger"> *</span></small>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedSur">
-                                <div class="formbold-file-item">
-                                    <span class="formbold-file-name">{{SurAcceptanceFile}}</span>
-                                    <button (click)="removeFile(SurAcceptanceFile,'Sur')"><span
-                                            class="bx bx-x-circle"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="row" *ngIf="commodityType == 'GEN'">
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
@@ -1019,21 +856,22 @@
                                                                     style="font-size: 12px;">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th width="25%">Charge Code</th>
-                                                                            <th width="15%">Currency</th>
+                                                                            <th width="15%">Charge</th>
+                                                                            <th width="10%">Currency</th>
                                                                             <th width="20%">Payment</th>
-                                                                            <th width="20%">Place</th>
+                                                                            <th width="15%">Place</th>
                                                                             <th width="10%">Income</th>
                                                                             <th width="9%">Requested</th>
+                                                                            <th width="20%">Remarks</th>
                                                                             <th width="1%"></th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr *ngFor="let item of f3;let j = index;"
                                                                             [formGroup]="item">
-                                                                            <td width="25%">{{item.value.CHARGE_CODE}}
+                                                                            <td width="15%">{{item.value.CHARGE_CODE}}
                                                                             </td>
-                                                                            <td width="15%">{{item.value.CURRENCY}}</td>
+                                                                            <td width="10%">{{item.value.CURRENCY}}</td>
                                                                             <td width="20%">
                                                                                 <select class="form-control3"
                                                                                     (change)="OnPaymentTerm($event,j,'FREIGHT_CHARGES')"
@@ -1050,7 +888,7 @@
                                                                                 <span class="invalid-feedback"
                                                                                     *ngIf="submiitedRate && item.get('PAYMENT_TERM').errors">required</span>
                                                                             </td>
-                                                                            <td width="20%">
+                                                                            <td width="15%">
                                                                                 <select class="form-control3"
                                                                                     formControlName="TRANSPORT_TYPE">
                                                                                     <option value=null selected
@@ -1073,7 +911,10 @@
                                                                                 <span class="invalid-feedback"
                                                                                     *ngIf="submiitedRate && item.get('RATE_REQUESTED').errors">required</span>
                                                                             </td>
-                                                                            <td> <i style="font-size: 20px;"
+                                                                            <td width="20%"><input type="text"
+                                                                                    formControlName="AGENT_REMARKS"
+                                                                                    class="form-control3" /></td>
+                                                                            <td width="1%"> <i style="font-size: 20px;"
                                                                                     placement="right"
                                                                                     tooltip="Please enter rate after deducting BAF & EWRI"
                                                                                     *ngIf="item.value.CHARGE_CODE == 'Freight'"
@@ -1106,21 +947,22 @@
                                                                     style="font-size: 12px;">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th width="25%">Charge Code</th>
-                                                                            <th width="15%">Currency</th>
+                                                                            <th width="15%">Charge</th>
+                                                                            <th width="10%">Currency</th>
                                                                             <th width="20%">Payment</th>
-                                                                            <th width="20%">Place</th>
+                                                                            <th width="15%">Place</th>
                                                                             <th width="10%">Income</th>
                                                                             <th width="9%">Requested</th>
+                                                                            <th width="20%">Remarks</th>
                                                                             <th width="1%"></th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr *ngFor="let item of f4;let j = index;"
                                                                             [formGroup]="item">
-                                                                            <td width="25%">{{item.value.CHARGE_CODE}}
+                                                                            <td width="15%">{{item.value.CHARGE_CODE}}
                                                                             </td>
-                                                                            <td width="15%">{{item.value.CURRENCY}}</td>
+                                                                            <td width="10%">{{item.value.CURRENCY}}</td>
                                                                             <td width="20%">
                                                                                 <select class="form-control3"
                                                                                     (change)="OnPaymentTerm($event,j,'POL_CHARGES')"
@@ -1137,7 +979,7 @@
                                                                                 <span class="invalid-feedback"
                                                                                     *ngIf="submiitedRate && item.get('PAYMENT_TERM').errors">required</span>
                                                                             </td>
-                                                                            <td width="20%">
+                                                                            <td width="15%">
                                                                                 <select class="form-control3"
                                                                                     formControlName="TRANSPORT_TYPE">
                                                                                     <option value=null selected
@@ -1160,7 +1002,10 @@
                                                                                 <span class="invalid-feedback"
                                                                                     *ngIf="submiitedRate && item.get('RATE_REQUESTED').errors">required</span>
                                                                             </td>
-                                                                            <td> <i placement="right"
+                                                                            <td width="20%"><input type="text"
+                                                                                    formControlName="AGENT_REMARKS"
+                                                                                    class="form-control3" /></td>
+                                                                            <td width="1%"> <i placement="right"
                                                                                     tooltip="Please enter rate after deducting BAF & EWRI"
                                                                                     *ngIf="item.value.CHARGE_CODE == 'Freight'"
                                                                                     class="fa fa-info-circle ms-1"></i>
@@ -1192,21 +1037,22 @@
                                                                     style="font-size: 12px;">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th width="25%">Charge Code</th>
-                                                                            <th width="15%">Currency</th>
+                                                                            <th width="15%">Charge</th>
+                                                                            <th width="10%">Currency</th>
                                                                             <th width="20%">Payment</th>
-                                                                            <th width="20%">Place</th>
+                                                                            <th width="15%">Place</th>
                                                                             <th width="10%">Income</th>
                                                                             <th width="9%">Requested</th>
+                                                                            <th width="20%">Remarks</th>
                                                                             <th width="1%"></th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr *ngFor="let item of f8;let j = index;"
                                                                             [formGroup]="item">
-                                                                            <td width="25%">{{item.value.CHARGE_CODE}}
+                                                                            <td width="15%">{{item.value.CHARGE_CODE}}
                                                                             </td>
-                                                                            <td width="15%">{{item.value.CURRENCY}}</td>
+                                                                            <td width="10%">{{item.value.CURRENCY}}</td>
                                                                             <td width="20%">
                                                                                 <select class="form-control3"
                                                                                     (change)="OnPaymentTerm($event,j,'POD_CHARGES')"
@@ -1223,7 +1069,7 @@
                                                                                 <span class="invalid-feedback"
                                                                                     *ngIf="submiitedRate && item.get('PAYMENT_TERM').errors">required</span>
                                                                             </td>
-                                                                            <td width="20%">
+                                                                            <td width="15%">
                                                                                 <select class="form-control3"
                                                                                     formControlName="TRANSPORT_TYPE">
                                                                                     <option value=null selected
@@ -1246,7 +1092,10 @@
                                                                                 <span class="invalid-feedback"
                                                                                     *ngIf="submiitedRate && item.get('RATE_REQUESTED').errors">required</span>
                                                                             </td>
-                                                                            <td> <i placement="right"
+                                                                            <td width="20%"><input type="text"
+                                                                                    formControlName="AGENT_REMARKS"
+                                                                                    class="form-control3" /></td>
+                                                                            <td width="1%"> <i placement="right"
                                                                                     tooltip="Please enter rate after deducting BAF & EWRI"
                                                                                     *ngIf="item.value.CHARGE_CODE == 'Freight'"
                                                                                     class="fa fa-info-circle ms-1"></i>
@@ -1305,9 +1154,9 @@
                     </div>
 
                     <div class="row" *ngIf="isContainer">
-                        <div class="col-md-2 offset-md-10" style="text-align: right;">
-                            <button [disabled]="isLoading" (click)="saveContainer()" class="form-btn w-100">Submit <span
-                                    *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
+                        <div class="col-md-2 offset-md-10 text-end">
+                            <button [disabled]="isLoading" (click)="saveContainer()" class="form-btn w-100">Submit
+                                <span *ngIf="isLoading" class="fa fa-spinner fa-spin"></span></button>
                         </div>
                     </div>
                 </div>
@@ -1626,7 +1475,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group" *ngIf="isGST">
-                                    <label class="form-label2">GST No</label>
+                                    <label class="form-label2">GST No<span class="text-danger"> *</span></label>
                                     <input maxlength="15" type="text" id="gstin"
                                         [ngClass]="{'invalid':submitted5 && fcp.GSTIN.errors}" formControlName="GSTIN"
                                         class="form-control2">
@@ -1638,7 +1487,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group" *ngIf="!isGST">
-                                    <label class="form-label2">Vat No/ License No</label>
+                                    <label class="form-label2">Vat No/ License No<span class="text-danger">
+                                            *</span></label>
                                     <input maxlength="30" type="text" id="gstin"
                                         [ngClass]="{'invalid':submitted5 && fcp.VAT_NO.errors}" formControlName="VAT_NO"
                                         class="form-control2">
@@ -1651,20 +1501,16 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label2">Type <span class="text-danger"> *</span></label>
-                                    <select formControlName="CUST_TYPE"
-                                        [ngClass]="{'invalid':submitted5 && fcp.CUST_TYPE.errors}"
-                                        class="form-control2">
-                                        <option value="" selected="true" disabled>--Select--</option>
-                                        <option value="S">Shipper</option>
-                                        <option value="C">Consignee</option>
-                                        <option value="F">Forwarder</option>
-                                        <option value="CHA">CHA</option>
-                                        <option value="B">Broker</option>
-                                        <option value="N">Notify Party</option>
-                                        <option value="SLOT">Slot Operator</option>
-                                    </select>
-                                    <div *ngIf="submitted5 && fcp.CUST_TYPE.errors" class="invalid-feedback">Type is
+                                    <label class="form-label2" style="z-index: 1;">Type <span class="text-danger">
+                                            *</span></label>
+                                    <ng-multiselect-dropdown #multiSelect
+                                        [ngClass]="{'invalid':submitted5 && fcp.CUST_TYPE_CODE.errors}"
+                                        [placeholder]="'Select Type'" [settings]="dropdownSettings"
+                                        [formControl]="fcp.CUST_TYPE_CODE" [data]="custTypeList"
+                                        [(ngModel)]="selectedItems">
+                                    </ng-multiselect-dropdown>
+                                    <div *ngIf="submitted5 && fcp.CUST_TYPE_CODE.errors" class="invalid-feedback">Type
+                                        is
                                         required
                                     </div>
                                 </div>
@@ -1674,19 +1520,6 @@
                                     <label class="form-label2">Contact No</label>
                                     <input (keypress)="numericOnly($event)" maxlength="10" type="text"
                                         formControlName="CUST_CONTACT" class="form-control2">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mt-4">
-                                <div class="form-group">
-                                    <div class="form-check form-switch">
-                                        <input formControlName="STATUS" class="form-check-input" type="checkbox"
-                                            role="switch" />
-                                        <label class="form-check-label">Status</label>
-                                    </div>
-                                    <div *ngIf="submitted5 && fcp.STATUS.errors" class="invalid-feedback">Status is
-                                        required </div>
                                 </div>
                             </div>
                         </div>

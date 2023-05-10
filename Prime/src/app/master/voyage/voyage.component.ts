@@ -106,7 +106,6 @@ export class VoyageComponent implements OnInit {
     this.voyageForm
       .get('CREATED_BY')
       ?.setValue(this._commonService.getUserName());
-    console.log(JSON.stringify(this.voyageForm.value));
     this._bookingService
       .insertVoyage(JSON.stringify(this.voyageForm.value))
       .subscribe((res: any) => {

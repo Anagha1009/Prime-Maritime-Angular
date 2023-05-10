@@ -198,6 +198,12 @@ export class NewContainerMovementComponent implements OnInit {
       alert('Please add file !');
       return;
     }
+
+    this.cmTable.forEach((element) => {
+      var newdate = new Date();
+      newdate.setDate(element.ACTIVITY_DATE.getDate() + 1);
+      element.ACTIVITY_DATE = newdate;
+    });
     this.closeBtn1.nativeElement.click();
     this.openModalPopup1.nativeElement.click();
   }
@@ -210,15 +216,13 @@ export class NewContainerMovementComponent implements OnInit {
         locationList = res.Data;
 
         this.cmTable.forEach((element) => {
-          debugger;
           var loccode = locationList.find(
             (x: any) => x.CODE_DESC === element.LOCATION
           );
-          var value = element['CRO_NO'].substring(0, 2);
 
           containerList.push({
             BOOKING_NO: '',
-            CRO_NO: value == 'CR' ? element['CRO_NO'] : '',
+            CRO_NO: element.CRO_NO,
             CONTAINER_NO: element.CONTAINER_NO,
             CURR_ACT_CODE: element.ACTIVITY,
             ACTIVITY_DATE: element.ACTIVITY_DATE,
@@ -231,6 +235,7 @@ export class NewContainerMovementComponent implements OnInit {
           .uploadContMov(JSON.stringify(containerList))
           .subscribe((res: any) => {
             if (res.ResponseCode == 200) {
+              this.onUpload = false;
               this.closeBtn2.nativeElement.click();
               this._commonService.successMsg(
                 'Records are uploaded successfully !'
@@ -367,7 +372,7 @@ export class NewContainerMovementComponent implements OnInit {
                   }
                 });
 
-                this._commonService.destroyDT();
+                this._commonService.destroyDT1();
                 if (isValid) {
                   if (isValidBKCRO) {
                     this.cmTable = this.cmTable.filter(
@@ -434,7 +439,7 @@ export class NewContainerMovementComponent implements OnInit {
                     });
 
                     this.onUpload = true;
-                    this._commonService.getDT();
+                    this._commonService.getDT1();
                   } else {
                     this.files = [];
                     alert('CRO No is invalid !');

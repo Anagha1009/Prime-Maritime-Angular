@@ -82,7 +82,8 @@ export class CroListComponent implements OnInit {
 
   getCROList() {
     this.cro.AGENT_CODE = this._commonService.getUserCode();
-    debugger;
+    this.cro.ORG_CODE = this._commonService.getUserOrgCode();
+    this.cro.PORT = this._commonService.getUserPort();
     this._croService.getCROList(this.cro).subscribe((res: any) => {
       this.isLoading = false;
       this.isLoading1 = false;
@@ -106,7 +107,6 @@ export class CroListComponent implements OnInit {
     this._croService.getCRODetails(cro).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.croDetails = res.Data;
-        console.log(this.croDetails);
         this.generatePDF();
       }
     });

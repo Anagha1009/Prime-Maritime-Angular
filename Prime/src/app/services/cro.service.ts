@@ -35,7 +35,11 @@ export class CroService {
         '&TO_DATE=' +
         cro.TO_DATE +
         '&CRO_NO=' +
-        cro.CRO_NO,
+        cro.CRO_NO +
+        '&ORG_CODE=' +
+        cro.ORG_CODE +
+        '&PORT=' +
+        cro.PORT,
       this.httpOptions
     );
   }

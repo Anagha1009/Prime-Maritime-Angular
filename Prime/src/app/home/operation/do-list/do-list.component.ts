@@ -189,9 +189,9 @@ export class DoListComponent implements OnInit {
           columns: [
             [
               {
-                text: 'D.O.No. : ' + this.itemPdf.DO_NO,
-                bold: false,
-                fontSize: 9,
+                text: this.itemPdf.DO_NO,
+                bold: true,
+                fontSize: 10,
               },
             ],
             [
@@ -218,77 +218,103 @@ export class DoListComponent implements OnInit {
           ],
         },
         {
-          text: 'To,\n\n' + this.itemPdf.CONSIGNEE,
+          text: 'To,\n\n' + this.itemPdf.ACCEPTANCE_LOCATION,
           bold: false,
-          fontSize: 9,
+          fontSize: 10,
           alignment: 'left',
-          margin: [0, 0, 0, 35],
+          margin: [0, 0, 0, 20],
         },
         {
           text: 'Dear Sir,',
           bold: false,
-          fontSize: 8,
+          fontSize: 10,
           alignment: 'left',
           margin: [0, 0, 0, 15],
         },
         {
           text:
-            'Please Deliver to ' +
-            this.itemPdf.CONSIGNEE +
+            'Please Deliver to Consignee' +
             '. The Following Goods: ' +
             this.itemPdf.COMMODITY +
             ' from ' +
             this.itemPdf.POL +
-            ' arrived per vessel: ' +
+            ' arrived on vessel: ' +
             this.itemPdf.VESSEL_NAME +
-            ' at' +
+            ' at ' +
             this.itemPdf.POD +
-            ' arrived on ',
+            ' arrived on ' +
+            this._cs.getIndianDate(new Date(this.itemPdf.ARRIVAL_DATE)),
           bold: false,
-          fontSize: 8,
+          fontSize: 10,
           alignment: 'left',
           margin: [0, 0, 0, 15],
         },
         {
           layout: 'noBorders',
           table: {
-            widths: [100, 180, 100],
+            widths: [100, 400],
             headerRows: 1,
             heights: 30,
             body: [
               [
                 {
-                  text: "G I.G.M.No./\nDate\n\nDescription of Goods\n\nMarks and No's\n\nBill Of Lading",
+                  text: 'I.G.M.No./\nDate',
                   fontSize: 9,
-                  bold: false,
+                  bold: true,
                 },
                 {
                   text:
-                    ': ' +
                     this.itemPdf.IGM_NO +
                     ' / ' +
-                    formatDate(this.itemPdf.IGM_DATE, 'dd-MM-yyyy', 'en') +
-                    '\n\n\n' +
-                    ': ' +
-                    this.doContainers[0]?.DESC_OF_GOODS +
-                    '\n\n' +
-                    ': ' +
-                    this.doContainers[0]?.MARKS_NOS +
-                    '\n\n' +
-                    ': ' +
-                    this.itemPdf.BL_NO +
-                    '\n\n\n\n',
+                    formatDate(this.itemPdf.IGM_DATE, 'dd-MM-yyyy', 'en'),
                   fontSize: 9,
                   bold: false,
                 },
+              ],
+              [
                 {
-                  text:
-                    'G Item No.          : ' +
-                    this.itemPdf.IGM_ITEM_NO +
-                    '\n\n\n\n\n\n\n' +
-                    'Dated          : ' +
-                    formatDate(new Date(), 'dd-MM-yyyy', 'en') +
-                    '\n\n\n\n',
+                  text: 'Item No',
+                  fontSize: 9,
+                  bold: true,
+                },
+                {
+                  text: this.doContainers[0]?.IGM_ITEM_NO,
+                  fontSize: 9,
+                  bold: false,
+                },
+              ],
+              [
+                {
+                  text: 'Description of Goods',
+                  fontSize: 9,
+                  bold: true,
+                },
+                {
+                  text: this.doContainers[0]?.DESC_OF_GOODS,
+                  fontSize: 9,
+                  bold: false,
+                },
+              ],
+              [
+                {
+                  text: 'Marks and Nos',
+                  fontSize: 9,
+                  bold: true,
+                },
+                {
+                  text: this.doContainers[0]?.MARKS_NOS,
+                  fontSize: 9,
+                  bold: false,
+                },
+              ],
+              [
+                {
+                  text: 'Bill Of Lading',
+                  fontSize: 9,
+                  bold: true,
+                },
+                {
+                  text: this.itemPdf.BL_NO,
                   fontSize: 9,
                   bold: false,
                 },
@@ -342,7 +368,7 @@ export class DoListComponent implements OnInit {
                   margin: [0, 0, 0, 10],
                 },
                 {
-                  text: "Seal's No",
+                  text: 'Seal No',
                   fontSize: 8,
                   alignment: 'center',
                   margin: [0, 0, 0, 10],
@@ -418,7 +444,7 @@ export class DoListComponent implements OnInit {
           margin: [0, 0, 0, 17],
         },
         {
-          text: 'Yours Faithfully\nINCHCAPE SHIPPING SERVICES LLC',
+          text: 'Yours Faithfully\n' + this.itemPdf.DESTINATION_AGENT,
           bold: false,
           fontSize: 8,
           margin: [0, 0, 0, 40],
@@ -456,11 +482,32 @@ export class DoListComponent implements OnInit {
       pageMargins: [40, 30, 40, 30],
       content: [
         {
-          text: 'PRIME MARITIME',
-          bold: true,
-          fontSize: 16,
-          alignment: 'center',
-          margin: [0, 0, 0, 7],
+          layout: 'noBorders',
+          table: {
+            widths: [70, 350, 60],
+            headerRows: 1,
+            heights: 30,
+            body: [
+              [
+                { text: ' ', fontSize: 8, bold: true },
+                {
+                  text: 'PRIME MARITIME',
+                  bold: true,
+                  fontSize: 16,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 7],
+                },
+                {
+                  image: await this._cs.getBase64ImageFromURL(
+                    'assets/img/logo_p.png'
+                  ),
+                  height: 40,
+                  width: 100,
+                  margin: [0, 0, 0, 0],
+                },
+              ],
+            ],
+          },
         },
         {
           canvas: [
@@ -479,7 +526,7 @@ export class DoListComponent implements OnInit {
           columns: [
             [
               {
-                text: 'TO,\n\n' + this.itemPdf.CONSIGNEE,
+                text: 'To,\n\n' + this.itemPdf.CLEARING_PARTY,
                 bold: false,
                 fontSize: 9,
                 margin: [0, 0, 0, 40],
@@ -609,7 +656,7 @@ export class DoListComponent implements OnInit {
         },
         {
           text: 'Please Note containers not to be accepted after the above mentioned date',
-          bold: false,
+          bold: true,
           fontSize: 8,
           margin: [0, 0, 0, 10],
         },
@@ -620,7 +667,7 @@ export class DoListComponent implements OnInit {
           margin: [0, 0, 0, 20],
         },
         {
-          text: 'Yours Faithfully\nINCHCAPE SHIPPING SERVICES LLC',
+          text: 'Yours Faithfully\n' + this.itemPdf.DESTINATION_AGENT,
           bold: false,
           fontSize: 8,
           margin: [0, 0, 0, 10],

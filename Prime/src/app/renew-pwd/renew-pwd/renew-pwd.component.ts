@@ -48,7 +48,6 @@ export class RenewPwdComponent implements OnInit {
   }
 
   resetPwd() {
-    debugger;
     this.submitted1 = true;
 
     if (this.changePwdForm.invalid) {
@@ -62,8 +61,6 @@ export class RenewPwdComponent implements OnInit {
       this.renewPwd.newPassword = this.changePwdForm.get('NEW_PWD').value;
       this.renewPwd.confirmPassword =
         this.changePwdForm.get('CONFIRM_PWD').value;
-
-      console.log(JSON.stringify(this.renewPwd));
 
       this._loginservice
         .renewPwd(

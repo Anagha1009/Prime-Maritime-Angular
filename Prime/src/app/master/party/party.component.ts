@@ -1,5 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { PARTY } from 'src/app/models/party';
 import { CommonService } from 'src/app/services/common.service';
 import { PartyService } from 'src/app/services/party.service';
@@ -20,6 +26,9 @@ export class PartyComponent implements OnInit {
   isLoading1: boolean = false;
   customer: PARTY = new PARTY();
   isGST: boolean = false;
+  custTypeList: any[] = [];
+  dropdownSettings = {};
+  selectedItems: any[] = [];
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @ViewChild('openModalPopup') openModalPopup: ElementRef;
@@ -31,12 +40,32 @@ export class PartyComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'CODE',
+      textField: 'CODE_DESC',
+      enableCheckAll: true,
+      selectAllText: 'Select All',
+      unSelectAllText: 'Unselect All',
+      allowSearchFilter: true,
+      limitSelection: -1,
+      clearSearchFilter: true,
+      maxHeight: 170,
+      itemsShowLimit: 3,
+      searchPlaceholderText: 'Select Type',
+      noDataAvailablePlaceholderText: 'No Records',
+      closeDropDownOnSelection: false,
+      showSelectedItemsAtTop: false,
+      defaultOpen: false,
+    };
+
     this.partyForm = this._formBuilder.group({
       CUST_ID: [0],
       CUST_NAME: ['', Validators.required],
       CUST_EMAIL: ['', [Validators.email]],
       CUST_ADDRESS: ['', Validators.required],
-      CUST_TYPE: ['', Validators.required],
+      CUST_TYPE: [''],
+      CUST_TYPE_CODE: new FormControl(this.custTypeList, Validators.required),
       GSTIN: [
         '',
         [
@@ -70,6 +99,7 @@ export class PartyComponent implements OnInit {
     });
 
     this.GetPartyMasterList();
+    this.getDropdown();
   }
 
   get f() {
@@ -145,6 +175,12 @@ export class PartyComponent implements OnInit {
       .get('CREATED_BY')
       ?.setValue(this._commonService.getUserName());
 
+    const add = this.partyForm.get('CUST_TYPE_CODE') as FormArray;
+    var custType = '';
+    add.value.forEach((element: any) => {
+      custType += element.CODE + ',';
+    });
+    this.partyForm.get('CUST_TYPE').setValue(custType);
     this._partyService
       .postParty(JSON.stringify(this.partyForm.value))
       .subscribe((res: any) => {
@@ -187,6 +223,7 @@ export class PartyComponent implements OnInit {
     this._partyService.getPartyDetails(partyModel).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.partyForm.patchValue(res.Data);
+        this.getDropdown('1');
       }
     });
   }
@@ -196,6 +233,13 @@ export class PartyComponent implements OnInit {
     if (this.partyForm.invalid) {
       return;
     }
+
+    const add = this.partyForm.get('CUST_TYPE_CODE') as FormArray;
+    var custType = '';
+    add.value.forEach((element: any) => {
+      custType += element.CODE + ',';
+    });
+    this.partyForm.get('CUST_TYPE').setValue(custType);
 
     this._partyService
       .updateParty(JSON.stringify(this.partyForm.value))
@@ -231,5 +275,28 @@ export class PartyComponent implements OnInit {
 
   onlyNumeric(event: any) {
     this._commonService.numericOnly(event);
+  }
+
+  getDropdown(value: any = '') {
+    this.custTypeList = [];
+    this.partyForm.get('CUST_TYPE_CODE').setValue('');
+    this._commonService
+      .getDropdownData('CUST_TYPE', '', '')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.custTypeList = res.Data;
+
+          if (value != '') {
+            var x = this.partyForm.get('CUST_TYPE').value.split(',');
+            var ss: any = [];
+            x.forEach((element: any) => {
+              if (element != '') {
+                ss.push(this.custTypeList.filter((x) => x.CODE === element)[0]);
+              }
+            });
+            this.selectedItems = ss;
+          }
+        }
+      });
   }
 }

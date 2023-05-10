@@ -3,6 +3,8 @@ export class QUOTATION {
   CUSTOMER_NAME: string = '';
   STATUS: string = '';
   AGENT_CODE: any = 0;
+  ORG_CODE: string = '';
+  PORT: string = '';
   OPERATION: string = '';
   POL: string = '';
   POD: string = '';

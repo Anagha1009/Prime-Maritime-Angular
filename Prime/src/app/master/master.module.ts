@@ -26,6 +26,11 @@ import { UserComponent } from './user/user.component';
 import { SlotOperatorComponent } from './slot-operator/slot-operator.component';
 import { FreightComponent } from './freight/freight.component';
 import { TariffComponent } from './tariff/tariff.component';
+import { OrganisationComponent } from './organisation/organisation.component';
+import { ChargeComponent } from './charge/charge.component';
+import { StevedoringComponent } from './stevedoring/stevedoring.component';
+import { DetentionComponent } from './detention/detention.component';
+import { MandatoryComponent } from './mandatory/mandatory.component';
 
 @NgModule({
     declarations: [
@@ -46,7 +51,12 @@ import { TariffComponent } from './tariff/tariff.component';
         UserComponent,
         SlotOperatorComponent,
         FreightComponent,
-        TariffComponent
+        TariffComponent,
+        OrganisationComponent,
+        ChargeComponent,
+        StevedoringComponent,
+        DetentionComponent,
+        MandatoryComponent
     ],
     imports: [
         CommonModule,

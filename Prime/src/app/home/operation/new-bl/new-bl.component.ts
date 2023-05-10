@@ -48,6 +48,7 @@ export class NewBlComponent implements OnInit {
   isSplit: boolean = false;
   srrId: any;
   srrNo: any;
+  portList: any[] = [];
   destAgentList: any[] = [];
   allContainerType: any[] = [];
   latestContTypeList: any[] = [];
@@ -58,11 +59,18 @@ export class NewBlComponent implements OnInit {
   minDate: any = '';
   i: any = 0;
   toWords = new ToWords();
+  fileList: any[] = [];
+  emailForm: FormGroup;
+  surrendersubmitted: boolean = false;
+
   @ViewChild('openBtn') openBtn: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
   @ViewChild('openOgBtn') openOgBtn: ElementRef;
   @ViewChild('closeOgBtn') closeOgBtn: ElementRef;
+
+  @ViewChild('openBtnSurrender') openBtnSurrender: ElementRef;
+  @ViewChild('closeBtnSurrender') closeBtnSurrender: ElementRef;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -76,6 +84,31 @@ export class NewBlComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getForms();
+    this.getDropdown();
+    this.minDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.getBLHistory();
+  }
+
+  get E() {
+    const add = this.emailForm.get('EMAIL_LIST') as FormArray;
+    return add.controls;
+  }
+
+  getForms() {
+    this.emailForm = this._formBuilder.group({
+      EMAIL_BODY: [''],
+      EMAIL_LIST: new FormArray([]),
+    });
+
+    const add = this.emailForm.get('EMAIL_LIST') as FormArray;
+    add.clear();
+    add.push(
+      this._formBuilder.group({
+        EMAIL: ['', [Validators.required, Validators.email]],
+      })
+    );
+
     this.blForm = this._formBuilder.group({
       BLType: [true],
       BL_NO: [''],
@@ -119,8 +152,189 @@ export class NewBlComponent implements OnInit {
       CONTAINER_LIST: new FormArray([]),
       CONTAINER_LIST2: new FormArray([]),
     });
-    this.minDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
-    this.getBLHistory();
+  }
+
+  addnewEmail() {
+    const add = this.emailForm.get('EMAIL_LIST') as FormArray;
+    add.push(
+      this._formBuilder.group({
+        EMAIL: ['', [Validators.required, Validators.email]],
+      })
+    );
+  }
+
+  removeEmail(i: number) {
+    const add = this.emailForm.get('EMAIL_LIST') as FormArray;
+    add.removeAt(i);
+  }
+
+  openSurrenderBLModal(blNo: string) {
+    this.blNo = blNo;
+    const a = this.emailForm.get('EMAIL_LIST') as FormArray;
+    a.clear();
+    a.push(
+      this._formBuilder.group({
+        EMAIL: ['', [Validators.required, Validators.email]],
+      })
+    );
+
+    var BL: Bl = new Bl();
+    BL.BL_NO = blNo;
+    BL.AGENT_CODE = this._commonService.getUserCode();
+
+    this._blService.getBLDetails(BL).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        var blDetails = res.Data;
+
+        if (res.Data.IS_UPLOADED) {
+          this._commonService.warnMsg('This BL is already surrendered !');
+          return;
+        } else {
+          var x =
+            '<b>VSL :</b> ' +
+            blDetails.VESSEL_NAME +
+            ' / ' +
+            blDetails.VOYAGE_NO +
+            '<br><br><b>POD :</b> ' +
+            blDetails.PORT_OF_DISCHARGE +
+            '<br><br><b>SHIPPER :</b> ' +
+            blDetails.SHIPPER +
+            '<br><br><b>CONSIGNEE :</b> ' +
+            blDetails.CONSIGNEE +
+            '<br><br><b>NOTIFY :</b> ' +
+            blDetails.NOTIFY_PARTY +
+            '<br><br><b>PAYMENT TERMS :</b> ' +
+            blDetails.PAYMENT_TERM +
+            '<br><br><b>B/L NO :</b> ' +
+            blDetails.BL_NO +
+            '<br><br>Dear Sir, Shipper ' +
+            blDetails.SHIPPER +
+            ' has surrendered full set of Original B/L (3/3), duly endorsed' +
+            'by shipper at our office.Kindly released cargo to ' +
+            blDetails.CONSIGNEE +
+            ' (Consignee) without presentation of OBL.';
+
+          this.emailForm.get('EMAIL_BODY').setValue(x);
+
+          this.openBtnSurrender.nativeElement.click();
+          this.fileList = [];
+          this.fileList.push(
+            {
+              FILE_NAME: [''],
+              FILE_SIZE: [''],
+              FILE: [''],
+            },
+            {
+              FILE_NAME: [''],
+              FILE_SIZE: [''],
+              FILE: [''],
+            },
+            {
+              FILE_NAME: [''],
+              FILE_SIZE: [''],
+              FILE: [''],
+            }
+          );
+        }
+      }
+    });
+  }
+
+  SurrenderBL() {
+    if (this.fileList.length < 3) {
+      this._commonService.warnMsg('Pls upload 3 Mandatory OBL Files');
+      return;
+    }
+
+    for (var i = 0; i < this.fileList.length; i++) {
+      if (i < 4) {
+        if (this.fileList[i].FILE_NAME == '') {
+          this._commonService.warnMsg('Pls upload 3 Mandatory OBL Files');
+          return;
+        }
+      }
+    }
+
+    this.surrendersubmitted = true;
+    if (this.emailForm.get('EMAIL_LIST').invalid) {
+      return;
+    }
+
+    const payload = new FormData();
+    this.fileList.forEach((element: any) => {
+      payload.append('FILE', element.FILE);
+      payload.append('Attachments', element.FILE);
+    });
+
+    const add = this.emailForm.get('EMAIL_LIST') as FormArray;
+
+    add.controls.forEach((element) => {
+      payload.append('ToEmails', element.value.EMAIL);
+    });
+
+    payload.append('Subject', 'Surrender BL');
+    payload.append('Body', this.emailForm.get('EMAIL_BODY').value);
+
+    this._commonService.successMsg(
+      'Your mail has been send successfully !<br> You will receive an email shortly in 5-10 mins.'
+    );
+
+    this._blService.uploadFiles(payload, this.blNo).subscribe();
+    this.closeBtnSurrender.nativeElement.click();
+  }
+
+  fileUpload(event: any, index: number) {
+    if (
+      event.target.files[0].type == 'application/pdf' ||
+      event.target.files[0].type ==
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+      event.target.files[0].type ==
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      event.target.files[0].type == 'application/xls' ||
+      event.target.files[0].type == 'application/xlsx' ||
+      event.target.files[0].type == 'application/doc'
+    ) {
+    } else {
+      alert('Please Select PDF or Excel or Word Format only');
+      return;
+    }
+
+    if (+event.target.files[0].size > 5000000) {
+      alert('Please upload file less than 5 mb..!');
+      return;
+    }
+
+    this.fileList[index].FILE_NAME = event.target.files[0].name;
+    this.fileList[index].FILE_SIZE = event.target.files[0].size;
+    this.fileList[index].FILE = event.target.files[0];
+  }
+
+  removeFile(i: number) {
+    this.fileList.splice(i, 1);
+    if (this.fileList.length == 0) {
+      this.fileList.push({
+        FILE_NAME: [''],
+        FILE_SIZE: [''],
+        FILE: [''],
+      });
+    }
+  }
+
+  addNewFile() {
+    this.fileList.push({
+      FILE_NAME: [''],
+      FILE_SIZE: [''],
+      FILE: [''],
+    });
+  }
+
+  getDropdown() {
+    this.portList = [];
+    this._commonService.getDropdownData('PORT').subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.portList = res.Data;
+      }
+    });
   }
 
   get blf() {
@@ -129,14 +343,16 @@ export class NewBlComponent implements OnInit {
 
   getBLHistory() {
     this._commonService.destroyDT();
-    this._blService
-      .getBLHistory(this._commonService.getUserCode())
-      .subscribe((res: any) => {
-        if (res.ResponseCode == 200) {
-          this.blHistoryList = res.Data;
-        }
-        this._commonService.getDT();
-      });
+    var bl: Bl = new Bl();
+    bl.ORG_CODE = this._commonService.getUserOrgCode();
+    bl.PORT = this._commonService.getUserPort();
+    bl.AGENT_CODE = this._commonService.getUserCode();
+    this._blService.getBLHistory(bl).subscribe((res: any) => {
+      if (res.ResponseCode == 200) {
+        this.blHistoryList = res.Data;
+      }
+      this._commonService.getDT();
+    });
   }
 
   removeItem(i: any) {
@@ -172,7 +388,6 @@ export class NewBlComponent implements OnInit {
   }
 
   submitFinalizeBL() {
-    debugger;
     if (this.finalizeType === '') {
       alert('Please select finalize type!');
     } else if (this.finalizeType === 'original' && this.ogType === '') {
@@ -193,6 +408,8 @@ export class NewBlComponent implements OnInit {
   manualBL() {
     this.submitted = false;
     this.blForm.reset();
+    this.blForm.get('PORT_OF_LOADING').setValue('');
+    this.blForm.get('PORT_OF_DISCHARGE').setValue('');
     this.isManual = true;
     this.editBL = false;
     this.isBLForm = true;
@@ -204,10 +421,15 @@ export class NewBlComponent implements OnInit {
       this._formBuilder.group({
         CONTAINER_NO: ['', Validators.required],
         CONTAINER_TYPE: ['', Validators.required],
+        PKG_COUNT: ['', Validators.required],
+        PKG_DESC: ['', Validators.required],
         GROSS_WEIGHT: ['', Validators.required],
+        NET_WEIGHT: ['', Validators.required],
         MEASUREMENT: ['', Validators.required],
         SEAL_NO: ['', Validators.required],
         AGENT_SEAL_NO: ['', Validators.required],
+        MARKS_NOS: [this.blForm.get('MARKS_NOS').value],
+        DESC_OF_GOODS: [this.blForm.get('DESC_OF_GOODS').value],
       })
     );
 
@@ -230,13 +452,86 @@ export class NewBlComponent implements OnInit {
       this._formBuilder.group({
         CONTAINER_NO: ['', Validators.required],
         CONTAINER_TYPE: ['', Validators.required],
+        PKG_COUNT: ['', Validators.required],
+        PKG_DESC: ['', Validators.required],
         GROSS_WEIGHT: ['', Validators.required],
+        NET_WEIGHT: ['', Validators.required],
         MEASUREMENT: ['', Validators.required],
         SEAL_NO: ['', Validators.required],
         AGENT_SEAL_NO: ['', Validators.required],
+        MARKS_NOS: [this.blForm.get('MARKS_NOS').value],
+        DESC_OF_GOODS: [this.blForm.get('DESC_OF_GOODS').value],
       })
     );
   }
+
+  copyValue(value: any) {
+    if (value == 'PKG_COUNT') {
+      var PKG_COUNT = this.f[0].value.PKG_COUNT;
+      this.blForm.value.CONTAINER_LIST2.forEach(
+        (element: { PKG_COUNT: any }) => {
+          element.PKG_COUNT = PKG_COUNT;
+        }
+      );
+    }
+
+    if (value == 'PKG_DESC') {
+      var PKG_DESC = this.f[0].value.PKG_DESC;
+      this.blForm.value.CONTAINER_LIST2.forEach(
+        (element: { PKG_DESC: any }) => {
+          element.PKG_DESC = PKG_DESC;
+        }
+      );
+    }
+
+    if (value == 'GROSS_WEIGHT') {
+      var GROSS_WEIGHT = this.f[0].value.GROSS_WEIGHT;
+      this.blForm.value.CONTAINER_LIST2.forEach(
+        (element: { GROSS_WEIGHT: any }) => {
+          element.GROSS_WEIGHT = GROSS_WEIGHT;
+        }
+      );
+    }
+
+    if (value == 'NET_WEIGHT') {
+      var NET_WEIGHT = this.f[0].value.NET_WEIGHT;
+      this.blForm.value.CONTAINER_LIST2.forEach(
+        (element: { NET_WEIGHT: any }) => {
+          element.NET_WEIGHT = NET_WEIGHT;
+        }
+      );
+    }
+
+    if (value == 'MEASUREMENT') {
+      var MEASUREMENT = this.f[0].value.MEASUREMENT;
+      this.blForm.value.CONTAINER_LIST2.forEach(
+        (element: { MEASUREMENT: any }) => {
+          element.MEASUREMENT = MEASUREMENT;
+        }
+      );
+    }
+
+    if (value == 'SEAL_NO') {
+      var SEAL_NO = this.f[0].value.SEAL_NO;
+      this.blForm.value.CONTAINER_LIST2.forEach((element: { SEAL_NO: any }) => {
+        element.SEAL_NO = SEAL_NO;
+      });
+    }
+
+    if (value == 'AGENT_SEAL_NO') {
+      var AGENT_SEAL_NO = this.f[0].value.AGENT_SEAL_NO;
+      this.blForm.value.CONTAINER_LIST2.forEach(
+        (element: { AGENT_SEAL_NO: any }) => {
+          element.AGENT_SEAL_NO = AGENT_SEAL_NO;
+        }
+      );
+    }
+
+    this.blForm
+      .get('CONTAINER_LIST2')
+      ?.setValue(this.blForm.value.CONTAINER_LIST2);
+  }
+
   getBLForm() {
     if (this.previewTable.length == 0) {
       this._commonService.warnMsg('Please upload Shipping Instructions !');
@@ -257,7 +552,10 @@ export class NewBlComponent implements OnInit {
           CONTAINER_TYPE: [element.CONTAINER_TYPE],
           //CONTAINER_SIZE: [element.CONTAINER_SIZE],
           SEAL_NO: [element.SEAL_NO?.toString()],
+          PKG_COUNT: [element.PKG_COUNT],
+          PKG_DESC: [element.PKG_DESC],
           GROSS_WEIGHT: [element.GROSS_WEIGHT],
+          NET_WEIGHT: [element.NET_WEIGHT],
           MEASUREMENT: [element.MEASUREMENT?.toString()],
           AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
           MARKS_NOS: [this.blForm.get('MARKS_NOS')?.value],
@@ -289,8 +587,8 @@ export class NewBlComponent implements OnInit {
 
   makeItFinalize(BLNO: any) {
     Swal.fire({
-      title: 'Are you sure you want to Finalize the BL?',
-      text: 'This BL will get locked!',
+      title: 'Finalize BL',
+      text: 'Are you sure you want to Finalize the BL?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -318,7 +616,7 @@ export class NewBlComponent implements OnInit {
           var contList: any[] = res.Data.CONTAINER_LIST;
 
           const add = this.blForm.get('CONTAINER_LIST2') as FormArray;
-          debugger;
+
           add.clear();
           contList.forEach((element) => {
             add.push(
@@ -328,7 +626,10 @@ export class NewBlComponent implements OnInit {
                 //CONTAINER_SIZE: [element.CONTAINER_SIZE],
                 SEAL_NO: [element.SEAL_NO?.toString()],
                 AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
+                PKG_COUNT: [element.PKG_COUNT],
+                PKG_DESC: [element.PKG_DESC],
                 GROSS_WEIGHT: [element.GROSS_WEIGHT],
+                NET_WEIGHT: [element.NET_WEIGHT],
                 MEASUREMENT: [element.MEASUREMENT?.toString()],
                 MARKS_NOS: [element.MARKS_NOS],
                 DESC_OF_GOODS: [element.DESC_OF_GOODS],
@@ -493,14 +794,18 @@ export class NewBlComponent implements OnInit {
     //newcode
     this.blForm.get('PREPAID_AT').enable();
     this.blForm.get('PAYABLE_AT').enable();
-    var json = JSON.stringify(this.blForm.value);
-    json = json.replace(/\\n/g, ' ');
-    json = json.replace(/\\r/g, ' ');
-    console.log(json);
+
     this._blService.getSRRDetails(bl).subscribe((res: any) => {
       if (res.ResponseCode == 200) {
         this.blForm.get('SRR_ID')?.setValue(res.Data.ID);
         this.blForm.get('SRR_NO')?.setValue(res.Data.SRR_NO);
+        this.blForm.get('TOTAL_PREPAID')?.setValue(0.0);
+        //
+        var json = JSON.stringify(this.blForm.value);
+        json = json.replace(/\\n/g, ' ');
+        json = json.replace(/\\r/g, ' ');
+
+        //
         this._blService.createBL(json).subscribe((res: any) => {
           if (res.responseCode == 200) {
             //this._router.navigateByUrl('/home/new-bl');
@@ -560,7 +865,10 @@ export class NewBlComponent implements OnInit {
             //CONTAINER_SIZE: [element.CONTAINER_SIZE],
             SEAL_NO: [element.SEAL_NO?.toString()],
             AGENT_SEAL_NO: [element.AGENT_SEAL_NO]?.toString(),
+            PKG_COUNT: [element.PKG_COUNT],
+            PKG_DESC: [element.PKG_DESC],
             GROSS_WEIGHT: [element.GROSS_WEIGHT],
+            NET_WEIGHT: [element.NET_WEIGHT],
             MEASUREMENT: [element.MEASUREMENT?.toString()],
             MARKS_NOS: [element.MARKS_NOS],
             DESC_OF_GOODS: [element.DESC_OF_GOODS],
@@ -632,7 +940,10 @@ export class NewBlComponent implements OnInit {
               //CONTAINER_SIZE: [element.CONTAINER_SIZE],
               SEAL_NO: [element.SEAL_NO?.toString()],
               AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
+              PKG_COUNT: [element.PKG_COUNT],
+              PKG_DESC: [element.PKG_DESC],
               GROSS_WEIGHT: [element.GROSS_WEIGHT],
+              NET_WEIGHT: [element.NET_WEIGHT],
               MEASUREMENT: [element.MEASUREMENT?.toString()],
               DESC_OF_GOODS: [element.DESC_OF_GOODS],
               MARKS_NOS: [element.MARKS_NOS],
@@ -800,7 +1111,10 @@ export class NewBlComponent implements OnInit {
             'CONTAINER_TYPE',
             'SEAL_NO',
             'AGENT_SEAL_NO',
+            'PKG_COUNT',
+            'PKG_DESC',
             'GROSS_WEIGHT',
+            'NET_WEIGHT',
             'MEASUREMENT',
           ];
 
@@ -859,7 +1173,10 @@ export class NewBlComponent implements OnInit {
                   element.CONTAINER_NO,
                   element.CONTAINER_TYPE,
                   element.SEAL_NO,
+                  element.PKG_COUNT,
+                  element.PKG_DESC,
                   element.GROSS_WEIGHT,
+                  element.NET_WEIGHT,
                   element.MEASUREMENT,
                   element.AGENT_SEAL_NO,
                 ])
@@ -975,7 +1292,6 @@ export class NewBlComponent implements OnInit {
     BL.BL_NO = BLNO;
 
     this._blService.getBLDetails(BL).subscribe((res: any) => {
-      debugger;
       this.blForm.patchValue(res.Data);
       var x = this.blForm
         .get('PORT_OF_DISCHARGE')
@@ -987,7 +1303,6 @@ export class NewBlComponent implements OnInit {
           this.blForm.get('PORT_OF_DISCHARGE').value.split('(')[1].split(')')[0]
         )
         .subscribe((desres: any) => {
-          debugger;
           if (desres.ResponseCode == 200) {
             this.destinationAgent = desres.Data;
             var contList: any[] = res.Data.CONTAINER_LIST;
@@ -1087,37 +1402,58 @@ export class NewBlComponent implements OnInit {
 
             if (this.blForm.get('BL_STATUS')?.value == 'Finalized') {
               if (isNN == false) {
-                this.blForm.get('BLType')?.setValue('Original');
+                this.blForm
+                  .get('BLType')
+                  ?.setValue(this.blForm.get('BL_TYPE')?.value);
                 if (this.blForm.get('OGView')?.value == 1) {
                   this._commonService.warnMsg('This BL is locked!');
                   return;
                 } else {
-                  Swal.fire({
-                    title: 'Are you sure you want to Print the BL?',
-                    text: 'This BL will get locked!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Print it!',
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      this.blForm.get('OGView')?.setValue(1);
-                      this.blForm
-                        .get('MARKS_NOS')
-                        .setValue(contList[0]?.MARKS_NOS);
-                      this.blForm
-                        .get('DESC_OF_GOODS')
-                        .setValue(contList[0]?.DESC_OF_GOODS);
-                      this._blService
-                        .updateBL(JSON.stringify(this.blForm.value))
-                        .subscribe((res: any) => {
-                          if (res.responseCode == 200) {
-                            this.generateBLPdf();
-                          }
-                        });
-                    }
-                  });
+                  if (this.blForm.get('BL_TYPE')?.value == 'seaway') {
+                    this.blForm.get('OGView')?.setValue(1);
+                    this.blForm
+                      .get('MARKS_NOS')
+                      .setValue(contList[0]?.MARKS_NOS);
+                    this.blForm
+                      .get('DESC_OF_GOODS')
+                      .setValue(contList[0]?.DESC_OF_GOODS);
+
+                    this._blService
+                      .updateBL(JSON.stringify(this.blForm.value))
+                      .subscribe((res: any) => {
+                        if (res.responseCode == 200) {
+                          this.generateBLPdf();
+                        }
+                      });
+                  } else {
+                    Swal.fire({
+                      title: 'Are you sure you want to view this BL?',
+                      text: 'This BL will get locked!',
+                      icon: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'View',
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        this.blForm.get('OGView')?.setValue(1);
+                        this.blForm
+                          .get('MARKS_NOS')
+                          .setValue(contList[0]?.MARKS_NOS);
+                        this.blForm
+                          .get('DESC_OF_GOODS')
+                          .setValue(contList[0]?.DESC_OF_GOODS);
+
+                        this._blService
+                          .updateBL(JSON.stringify(this.blForm.value))
+                          .subscribe((res: any) => {
+                            if (res.responseCode == 200) {
+                              this.generateBLPdf();
+                            }
+                          });
+                      }
+                    });
+                  }
                 }
               }
 
@@ -1127,32 +1463,18 @@ export class NewBlComponent implements OnInit {
                   this._commonService.warnMsg('This BL is locked!');
                   return;
                 } else {
-                  Swal.fire({
-                    title: 'Are you sure you want to Print the BL?',
-                    text: 'This BL will get locked!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Print it!',
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      this.blForm.get('NNView')?.setValue(1);
-                      this.blForm
-                        .get('MARKS_NOS')
-                        .setValue(contList[0]?.MARKS_NOS);
-                      this.blForm
-                        .get('DESC_OF_GOODS')
-                        .setValue(contList[0]?.DESC_OF_GOODS);
-                      this._blService
-                        .updateBL(JSON.stringify(this.blForm.value))
-                        .subscribe((res: any) => {
-                          if (res.responseCode == 200) {
-                            this.generateBLPdf();
-                          }
-                        });
-                    }
-                  });
+                  this.blForm.get('NNView')?.setValue(1);
+                  this.blForm.get('MARKS_NOS').setValue(contList[0]?.MARKS_NOS);
+                  this.blForm
+                    .get('DESC_OF_GOODS')
+                    .setValue(contList[0]?.DESC_OF_GOODS);
+                  this._blService
+                    .updateBL(JSON.stringify(this.blForm.value))
+                    .subscribe((res: any) => {
+                      if (res.responseCode == 200) {
+                        this.generateBLPdf();
+                      }
+                    });
                 }
               }
             } else {
@@ -1201,7 +1523,10 @@ export class NewBlComponent implements OnInit {
             SEAL_NO: [element.SEAL_NO?.toString()],
             AGENT_SEAL_NO: [element.AGENT_SEAL_NO?.toString()],
             MARKS_NOS: [''],
+            PKG_COUNT: [element.PKG_COUNT],
+            PKG_DESC: [element.PKG_DESC],
             GROSS_WEIGHT: [element.GROSS_WEIGHT],
+            NET_WEIGHT: [element.NET_WEIGHT],
             MEASUREMENT: [element.MEASUREMENT?.toString()],
           })
         );
@@ -1290,16 +1615,16 @@ export class NewBlComponent implements OnInit {
                   fontSize: 7,
                 },
                 {
-                  text: '-',
+                  text: p.PKG_COUNT,
                   fontSize: 7,
                 },
                 {
-                  text: '-',
+                  text: p.PKG_DESC,
                   fontSize: 7,
                 },
                 { text: p.GROSS_WEIGHT, fontSize: 7 },
                 {
-                  text: '-',
+                  text: p.NET_WEIGHT,
                   fontSize: 7,
                 },
                 { text: p.MEASUREMENT, fontSize: 7 },
@@ -1308,7 +1633,6 @@ export class NewBlComponent implements OnInit {
           },
           layout: {
             hLineWidth: function (i: any, node: any) {
-              debugger;
               return i === 0 || i === 1 || i === node.table.body.length ? 1 : 0;
             },
             vLineWidth: function (i: any, node: any) {
@@ -2318,7 +2642,7 @@ export class NewBlComponent implements OnInit {
             columns: [
               [
                 {
-                  text: this.blForm.get('BLType')?.value,
+                  text: this.blForm.get('BLType')?.value.toUpperCase(),
                   bold: true,
                   fontSize: 20,
                   margin: [0, 5, 0, 0],
@@ -3590,7 +3914,7 @@ export class NewBlComponent implements OnInit {
             columns: [
               [
                 {
-                  text: this.blForm.get('BLType')?.value,
+                  text: this.blForm.get('BLType')?.value.toUpperCase(),
                   bold: true,
                   fontSize: 20,
                   margin: [0, 5, 0, 0],

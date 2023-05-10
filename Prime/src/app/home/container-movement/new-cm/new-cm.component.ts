@@ -144,7 +144,6 @@ export class NewCmComponent implements OnInit {
         break;
     }
 
-    console.log(this.currentUser);
     // if(this.currentUser=='agent'){
     //   this.isAgent=true;
     //   this.cmForm.get('STATUS')?.disable();
@@ -167,25 +166,19 @@ export class NewCmComponent implements OnInit {
   }
 
   initializeMovementList() {
-    debugger;
     const add = this.cmForm.get('CONTAINER_LIST2') as FormArray;
     add.clear();
     if (this.roleCode == '1') {
-      debugger;
       this.containerList.forEach((element) => {
-        console.log(element.NEXT_ACTIVITY_LIST);
         if (element.NEXT_ACTIVITY_LIST[0] == null) {
           this.activityList = [];
           this.literalActivites = [];
           this._actService.getActivityList().subscribe((res: any) => {
-            debugger;
             if (res.ResponseCode == 200) {
               this.activityList = res.Data;
-              console.log(this.activityList);
               this.activityList = this.activityList.filter((s: any) =>
                 s.ACTIVITY_BY.includes(this.actBy)
               );
-              console.log('Filtered list1', this.activityList);
               this.activityList.forEach((element) => {
                 if (this.literalActivites.includes(element.ACT_NAME) == false) {
                   this.literalActivites.push(
@@ -193,8 +186,6 @@ export class NewCmComponent implements OnInit {
                   );
                 }
               });
-              console.log('activity strings', this.literalActivites);
-              console.log('Filtered list2', this.activityList);
               add.push(
                 this._formBuilder.group({
                   ID: [element.ID],
@@ -250,13 +241,11 @@ export class NewCmComponent implements OnInit {
           this._actService.getActivityList().subscribe((res: any) => {
             if (res.ResponseCode == 200) {
               this.activityList = res.Data;
-              console.log(this.activityList);
 
               this.activityList = this.activityList.filter((s: any) =>
                 s.ACTIVITY_BY.includes(this.actBy)
               );
 
-              console.log('Filtered list1', this.activityList);
               this.activityList.forEach((element) => {
                 if (this.literalActivites.includes(element.ACT_NAME) == false) {
                   this.literalActivites.push(
@@ -264,9 +253,6 @@ export class NewCmComponent implements OnInit {
                   );
                 }
               });
-              console.log('activity strings', this.literalActivites);
-              console.log('Filtered list2', this.activityList);
-
               add.push(
                 this._formBuilder.group({
                   ID: [element.ID],
@@ -286,7 +272,6 @@ export class NewCmComponent implements OnInit {
                   NEXT_ACTIVITY_LIST: [this.literalActivites],
                 })
               );
-              console.log(this.cmForm.get('CONTAINER_LIST2')?.value);
             }
           });
         } else {
@@ -319,18 +304,14 @@ export class NewCmComponent implements OnInit {
   }
 
   copyDate() {
-    debugger;
     this.commonDate = this.cmForm.value.CONTAINER_LIST2[0].ACTIVITY_DATE;
-    console.log(this.commonDate);
 
-    console.log(this.cmForm.value.CONTAINER_LIST2);
     this.cmForm.value.CONTAINER_LIST2.forEach(
       (element: { ACTIVITY_DATE: any; STATUS: any }) => {
         element.ACTIVITY_DATE = formatDate(this.commonDate, 'yyyy-MM-dd', 'en');
         element.STATUS = element.STATUS;
       }
     );
-    console.log(this.cmForm.value.CONTAINER_LIST2);
     this.cmForm
       .get('CONTAINER_LIST2')
       ?.setValue(this.cmForm.value.CONTAINER_LIST2);
@@ -347,16 +328,13 @@ export class NewCmComponent implements OnInit {
   }
 
   getSingleContainer() {
-    debugger;
     this.resetContainerMovement();
     if (this.cmForm.get('CONTAINER_NO')?.value == '') {
       alert('Please enter Container No.');
       this.showFields = false;
     } else {
-      debugger;
       this.contNo = this.cmForm.get('CONTAINER_NO')?.value;
       this._cmService.getSingleCM(this.contNo).subscribe((res: any) => {
-        debugger;
         if (res.ResponseCode == 200) {
           this.singleCM = res.Data;
 
@@ -375,25 +353,20 @@ export class NewCmComponent implements OnInit {
           this.cmForm.get('STATUS')?.setValue(this.singleCM?.STATUS);
           this.cmForm.get('AGENT_CODE')?.setValue(this.singleCM?.AGENT_CODE);
           this.cmForm.get('DEPO_CODE')?.setValue(this.singleCM?.DEPO_CODE);
-          console.log(this.singleCM?.PREV_ACTIVITY);
 
           if (this.singleCM?.PREV_ACTIVITY != '') {
             this._actService
               .getActivityByCode(this.singleCM?.PREV_ACTIVITY)
               .subscribe((res: any) => {
-                debugger;
                 if (res.ResponseCode == 200) {
                   this.prevData = res.Data;
-                  console.log(this.prevData);
                   if (this.prevData != null) {
                     this._actService
                       .getMappingById(this.prevData?.ID)
                       .subscribe((res: any) => {
-                        debugger;
                         this.activityList = [];
                         if (res.ResponseCode == 200) {
                           this.activityList = res.Data.ActivityList;
-                          console.log(this.activityList);
                           this.activityList = this.activityList.filter(
                             (s: any) => s.ACTIVITY_BY.includes(this.actBy)
                           );
@@ -412,9 +385,6 @@ export class NewCmComponent implements OnInit {
                               })
                             );
                           });
-                          console.log(
-                            this.cmForm.get('NEXT_ACTIVITY_LIST_SINGLE')?.value
-                          );
                           //this.activityList1 = res.Data;
                         }
                         if (res.ResponseCode == 500) {
@@ -525,7 +495,6 @@ export class NewCmComponent implements OnInit {
   }
 
   getContainerList() {
-    debugger;
     if (this.cmForm.get('BKCR_NO')?.value == '') {
       alert('Please enter Booking/CRO No.');
     } else {
@@ -533,14 +502,13 @@ export class NewCmComponent implements OnInit {
       this.containerList = [];
 
       this.bkcr = this.cmForm.get('BKCR_NO')?.value;
-      console.log(this.bkcr.substring(0, 2));
       if (this.bkcr.substring(0, 2) == 'BK') {
         this.cm.BOOKING_NO = this.bkcr;
         this._cmService.getContainerMovement(this.cm).subscribe((res: any) => {
           if (res.ResponseCode == 200) {
             if (res.Data?.length != 0) {
               this.containerList = res.Data;
-              debugger;
+
               this.initializeMovementList();
               this.showTable = true;
               this.previewNoData = false;
@@ -558,7 +526,6 @@ export class NewCmComponent implements OnInit {
             }
           }
           if (res.ResponseCode == 500) {
-            debugger;
             this.showTable = false;
             this.previewNoData = true;
           }
@@ -569,7 +536,7 @@ export class NewCmComponent implements OnInit {
           if (res.ResponseCode == 200) {
             if (res.Data?.length != 0) {
               this.containerList = res.Data;
-              debugger;
+
               this.initializeMovementList();
               this.showTable = true;
               this.previewNoData = false;
@@ -587,7 +554,6 @@ export class NewCmComponent implements OnInit {
             }
           }
           if (res.ResponseCode == 500) {
-            debugger;
             this.showTable = false;
             this.previewNoData = true;
           }
@@ -599,19 +565,15 @@ export class NewCmComponent implements OnInit {
   }
 
   showDynamicFields() {
-    debugger;
     this.manually = this.cmForm.get('MANUALLY')?.value;
   }
 
   saveCMList() {
-    debugger;
     this.submitted = true;
     this.cmForm.get('CONTAINER_NO')?.setValue('');
     this.cmForm.get('BOOKING_NO')?.setValue(this.bkcr);
     this.cmForm.get('CRO_NO')?.setValue('');
     this.cmForm.get('ACTIVITY_DATE')?.setValue(new Date());
-    console.log(this.cmForm.get('PREV_ACTIVITY')?.value);
-    console.log(this.cmForm.get('STATUS')?.value);
     if (this.roleCode == '1') {
       this.cmForm.get('AGENT_CODE')?.setValue(this._cs.getUserCode());
       //this.cmForm.get('DEPO_CODE')?.setValue("");
@@ -622,8 +584,6 @@ export class NewCmComponent implements OnInit {
 
     this.cmForm.get('CREATED_BY')?.setValue(this._cs.getUserName());
     this.cmForm.get('CURRENT_LOCATION')?.setValue('Dammam');
-    //console.log(JSON.stringify(this.cmForm.getRawValue()));
-    console.log(this.cmForm.get('CONTAINER_MOVEMENT_LIST')?.value);
     if (this.cmForm.get('CONTAINER_MOVEMENT_LIST')?.value == '') {
       alert("Please select atleast one container to update it's movement");
     } else {
@@ -658,7 +618,6 @@ export class NewCmComponent implements OnInit {
   }
 
   saveContainerMovement() {
-    debugger;
     this.submitted = true;
     if (this.roleCode == '1') {
       this.cmForm.get('AGENT_CODE')?.setValue(this._cs.getUserCode());
@@ -739,8 +698,6 @@ export class NewCmComponent implements OnInit {
     this.contAllChecked = true;
   }
   postSelectedContainerList(item: any, event: any, index: number) {
-    debugger;
-
     if (item == 1) {
       const add = this.cmForm.get('CONTAINER_LIST2') as FormArray;
       const add1 = this.cmForm.get('CONTAINER_MOVEMENT_LIST') as FormArray;
@@ -776,7 +733,6 @@ export class NewCmComponent implements OnInit {
 
   //FILES LOGIC
   onFileChange(ev: any) {
-    debugger;
     let workBook: any = null;
     let jsonData = null;
     const reader = new FileReader();
@@ -945,7 +901,6 @@ export class NewCmComponent implements OnInit {
 
     this.cmForm.get('fromXL')?.setValue(true);
     this.cmForm.get('ACTIVITY_DATE')?.setValue(new Date());
-    console.log(JSON.stringify(this.cmForm.value));
     this._cmService
       .postContainerMovement(JSON.stringify(this.cmForm.value), this.fromXL)
       .subscribe((res: any) => {
@@ -957,7 +912,6 @@ export class NewCmComponent implements OnInit {
   }
 
   onSuccess(message: any) {
-    debugger;
     const temp = {
       title: 'Success',
       content: message,

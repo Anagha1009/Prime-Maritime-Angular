@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ErService {
   BASE_URL = environment.BASE_URL;
@@ -15,62 +15,55 @@ export class ErService {
   };
   constructor(private _http: HttpClient) {}
 
-  postERDetails(ER:any,isVessel:boolean){
-    debugger;
+  postERDetails(ER: any, isVessel: boolean) {
     return this._http.post<any>(
-      this.BASE_URL + 'ER/InsertER?isVessel='+
-      isVessel,
+      this.BASE_URL + 'ER/InsertER?isVessel=' + isVessel,
       ER,
       this.httpOptions
     );
   }
 
-  getERList(agentCode:any,depoCode:any) {
+  getERList(agentCode: any, depoCode: any) {
     return this._http.get<any>(
       this.BASE_URL +
         'ER/GetERList?AGENT_CODE=' +
-        agentCode+
-        '&DEPO_CODE='+
+        agentCode +
+        '&DEPO_CODE=' +
         depoCode,
       this.httpOptions
     );
   }
 
-  getERDetails(erNo:any,agentCode:any,depoCode:any) {
+  getERDetails(erNo: any, agentCode: any, depoCode: any) {
     return this._http.get<any>(
       this.BASE_URL +
         'ER/GetERDetails?REPO_NO=' +
-        erNo+
-        '&AGENT_CODE='+
-        agentCode+
-        '&DEPO_CODE='+
+        erNo +
+        '&AGENT_CODE=' +
+        agentCode +
+        '&DEPO_CODE=' +
         depoCode,
       this.httpOptions
     );
   }
 
-  getERContainerDetails(erNo:any,agentCode:any,depoCode:any) {
+  getERContainerDetails(erNo: any, agentCode: any, depoCode: any) {
     return this._http.get<any>(
       this.BASE_URL +
         'ER/GetERContainerDetails?REPO_NO=' +
-        erNo+
-        '&AGENT_CODE='+
-        agentCode+
-        '&DEPO_CODE='+
+        erNo +
+        '&AGENT_CODE=' +
+        agentCode +
+        '&DEPO_CODE=' +
         depoCode,
       this.httpOptions
     );
   }
 
-  getERRateDetails(erNo:any) {
+  getERRateDetails(erNo: any) {
     return this._http.get<any>(
-      this.BASE_URL +
-        'ER/GetERRateDetails?REPO_NO=' +
-        erNo,
+      this.BASE_URL + 'ER/GetERRateDetails?REPO_NO=' + erNo,
       this.httpOptions
     );
   }
-
-
-  
 }

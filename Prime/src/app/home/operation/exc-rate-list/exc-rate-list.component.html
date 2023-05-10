@@ -1,26 +1,52 @@
 <div class="section-title mb-5">
     <h2>Upload Exchange Rate</h2>
 </div>
-<div class="col-md-3 mx-auto mt-5">
-    <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload">
-        <input type="file" (change)="onFileChange($event)" name="file" id="file" />
-        <label for="file">
-            <div>
-                <h3><i class="fa fa-file-pdf-o"></i></h3>
-                <span class="formbold-drop-file">Upload</span>
-                <span class="formbold-file-item">EXC RATE File</span>
-            </div>
-        </label>
-    </div>
-    <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload">
-        <div class="formbold-file-item">
-            <span class="formbold-file-name">EXC RATE File</span>
-            <button (click)="onUpload = false"><span class="bx bx-x-circle"></span></button>
+<div class="container">
+    <div class="row">
+        <div class="col-md-7 border-end">
+            <table id="data-table-config" style="font-size: 12px;">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Currency</th>
+                        <th>Rate</th>
+                        <th>Created By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of exclist;let i =index">
+                        <td>{{i+1}}</td>
+                        <td>{{item.CURRENCY}}</td>
+                        <td>{{item.RATE}}</td>
+                        <td>{{item.CREATED_BY}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+        <div class="col-md-5">
+            <div class="col-md-8 mx-auto mb-2">
+                <button class="form-btn-danger w-100" (click)="downloadFile()">Download Format</button>
+            </div>
+            <div class="formbold-mb-5 formbold-file-input" *ngIf="!onUpload">
+                <input type="file" (change)="onFileChange($event)" name="file" id="file" />
+                <label for="file">
+                    <div>
+                        <h3><i class="fa fa-file-pdf-o"></i></h3>
+                        <span class="formbold-drop-file">Upload</span>
+                        <span class="formbold-file-item">EXC RATE File</span>
+                    </div>
+                </label>
+            </div>
+            <div class="formbold-file-list formbold-mb-5" *ngIf="onUpload">
+                <div class="formbold-file-item">
+                    <span class="formbold-file-name">EXC RATE File</span>
+                    <button (click)="onUpload = false"><span class="bx bx-x-circle"></span></button>
+                </div>
+            </div>
+            <div class="col-md-8 mx-auto">
+                <button class="form-btn-primary w-100" (click)="postExcRateList()">Upload</button>
+            </div>
+        </div>
+
     </div>
-    <div class="col-md-12 text-center">
-        <button class="form-btn w-90 me-3" (click)="postExcRateList()">Upload</button>
-        <a (click)="downloadFile()" tooltip="Download Excel Format" placement="right" class="pointer"><img src="assets/img/excRate.png" width="37px" height="37px"></a>
-    </div>
-    
 </div>

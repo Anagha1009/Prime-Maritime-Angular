@@ -160,13 +160,13 @@ export class HeaderComponent implements OnInit {
 
   downloadSI() {
     this.http
-      .get('assets/img/SI.xlsx', { responseType: 'blob' })
+      .get('assets/img/Shipping Instructions.xlsx', { responseType: 'blob' })
       .subscribe((data) => {
         const blob = new Blob([data], { type: 'application/vnd.ms-excel' });
 
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        var path = 'assets/img/SI.xlsx';
+        var path = 'assets/img/Shipping Instructions.xlsx';
         link.download = path.replace(/^.*[\\\/]/, '');
         link.click();
       });

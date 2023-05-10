@@ -98,8 +98,9 @@
                                         src="assets/img/container.png" />
                                     <img *ngIf="sc.substring(0,2) == '40'" height="25" width="30" class="me-2"
                                         src="assets/img/container (1).png" />
-                                    <span class="me-2">{{sc}} | </span>
+                                    <span class="me-2">{{sc}}</span>
                                 </span>
+                                <span class="fw-bold text-danger">| ({{item.TOTAL_VOLUME_EXPECTED}})</span>
                             </p>
                             <p class="description">
                                 <span *ngFor="let comms of item.COMMODITY?.split(', ')">
@@ -130,159 +131,549 @@
                         </div>
                         <div class="col-md-2 text-end" *ngIf="item.STATUS == 'Approved'">
                             <span></span>
-                            <button *ngIf="item.IS_VESSELVALIDITY" (click)="bookingSuccessful(item)"
+                            <button *ngIf="item.IS_VESSELVALIDITY && item.BOOKINGS == 1"
+                                (click)="bookingSuccessful(item,i,item.BOOKINGS)"
                                 class="form-btn rounded-pill">{{'Button.bookNow'|translate}}</button>
-                            <button *ngIf="!item.IS_VESSELVALIDITY" (click)="openBookingModal(i)"
+                            <button *ngIf="!item.IS_VESSELVALIDITY" (click)="openBookingModal(i,item.BOOKINGS)"
                                 class="form-btn rounded-pill">{{'Button.bookNow'|translate}}</button>
                             <button class="form-btn d-none" #openBtn data-bs-toggle="modal" href="#bookingModal">Book
                                 Now</button>
-                            <h6 *ngIf="item.BOOKINGS > 0 && item.IS_VESSELVALIDITY == false" class="pe-2 mt-2">
-                                {{item.BOOKINGS}} Booking(s)</h6>
+                            <button class="form-btn d-none" #openBtn1 data-bs-toggle="modal" href="#bookingModal2">Book
+                                Now</button>
+                            <br>
+                            <small *ngIf="item.BOOKINGS > 0 && item.IS_VESSELVALIDITY == false"
+                                class="pe-2 mt-2 fw-bold">
+                                {{item.BOOKINGS}} Booking(s) | {{item.NO_OF_SLOTS}} Slot(s)</small>
                         </div>
                     </div>
                     <div class="modal fade" id="bookingModal" aria-labelledby="exampleModalLabel" tabindex="-1"
                         aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div
+                            [class]="commodityHAZ || commodityFLEXI || commoditySP ? 'modal-dialog modal-lg modal-dialog-scrollable' : 'modal-dialog'">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Booking Details</h5>
+                                    <h5 class="modal-title fw-bold" id="exampleModalLabel">Booking Details</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                                         #closeBtn></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form [formGroup]="slotDetailsForm">
-                                        <div class="col-md-12">
-                                            <h6>SRR NO:<small class="text-dark">
-                                                    {{quotationDetails?.SRR_NO}} </small></h6>
-                                            <h6><span class="bx bxs-ship me-2"></span>{{quotationDetails?.POL}}
-                                                <i class='bx bxs-right-arrow-circle mx-2'></i>
-                                                <span class="bx bxs-ship me-2"></span>{{quotationDetails?.POD}}
-                                            </h6>
-                                            <div style="margin-bottom: 3.5rem;"></div>
-                                            <div class="row mt-4">
-                                                <div class="col-md-6 mb-4">
-                                                    <div class="form-group">
-                                                        <ng-select (change)="getVoyageList($event)"
-                                                            [ngClass]="{'invalid': submitted && f4.VESSEL_NAME.errors}"
-                                                            formControlName="VESSEL_NAME">
-                                                            <ng-option value="" selected="true" disabled>
-                                                                --Select--</ng-option>
-                                                            <ng-option *ngFor="let item of vesselList"
-                                                                value="{{item.CODE}}">
-                                                                {{item.CODE_DESC}}
-                                                            </ng-option>
-                                                        </ng-select>
-                                                        <label class="form-label-ddl">Vessel Name<span
-                                                                class="text-danger">
-                                                                *</span></label>
-                                                        <div *ngIf="submitted && f4.VESSEL_NAME.errors"
-                                                            class="invalid-feedback">Vessel Name is required
+                                    <div class="col-md-12">
+                                        <form [formGroup]="slotDetailsForm">
+                                            <div class="col-md-12">
+                                                <h6 class="fw-bold">SRR NO:<small class="text-dark">
+                                                        {{quotationDetails?.SRR_NO}} </small> | <span
+                                                        class="bx bxs-ship me-2"></span><small
+                                                        class="text-danger">{{quotationDetails?.POL}}</small>
+                                                    <i class='bx bxs-right-arrow-circle mx-2'></i>
+                                                    <span class="bx bxs-ship me-2"></span><small
+                                                        class="text-danger">{{quotationDetails?.POD}}</small>
+                                                </h6>
+                                                <div style="margin-bottom: 3.5rem;"></div>
+                                                <div class="row mt-4">
+                                                    <div class="col-md-6 mb-4">
+                                                        <div class="form-group">
+                                                            <ng-select (change)="getVoyageList($event)"
+                                                                [ngClass]="{'invalid': submitted && f4.VESSEL_NAME.errors}"
+                                                                formControlName="VESSEL_NAME">
+                                                                <ng-option value="" selected="true" disabled>
+                                                                    --Select--</ng-option>
+                                                                <ng-option *ngFor="let item of vesselList"
+                                                                    value="{{item.CODE}}">
+                                                                    {{item.CODE_DESC}}
+                                                                </ng-option>
+                                                            </ng-select>
+                                                            <label class="form-label-ddl">Vessel Name<span
+                                                                    class="text-danger">
+                                                                    *</span></label>
+                                                            <div *ngIf="submitted && f4.VESSEL_NAME.errors"
+                                                                class="invalid-feedback">Vessel Name is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mb-4">
+                                                        <div class="form-group">
+                                                            <ng-select
+                                                                [ngClass]="{'invalid': submitted && f4.VOYAGE_NO.errors}"
+                                                                formControlName="VOYAGE_NO">
+                                                                <ng-option><button data-bs-toggle="modal"
+                                                                        href="#voyageModal"
+                                                                        class="form-btn rounded-pill btn-sm"><i
+                                                                            class="fa fa-plus me-1"></i>
+                                                                        Voyage</button></ng-option>
+                                                                <ng-option value="" selected="true" disabled>
+                                                                    --Select--</ng-option>
+                                                                <ng-option *ngFor="let item of voyageList"
+                                                                    value="{{item.CODE}}">
+                                                                    {{item.CODE_DESC}}
+                                                                </ng-option>
+                                                            </ng-select>
+                                                            <label class="form-label-ddl">Voyage No<span
+                                                                    class="text-danger">
+                                                                    *</span></label>
+                                                            <div *ngIf="submitted && f4.VOYAGE_NO.errors"
+                                                                class="invalid-feedback">Voyage No is required
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-4">
-                                                    <div class="form-group">
-                                                        <ng-select
-                                                            [ngClass]="{'invalid': submitted && f4.VOYAGE_NO.errors}"
-                                                            formControlName="VOYAGE_NO">
-                                                            <ng-option><button data-bs-toggle="modal"
-                                                                    href="#voyageModal"
-                                                                    class="form-btn rounded-pill btn-sm"><i
-                                                                        class="fa fa-plus me-1"></i>
-                                                                    Voyage</button></ng-option>
-                                                            <ng-option value="" selected="true" disabled>
-                                                                --Select--</ng-option>
-                                                            <ng-option *ngFor="let item of voyageList"
-                                                                value="{{item.CODE}}">
-                                                                {{item.CODE_DESC}}
-                                                            </ng-option>
-                                                        </ng-select>
-                                                        <label class="form-label-ddl">Voyage No<span
-                                                                class="text-danger">
-                                                                *</span></label>
-                                                        <div *ngIf="submitted && f4.VOYAGE_NO.errors"
-                                                            class="invalid-feedback">Voyage No is required
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <input formControlName="MOTHER_VESSEL_NAME" type="text"
+                                                                class="form-control" />
+                                                            <label class="form-label">Mother Vessel Name</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <input formControlName="MOTHER_VOYAGE_NO" type="text"
+                                                                class="form-control" />
+                                                            <label class="form-label">Mother Vessel Voyage
+                                                                No</label>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <input formControlName="MOTHER_VESSEL_NAME" type="text"
-                                                            class="form-control" />
-                                                        <label class="form-label">Mother Vessel Name</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <input formControlName="MOTHER_VOYAGE_NO" type="text"
-                                                            class="form-control" />
-                                                        <label class="form-label">Mother Vessel Voyage
-                                                            No</label>
-                                                    </div>
+                                                <div class="col-md-6 offset-md-6 text-end">
+                                                    <button (click)="slotAllocation()" class="form-btn btn-sm">
+                                                        <i class="fa fa-plus me-2"></i>Slot
+                                                        Allocation</button>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 offset-md-6 text-end">
-                                                <button (click)="slotAllocation()" class="form-btn btn-sm">
-                                                    <i class="fa fa-plus me-2"></i>Slot
-                                                    Allocation</button>
+                                        </form>
+                                        <table class="table" style="font-size: 12px;">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Slot Operator</th>
+                                                    <th>No of Slots</th>
+                                                    <th>&nbsp;</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of f;let j = index;" [formGroup]="item">
+                                                    <td class="col-md-1">
+                                                        <label class="mt-4"> {{j+1}}</label>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <label class="form-label3">Slot Operator<span
+                                                                class="text-danger">
+                                                                *</span></label>
+                                                        <select class="form-control3"
+                                                            [ngClass]="{'invalid': submitted && f4.SLOT_LIST.controls[j].get('SLOT_OPERATOR').errors}"
+                                                            formControlName="SLOT_OPERATOR">
+                                                            <option value="" selected disabled>
+                                                                --Slot
+                                                                Operator--</option>
+                                                            <option *ngFor="let item of slotoperatorList"
+                                                                value="{{item.CODE}}">
+                                                                {{item.CODE_DESC}}</option>
+                                                        </select>
+                                                        <div *ngIf="submitted && f4.SLOT_LIST.controls[j].get('SLOT_OPERATOR').errors"
+                                                            class="invalid-feedback">Slot Operator is required
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-4">
+                                                        <label class="form-label3">No of Slots<span class="text-danger">
+                                                                *</span></label>
+                                                        <input maxlength="5"
+                                                            onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                                                            [ngClass]="{'invalid': submitted && f4.SLOT_LIST.controls[j].get('NO_OF_SLOTS').errors}"
+                                                            class="form-control3" formControlName="NO_OF_SLOTS"
+                                                            type="text" />
+                                                        <div *ngIf="submitted && f4.SLOT_LIST.controls[j].get('NO_OF_SLOTS').errors"
+                                                            class="invalid-feedback">No of Slots is required
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        <a *ngIf="j > 0" (click)="removeItem(j)"><i
+                                                                style="font-size:15px" class="fa fa-trash mt-4"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <h6 *ngIf="commodityHAZ || commodityFLEXI || commoditySP">
+                                            Upload
+                                            Files</h6>
+                                        <div class="row" *ngIf="commodityHAZ">
+                                            <div class="col-md-4">
+                                                <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOL">
+                                                    <input type="file" (change)="fileUpload($event,'POL','HAZ')"
+                                                        name="file" id="file" />
+                                                    <label for="file">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>POL Acceptance (HAZ)</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOL">
+                                                    <div class="formbold-file-item">
+                                                        <span class="formbold-file-name">{{POLAcceptanceFile}}</span>
+                                                        <button (click)="removeFile(POLAcceptanceFile,'POL')"><span
+                                                                class="bx bx-x-circle"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOD">
+                                                    <input type="file" (change)="fileUpload($event,'POD','HAZ')"
+                                                        name="file1" id="file1" />
+                                                    <label for="file1">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>POD Acceptance (HAZ)</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOD">
+                                                    <div class="formbold-file-item">
+                                                        <span class="formbold-file-name">{{PODAcceptanceFile}}</span>
+                                                        <button (click)="removeFile(PODAcceptanceFile,'POD')"><span
+                                                                class="bx bx-x-circle"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOp">
+                                                    <input type="file" (change)="fileUpload($event,'VslOp','HAZ')"
+                                                        name="file3" id="file3" />
+                                                    <label for="file3">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>Vessel Operator Acceptance (HAZ)</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOp">
+                                                    <div class="formbold-file-item">
+                                                        <span class="formbold-file-name">{{VslOpAcceptanceFile}}</span>
+                                                        <button (click)="removeFile(VslOpAcceptanceFile,'VslOp')"><span
+                                                                class="bx bx-x-circle"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4" *ngIf="isTranshipment">
+                                                <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedTS">
+                                                    <input type="file" (change)="fileUpload($event,'TS')" name="file4"
+                                                        id="file4" />
+                                                    <label for="file">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>Transhipment Acceptance</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedTS">
+                                                    <div class="formbold-file-item">
+                                                        <span class="formbold-file-name">{{TSAcceptanceFile}}</span>
+                                                        <button (click)="removeFile(TSAcceptanceFile,'TS')"><span
+                                                                class="bx bx-x-circle"></span></button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </form>
-                                    <table class="table" style="font-size: 12px;">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Slot Operator</th>
-                                                <th>No of Slots</th>
-                                                <th>&nbsp;</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let item of f;let j = index;" [formGroup]="item">
-                                                <td class="col-md-1">
-                                                    <label class="mt-4"> {{j+1}}</label>
-                                                </td>
-                                                <td class="col-md-6">
-                                                    <label class="form-label3">Slot Operator<span class="text-danger">
-                                                            *</span></label>
-                                                    <select class="form-control3"
-                                                        [ngClass]="{'invalid': submitted && f4.SLOT_LIST.controls[j].get('SLOT_OPERATOR').errors}"
-                                                        formControlName="SLOT_OPERATOR">
-                                                        <option value="" selected disabled>
-                                                            --Slot
-                                                            Operator--</option>
-                                                        <option *ngFor="let item of slotoperatorList"
-                                                            value="{{item.CODE}}">
-                                                            {{item.CODE_DESC}}</option>
-                                                    </select>
-                                                    <div *ngIf="submitted && f4.SLOT_LIST.controls[j].get('SLOT_OPERATOR').errors"
-                                                        class="invalid-feedback">Slot Operator is required
+                                        <div class="row" *ngIf="commodityFLEXI">
+                                            <div class="col-md-4">
+                                                <div class="formbold-mb-5 formbold-file-input"
+                                                    *ngIf="!isUploadedShpLOY">
+                                                    <input type="file" (change)="fileUpload($event,'ShpLOY','FLEXIBAG')"
+                                                        name="file4" id="file4" />
+                                                    <label for="file4">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>Shipper LOI (FLEXIBAG)</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedShpLOY">
+                                                    <div class="formbold-file-item">
+                                                        <span class="formbold-file-name">{{ShpLOYAcceptanceFile}}</span>
+                                                        <button
+                                                            (click)="removeFile(ShpLOYAcceptanceFile,'ShpLOY')"><span
+                                                                class="bx bx-x-circle"></span></button>
                                                     </div>
-                                                </td>
-                                                <td class="col-md-4">
-                                                    <label class="form-label3">No of Slots<span class="text-danger">
-                                                            *</span></label>
-                                                    <input maxlength="5"
-                                                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
-                                                        [ngClass]="{'invalid': submitted && f4.SLOT_LIST.controls[j].get('NO_OF_SLOTS').errors}"
-                                                        class="form-control3" formControlName="NO_OF_SLOTS"
-                                                        type="text" />
-                                                    <div *ngIf="submitted && f4.SLOT_LIST.controls[j].get('NO_OF_SLOTS').errors"
-                                                        class="invalid-feedback">No of Slots is required
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="formbold-mb-5 formbold-file-input"
+                                                    *ngIf="!isUploadedVslOpAp">
+                                                    <input type="file"
+                                                        (change)="fileUpload($event,'VslOpAp','FLEXIBAG')" name="file5"
+                                                        id="file5" />
+                                                    <label for="file5">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>POD Acceptance (FLEXIBAG)</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOpAp">
+                                                    <div class="formbold-file-item">
+                                                        <span
+                                                            class="formbold-file-name">{{VslOpApAcceptanceFile}}</span>
+                                                        <button
+                                                            (click)="removeFile(VslOpApAcceptanceFile,'VslOpAp')"><span
+                                                                class="bx bx-x-circle"></span></button>
                                                     </div>
-                                                </td>
-                                                <td class="col-md-1">
-                                                    <a (click)="removeItem(j)"><i style="font-size:15px"
-                                                            class="fa fa-trash mt-4"></i></a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="commoditySP">
+                                            <div class="col-md-4">
+                                                <div class="formbold-mb-5 formbold-file-input"
+                                                    *ngIf="!isUploadedVslOpAp2">
+                                                    <input type="file" (change)="fileUpload($event,'VslOpAp2','SP')"
+                                                        name="file6" id="file6" />
+                                                    <label for="file6">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>Vessel Operator Acceptance (SP)</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5"
+                                                    *ngIf="isUploadedVslOpAp2">
+                                                    <div class="formbold-file-item">
+                                                        <span
+                                                            class="formbold-file-name">{{VslOpAp2AcceptanceFile}}</span>
+                                                        <button
+                                                            (click)="removeFile(VslOpAp2AcceptanceFile,'VslOpAp2')"><span
+                                                                class="bx bx-x-circle"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedSur">
+                                                    <input type="file" (change)="fileUpload($event,'Sur','SP')"
+                                                        name="file7" id="file7" />
+                                                    <label for="file7">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>Surveyor File (SP)</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedSur">
+                                                    <div class="formbold-file-item">
+                                                        <span class="formbold-file-name">{{SurAcceptanceFile}}</span>
+                                                        <button (click)="removeFile(SurAcceptanceFile,'Sur')"><span
+                                                                class="bx bx-x-circle"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" (click)="bookNow()" class="form-btn-primary">Book
+                                        Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="bookingModal2" aria-labelledby="exampleModalLabel" tabindex="-1"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title fw-bold" id="exampleModalLabel">Booking Details</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                        #closeBtn4></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-md-12">
+                                        <h6>
+                                            Upload
+                                            Files</h6>
+                                        <div class="row" *ngIf="commodityHAZ">
+                                            <div class="col-md-4">
+                                                <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOL">
+                                                    <input type="file" (change)="fileUpload($event,'POL','HAZ')"
+                                                        name="file" id="file" />
+                                                    <label for="file">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>POL Acceptance (HAZ)</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOL">
+                                                    <div class="formbold-file-item">
+                                                        <span class="formbold-file-name">{{POLAcceptanceFile}}</span>
+                                                        <button (click)="removeFile(POLAcceptanceFile,'POL')"><span
+                                                                class="bx bx-x-circle"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedPOD">
+                                                    <input type="file" (change)="fileUpload($event,'POD','HAZ')"
+                                                        name="file1" id="file1" />
+                                                    <label for="file1">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>POD Acceptance (HAZ)</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedPOD">
+                                                    <div class="formbold-file-item">
+                                                        <span class="formbold-file-name">{{PODAcceptanceFile}}</span>
+                                                        <button (click)="removeFile(PODAcceptanceFile,'POD')"><span
+                                                                class="bx bx-x-circle"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedVslOp">
+                                                    <input type="file" (change)="fileUpload($event,'VslOp','HAZ')"
+                                                        name="file3" id="file3" />
+                                                    <label for="file3">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>Vessel Operator Acceptance (HAZ)</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOp">
+                                                    <div class="formbold-file-item">
+                                                        <span class="formbold-file-name">{{VslOpAcceptanceFile}}</span>
+                                                        <button (click)="removeFile(VslOpAcceptanceFile,'VslOp')"><span
+                                                                class="bx bx-x-circle"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4" *ngIf="isTranshipment">
+                                                <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedTS">
+                                                    <input type="file" (change)="fileUpload($event,'TS')" name="file4"
+                                                        id="file4" />
+                                                    <label for="file">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>Transhipment Acceptance</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedTS">
+                                                    <div class="formbold-file-item">
+                                                        <span class="formbold-file-name">{{TSAcceptanceFile}}</span>
+                                                        <button (click)="removeFile(TSAcceptanceFile,'TS')"><span
+                                                                class="bx bx-x-circle"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="commodityFLEXI">
+                                            <div class="col-md-4">
+                                                <div class="formbold-mb-5 formbold-file-input"
+                                                    *ngIf="!isUploadedShpLOY">
+                                                    <input type="file" (change)="fileUpload($event,'ShpLOY','FLEXIBAG')"
+                                                        name="file4" id="file4" />
+                                                    <label for="file4">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>Shipper LOI (FLEXIBAG)</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedShpLOY">
+                                                    <div class="formbold-file-item">
+                                                        <span class="formbold-file-name">{{ShpLOYAcceptanceFile}}</span>
+                                                        <button
+                                                            (click)="removeFile(ShpLOYAcceptanceFile,'ShpLOY')"><span
+                                                                class="bx bx-x-circle"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="formbold-mb-5 formbold-file-input"
+                                                    *ngIf="!isUploadedVslOpAp">
+                                                    <input type="file"
+                                                        (change)="fileUpload($event,'VslOpAp','FLEXIBAG')" name="file5"
+                                                        id="file5" />
+                                                    <label for="file5">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>POD Acceptance (FLEXIBAG)</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedVslOpAp">
+                                                    <div class="formbold-file-item">
+                                                        <span
+                                                            class="formbold-file-name">{{VslOpApAcceptanceFile}}</span>
+                                                        <button
+                                                            (click)="removeFile(VslOpApAcceptanceFile,'VslOpAp')"><span
+                                                                class="bx bx-x-circle"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="commoditySP">
+                                            <div class="col-md-4">
+                                                <div class="formbold-mb-5 formbold-file-input"
+                                                    *ngIf="!isUploadedVslOpAp2">
+                                                    <input type="file" (change)="fileUpload($event,'VslOpAp2','SP')"
+                                                        name="file6" id="file6" />
+                                                    <label for="file6">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>Vessel Operator Acceptance (SP)</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5"
+                                                    *ngIf="isUploadedVslOpAp2">
+                                                    <div class="formbold-file-item">
+                                                        <span
+                                                            class="formbold-file-name">{{VslOpAp2AcceptanceFile}}</span>
+                                                        <button
+                                                            (click)="removeFile(VslOpAp2AcceptanceFile,'VslOpAp2')"><span
+                                                                class="bx bx-x-circle"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="formbold-mb-5 formbold-file-input" *ngIf="!isUploadedSur">
+                                                    <input type="file" (change)="fileUpload($event,'Sur','SP')"
+                                                        name="file7" id="file7" />
+                                                    <label for="file7">
+                                                        <div>
+                                                            <h3><i class="fa fa-file-pdf-o"></i></h3>
+                                                            <span class="formbold-drop-file">Upload</span>
+                                                            <small>Surveyor File (SP)</small>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="formbold-file-list formbold-mb-5" *ngIf="isUploadedSur">
+                                                    <div class="formbold-file-item">
+                                                        <span class="formbold-file-name">{{SurAcceptanceFile}}</span>
+                                                        <button (click)="removeFile(SurAcceptanceFile,'Sur')"><span
+                                                                class="bx bx-x-circle"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" (click)="bookingSuccessfulSubmit()"
+                                        class="form-btn-primary">Book
                                         Now</button>
                                 </div>
                             </div>
@@ -342,7 +733,7 @@
     </div>
 
     <div class="modal fade" id="counterRateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Rate Details : <small class="text-primary"
@@ -378,10 +769,10 @@
                                 <div class="col-md-2">
                                     <label class="label-header">Payment</label>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <label class="label-header">Standard</label>
                                 </div>
-                                <div class="col-md-2"
+                                <div class="col-md-1"
                                     *ngIf="item1.STATUS == 'Countered'  || item1.STATUS == 'Approved'">
                                     <label class="label-header">Countered</label>
                                 </div>
@@ -389,7 +780,10 @@
                                     <label class="label-header">Requested</label>
                                 </div>
                                 <div class="col-md-2" *ngIf="item1.STATUS != 'Requested'">
-                                    <label class="label-header">Remarks</label>
+                                    <label class="label-header">PM Remarks</label>
+                                </div>
+                                <div class="col-md-2" *ngIf="item1.STATUS != 'Requested'">
+                                    <label class="label-header">Agent Remarks</label>
                                 </div>
                             </div>
                             <div *ngFor="let item of f3;let i = index" [formGroup]="item">
@@ -401,11 +795,11 @@
                                         <label class="label-subheader">{{item.value.PAYMENT_TERM}} -
                                             {{item.value.TRANSPORT_TYPE}}</label>
                                     </div>
-                                    <div class="col-md-2 mt-2">
+                                    <div class="col-md-1 mt-2">
                                         <label class="label-subheader">{{item.value.CURRENCY}}
                                             {{item.value.STANDARD_RATE}}</label>
                                     </div>
-                                    <div class="col-md-2 mt-2"
+                                    <div class="col-md-1 mt-2"
                                         *ngIf="item1.STATUS == 'Countered'  || item1.STATUS == 'Approved'">
                                         <label
                                             [class]="item.value.APPROVED_RATE > 0 ? 'text-success label-subheader' : 'label-subheader'">{{item.value.CURRENCY}}
@@ -424,6 +818,10 @@
                                     <div class="col-md-2 mt-1" *ngIf="item1.STATUS != 'Requested'">
                                         <label class="label-subheader">{{item.value.REMARKS == '' ? '-' :
                                             item.value.REMARKS == null ? '-' : item.value.REMARKS }}</label>
+                                    </div>
+                                    <div class="col-md-2 mt-1" *ngIf="item1.STATUS != 'Requested'">
+                                        <textarea formControlName="AGENT_REMARKS" class="form-control3"
+                                            type="text"></textarea>
                                     </div>
                                 </div>
                             </div>

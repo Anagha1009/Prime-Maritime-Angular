@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ActivityService {
   BASE_URL = environment.BASE_URL;
@@ -14,19 +14,16 @@ export class ActivityService {
     }),
   };
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {}
 
   getActivityList() {
-    debugger;
     return this._http.get<any>(
-      this.BASE_URL +
-        'Activity/GetActivityList',
+      this.BASE_URL + 'Activity/GetActivityList',
       this.httpOptions
     );
   }
 
-  postActivityMapping(activityMapping:any){
-    debugger;
+  postActivityMapping(activityMapping: any) {
     return this._http.post<any>(
       this.BASE_URL + 'ActivityMapping/InsertActivityMapping',
       activityMapping,
@@ -34,22 +31,17 @@ export class ActivityService {
     );
   }
 
-  getActivityByCode(actCode:any){
-    debugger;
+  getActivityByCode(actCode: any) {
     return this._http.get<any>(
-      this.BASE_URL + 'Activity/GetActivityDetailsByCode?ACT_CODE='+
-      actCode,
+      this.BASE_URL + 'Activity/GetActivityDetailsByCode?ACT_CODE=' + actCode,
       this.httpOptions
     );
   }
 
-  getMappingById(actId:any){
-    debugger;
+  getMappingById(actId: any) {
     return this._http.get<any>(
-      this.BASE_URL + 'Activity/GetActivityMappingDetailsByID?ACT_ID='+
-      actId,
+      this.BASE_URL + 'Activity/GetActivityMappingDetailsByID?ACT_ID=' + actId,
       this.httpOptions
     );
   }
-
 }

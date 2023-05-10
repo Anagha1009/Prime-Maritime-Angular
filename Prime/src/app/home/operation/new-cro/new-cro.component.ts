@@ -580,13 +580,13 @@ export class NewCroComponent implements OnInit {
     const pdfDocGenerator = pdfMake.createPdf(docDefinition);
     pdfDocGenerator.getBlob((blob: any) => {
       this.http
-        .get('assets/img/SI.xlsx', {
+        .get('assets/img/Shipping Instructions.xlsx', {
           responseType: 'blob',
         })
         .subscribe((data: any) => {
           this.fileData = data;
           const blob1 = new Blob([data], { type: 'application/vnd.ms-excel' });
-          this.excelFile = new File([blob1], 'SI.xlsx', {
+          this.excelFile = new File([blob1], 'Shipping Instructions.xlsx', {
             type: 'application/vnd.ms-excel',
           });
 
@@ -634,16 +634,10 @@ export class NewCroComponent implements OnInit {
           formData.append('Subject', 'CRO - ' + this.croDetails?.CRO_NO);
           formData.append('Body', body);
 
-          this._commonService.successMsg(
-            'Your mail has been send successfully !'
-          );
-          this.closeBtn.nativeElement.click();
-          this._router.navigateByUrl('/home/operations/cro-list');
-
           this._commonService.sendEmail(formData).subscribe((res: any) => {
             this.isLoading = false;
             this._commonService.successMsg(
-              'Your mail has been send successfully !'
+              'Your mail has been send successfully !<br> You will receive an email shortly in 5-10 mins.'
             );
             this.closeBtn.nativeElement.click();
             this._router.navigateByUrl('/home/operations/cro-list');

@@ -424,7 +424,6 @@ export class NewErComponent implements OnInit {
   }
 
   saveER() {
-    debugger;
     this.isVessel = false;
     this.submitted = true;
     if (this.roleCode == '1') {
@@ -454,8 +453,6 @@ export class NewErComponent implements OnInit {
     this.erForm.get('STATUS')?.setValue(1);
     this.erForm.get('CREATED_BY')?.setValue(this._commonService.getUserName());
 
-    console.log();
-    console.log(JSON.stringify(this.erForm.value));
     this._erService
       .postERDetails(JSON.stringify(this.erForm.value), this.isVessel)
       .subscribe((res: any) => {
@@ -500,7 +497,6 @@ export class NewErComponent implements OnInit {
       )
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
-          debugger;
           this.erDetails = res.Data;
           if (
             Convert.toInt32(this.erCROForm.get('REQ_QUANTITY')?.value) ==
@@ -546,9 +542,7 @@ export class NewErComponent implements OnInit {
       )
       .subscribe((res: any) => {
         if (res.ResponseCode == 200) {
-          debugger;
           this.erDetails = res.Data;
-          //console.log(this.erDetails);
           this._erService
             .getERContainerDetails(
               this.erCROForm.get('REPO_NO')?.value,
@@ -556,10 +550,8 @@ export class NewErComponent implements OnInit {
               this.depoCode
             )
             .subscribe((res: any) => {
-              debugger;
               if (res.ResponseCode == 200) {
                 this.erContDetails = res.Data;
-                //console.log(this.erDetails);
                 this.generatePDF(
                   CRO_NO,
                   this.erCROForm.get('CRO_VALIDITY_DATE')?.value
@@ -819,7 +811,6 @@ export class NewErComponent implements OnInit {
             const formData: FormData = new FormData();
             formData.append('Attachments', blob);
             formData.append('Attachments', this.excelFile);
-            console.log('excel ' + this.excelFile);
             formData.append('ToEmail', this.email);
             formData.append('Subject', 'CRO - ' + this.croNo);
 
@@ -1020,7 +1011,6 @@ export class NewErComponent implements OnInit {
             const formData: FormData = new FormData();
             formData.append('Attachments', blob);
             formData.append('Attachments', this.excelFile);
-            console.log('excel ' + this.excelFile);
             formData.append('ToEmail', this.email);
             formData.append('Subject', 'CRO - ' + this.croNo);
 
@@ -1046,26 +1036,5 @@ export class NewErComponent implements OnInit {
   getRandomNumber(repo: string) {
     var num = Math.floor(Math.random() * 1e16).toString();
     return repo + '-' + num;
-  }
-
-  public onFilterChange(item: any) {
-    console.log(item);
-  }
-  public onDropDownClose(item: any) {
-    console.log(item);
-  }
-
-  public onItemSelect(item: any) {
-    console.log(item);
-  }
-  public onDeSelect(item: any) {
-    console.log(item);
-  }
-
-  public onSelectAll(items: any) {
-    console.log(items);
-  }
-  public onDeSelectAll(items: any) {
-    console.log(items);
   }
 }

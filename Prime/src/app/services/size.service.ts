@@ -5,10 +5,9 @@ import { CONTAINER } from '../models/container';
 import { SIZE } from '../models/size';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SizeService {
- 
   BASE_URL = environment.BASE_URL;
 
   httpOptions = {
@@ -16,11 +15,10 @@ export class SizeService {
       'Content-Type': 'application/json;charset=UTF-8',
     }),
   };
-  
-  constructor(private _http: HttpClient) { }
 
+  constructor(private _http: HttpClient) {}
 
-  GetcontainerSizeList(containersizemaster:SIZE) {
+  GetcontainerSizeList(containersizemaster: SIZE) {
     return this._http.get<any>(
       this.BASE_URL +
         'Master/GetContainerSizeList?ID=' +
@@ -37,7 +35,7 @@ export class SizeService {
     );
   }
 
-  GetContainerSizeDetails(size:SIZE) {
+  GetContainerSizeDetails(size: SIZE) {
     return this._http.get<any>(
       this.BASE_URL +
         'Master/GetContainerSizeDetails?CREATED_BY=' +
@@ -48,22 +46,18 @@ export class SizeService {
     );
   }
 
-  UpdateContainerSize(size:any){
-    
+  UpdateContainerSize(size: any) {
     return this._http.post<any>(
-      this.BASE_URL+ 'Master/UpdateContainerSizeList',
+      this.BASE_URL + 'Master/UpdateContainerSizeList',
       size,
       this.httpOptions
     );
   }
 
-  DeleteContainerSize(size:SIZE){
-    debugger
+  DeleteContainerSize(size: SIZE) {
     return this._http.delete<any>(
-      this.BASE_URL+
-      'Master/DeleteContainerSizeList?ID='+ size.ID,this.httpOptions
+      this.BASE_URL + 'Master/DeleteContainerSizeList?ID=' + size.ID,
+      this.httpOptions
     );
   }
-
-
 }

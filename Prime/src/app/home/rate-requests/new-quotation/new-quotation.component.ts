@@ -1,5 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { CoreTranslationService } from 'src/app/@core/services/translation.service';
 import { QUOTATION } from 'src/app/models/quotation';
@@ -99,6 +105,9 @@ export class NewQuotationComponent implements OnInit {
   submiitedRate: boolean = false;
   rateList: any[] = [];
   connIndex: number = 0;
+  custTypeList: any[] = [];
+  dropdownSettings = {};
+  selectedItems: any[] = [];
 
   @ViewChild('RateModal') RateModal: ElementRef;
   @ViewChild('closeBtn') closeBtn: ElementRef;
@@ -121,8 +130,28 @@ export class NewQuotationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'CODE',
+      textField: 'CODE_DESC',
+      enableCheckAll: true,
+      selectAllText: 'Select All',
+      unSelectAllText: 'Unselect All',
+      allowSearchFilter: true,
+      limitSelection: -1,
+      clearSearchFilter: true,
+      maxHeight: 170,
+      itemsShowLimit: 3,
+      searchPlaceholderText: 'Select Type',
+      noDataAvailablePlaceholderText: 'No Records',
+      closeDropDownOnSelection: false,
+      showSelectedItemsAtTop: false,
+      defaultOpen: false,
+    };
+
     this.getForm();
     this.getDropdown();
+    this.getCustTypeDropdown();
 
     var currentDate = new Date();
 
@@ -142,6 +171,12 @@ export class NewQuotationComponent implements OnInit {
       .get('CREATED_BY')
       ?.setValue(this._commonService.getUserName());
     this.partyForm.get('STATUS')?.setValue(true);
+    const add = this.partyForm.get('CUST_TYPE_CODE') as FormArray;
+    var custType = '';
+    add.value.forEach((element: any) => {
+      custType += element.CODE + ',';
+    });
+    this.partyForm.get('CUST_TYPE').setValue(custType);
     if (this.partyForm.invalid) {
       return;
     }
@@ -272,28 +307,6 @@ export class NewQuotationComponent implements OnInit {
   }
 
   addCommodity() {
-    if (this.commodityType == 'HAZ') {
-      var Hazfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'HAZ');
-      if (Hazfiles.length != 3) {
-        alert('Please Upload All 3 Hazardous Files !');
-        return;
-      }
-    } else if (this.commodityType == 'FLEXIBAG') {
-      var flexifiles = this.fileList.filter(
-        (x) => x.COMMODITY_TYPE == 'FLEXIBAG'
-      );
-      if (flexifiles.length != 2) {
-        alert('Please Upload All 2 Flexibag Files !');
-        return;
-      }
-    } else if (this.commodityType == 'SP') {
-      var spfiles = this.fileList.filter((x) => x.COMMODITY_TYPE == 'SP');
-      if (spfiles.length != 2) {
-        alert('Please Upload All 2 Special Equipment Files !');
-        return;
-      }
-    }
-
     this.submitted2 = true;
 
     if (this.commodityType == 'GEN') {
@@ -386,21 +399,9 @@ export class NewQuotationComponent implements OnInit {
         HAZ_APPROVAL_REF: [this.commoditiesForm.value.HAZ_APPROVAL_REF],
         FLASH_POINT: [this.commoditiesForm.value.FLASH_POINT],
         CAS_NO: [this.commoditiesForm.value.CAS_NO],
-        VENTILATION: [
-          this.commoditiesForm.value.VENTILATION == undefined
-            ? 0
-            : +this.commoditiesForm.value.VENTILATION,
-        ],
-        HUMIDITY: [
-          this.commoditiesForm.value.HUMIDITY == undefined
-            ? 0
-            : +this.commoditiesForm.value.HUMIDITY,
-        ],
-        TEMPERATURE: [
-          this.commoditiesForm.value.TEMPERATURE == undefined
-            ? 0
-            : +this.commoditiesForm.value.TEMPERATURE,
-        ],
+        VENTILATION: [this.commoditiesForm.value.VENTILATION],
+        HUMIDITY: [this.commoditiesForm.value.HUMIDITY],
+        TEMPERATURE: [this.commoditiesForm.value.TEMPERATURE],
         REMARKS: [this.commoditiesForm.value.REMARKS],
       })
     );
@@ -477,7 +478,6 @@ export class NewQuotationComponent implements OnInit {
     srr.NO_OF_CONTAINERS = this.containerForm.value.IMM_VOLUME_EXPECTED;
 
     this._quotationService.getSRRRateList(srr).subscribe((res: any) => {
-      debugger;
       if (res.ResponseCode == 200) {
         const freightcharges = this.quotationForm.get(
           'FREIGHT_CHARGES'
@@ -530,6 +530,14 @@ export class NewQuotationComponent implements OnInit {
             if (control == 'TRANSPORT_TYPE') {
               freightcharges.at(i).get(control).setValue('POL');
             }
+
+            if (control == 'AGENT_REMARKS') {
+              freightcharges.at(i).get('AGENT_REMARKS').setValidators(null);
+              freightcharges
+                .at(i)
+                .get('AGENT_REMARKS')
+                .updateValueAndValidity();
+            }
           });
         });
 
@@ -550,6 +558,11 @@ export class NewQuotationComponent implements OnInit {
             if (control == 'TRANSPORT_TYPE') {
               polcharges.at(i).get(control).setValue('POL');
             }
+
+            if (control == 'AGENT_REMARKS') {
+              polcharges.at(i).get('AGENT_REMARKS').setValidators(null);
+              polcharges.at(i).get('AGENT_REMARKS').updateValueAndValidity();
+            }
           });
         });
 
@@ -569,6 +582,11 @@ export class NewQuotationComponent implements OnInit {
 
             if (control == 'TRANSPORT_TYPE') {
               podcharges.at(i).get(control).setValue('POD');
+            }
+
+            if (control == 'AGENT_REMARKS') {
+              podcharges.at(i).get('AGENT_REMARKS').setValidators(null);
+              podcharges.at(i).get('AGENT_REMARKS').updateValueAndValidity();
             }
           });
         });
@@ -605,7 +623,7 @@ export class NewQuotationComponent implements OnInit {
 
   submitRate() {
     this.submiitedRate = true;
-    debugger;
+
     const add1 = this.quotationForm.get('FREIGHT_CHARGES') as FormArray;
     const add2 = this.quotationForm.get('POL_CHARGES') as FormArray;
     const add3 = this.quotationForm.get('POD_CHARGES') as FormArray;
@@ -676,19 +694,11 @@ export class NewQuotationComponent implements OnInit {
       this.quotationForm.get('EFFECT_TO')?.setValue('');
       this.quotationForm.get('IS_VESSELVALIDITY')?.setValue(true);
     }
-    console.log(JSON.stringify(this.quotationForm.value));
+
     this._quotationService
       .insertSRR(JSON.stringify(this.quotationForm.value))
       .subscribe((res: any) => {
         if (res.responseCode == 200) {
-          if (
-            this.disabledcommodityType.includes('HAZ') ||
-            this.commodityType.includes('FLEXIBAG') ||
-            this.commodityType.includes('SP')
-          ) {
-            this.uploadFilestoDB(SRRNO);
-          }
-
           if (this.isVesselVal) {
             this.isLoading = true;
             this.slotDetailsForm
@@ -820,14 +830,17 @@ export class NewQuotationComponent implements OnInit {
       IMO_CLASS_NAME: [''],
       UN_NO: ['', Validators.required],
       UN_NO_NAME: [''],
-      HAZ_APPROVAL_REF: [
+      HAZ_APPROVAL_REF: ['', [Validators.pattern('^([a-zA-Z0-9]+)$')]],
+      FLASH_POINT: ['', Validators.required],
+      CAS_NO: ['', Validators.required],
+      VENTILATION: [
         '',
         [Validators.required, Validators.pattern('^([a-zA-Z0-9]+)$')],
       ],
-      FLASH_POINT: ['', Validators.required],
-      CAS_NO: ['', Validators.required],
-      VENTILATION: ['', Validators.required],
-      HUMIDITY: ['', Validators.required],
+      HUMIDITY: [
+        '',
+        [Validators.required, Validators.pattern('^([a-zA-Z0-9]+)$')],
+      ],
       TEMPERATURE: ['', Validators.required],
       REMARKS: [''],
     });
@@ -866,7 +879,8 @@ export class NewQuotationComponent implements OnInit {
       CUST_NAME: ['', Validators.required],
       CUST_EMAIL: ['', [Validators.email]],
       CUST_ADDRESS: ['', Validators.required],
-      CUST_TYPE: ['', Validators.required],
+      CUST_TYPE: [''],
+      CUST_TYPE_CODE: new FormControl(this.custTypeList, Validators.required),
       GSTIN: [
         '',
         [
@@ -991,6 +1005,18 @@ export class NewQuotationComponent implements OnInit {
         this.unnoList = res.Data;
       }
     });
+  }
+
+  getCustTypeDropdown() {
+    this.custTypeList = [];
+    this.partyForm.get('CUST_TYPE_CODE').setValue('');
+    this._commonService
+      .getDropdownData('CUST_TYPE', '', '')
+      .subscribe((res: any) => {
+        if (res.hasOwnProperty('Data')) {
+          this.custTypeList = res.Data;
+        }
+      });
   }
 
   getServiceName(event: any) {
@@ -1215,16 +1241,6 @@ export class NewQuotationComponent implements OnInit {
       this.isUploadedSur = true;
       this.SurAcceptanceFile = event.target.files[0].name;
     }
-  }
-
-  uploadFilestoDB(SRRNO: string) {
-    const payload = new FormData();
-    this.fileList.forEach((element: any) => {
-      payload.append('FILE', element.FILE);
-      payload.append('COMMODITY_TYPE', element.COMMODITY_TYPE);
-    });
-
-    this._quotationService.uploadFiles(payload, SRRNO).subscribe();
   }
 
   isVesselValidity(e: any) {

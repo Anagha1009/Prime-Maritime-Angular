@@ -2,19 +2,24 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../@core/services/auth.guard';
 import { Role } from '../models/login';
+import { ChargeComponent } from './charge/charge.component';
 import { ContainerSizeComponent } from './container-size/container-size.component';
 import { ContainerTypeComponent } from './container-type/container-type.component';
 import { ContainerComponent } from './container/container.component';
 import { CurrencyComponent } from './currency/currency.component';
+import { DetentionComponent } from './detention/detention.component';
 import { FreightComponent } from './freight/freight.component';
 import { LinerServiceComponent } from './liner-service/liner-service.component';
 import { LinerComponent } from './liner/liner.component';
 import { LocationComponent } from './location/location.component';
+import { MandatoryComponent } from './mandatory/mandatory.component';
+import { OrganisationComponent } from './organisation/organisation.component';
 import { PartyComponent } from './party/party.component';
 import { PortComponent } from './port/port.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { ServicetypeComponent } from './servicetype/servicetype.component';
 import { SlotOperatorComponent } from './slot-operator/slot-operator.component';
+import { StevedoringComponent } from './stevedoring/stevedoring.component';
 import { TariffComponent } from './tariff/tariff.component';
 import { UnitComponent } from './unit/unit.component';
 import { UserComponent } from './user/user.component';
@@ -125,8 +130,38 @@ const routes: Routes = [
     data: { roles: [Role.Principal, Role.Admin] },
   },
   {
+    path: 'charge-master',
+    component: ChargeComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
+    path: 'stevedoring-master',
+    component: StevedoringComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
+    path: 'detention-master',
+    component: DetentionComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
+    path: 'mandatory-master',
+    component: MandatoryComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
     path: 'tariff-master',
     component: TariffComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Principal, Role.Admin] },
+  },
+  {
+    path: 'organisation-master',
+    component: OrganisationComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Principal, Role.Admin] },
   },

@@ -93,9 +93,15 @@ export class BlService {
     );
   }
 
-  getBLHistory(agentCode: any) {
+  getBLHistory(bl: any) {
     return this._http.get<any>(
-      this.BASE_URL + 'BL/GetBLHistory?AGENT_CODE=' + agentCode,
+      this.BASE_URL +
+        'BL/GetBLHistory?AGENT_CODE=' +
+        bl.AGENT_CODE +
+        '&ORG_CODE=' +
+        bl.ORG_CODE +
+        '&PORT=' +
+        bl.PORT,
       this.httpOptions
     );
   }
@@ -170,6 +176,37 @@ export class BlService {
         '&ORG_LOC_CODE=' +
         orgLocCode,
       this.httpOptions
+    );
+  }
+
+  uploadFiles(file: any, blNo: string) {
+    return this._http.post<any>(
+      this.BASE_URL + 'BL/UploadBLFiles?BL_NO=' + blNo,
+      file
+    );
+  }
+
+  GetBLSurrenderedList(orgCode: any, pod: any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'BL/GetBLSurrenderedList?ORG_CODE=' +
+        orgCode +
+        '&POD=' +
+        pod,
+      this.httpOptions
+    );
+  }
+
+  GetBLFiles(blNO: any) {
+    return this._http.get<any>(
+      this.BASE_URL + 'BL/GetBLFiles?BL_NO=' + blNO,
+      this.httpOptions
+    );
+  }
+
+  InsertSurrender(blNo: string) {
+    return this._http.get<any>(
+      this.BASE_URL + 'BL/InsertSurrender?BL_NO=' + blNo
     );
   }
 }

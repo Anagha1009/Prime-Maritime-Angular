@@ -138,6 +138,15 @@ export class CmService {
     );
   }
 
+  getAllCMAvailableAdmin(container: any) {
+    return this._http.get<any>(
+      this.BASE_URL +
+        'ContainerMovement/GetAllContainerListForAdmin?LOCATION=' +
+        container.LOCATION,
+      this.httpOptions
+    );
+  }
+
   getNxtActivityList(containerno: string) {
     return this._http.get<any>(
       this.BASE_URL +

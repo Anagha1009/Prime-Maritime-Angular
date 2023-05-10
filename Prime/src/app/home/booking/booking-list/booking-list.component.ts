@@ -89,6 +89,8 @@ export class BookingListComponent implements OnInit {
 
   getBookingList() {
     this.booking.AGENT_CODE = this._commonService.getUserCode();
+    this.booking.ORG_CODE = this._commonService.getUserOrgCode();
+    this.booking.PORT = this._commonService.getUserPort();
     this._commonService.destroyDT();
     this._bookingService.getBookingList(this.booking).subscribe((res: any) => {
       this.isScroll = false;

@@ -87,6 +87,66 @@ export class CommonService {
     }, 1);
   }
 
+  destroyDT1() {
+    $('#data-table-config1').DataTable().clear().destroy();
+  }
+
+  getDT1() {
+    setTimeout(() => {
+      $('#data-table-config1').DataTable({
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+        lengthMenu: [5, 10, 25],
+      });
+    }, 1);
+  }
+
+  destroyDT3() {
+    $('#data-table-config3').DataTable().clear().destroy();
+  }
+
+  destroyDT4() {
+    $('#data-table-config4').DataTable().clear().destroy();
+  }
+
+  destroyDT5() {
+    $('#data-table-config5').DataTable().clear().destroy();
+  }
+
+  getDT3() {
+    setTimeout(() => {
+      $('#data-table-config3').DataTable({
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+        lengthMenu: [5, 10, 25],
+      });
+    }, 1);
+  }
+
+  getDT4() {
+    setTimeout(() => {
+      $('#data-table-config4').DataTable({
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+        lengthMenu: [5, 10, 25],
+      });
+    }, 1);
+  }
+
+  getDT5() {
+    setTimeout(() => {
+      $('#data-table-config5').DataTable({
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+        lengthMenu: [5, 10, 25],
+      });
+    }, 1);
+  }
+
   getcurrentDate(date: any) {
     var todate: any = date.getDate();
     if (todate < 10) {
@@ -180,6 +240,16 @@ export class CommonService {
 
   getUser() {
     return JSON.parse(localStorage.getItem('user'));
+  }
+
+  getUserOrgCode() {
+    var user = JSON.parse(localStorage.getItem('user'));
+    return user.orgcode;
+  }
+
+  getUserPort() {
+    var user = JSON.parse(localStorage.getItem('user'));
+    return user.port;
   }
 
   getUserId() {
