@@ -522,7 +522,7 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label2">No of Original BL<span class="text-danger">*</span></label>
+                        <label class="form-label2"> No. of BL copies<span class="text-danger">*</span></label>
                         <input type="text"
                             onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
                             formControlName="NO_OF_ORIGINAL_BL" class="form-control2"
@@ -601,7 +601,7 @@
                             </div>
                         </td>
                         <td width="18%" *ngIf="item.BL_STATUS=='Finalized'">
-                            <div class="pointer"><a tooltip="Original" placement="top"
+                            <div class="pointer"><a tooltip="{{item.BL_TYPE}}" placement="top"
                                     (click)="viewBL(item.BL_NO,false)"><img src="assets/img/approved.png" class="me-3"
                                         width="18px" height="18px"></a>
                                 <a tooltip="Non-Negotiable" placement="top" (click)="viewBL(item.BL_NO,true)"><img

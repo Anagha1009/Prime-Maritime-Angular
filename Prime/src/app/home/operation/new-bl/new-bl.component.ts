@@ -517,8 +517,8 @@ export class NewBlComponent implements OnInit {
 
   makeItFinalize(BLNO: any) {
     Swal.fire({
-      title: 'Are you sure you want to Finalize the BL?',
-      text: 'This BL will get locked!',
+      title: 'Finalize BL',
+      text: 'Are you sure you want to Finalize the BL?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -1339,33 +1339,51 @@ export class NewBlComponent implements OnInit {
                   this._commonService.warnMsg('This BL is locked!');
                   return;
                 } else {
-                  Swal.fire({
-                    title: 'Are you sure you want to Print the BL?',
-                    text: 'This BL will get locked!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Print it!',
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      this.blForm.get('OGView')?.setValue(1);
-                      this.blForm
-                        .get('MARKS_NOS')
-                        .setValue(contList[0]?.MARKS_NOS);
-                      this.blForm
-                        .get('DESC_OF_GOODS')
-                        .setValue(contList[0]?.DESC_OF_GOODS);
+                  if (this.blForm.get('BL_TYPE')?.value == 'seaway') {
+                    this.blForm.get('OGView')?.setValue(1);
+                    this.blForm
+                      .get('MARKS_NOS')
+                      .setValue(contList[0]?.MARKS_NOS);
+                    this.blForm
+                      .get('DESC_OF_GOODS')
+                      .setValue(contList[0]?.DESC_OF_GOODS);
 
-                      this._blService
-                        .updateBL(JSON.stringify(this.blForm.value))
-                        .subscribe((res: any) => {
-                          if (res.responseCode == 200) {
-                            this.generateBLPdf();
-                          }
-                        });
-                    }
-                  });
+                    this._blService
+                      .updateBL(JSON.stringify(this.blForm.value))
+                      .subscribe((res: any) => {
+                        if (res.responseCode == 200) {
+                          this.generateBLPdf();
+                        }
+                      });
+                  } else {
+                    Swal.fire({
+                      title: 'Are you sure you want to view this BL?',
+                      text: 'This BL will get locked!',
+                      icon: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'View',
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        this.blForm.get('OGView')?.setValue(1);
+                        this.blForm
+                          .get('MARKS_NOS')
+                          .setValue(contList[0]?.MARKS_NOS);
+                        this.blForm
+                          .get('DESC_OF_GOODS')
+                          .setValue(contList[0]?.DESC_OF_GOODS);
+
+                        this._blService
+                          .updateBL(JSON.stringify(this.blForm.value))
+                          .subscribe((res: any) => {
+                            if (res.responseCode == 200) {
+                              this.generateBLPdf();
+                            }
+                          });
+                      }
+                    });
+                  }
                 }
               }
 
@@ -1375,32 +1393,18 @@ export class NewBlComponent implements OnInit {
                   this._commonService.warnMsg('This BL is locked!');
                   return;
                 } else {
-                  Swal.fire({
-                    title: 'Are you sure you want to Print the BL?',
-                    text: 'This BL will get locked!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Print it!',
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      this.blForm.get('NNView')?.setValue(1);
-                      this.blForm
-                        .get('MARKS_NOS')
-                        .setValue(contList[0]?.MARKS_NOS);
-                      this.blForm
-                        .get('DESC_OF_GOODS')
-                        .setValue(contList[0]?.DESC_OF_GOODS);
-                      this._blService
-                        .updateBL(JSON.stringify(this.blForm.value))
-                        .subscribe((res: any) => {
-                          if (res.responseCode == 200) {
-                            this.generateBLPdf();
-                          }
-                        });
-                    }
-                  });
+                  this.blForm.get('NNView')?.setValue(1);
+                  this.blForm.get('MARKS_NOS').setValue(contList[0]?.MARKS_NOS);
+                  this.blForm
+                    .get('DESC_OF_GOODS')
+                    .setValue(contList[0]?.DESC_OF_GOODS);
+                  this._blService
+                    .updateBL(JSON.stringify(this.blForm.value))
+                    .subscribe((res: any) => {
+                      if (res.responseCode == 200) {
+                        this.generateBLPdf();
+                      }
+                    });
                 }
               }
             } else {
@@ -2568,7 +2572,7 @@ export class NewBlComponent implements OnInit {
             columns: [
               [
                 {
-                  text: this.blForm.get('BLType')?.value,
+                  text: this.blForm.get('BLType')?.value.toUpperCase(),
                   bold: true,
                   fontSize: 20,
                   margin: [0, 5, 0, 0],
@@ -3840,7 +3844,7 @@ export class NewBlComponent implements OnInit {
             columns: [
               [
                 {
-                  text: this.blForm.get('BLType')?.value,
+                  text: this.blForm.get('BLType')?.value.toUpperCase(),
                   bold: true,
                   fontSize: 20,
                   margin: [0, 5, 0, 0],
