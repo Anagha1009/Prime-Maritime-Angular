@@ -408,61 +408,70 @@
                     <thead>
                         <tr>
 
-                            <th>Sr No</th>
-                            <th>Container No</th>
-                            <th>Container Type</th>
-                            <th>Pkg Cnt</th>
-                            <th>Pkg Desc</th>
-                            <th>Gross Weight</th>
-                            <th>Net Weight</th>
-                            <th>Measurement</th>
-                            <th>Seal No</th>
-                            <th>Agent Seal No</th>
-                            <th>&nbsp;</th>
+                            <th width="1%">No</th>
+                            <th width="15%">Container No</th>
+                            <th width="5%">Type</th>
+                            <th width="10%">Pkg Cnt <i (click)="copyValue('PKG_COUNT')" class="fa fa-copy pointer"></i>
+                            </th>
+                            <th width="14%">Pkg Desc <i (click)="copyValue('PKG_DESC')" class="fa fa-copy pointer"></i>
+                            </th>
+                            <th width="10%">Gross Wt <i (click)="copyValue('GROSS_WEIGHT')"
+                                    class="fa fa-copy pointer"></i>
+                            </th>
+                            <th width="10%">Net Wt <i (click)="copyValue('NET_WEIGHT')" class="fa fa-copy pointer"></i>
+                            </th>
+                            <th width="10%">Mea.mnt <i (click)="copyValue('MEASUREMENT')"
+                                    class="fa fa-copy pointer"></i></th>
+                            <th width="10%">Seal No <i (click)="copyValue('SEAL_NO')" class="fa fa-copy pointer"></i>
+                            </th>
+                            <th width="10%">Agnt S.No <i (click)="copyValue('AGENT_SEAL_NO')"
+                                    class="fa fa-copy pointer"></i></th>
+                            <th width="5%">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of f;let i = index" [formGroup]="getf1(item)">
+                        <tr *ngFor="let item of f;let i = index" [formGroup]="item">
 
-                            <td class="col-md-1">{{i+1}}</td>
-                            <td class="col-md-1">
+                            <td width="1%">{{i+1}}</td>
+                            <td width="15%">
                                 <input formControlName="CONTAINER_NO" type="text" class="form-control2 inputheight" />
                             </td>
-                            <td class="col-md-1">
-                                <select class="form-control2 inputheight" formControlName="CONTAINER_TYPE">
+                            <td width="5%">
+                                <!-- <select class="form-control2 inputheight" formControlName="CONTAINER_TYPE">
                                     <option value="" selected disabled>
                                         --Select--</option>
                                     <option *ngFor="let ct of latestContTypeList" value="{{ct.CONT_TYPE_CODE}}">
                                         {{ct.CONT_TYPE_CODE}}</option>
-                                </select>
+                                </select> -->
+                                20GP
 
                             </td>
-                            <td class="col-md-1">
+                            <td width="10%">
                                 <input formControlName="PKG_COUNT"
                                     onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
                                     type="text" class="form-control2 inputheight" />
                             </td>
-                            <td class="col-md-1">
+                            <td width="14%">
                                 <input formControlName="PKG_DESC" type="text" class="form-control2 inputheight" />
                             </td>
-                            <td class="col-md-1">
+                            <td width="10%">
                                 <input formControlName="GROSS_WEIGHT" type="text" class="form-control2 inputheight" />
                             </td>
-                            <td class="col-md-1">
+                            <td width="10%">
                                 <input formControlName="NET_WEIGHT" type="text" class="form-control2 inputheight" />
                             </td>
-                            <td class="col-md-1">
+                            <td width="10%">
                                 <input formControlName="MEASUREMENT" type="text" class="form-control2 inputheight" />
                             </td>
-                            <td class="col-md-1">
+                            <td width="10%">
                                 <input formControlName="SEAL_NO" type="text" class="form-control2 inputheight" />
                             </td>
-                            <td class="col-md-1">
+                            <td width="10%">
                                 <input formControlName="AGENT_SEAL_NO" type="text" class="form-control2 inputheight" />
                             </td>
-                            <td class="col-md-1 text-center">
-                                <a (click)="removeItem(i)" class="pointer"><i style="font-size:15px"
-                                        class="fa fa-trash mt-4"></i></a>
+                            <td width="5%" class="text-center">
+                                <a *ngIf="i > 0" (click)="removeItem(i)" class="pointer"><i
+                                        class="fa fa-trash fs-6"></i></a>
                             </td>
                         </tr>
                     </tbody>
@@ -471,8 +480,7 @@
             <div class="row mb-3">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label2">Total No of Containers</label>
-                        <input type="text" formControlName="TOTAL_CONTAINERS" class="form-control2" />
+                        <label class="form-label2">Total No of Containers : {{f?.length}}</label>
                     </div>
                 </div>
             </div>

@@ -408,6 +408,8 @@ export class NewBlComponent implements OnInit {
   manualBL() {
     this.submitted = false;
     this.blForm.reset();
+    this.blForm.get('PORT_OF_LOADING').setValue('');
+    this.blForm.get('PORT_OF_DISCHARGE').setValue('');
     this.isManual = true;
     this.editBL = false;
     this.isBLForm = true;
@@ -419,7 +421,7 @@ export class NewBlComponent implements OnInit {
       this._formBuilder.group({
         CONTAINER_NO: ['', Validators.required],
         CONTAINER_TYPE: ['', Validators.required],
-        PKG_COUNT: [0, Validators.required],
+        PKG_COUNT: ['', Validators.required],
         PKG_DESC: ['', Validators.required],
         GROSS_WEIGHT: ['', Validators.required],
         NET_WEIGHT: ['', Validators.required],
@@ -450,7 +452,7 @@ export class NewBlComponent implements OnInit {
       this._formBuilder.group({
         CONTAINER_NO: ['', Validators.required],
         CONTAINER_TYPE: ['', Validators.required],
-        PKG_COUNT: [0, Validators.required],
+        PKG_COUNT: ['', Validators.required],
         PKG_DESC: ['', Validators.required],
         GROSS_WEIGHT: ['', Validators.required],
         NET_WEIGHT: ['', Validators.required],
@@ -462,6 +464,74 @@ export class NewBlComponent implements OnInit {
       })
     );
   }
+
+  copyValue(value: any) {
+    if (value == 'PKG_COUNT') {
+      var PKG_COUNT = this.f[0].value.PKG_COUNT;
+      this.blForm.value.CONTAINER_LIST2.forEach(
+        (element: { PKG_COUNT: any }) => {
+          element.PKG_COUNT = PKG_COUNT;
+        }
+      );
+    }
+
+    if (value == 'PKG_DESC') {
+      var PKG_DESC = this.f[0].value.PKG_DESC;
+      this.blForm.value.CONTAINER_LIST2.forEach(
+        (element: { PKG_DESC: any }) => {
+          element.PKG_DESC = PKG_DESC;
+        }
+      );
+    }
+
+    if (value == 'GROSS_WEIGHT') {
+      var GROSS_WEIGHT = this.f[0].value.GROSS_WEIGHT;
+      this.blForm.value.CONTAINER_LIST2.forEach(
+        (element: { GROSS_WEIGHT: any }) => {
+          element.GROSS_WEIGHT = GROSS_WEIGHT;
+        }
+      );
+    }
+
+    if (value == 'NET_WEIGHT') {
+      var NET_WEIGHT = this.f[0].value.NET_WEIGHT;
+      this.blForm.value.CONTAINER_LIST2.forEach(
+        (element: { NET_WEIGHT: any }) => {
+          element.NET_WEIGHT = NET_WEIGHT;
+        }
+      );
+    }
+
+    if (value == 'MEASUREMENT') {
+      var MEASUREMENT = this.f[0].value.MEASUREMENT;
+      this.blForm.value.CONTAINER_LIST2.forEach(
+        (element: { MEASUREMENT: any }) => {
+          element.MEASUREMENT = MEASUREMENT;
+        }
+      );
+    }
+
+    if (value == 'SEAL_NO') {
+      var SEAL_NO = this.f[0].value.SEAL_NO;
+      this.blForm.value.CONTAINER_LIST2.forEach((element: { SEAL_NO: any }) => {
+        element.SEAL_NO = SEAL_NO;
+      });
+    }
+
+    if (value == 'AGENT_SEAL_NO') {
+      var AGENT_SEAL_NO = this.f[0].value.AGENT_SEAL_NO;
+      this.blForm.value.CONTAINER_LIST2.forEach(
+        (element: { AGENT_SEAL_NO: any }) => {
+          element.AGENT_SEAL_NO = AGENT_SEAL_NO;
+        }
+      );
+    }
+
+    this.blForm
+      .get('CONTAINER_LIST2')
+      ?.setValue(this.blForm.value.CONTAINER_LIST2);
+  }
+
   getBLForm() {
     if (this.previewTable.length == 0) {
       this._commonService.warnMsg('Please upload Shipping Instructions !');
